@@ -1,0 +1,2183 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:16 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module route_discovery
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _route_lookup
+                             13 	.globl _route_add
+                             14 	.globl _netflood_send
+                             15 	.globl _netflood_close
+                             16 	.globl _netflood_open
+                             17 	.globl _unicast_send
+                             18 	.globl _unicast_close
+                             19 	.globl _unicast_open
+                             20 	.globl _packetbuf_set_datalen
+                             21 	.globl _packetbuf_dataptr
+                             22 	.globl _packetbuf_clear
+                             23 	.globl _rimeaddr_cmp
+                             24 	.globl _rimeaddr_copy
+                             25 	.globl _ctimer_stop
+                             26 	.globl _ctimer_set
+                             27 	.globl _IRCON2_P2IF
+                             28 	.globl _IRCON2_UTX0IF
+                             29 	.globl _IRCON2_UTX1IF
+                             30 	.globl _IRCON2_P1IF
+                             31 	.globl _IRCON2_WDTIF
+                             32 	.globl _CY
+                             33 	.globl _AC
+                             34 	.globl _F0
+                             35 	.globl _RS1
+                             36 	.globl _RS0
+                             37 	.globl _OV
+                             38 	.globl _F1
+                             39 	.globl _P
+                             40 	.globl _IRCON_DMAIF
+                             41 	.globl _IRCON_T1IF
+                             42 	.globl _IRCON_T2IF
+                             43 	.globl _IRCON_T3IF
+                             44 	.globl _IRCON_T4IF
+                             45 	.globl _IRCON_P0IF
+                             46 	.globl _IRCON_STIF
+                             47 	.globl _IEN1_DMAIE
+                             48 	.globl _IEN1_T1IE
+                             49 	.globl _IEN1_T2IE
+                             50 	.globl _IEN1_T3IE
+                             51 	.globl _IEN1_T4IE
+                             52 	.globl _IEN1_P0IE
+                             53 	.globl _IEN0_RFERRIE
+                             54 	.globl _IEN0_ADCIE
+                             55 	.globl _IEN0_URX0IE
+                             56 	.globl _IEN0_URX1IE
+                             57 	.globl _IEN0_ENCIE
+                             58 	.globl _IEN0_STIE
+                             59 	.globl _IEN0_EA
+                             60 	.globl _EA
+                             61 	.globl _P2_4
+                             62 	.globl _P2_3
+                             63 	.globl _P2_2
+                             64 	.globl _P2_1
+                             65 	.globl _P2_0
+                             66 	.globl _S0CON_ENCIF_0
+                             67 	.globl _S0CON_ENCIF_1
+                             68 	.globl _P1_7
+                             69 	.globl _P1_6
+                             70 	.globl _P1_5
+                             71 	.globl _P1_4
+                             72 	.globl _P1_3
+                             73 	.globl _P1_2
+                             74 	.globl _P1_1
+                             75 	.globl _P1_0
+                             76 	.globl _TCON_IT0
+                             77 	.globl _TCON_RFERRIF
+                             78 	.globl _TCON_IT1
+                             79 	.globl _TCON_URX0IF
+                             80 	.globl _TCON_ADCIF
+                             81 	.globl _TCON_URX1IF
+                             82 	.globl _P0_0
+                             83 	.globl _P0_1
+                             84 	.globl _P0_2
+                             85 	.globl _P0_3
+                             86 	.globl _P0_4
+                             87 	.globl _P0_5
+                             88 	.globl _P0_6
+                             89 	.globl _P0_7
+                             90 	.globl _P2DIR
+                             91 	.globl _P1DIR
+                             92 	.globl _P0DIR
+                             93 	.globl _U1GCR
+                             94 	.globl _U1UCR
+                             95 	.globl _U1BAUD
+                             96 	.globl _U1BUF
+                             97 	.globl _U1CSR
+                             98 	.globl _P2INP
+                             99 	.globl _P1INP
+                            100 	.globl _P2SEL
+                            101 	.globl _P1SEL
+                            102 	.globl _P0SEL
+                            103 	.globl _ADCCFG
+                            104 	.globl _PERCFG
+                            105 	.globl _B
+                            106 	.globl _T4CC1
+                            107 	.globl _T4CCTL1
+                            108 	.globl _T4CC0
+                            109 	.globl _T4CCTL0
+                            110 	.globl _T4CTL
+                            111 	.globl _T4CNT
+                            112 	.globl _RFIF
+                            113 	.globl _IRCON2
+                            114 	.globl _T1CCTL2
+                            115 	.globl _T1CCTL1
+                            116 	.globl _T1CCTL0
+                            117 	.globl _T1CTL
+                            118 	.globl _T1CNTH
+                            119 	.globl _T1CNTL
+                            120 	.globl _RFST
+                            121 	.globl _ACC
+                            122 	.globl _T1CC2H
+                            123 	.globl _T1CC2L
+                            124 	.globl _T1CC1H
+                            125 	.globl _T1CC1L
+                            126 	.globl _T1CC0H
+                            127 	.globl _T1CC0L
+                            128 	.globl _RFD
+                            129 	.globl _TIMIF
+                            130 	.globl _DMAREQ
+                            131 	.globl _DMAARM
+                            132 	.globl _DMA0CFGH
+                            133 	.globl _DMA0CFGL
+                            134 	.globl _DMA1CFGH
+                            135 	.globl _DMA1CFGL
+                            136 	.globl _DMAIRQ
+                            137 	.globl _PSW
+                            138 	.globl _T3CC1
+                            139 	.globl _T3CCTL1
+                            140 	.globl _T3CC0
+                            141 	.globl _T3CCTL0
+                            142 	.globl _T3CTL
+                            143 	.globl _T3CNT
+                            144 	.globl _WDCTL
+                            145 	.globl _T2CON
+                            146 	.globl _MEMCTR
+                            147 	.globl _CLKCON
+                            148 	.globl _U0GCR
+                            149 	.globl _U0UCR
+                            150 	.globl _T2CNF
+                            151 	.globl _U0BAUD
+                            152 	.globl _U0BUF
+                            153 	.globl _IRCON
+                            154 	.globl _SLEEP
+                            155 	.globl _RNDH
+                            156 	.globl _RNDL
+                            157 	.globl _ADCH
+                            158 	.globl _ADCL
+                            159 	.globl _IP1
+                            160 	.globl _IEN1
+                            161 	.globl _RCCTL
+                            162 	.globl _ADCCON3
+                            163 	.globl _ADCCON2
+                            164 	.globl _ADCCON1
+                            165 	.globl _ENCCS
+                            166 	.globl _ENCDO
+                            167 	.globl _ENCDI
+                            168 	.globl _FWDATA
+                            169 	.globl _FCTL
+                            170 	.globl _FADDRH
+                            171 	.globl _FADDRL
+                            172 	.globl _FWT
+                            173 	.globl _IP0
+                            174 	.globl _IEN0
+                            175 	.globl _IE
+                            176 	.globl _T2THD
+                            177 	.globl _T2TLD
+                            178 	.globl _T2CAPHPH
+                            179 	.globl _T2CAPLPL
+                            180 	.globl _T2OF2
+                            181 	.globl _T2OF1
+                            182 	.globl _T2OF0
+                            183 	.globl _P2
+                            184 	.globl _PSBANK
+                            185 	.globl _FMAP
+                            186 	.globl _T2PEROF2
+                            187 	.globl _T2PEROF1
+                            188 	.globl _T2PEROF0
+                            189 	.globl _S1CON
+                            190 	.globl _IEN2
+                            191 	.globl _HSRC
+                            192 	.globl _S0CON
+                            193 	.globl _ST2
+                            194 	.globl _ST1
+                            195 	.globl _ST0
+                            196 	.globl _T2CMP
+                            197 	.globl __XPAGE
+                            198 	.globl _DPS
+                            199 	.globl _RFIM
+                            200 	.globl _P1
+                            201 	.globl _P0INP
+                            202 	.globl _P1IEN
+                            203 	.globl _PICTL
+                            204 	.globl _P2IFG
+                            205 	.globl _P1IFG
+                            206 	.globl _P0IFG
+                            207 	.globl _TCON
+                            208 	.globl _PCON
+                            209 	.globl _U0CSR
+                            210 	.globl _DPH1
+                            211 	.globl _DPL1
+                            212 	.globl _DPH0
+                            213 	.globl _DPL0
+                            214 	.globl _SP
+                            215 	.globl _P0
+                            216 	.globl _ADC_SHADOW
+                            217 	.globl _U1BUF_SHADOW
+                            218 	.globl _RFD_SHADOW
+                            219 	.globl _U0BUF_SHADOW
+                            220 	.globl _RFSTATUS
+                            221 	.globl _CHIPID
+                            222 	.globl _CHVER
+                            223 	.globl _FSMTC1
+                            224 	.globl _RXFIFOCNT
+                            225 	.globl _IOCFG3
+                            226 	.globl _IOCFG2
+                            227 	.globl _IOCFG1
+                            228 	.globl _IOCFG0
+                            229 	.globl _SHORTADDRL
+                            230 	.globl _SHORTADDRH
+                            231 	.globl _PANIDL
+                            232 	.globl _PANIDH
+                            233 	.globl _IEEE_ADDR7
+                            234 	.globl _IEEE_ADDR6
+                            235 	.globl _IEEE_ADDR5
+                            236 	.globl _IEEE_ADDR4
+                            237 	.globl _IEEE_ADDR3
+                            238 	.globl _IEEE_ADDR2
+                            239 	.globl _IEEE_ADDR1
+                            240 	.globl _IEEE_ADDR0
+                            241 	.globl _DACTSTL
+                            242 	.globl _DACTSTH
+                            243 	.globl _ADCTSTL
+                            244 	.globl _ADCTSTH
+                            245 	.globl _FSMSTATE
+                            246 	.globl _AGCCTRLL
+                            247 	.globl _AGCCTRLH
+                            248 	.globl _MANORL
+                            249 	.globl _MANORH
+                            250 	.globl _MANANDL
+                            251 	.globl _MANANDH
+                            252 	.globl _FSMTCL
+                            253 	.globl _FSMTCH
+                            254 	.globl _RFPWR
+                            255 	.globl _CSPT
+                            256 	.globl _CSPCTRL
+                            257 	.globl _CSPZ
+                            258 	.globl _CSPY
+                            259 	.globl _CSPX
+                            260 	.globl _FSCTRLL
+                            261 	.globl _FSCTRLH
+                            262 	.globl _RXCTRL1L
+                            263 	.globl _RXCTRL1H
+                            264 	.globl _RXCTRL0L
+                            265 	.globl _RXCTRL0H
+                            266 	.globl _TXCTRLL
+                            267 	.globl _TXCTRLH
+                            268 	.globl _SYNCWORDL
+                            269 	.globl _SYNCWORDH
+                            270 	.globl _RSSIL
+                            271 	.globl _RSSIH
+                            272 	.globl _MDMCTRL1L
+                            273 	.globl _MDMCTRL1H
+                            274 	.globl _MDMCTRL0L
+                            275 	.globl _MDMCTRL0H
+                            276 	.globl _route_discovery_open
+                            277 	.globl _route_discovery_close
+                            278 	.globl _route_discovery_discover
+                            279 ;--------------------------------------------------------
+                            280 ; special function registers
+                            281 ;--------------------------------------------------------
+                            282 	.area RSEG    (ABS,DATA)
+   0000                     283 	.org 0x0000
+                    0080    284 _P0	=	0x0080
+                    0081    285 _SP	=	0x0081
+                    0082    286 _DPL0	=	0x0082
+                    0083    287 _DPH0	=	0x0083
+                    0084    288 _DPL1	=	0x0084
+                    0085    289 _DPH1	=	0x0085
+                    0086    290 _U0CSR	=	0x0086
+                    0087    291 _PCON	=	0x0087
+                    0088    292 _TCON	=	0x0088
+                    0089    293 _P0IFG	=	0x0089
+                    008A    294 _P1IFG	=	0x008a
+                    008B    295 _P2IFG	=	0x008b
+                    008C    296 _PICTL	=	0x008c
+                    008D    297 _P1IEN	=	0x008d
+                    008F    298 _P0INP	=	0x008f
+                    0090    299 _P1	=	0x0090
+                    0091    300 _RFIM	=	0x0091
+                    0092    301 _DPS	=	0x0092
+                    0093    302 __XPAGE	=	0x0093
+                    0094    303 _T2CMP	=	0x0094
+                    0095    304 _ST0	=	0x0095
+                    0096    305 _ST1	=	0x0096
+                    0097    306 _ST2	=	0x0097
+                    0098    307 _S0CON	=	0x0098
+                    0099    308 _HSRC	=	0x0099
+                    009A    309 _IEN2	=	0x009a
+                    009B    310 _S1CON	=	0x009b
+                    009C    311 _T2PEROF0	=	0x009c
+                    009D    312 _T2PEROF1	=	0x009d
+                    009E    313 _T2PEROF2	=	0x009e
+                    009F    314 _FMAP	=	0x009f
+                    009F    315 _PSBANK	=	0x009f
+                    00A0    316 _P2	=	0x00a0
+                    00A1    317 _T2OF0	=	0x00a1
+                    00A2    318 _T2OF1	=	0x00a2
+                    00A3    319 _T2OF2	=	0x00a3
+                    00A4    320 _T2CAPLPL	=	0x00a4
+                    00A5    321 _T2CAPHPH	=	0x00a5
+                    00A6    322 _T2TLD	=	0x00a6
+                    00A7    323 _T2THD	=	0x00a7
+                    00A8    324 _IE	=	0x00a8
+                    00A8    325 _IEN0	=	0x00a8
+                    00A9    326 _IP0	=	0x00a9
+                    00AB    327 _FWT	=	0x00ab
+                    00AC    328 _FADDRL	=	0x00ac
+                    00AD    329 _FADDRH	=	0x00ad
+                    00AE    330 _FCTL	=	0x00ae
+                    00AF    331 _FWDATA	=	0x00af
+                    00B1    332 _ENCDI	=	0x00b1
+                    00B2    333 _ENCDO	=	0x00b2
+                    00B3    334 _ENCCS	=	0x00b3
+                    00B4    335 _ADCCON1	=	0x00b4
+                    00B5    336 _ADCCON2	=	0x00b5
+                    00B6    337 _ADCCON3	=	0x00b6
+                    00B7    338 _RCCTL	=	0x00b7
+                    00B8    339 _IEN1	=	0x00b8
+                    00B9    340 _IP1	=	0x00b9
+                    00BA    341 _ADCL	=	0x00ba
+                    00BB    342 _ADCH	=	0x00bb
+                    00BC    343 _RNDL	=	0x00bc
+                    00BD    344 _RNDH	=	0x00bd
+                    00BE    345 _SLEEP	=	0x00be
+                    00C0    346 _IRCON	=	0x00c0
+                    00C1    347 _U0BUF	=	0x00c1
+                    00C2    348 _U0BAUD	=	0x00c2
+                    00C3    349 _T2CNF	=	0x00c3
+                    00C4    350 _U0UCR	=	0x00c4
+                    00C5    351 _U0GCR	=	0x00c5
+                    00C6    352 _CLKCON	=	0x00c6
+                    00C7    353 _MEMCTR	=	0x00c7
+                    00C8    354 _T2CON	=	0x00c8
+                    00C9    355 _WDCTL	=	0x00c9
+                    00CA    356 _T3CNT	=	0x00ca
+                    00CB    357 _T3CTL	=	0x00cb
+                    00CC    358 _T3CCTL0	=	0x00cc
+                    00CD    359 _T3CC0	=	0x00cd
+                    00CE    360 _T3CCTL1	=	0x00ce
+                    00CF    361 _T3CC1	=	0x00cf
+                    00D0    362 _PSW	=	0x00d0
+                    00D1    363 _DMAIRQ	=	0x00d1
+                    00D2    364 _DMA1CFGL	=	0x00d2
+                    00D3    365 _DMA1CFGH	=	0x00d3
+                    00D4    366 _DMA0CFGL	=	0x00d4
+                    00D5    367 _DMA0CFGH	=	0x00d5
+                    00D6    368 _DMAARM	=	0x00d6
+                    00D7    369 _DMAREQ	=	0x00d7
+                    00D8    370 _TIMIF	=	0x00d8
+                    00D9    371 _RFD	=	0x00d9
+                    00DA    372 _T1CC0L	=	0x00da
+                    00DB    373 _T1CC0H	=	0x00db
+                    00DC    374 _T1CC1L	=	0x00dc
+                    00DD    375 _T1CC1H	=	0x00dd
+                    00DE    376 _T1CC2L	=	0x00de
+                    00DF    377 _T1CC2H	=	0x00df
+                    00E0    378 _ACC	=	0x00e0
+                    00E1    379 _RFST	=	0x00e1
+                    00E2    380 _T1CNTL	=	0x00e2
+                    00E3    381 _T1CNTH	=	0x00e3
+                    00E4    382 _T1CTL	=	0x00e4
+                    00E5    383 _T1CCTL0	=	0x00e5
+                    00E6    384 _T1CCTL1	=	0x00e6
+                    00E7    385 _T1CCTL2	=	0x00e7
+                    00E8    386 _IRCON2	=	0x00e8
+                    00E9    387 _RFIF	=	0x00e9
+                    00EA    388 _T4CNT	=	0x00ea
+                    00EB    389 _T4CTL	=	0x00eb
+                    00EC    390 _T4CCTL0	=	0x00ec
+                    00ED    391 _T4CC0	=	0x00ed
+                    00EE    392 _T4CCTL1	=	0x00ee
+                    00EF    393 _T4CC1	=	0x00ef
+                    00F0    394 _B	=	0x00f0
+                    00F1    395 _PERCFG	=	0x00f1
+                    00F2    396 _ADCCFG	=	0x00f2
+                    00F3    397 _P0SEL	=	0x00f3
+                    00F4    398 _P1SEL	=	0x00f4
+                    00F5    399 _P2SEL	=	0x00f5
+                    00F6    400 _P1INP	=	0x00f6
+                    00F7    401 _P2INP	=	0x00f7
+                    00F8    402 _U1CSR	=	0x00f8
+                    00F9    403 _U1BUF	=	0x00f9
+                    00FA    404 _U1BAUD	=	0x00fa
+                    00FB    405 _U1UCR	=	0x00fb
+                    00FC    406 _U1GCR	=	0x00fc
+                    00FD    407 _P0DIR	=	0x00fd
+                    00FE    408 _P1DIR	=	0x00fe
+                    00FF    409 _P2DIR	=	0x00ff
+                            410 ;--------------------------------------------------------
+                            411 ; special function bits
+                            412 ;--------------------------------------------------------
+                            413 	.area RSEG    (ABS,DATA)
+   0000                     414 	.org 0x0000
+                    0087    415 _P0_7	=	0x0087
+                    0086    416 _P0_6	=	0x0086
+                    0085    417 _P0_5	=	0x0085
+                    0084    418 _P0_4	=	0x0084
+                    0083    419 _P0_3	=	0x0083
+                    0082    420 _P0_2	=	0x0082
+                    0081    421 _P0_1	=	0x0081
+                    0080    422 _P0_0	=	0x0080
+                    008F    423 _TCON_URX1IF	=	0x008f
+                    008D    424 _TCON_ADCIF	=	0x008d
+                    008B    425 _TCON_URX0IF	=	0x008b
+                    008A    426 _TCON_IT1	=	0x008a
+                    0089    427 _TCON_RFERRIF	=	0x0089
+                    0088    428 _TCON_IT0	=	0x0088
+                    0090    429 _P1_0	=	0x0090
+                    0091    430 _P1_1	=	0x0091
+                    0092    431 _P1_2	=	0x0092
+                    0093    432 _P1_3	=	0x0093
+                    0094    433 _P1_4	=	0x0094
+                    0095    434 _P1_5	=	0x0095
+                    0096    435 _P1_6	=	0x0096
+                    0097    436 _P1_7	=	0x0097
+                    0099    437 _S0CON_ENCIF_1	=	0x0099
+                    0098    438 _S0CON_ENCIF_0	=	0x0098
+                    00A0    439 _P2_0	=	0x00a0
+                    00A1    440 _P2_1	=	0x00a1
+                    00A2    441 _P2_2	=	0x00a2
+                    00A3    442 _P2_3	=	0x00a3
+                    00A4    443 _P2_4	=	0x00a4
+                    00AF    444 _EA	=	0x00af
+                    00AF    445 _IEN0_EA	=	0x00af
+                    00AD    446 _IEN0_STIE	=	0x00ad
+                    00AC    447 _IEN0_ENCIE	=	0x00ac
+                    00AB    448 _IEN0_URX1IE	=	0x00ab
+                    00AA    449 _IEN0_URX0IE	=	0x00aa
+                    00A9    450 _IEN0_ADCIE	=	0x00a9
+                    00A8    451 _IEN0_RFERRIE	=	0x00a8
+                    00BD    452 _IEN1_P0IE	=	0x00bd
+                    00BC    453 _IEN1_T4IE	=	0x00bc
+                    00BB    454 _IEN1_T3IE	=	0x00bb
+                    00BA    455 _IEN1_T2IE	=	0x00ba
+                    00B9    456 _IEN1_T1IE	=	0x00b9
+                    00B8    457 _IEN1_DMAIE	=	0x00b8
+                    00C7    458 _IRCON_STIF	=	0x00c7
+                    00C5    459 _IRCON_P0IF	=	0x00c5
+                    00C4    460 _IRCON_T4IF	=	0x00c4
+                    00C3    461 _IRCON_T3IF	=	0x00c3
+                    00C2    462 _IRCON_T2IF	=	0x00c2
+                    00C1    463 _IRCON_T1IF	=	0x00c1
+                    00C0    464 _IRCON_DMAIF	=	0x00c0
+                    00D0    465 _P	=	0x00d0
+                    00D1    466 _F1	=	0x00d1
+                    00D2    467 _OV	=	0x00d2
+                    00D3    468 _RS0	=	0x00d3
+                    00D4    469 _RS1	=	0x00d4
+                    00D5    470 _F0	=	0x00d5
+                    00D6    471 _AC	=	0x00d6
+                    00D7    472 _CY	=	0x00d7
+                    00EC    473 _IRCON2_WDTIF	=	0x00ec
+                    00EB    474 _IRCON2_P1IF	=	0x00eb
+                    00EA    475 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    476 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    477 _IRCON2_P2IF	=	0x00e8
+                            478 ;--------------------------------------------------------
+                            479 ; overlayable register banks
+                            480 ;--------------------------------------------------------
+                            481 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     482 	.ds 8
+                            483 ;--------------------------------------------------------
+                            484 ; internal ram data
+                            485 ;--------------------------------------------------------
+                            486 	.area DSEG    (DATA)
+                            487 ;--------------------------------------------------------
+                            488 ; overlayable items in internal ram 
+                            489 ;--------------------------------------------------------
+                            490 	.area OSEG    (OVR,DATA)
+                            491 ;--------------------------------------------------------
+                            492 ; indirectly addressable internal ram data
+                            493 ;--------------------------------------------------------
+                            494 	.area ISEG    (DATA)
+                            495 ;--------------------------------------------------------
+                            496 ; absolute internal ram data
+                            497 ;--------------------------------------------------------
+                            498 	.area IABS    (ABS,DATA)
+                            499 	.area IABS    (ABS,DATA)
+                            500 ;--------------------------------------------------------
+                            501 ; bit data
+                            502 ;--------------------------------------------------------
+                            503 	.area BSEG    (BIT)
+                            504 ;--------------------------------------------------------
+                            505 ; paged external ram data
+                            506 ;--------------------------------------------------------
+                            507 	.area PSEG    (PAG,XDATA)
+                            508 ;--------------------------------------------------------
+                            509 ; external ram data
+                            510 ;--------------------------------------------------------
+                            511 	.area XSEG    (XDATA)
+                    DF02    512 _MDMCTRL0H	=	0xdf02
+                    DF03    513 _MDMCTRL0L	=	0xdf03
+                    DF04    514 _MDMCTRL1H	=	0xdf04
+                    DF05    515 _MDMCTRL1L	=	0xdf05
+                    DF06    516 _RSSIH	=	0xdf06
+                    DF07    517 _RSSIL	=	0xdf07
+                    DF08    518 _SYNCWORDH	=	0xdf08
+                    DF09    519 _SYNCWORDL	=	0xdf09
+                    DF0A    520 _TXCTRLH	=	0xdf0a
+                    DF0B    521 _TXCTRLL	=	0xdf0b
+                    DF0C    522 _RXCTRL0H	=	0xdf0c
+                    DF0D    523 _RXCTRL0L	=	0xdf0d
+                    DF0E    524 _RXCTRL1H	=	0xdf0e
+                    DF0F    525 _RXCTRL1L	=	0xdf0f
+                    DF10    526 _FSCTRLH	=	0xdf10
+                    DF11    527 _FSCTRLL	=	0xdf11
+                    DF12    528 _CSPX	=	0xdf12
+                    DF13    529 _CSPY	=	0xdf13
+                    DF14    530 _CSPZ	=	0xdf14
+                    DF15    531 _CSPCTRL	=	0xdf15
+                    DF16    532 _CSPT	=	0xdf16
+                    DF17    533 _RFPWR	=	0xdf17
+                    DF20    534 _FSMTCH	=	0xdf20
+                    DF21    535 _FSMTCL	=	0xdf21
+                    DF22    536 _MANANDH	=	0xdf22
+                    DF23    537 _MANANDL	=	0xdf23
+                    DF24    538 _MANORH	=	0xdf24
+                    DF25    539 _MANORL	=	0xdf25
+                    DF26    540 _AGCCTRLH	=	0xdf26
+                    DF27    541 _AGCCTRLL	=	0xdf27
+                    DF39    542 _FSMSTATE	=	0xdf39
+                    DF3A    543 _ADCTSTH	=	0xdf3a
+                    DF3B    544 _ADCTSTL	=	0xdf3b
+                    DF3C    545 _DACTSTH	=	0xdf3c
+                    DF3D    546 _DACTSTL	=	0xdf3d
+                    DF43    547 _IEEE_ADDR0	=	0xdf43
+                    DF44    548 _IEEE_ADDR1	=	0xdf44
+                    DF45    549 _IEEE_ADDR2	=	0xdf45
+                    DF46    550 _IEEE_ADDR3	=	0xdf46
+                    DF47    551 _IEEE_ADDR4	=	0xdf47
+                    DF48    552 _IEEE_ADDR5	=	0xdf48
+                    DF49    553 _IEEE_ADDR6	=	0xdf49
+                    DF4A    554 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    555 _PANIDH	=	0xdf4b
+                    DF4C    556 _PANIDL	=	0xdf4c
+                    DF4D    557 _SHORTADDRH	=	0xdf4d
+                    DF4E    558 _SHORTADDRL	=	0xdf4e
+                    DF4F    559 _IOCFG0	=	0xdf4f
+                    DF50    560 _IOCFG1	=	0xdf50
+                    DF51    561 _IOCFG2	=	0xdf51
+                    DF52    562 _IOCFG3	=	0xdf52
+                    DF53    563 _RXFIFOCNT	=	0xdf53
+                    DF54    564 _FSMTC1	=	0xdf54
+                    DF60    565 _CHVER	=	0xdf60
+                    DF61    566 _CHIPID	=	0xdf61
+                    DF62    567 _RFSTATUS	=	0xdf62
+                    DFC1    568 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    569 _RFD_SHADOW	=	0xdfd9
+                    DFF9    570 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    571 _ADC_SHADOW	=	0xdfba
+   0000                     572 _rrep_pending:
+   0000                     573 	.ds 1
+                            574 ;--------------------------------------------------------
+                            575 ; absolute external ram data
+                            576 ;--------------------------------------------------------
+                            577 	.area XABS    (ABS,XDATA)
+                            578 ;--------------------------------------------------------
+                            579 ; external initialized ram data
+                            580 ;--------------------------------------------------------
+                            581 	.area XISEG   (XDATA)
+                            582 	.area HOME    (CODE)
+                            583 	.area GSINIT0 (CODE)
+                            584 	.area GSINIT1 (CODE)
+                            585 	.area GSINIT2 (CODE)
+                            586 	.area GSINIT3 (CODE)
+                            587 	.area GSINIT4 (CODE)
+                            588 	.area GSINIT5 (CODE)
+                            589 	.area GSINIT  (CODE)
+                            590 	.area GSFINAL (CODE)
+                            591 	.area CSEG    (CODE)
+                            592 ;--------------------------------------------------------
+                            593 ; global & static initialisations
+                            594 ;--------------------------------------------------------
+                            595 	.area HOME    (CODE)
+                            596 	.area GSINIT  (CODE)
+                            597 	.area GSFINAL (CODE)
+                            598 	.area GSINIT  (CODE)
+                            599 ;--------------------------------------------------------
+                            600 ; Home
+                            601 ;--------------------------------------------------------
+                            602 	.area HOME    (CODE)
+                            603 	.area HOME    (CODE)
+                            604 ;--------------------------------------------------------
+                            605 ; code
+                            606 ;--------------------------------------------------------
+                            607 	.area CSEG    (CODE)
+                            608 ;------------------------------------------------------------
+                            609 ;Allocation info for local variables in function 'send_rreq'
+                            610 ;------------------------------------------------------------
+                            611 ;dest                      Allocated to stack - _bp -5
+                            612 ;c                         Allocated to stack - _bp +1
+                            613 ;dest_copy                 Allocated to stack - _bp +4
+                            614 ;msg                       Allocated to stack - _bp +6
+                            615 ;sloc0                     Allocated to stack - _bp +9
+                            616 ;------------------------------------------------------------
+                            617 ;	../../core/net/rime/route-discovery.c:84: send_rreq(struct route_discovery_conn *c, const rimeaddr_t *dest)
+                            618 ;	-----------------------------------------
+                            619 ;	 function send_rreq
+                            620 ;	-----------------------------------------
+   0000                     621 _send_rreq:
+                    0007    622 	ar7 = 0x07
+                    0006    623 	ar6 = 0x06
+                    0005    624 	ar5 = 0x05
+                    0004    625 	ar4 = 0x04
+                    0003    626 	ar3 = 0x03
+                    0002    627 	ar2 = 0x02
+                    0001    628 	ar1 = 0x01
+                    0000    629 	ar0 = 0x00
+   0000 C0*00               630 	push	_bp
+   0002 85 81*00            631 	mov	_bp,sp
+   0005 C0 82               632 	push	dpl
+   0007 C0 83               633 	push	dph
+   0009 C0 F0               634 	push	b
+   000B E5 81               635 	mov	a,sp
+   000D 24 08               636 	add	a,#0x08
+   000F F5 81               637 	mov	sp,a
+                            638 ;	../../core/net/rime/route-discovery.c:89: rimeaddr_copy(&dest_copy, dest);
+   0011 E5*00               639 	mov	a,_bp
+   0013 24 04               640 	add	a,#0x04
+   0015 FC                  641 	mov	r4,a
+   0016 7B 00               642 	mov	r3,#0x00
+   0018 7A 40               643 	mov	r2,#0x40
+   001A E5*00               644 	mov	a,_bp
+   001C 24 FB               645 	add	a,#0xfb
+   001E F8                  646 	mov	r0,a
+   001F E6                  647 	mov	a,@r0
+   0020 C0 E0               648 	push	acc
+   0022 08                  649 	inc	r0
+   0023 E6                  650 	mov	a,@r0
+   0024 C0 E0               651 	push	acc
+   0026 08                  652 	inc	r0
+   0027 E6                  653 	mov	a,@r0
+   0028 C0 E0               654 	push	acc
+   002A 8C 82               655 	mov	dpl,r4
+   002C 8B 83               656 	mov	dph,r3
+   002E 8A F0               657 	mov	b,r2
+   0030 12s00r00            658 	lcall	_rimeaddr_copy
+   0033 15 81               659 	dec	sp
+   0035 15 81               660 	dec	sp
+   0037 15 81               661 	dec	sp
+                            662 ;	../../core/net/rime/route-discovery.c:90: dest = &dest_copy;
+   0039 E5*00               663 	mov	a,_bp
+   003B 24 04               664 	add	a,#0x04
+   003D FC                  665 	mov	r4,a
+   003E E5*00               666 	mov	a,_bp
+   0040 24 FB               667 	add	a,#0xfb
+   0042 F8                  668 	mov	r0,a
+   0043 A6 04               669 	mov	@r0,ar4
+   0045 08                  670 	inc	r0
+   0046 76 00               671 	mov	@r0,#0x00
+   0048 08                  672 	inc	r0
+   0049 76 40               673 	mov	@r0,#0x40
+                            674 ;	../../core/net/rime/route-discovery.c:92: packetbuf_clear();
+   004B 12s00r00            675 	lcall	_packetbuf_clear
+                            676 ;	../../core/net/rime/route-discovery.c:93: msg = packetbuf_dataptr();
+   004E 12s00r00            677 	lcall	_packetbuf_dataptr
+   0051 AA 82               678 	mov	r2,dpl
+   0053 AB 83               679 	mov	r3,dph
+   0055 AC F0               680 	mov	r4,b
+   0057 E5*00               681 	mov	a,_bp
+   0059 24 06               682 	add	a,#0x06
+   005B F8                  683 	mov	r0,a
+   005C A6 02               684 	mov	@r0,ar2
+   005E 08                  685 	inc	r0
+   005F A6 03               686 	mov	@r0,ar3
+   0061 08                  687 	inc	r0
+   0062 A6 04               688 	mov	@r0,ar4
+                            689 ;	../../core/net/rime/route-discovery.c:94: packetbuf_set_datalen(sizeof(struct route_msg));
+   0064 90 00 04            690 	mov	dptr,#0x0004
+   0067 12s00r00            691 	lcall	_packetbuf_set_datalen
+                            692 ;	../../core/net/rime/route-discovery.c:96: msg->pad = 0;
+   006A E5*00               693 	mov	a,_bp
+   006C 24 06               694 	add	a,#0x06
+   006E F8                  695 	mov	r0,a
+   006F 74 03               696 	mov	a,#0x03
+   0071 26                  697 	add	a,@r0
+   0072 FA                  698 	mov	r2,a
+   0073 E4                  699 	clr	a
+   0074 08                  700 	inc	r0
+   0075 36                  701 	addc	a,@r0
+   0076 FB                  702 	mov	r3,a
+   0077 08                  703 	inc	r0
+   0078 86 04               704 	mov	ar4,@r0
+   007A 8A 82               705 	mov	dpl,r2
+   007C 8B 83               706 	mov	dph,r3
+   007E 8C F0               707 	mov	b,r4
+   0080 E4                  708 	clr	a
+   0081 12s00r00            709 	lcall	__gptrput
+                            710 ;	../../core/net/rime/route-discovery.c:97: msg->rreq_id = c->rreq_id;
+   0084 E5*00               711 	mov	a,_bp
+   0086 24 06               712 	add	a,#0x06
+   0088 F8                  713 	mov	r0,a
+   0089 E5*00               714 	mov	a,_bp
+   008B 24 09               715 	add	a,#0x09
+   008D F9                  716 	mov	r1,a
+   008E 74 02               717 	mov	a,#0x02
+   0090 26                  718 	add	a,@r0
+   0091 F7                  719 	mov	@r1,a
+   0092 E4                  720 	clr	a
+   0093 08                  721 	inc	r0
+   0094 36                  722 	addc	a,@r0
+   0095 09                  723 	inc	r1
+   0096 F7                  724 	mov	@r1,a
+   0097 08                  725 	inc	r0
+   0098 09                  726 	inc	r1
+   0099 E6                  727 	mov	a,@r0
+   009A F7                  728 	mov	@r1,a
+   009B A8*00               729 	mov	r0,_bp
+   009D 08                  730 	inc	r0
+   009E 74 60               731 	mov	a,#0x60
+   00A0 26                  732 	add	a,@r0
+   00A1 FD                  733 	mov	r5,a
+   00A2 E4                  734 	clr	a
+   00A3 08                  735 	inc	r0
+   00A4 36                  736 	addc	a,@r0
+   00A5 FE                  737 	mov	r6,a
+   00A6 08                  738 	inc	r0
+   00A7 86 07               739 	mov	ar7,@r0
+   00A9 8D 82               740 	mov	dpl,r5
+   00AB 8E 83               741 	mov	dph,r6
+   00AD 8F F0               742 	mov	b,r7
+   00AF 12s00r00            743 	lcall	__gptrget
+   00B2 FB                  744 	mov	r3,a
+   00B3 A3                  745 	inc	dptr
+   00B4 12s00r00            746 	lcall	__gptrget
+   00B7 E5*00               747 	mov	a,_bp
+   00B9 24 09               748 	add	a,#0x09
+   00BB F8                  749 	mov	r0,a
+   00BC 86 82               750 	mov	dpl,@r0
+   00BE 08                  751 	inc	r0
+   00BF 86 83               752 	mov	dph,@r0
+   00C1 08                  753 	inc	r0
+   00C2 86 F0               754 	mov	b,@r0
+   00C4 EB                  755 	mov	a,r3
+   00C5 12s00r00            756 	lcall	__gptrput
+                            757 ;	../../core/net/rime/route-discovery.c:98: rimeaddr_copy(&msg->dest, dest);
+   00C8 C0 07               758 	push	ar7
+   00CA C0 06               759 	push	ar6
+   00CC C0 05               760 	push	ar5
+   00CE E5*00               761 	mov	a,_bp
+   00D0 24 FB               762 	add	a,#0xfb
+   00D2 F8                  763 	mov	r0,a
+   00D3 E6                  764 	mov	a,@r0
+   00D4 C0 E0               765 	push	acc
+   00D6 08                  766 	inc	r0
+   00D7 E6                  767 	mov	a,@r0
+   00D8 C0 E0               768 	push	acc
+   00DA 08                  769 	inc	r0
+   00DB E6                  770 	mov	a,@r0
+   00DC C0 E0               771 	push	acc
+   00DE E5*00               772 	mov	a,_bp
+   00E0 24 06               773 	add	a,#0x06
+   00E2 F8                  774 	mov	r0,a
+   00E3 86 82               775 	mov	dpl,@r0
+   00E5 08                  776 	inc	r0
+   00E6 86 83               777 	mov	dph,@r0
+   00E8 08                  778 	inc	r0
+   00E9 86 F0               779 	mov	b,@r0
+   00EB 12s00r00            780 	lcall	_rimeaddr_copy
+   00EE 15 81               781 	dec	sp
+   00F0 15 81               782 	dec	sp
+   00F2 15 81               783 	dec	sp
+   00F4 D0 05               784 	pop	ar5
+   00F6 D0 06               785 	pop	ar6
+   00F8 D0 07               786 	pop	ar7
+                            787 ;	../../core/net/rime/route-discovery.c:100: netflood_send(&c->rreqconn, c->rreq_id);
+   00FA 8D 82               788 	mov	dpl,r5
+   00FC 8E 83               789 	mov	dph,r6
+   00FE 8F F0               790 	mov	b,r7
+   0100 12s00r00            791 	lcall	__gptrget
+   0103 FD                  792 	mov	r5,a
+   0104 A3                  793 	inc	dptr
+   0105 12s00r00            794 	lcall	__gptrget
+   0108 C0 05               795 	push	ar5
+   010A A8*00               796 	mov	r0,_bp
+   010C 08                  797 	inc	r0
+   010D 86 82               798 	mov	dpl,@r0
+   010F 08                  799 	inc	r0
+   0110 86 83               800 	mov	dph,@r0
+   0112 08                  801 	inc	r0
+   0113 86 F0               802 	mov	b,@r0
+   0115 12s00r00            803 	lcall	_netflood_send
+   0118 15 81               804 	dec	sp
+                            805 ;	../../core/net/rime/route-discovery.c:101: c->rreq_id++;
+   011A A8*00               806 	mov	r0,_bp
+   011C 08                  807 	inc	r0
+   011D 74 60               808 	mov	a,#0x60
+   011F 26                  809 	add	a,@r0
+   0120 FD                  810 	mov	r5,a
+   0121 E4                  811 	clr	a
+   0122 08                  812 	inc	r0
+   0123 36                  813 	addc	a,@r0
+   0124 FE                  814 	mov	r6,a
+   0125 08                  815 	inc	r0
+   0126 86 07               816 	mov	ar7,@r0
+   0128 8D 82               817 	mov	dpl,r5
+   012A 8E 83               818 	mov	dph,r6
+   012C 8F F0               819 	mov	b,r7
+   012E 12s00r00            820 	lcall	__gptrget
+   0131 FB                  821 	mov	r3,a
+   0132 A3                  822 	inc	dptr
+   0133 12s00r00            823 	lcall	__gptrget
+   0136 FC                  824 	mov	r4,a
+   0137 0B                  825 	inc	r3
+   0138 BB 00 01            826 	cjne	r3,#0x00,00103$
+   013B 0C                  827 	inc	r4
+   013C                     828 00103$:
+   013C 8D 82               829 	mov	dpl,r5
+   013E 8E 83               830 	mov	dph,r6
+   0140 8F F0               831 	mov	b,r7
+   0142 EB                  832 	mov	a,r3
+   0143 12s00r00            833 	lcall	__gptrput
+   0146 A3                  834 	inc	dptr
+   0147 EC                  835 	mov	a,r4
+   0148 12s00r00            836 	lcall	__gptrput
+   014B 85*00 81            837 	mov	sp,_bp
+   014E D0*00               838 	pop	_bp
+   0150 22                  839 	ret
+                            840 ;------------------------------------------------------------
+                            841 ;Allocation info for local variables in function 'send_rrep'
+                            842 ;------------------------------------------------------------
+                            843 ;dest                      Allocated to stack - _bp -5
+                            844 ;c                         Allocated to stack - _bp +1
+                            845 ;rrepmsg                   Allocated to registers r2 r3 r4 
+                            846 ;rt                        Allocated to registers r5 r6 r7 
+                            847 ;saved_dest                Allocated to stack - _bp +4
+                            848 ;------------------------------------------------------------
+                            849 ;	../../core/net/rime/route-discovery.c:105: send_rrep(struct route_discovery_conn *c, const rimeaddr_t *dest)
+                            850 ;	-----------------------------------------
+                            851 ;	 function send_rrep
+                            852 ;	-----------------------------------------
+   0151                     853 _send_rrep:
+   0151 C0*00               854 	push	_bp
+   0153 85 81*00            855 	mov	_bp,sp
+   0156 C0 82               856 	push	dpl
+   0158 C0 83               857 	push	dph
+   015A C0 F0               858 	push	b
+   015C 05 81               859 	inc	sp
+   015E 05 81               860 	inc	sp
+                            861 ;	../../core/net/rime/route-discovery.c:111: rimeaddr_copy(&saved_dest, dest);
+   0160 E5*00               862 	mov	a,_bp
+   0162 24 04               863 	add	a,#0x04
+   0164 FC                  864 	mov	r4,a
+   0165 7B 00               865 	mov	r3,#0x00
+   0167 7A 40               866 	mov	r2,#0x40
+   0169 E5*00               867 	mov	a,_bp
+   016B 24 FB               868 	add	a,#0xfb
+   016D F8                  869 	mov	r0,a
+   016E E6                  870 	mov	a,@r0
+   016F C0 E0               871 	push	acc
+   0171 08                  872 	inc	r0
+   0172 E6                  873 	mov	a,@r0
+   0173 C0 E0               874 	push	acc
+   0175 08                  875 	inc	r0
+   0176 E6                  876 	mov	a,@r0
+   0177 C0 E0               877 	push	acc
+   0179 8C 82               878 	mov	dpl,r4
+   017B 8B 83               879 	mov	dph,r3
+   017D 8A F0               880 	mov	b,r2
+   017F 12s00r00            881 	lcall	_rimeaddr_copy
+   0182 15 81               882 	dec	sp
+   0184 15 81               883 	dec	sp
+   0186 15 81               884 	dec	sp
+                            885 ;	../../core/net/rime/route-discovery.c:113: packetbuf_clear();
+   0188 12s00r00            886 	lcall	_packetbuf_clear
+                            887 ;	../../core/net/rime/route-discovery.c:114: dest = &saved_dest;
+   018B E5*00               888 	mov	a,_bp
+   018D 24 04               889 	add	a,#0x04
+   018F FC                  890 	mov	r4,a
+   0190 E5*00               891 	mov	a,_bp
+   0192 24 FB               892 	add	a,#0xfb
+   0194 F8                  893 	mov	r0,a
+   0195 A6 04               894 	mov	@r0,ar4
+   0197 08                  895 	inc	r0
+   0198 76 00               896 	mov	@r0,#0x00
+   019A 08                  897 	inc	r0
+   019B 76 40               898 	mov	@r0,#0x40
+                            899 ;	../../core/net/rime/route-discovery.c:115: rrepmsg = packetbuf_dataptr();
+   019D 12s00r00            900 	lcall	_packetbuf_dataptr
+   01A0 AA 82               901 	mov	r2,dpl
+   01A2 AB 83               902 	mov	r3,dph
+   01A4 AC F0               903 	mov	r4,b
+                            904 ;	../../core/net/rime/route-discovery.c:116: packetbuf_set_datalen(sizeof(struct rrep_hdr));
+   01A6 90 00 06            905 	mov	dptr,#0x0006
+   01A9 C0 04               906 	push	ar4
+   01AB C0 03               907 	push	ar3
+   01AD C0 02               908 	push	ar2
+   01AF 12s00r00            909 	lcall	_packetbuf_set_datalen
+   01B2 D0 02               910 	pop	ar2
+   01B4 D0 03               911 	pop	ar3
+   01B6 D0 04               912 	pop	ar4
+                            913 ;	../../core/net/rime/route-discovery.c:117: rrepmsg->hops = 0;
+   01B8 74 01               914 	mov	a,#0x01
+   01BA 2A                  915 	add	a,r2
+   01BB FD                  916 	mov	r5,a
+   01BC E4                  917 	clr	a
+   01BD 3B                  918 	addc	a,r3
+   01BE FE                  919 	mov	r6,a
+   01BF 8C 07               920 	mov	ar7,r4
+   01C1 8D 82               921 	mov	dpl,r5
+   01C3 8E 83               922 	mov	dph,r6
+   01C5 8F F0               923 	mov	b,r7
+   01C7 E4                  924 	clr	a
+   01C8 12s00r00            925 	lcall	__gptrput
+                            926 ;	../../core/net/rime/route-discovery.c:118: rimeaddr_copy(&rrepmsg->dest, dest);
+   01CB 74 02               927 	mov	a,#0x02
+   01CD 2A                  928 	add	a,r2
+   01CE FD                  929 	mov	r5,a
+   01CF E4                  930 	clr	a
+   01D0 3B                  931 	addc	a,r3
+   01D1 FE                  932 	mov	r6,a
+   01D2 8C 07               933 	mov	ar7,r4
+   01D4 C0 04               934 	push	ar4
+   01D6 C0 03               935 	push	ar3
+   01D8 C0 02               936 	push	ar2
+   01DA E5*00               937 	mov	a,_bp
+   01DC 24 FB               938 	add	a,#0xfb
+   01DE F8                  939 	mov	r0,a
+   01DF E6                  940 	mov	a,@r0
+   01E0 C0 E0               941 	push	acc
+   01E2 08                  942 	inc	r0
+   01E3 E6                  943 	mov	a,@r0
+   01E4 C0 E0               944 	push	acc
+   01E6 08                  945 	inc	r0
+   01E7 E6                  946 	mov	a,@r0
+   01E8 C0 E0               947 	push	acc
+   01EA 8D 82               948 	mov	dpl,r5
+   01EC 8E 83               949 	mov	dph,r6
+   01EE 8F F0               950 	mov	b,r7
+   01F0 12s00r00            951 	lcall	_rimeaddr_copy
+   01F3 15 81               952 	dec	sp
+   01F5 15 81               953 	dec	sp
+   01F7 15 81               954 	dec	sp
+   01F9 D0 02               955 	pop	ar2
+   01FB D0 03               956 	pop	ar3
+   01FD D0 04               957 	pop	ar4
+                            958 ;	../../core/net/rime/route-discovery.c:119: rimeaddr_copy(&rrepmsg->originator, &rimeaddr_node_addr);
+   01FF 74 04               959 	mov	a,#0x04
+   0201 2A                  960 	add	a,r2
+   0202 FA                  961 	mov	r2,a
+   0203 E4                  962 	clr	a
+   0204 3B                  963 	addc	a,r3
+   0205 FB                  964 	mov	r3,a
+   0206 74r00               965 	mov	a,#_rimeaddr_node_addr
+   0208 C0 E0               966 	push	acc
+   020A 74s00               967 	mov	a,#(_rimeaddr_node_addr >> 8)
+   020C C0 E0               968 	push	acc
+   020E E4                  969 	clr	a
+   020F C0 E0               970 	push	acc
+   0211 8A 82               971 	mov	dpl,r2
+   0213 8B 83               972 	mov	dph,r3
+   0215 8C F0               973 	mov	b,r4
+   0217 12s00r00            974 	lcall	_rimeaddr_copy
+   021A 15 81               975 	dec	sp
+   021C 15 81               976 	dec	sp
+   021E 15 81               977 	dec	sp
+                            978 ;	../../core/net/rime/route-discovery.c:120: rt = route_lookup(dest);
+   0220 E5*00               979 	mov	a,_bp
+   0222 24 FB               980 	add	a,#0xfb
+   0224 F8                  981 	mov	r0,a
+   0225 86 82               982 	mov	dpl,@r0
+   0227 08                  983 	inc	r0
+   0228 86 83               984 	mov	dph,@r0
+   022A 08                  985 	inc	r0
+   022B 86 F0               986 	mov	b,@r0
+   022D 12s00r00            987 	lcall	_route_lookup
+   0230 AD 82               988 	mov	r5,dpl
+   0232 AE 83               989 	mov	r6,dph
+   0234 AF F0               990 	mov	r7,b
+                            991 ;	../../core/net/rime/route-discovery.c:121: if(rt != NULL) {
+   0236 ED                  992 	mov	a,r5
+   0237 4E                  993 	orl	a,r6
+   0238 60 2A               994 	jz	00103$
+                            995 ;	../../core/net/rime/route-discovery.c:126: unicast_send(&c->rrepconn, &rt->nexthop);
+   023A 74 05               996 	mov	a,#0x05
+   023C 2D                  997 	add	a,r5
+   023D FD                  998 	mov	r5,a
+   023E E4                  999 	clr	a
+   023F 3E                 1000 	addc	a,r6
+   0240 FE                 1001 	mov	r6,a
+   0241 A8*00              1002 	mov	r0,_bp
+   0243 08                 1003 	inc	r0
+   0244 74 35              1004 	mov	a,#0x35
+   0246 26                 1005 	add	a,@r0
+   0247 FA                 1006 	mov	r2,a
+   0248 E4                 1007 	clr	a
+   0249 08                 1008 	inc	r0
+   024A 36                 1009 	addc	a,@r0
+   024B FB                 1010 	mov	r3,a
+   024C 08                 1011 	inc	r0
+   024D 86 04              1012 	mov	ar4,@r0
+   024F C0 05              1013 	push	ar5
+   0251 C0 06              1014 	push	ar6
+   0253 C0 07              1015 	push	ar7
+   0255 8A 82              1016 	mov	dpl,r2
+   0257 8B 83              1017 	mov	dph,r3
+   0259 8C F0              1018 	mov	b,r4
+   025B 12s00r00           1019 	lcall	_unicast_send
+   025E 15 81              1020 	dec	sp
+   0260 15 81              1021 	dec	sp
+   0262 15 81              1022 	dec	sp
+   0264                    1023 00103$:
+   0264 85*00 81           1024 	mov	sp,_bp
+   0267 D0*00              1025 	pop	_bp
+   0269 22                 1026 	ret
+                           1027 ;------------------------------------------------------------
+                           1028 ;Allocation info for local variables in function 'insert_route'
+                           1029 ;------------------------------------------------------------
+                           1030 ;last_hop                  Allocated to stack - _bp -5
+                           1031 ;hops                      Allocated to stack - _bp -6
+                           1032 ;originator                Allocated to registers r5 r6 r7 
+                           1033 ;------------------------------------------------------------
+                           1034 ;	../../core/net/rime/route-discovery.c:135: insert_route(const rimeaddr_t *originator, const rimeaddr_t *last_hop,
+                           1035 ;	-----------------------------------------
+                           1036 ;	 function insert_route
+                           1037 ;	-----------------------------------------
+   026A                    1038 _insert_route:
+   026A C0*00              1039 	push	_bp
+   026C 85 81*00           1040 	mov	_bp,sp
+   026F AD 82              1041 	mov	r5,dpl
+   0271 AE 83              1042 	mov	r6,dph
+   0273 AF F0              1043 	mov	r7,b
+                           1044 ;	../../core/net/rime/route-discovery.c:144: route_add(originator, last_hop, hops, 0);
+   0275 E4                 1045 	clr	a
+   0276 C0 E0              1046 	push	acc
+   0278 E5*00              1047 	mov	a,_bp
+   027A 24 FA              1048 	add	a,#0xfa
+   027C F8                 1049 	mov	r0,a
+   027D E6                 1050 	mov	a,@r0
+   027E C0 E0              1051 	push	acc
+   0280 E5*00              1052 	mov	a,_bp
+   0282 24 FB              1053 	add	a,#0xfb
+   0284 F8                 1054 	mov	r0,a
+   0285 E6                 1055 	mov	a,@r0
+   0286 C0 E0              1056 	push	acc
+   0288 08                 1057 	inc	r0
+   0289 E6                 1058 	mov	a,@r0
+   028A C0 E0              1059 	push	acc
+   028C 08                 1060 	inc	r0
+   028D E6                 1061 	mov	a,@r0
+   028E C0 E0              1062 	push	acc
+   0290 8D 82              1063 	mov	dpl,r5
+   0292 8E 83              1064 	mov	dph,r6
+   0294 8F F0              1065 	mov	b,r7
+   0296 12s00r00           1066 	lcall	_route_add
+   0299 E5 81              1067 	mov	a,sp
+   029B 24 FB              1068 	add	a,#0xfb
+   029D F5 81              1069 	mov	sp,a
+   029F D0*00              1070 	pop	_bp
+   02A1 22                 1071 	ret
+                           1072 ;------------------------------------------------------------
+                           1073 ;Allocation info for local variables in function 'rrep_packet_received'
+                           1074 ;------------------------------------------------------------
+                           1075 ;from                      Allocated to stack - _bp -5
+                           1076 ;uc                        Allocated to registers r5 r6 r7 
+                           1077 ;msg                       Allocated to stack - _bp +1
+                           1078 ;rt                        Allocated to stack - _bp +4
+                           1079 ;dest                      Allocated to stack - _bp +7
+                           1080 ;c                         Allocated to stack - _bp +9
+                           1081 ;originator                Allocated to stack - _bp +12
+                           1082 ;sloc0                     Allocated to stack - _bp +14
+                           1083 ;sloc1                     Allocated to stack - _bp +18
+                           1084 ;sloc2                     Allocated to stack - _bp +15
+                           1085 ;------------------------------------------------------------
+                           1086 ;	../../core/net/rime/route-discovery.c:164: rrep_packet_received(struct unicast_conn *uc, const rimeaddr_t *from)
+                           1087 ;	-----------------------------------------
+                           1088 ;	 function rrep_packet_received
+                           1089 ;	-----------------------------------------
+   02A2                    1090 _rrep_packet_received:
+   02A2 C0*00              1091 	push	_bp
+   02A4 E5 81              1092 	mov	a,sp
+   02A6 F5*00              1093 	mov	_bp,a
+   02A8 24 11              1094 	add	a,#0x11
+   02AA F5 81              1095 	mov	sp,a
+   02AC AD 82              1096 	mov	r5,dpl
+   02AE AE 83              1097 	mov	r6,dph
+   02B0 AF F0              1098 	mov	r7,b
+                           1099 ;	../../core/net/rime/route-discovery.c:166: struct rrep_hdr *msg = packetbuf_dataptr();
+   02B2 C0 07              1100 	push	ar7
+   02B4 C0 06              1101 	push	ar6
+   02B6 C0 05              1102 	push	ar5
+   02B8 12s00r00           1103 	lcall	_packetbuf_dataptr
+   02BB AA 82              1104 	mov	r2,dpl
+   02BD AB 83              1105 	mov	r3,dph
+   02BF AC F0              1106 	mov	r4,b
+   02C1 D0 05              1107 	pop	ar5
+   02C3 D0 06              1108 	pop	ar6
+   02C5 D0 07              1109 	pop	ar7
+   02C7 A8*00              1110 	mov	r0,_bp
+   02C9 08                 1111 	inc	r0
+   02CA A6 02              1112 	mov	@r0,ar2
+   02CC 08                 1113 	inc	r0
+   02CD A6 03              1114 	mov	@r0,ar3
+   02CF 08                 1115 	inc	r0
+   02D0 A6 04              1116 	mov	@r0,ar4
+                           1117 ;	../../core/net/rime/route-discovery.c:169: struct route_discovery_conn *c = (struct route_discovery_conn *)
+   02D2 ED                 1118 	mov	a,r5
+   02D3 24 CB              1119 	add	a,#0xCB
+   02D5 FD                 1120 	mov	r5,a
+   02D6 EE                 1121 	mov	a,r6
+   02D7 34 FF              1122 	addc	a,#0xFF
+   02D9 FE                 1123 	mov	r6,a
+   02DA E5*00              1124 	mov	a,_bp
+   02DC 24 09              1125 	add	a,#0x09
+   02DE F8                 1126 	mov	r0,a
+   02DF A6 05              1127 	mov	@r0,ar5
+   02E1 08                 1128 	inc	r0
+   02E2 A6 06              1129 	mov	@r0,ar6
+   02E4 08                 1130 	inc	r0
+   02E5 A6 07              1131 	mov	@r0,ar7
+                           1132 ;	../../core/net/rime/route-discovery.c:184: insert_route(&msg->originator, from, msg->hops);
+   02E7 A8*00              1133 	mov	r0,_bp
+   02E9 08                 1134 	inc	r0
+   02EA 74 01              1135 	mov	a,#0x01
+   02EC 26                 1136 	add	a,@r0
+   02ED FD                 1137 	mov	r5,a
+   02EE E4                 1138 	clr	a
+   02EF 08                 1139 	inc	r0
+   02F0 36                 1140 	addc	a,@r0
+   02F1 FE                 1141 	mov	r6,a
+   02F2 08                 1142 	inc	r0
+   02F3 86 07              1143 	mov	ar7,@r0
+   02F5 8D 82              1144 	mov	dpl,r5
+   02F7 8E 83              1145 	mov	dph,r6
+   02F9 8F F0              1146 	mov	b,r7
+   02FB E5*00              1147 	mov	a,_bp
+   02FD 24 0E              1148 	add	a,#0x0e
+   02FF F8                 1149 	mov	r0,a
+   0300 12s00r00           1150 	lcall	__gptrget
+   0303 F6                 1151 	mov	@r0,a
+   0304 A8*00              1152 	mov	r0,_bp
+   0306 08                 1153 	inc	r0
+   0307 74 04              1154 	mov	a,#0x04
+   0309 26                 1155 	add	a,@r0
+   030A FA                 1156 	mov	r2,a
+   030B E4                 1157 	clr	a
+   030C 08                 1158 	inc	r0
+   030D 36                 1159 	addc	a,@r0
+   030E FB                 1160 	mov	r3,a
+   030F 08                 1161 	inc	r0
+   0310 86 04              1162 	mov	ar4,@r0
+   0312 C0 07              1163 	push	ar7
+   0314 C0 06              1164 	push	ar6
+   0316 C0 05              1165 	push	ar5
+   0318 E5*00              1166 	mov	a,_bp
+   031A 24 0E              1167 	add	a,#0x0e
+   031C F8                 1168 	mov	r0,a
+   031D E6                 1169 	mov	a,@r0
+   031E C0 E0              1170 	push	acc
+   0320 E5*00              1171 	mov	a,_bp
+   0322 24 FB              1172 	add	a,#0xfb
+   0324 F8                 1173 	mov	r0,a
+   0325 E6                 1174 	mov	a,@r0
+   0326 C0 E0              1175 	push	acc
+   0328 08                 1176 	inc	r0
+   0329 E6                 1177 	mov	a,@r0
+   032A C0 E0              1178 	push	acc
+   032C 08                 1179 	inc	r0
+   032D E6                 1180 	mov	a,@r0
+   032E C0 E0              1181 	push	acc
+   0330 8A 82              1182 	mov	dpl,r2
+   0332 8B 83              1183 	mov	dph,r3
+   0334 8C F0              1184 	mov	b,r4
+   0336 12s02r6A           1185 	lcall	_insert_route
+   0339 E5 81              1186 	mov	a,sp
+   033B 24 FC              1187 	add	a,#0xfc
+   033D F5 81              1188 	mov	sp,a
+                           1189 ;	../../core/net/rime/route-discovery.c:186: if(rimeaddr_cmp(&msg->dest, &rimeaddr_node_addr)) {
+   033F A8*00              1190 	mov	r0,_bp
+   0341 08                 1191 	inc	r0
+   0342 74 02              1192 	mov	a,#0x02
+   0344 26                 1193 	add	a,@r0
+   0345 FA                 1194 	mov	r2,a
+   0346 E4                 1195 	clr	a
+   0347 08                 1196 	inc	r0
+   0348 36                 1197 	addc	a,@r0
+   0349 FB                 1198 	mov	r3,a
+   034A 08                 1199 	inc	r0
+   034B 86 04              1200 	mov	ar4,@r0
+   034D 74r00              1201 	mov	a,#_rimeaddr_node_addr
+   034F C0 E0              1202 	push	acc
+   0351 74s00              1203 	mov	a,#(_rimeaddr_node_addr >> 8)
+   0353 C0 E0              1204 	push	acc
+   0355 E4                 1205 	clr	a
+   0356 C0 E0              1206 	push	acc
+   0358 8A 82              1207 	mov	dpl,r2
+   035A 8B 83              1208 	mov	dph,r3
+   035C 8C F0              1209 	mov	b,r4
+   035E 12s00r00           1210 	lcall	_rimeaddr_cmp
+   0361 AB 82              1211 	mov	r3,dpl
+   0363 AC 83              1212 	mov	r4,dph
+   0365 15 81              1213 	dec	sp
+   0367 15 81              1214 	dec	sp
+   0369 15 81              1215 	dec	sp
+   036B D0 05              1216 	pop	ar5
+   036D D0 06              1217 	pop	ar6
+   036F D0 07              1218 	pop	ar7
+   0371 EB                 1219 	mov	a,r3
+   0372 4C                 1220 	orl	a,r4
+   0373 70 03              1221 	jnz	00116$
+   0375 02s04r75           1222 	ljmp	00106$
+   0378                    1223 00116$:
+                           1224 ;	../../core/net/rime/route-discovery.c:188: rrep_pending = 0;
+   0378 90s00r00           1225 	mov	dptr,#_rrep_pending
+   037B E4                 1226 	clr	a
+   037C F0                 1227 	movx	@dptr,a
+                           1228 ;	../../core/net/rime/route-discovery.c:189: ctimer_stop(&c->t);
+   037D E5*00              1229 	mov	a,_bp
+   037F 24 09              1230 	add	a,#0x09
+   0381 F8                 1231 	mov	r0,a
+   0382 74 47              1232 	mov	a,#0x47
+   0384 26                 1233 	add	a,@r0
+   0385 FA                 1234 	mov	r2,a
+   0386 E4                 1235 	clr	a
+   0387 08                 1236 	inc	r0
+   0388 36                 1237 	addc	a,@r0
+   0389 FB                 1238 	mov	r3,a
+   038A 08                 1239 	inc	r0
+   038B 86 04              1240 	mov	ar4,@r0
+   038D 8A 82              1241 	mov	dpl,r2
+   038F 8B 83              1242 	mov	dph,r3
+   0391 8C F0              1243 	mov	b,r4
+   0393 12s00r00           1244 	lcall	_ctimer_stop
+                           1245 ;	../../core/net/rime/route-discovery.c:190: if(c->cb->new_route) {
+   0396 E5*00              1246 	mov	a,_bp
+   0398 24 09              1247 	add	a,#0x09
+   039A F8                 1248 	mov	r0,a
+   039B 74 62              1249 	mov	a,#0x62
+   039D 26                 1250 	add	a,@r0
+   039E FF                 1251 	mov	r7,a
+   039F E4                 1252 	clr	a
+   03A0 08                 1253 	inc	r0
+   03A1 36                 1254 	addc	a,@r0
+   03A2 FE                 1255 	mov	r6,a
+   03A3 08                 1256 	inc	r0
+   03A4 86 05              1257 	mov	ar5,@r0
+   03A6 8F 82              1258 	mov	dpl,r7
+   03A8 8E 83              1259 	mov	dph,r6
+   03AA 8D F0              1260 	mov	b,r5
+   03AC 12s00r00           1261 	lcall	__gptrget
+   03AF FA                 1262 	mov	r2,a
+   03B0 A3                 1263 	inc	dptr
+   03B1 12s00r00           1264 	lcall	__gptrget
+   03B4 FB                 1265 	mov	r3,a
+   03B5 A3                 1266 	inc	dptr
+   03B6 12s00r00           1267 	lcall	__gptrget
+   03B9 FC                 1268 	mov	r4,a
+   03BA 8A 82              1269 	mov	dpl,r2
+   03BC 8B 83              1270 	mov	dph,r3
+   03BE 8C F0              1271 	mov	b,r4
+   03C0 12s00r00           1272 	lcall	__gptrget
+   03C3 FA                 1273 	mov	r2,a
+   03C4 A3                 1274 	inc	dptr
+   03C5 12s00r00           1275 	lcall	__gptrget
+   03C8 FB                 1276 	mov	r3,a
+   03C9 4A                 1277 	orl	a,r2
+   03CA 70 03              1278 	jnz	00117$
+   03CC 02s05r37           1279 	ljmp	00108$
+   03CF                    1280 00117$:
+                           1281 ;	../../core/net/rime/route-discovery.c:196: rimeaddr_copy(&originator, &msg->originator);
+   03CF A8*00              1282 	mov	r0,_bp
+   03D1 08                 1283 	inc	r0
+   03D2 E5*00              1284 	mov	a,_bp
+   03D4 24 0F              1285 	add	a,#0x0f
+   03D6 F9                 1286 	mov	r1,a
+   03D7 74 04              1287 	mov	a,#0x04
+   03D9 26                 1288 	add	a,@r0
+   03DA F7                 1289 	mov	@r1,a
+   03DB E4                 1290 	clr	a
+   03DC 08                 1291 	inc	r0
+   03DD 36                 1292 	addc	a,@r0
+   03DE 09                 1293 	inc	r1
+   03DF F7                 1294 	mov	@r1,a
+   03E0 08                 1295 	inc	r0
+   03E1 09                 1296 	inc	r1
+   03E2 E6                 1297 	mov	a,@r0
+   03E3 F7                 1298 	mov	@r1,a
+   03E4 E5*00              1299 	mov	a,_bp
+   03E6 24 0C              1300 	add	a,#0x0C
+   03E8 FC                 1301 	mov	r4,a
+   03E9 7B 00              1302 	mov	r3,#0x00
+   03EB 7A 40              1303 	mov	r2,#0x40
+   03ED C0 07              1304 	push	ar7
+   03EF C0 06              1305 	push	ar6
+   03F1 C0 05              1306 	push	ar5
+   03F3 E5*00              1307 	mov	a,_bp
+   03F5 24 0F              1308 	add	a,#0x0f
+   03F7 F8                 1309 	mov	r0,a
+   03F8 E6                 1310 	mov	a,@r0
+   03F9 C0 E0              1311 	push	acc
+   03FB 08                 1312 	inc	r0
+   03FC E6                 1313 	mov	a,@r0
+   03FD C0 E0              1314 	push	acc
+   03FF 08                 1315 	inc	r0
+   0400 E6                 1316 	mov	a,@r0
+   0401 C0 E0              1317 	push	acc
+   0403 8C 82              1318 	mov	dpl,r4
+   0405 8B 83              1319 	mov	dph,r3
+   0407 8A F0              1320 	mov	b,r2
+   0409 12s00r00           1321 	lcall	_rimeaddr_copy
+   040C 15 81              1322 	dec	sp
+   040E 15 81              1323 	dec	sp
+   0410 15 81              1324 	dec	sp
+   0412 D0 05              1325 	pop	ar5
+   0414 D0 06              1326 	pop	ar6
+   0416 D0 07              1327 	pop	ar7
+                           1328 ;	../../core/net/rime/route-discovery.c:197: c->cb->new_route(c, &originator);
+   0418 8F 82              1329 	mov	dpl,r7
+   041A 8E 83              1330 	mov	dph,r6
+   041C 8D F0              1331 	mov	b,r5
+   041E 12s00r00           1332 	lcall	__gptrget
+   0421 FA                 1333 	mov	r2,a
+   0422 A3                 1334 	inc	dptr
+   0423 12s00r00           1335 	lcall	__gptrget
+   0426 FB                 1336 	mov	r3,a
+   0427 A3                 1337 	inc	dptr
+   0428 12s00r00           1338 	lcall	__gptrget
+   042B FC                 1339 	mov	r4,a
+   042C 8A 82              1340 	mov	dpl,r2
+   042E 8B 83              1341 	mov	dph,r3
+   0430 8C F0              1342 	mov	b,r4
+   0432 12s00r00           1343 	lcall	__gptrget
+   0435 FF                 1344 	mov	r7,a
+   0436 A3                 1345 	inc	dptr
+   0437 12s00r00           1346 	lcall	__gptrget
+   043A FE                 1347 	mov	r6,a
+   043B E5*00              1348 	mov	a,_bp
+   043D 24 0C              1349 	add	a,#0x0C
+   043F FA                 1350 	mov	r2,a
+   0440 7B 00              1351 	mov	r3,#0x00
+   0442 7C 40              1352 	mov	r4,#0x40
+   0444 C0 07              1353 	push	ar7
+   0446 C0 06              1354 	push	ar6
+   0448 C0 02              1355 	push	ar2
+   044A C0 03              1356 	push	ar3
+   044C C0 04              1357 	push	ar4
+   044E 74r68              1358 	mov	a,#00118$
+   0450 C0 E0              1359 	push	acc
+   0452 74s04              1360 	mov	a,#(00118$ >> 8)
+   0454 C0 E0              1361 	push	acc
+   0456 C0 07              1362 	push	ar7
+   0458 C0 06              1363 	push	ar6
+   045A E5*00              1364 	mov	a,_bp
+   045C 24 09              1365 	add	a,#0x09
+   045E F8                 1366 	mov	r0,a
+   045F 86 82              1367 	mov	dpl,@r0
+   0461 08                 1368 	inc	r0
+   0462 86 83              1369 	mov	dph,@r0
+   0464 08                 1370 	inc	r0
+   0465 86 F0              1371 	mov	b,@r0
+   0467 22                 1372 	ret
+   0468                    1373 00118$:
+   0468 15 81              1374 	dec	sp
+   046A 15 81              1375 	dec	sp
+   046C 15 81              1376 	dec	sp
+   046E D0 06              1377 	pop	ar6
+   0470 D0 07              1378 	pop	ar7
+   0472 02s05r37           1379 	ljmp	00108$
+   0475                    1380 00106$:
+                           1381 ;	../../core/net/rime/route-discovery.c:201: rimeaddr_copy(&dest, &msg->dest);
+   0475 C0 05              1382 	push	ar5
+   0477 C0 06              1383 	push	ar6
+   0479 C0 07              1384 	push	ar7
+   047B A8*00              1385 	mov	r0,_bp
+   047D 08                 1386 	inc	r0
+   047E 74 02              1387 	mov	a,#0x02
+   0480 26                 1388 	add	a,@r0
+   0481 FA                 1389 	mov	r2,a
+   0482 E4                 1390 	clr	a
+   0483 08                 1391 	inc	r0
+   0484 36                 1392 	addc	a,@r0
+   0485 FB                 1393 	mov	r3,a
+   0486 08                 1394 	inc	r0
+   0487 86 04              1395 	mov	ar4,@r0
+   0489 E5*00              1396 	mov	a,_bp
+   048B 24 07              1397 	add	a,#0x07
+   048D FF                 1398 	mov	r7,a
+   048E 7E 00              1399 	mov	r6,#0x00
+   0490 7D 40              1400 	mov	r5,#0x40
+   0492 C0 07              1401 	push	ar7
+   0494 C0 06              1402 	push	ar6
+   0496 C0 05              1403 	push	ar5
+   0498 C0 02              1404 	push	ar2
+   049A C0 03              1405 	push	ar3
+   049C C0 04              1406 	push	ar4
+   049E 8F 82              1407 	mov	dpl,r7
+   04A0 8E 83              1408 	mov	dph,r6
+   04A2 8D F0              1409 	mov	b,r5
+   04A4 12s00r00           1410 	lcall	_rimeaddr_copy
+   04A7 15 81              1411 	dec	sp
+   04A9 15 81              1412 	dec	sp
+   04AB 15 81              1413 	dec	sp
+   04AD D0 05              1414 	pop	ar5
+   04AF D0 06              1415 	pop	ar6
+   04B1 D0 07              1416 	pop	ar7
+                           1417 ;	../../core/net/rime/route-discovery.c:203: rt = route_lookup(&msg->dest);
+   04B3 A8*00              1418 	mov	r0,_bp
+   04B5 08                 1419 	inc	r0
+   04B6 74 02              1420 	mov	a,#0x02
+   04B8 26                 1421 	add	a,@r0
+   04B9 FD                 1422 	mov	r5,a
+   04BA E4                 1423 	clr	a
+   04BB 08                 1424 	inc	r0
+   04BC 36                 1425 	addc	a,@r0
+   04BD FE                 1426 	mov	r6,a
+   04BE 08                 1427 	inc	r0
+   04BF 86 07              1428 	mov	ar7,@r0
+   04C1 8D 82              1429 	mov	dpl,r5
+   04C3 8E 83              1430 	mov	dph,r6
+   04C5 8F F0              1431 	mov	b,r7
+   04C7 12s00r00           1432 	lcall	_route_lookup
+   04CA AD 82              1433 	mov	r5,dpl
+   04CC AE 83              1434 	mov	r6,dph
+   04CE AF F0              1435 	mov	r7,b
+   04D0 E5*00              1436 	mov	a,_bp
+   04D2 24 04              1437 	add	a,#0x04
+   04D4 F8                 1438 	mov	r0,a
+   04D5 A6 05              1439 	mov	@r0,ar5
+   04D7 08                 1440 	inc	r0
+   04D8 A6 06              1441 	mov	@r0,ar6
+   04DA 08                 1442 	inc	r0
+   04DB A6 07              1443 	mov	@r0,ar7
+                           1444 ;	../../core/net/rime/route-discovery.c:204: if(rt != NULL) {
+   04DD D0 07              1445 	pop	ar7
+   04DF D0 06              1446 	pop	ar6
+   04E1 D0 05              1447 	pop	ar5
+   04E3 E5*00              1448 	mov	a,_bp
+   04E5 24 04              1449 	add	a,#0x04
+   04E7 F8                 1450 	mov	r0,a
+   04E8 E6                 1451 	mov	a,@r0
+   04E9 08                 1452 	inc	r0
+   04EA 46                 1453 	orl	a,@r0
+   04EB 60 4A              1454 	jz	00108$
+                           1455 ;	../../core/net/rime/route-discovery.c:206: msg->hops++;
+   04ED 8D 82              1456 	mov	dpl,r5
+   04EF 8E 83              1457 	mov	dph,r6
+   04F1 8F F0              1458 	mov	b,r7
+   04F3 12s00r00           1459 	lcall	__gptrget
+   04F6 FC                 1460 	mov	r4,a
+   04F7 0C                 1461 	inc	r4
+   04F8 8D 82              1462 	mov	dpl,r5
+   04FA 8E 83              1463 	mov	dph,r6
+   04FC 8F F0              1464 	mov	b,r7
+   04FE EC                 1465 	mov	a,r4
+   04FF 12s00r00           1466 	lcall	__gptrput
+                           1467 ;	../../core/net/rime/route-discovery.c:207: unicast_send(&c->rrepconn, &rt->nexthop);
+   0502 E5*00              1468 	mov	a,_bp
+   0504 24 04              1469 	add	a,#0x04
+   0506 F8                 1470 	mov	r0,a
+   0507 74 05              1471 	mov	a,#0x05
+   0509 26                 1472 	add	a,@r0
+   050A FD                 1473 	mov	r5,a
+   050B E4                 1474 	clr	a
+   050C 08                 1475 	inc	r0
+   050D 36                 1476 	addc	a,@r0
+   050E FE                 1477 	mov	r6,a
+   050F 08                 1478 	inc	r0
+   0510 86 07              1479 	mov	ar7,@r0
+   0512 E5*00              1480 	mov	a,_bp
+   0514 24 09              1481 	add	a,#0x09
+   0516 F8                 1482 	mov	r0,a
+   0517 74 35              1483 	mov	a,#0x35
+   0519 26                 1484 	add	a,@r0
+   051A FA                 1485 	mov	r2,a
+   051B E4                 1486 	clr	a
+   051C 08                 1487 	inc	r0
+   051D 36                 1488 	addc	a,@r0
+   051E FB                 1489 	mov	r3,a
+   051F 08                 1490 	inc	r0
+   0520 86 04              1491 	mov	ar4,@r0
+   0522 C0 05              1492 	push	ar5
+   0524 C0 06              1493 	push	ar6
+   0526 C0 07              1494 	push	ar7
+   0528 8A 82              1495 	mov	dpl,r2
+   052A 8B 83              1496 	mov	dph,r3
+   052C 8C F0              1497 	mov	b,r4
+   052E 12s00r00           1498 	lcall	_unicast_send
+   0531 15 81              1499 	dec	sp
+   0533 15 81              1500 	dec	sp
+   0535 15 81              1501 	dec	sp
+   0537                    1502 00108$:
+   0537 85*00 81           1503 	mov	sp,_bp
+   053A D0*00              1504 	pop	_bp
+   053C 22                 1505 	ret
+                           1506 ;------------------------------------------------------------
+                           1507 ;Allocation info for local variables in function 'rreq_packet_received'
+                           1508 ;------------------------------------------------------------
+                           1509 ;from                      Allocated to stack - _bp -5
+                           1510 ;originator                Allocated to stack - _bp -8
+                           1511 ;seqno                     Allocated to stack - _bp -9
+                           1512 ;hops                      Allocated to stack - _bp -10
+                           1513 ;nf                        Allocated to registers r5 r6 r7 
+                           1514 ;msg                       Allocated to stack - _bp +1
+                           1515 ;c                         Allocated to registers r5 r6 r7 
+                           1516 ;------------------------------------------------------------
+                           1517 ;	../../core/net/rime/route-discovery.c:215: rreq_packet_received(struct netflood_conn *nf, const rimeaddr_t *from,
+                           1518 ;	-----------------------------------------
+                           1519 ;	 function rreq_packet_received
+                           1520 ;	-----------------------------------------
+   053D                    1521 _rreq_packet_received:
+   053D C0*00              1522 	push	_bp
+   053F 85 81*00           1523 	mov	_bp,sp
+   0542 05 81              1524 	inc	sp
+   0544 05 81              1525 	inc	sp
+   0546 05 81              1526 	inc	sp
+   0548 AD 82              1527 	mov	r5,dpl
+   054A AE 83              1528 	mov	r6,dph
+   054C AF F0              1529 	mov	r7,b
+                           1530 ;	../../core/net/rime/route-discovery.c:218: struct route_msg *msg = packetbuf_dataptr();
+   054E C0 07              1531 	push	ar7
+   0550 C0 06              1532 	push	ar6
+   0552 C0 05              1533 	push	ar5
+   0554 12s00r00           1534 	lcall	_packetbuf_dataptr
+   0557 AA 82              1535 	mov	r2,dpl
+   0559 AB 83              1536 	mov	r3,dph
+   055B AC F0              1537 	mov	r4,b
+   055D D0 05              1538 	pop	ar5
+   055F D0 06              1539 	pop	ar6
+   0561 D0 07              1540 	pop	ar7
+   0563 A8*00              1541 	mov	r0,_bp
+   0565 08                 1542 	inc	r0
+   0566 A6 02              1543 	mov	@r0,ar2
+   0568 08                 1544 	inc	r0
+   0569 A6 03              1545 	mov	@r0,ar3
+   056B 08                 1546 	inc	r0
+   056C A6 04              1547 	mov	@r0,ar4
+                           1548 ;	../../core/net/rime/route-discovery.c:219: struct route_discovery_conn *c = (struct route_discovery_conn *)
+                           1549 ;	../../core/net/rime/route-discovery.c:230: if(!(rimeaddr_cmp(&c->last_rreq_originator, originator) &&
+   056E 74 5C              1550 	mov	a,#0x5C
+   0570 2D                 1551 	add	a,r5
+   0571 FA                 1552 	mov	r2,a
+   0572 E4                 1553 	clr	a
+   0573 3E                 1554 	addc	a,r6
+   0574 FB                 1555 	mov	r3,a
+   0575 8F 04              1556 	mov	ar4,r7
+   0577 C0 07              1557 	push	ar7
+   0579 C0 06              1558 	push	ar6
+   057B C0 05              1559 	push	ar5
+   057D E5*00              1560 	mov	a,_bp
+   057F 24 F8              1561 	add	a,#0xf8
+   0581 F8                 1562 	mov	r0,a
+   0582 E6                 1563 	mov	a,@r0
+   0583 C0 E0              1564 	push	acc
+   0585 08                 1565 	inc	r0
+   0586 E6                 1566 	mov	a,@r0
+   0587 C0 E0              1567 	push	acc
+   0589 08                 1568 	inc	r0
+   058A E6                 1569 	mov	a,@r0
+   058B C0 E0              1570 	push	acc
+   058D 8A 82              1571 	mov	dpl,r2
+   058F 8B 83              1572 	mov	dph,r3
+   0591 8C F0              1573 	mov	b,r4
+   0593 12s00r00           1574 	lcall	_rimeaddr_cmp
+   0596 AB 82              1575 	mov	r3,dpl
+   0598 AC 83              1576 	mov	r4,dph
+   059A 15 81              1577 	dec	sp
+   059C 15 81              1578 	dec	sp
+   059E 15 81              1579 	dec	sp
+   05A0 D0 05              1580 	pop	ar5
+   05A2 D0 06              1581 	pop	ar6
+   05A4 D0 07              1582 	pop	ar7
+   05A6 EB                 1583 	mov	a,r3
+   05A7 4C                 1584 	orl	a,r4
+   05A8 60 4F              1585 	jz	00104$
+                           1586 ;	../../core/net/rime/route-discovery.c:231: c->last_rreq_id == msg->rreq_id)) {
+   05AA 74 5E              1587 	mov	a,#0x5E
+   05AC 2D                 1588 	add	a,r5
+   05AD FA                 1589 	mov	r2,a
+   05AE E4                 1590 	clr	a
+   05AF 3E                 1591 	addc	a,r6
+   05B0 FB                 1592 	mov	r3,a
+   05B1 8F 04              1593 	mov	ar4,r7
+   05B3 8A 82              1594 	mov	dpl,r2
+   05B5 8B 83              1595 	mov	dph,r3
+   05B7 8C F0              1596 	mov	b,r4
+   05B9 12s00r00           1597 	lcall	__gptrget
+   05BC FA                 1598 	mov	r2,a
+   05BD A3                 1599 	inc	dptr
+   05BE 12s00r00           1600 	lcall	__gptrget
+   05C1 FB                 1601 	mov	r3,a
+   05C2 C0 05              1602 	push	ar5
+   05C4 C0 06              1603 	push	ar6
+   05C6 C0 07              1604 	push	ar7
+   05C8 A8*00              1605 	mov	r0,_bp
+   05CA 08                 1606 	inc	r0
+   05CB 74 02              1607 	mov	a,#0x02
+   05CD 26                 1608 	add	a,@r0
+   05CE FC                 1609 	mov	r4,a
+   05CF E4                 1610 	clr	a
+   05D0 08                 1611 	inc	r0
+   05D1 36                 1612 	addc	a,@r0
+   05D2 FE                 1613 	mov	r6,a
+   05D3 08                 1614 	inc	r0
+   05D4 86 07              1615 	mov	ar7,@r0
+   05D6 8C 82              1616 	mov	dpl,r4
+   05D8 8E 83              1617 	mov	dph,r6
+   05DA 8F F0              1618 	mov	b,r7
+   05DC 12s00r00           1619 	lcall	__gptrget
+   05DF FC                 1620 	mov	r4,a
+   05E0 7F 00              1621 	mov	r7,#0x00
+   05E2 EA                 1622 	mov	a,r2
+   05E3 B5 04 0D           1623 	cjne	a,ar4,00114$
+   05E6 EB                 1624 	mov	a,r3
+   05E7 B5 07 09           1625 	cjne	a,ar7,00114$
+   05EA D0 07              1626 	pop	ar7
+   05EC D0 06              1627 	pop	ar6
+   05EE D0 05              1628 	pop	ar5
+   05F0 02s07r27           1629 	ljmp	00105$
+   05F3                    1630 00114$:
+   05F3 D0 07              1631 	pop	ar7
+   05F5 D0 06              1632 	pop	ar6
+   05F7 D0 05              1633 	pop	ar5
+   05F9                    1634 00104$:
+                           1635 ;	../../core/net/rime/route-discovery.c:239: rimeaddr_copy(&c->last_rreq_originator, originator);
+   05F9 74 5C              1636 	mov	a,#0x5C
+   05FB 2D                 1637 	add	a,r5
+   05FC FA                 1638 	mov	r2,a
+   05FD E4                 1639 	clr	a
+   05FE 3E                 1640 	addc	a,r6
+   05FF FB                 1641 	mov	r3,a
+   0600 8F 04              1642 	mov	ar4,r7
+   0602 C0 07              1643 	push	ar7
+   0604 C0 06              1644 	push	ar6
+   0606 C0 05              1645 	push	ar5
+   0608 E5*00              1646 	mov	a,_bp
+   060A 24 F8              1647 	add	a,#0xf8
+   060C F8                 1648 	mov	r0,a
+   060D E6                 1649 	mov	a,@r0
+   060E C0 E0              1650 	push	acc
+   0610 08                 1651 	inc	r0
+   0611 E6                 1652 	mov	a,@r0
+   0612 C0 E0              1653 	push	acc
+   0614 08                 1654 	inc	r0
+   0615 E6                 1655 	mov	a,@r0
+   0616 C0 E0              1656 	push	acc
+   0618 8A 82              1657 	mov	dpl,r2
+   061A 8B 83              1658 	mov	dph,r3
+   061C 8C F0              1659 	mov	b,r4
+   061E 12s00r00           1660 	lcall	_rimeaddr_copy
+   0621 15 81              1661 	dec	sp
+   0623 15 81              1662 	dec	sp
+   0625 15 81              1663 	dec	sp
+   0627 D0 05              1664 	pop	ar5
+   0629 D0 06              1665 	pop	ar6
+   062B D0 07              1666 	pop	ar7
+                           1667 ;	../../core/net/rime/route-discovery.c:240: c->last_rreq_id = msg->rreq_id;
+   062D 74 5E              1668 	mov	a,#0x5E
+   062F 2D                 1669 	add	a,r5
+   0630 FA                 1670 	mov	r2,a
+   0631 E4                 1671 	clr	a
+   0632 3E                 1672 	addc	a,r6
+   0633 FB                 1673 	mov	r3,a
+   0634 8F 04              1674 	mov	ar4,r7
+   0636 C0 05              1675 	push	ar5
+   0638 C0 06              1676 	push	ar6
+   063A C0 07              1677 	push	ar7
+   063C A8*00              1678 	mov	r0,_bp
+   063E 08                 1679 	inc	r0
+   063F 74 02              1680 	mov	a,#0x02
+   0641 26                 1681 	add	a,@r0
+   0642 FD                 1682 	mov	r5,a
+   0643 E4                 1683 	clr	a
+   0644 08                 1684 	inc	r0
+   0645 36                 1685 	addc	a,@r0
+   0646 FE                 1686 	mov	r6,a
+   0647 08                 1687 	inc	r0
+   0648 86 07              1688 	mov	ar7,@r0
+   064A 8D 82              1689 	mov	dpl,r5
+   064C 8E 83              1690 	mov	dph,r6
+   064E 8F F0              1691 	mov	b,r7
+   0650 12s00r00           1692 	lcall	__gptrget
+   0653 FD                 1693 	mov	r5,a
+   0654 7F 00              1694 	mov	r7,#0x00
+   0656 8A 82              1695 	mov	dpl,r2
+   0658 8B 83              1696 	mov	dph,r3
+   065A 8C F0              1697 	mov	b,r4
+   065C ED                 1698 	mov	a,r5
+   065D 12s00r00           1699 	lcall	__gptrput
+   0660 A3                 1700 	inc	dptr
+   0661 EF                 1701 	mov	a,r7
+   0662 12s00r00           1702 	lcall	__gptrput
+                           1703 ;	../../core/net/rime/route-discovery.c:242: if(rimeaddr_cmp(&msg->dest, &rimeaddr_node_addr)) {
+   0665 C0 05              1704 	push	ar5
+   0667 74r00              1705 	mov	a,#_rimeaddr_node_addr
+   0669 C0 E0              1706 	push	acc
+   066B 74s00              1707 	mov	a,#(_rimeaddr_node_addr >> 8)
+   066D C0 E0              1708 	push	acc
+   066F E4                 1709 	clr	a
+   0670 C0 E0              1710 	push	acc
+   0672 A8*00              1711 	mov	r0,_bp
+   0674 08                 1712 	inc	r0
+   0675 86 82              1713 	mov	dpl,@r0
+   0677 08                 1714 	inc	r0
+   0678 86 83              1715 	mov	dph,@r0
+   067A 08                 1716 	inc	r0
+   067B 86 F0              1717 	mov	b,@r0
+   067D 12s00r00           1718 	lcall	_rimeaddr_cmp
+   0680 AE 82              1719 	mov	r6,dpl
+   0682 AF 83              1720 	mov	r7,dph
+   0684 15 81              1721 	dec	sp
+   0686 15 81              1722 	dec	sp
+   0688 15 81              1723 	dec	sp
+   068A D0 05              1724 	pop	ar5
+   068C EE                 1725 	mov	a,r6
+   068D 4F                 1726 	orl	a,r7
+   068E D0 07              1727 	pop	ar7
+   0690 D0 06              1728 	pop	ar6
+   0692 D0 05              1729 	pop	ar5
+   0694 60 5E              1730 	jz	00102$
+                           1731 ;	../../core/net/rime/route-discovery.c:251: insert_route(originator, from, hops);
+   0696 C0 07              1732 	push	ar7
+   0698 C0 06              1733 	push	ar6
+   069A C0 05              1734 	push	ar5
+   069C E5*00              1735 	mov	a,_bp
+   069E 24 F6              1736 	add	a,#0xf6
+   06A0 F8                 1737 	mov	r0,a
+   06A1 E6                 1738 	mov	a,@r0
+   06A2 C0 E0              1739 	push	acc
+   06A4 E5*00              1740 	mov	a,_bp
+   06A6 24 FB              1741 	add	a,#0xfb
+   06A8 F8                 1742 	mov	r0,a
+   06A9 E6                 1743 	mov	a,@r0
+   06AA C0 E0              1744 	push	acc
+   06AC 08                 1745 	inc	r0
+   06AD E6                 1746 	mov	a,@r0
+   06AE C0 E0              1747 	push	acc
+   06B0 08                 1748 	inc	r0
+   06B1 E6                 1749 	mov	a,@r0
+   06B2 C0 E0              1750 	push	acc
+   06B4 E5*00              1751 	mov	a,_bp
+   06B6 24 F8              1752 	add	a,#0xf8
+   06B8 F8                 1753 	mov	r0,a
+   06B9 86 82              1754 	mov	dpl,@r0
+   06BB 08                 1755 	inc	r0
+   06BC 86 83              1756 	mov	dph,@r0
+   06BE 08                 1757 	inc	r0
+   06BF 86 F0              1758 	mov	b,@r0
+   06C1 12s02r6A           1759 	lcall	_insert_route
+   06C4 E5 81              1760 	mov	a,sp
+   06C6 24 FC              1761 	add	a,#0xfc
+   06C8 F5 81              1762 	mov	sp,a
+   06CA D0 05              1763 	pop	ar5
+   06CC D0 06              1764 	pop	ar6
+   06CE D0 07              1765 	pop	ar7
+                           1766 ;	../../core/net/rime/route-discovery.c:254: send_rrep(c, originator);
+   06D0 E5*00              1767 	mov	a,_bp
+   06D2 24 F8              1768 	add	a,#0xf8
+   06D4 F8                 1769 	mov	r0,a
+   06D5 E6                 1770 	mov	a,@r0
+   06D6 C0 E0              1771 	push	acc
+   06D8 08                 1772 	inc	r0
+   06D9 E6                 1773 	mov	a,@r0
+   06DA C0 E0              1774 	push	acc
+   06DC 08                 1775 	inc	r0
+   06DD E6                 1776 	mov	a,@r0
+   06DE C0 E0              1777 	push	acc
+   06E0 8D 82              1778 	mov	dpl,r5
+   06E2 8E 83              1779 	mov	dph,r6
+   06E4 8F F0              1780 	mov	b,r7
+   06E6 12s01r51           1781 	lcall	_send_rrep
+   06E9 15 81              1782 	dec	sp
+   06EB 15 81              1783 	dec	sp
+   06ED 15 81              1784 	dec	sp
+                           1785 ;	../../core/net/rime/route-discovery.c:255: return 0; /* Don't continue to flood the rreq packet. */
+   06EF 90 00 00           1786 	mov	dptr,#0x0000
+   06F2 80 36              1787 	sjmp	00107$
+   06F4                    1788 00102$:
+                           1789 ;	../../core/net/rime/route-discovery.c:263: insert_route(originator, from, hops);
+   06F4 E5*00              1790 	mov	a,_bp
+   06F6 24 F6              1791 	add	a,#0xf6
+   06F8 F8                 1792 	mov	r0,a
+   06F9 E6                 1793 	mov	a,@r0
+   06FA C0 E0              1794 	push	acc
+   06FC E5*00              1795 	mov	a,_bp
+   06FE 24 FB              1796 	add	a,#0xfb
+   0700 F8                 1797 	mov	r0,a
+   0701 E6                 1798 	mov	a,@r0
+   0702 C0 E0              1799 	push	acc
+   0704 08                 1800 	inc	r0
+   0705 E6                 1801 	mov	a,@r0
+   0706 C0 E0              1802 	push	acc
+   0708 08                 1803 	inc	r0
+   0709 E6                 1804 	mov	a,@r0
+   070A C0 E0              1805 	push	acc
+   070C E5*00              1806 	mov	a,_bp
+   070E 24 F8              1807 	add	a,#0xf8
+   0710 F8                 1808 	mov	r0,a
+   0711 86 82              1809 	mov	dpl,@r0
+   0713 08                 1810 	inc	r0
+   0714 86 83              1811 	mov	dph,@r0
+   0716 08                 1812 	inc	r0
+   0717 86 F0              1813 	mov	b,@r0
+   0719 12s02r6A           1814 	lcall	_insert_route
+   071C E5 81              1815 	mov	a,sp
+   071E 24 FC              1816 	add	a,#0xfc
+   0720 F5 81              1817 	mov	sp,a
+                           1818 ;	../../core/net/rime/route-discovery.c:266: return 1;
+   0722 90 00 01           1819 	mov	dptr,#0x0001
+   0725 80 03              1820 	sjmp	00107$
+   0727                    1821 00105$:
+                           1822 ;	../../core/net/rime/route-discovery.c:268: return 0; /* Don't forward packet. */
+   0727 90 00 00           1823 	mov	dptr,#0x0000
+   072A                    1824 00107$:
+   072A 85*00 81           1825 	mov	sp,_bp
+   072D D0*00              1826 	pop	_bp
+   072F 22                 1827 	ret
+                           1828 ;------------------------------------------------------------
+                           1829 ;Allocation info for local variables in function 'route_discovery_open'
+                           1830 ;------------------------------------------------------------
+                           1831 ;time                      Allocated to stack - _bp -4
+                           1832 ;channels                  Allocated to stack - _bp -6
+                           1833 ;callbacks                 Allocated to stack - _bp -9
+                           1834 ;c                         Allocated to stack - _bp +1
+                           1835 ;------------------------------------------------------------
+                           1836 ;	../../core/net/rime/route-discovery.c:275: route_discovery_open(struct route_discovery_conn *c,
+                           1837 ;	-----------------------------------------
+                           1838 ;	 function route_discovery_open
+                           1839 ;	-----------------------------------------
+   0730                    1840 _route_discovery_open:
+   0730 C0*00              1841 	push	_bp
+   0732 85 81*00           1842 	mov	_bp,sp
+   0735 C0 82              1843 	push	dpl
+   0737 C0 83              1844 	push	dph
+   0739 C0 F0              1845 	push	b
+                           1846 ;	../../core/net/rime/route-discovery.c:280: netflood_open(&c->rreqconn, time, channels + 0, &rreq_callbacks);
+   073B 74r04              1847 	mov	a,#_rreq_callbacks
+   073D C0 E0              1848 	push	acc
+   073F 74s00              1849 	mov	a,#(_rreq_callbacks >> 8)
+   0741 C0 E0              1850 	push	acc
+   0743 74 80              1851 	mov	a,#0x80
+   0745 C0 E0              1852 	push	acc
+   0747 E5*00              1853 	mov	a,_bp
+   0749 24 FA              1854 	add	a,#0xfa
+   074B F8                 1855 	mov	r0,a
+   074C E6                 1856 	mov	a,@r0
+   074D C0 E0              1857 	push	acc
+   074F 08                 1858 	inc	r0
+   0750 E6                 1859 	mov	a,@r0
+   0751 C0 E0              1860 	push	acc
+   0753 E5*00              1861 	mov	a,_bp
+   0755 24 FC              1862 	add	a,#0xfc
+   0757 F8                 1863 	mov	r0,a
+   0758 E6                 1864 	mov	a,@r0
+   0759 C0 E0              1865 	push	acc
+   075B 08                 1866 	inc	r0
+   075C E6                 1867 	mov	a,@r0
+   075D C0 E0              1868 	push	acc
+   075F A8*00              1869 	mov	r0,_bp
+   0761 08                 1870 	inc	r0
+   0762 86 82              1871 	mov	dpl,@r0
+   0764 08                 1872 	inc	r0
+   0765 86 83              1873 	mov	dph,@r0
+   0767 08                 1874 	inc	r0
+   0768 86 F0              1875 	mov	b,@r0
+   076A 12s00r00           1876 	lcall	_netflood_open
+   076D E5 81              1877 	mov	a,sp
+   076F 24 F9              1878 	add	a,#0xf9
+   0771 F5 81              1879 	mov	sp,a
+                           1880 ;	../../core/net/rime/route-discovery.c:281: unicast_open(&c->rrepconn, channels + 1, &rrep_callbacks);
+   0773 E5*00              1881 	mov	a,_bp
+   0775 24 FA              1882 	add	a,#0xfa
+   0777 F8                 1883 	mov	r0,a
+   0778 74 01              1884 	mov	a,#0x01
+   077A 26                 1885 	add	a,@r0
+   077B FB                 1886 	mov	r3,a
+   077C E4                 1887 	clr	a
+   077D 08                 1888 	inc	r0
+   077E 36                 1889 	addc	a,@r0
+   077F FC                 1890 	mov	r4,a
+   0780 A8*00              1891 	mov	r0,_bp
+   0782 08                 1892 	inc	r0
+   0783 74 35              1893 	mov	a,#0x35
+   0785 26                 1894 	add	a,@r0
+   0786 FA                 1895 	mov	r2,a
+   0787 E4                 1896 	clr	a
+   0788 08                 1897 	inc	r0
+   0789 36                 1898 	addc	a,@r0
+   078A FE                 1899 	mov	r6,a
+   078B 08                 1900 	inc	r0
+   078C 86 07              1901 	mov	ar7,@r0
+   078E 74r00              1902 	mov	a,#_rrep_callbacks
+   0790 C0 E0              1903 	push	acc
+   0792 74s00              1904 	mov	a,#(_rrep_callbacks >> 8)
+   0794 C0 E0              1905 	push	acc
+   0796 74 80              1906 	mov	a,#0x80
+   0798 C0 E0              1907 	push	acc
+   079A C0 03              1908 	push	ar3
+   079C C0 04              1909 	push	ar4
+   079E 8A 82              1910 	mov	dpl,r2
+   07A0 8E 83              1911 	mov	dph,r6
+   07A2 8F F0              1912 	mov	b,r7
+   07A4 12s00r00           1913 	lcall	_unicast_open
+   07A7 E5 81              1914 	mov	a,sp
+   07A9 24 FB              1915 	add	a,#0xfb
+   07AB F5 81              1916 	mov	sp,a
+                           1917 ;	../../core/net/rime/route-discovery.c:282: c->cb = callbacks;
+   07AD A8*00              1918 	mov	r0,_bp
+   07AF 08                 1919 	inc	r0
+   07B0 74 62              1920 	mov	a,#0x62
+   07B2 26                 1921 	add	a,@r0
+   07B3 FD                 1922 	mov	r5,a
+   07B4 E4                 1923 	clr	a
+   07B5 08                 1924 	inc	r0
+   07B6 36                 1925 	addc	a,@r0
+   07B7 FE                 1926 	mov	r6,a
+   07B8 08                 1927 	inc	r0
+   07B9 86 07              1928 	mov	ar7,@r0
+   07BB 8D 82              1929 	mov	dpl,r5
+   07BD 8E 83              1930 	mov	dph,r6
+   07BF 8F F0              1931 	mov	b,r7
+   07C1 E5*00              1932 	mov	a,_bp
+   07C3 24 F7              1933 	add	a,#0xf7
+   07C5 F8                 1934 	mov	r0,a
+   07C6 E6                 1935 	mov	a,@r0
+   07C7 12s00r00           1936 	lcall	__gptrput
+   07CA A3                 1937 	inc	dptr
+   07CB 08                 1938 	inc	r0
+   07CC E6                 1939 	mov	a,@r0
+   07CD 12s00r00           1940 	lcall	__gptrput
+   07D0 A3                 1941 	inc	dptr
+   07D1 08                 1942 	inc	r0
+   07D2 E6                 1943 	mov	a,@r0
+   07D3 12s00r00           1944 	lcall	__gptrput
+   07D6 85*00 81           1945 	mov	sp,_bp
+   07D9 D0*00              1946 	pop	_bp
+   07DB 22                 1947 	ret
+                           1948 ;------------------------------------------------------------
+                           1949 ;Allocation info for local variables in function 'route_discovery_close'
+                           1950 ;------------------------------------------------------------
+                           1951 ;c                         Allocated to registers r5 r6 r7 
+                           1952 ;------------------------------------------------------------
+                           1953 ;	../../core/net/rime/route-discovery.c:286: route_discovery_close(struct route_discovery_conn *c)
+                           1954 ;	-----------------------------------------
+                           1955 ;	 function route_discovery_close
+                           1956 ;	-----------------------------------------
+   07DC                    1957 _route_discovery_close:
+   07DC AD 82              1958 	mov	r5,dpl
+   07DE AE 83              1959 	mov	r6,dph
+   07E0 AF F0              1960 	mov	r7,b
+                           1961 ;	../../core/net/rime/route-discovery.c:288: unicast_close(&c->rrepconn);
+   07E2 74 35              1962 	mov	a,#0x35
+   07E4 2D                 1963 	add	a,r5
+   07E5 FA                 1964 	mov	r2,a
+   07E6 E4                 1965 	clr	a
+   07E7 3E                 1966 	addc	a,r6
+   07E8 FB                 1967 	mov	r3,a
+   07E9 8F 04              1968 	mov	ar4,r7
+   07EB 8A 82              1969 	mov	dpl,r2
+   07ED 8B 83              1970 	mov	dph,r3
+   07EF 8C F0              1971 	mov	b,r4
+   07F1 C0 07              1972 	push	ar7
+   07F3 C0 06              1973 	push	ar6
+   07F5 C0 05              1974 	push	ar5
+   07F7 12s00r00           1975 	lcall	_unicast_close
+   07FA D0 05              1976 	pop	ar5
+   07FC D0 06              1977 	pop	ar6
+   07FE D0 07              1978 	pop	ar7
+                           1979 ;	../../core/net/rime/route-discovery.c:289: netflood_close(&c->rreqconn);
+   0800 8D 82              1980 	mov	dpl,r5
+   0802 8E 83              1981 	mov	dph,r6
+   0804 8F F0              1982 	mov	b,r7
+   0806 C0 07              1983 	push	ar7
+   0808 C0 06              1984 	push	ar6
+   080A C0 05              1985 	push	ar5
+   080C 12s00r00           1986 	lcall	_netflood_close
+   080F D0 05              1987 	pop	ar5
+   0811 D0 06              1988 	pop	ar6
+   0813 D0 07              1989 	pop	ar7
+                           1990 ;	../../core/net/rime/route-discovery.c:290: ctimer_stop(&c->t);
+   0815 74 47              1991 	mov	a,#0x47
+   0817 2D                 1992 	add	a,r5
+   0818 FD                 1993 	mov	r5,a
+   0819 E4                 1994 	clr	a
+   081A 3E                 1995 	addc	a,r6
+   081B FE                 1996 	mov	r6,a
+   081C 8D 82              1997 	mov	dpl,r5
+   081E 8E 83              1998 	mov	dph,r6
+   0820 8F F0              1999 	mov	b,r7
+   0822 02s00r00           2000 	ljmp	_ctimer_stop
+                           2001 ;------------------------------------------------------------
+                           2002 ;Allocation info for local variables in function 'timeout_handler'
+                           2003 ;------------------------------------------------------------
+                           2004 ;ptr                       Allocated to registers r5 r6 r7 
+                           2005 ;c                         Allocated to registers r5 r6 r7 
+                           2006 ;------------------------------------------------------------
+                           2007 ;	../../core/net/rime/route-discovery.c:294: timeout_handler(void *ptr)
+                           2008 ;	-----------------------------------------
+                           2009 ;	 function timeout_handler
+                           2010 ;	-----------------------------------------
+   0825                    2011 _timeout_handler:
+   0825 AD 82              2012 	mov	r5,dpl
+   0827 AE 83              2013 	mov	r6,dph
+   0829 AF F0              2014 	mov	r7,b
+                           2015 ;	../../core/net/rime/route-discovery.c:296: struct route_discovery_conn *c = ptr;
+                           2016 ;	../../core/net/rime/route-discovery.c:298: rrep_pending = 0;
+   082B 90s00r00           2017 	mov	dptr,#_rrep_pending
+   082E E4                 2018 	clr	a
+   082F F0                 2019 	movx	@dptr,a
+                           2020 ;	../../core/net/rime/route-discovery.c:299: if(c->cb->timedout) {
+   0830 74 62              2021 	mov	a,#0x62
+   0832 2D                 2022 	add	a,r5
+   0833 FA                 2023 	mov	r2,a
+   0834 E4                 2024 	clr	a
+   0835 3E                 2025 	addc	a,r6
+   0836 FB                 2026 	mov	r3,a
+   0837 8F 04              2027 	mov	ar4,r7
+   0839 8A 82              2028 	mov	dpl,r2
+   083B 8B 83              2029 	mov	dph,r3
+   083D 8C F0              2030 	mov	b,r4
+   083F 12s00r00           2031 	lcall	__gptrget
+   0842 FA                 2032 	mov	r2,a
+   0843 A3                 2033 	inc	dptr
+   0844 12s00r00           2034 	lcall	__gptrget
+   0847 FB                 2035 	mov	r3,a
+   0848 A3                 2036 	inc	dptr
+   0849 12s00r00           2037 	lcall	__gptrget
+   084C FC                 2038 	mov	r4,a
+   084D 74 02              2039 	mov	a,#0x02
+   084F 2A                 2040 	add	a,r2
+   0850 FA                 2041 	mov	r2,a
+   0851 E4                 2042 	clr	a
+   0852 3B                 2043 	addc	a,r3
+   0853 FB                 2044 	mov	r3,a
+   0854 8A 82              2045 	mov	dpl,r2
+   0856 8B 83              2046 	mov	dph,r3
+   0858 8C F0              2047 	mov	b,r4
+   085A 12s00r00           2048 	lcall	__gptrget
+   085D FB                 2049 	mov	r3,a
+   085E A3                 2050 	inc	dptr
+   085F 12s00r00           2051 	lcall	__gptrget
+   0862 FC                 2052 	mov	r4,a
+   0863 4B                 2053 	orl	a,r3
+   0864 60 1B              2054 	jz	00103$
+                           2055 ;	../../core/net/rime/route-discovery.c:300: c->cb->timedout(c);
+   0866 C0 04              2056 	push	ar4
+   0868 C0 03              2057 	push	ar3
+   086A 74r7D              2058 	mov	a,#00108$
+   086C C0 E0              2059 	push	acc
+   086E 74s08              2060 	mov	a,#(00108$ >> 8)
+   0870 C0 E0              2061 	push	acc
+   0872 C0 03              2062 	push	ar3
+   0874 C0 04              2063 	push	ar4
+   0876 8D 82              2064 	mov	dpl,r5
+   0878 8E 83              2065 	mov	dph,r6
+   087A 8F F0              2066 	mov	b,r7
+   087C 22                 2067 	ret
+   087D                    2068 00108$:
+   087D D0 03              2069 	pop	ar3
+   087F D0 04              2070 	pop	ar4
+   0881                    2071 00103$:
+   0881 22                 2072 	ret
+                           2073 ;------------------------------------------------------------
+                           2074 ;Allocation info for local variables in function 'route_discovery_discover'
+                           2075 ;------------------------------------------------------------
+                           2076 ;addr                      Allocated to stack - _bp -5
+                           2077 ;timeout                   Allocated to stack - _bp -7
+                           2078 ;c                         Allocated to stack - _bp +1
+                           2079 ;------------------------------------------------------------
+                           2080 ;	../../core/net/rime/route-discovery.c:305: route_discovery_discover(struct route_discovery_conn *c, const rimeaddr_t *addr,
+                           2081 ;	-----------------------------------------
+                           2082 ;	 function route_discovery_discover
+                           2083 ;	-----------------------------------------
+   0882                    2084 _route_discovery_discover:
+   0882 C0*00              2085 	push	_bp
+   0884 85 81*00           2086 	mov	_bp,sp
+   0887 C0 82              2087 	push	dpl
+   0889 C0 83              2088 	push	dph
+   088B C0 F0              2089 	push	b
+                           2090 ;	../../core/net/rime/route-discovery.c:308: if(rrep_pending) {
+   088D 90s00r00           2091 	mov	dptr,#_rrep_pending
+   0890 E0                 2092 	movx	a,@dptr
+   0891 FC                 2093 	mov	r4,a
+   0892 60 05              2094 	jz	00102$
+                           2095 ;	../../core/net/rime/route-discovery.c:310: return 0;
+   0894 90 00 00           2096 	mov	dptr,#0x0000
+   0897 80 6F              2097 	sjmp	00103$
+   0899                    2098 00102$:
+                           2099 ;	../../core/net/rime/route-discovery.c:314: ctimer_set(&c->t, timeout, timeout_handler, c);
+   0899 A8*00              2100 	mov	r0,_bp
+   089B 08                 2101 	inc	r0
+   089C 86 02              2102 	mov	ar2,@r0
+   089E 08                 2103 	inc	r0
+   089F 86 03              2104 	mov	ar3,@r0
+   08A1 08                 2105 	inc	r0
+   08A2 86 04              2106 	mov	ar4,@r0
+   08A4 A8*00              2107 	mov	r0,_bp
+   08A6 08                 2108 	inc	r0
+   08A7 74 47              2109 	mov	a,#0x47
+   08A9 26                 2110 	add	a,@r0
+   08AA FD                 2111 	mov	r5,a
+   08AB E4                 2112 	clr	a
+   08AC 08                 2113 	inc	r0
+   08AD 36                 2114 	addc	a,@r0
+   08AE FE                 2115 	mov	r6,a
+   08AF 08                 2116 	inc	r0
+   08B0 86 07              2117 	mov	ar7,@r0
+   08B2 C0 02              2118 	push	ar2
+   08B4 C0 03              2119 	push	ar3
+   08B6 C0 04              2120 	push	ar4
+   08B8 74r25              2121 	mov	a,#_timeout_handler
+   08BA C0 E0              2122 	push	acc
+   08BC 74s08              2123 	mov	a,#(_timeout_handler >> 8)
+   08BE C0 E0              2124 	push	acc
+   08C0 E5*00              2125 	mov	a,_bp
+   08C2 24 F9              2126 	add	a,#0xf9
+   08C4 F8                 2127 	mov	r0,a
+   08C5 E6                 2128 	mov	a,@r0
+   08C6 C0 E0              2129 	push	acc
+   08C8 08                 2130 	inc	r0
+   08C9 E6                 2131 	mov	a,@r0
+   08CA C0 E0              2132 	push	acc
+   08CC 8D 82              2133 	mov	dpl,r5
+   08CE 8E 83              2134 	mov	dph,r6
+   08D0 8F F0              2135 	mov	b,r7
+   08D2 12s00r00           2136 	lcall	_ctimer_set
+   08D5 E5 81              2137 	mov	a,sp
+   08D7 24 F9              2138 	add	a,#0xf9
+   08D9 F5 81              2139 	mov	sp,a
+                           2140 ;	../../core/net/rime/route-discovery.c:315: rrep_pending = 1;
+   08DB 90s00r00           2141 	mov	dptr,#_rrep_pending
+   08DE 74 01              2142 	mov	a,#0x01
+   08E0 F0                 2143 	movx	@dptr,a
+                           2144 ;	../../core/net/rime/route-discovery.c:316: send_rreq(c, addr);
+   08E1 E5*00              2145 	mov	a,_bp
+   08E3 24 FB              2146 	add	a,#0xfb
+   08E5 F8                 2147 	mov	r0,a
+   08E6 E6                 2148 	mov	a,@r0
+   08E7 C0 E0              2149 	push	acc
+   08E9 08                 2150 	inc	r0
+   08EA E6                 2151 	mov	a,@r0
+   08EB C0 E0              2152 	push	acc
+   08ED 08                 2153 	inc	r0
+   08EE E6                 2154 	mov	a,@r0
+   08EF C0 E0              2155 	push	acc
+   08F1 A8*00              2156 	mov	r0,_bp
+   08F3 08                 2157 	inc	r0
+   08F4 86 82              2158 	mov	dpl,@r0
+   08F6 08                 2159 	inc	r0
+   08F7 86 83              2160 	mov	dph,@r0
+   08F9 08                 2161 	inc	r0
+   08FA 86 F0              2162 	mov	b,@r0
+   08FC 12s00r00           2163 	lcall	_send_rreq
+   08FF 15 81              2164 	dec	sp
+   0901 15 81              2165 	dec	sp
+   0903 15 81              2166 	dec	sp
+                           2167 ;	../../core/net/rime/route-discovery.c:317: return 1;
+   0905 90 00 01           2168 	mov	dptr,#0x0001
+   0908                    2169 00103$:
+   0908 85*00 81           2170 	mov	sp,_bp
+   090B D0*00              2171 	pop	_bp
+   090D 22                 2172 	ret
+                           2173 	.area CSEG    (CODE)
+                           2174 	.area CONST   (CODE)
+   0000                    2175 _rrep_callbacks:
+   0000rA2s02              2176 	.byte _rrep_packet_received,(_rrep_packet_received >> 8)
+   0002 00 00              2177 	.byte #0x00,#0x00
+   0004                    2178 _rreq_callbacks:
+   0004r3Ds05              2179 	.byte _rreq_packet_received,(_rreq_packet_received >> 8)
+   0006 00 00              2180 	.byte #0x00,#0x00
+   0008 00 00              2181 	.byte #0x00,#0x00
+                           2182 	.area XINIT   (CODE)
+                           2183 	.area CABS    (ABS,CODE)

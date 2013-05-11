@@ -1,0 +1,2749 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:29 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module tcpip
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _uip_fw_periodic
+                             13 	.globl _uip_fw_forward
+                             14 	.globl _uip_process
+                             15 	.globl _uip_udp_new
+                             16 	.globl _uip_connect
+                             17 	.globl _uip_unlisten
+                             18 	.globl _uip_listen
+                             19 	.globl _uip_init
+                             20 	.globl _etimer_expired
+                             21 	.globl _etimer_restart
+                             22 	.globl _etimer_set
+                             23 	.globl _process_alloc_event
+                             24 	.globl _process_post_synch
+                             25 	.globl _process_post
+                             26 	.globl _IRCON2_P2IF
+                             27 	.globl _IRCON2_UTX0IF
+                             28 	.globl _IRCON2_UTX1IF
+                             29 	.globl _IRCON2_P1IF
+                             30 	.globl _IRCON2_WDTIF
+                             31 	.globl _CY
+                             32 	.globl _AC
+                             33 	.globl _F0
+                             34 	.globl _RS1
+                             35 	.globl _RS0
+                             36 	.globl _OV
+                             37 	.globl _F1
+                             38 	.globl _P
+                             39 	.globl _IRCON_DMAIF
+                             40 	.globl _IRCON_T1IF
+                             41 	.globl _IRCON_T2IF
+                             42 	.globl _IRCON_T3IF
+                             43 	.globl _IRCON_T4IF
+                             44 	.globl _IRCON_P0IF
+                             45 	.globl _IRCON_STIF
+                             46 	.globl _IEN1_DMAIE
+                             47 	.globl _IEN1_T1IE
+                             48 	.globl _IEN1_T2IE
+                             49 	.globl _IEN1_T3IE
+                             50 	.globl _IEN1_T4IE
+                             51 	.globl _IEN1_P0IE
+                             52 	.globl _IEN0_RFERRIE
+                             53 	.globl _IEN0_ADCIE
+                             54 	.globl _IEN0_URX0IE
+                             55 	.globl _IEN0_URX1IE
+                             56 	.globl _IEN0_ENCIE
+                             57 	.globl _IEN0_STIE
+                             58 	.globl _IEN0_EA
+                             59 	.globl _EA
+                             60 	.globl _P2_4
+                             61 	.globl _P2_3
+                             62 	.globl _P2_2
+                             63 	.globl _P2_1
+                             64 	.globl _P2_0
+                             65 	.globl _S0CON_ENCIF_0
+                             66 	.globl _S0CON_ENCIF_1
+                             67 	.globl _P1_7
+                             68 	.globl _P1_6
+                             69 	.globl _P1_5
+                             70 	.globl _P1_4
+                             71 	.globl _P1_3
+                             72 	.globl _P1_2
+                             73 	.globl _P1_1
+                             74 	.globl _P1_0
+                             75 	.globl _TCON_IT0
+                             76 	.globl _TCON_RFERRIF
+                             77 	.globl _TCON_IT1
+                             78 	.globl _TCON_URX0IF
+                             79 	.globl _TCON_ADCIF
+                             80 	.globl _TCON_URX1IF
+                             81 	.globl _P0_0
+                             82 	.globl _P0_1
+                             83 	.globl _P0_2
+                             84 	.globl _P0_3
+                             85 	.globl _P0_4
+                             86 	.globl _P0_5
+                             87 	.globl _P0_6
+                             88 	.globl _P0_7
+                             89 	.globl _P2DIR
+                             90 	.globl _P1DIR
+                             91 	.globl _P0DIR
+                             92 	.globl _U1GCR
+                             93 	.globl _U1UCR
+                             94 	.globl _U1BAUD
+                             95 	.globl _U1BUF
+                             96 	.globl _U1CSR
+                             97 	.globl _P2INP
+                             98 	.globl _P1INP
+                             99 	.globl _P2SEL
+                            100 	.globl _P1SEL
+                            101 	.globl _P0SEL
+                            102 	.globl _ADCCFG
+                            103 	.globl _PERCFG
+                            104 	.globl _B
+                            105 	.globl _T4CC1
+                            106 	.globl _T4CCTL1
+                            107 	.globl _T4CC0
+                            108 	.globl _T4CCTL0
+                            109 	.globl _T4CTL
+                            110 	.globl _T4CNT
+                            111 	.globl _RFIF
+                            112 	.globl _IRCON2
+                            113 	.globl _T1CCTL2
+                            114 	.globl _T1CCTL1
+                            115 	.globl _T1CCTL0
+                            116 	.globl _T1CTL
+                            117 	.globl _T1CNTH
+                            118 	.globl _T1CNTL
+                            119 	.globl _RFST
+                            120 	.globl _ACC
+                            121 	.globl _T1CC2H
+                            122 	.globl _T1CC2L
+                            123 	.globl _T1CC1H
+                            124 	.globl _T1CC1L
+                            125 	.globl _T1CC0H
+                            126 	.globl _T1CC0L
+                            127 	.globl _RFD
+                            128 	.globl _TIMIF
+                            129 	.globl _DMAREQ
+                            130 	.globl _DMAARM
+                            131 	.globl _DMA0CFGH
+                            132 	.globl _DMA0CFGL
+                            133 	.globl _DMA1CFGH
+                            134 	.globl _DMA1CFGL
+                            135 	.globl _DMAIRQ
+                            136 	.globl _PSW
+                            137 	.globl _T3CC1
+                            138 	.globl _T3CCTL1
+                            139 	.globl _T3CC0
+                            140 	.globl _T3CCTL0
+                            141 	.globl _T3CTL
+                            142 	.globl _T3CNT
+                            143 	.globl _WDCTL
+                            144 	.globl _T2CON
+                            145 	.globl _MEMCTR
+                            146 	.globl _CLKCON
+                            147 	.globl _U0GCR
+                            148 	.globl _U0UCR
+                            149 	.globl _T2CNF
+                            150 	.globl _U0BAUD
+                            151 	.globl _U0BUF
+                            152 	.globl _IRCON
+                            153 	.globl _SLEEP
+                            154 	.globl _RNDH
+                            155 	.globl _RNDL
+                            156 	.globl _ADCH
+                            157 	.globl _ADCL
+                            158 	.globl _IP1
+                            159 	.globl _IEN1
+                            160 	.globl _RCCTL
+                            161 	.globl _ADCCON3
+                            162 	.globl _ADCCON2
+                            163 	.globl _ADCCON1
+                            164 	.globl _ENCCS
+                            165 	.globl _ENCDO
+                            166 	.globl _ENCDI
+                            167 	.globl _FWDATA
+                            168 	.globl _FCTL
+                            169 	.globl _FADDRH
+                            170 	.globl _FADDRL
+                            171 	.globl _FWT
+                            172 	.globl _IP0
+                            173 	.globl _IEN0
+                            174 	.globl _IE
+                            175 	.globl _T2THD
+                            176 	.globl _T2TLD
+                            177 	.globl _T2CAPHPH
+                            178 	.globl _T2CAPLPL
+                            179 	.globl _T2OF2
+                            180 	.globl _T2OF1
+                            181 	.globl _T2OF0
+                            182 	.globl _P2
+                            183 	.globl _PSBANK
+                            184 	.globl _FMAP
+                            185 	.globl _T2PEROF2
+                            186 	.globl _T2PEROF1
+                            187 	.globl _T2PEROF0
+                            188 	.globl _S1CON
+                            189 	.globl _IEN2
+                            190 	.globl _HSRC
+                            191 	.globl _S0CON
+                            192 	.globl _ST2
+                            193 	.globl _ST1
+                            194 	.globl _ST0
+                            195 	.globl _T2CMP
+                            196 	.globl __XPAGE
+                            197 	.globl _DPS
+                            198 	.globl _RFIM
+                            199 	.globl _P1
+                            200 	.globl _P0INP
+                            201 	.globl _P1IEN
+                            202 	.globl _PICTL
+                            203 	.globl _P2IFG
+                            204 	.globl _P1IFG
+                            205 	.globl _P0IFG
+                            206 	.globl _TCON
+                            207 	.globl _PCON
+                            208 	.globl _U0CSR
+                            209 	.globl _DPH1
+                            210 	.globl _DPL1
+                            211 	.globl _DPH0
+                            212 	.globl _DPL0
+                            213 	.globl _SP
+                            214 	.globl _P0
+                            215 	.globl _tcpip_process
+                            216 	.globl _tcpip_is_forwarding
+                            217 	.globl _tcpip_event
+                            218 	.globl _ADC_SHADOW
+                            219 	.globl _U1BUF_SHADOW
+                            220 	.globl _RFD_SHADOW
+                            221 	.globl _U0BUF_SHADOW
+                            222 	.globl _RFSTATUS
+                            223 	.globl _CHIPID
+                            224 	.globl _CHVER
+                            225 	.globl _FSMTC1
+                            226 	.globl _RXFIFOCNT
+                            227 	.globl _IOCFG3
+                            228 	.globl _IOCFG2
+                            229 	.globl _IOCFG1
+                            230 	.globl _IOCFG0
+                            231 	.globl _SHORTADDRL
+                            232 	.globl _SHORTADDRH
+                            233 	.globl _PANIDL
+                            234 	.globl _PANIDH
+                            235 	.globl _IEEE_ADDR7
+                            236 	.globl _IEEE_ADDR6
+                            237 	.globl _IEEE_ADDR5
+                            238 	.globl _IEEE_ADDR4
+                            239 	.globl _IEEE_ADDR3
+                            240 	.globl _IEEE_ADDR2
+                            241 	.globl _IEEE_ADDR1
+                            242 	.globl _IEEE_ADDR0
+                            243 	.globl _DACTSTL
+                            244 	.globl _DACTSTH
+                            245 	.globl _ADCTSTL
+                            246 	.globl _ADCTSTH
+                            247 	.globl _FSMSTATE
+                            248 	.globl _AGCCTRLL
+                            249 	.globl _AGCCTRLH
+                            250 	.globl _MANORL
+                            251 	.globl _MANORH
+                            252 	.globl _MANANDL
+                            253 	.globl _MANANDH
+                            254 	.globl _FSMTCL
+                            255 	.globl _FSMTCH
+                            256 	.globl _RFPWR
+                            257 	.globl _CSPT
+                            258 	.globl _CSPCTRL
+                            259 	.globl _CSPZ
+                            260 	.globl _CSPY
+                            261 	.globl _CSPX
+                            262 	.globl _FSCTRLL
+                            263 	.globl _FSCTRLH
+                            264 	.globl _RXCTRL1L
+                            265 	.globl _RXCTRL1H
+                            266 	.globl _RXCTRL0L
+                            267 	.globl _RXCTRL0H
+                            268 	.globl _TXCTRLL
+                            269 	.globl _TXCTRLH
+                            270 	.globl _SYNCWORDL
+                            271 	.globl _SYNCWORDH
+                            272 	.globl _RSSIL
+                            273 	.globl _RSSIH
+                            274 	.globl _MDMCTRL1L
+                            275 	.globl _MDMCTRL1H
+                            276 	.globl _MDMCTRL0L
+                            277 	.globl _MDMCTRL0H
+                            278 	.globl _tcpip_output
+                            279 	.globl _tcpip_set_outputfunc
+                            280 	.globl _tcp_connect
+                            281 	.globl _tcp_unlisten
+                            282 	.globl _tcp_listen
+                            283 	.globl _tcp_attach
+                            284 	.globl _udp_attach
+                            285 	.globl _udp_new
+                            286 	.globl _udp_broadcast_new
+                            287 	.globl _tcpip_input
+                            288 	.globl _tcpip_poll_udp
+                            289 	.globl _tcpip_poll_tcp
+                            290 	.globl _tcpip_uipcall
+                            291 ;--------------------------------------------------------
+                            292 ; special function registers
+                            293 ;--------------------------------------------------------
+                            294 	.area RSEG    (ABS,DATA)
+   0000                     295 	.org 0x0000
+                    0080    296 _P0	=	0x0080
+                    0081    297 _SP	=	0x0081
+                    0082    298 _DPL0	=	0x0082
+                    0083    299 _DPH0	=	0x0083
+                    0084    300 _DPL1	=	0x0084
+                    0085    301 _DPH1	=	0x0085
+                    0086    302 _U0CSR	=	0x0086
+                    0087    303 _PCON	=	0x0087
+                    0088    304 _TCON	=	0x0088
+                    0089    305 _P0IFG	=	0x0089
+                    008A    306 _P1IFG	=	0x008a
+                    008B    307 _P2IFG	=	0x008b
+                    008C    308 _PICTL	=	0x008c
+                    008D    309 _P1IEN	=	0x008d
+                    008F    310 _P0INP	=	0x008f
+                    0090    311 _P1	=	0x0090
+                    0091    312 _RFIM	=	0x0091
+                    0092    313 _DPS	=	0x0092
+                    0093    314 __XPAGE	=	0x0093
+                    0094    315 _T2CMP	=	0x0094
+                    0095    316 _ST0	=	0x0095
+                    0096    317 _ST1	=	0x0096
+                    0097    318 _ST2	=	0x0097
+                    0098    319 _S0CON	=	0x0098
+                    0099    320 _HSRC	=	0x0099
+                    009A    321 _IEN2	=	0x009a
+                    009B    322 _S1CON	=	0x009b
+                    009C    323 _T2PEROF0	=	0x009c
+                    009D    324 _T2PEROF1	=	0x009d
+                    009E    325 _T2PEROF2	=	0x009e
+                    009F    326 _FMAP	=	0x009f
+                    009F    327 _PSBANK	=	0x009f
+                    00A0    328 _P2	=	0x00a0
+                    00A1    329 _T2OF0	=	0x00a1
+                    00A2    330 _T2OF1	=	0x00a2
+                    00A3    331 _T2OF2	=	0x00a3
+                    00A4    332 _T2CAPLPL	=	0x00a4
+                    00A5    333 _T2CAPHPH	=	0x00a5
+                    00A6    334 _T2TLD	=	0x00a6
+                    00A7    335 _T2THD	=	0x00a7
+                    00A8    336 _IE	=	0x00a8
+                    00A8    337 _IEN0	=	0x00a8
+                    00A9    338 _IP0	=	0x00a9
+                    00AB    339 _FWT	=	0x00ab
+                    00AC    340 _FADDRL	=	0x00ac
+                    00AD    341 _FADDRH	=	0x00ad
+                    00AE    342 _FCTL	=	0x00ae
+                    00AF    343 _FWDATA	=	0x00af
+                    00B1    344 _ENCDI	=	0x00b1
+                    00B2    345 _ENCDO	=	0x00b2
+                    00B3    346 _ENCCS	=	0x00b3
+                    00B4    347 _ADCCON1	=	0x00b4
+                    00B5    348 _ADCCON2	=	0x00b5
+                    00B6    349 _ADCCON3	=	0x00b6
+                    00B7    350 _RCCTL	=	0x00b7
+                    00B8    351 _IEN1	=	0x00b8
+                    00B9    352 _IP1	=	0x00b9
+                    00BA    353 _ADCL	=	0x00ba
+                    00BB    354 _ADCH	=	0x00bb
+                    00BC    355 _RNDL	=	0x00bc
+                    00BD    356 _RNDH	=	0x00bd
+                    00BE    357 _SLEEP	=	0x00be
+                    00C0    358 _IRCON	=	0x00c0
+                    00C1    359 _U0BUF	=	0x00c1
+                    00C2    360 _U0BAUD	=	0x00c2
+                    00C3    361 _T2CNF	=	0x00c3
+                    00C4    362 _U0UCR	=	0x00c4
+                    00C5    363 _U0GCR	=	0x00c5
+                    00C6    364 _CLKCON	=	0x00c6
+                    00C7    365 _MEMCTR	=	0x00c7
+                    00C8    366 _T2CON	=	0x00c8
+                    00C9    367 _WDCTL	=	0x00c9
+                    00CA    368 _T3CNT	=	0x00ca
+                    00CB    369 _T3CTL	=	0x00cb
+                    00CC    370 _T3CCTL0	=	0x00cc
+                    00CD    371 _T3CC0	=	0x00cd
+                    00CE    372 _T3CCTL1	=	0x00ce
+                    00CF    373 _T3CC1	=	0x00cf
+                    00D0    374 _PSW	=	0x00d0
+                    00D1    375 _DMAIRQ	=	0x00d1
+                    00D2    376 _DMA1CFGL	=	0x00d2
+                    00D3    377 _DMA1CFGH	=	0x00d3
+                    00D4    378 _DMA0CFGL	=	0x00d4
+                    00D5    379 _DMA0CFGH	=	0x00d5
+                    00D6    380 _DMAARM	=	0x00d6
+                    00D7    381 _DMAREQ	=	0x00d7
+                    00D8    382 _TIMIF	=	0x00d8
+                    00D9    383 _RFD	=	0x00d9
+                    00DA    384 _T1CC0L	=	0x00da
+                    00DB    385 _T1CC0H	=	0x00db
+                    00DC    386 _T1CC1L	=	0x00dc
+                    00DD    387 _T1CC1H	=	0x00dd
+                    00DE    388 _T1CC2L	=	0x00de
+                    00DF    389 _T1CC2H	=	0x00df
+                    00E0    390 _ACC	=	0x00e0
+                    00E1    391 _RFST	=	0x00e1
+                    00E2    392 _T1CNTL	=	0x00e2
+                    00E3    393 _T1CNTH	=	0x00e3
+                    00E4    394 _T1CTL	=	0x00e4
+                    00E5    395 _T1CCTL0	=	0x00e5
+                    00E6    396 _T1CCTL1	=	0x00e6
+                    00E7    397 _T1CCTL2	=	0x00e7
+                    00E8    398 _IRCON2	=	0x00e8
+                    00E9    399 _RFIF	=	0x00e9
+                    00EA    400 _T4CNT	=	0x00ea
+                    00EB    401 _T4CTL	=	0x00eb
+                    00EC    402 _T4CCTL0	=	0x00ec
+                    00ED    403 _T4CC0	=	0x00ed
+                    00EE    404 _T4CCTL1	=	0x00ee
+                    00EF    405 _T4CC1	=	0x00ef
+                    00F0    406 _B	=	0x00f0
+                    00F1    407 _PERCFG	=	0x00f1
+                    00F2    408 _ADCCFG	=	0x00f2
+                    00F3    409 _P0SEL	=	0x00f3
+                    00F4    410 _P1SEL	=	0x00f4
+                    00F5    411 _P2SEL	=	0x00f5
+                    00F6    412 _P1INP	=	0x00f6
+                    00F7    413 _P2INP	=	0x00f7
+                    00F8    414 _U1CSR	=	0x00f8
+                    00F9    415 _U1BUF	=	0x00f9
+                    00FA    416 _U1BAUD	=	0x00fa
+                    00FB    417 _U1UCR	=	0x00fb
+                    00FC    418 _U1GCR	=	0x00fc
+                    00FD    419 _P0DIR	=	0x00fd
+                    00FE    420 _P1DIR	=	0x00fe
+                    00FF    421 _P2DIR	=	0x00ff
+                            422 ;--------------------------------------------------------
+                            423 ; special function bits
+                            424 ;--------------------------------------------------------
+                            425 	.area RSEG    (ABS,DATA)
+   0000                     426 	.org 0x0000
+                    0087    427 _P0_7	=	0x0087
+                    0086    428 _P0_6	=	0x0086
+                    0085    429 _P0_5	=	0x0085
+                    0084    430 _P0_4	=	0x0084
+                    0083    431 _P0_3	=	0x0083
+                    0082    432 _P0_2	=	0x0082
+                    0081    433 _P0_1	=	0x0081
+                    0080    434 _P0_0	=	0x0080
+                    008F    435 _TCON_URX1IF	=	0x008f
+                    008D    436 _TCON_ADCIF	=	0x008d
+                    008B    437 _TCON_URX0IF	=	0x008b
+                    008A    438 _TCON_IT1	=	0x008a
+                    0089    439 _TCON_RFERRIF	=	0x0089
+                    0088    440 _TCON_IT0	=	0x0088
+                    0090    441 _P1_0	=	0x0090
+                    0091    442 _P1_1	=	0x0091
+                    0092    443 _P1_2	=	0x0092
+                    0093    444 _P1_3	=	0x0093
+                    0094    445 _P1_4	=	0x0094
+                    0095    446 _P1_5	=	0x0095
+                    0096    447 _P1_6	=	0x0096
+                    0097    448 _P1_7	=	0x0097
+                    0099    449 _S0CON_ENCIF_1	=	0x0099
+                    0098    450 _S0CON_ENCIF_0	=	0x0098
+                    00A0    451 _P2_0	=	0x00a0
+                    00A1    452 _P2_1	=	0x00a1
+                    00A2    453 _P2_2	=	0x00a2
+                    00A3    454 _P2_3	=	0x00a3
+                    00A4    455 _P2_4	=	0x00a4
+                    00AF    456 _EA	=	0x00af
+                    00AF    457 _IEN0_EA	=	0x00af
+                    00AD    458 _IEN0_STIE	=	0x00ad
+                    00AC    459 _IEN0_ENCIE	=	0x00ac
+                    00AB    460 _IEN0_URX1IE	=	0x00ab
+                    00AA    461 _IEN0_URX0IE	=	0x00aa
+                    00A9    462 _IEN0_ADCIE	=	0x00a9
+                    00A8    463 _IEN0_RFERRIE	=	0x00a8
+                    00BD    464 _IEN1_P0IE	=	0x00bd
+                    00BC    465 _IEN1_T4IE	=	0x00bc
+                    00BB    466 _IEN1_T3IE	=	0x00bb
+                    00BA    467 _IEN1_T2IE	=	0x00ba
+                    00B9    468 _IEN1_T1IE	=	0x00b9
+                    00B8    469 _IEN1_DMAIE	=	0x00b8
+                    00C7    470 _IRCON_STIF	=	0x00c7
+                    00C5    471 _IRCON_P0IF	=	0x00c5
+                    00C4    472 _IRCON_T4IF	=	0x00c4
+                    00C3    473 _IRCON_T3IF	=	0x00c3
+                    00C2    474 _IRCON_T2IF	=	0x00c2
+                    00C1    475 _IRCON_T1IF	=	0x00c1
+                    00C0    476 _IRCON_DMAIF	=	0x00c0
+                    00D0    477 _P	=	0x00d0
+                    00D1    478 _F1	=	0x00d1
+                    00D2    479 _OV	=	0x00d2
+                    00D3    480 _RS0	=	0x00d3
+                    00D4    481 _RS1	=	0x00d4
+                    00D5    482 _F0	=	0x00d5
+                    00D6    483 _AC	=	0x00d6
+                    00D7    484 _CY	=	0x00d7
+                    00EC    485 _IRCON2_WDTIF	=	0x00ec
+                    00EB    486 _IRCON2_P1IF	=	0x00eb
+                    00EA    487 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    488 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    489 _IRCON2_P2IF	=	0x00e8
+                            490 ;--------------------------------------------------------
+                            491 ; overlayable register banks
+                            492 ;--------------------------------------------------------
+                            493 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     494 	.ds 8
+                            495 ;--------------------------------------------------------
+                            496 ; internal ram data
+                            497 ;--------------------------------------------------------
+                            498 	.area DSEG    (DATA)
+                            499 ;--------------------------------------------------------
+                            500 ; overlayable items in internal ram 
+                            501 ;--------------------------------------------------------
+                            502 	.area OSEG    (OVR,DATA)
+                            503 ;--------------------------------------------------------
+                            504 ; indirectly addressable internal ram data
+                            505 ;--------------------------------------------------------
+                            506 	.area ISEG    (DATA)
+                            507 ;--------------------------------------------------------
+                            508 ; absolute internal ram data
+                            509 ;--------------------------------------------------------
+                            510 	.area IABS    (ABS,DATA)
+                            511 	.area IABS    (ABS,DATA)
+                            512 ;--------------------------------------------------------
+                            513 ; bit data
+                            514 ;--------------------------------------------------------
+                            515 	.area BSEG    (BIT)
+                            516 ;--------------------------------------------------------
+                            517 ; paged external ram data
+                            518 ;--------------------------------------------------------
+                            519 	.area PSEG    (PAG,XDATA)
+                            520 ;--------------------------------------------------------
+                            521 ; external ram data
+                            522 ;--------------------------------------------------------
+                            523 	.area XSEG    (XDATA)
+                    DF02    524 _MDMCTRL0H	=	0xdf02
+                    DF03    525 _MDMCTRL0L	=	0xdf03
+                    DF04    526 _MDMCTRL1H	=	0xdf04
+                    DF05    527 _MDMCTRL1L	=	0xdf05
+                    DF06    528 _RSSIH	=	0xdf06
+                    DF07    529 _RSSIL	=	0xdf07
+                    DF08    530 _SYNCWORDH	=	0xdf08
+                    DF09    531 _SYNCWORDL	=	0xdf09
+                    DF0A    532 _TXCTRLH	=	0xdf0a
+                    DF0B    533 _TXCTRLL	=	0xdf0b
+                    DF0C    534 _RXCTRL0H	=	0xdf0c
+                    DF0D    535 _RXCTRL0L	=	0xdf0d
+                    DF0E    536 _RXCTRL1H	=	0xdf0e
+                    DF0F    537 _RXCTRL1L	=	0xdf0f
+                    DF10    538 _FSCTRLH	=	0xdf10
+                    DF11    539 _FSCTRLL	=	0xdf11
+                    DF12    540 _CSPX	=	0xdf12
+                    DF13    541 _CSPY	=	0xdf13
+                    DF14    542 _CSPZ	=	0xdf14
+                    DF15    543 _CSPCTRL	=	0xdf15
+                    DF16    544 _CSPT	=	0xdf16
+                    DF17    545 _RFPWR	=	0xdf17
+                    DF20    546 _FSMTCH	=	0xdf20
+                    DF21    547 _FSMTCL	=	0xdf21
+                    DF22    548 _MANANDH	=	0xdf22
+                    DF23    549 _MANANDL	=	0xdf23
+                    DF24    550 _MANORH	=	0xdf24
+                    DF25    551 _MANORL	=	0xdf25
+                    DF26    552 _AGCCTRLH	=	0xdf26
+                    DF27    553 _AGCCTRLL	=	0xdf27
+                    DF39    554 _FSMSTATE	=	0xdf39
+                    DF3A    555 _ADCTSTH	=	0xdf3a
+                    DF3B    556 _ADCTSTL	=	0xdf3b
+                    DF3C    557 _DACTSTH	=	0xdf3c
+                    DF3D    558 _DACTSTL	=	0xdf3d
+                    DF43    559 _IEEE_ADDR0	=	0xdf43
+                    DF44    560 _IEEE_ADDR1	=	0xdf44
+                    DF45    561 _IEEE_ADDR2	=	0xdf45
+                    DF46    562 _IEEE_ADDR3	=	0xdf46
+                    DF47    563 _IEEE_ADDR4	=	0xdf47
+                    DF48    564 _IEEE_ADDR5	=	0xdf48
+                    DF49    565 _IEEE_ADDR6	=	0xdf49
+                    DF4A    566 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    567 _PANIDH	=	0xdf4b
+                    DF4C    568 _PANIDL	=	0xdf4c
+                    DF4D    569 _SHORTADDRH	=	0xdf4d
+                    DF4E    570 _SHORTADDRL	=	0xdf4e
+                    DF4F    571 _IOCFG0	=	0xdf4f
+                    DF50    572 _IOCFG1	=	0xdf50
+                    DF51    573 _IOCFG2	=	0xdf51
+                    DF52    574 _IOCFG3	=	0xdf52
+                    DF53    575 _RXFIFOCNT	=	0xdf53
+                    DF54    576 _FSMTC1	=	0xdf54
+                    DF60    577 _CHVER	=	0xdf60
+                    DF61    578 _CHIPID	=	0xdf61
+                    DF62    579 _RFSTATUS	=	0xdf62
+                    DFC1    580 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    581 _RFD_SHADOW	=	0xdfd9
+                    DFF9    582 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    583 _ADC_SHADOW	=	0xdfba
+   0000                     584 _tcpip_event::
+   0000                     585 	.ds 1
+   0001                     586 _periodic:
+   0001                     587 	.ds 10
+   000B                     588 _s:
+   000B                     589 	.ds 103
+   0072                     590 _outputfunc:
+   0072                     591 	.ds 2
+   0074                     592 _tcpip_is_forwarding::
+   0074                     593 	.ds 1
+   0075                     594 _tcp_unlisten_i_1_1:
+   0075                     595 	.ds 1
+   0076                     596 _tcp_listen_i_1_1:
+   0076                     597 	.ds 1
+   0077                     598 _eventhandler_i_1_1:
+   0077                     599 	.ds 1
+   0078                     600 _tcpip_uipcall_i_2_4:
+   0078                     601 	.ds 1
+   0079                     602 _process_thread_tcpip_process_i_4_5:
+   0079                     603 	.ds 1
+                            604 ;--------------------------------------------------------
+                            605 ; absolute external ram data
+                            606 ;--------------------------------------------------------
+                            607 	.area XABS    (ABS,XDATA)
+                            608 ;--------------------------------------------------------
+                            609 ; external initialized ram data
+                            610 ;--------------------------------------------------------
+                            611 	.area XISEG   (XDATA)
+   0000                     612 _tcpip_process::
+   0000                     613 	.ds 9
+                            614 	.area HOME    (CODE)
+                            615 	.area GSINIT0 (CODE)
+                            616 	.area GSINIT1 (CODE)
+                            617 	.area GSINIT2 (CODE)
+                            618 	.area GSINIT3 (CODE)
+                            619 	.area GSINIT4 (CODE)
+                            620 	.area GSINIT5 (CODE)
+                            621 	.area GSINIT  (CODE)
+                            622 	.area GSFINAL (CODE)
+                            623 	.area CSEG    (CODE)
+                            624 ;--------------------------------------------------------
+                            625 ; global & static initialisations
+                            626 ;--------------------------------------------------------
+                            627 	.area HOME    (CODE)
+                            628 	.area GSINIT  (CODE)
+                            629 	.area GSFINAL (CODE)
+                            630 	.area GSINIT  (CODE)
+                            631 ;--------------------------------------------------------
+                            632 ; Home
+                            633 ;--------------------------------------------------------
+                            634 	.area HOME    (CODE)
+                            635 	.area HOME    (CODE)
+                            636 ;--------------------------------------------------------
+                            637 ; code
+                            638 ;--------------------------------------------------------
+                            639 	.area CSEG    (CODE)
+                            640 ;------------------------------------------------------------
+                            641 ;Allocation info for local variables in function 'tcpip_output'
+                            642 ;------------------------------------------------------------
+                            643 ;	../../core/net/tcpip.c:135: tcpip_output(void)
+                            644 ;	-----------------------------------------
+                            645 ;	 function tcpip_output
+                            646 ;	-----------------------------------------
+   0000                     647 _tcpip_output:
+                    0007    648 	ar7 = 0x07
+                    0006    649 	ar6 = 0x06
+                    0005    650 	ar5 = 0x05
+                    0004    651 	ar4 = 0x04
+                    0003    652 	ar3 = 0x03
+                    0002    653 	ar2 = 0x02
+                    0001    654 	ar1 = 0x01
+                    0000    655 	ar0 = 0x00
+                            656 ;	../../core/net/tcpip.c:137: if(outputfunc != NULL) {
+   0000 90s00r72            657 	mov	dptr,#_outputfunc
+   0003 E0                  658 	movx	a,@dptr
+   0004 FE                  659 	mov	r6,a
+   0005 A3                  660 	inc	dptr
+   0006 E0                  661 	movx	a,@dptr
+   0007 FF                  662 	mov	r7,a
+   0008 4E                  663 	orl	a,r6
+   0009 60 0E               664 	jz	00102$
+                            665 ;	../../core/net/tcpip.c:138: return outputfunc();
+   000B 90s00r72            666 	mov	dptr,#_outputfunc
+   000E E0                  667 	movx	a,@dptr
+   000F F8                  668 	mov	r0,a
+   0010 A3                  669 	inc	dptr
+   0011 E0                  670 	movx	a,@dptr
+   0012 F5 83               671 	mov	dph,a
+   0014 88 82               672 	mov	dpl,r0
+   0016 02s00r00            673 	ljmp	__sdcc_call_dptr
+   0019                     674 00102$:
+                            675 ;	../../core/net/tcpip.c:141: return 0;
+   0019 75 82 00            676 	mov	dpl,#0x00
+   001C 22                  677 	ret
+                            678 ;------------------------------------------------------------
+                            679 ;Allocation info for local variables in function 'tcpip_set_outputfunc'
+                            680 ;------------------------------------------------------------
+                            681 ;f                         Allocated to registers 
+                            682 ;------------------------------------------------------------
+                            683 ;	../../core/net/tcpip.c:145: tcpip_set_outputfunc(uint8_t (*f)(void))
+                            684 ;	-----------------------------------------
+                            685 ;	 function tcpip_set_outputfunc
+                            686 ;	-----------------------------------------
+   001D                     687 _tcpip_set_outputfunc:
+   001D AF 83               688 	mov	r7,dph
+   001F E5 82               689 	mov	a,dpl
+   0021 90s00r72            690 	mov	dptr,#_outputfunc
+   0024 F0                  691 	movx	@dptr,a
+   0025 A3                  692 	inc	dptr
+   0026 EF                  693 	mov	a,r7
+   0027 F0                  694 	movx	@dptr,a
+                            695 ;	../../core/net/tcpip.c:147: outputfunc = f;
+   0028 22                  696 	ret
+                            697 ;------------------------------------------------------------
+                            698 ;Allocation info for local variables in function 'start_periodic_tcp_timer'
+                            699 ;------------------------------------------------------------
+                            700 ;	../../core/net/tcpip.c:159: start_periodic_tcp_timer(void)
+                            701 ;	-----------------------------------------
+                            702 ;	 function start_periodic_tcp_timer
+                            703 ;	-----------------------------------------
+   0029                     704 _start_periodic_tcp_timer:
+                            705 ;	../../core/net/tcpip.c:161: if(etimer_expired(&periodic)) {
+   0029 90s00r01            706 	mov	dptr,#_periodic
+   002C 75 F0 00            707 	mov	b,#0x00
+   002F 12s00r00            708 	lcall	_etimer_expired
+   0032 E5 82               709 	mov	a,dpl
+   0034 85 83 F0            710 	mov	b,dph
+   0037 45 F0               711 	orl	a,b
+   0039 60 09               712 	jz	00103$
+                            713 ;	../../core/net/tcpip.c:162: etimer_restart(&periodic);
+   003B 90s00r01            714 	mov	dptr,#_periodic
+   003E 75 F0 00            715 	mov	b,#0x00
+   0041 02s00r00            716 	ljmp	_etimer_restart
+   0044                     717 00103$:
+   0044 22                  718 	ret
+                            719 ;------------------------------------------------------------
+                            720 ;Allocation info for local variables in function 'check_for_tcp_syn'
+                            721 ;------------------------------------------------------------
+                            722 ;	../../core/net/tcpip.c:167: check_for_tcp_syn(void)
+                            723 ;	-----------------------------------------
+                            724 ;	 function check_for_tcp_syn
+                            725 ;	-----------------------------------------
+   0045                     726 _check_for_tcp_syn:
+                            727 ;	../../core/net/tcpip.c:175: if(UIP_IP_BUF->proto == UIP_PROTO_TCP &&
+   0045 7Er0E               728 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   0047 7Fs00               729 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   0049 74 09               730 	mov	a,#0x09
+   004B 2E                  731 	add	a,r6
+   004C F5 82               732 	mov	dpl,a
+   004E E4                  733 	clr	a
+   004F 3F                  734 	addc	a,r7
+   0050 F5 83               735 	mov	dph,a
+   0052 E0                  736 	movx	a,@dptr
+   0053 FF                  737 	mov	r7,a
+   0054 BF 06 18            738 	cjne	r7,#0x06,00104$
+                            739 ;	../../core/net/tcpip.c:176: (UIP_TCP_BUF->flags & TCP_SYN) == TCP_SYN) {
+   0057 7Er0E               740 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   0059 7Fs00               741 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   005B 74 21               742 	mov	a,#0x21
+   005D 2E                  743 	add	a,r6
+   005E F5 82               744 	mov	dpl,a
+   0060 E4                  745 	clr	a
+   0061 3F                  746 	addc	a,r7
+   0062 F5 83               747 	mov	dph,a
+   0064 E0                  748 	movx	a,@dptr
+   0065 FF                  749 	mov	r7,a
+   0066 53 07 02            750 	anl	ar7,#0x02
+   0069 BF 02 03            751 	cjne	r7,#0x02,00104$
+                            752 ;	../../core/net/tcpip.c:177: start_periodic_tcp_timer();
+   006C 02s00r29            753 	ljmp	_start_periodic_tcp_timer
+   006F                     754 00104$:
+   006F 22                  755 	ret
+                            756 ;------------------------------------------------------------
+                            757 ;Allocation info for local variables in function 'packet_input'
+                            758 ;------------------------------------------------------------
+                            759 ;	../../core/net/tcpip.c:182: packet_input(void)
+                            760 ;	-----------------------------------------
+                            761 ;	 function packet_input
+                            762 ;	-----------------------------------------
+   0070                     763 _packet_input:
+                            764 ;	../../core/net/tcpip.c:185: if(uip_len > 0) {
+   0070 90s00r00            765 	mov	dptr,#_uip_len
+   0073 E0                  766 	movx	a,@dptr
+   0074 FE                  767 	mov	r6,a
+   0075 A3                  768 	inc	dptr
+   0076 E0                  769 	movx	a,@dptr
+   0077 FF                  770 	mov	r7,a
+   0078 4E                  771 	orl	a,r6
+   0079 60 2E               772 	jz	00107$
+                            773 ;	../../core/net/tcpip.c:186: tcpip_is_forwarding = 1;
+   007B 90s00r74            774 	mov	dptr,#_tcpip_is_forwarding
+   007E 74 01               775 	mov	a,#0x01
+   0080 F0                  776 	movx	@dptr,a
+                            777 ;	../../core/net/tcpip.c:187: if(uip_fw_forward() == UIP_FW_LOCAL) {
+   0081 12s00r00            778 	lcall	_uip_fw_forward
+   0084 E5 82               779 	mov	a,dpl
+   0086 70 1C               780 	jnz	00104$
+                            781 ;	../../core/net/tcpip.c:188: tcpip_is_forwarding = 0;
+   0088 90s00r74            782 	mov	dptr,#_tcpip_is_forwarding
+   008B E4                  783 	clr	a
+   008C F0                  784 	movx	@dptr,a
+                            785 ;	../../core/net/tcpip.c:189: check_for_tcp_syn();
+   008D 12s00r45            786 	lcall	_check_for_tcp_syn
+                            787 ;	../../core/net/tcpip.c:190: uip_input();
+   0090 75 82 01            788 	mov	dpl,#0x01
+   0093 12s00r00            789 	lcall	_uip_process
+                            790 ;	../../core/net/tcpip.c:191: if(uip_len > 0) {
+   0096 90s00r00            791 	mov	dptr,#_uip_len
+   0099 E0                  792 	movx	a,@dptr
+   009A FE                  793 	mov	r6,a
+   009B A3                  794 	inc	dptr
+   009C E0                  795 	movx	a,@dptr
+   009D FF                  796 	mov	r7,a
+   009E 4E                  797 	orl	a,r6
+   009F 60 03               798 	jz	00104$
+                            799 ;	../../core/net/tcpip.c:199: tcpip_output();
+   00A1 12s00r00            800 	lcall	_tcpip_output
+   00A4                     801 00104$:
+                            802 ;	../../core/net/tcpip.c:204: tcpip_is_forwarding = 0;
+   00A4 90s00r74            803 	mov	dptr,#_tcpip_is_forwarding
+   00A7 E4                  804 	clr	a
+   00A8 F0                  805 	movx	@dptr,a
+   00A9                     806 00107$:
+   00A9 22                  807 	ret
+                            808 ;------------------------------------------------------------
+                            809 ;Allocation info for local variables in function 'tcp_connect'
+                            810 ;------------------------------------------------------------
+                            811 ;port                      Allocated to stack - _bp -4
+                            812 ;appstate                  Allocated to stack - _bp -7
+                            813 ;ripaddr                   Allocated to registers r5 r6 r7 
+                            814 ;c                         Allocated to stack - _bp +1
+                            815 ;------------------------------------------------------------
+                            816 ;	../../core/net/tcpip.c:229: tcp_connect(uip_ipaddr_t *ripaddr, uint16_t port, void *appstate)
+                            817 ;	-----------------------------------------
+                            818 ;	 function tcp_connect
+                            819 ;	-----------------------------------------
+   00AA                     820 _tcp_connect:
+   00AA C0*00               821 	push	_bp
+   00AC 85 81*00            822 	mov	_bp,sp
+   00AF 05 81               823 	inc	sp
+   00B1 05 81               824 	inc	sp
+   00B3 05 81               825 	inc	sp
+   00B5 AD 82               826 	mov	r5,dpl
+   00B7 AE 83               827 	mov	r6,dph
+   00B9 AF F0               828 	mov	r7,b
+                            829 ;	../../core/net/tcpip.c:233: c = uip_connect(ripaddr, port);
+   00BB E5*00               830 	mov	a,_bp
+   00BD 24 FC               831 	add	a,#0xfc
+   00BF F8                  832 	mov	r0,a
+   00C0 E6                  833 	mov	a,@r0
+   00C1 C0 E0               834 	push	acc
+   00C3 08                  835 	inc	r0
+   00C4 E6                  836 	mov	a,@r0
+   00C5 C0 E0               837 	push	acc
+   00C7 8D 82               838 	mov	dpl,r5
+   00C9 8E 83               839 	mov	dph,r6
+   00CB 8F F0               840 	mov	b,r7
+   00CD 12s00r00            841 	lcall	_uip_connect
+   00D0 AD 82               842 	mov	r5,dpl
+   00D2 AE 83               843 	mov	r6,dph
+   00D4 AF F0               844 	mov	r7,b
+   00D6 15 81               845 	dec	sp
+   00D8 15 81               846 	dec	sp
+   00DA A8*00               847 	mov	r0,_bp
+   00DC 08                  848 	inc	r0
+   00DD A6 05               849 	mov	@r0,ar5
+   00DF 08                  850 	inc	r0
+   00E0 A6 06               851 	mov	@r0,ar6
+   00E2 08                  852 	inc	r0
+   00E3 A6 07               853 	mov	@r0,ar7
+                            854 ;	../../core/net/tcpip.c:234: if(c == NULL) {
+   00E5 A8*00               855 	mov	r0,_bp
+   00E7 08                  856 	inc	r0
+   00E8 E6                  857 	mov	a,@r0
+   00E9 08                  858 	inc	r0
+   00EA 46                  859 	orl	a,@r0
+                            860 ;	../../core/net/tcpip.c:235: return NULL;
+   00EB 70 07               861 	jnz	00102$
+   00ED 90 00 00            862 	mov	dptr,#0x0000
+   00F0 F5 F0               863 	mov	b,a
+   00F2 80 6F               864 	sjmp	00103$
+   00F4                     865 00102$:
+                            866 ;	../../core/net/tcpip.c:238: c->appstate.p = PROCESS_CURRENT();
+   00F4 A8*00               867 	mov	r0,_bp
+   00F6 08                  868 	inc	r0
+   00F7 74 1C               869 	mov	a,#0x1C
+   00F9 26                  870 	add	a,@r0
+   00FA FA                  871 	mov	r2,a
+   00FB E4                  872 	clr	a
+   00FC 08                  873 	inc	r0
+   00FD 36                  874 	addc	a,@r0
+   00FE FB                  875 	mov	r3,a
+   00FF 08                  876 	inc	r0
+   0100 86 04               877 	mov	ar4,@r0
+   0102 90s00r00            878 	mov	dptr,#_process_current
+   0105 E0                  879 	movx	a,@dptr
+   0106 FD                  880 	mov	r5,a
+   0107 A3                  881 	inc	dptr
+   0108 E0                  882 	movx	a,@dptr
+   0109 FE                  883 	mov	r6,a
+   010A A3                  884 	inc	dptr
+   010B E0                  885 	movx	a,@dptr
+   010C FF                  886 	mov	r7,a
+   010D 8A 82               887 	mov	dpl,r2
+   010F 8B 83               888 	mov	dph,r3
+   0111 8C F0               889 	mov	b,r4
+   0113 ED                  890 	mov	a,r5
+   0114 12s00r00            891 	lcall	__gptrput
+   0117 A3                  892 	inc	dptr
+   0118 EE                  893 	mov	a,r6
+   0119 12s00r00            894 	lcall	__gptrput
+   011C A3                  895 	inc	dptr
+   011D EF                  896 	mov	a,r7
+   011E 12s00r00            897 	lcall	__gptrput
+                            898 ;	../../core/net/tcpip.c:239: c->appstate.state = appstate;
+   0121 A8*00               899 	mov	r0,_bp
+   0123 08                  900 	inc	r0
+   0124 74 1F               901 	mov	a,#0x1F
+   0126 26                  902 	add	a,@r0
+   0127 FD                  903 	mov	r5,a
+   0128 E4                  904 	clr	a
+   0129 08                  905 	inc	r0
+   012A 36                  906 	addc	a,@r0
+   012B FE                  907 	mov	r6,a
+   012C 08                  908 	inc	r0
+   012D 86 07               909 	mov	ar7,@r0
+   012F 8D 82               910 	mov	dpl,r5
+   0131 8E 83               911 	mov	dph,r6
+   0133 8F F0               912 	mov	b,r7
+   0135 E5*00               913 	mov	a,_bp
+   0137 24 F9               914 	add	a,#0xf9
+   0139 F8                  915 	mov	r0,a
+   013A E6                  916 	mov	a,@r0
+   013B 12s00r00            917 	lcall	__gptrput
+   013E A3                  918 	inc	dptr
+   013F 08                  919 	inc	r0
+   0140 E6                  920 	mov	a,@r0
+   0141 12s00r00            921 	lcall	__gptrput
+   0144 A3                  922 	inc	dptr
+   0145 08                  923 	inc	r0
+   0146 E6                  924 	mov	a,@r0
+   0147 12s00r00            925 	lcall	__gptrput
+                            926 ;	../../core/net/tcpip.c:241: tcpip_poll_tcp(c);
+   014A A8*00               927 	mov	r0,_bp
+   014C 08                  928 	inc	r0
+   014D 86 82               929 	mov	dpl,@r0
+   014F 08                  930 	inc	r0
+   0150 86 83               931 	mov	dph,@r0
+   0152 08                  932 	inc	r0
+   0153 86 F0               933 	mov	b,@r0
+   0155 12s08r9F            934 	lcall	_tcpip_poll_tcp
+                            935 ;	../../core/net/tcpip.c:243: return c;
+   0158 A8*00               936 	mov	r0,_bp
+   015A 08                  937 	inc	r0
+   015B 86 82               938 	mov	dpl,@r0
+   015D 08                  939 	inc	r0
+   015E 86 83               940 	mov	dph,@r0
+   0160 08                  941 	inc	r0
+   0161 86 F0               942 	mov	b,@r0
+   0163                     943 00103$:
+   0163 85*00 81            944 	mov	sp,_bp
+   0166 D0*00               945 	pop	_bp
+   0168 22                  946 	ret
+                            947 ;------------------------------------------------------------
+                            948 ;Allocation info for local variables in function 'tcp_unlisten'
+                            949 ;------------------------------------------------------------
+                            950 ;port                      Allocated to stack - _bp +1
+                            951 ;l                         Allocated to registers r3 r4 r5 
+                            952 ;sloc0                     Allocated to stack - _bp +3
+                            953 ;i                         Allocated with name '_tcp_unlisten_i_1_1'
+                            954 ;------------------------------------------------------------
+                            955 ;	../../core/net/tcpip.c:248: tcp_unlisten(uint16_t port)
+                            956 ;	-----------------------------------------
+                            957 ;	 function tcp_unlisten
+                            958 ;	-----------------------------------------
+   0169                     959 _tcp_unlisten:
+   0169 C0*00               960 	push	_bp
+   016B 85 81*00            961 	mov	_bp,sp
+   016E C0 82               962 	push	dpl
+   0170 C0 83               963 	push	dph
+   0172 05 81               964 	inc	sp
+   0174 05 81               965 	inc	sp
+   0176 05 81               966 	inc	sp
+                            967 ;	../../core/net/tcpip.c:253: l = s.listenports;
+   0178 7Br0B               968 	mov	r3,#_s
+   017A 7Cs00               969 	mov	r4,#(_s >> 8)
+   017C 7D 00               970 	mov	r5,#0x00
+                            971 ;	../../core/net/tcpip.c:254: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   017E 90s00r75            972 	mov	dptr,#_tcp_unlisten_i_1_1
+   0181 E4                  973 	clr	a
+   0182 F0                  974 	movx	@dptr,a
+   0183 8B 02               975 	mov	ar2,r3
+   0185 8C 06               976 	mov	ar6,r4
+   0187 8D 07               977 	mov	ar7,r5
+   0189                     978 00104$:
+   0189 C0 03               979 	push	ar3
+   018B C0 04               980 	push	ar4
+   018D C0 05               981 	push	ar5
+   018F 90s00r75            982 	mov	dptr,#_tcp_unlisten_i_1_1
+   0192 E0                  983 	movx	a,@dptr
+   0193 FD                  984 	mov	r5,a
+   0194 BD 14 00            985 	cjne	r5,#0x14,00118$
+   0197                     986 00118$:
+   0197 D0 05               987 	pop	ar5
+   0199 D0 04               988 	pop	ar4
+   019B D0 03               989 	pop	ar3
+   019D 40 03               990 	jc	00119$
+   019F 02s02r5B            991 	ljmp	00108$
+   01A2                     992 00119$:
+                            993 ;	../../core/net/tcpip.c:255: if(l->port == port &&
+   01A2 C0 03               994 	push	ar3
+   01A4 C0 04               995 	push	ar4
+   01A6 C0 05               996 	push	ar5
+   01A8 8A 82               997 	mov	dpl,r2
+   01AA 8E 83               998 	mov	dph,r6
+   01AC 8F F0               999 	mov	b,r7
+   01AE 12s00r00           1000 	lcall	__gptrget
+   01B1 FC                 1001 	mov	r4,a
+   01B2 A3                 1002 	inc	dptr
+   01B3 12s00r00           1003 	lcall	__gptrget
+   01B6 FD                 1004 	mov	r5,a
+   01B7 A8*00              1005 	mov	r0,_bp
+   01B9 08                 1006 	inc	r0
+   01BA E6                 1007 	mov	a,@r0
+   01BB B5 04 07           1008 	cjne	a,ar4,00120$
+   01BE 08                 1009 	inc	r0
+   01BF E6                 1010 	mov	a,@r0
+   01C0 B5 05 02           1011 	cjne	a,ar5,00120$
+   01C3 80 08              1012 	sjmp	00121$
+   01C5                    1013 00120$:
+   01C5 D0 05              1014 	pop	ar5
+   01C7 D0 04              1015 	pop	ar4
+   01C9 D0 03              1016 	pop	ar3
+   01CB 80 77              1017 	sjmp	00102$
+   01CD                    1018 00121$:
+                           1019 ;	../../core/net/tcpip.c:256: l->p == PROCESS_CURRENT()) {
+   01CD 74 02              1020 	mov	a,#0x02
+   01CF 2A                 1021 	add	a,r2
+   01D0 FB                 1022 	mov	r3,a
+   01D1 E4                 1023 	clr	a
+   01D2 3E                 1024 	addc	a,r6
+   01D3 FC                 1025 	mov	r4,a
+   01D4 8F 05              1026 	mov	ar5,r7
+   01D6 8B 82              1027 	mov	dpl,r3
+   01D8 8C 83              1028 	mov	dph,r4
+   01DA 8D F0              1029 	mov	b,r5
+   01DC E5*00              1030 	mov	a,_bp
+   01DE 24 03              1031 	add	a,#0x03
+   01E0 F8                 1032 	mov	r0,a
+   01E1 12s00r00           1033 	lcall	__gptrget
+   01E4 F6                 1034 	mov	@r0,a
+   01E5 A3                 1035 	inc	dptr
+   01E6 12s00r00           1036 	lcall	__gptrget
+   01E9 08                 1037 	inc	r0
+   01EA F6                 1038 	mov	@r0,a
+   01EB A3                 1039 	inc	dptr
+   01EC 12s00r00           1040 	lcall	__gptrget
+   01EF 08                 1041 	inc	r0
+   01F0 F6                 1042 	mov	@r0,a
+   01F1 90s00r00           1043 	mov	dptr,#_process_current
+   01F4 E0                 1044 	movx	a,@dptr
+   01F5 FB                 1045 	mov	r3,a
+   01F6 A3                 1046 	inc	dptr
+   01F7 E0                 1047 	movx	a,@dptr
+   01F8 FC                 1048 	mov	r4,a
+   01F9 A3                 1049 	inc	dptr
+   01FA E0                 1050 	movx	a,@dptr
+   01FB FD                 1051 	mov	r5,a
+   01FC E5*00              1052 	mov	a,_bp
+   01FE 24 03              1053 	add	a,#0x03
+   0200 F8                 1054 	mov	r0,a
+   0201 C0 03              1055 	push	ar3
+   0203 C0 04              1056 	push	ar4
+   0205 C0 05              1057 	push	ar5
+   0207 86 82              1058 	mov	dpl,@r0
+   0209 08                 1059 	inc	r0
+   020A 86 83              1060 	mov	dph,@r0
+   020C 08                 1061 	inc	r0
+   020D 86 F0              1062 	mov	b,@r0
+   020F 12s00r00           1063 	lcall	___gptr_cmp
+   0212 15 81              1064 	dec	sp
+   0214 15 81              1065 	dec	sp
+   0216 15 81              1066 	dec	sp
+   0218 60 08              1067 	jz	00123$
+   021A D0 05              1068 	pop	ar5
+   021C D0 04              1069 	pop	ar4
+   021E D0 03              1070 	pop	ar3
+   0220 80 22              1071 	sjmp	00102$
+   0222                    1072 00123$:
+   0222 D0 05              1073 	pop	ar5
+   0224 D0 04              1074 	pop	ar4
+   0226 D0 03              1075 	pop	ar3
+                           1076 ;	../../core/net/tcpip.c:257: l->port = 0;
+   0228 8B 82              1077 	mov	dpl,r3
+   022A 8C 83              1078 	mov	dph,r4
+   022C 8D F0              1079 	mov	b,r5
+   022E E4                 1080 	clr	a
+   022F 12s00r00           1081 	lcall	__gptrput
+   0232 A3                 1082 	inc	dptr
+   0233 E4                 1083 	clr	a
+   0234 12s00r00           1084 	lcall	__gptrput
+                           1085 ;	../../core/net/tcpip.c:258: uip_unlisten(port);
+   0237 A8*00              1086 	mov	r0,_bp
+   0239 08                 1087 	inc	r0
+   023A 86 82              1088 	mov	dpl,@r0
+   023C 08                 1089 	inc	r0
+   023D 86 83              1090 	mov	dph,@r0
+   023F 12s00r00           1091 	lcall	_uip_unlisten
+                           1092 ;	../../core/net/tcpip.c:259: break;
+   0242 80 17              1093 	sjmp	00108$
+   0244                    1094 00102$:
+                           1095 ;	../../core/net/tcpip.c:261: ++l;
+   0244 74 05              1096 	mov	a,#0x05
+   0246 2A                 1097 	add	a,r2
+   0247 FA                 1098 	mov	r2,a
+   0248 E4                 1099 	clr	a
+   0249 3E                 1100 	addc	a,r6
+   024A FE                 1101 	mov	r6,a
+   024B 8A 03              1102 	mov	ar3,r2
+   024D 8E 04              1103 	mov	ar4,r6
+   024F 8F 05              1104 	mov	ar5,r7
+                           1105 ;	../../core/net/tcpip.c:254: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   0251 90s00r75           1106 	mov	dptr,#_tcp_unlisten_i_1_1
+   0254 E0                 1107 	movx	a,@dptr
+   0255 24 01              1108 	add	a,#0x01
+   0257 F0                 1109 	movx	@dptr,a
+   0258 02s01r89           1110 	ljmp	00104$
+   025B                    1111 00108$:
+   025B 85*00 81           1112 	mov	sp,_bp
+   025E D0*00              1113 	pop	_bp
+   0260 22                 1114 	ret
+                           1115 ;------------------------------------------------------------
+                           1116 ;Allocation info for local variables in function 'tcp_listen'
+                           1117 ;------------------------------------------------------------
+                           1118 ;port                      Allocated to stack - _bp +1
+                           1119 ;l                         Allocated to stack - _bp +3
+                           1120 ;sloc0                     Allocated to stack - _bp +6
+                           1121 ;sloc1                     Allocated to stack - _bp +7
+                           1122 ;i                         Allocated with name '_tcp_listen_i_1_1'
+                           1123 ;------------------------------------------------------------
+                           1124 ;	../../core/net/tcpip.c:266: tcp_listen(uint16_t port)
+                           1125 ;	-----------------------------------------
+                           1126 ;	 function tcp_listen
+                           1127 ;	-----------------------------------------
+   0261                    1128 _tcp_listen:
+   0261 C0*00              1129 	push	_bp
+   0263 85 81*00           1130 	mov	_bp,sp
+   0266 C0 82              1131 	push	dpl
+   0268 C0 83              1132 	push	dph
+   026A 05 81              1133 	inc	sp
+   026C 05 81              1134 	inc	sp
+   026E 05 81              1135 	inc	sp
+                           1136 ;	../../core/net/tcpip.c:271: l = s.listenports;
+   0270 E5*00              1137 	mov	a,_bp
+   0272 24 03              1138 	add	a,#0x03
+   0274 F8                 1139 	mov	r0,a
+   0275 76r0B              1140 	mov	@r0,#_s
+   0277 08                 1141 	inc	r0
+   0278 76s00              1142 	mov	@r0,#(_s >> 8)
+   027A 08                 1143 	inc	r0
+   027B 76 00              1144 	mov	@r0,#0x00
+                           1145 ;	../../core/net/tcpip.c:272: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   027D 90s00r76           1146 	mov	dptr,#_tcp_listen_i_1_1
+   0280 E4                 1147 	clr	a
+   0281 F0                 1148 	movx	@dptr,a
+   0282 E5*00              1149 	mov	a,_bp
+   0284 24 03              1150 	add	a,#0x03
+   0286 F8                 1151 	mov	r0,a
+   0287 86 02              1152 	mov	ar2,@r0
+   0289 08                 1153 	inc	r0
+   028A 86 06              1154 	mov	ar6,@r0
+   028C 08                 1155 	inc	r0
+   028D 86 07              1156 	mov	ar7,@r0
+   028F                    1157 00103$:
+   028F 90s00r76           1158 	mov	dptr,#_tcp_listen_i_1_1
+   0292 E0                 1159 	movx	a,@dptr
+   0293 FB                 1160 	mov	r3,a
+   0294 BB 14 00           1161 	cjne	r3,#0x14,00115$
+   0297                    1162 00115$:
+   0297 40 03              1163 	jc	00116$
+   0299 02s03r21           1164 	ljmp	00107$
+   029C                    1165 00116$:
+                           1166 ;	../../core/net/tcpip.c:273: if(l->port == 0) {
+   029C 8A 82              1167 	mov	dpl,r2
+   029E 8E 83              1168 	mov	dph,r6
+   02A0 8F F0              1169 	mov	b,r7
+   02A2 12s00r00           1170 	lcall	__gptrget
+   02A5 FC                 1171 	mov	r4,a
+   02A6 A3                 1172 	inc	dptr
+   02A7 12s00r00           1173 	lcall	__gptrget
+   02AA FD                 1174 	mov	r5,a
+   02AB 4C                 1175 	orl	a,r4
+   02AC 70 56              1176 	jnz	00102$
+                           1177 ;	../../core/net/tcpip.c:274: l->port = port;
+   02AE E5*00              1178 	mov	a,_bp
+   02B0 24 03              1179 	add	a,#0x03
+   02B2 F8                 1180 	mov	r0,a
+   02B3 86 82              1181 	mov	dpl,@r0
+   02B5 08                 1182 	inc	r0
+   02B6 86 83              1183 	mov	dph,@r0
+   02B8 08                 1184 	inc	r0
+   02B9 86 F0              1185 	mov	b,@r0
+   02BB A9*00              1186 	mov	r1,_bp
+   02BD 09                 1187 	inc	r1
+   02BE E7                 1188 	mov	a,@r1
+   02BF 12s00r00           1189 	lcall	__gptrput
+   02C2 A3                 1190 	inc	dptr
+   02C3 09                 1191 	inc	r1
+   02C4 E7                 1192 	mov	a,@r1
+   02C5 12s00r00           1193 	lcall	__gptrput
+                           1194 ;	../../core/net/tcpip.c:275: l->p = PROCESS_CURRENT();
+   02C8 E5*00              1195 	mov	a,_bp
+   02CA 24 03              1196 	add	a,#0x03
+   02CC F8                 1197 	mov	r0,a
+   02CD 74 02              1198 	mov	a,#0x02
+   02CF 26                 1199 	add	a,@r0
+   02D0 FF                 1200 	mov	r7,a
+   02D1 E4                 1201 	clr	a
+   02D2 08                 1202 	inc	r0
+   02D3 36                 1203 	addc	a,@r0
+   02D4 FE                 1204 	mov	r6,a
+   02D5 08                 1205 	inc	r0
+   02D6 86 02              1206 	mov	ar2,@r0
+   02D8 90s00r00           1207 	mov	dptr,#_process_current
+   02DB E0                 1208 	movx	a,@dptr
+   02DC FB                 1209 	mov	r3,a
+   02DD A3                 1210 	inc	dptr
+   02DE E0                 1211 	movx	a,@dptr
+   02DF FC                 1212 	mov	r4,a
+   02E0 A3                 1213 	inc	dptr
+   02E1 E0                 1214 	movx	a,@dptr
+   02E2 FD                 1215 	mov	r5,a
+   02E3 8F 82              1216 	mov	dpl,r7
+   02E5 8E 83              1217 	mov	dph,r6
+   02E7 8A F0              1218 	mov	b,r2
+   02E9 EB                 1219 	mov	a,r3
+   02EA 12s00r00           1220 	lcall	__gptrput
+   02ED A3                 1221 	inc	dptr
+   02EE EC                 1222 	mov	a,r4
+   02EF 12s00r00           1223 	lcall	__gptrput
+   02F2 A3                 1224 	inc	dptr
+   02F3 ED                 1225 	mov	a,r5
+   02F4 12s00r00           1226 	lcall	__gptrput
+                           1227 ;	../../core/net/tcpip.c:276: uip_listen(port);
+   02F7 A8*00              1228 	mov	r0,_bp
+   02F9 08                 1229 	inc	r0
+   02FA 86 82              1230 	mov	dpl,@r0
+   02FC 08                 1231 	inc	r0
+   02FD 86 83              1232 	mov	dph,@r0
+   02FF 12s00r00           1233 	lcall	_uip_listen
+                           1234 ;	../../core/net/tcpip.c:277: break;
+   0302 80 1D              1235 	sjmp	00107$
+   0304                    1236 00102$:
+                           1237 ;	../../core/net/tcpip.c:279: ++l;
+   0304 74 05              1238 	mov	a,#0x05
+   0306 2A                 1239 	add	a,r2
+   0307 FA                 1240 	mov	r2,a
+   0308 E4                 1241 	clr	a
+   0309 3E                 1242 	addc	a,r6
+   030A FE                 1243 	mov	r6,a
+   030B E5*00              1244 	mov	a,_bp
+   030D 24 03              1245 	add	a,#0x03
+   030F F8                 1246 	mov	r0,a
+   0310 A6 02              1247 	mov	@r0,ar2
+   0312 08                 1248 	inc	r0
+   0313 A6 06              1249 	mov	@r0,ar6
+   0315 08                 1250 	inc	r0
+   0316 A6 07              1251 	mov	@r0,ar7
+                           1252 ;	../../core/net/tcpip.c:272: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   0318 90s00r76           1253 	mov	dptr,#_tcp_listen_i_1_1
+   031B EB                 1254 	mov	a,r3
+   031C 04                 1255 	inc	a
+   031D F0                 1256 	movx	@dptr,a
+   031E 02s02r8F           1257 	ljmp	00103$
+   0321                    1258 00107$:
+   0321 85*00 81           1259 	mov	sp,_bp
+   0324 D0*00              1260 	pop	_bp
+   0326 22                 1261 	ret
+                           1262 ;------------------------------------------------------------
+                           1263 ;Allocation info for local variables in function 'tcp_attach'
+                           1264 ;------------------------------------------------------------
+                           1265 ;appstate                  Allocated to stack - _bp -5
+                           1266 ;conn                      Allocated to registers r5 r6 r7 
+                           1267 ;s                         Allocated to registers r5 r6 r7 
+                           1268 ;------------------------------------------------------------
+                           1269 ;	../../core/net/tcpip.c:284: tcp_attach(struct uip_conn *conn,
+                           1270 ;	-----------------------------------------
+                           1271 ;	 function tcp_attach
+                           1272 ;	-----------------------------------------
+   0327                    1273 _tcp_attach:
+   0327 C0*00              1274 	push	_bp
+   0329 85 81*00           1275 	mov	_bp,sp
+   032C AD 82              1276 	mov	r5,dpl
+   032E AE 83              1277 	mov	r6,dph
+   0330 AF F0              1278 	mov	r7,b
+                           1279 ;	../../core/net/tcpip.c:289: s = &conn->appstate;
+   0332 74 1C              1280 	mov	a,#0x1C
+   0334 2D                 1281 	add	a,r5
+   0335 FD                 1282 	mov	r5,a
+   0336 E4                 1283 	clr	a
+   0337 3E                 1284 	addc	a,r6
+   0338 FE                 1285 	mov	r6,a
+                           1286 ;	../../core/net/tcpip.c:290: s->p = PROCESS_CURRENT();
+   0339 90s00r00           1287 	mov	dptr,#_process_current
+   033C E0                 1288 	movx	a,@dptr
+   033D FA                 1289 	mov	r2,a
+   033E A3                 1290 	inc	dptr
+   033F E0                 1291 	movx	a,@dptr
+   0340 FB                 1292 	mov	r3,a
+   0341 A3                 1293 	inc	dptr
+   0342 E0                 1294 	movx	a,@dptr
+   0343 FC                 1295 	mov	r4,a
+   0344 8D 82              1296 	mov	dpl,r5
+   0346 8E 83              1297 	mov	dph,r6
+   0348 8F F0              1298 	mov	b,r7
+   034A EA                 1299 	mov	a,r2
+   034B 12s00r00           1300 	lcall	__gptrput
+   034E A3                 1301 	inc	dptr
+   034F EB                 1302 	mov	a,r3
+   0350 12s00r00           1303 	lcall	__gptrput
+   0353 A3                 1304 	inc	dptr
+   0354 EC                 1305 	mov	a,r4
+   0355 12s00r00           1306 	lcall	__gptrput
+                           1307 ;	../../core/net/tcpip.c:291: s->state = appstate;
+   0358 74 03              1308 	mov	a,#0x03
+   035A 2D                 1309 	add	a,r5
+   035B FD                 1310 	mov	r5,a
+   035C E4                 1311 	clr	a
+   035D 3E                 1312 	addc	a,r6
+   035E FE                 1313 	mov	r6,a
+   035F 8D 82              1314 	mov	dpl,r5
+   0361 8E 83              1315 	mov	dph,r6
+   0363 8F F0              1316 	mov	b,r7
+   0365 E5*00              1317 	mov	a,_bp
+   0367 24 FB              1318 	add	a,#0xfb
+   0369 F8                 1319 	mov	r0,a
+   036A E6                 1320 	mov	a,@r0
+   036B 12s00r00           1321 	lcall	__gptrput
+   036E A3                 1322 	inc	dptr
+   036F 08                 1323 	inc	r0
+   0370 E6                 1324 	mov	a,@r0
+   0371 12s00r00           1325 	lcall	__gptrput
+   0374 A3                 1326 	inc	dptr
+   0375 08                 1327 	inc	r0
+   0376 E6                 1328 	mov	a,@r0
+   0377 12s00r00           1329 	lcall	__gptrput
+   037A D0*00              1330 	pop	_bp
+   037C 22                 1331 	ret
+                           1332 ;------------------------------------------------------------
+                           1333 ;Allocation info for local variables in function 'udp_attach'
+                           1334 ;------------------------------------------------------------
+                           1335 ;appstate                  Allocated to stack - _bp -5
+                           1336 ;conn                      Allocated to registers r5 r6 r7 
+                           1337 ;s                         Allocated to registers r5 r6 r7 
+                           1338 ;------------------------------------------------------------
+                           1339 ;	../../core/net/tcpip.c:298: udp_attach(struct uip_udp_conn *conn,
+                           1340 ;	-----------------------------------------
+                           1341 ;	 function udp_attach
+                           1342 ;	-----------------------------------------
+   037D                    1343 _udp_attach:
+   037D C0*00              1344 	push	_bp
+   037F 85 81*00           1345 	mov	_bp,sp
+   0382 AD 82              1346 	mov	r5,dpl
+   0384 AE 83              1347 	mov	r6,dph
+   0386 AF F0              1348 	mov	r7,b
+                           1349 ;	../../core/net/tcpip.c:303: s = &conn->appstate;
+   0388 74 09              1350 	mov	a,#0x09
+   038A 2D                 1351 	add	a,r5
+   038B FD                 1352 	mov	r5,a
+   038C E4                 1353 	clr	a
+   038D 3E                 1354 	addc	a,r6
+   038E FE                 1355 	mov	r6,a
+                           1356 ;	../../core/net/tcpip.c:304: s->p = PROCESS_CURRENT();
+   038F 90s00r00           1357 	mov	dptr,#_process_current
+   0392 E0                 1358 	movx	a,@dptr
+   0393 FA                 1359 	mov	r2,a
+   0394 A3                 1360 	inc	dptr
+   0395 E0                 1361 	movx	a,@dptr
+   0396 FB                 1362 	mov	r3,a
+   0397 A3                 1363 	inc	dptr
+   0398 E0                 1364 	movx	a,@dptr
+   0399 FC                 1365 	mov	r4,a
+   039A 8D 82              1366 	mov	dpl,r5
+   039C 8E 83              1367 	mov	dph,r6
+   039E 8F F0              1368 	mov	b,r7
+   03A0 EA                 1369 	mov	a,r2
+   03A1 12s00r00           1370 	lcall	__gptrput
+   03A4 A3                 1371 	inc	dptr
+   03A5 EB                 1372 	mov	a,r3
+   03A6 12s00r00           1373 	lcall	__gptrput
+   03A9 A3                 1374 	inc	dptr
+   03AA EC                 1375 	mov	a,r4
+   03AB 12s00r00           1376 	lcall	__gptrput
+                           1377 ;	../../core/net/tcpip.c:305: s->state = appstate;
+   03AE 74 03              1378 	mov	a,#0x03
+   03B0 2D                 1379 	add	a,r5
+   03B1 FD                 1380 	mov	r5,a
+   03B2 E4                 1381 	clr	a
+   03B3 3E                 1382 	addc	a,r6
+   03B4 FE                 1383 	mov	r6,a
+   03B5 8D 82              1384 	mov	dpl,r5
+   03B7 8E 83              1385 	mov	dph,r6
+   03B9 8F F0              1386 	mov	b,r7
+   03BB E5*00              1387 	mov	a,_bp
+   03BD 24 FB              1388 	add	a,#0xfb
+   03BF F8                 1389 	mov	r0,a
+   03C0 E6                 1390 	mov	a,@r0
+   03C1 12s00r00           1391 	lcall	__gptrput
+   03C4 A3                 1392 	inc	dptr
+   03C5 08                 1393 	inc	r0
+   03C6 E6                 1394 	mov	a,@r0
+   03C7 12s00r00           1395 	lcall	__gptrput
+   03CA A3                 1396 	inc	dptr
+   03CB 08                 1397 	inc	r0
+   03CC E6                 1398 	mov	a,@r0
+   03CD 12s00r00           1399 	lcall	__gptrput
+   03D0 D0*00              1400 	pop	_bp
+   03D2 22                 1401 	ret
+                           1402 ;------------------------------------------------------------
+                           1403 ;Allocation info for local variables in function 'udp_new'
+                           1404 ;------------------------------------------------------------
+                           1405 ;port                      Allocated to stack - _bp -4
+                           1406 ;appstate                  Allocated to stack - _bp -7
+                           1407 ;ripaddr                   Allocated to registers r5 r6 r7 
+                           1408 ;c                         Allocated to stack - _bp +1
+                           1409 ;s                         Allocated to registers r2 r3 r4 
+                           1410 ;------------------------------------------------------------
+                           1411 ;	../../core/net/tcpip.c:309: udp_new(const uip_ipaddr_t *ripaddr, uint16_t port, void *appstate)
+                           1412 ;	-----------------------------------------
+                           1413 ;	 function udp_new
+                           1414 ;	-----------------------------------------
+   03D3                    1415 _udp_new:
+   03D3 C0*00              1416 	push	_bp
+   03D5 85 81*00           1417 	mov	_bp,sp
+   03D8 05 81              1418 	inc	sp
+   03DA 05 81              1419 	inc	sp
+   03DC 05 81              1420 	inc	sp
+   03DE AD 82              1421 	mov	r5,dpl
+   03E0 AE 83              1422 	mov	r6,dph
+   03E2 AF F0              1423 	mov	r7,b
+                           1424 ;	../../core/net/tcpip.c:314: c = uip_udp_new(ripaddr, port);
+   03E4 E5*00              1425 	mov	a,_bp
+   03E6 24 FC              1426 	add	a,#0xfc
+   03E8 F8                 1427 	mov	r0,a
+   03E9 E6                 1428 	mov	a,@r0
+   03EA C0 E0              1429 	push	acc
+   03EC 08                 1430 	inc	r0
+   03ED E6                 1431 	mov	a,@r0
+   03EE C0 E0              1432 	push	acc
+   03F0 8D 82              1433 	mov	dpl,r5
+   03F2 8E 83              1434 	mov	dph,r6
+   03F4 8F F0              1435 	mov	b,r7
+   03F6 12s00r00           1436 	lcall	_uip_udp_new
+   03F9 AD 82              1437 	mov	r5,dpl
+   03FB AE 83              1438 	mov	r6,dph
+   03FD AF F0              1439 	mov	r7,b
+   03FF 15 81              1440 	dec	sp
+   0401 15 81              1441 	dec	sp
+   0403 A8*00              1442 	mov	r0,_bp
+   0405 08                 1443 	inc	r0
+   0406 A6 05              1444 	mov	@r0,ar5
+   0408 08                 1445 	inc	r0
+   0409 A6 06              1446 	mov	@r0,ar6
+   040B 08                 1447 	inc	r0
+   040C A6 07              1448 	mov	@r0,ar7
+                           1449 ;	../../core/net/tcpip.c:315: if(c == NULL) {
+   040E A8*00              1450 	mov	r0,_bp
+   0410 08                 1451 	inc	r0
+   0411 E6                 1452 	mov	a,@r0
+   0412 08                 1453 	inc	r0
+   0413 46                 1454 	orl	a,@r0
+                           1455 ;	../../core/net/tcpip.c:316: return NULL;
+   0414 70 07              1456 	jnz	00102$
+   0416 90 00 00           1457 	mov	dptr,#0x0000
+   0419 F5 F0              1458 	mov	b,a
+   041B 80 5A              1459 	sjmp	00103$
+   041D                    1460 00102$:
+                           1461 ;	../../core/net/tcpip.c:319: s = &c->appstate;
+   041D A8*00              1462 	mov	r0,_bp
+   041F 08                 1463 	inc	r0
+   0420 74 09              1464 	mov	a,#0x09
+   0422 26                 1465 	add	a,@r0
+   0423 FA                 1466 	mov	r2,a
+   0424 E4                 1467 	clr	a
+   0425 08                 1468 	inc	r0
+   0426 36                 1469 	addc	a,@r0
+   0427 FB                 1470 	mov	r3,a
+   0428 08                 1471 	inc	r0
+   0429 86 04              1472 	mov	ar4,@r0
+                           1473 ;	../../core/net/tcpip.c:320: s->p = PROCESS_CURRENT();
+   042B 90s00r00           1474 	mov	dptr,#_process_current
+   042E E0                 1475 	movx	a,@dptr
+   042F FD                 1476 	mov	r5,a
+   0430 A3                 1477 	inc	dptr
+   0431 E0                 1478 	movx	a,@dptr
+   0432 FE                 1479 	mov	r6,a
+   0433 A3                 1480 	inc	dptr
+   0434 E0                 1481 	movx	a,@dptr
+   0435 FF                 1482 	mov	r7,a
+   0436 8A 82              1483 	mov	dpl,r2
+   0438 8B 83              1484 	mov	dph,r3
+   043A 8C F0              1485 	mov	b,r4
+   043C ED                 1486 	mov	a,r5
+   043D 12s00r00           1487 	lcall	__gptrput
+   0440 A3                 1488 	inc	dptr
+   0441 EE                 1489 	mov	a,r6
+   0442 12s00r00           1490 	lcall	__gptrput
+   0445 A3                 1491 	inc	dptr
+   0446 EF                 1492 	mov	a,r7
+   0447 12s00r00           1493 	lcall	__gptrput
+                           1494 ;	../../core/net/tcpip.c:321: s->state = appstate;
+   044A 74 03              1495 	mov	a,#0x03
+   044C 2A                 1496 	add	a,r2
+   044D FA                 1497 	mov	r2,a
+   044E E4                 1498 	clr	a
+   044F 3B                 1499 	addc	a,r3
+   0450 FB                 1500 	mov	r3,a
+   0451 8A 82              1501 	mov	dpl,r2
+   0453 8B 83              1502 	mov	dph,r3
+   0455 8C F0              1503 	mov	b,r4
+   0457 E5*00              1504 	mov	a,_bp
+   0459 24 F9              1505 	add	a,#0xf9
+   045B F8                 1506 	mov	r0,a
+   045C E6                 1507 	mov	a,@r0
+   045D 12s00r00           1508 	lcall	__gptrput
+   0460 A3                 1509 	inc	dptr
+   0461 08                 1510 	inc	r0
+   0462 E6                 1511 	mov	a,@r0
+   0463 12s00r00           1512 	lcall	__gptrput
+   0466 A3                 1513 	inc	dptr
+   0467 08                 1514 	inc	r0
+   0468 E6                 1515 	mov	a,@r0
+   0469 12s00r00           1516 	lcall	__gptrput
+                           1517 ;	../../core/net/tcpip.c:323: return c;
+   046C A8*00              1518 	mov	r0,_bp
+   046E 08                 1519 	inc	r0
+   046F 86 82              1520 	mov	dpl,@r0
+   0471 08                 1521 	inc	r0
+   0472 86 83              1522 	mov	dph,@r0
+   0474 08                 1523 	inc	r0
+   0475 86 F0              1524 	mov	b,@r0
+   0477                    1525 00103$:
+   0477 85*00 81           1526 	mov	sp,_bp
+   047A D0*00              1527 	pop	_bp
+   047C 22                 1528 	ret
+                           1529 ;------------------------------------------------------------
+                           1530 ;Allocation info for local variables in function 'udp_broadcast_new'
+                           1531 ;------------------------------------------------------------
+                           1532 ;appstate                  Allocated to stack - _bp -5
+                           1533 ;port                      Allocated to stack - _bp +1
+                           1534 ;addr                      Allocated to stack - _bp +3
+                           1535 ;conn                      Allocated to registers r3 r4 r5 
+                           1536 ;------------------------------------------------------------
+                           1537 ;	../../core/net/tcpip.c:327: udp_broadcast_new(uint16_t port, void *appstate)
+                           1538 ;	-----------------------------------------
+                           1539 ;	 function udp_broadcast_new
+                           1540 ;	-----------------------------------------
+   047D                    1541 _udp_broadcast_new:
+   047D C0*00              1542 	push	_bp
+   047F 85 81*00           1543 	mov	_bp,sp
+   0482 C0 82              1544 	push	dpl
+   0484 C0 83              1545 	push	dph
+   0486 E5 81              1546 	mov	a,sp
+   0488 24 04              1547 	add	a,#0x04
+   048A F5 81              1548 	mov	sp,a
+                           1549 ;	../../core/net/tcpip.c:335: uip_ipaddr(&addr, 255,255,255,255);
+   048C E5*00              1550 	mov	a,_bp
+   048E 24 03              1551 	add	a,#0x03
+   0490 F8                 1552 	mov	r0,a
+   0491 76 FF              1553 	mov	@r0,#0xFF
+   0493 E5*00              1554 	mov	a,_bp
+   0495 24 03              1555 	add	a,#0x03
+   0497 FD                 1556 	mov	r5,a
+   0498 04                 1557 	inc	a
+   0499 F8                 1558 	mov	r0,a
+   049A 76 FF              1559 	mov	@r0,#0xFF
+   049C 74 02              1560 	mov	a,#0x02
+   049E 2D                 1561 	add	a,r5
+   049F F8                 1562 	mov	r0,a
+   04A0 76 FF              1563 	mov	@r0,#0xFF
+   04A2 74 03              1564 	mov	a,#0x03
+   04A4 2D                 1565 	add	a,r5
+   04A5 F8                 1566 	mov	r0,a
+   04A6 76 FF              1567 	mov	@r0,#0xFF
+                           1568 ;	../../core/net/tcpip.c:337: conn = udp_new(&addr, port, appstate);
+   04A8 E5*00              1569 	mov	a,_bp
+   04AA 24 03              1570 	add	a,#0x03
+   04AC FD                 1571 	mov	r5,a
+   04AD 7C 00              1572 	mov	r4,#0x00
+   04AF 7B 40              1573 	mov	r3,#0x40
+   04B1 E5*00              1574 	mov	a,_bp
+   04B3 24 FB              1575 	add	a,#0xfb
+   04B5 F8                 1576 	mov	r0,a
+   04B6 E6                 1577 	mov	a,@r0
+   04B7 C0 E0              1578 	push	acc
+   04B9 08                 1579 	inc	r0
+   04BA E6                 1580 	mov	a,@r0
+   04BB C0 E0              1581 	push	acc
+   04BD 08                 1582 	inc	r0
+   04BE E6                 1583 	mov	a,@r0
+   04BF C0 E0              1584 	push	acc
+   04C1 A8*00              1585 	mov	r0,_bp
+   04C3 08                 1586 	inc	r0
+   04C4 E6                 1587 	mov	a,@r0
+   04C5 C0 E0              1588 	push	acc
+   04C7 08                 1589 	inc	r0
+   04C8 E6                 1590 	mov	a,@r0
+   04C9 C0 E0              1591 	push	acc
+   04CB 8D 82              1592 	mov	dpl,r5
+   04CD 8C 83              1593 	mov	dph,r4
+   04CF 8B F0              1594 	mov	b,r3
+   04D1 12s03rD3           1595 	lcall	_udp_new
+   04D4 AB 82              1596 	mov	r3,dpl
+   04D6 AC 83              1597 	mov	r4,dph
+   04D8 AD F0              1598 	mov	r5,b
+   04DA E5 81              1599 	mov	a,sp
+   04DC 24 FB              1600 	add	a,#0xfb
+   04DE F5 81              1601 	mov	sp,a
+                           1602 ;	../../core/net/tcpip.c:338: if(conn != NULL) {
+   04E0 EB                 1603 	mov	a,r3
+   04E1 4C                 1604 	orl	a,r4
+   04E2 60 1C              1605 	jz	00105$
+                           1606 ;	../../core/net/tcpip.c:339: udp_bind(conn, port);
+   04E4 74 04              1607 	mov	a,#0x04
+   04E6 2B                 1608 	add	a,r3
+   04E7 FA                 1609 	mov	r2,a
+   04E8 E4                 1610 	clr	a
+   04E9 3C                 1611 	addc	a,r4
+   04EA FE                 1612 	mov	r6,a
+   04EB 8D 07              1613 	mov	ar7,r5
+   04ED 8A 82              1614 	mov	dpl,r2
+   04EF 8E 83              1615 	mov	dph,r6
+   04F1 8F F0              1616 	mov	b,r7
+   04F3 A8*00              1617 	mov	r0,_bp
+   04F5 08                 1618 	inc	r0
+   04F6 E6                 1619 	mov	a,@r0
+   04F7 12s00r00           1620 	lcall	__gptrput
+   04FA A3                 1621 	inc	dptr
+   04FB 08                 1622 	inc	r0
+   04FC E6                 1623 	mov	a,@r0
+   04FD 12s00r00           1624 	lcall	__gptrput
+   0500                    1625 00105$:
+                           1626 ;	../../core/net/tcpip.c:341: return conn;
+   0500 8B 82              1627 	mov	dpl,r3
+   0502 8C 83              1628 	mov	dph,r4
+   0504 8D F0              1629 	mov	b,r5
+   0506 85*00 81           1630 	mov	sp,_bp
+   0509 D0*00              1631 	pop	_bp
+   050B 22                 1632 	ret
+                           1633 ;------------------------------------------------------------
+                           1634 ;Allocation info for local variables in function 'eventhandler'
+                           1635 ;------------------------------------------------------------
+                           1636 ;data                      Allocated to stack - _bp -5
+                           1637 ;ev                        Allocated to registers r7 
+                           1638 ;l                         Allocated to registers 
+                           1639 ;p                         Allocated to stack - _bp +1
+                           1640 ;cptr                      Allocated to registers 
+                           1641 ;cptr                      Allocated to registers 
+                           1642 ;sloc0                     Allocated to stack - _bp +4
+                           1643 ;i                         Allocated with name '_eventhandler_i_1_1'
+                           1644 ;------------------------------------------------------------
+                           1645 ;	../../core/net/tcpip.c:369: eventhandler(process_event_t ev, process_data_t data)
+                           1646 ;	-----------------------------------------
+                           1647 ;	 function eventhandler
+                           1648 ;	-----------------------------------------
+   050C                    1649 _eventhandler:
+   050C C0*00              1650 	push	_bp
+   050E E5 81              1651 	mov	a,sp
+   0510 F5*00              1652 	mov	_bp,a
+   0512 24 06              1653 	add	a,#0x06
+   0514 F5 81              1654 	mov	sp,a
+   0516 AF 82              1655 	mov	r7,dpl
+                           1656 ;	../../core/net/tcpip.c:377: switch(ev) {
+   0518 8F 06              1657 	mov	ar6,r7
+   051A BE 00 03           1658 	cjne	r6,#0x00,00205$
+   051D 02s07rED           1659 	ljmp	00119$
+   0520                    1660 00205$:
+   0520 BF 01 03           1661 	cjne	r7,#0x01,00206$
+   0523 02s08r22           1662 	ljmp	00127$
+   0526                    1663 00206$:
+   0526 BF 02 03           1664 	cjne	r7,#0x02,00207$
+   0529 02s08r54           1665 	ljmp	00135$
+   052C                    1666 00207$:
+   052C BF 87 02           1667 	cjne	r7,#0x87,00208$
+   052F 80 09              1668 	sjmp	00101$
+   0531                    1669 00208$:
+   0531 BF 88 03           1670 	cjne	r7,#0x88,00209$
+   0534 02s07r42           1671 	ljmp	00108$
+   0537                    1672 00209$:
+   0537 02s08r57           1673 	ljmp	00152$
+                           1674 ;	../../core/net/tcpip.c:378: case PROCESS_EVENT_EXITED:
+   053A                    1675 00101$:
+                           1676 ;	../../core/net/tcpip.c:384: p = (struct process *)data;
+   053A E5*00              1677 	mov	a,_bp
+   053C 24 FB              1678 	add	a,#0xfb
+   053E F8                 1679 	mov	r0,a
+   053F A9*00              1680 	mov	r1,_bp
+   0541 09                 1681 	inc	r1
+   0542 E6                 1682 	mov	a,@r0
+   0543 F7                 1683 	mov	@r1,a
+   0544 08                 1684 	inc	r0
+   0545 09                 1685 	inc	r1
+   0546 E6                 1686 	mov	a,@r0
+   0547 F7                 1687 	mov	@r1,a
+   0548 08                 1688 	inc	r0
+   0549 09                 1689 	inc	r1
+   054A E6                 1690 	mov	a,@r0
+   054B F7                 1691 	mov	@r1,a
+                           1692 ;	../../core/net/tcpip.c:386: l = s.listenports;
+   054C 7Ar0B              1693 	mov	r2,#_s
+   054E 7Bs00              1694 	mov	r3,#(_s >> 8)
+   0550 7C 00              1695 	mov	r4,#0x00
+                           1696 ;	../../core/net/tcpip.c:387: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   0552 90s00r77           1697 	mov	dptr,#_eventhandler_i_1_1
+   0555 74 14              1698 	mov	a,#0x14
+   0557 F0                 1699 	movx	@dptr,a
+   0558                    1700 00139$:
+                           1701 ;	../../core/net/tcpip.c:388: if(l->p == p) {
+   0558 E5*00              1702 	mov	a,_bp
+   055A 24 04              1703 	add	a,#0x04
+   055C F8                 1704 	mov	r0,a
+   055D 74 02              1705 	mov	a,#0x02
+   055F 2A                 1706 	add	a,r2
+   0560 F6                 1707 	mov	@r0,a
+   0561 E4                 1708 	clr	a
+   0562 3B                 1709 	addc	a,r3
+   0563 08                 1710 	inc	r0
+   0564 F6                 1711 	mov	@r0,a
+   0565 08                 1712 	inc	r0
+   0566 A6 04              1713 	mov	@r0,ar4
+   0568 C0 02              1714 	push	ar2
+   056A C0 03              1715 	push	ar3
+   056C C0 04              1716 	push	ar4
+   056E E5*00              1717 	mov	a,_bp
+   0570 24 04              1718 	add	a,#0x04
+   0572 F8                 1719 	mov	r0,a
+   0573 86 82              1720 	mov	dpl,@r0
+   0575 08                 1721 	inc	r0
+   0576 86 83              1722 	mov	dph,@r0
+   0578 08                 1723 	inc	r0
+   0579 86 F0              1724 	mov	b,@r0
+   057B 12s00r00           1725 	lcall	__gptrget
+   057E FA                 1726 	mov	r2,a
+   057F A3                 1727 	inc	dptr
+   0580 12s00r00           1728 	lcall	__gptrget
+   0583 FB                 1729 	mov	r3,a
+   0584 A3                 1730 	inc	dptr
+   0585 12s00r00           1731 	lcall	__gptrget
+   0588 FC                 1732 	mov	r4,a
+   0589 A8*00              1733 	mov	r0,_bp
+   058B 08                 1734 	inc	r0
+   058C C0 02              1735 	push	ar2
+   058E C0 03              1736 	push	ar3
+   0590 C0 04              1737 	push	ar4
+   0592 86 82              1738 	mov	dpl,@r0
+   0594 08                 1739 	inc	r0
+   0595 86 83              1740 	mov	dph,@r0
+   0597 08                 1741 	inc	r0
+   0598 86 F0              1742 	mov	b,@r0
+   059A 12s00r00           1743 	lcall	___gptr_cmp
+   059D 15 81              1744 	dec	sp
+   059F 15 81              1745 	dec	sp
+   05A1 15 81              1746 	dec	sp
+   05A3 60 08              1747 	jz	00211$
+   05A5 D0 04              1748 	pop	ar4
+   05A7 D0 03              1749 	pop	ar3
+   05A9 D0 02              1750 	pop	ar2
+   05AB 80 52              1751 	sjmp	00103$
+   05AD                    1752 00211$:
+   05AD D0 04              1753 	pop	ar4
+   05AF D0 03              1754 	pop	ar3
+   05B1 D0 02              1755 	pop	ar2
+                           1756 ;	../../core/net/tcpip.c:389: uip_unlisten(l->port);
+   05B3 8A 82              1757 	mov	dpl,r2
+   05B5 8B 83              1758 	mov	dph,r3
+   05B7 8C F0              1759 	mov	b,r4
+   05B9 12s00r00           1760 	lcall	__gptrget
+   05BC FE                 1761 	mov	r6,a
+   05BD A3                 1762 	inc	dptr
+   05BE 12s00r00           1763 	lcall	__gptrget
+   05C1 FF                 1764 	mov	r7,a
+   05C2 8E 82              1765 	mov	dpl,r6
+   05C4 8F 83              1766 	mov	dph,r7
+   05C6 C0 04              1767 	push	ar4
+   05C8 C0 03              1768 	push	ar3
+   05CA C0 02              1769 	push	ar2
+   05CC 12s00r00           1770 	lcall	_uip_unlisten
+   05CF D0 02              1771 	pop	ar2
+   05D1 D0 03              1772 	pop	ar3
+   05D3 D0 04              1773 	pop	ar4
+                           1774 ;	../../core/net/tcpip.c:390: l->port = 0;
+   05D5 8A 82              1775 	mov	dpl,r2
+   05D7 8B 83              1776 	mov	dph,r3
+   05D9 8C F0              1777 	mov	b,r4
+   05DB E4                 1778 	clr	a
+   05DC 12s00r00           1779 	lcall	__gptrput
+   05DF A3                 1780 	inc	dptr
+   05E0 E4                 1781 	clr	a
+   05E1 12s00r00           1782 	lcall	__gptrput
+                           1783 ;	../../core/net/tcpip.c:391: l->p = PROCESS_NONE;
+   05E4 E5*00              1784 	mov	a,_bp
+   05E6 24 04              1785 	add	a,#0x04
+   05E8 F8                 1786 	mov	r0,a
+   05E9 86 82              1787 	mov	dpl,@r0
+   05EB 08                 1788 	inc	r0
+   05EC 86 83              1789 	mov	dph,@r0
+   05EE 08                 1790 	inc	r0
+   05EF 86 F0              1791 	mov	b,@r0
+   05F1 E4                 1792 	clr	a
+   05F2 12s00r00           1793 	lcall	__gptrput
+   05F5 A3                 1794 	inc	dptr
+   05F6 E4                 1795 	clr	a
+   05F7 12s00r00           1796 	lcall	__gptrput
+   05FA A3                 1797 	inc	dptr
+   05FB E4                 1798 	clr	a
+   05FC 12s00r00           1799 	lcall	__gptrput
+                           1800 ;	../../core/net/tcpip.c:523: };
+                           1801 ;	../../core/net/tcpip.c:391: l->p = PROCESS_NONE;
+   05FF                    1802 00103$:
+                           1803 ;	../../core/net/tcpip.c:393: ++l;
+   05FF 74 05              1804 	mov	a,#0x05
+   0601 2A                 1805 	add	a,r2
+   0602 FA                 1806 	mov	r2,a
+   0603 E4                 1807 	clr	a
+   0604 3B                 1808 	addc	a,r3
+   0605 FB                 1809 	mov	r3,a
+   0606 90s00r77           1810 	mov	dptr,#_eventhandler_i_1_1
+   0609 E0                 1811 	movx	a,@dptr
+   060A FF                 1812 	mov	r7,a
+   060B 1F                 1813 	dec	r7
+                           1814 ;	../../core/net/tcpip.c:387: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   060C 90s00r77           1815 	mov	dptr,#_eventhandler_i_1_1
+   060F EF                 1816 	mov	a,r7
+   0610 F0                 1817 	movx	@dptr,a
+   0611 E0                 1818 	movx	a,@dptr
+   0612 FF                 1819 	mov	r7,a
+   0613 60 03              1820 	jz	00212$
+   0615 02s05r58           1821 	ljmp	00139$
+   0618                    1822 00212$:
+   0618 90s00r77           1823 	mov	dptr,#_eventhandler_i_1_1
+   061B 74 14              1824 	mov	a,#0x14
+   061D F0                 1825 	movx	@dptr,a
+                           1826 ;	../../core/net/tcpip.c:399: for(cptr = &uip_conns[0]; cptr < &uip_conns[UIP_CONNS]; ++cptr) {
+   061E 7Ar00              1827 	mov	r2,#_uip_conns
+   0620 7Bs00              1828 	mov	r3,#(_uip_conns >> 8)
+   0622 7C 00              1829 	mov	r4,#0x00
+   0624                    1830 00140$:
+   0624 74r54              1831 	mov	a,#(_uip_conns + 0x0154)
+   0626 C0 E0              1832 	push	acc
+   0628 74s01              1833 	mov	a,#((_uip_conns + 0x0154) >> 8)
+   062A C0 E0              1834 	push	acc
+   062C E4                 1835 	clr	a
+   062D C0 E0              1836 	push	acc
+   062F 8A 82              1837 	mov	dpl,r2
+   0631 8B 83              1838 	mov	dph,r3
+   0633 8C F0              1839 	mov	b,r4
+   0635 12s00r00           1840 	lcall	___gptr_cmp
+   0638 15 81              1841 	dec	sp
+   063A 15 81              1842 	dec	sp
+   063C 15 81              1843 	dec	sp
+   063E 40 03              1844 	jc	00213$
+   0640 02s06rC1           1845 	ljmp	00143$
+   0643                    1846 00213$:
+                           1847 ;	../../core/net/tcpip.c:400: if(cptr->appstate.p == p) {
+   0643 74 1C              1848 	mov	a,#0x1C
+   0645 2A                 1849 	add	a,r2
+   0646 FF                 1850 	mov	r7,a
+   0647 E4                 1851 	clr	a
+   0648 3B                 1852 	addc	a,r3
+   0649 FE                 1853 	mov	r6,a
+   064A 8C 05              1854 	mov	ar5,r4
+   064C C0 02              1855 	push	ar2
+   064E C0 03              1856 	push	ar3
+   0650 C0 04              1857 	push	ar4
+   0652 8F 82              1858 	mov	dpl,r7
+   0654 8E 83              1859 	mov	dph,r6
+   0656 8D F0              1860 	mov	b,r5
+   0658 12s00r00           1861 	lcall	__gptrget
+   065B FA                 1862 	mov	r2,a
+   065C A3                 1863 	inc	dptr
+   065D 12s00r00           1864 	lcall	__gptrget
+   0660 FB                 1865 	mov	r3,a
+   0661 A3                 1866 	inc	dptr
+   0662 12s00r00           1867 	lcall	__gptrget
+   0665 FC                 1868 	mov	r4,a
+   0666 A8*00              1869 	mov	r0,_bp
+   0668 08                 1870 	inc	r0
+   0669 C0 02              1871 	push	ar2
+   066B C0 03              1872 	push	ar3
+   066D C0 04              1873 	push	ar4
+   066F 86 82              1874 	mov	dpl,@r0
+   0671 08                 1875 	inc	r0
+   0672 86 83              1876 	mov	dph,@r0
+   0674 08                 1877 	inc	r0
+   0675 86 F0              1878 	mov	b,@r0
+   0677 12s00r00           1879 	lcall	___gptr_cmp
+   067A 15 81              1880 	dec	sp
+   067C 15 81              1881 	dec	sp
+   067E 15 81              1882 	dec	sp
+   0680 60 08              1883 	jz	00215$
+   0682 D0 04              1884 	pop	ar4
+   0684 D0 03              1885 	pop	ar3
+   0686 D0 02              1886 	pop	ar2
+   0688 80 2D              1887 	sjmp	00142$
+   068A                    1888 00215$:
+   068A D0 04              1889 	pop	ar4
+   068C D0 03              1890 	pop	ar3
+   068E D0 02              1891 	pop	ar2
+                           1892 ;	../../core/net/tcpip.c:401: cptr->appstate.p = PROCESS_NONE;
+   0690 8F 82              1893 	mov	dpl,r7
+   0692 8E 83              1894 	mov	dph,r6
+   0694 8D F0              1895 	mov	b,r5
+   0696 E4                 1896 	clr	a
+   0697 12s00r00           1897 	lcall	__gptrput
+   069A A3                 1898 	inc	dptr
+   069B E4                 1899 	clr	a
+   069C 12s00r00           1900 	lcall	__gptrput
+   069F A3                 1901 	inc	dptr
+   06A0 E4                 1902 	clr	a
+   06A1 12s00r00           1903 	lcall	__gptrput
+                           1904 ;	../../core/net/tcpip.c:402: cptr->tcpstateflags = UIP_CLOSED;
+   06A4 74 19              1905 	mov	a,#0x19
+   06A6 2A                 1906 	add	a,r2
+   06A7 FD                 1907 	mov	r5,a
+   06A8 E4                 1908 	clr	a
+   06A9 3B                 1909 	addc	a,r3
+   06AA FE                 1910 	mov	r6,a
+   06AB 8C 07              1911 	mov	ar7,r4
+   06AD 8D 82              1912 	mov	dpl,r5
+   06AF 8E 83              1913 	mov	dph,r6
+   06B1 8F F0              1914 	mov	b,r7
+   06B3 E4                 1915 	clr	a
+   06B4 12s00r00           1916 	lcall	__gptrput
+   06B7                    1917 00142$:
+                           1918 ;	../../core/net/tcpip.c:399: for(cptr = &uip_conns[0]; cptr < &uip_conns[UIP_CONNS]; ++cptr) {
+   06B7 74 22              1919 	mov	a,#0x22
+   06B9 2A                 1920 	add	a,r2
+   06BA FA                 1921 	mov	r2,a
+   06BB E4                 1922 	clr	a
+   06BC 3B                 1923 	addc	a,r3
+   06BD FB                 1924 	mov	r3,a
+   06BE 02s06r24           1925 	ljmp	00140$
+   06C1                    1926 00143$:
+                           1927 ;	../../core/net/tcpip.c:411: for(cptr = &uip_udp_conns[0];
+   06C1 7Dr00              1928 	mov	r5,#_uip_udp_conns
+   06C3 7Es00              1929 	mov	r6,#(_uip_udp_conns >> 8)
+   06C5 7F 00              1930 	mov	r7,#0x00
+   06C7                    1931 00144$:
+                           1932 ;	../../core/net/tcpip.c:412: cptr < &uip_udp_conns[UIP_UDP_CONNS]; ++cptr) {
+   06C7 74r96              1933 	mov	a,#(_uip_udp_conns + 0x0096)
+   06C9 C0 E0              1934 	push	acc
+   06CB 74s00              1935 	mov	a,#((_uip_udp_conns + 0x0096) >> 8)
+   06CD C0 E0              1936 	push	acc
+   06CF E4                 1937 	clr	a
+   06D0 C0 E0              1938 	push	acc
+   06D2 8D 82              1939 	mov	dpl,r5
+   06D4 8E 83              1940 	mov	dph,r6
+   06D6 8F F0              1941 	mov	b,r7
+   06D8 12s00r00           1942 	lcall	___gptr_cmp
+   06DB 15 81              1943 	dec	sp
+   06DD 15 81              1944 	dec	sp
+   06DF 15 81              1945 	dec	sp
+   06E1 40 03              1946 	jc	00216$
+   06E3 02s08r57           1947 	ljmp	00152$
+   06E6                    1948 00216$:
+                           1949 ;	../../core/net/tcpip.c:413: if(cptr->appstate.p == p) {
+   06E6 74 09              1950 	mov	a,#0x09
+   06E8 2D                 1951 	add	a,r5
+   06E9 FA                 1952 	mov	r2,a
+   06EA E4                 1953 	clr	a
+   06EB 3E                 1954 	addc	a,r6
+   06EC FB                 1955 	mov	r3,a
+   06ED 8F 04              1956 	mov	ar4,r7
+   06EF 8A 82              1957 	mov	dpl,r2
+   06F1 8B 83              1958 	mov	dph,r3
+   06F3 8C F0              1959 	mov	b,r4
+   06F5 12s00r00           1960 	lcall	__gptrget
+   06F8 FA                 1961 	mov	r2,a
+   06F9 A3                 1962 	inc	dptr
+   06FA 12s00r00           1963 	lcall	__gptrget
+   06FD FB                 1964 	mov	r3,a
+   06FE A3                 1965 	inc	dptr
+   06FF 12s00r00           1966 	lcall	__gptrget
+   0702 FC                 1967 	mov	r4,a
+   0703 A8*00              1968 	mov	r0,_bp
+   0705 08                 1969 	inc	r0
+   0706 C0 02              1970 	push	ar2
+   0708 C0 03              1971 	push	ar3
+   070A C0 04              1972 	push	ar4
+   070C 86 82              1973 	mov	dpl,@r0
+   070E 08                 1974 	inc	r0
+   070F 86 83              1975 	mov	dph,@r0
+   0711 08                 1976 	inc	r0
+   0712 86 F0              1977 	mov	b,@r0
+   0714 12s00r00           1978 	lcall	___gptr_cmp
+   0717 15 81              1979 	dec	sp
+   0719 15 81              1980 	dec	sp
+   071B 15 81              1981 	dec	sp
+   071D 60 02              1982 	jz	00218$
+   071F 80 18              1983 	sjmp	00146$
+   0721                    1984 00218$:
+                           1985 ;	../../core/net/tcpip.c:414: cptr->lport = 0;
+   0721 74 04              1986 	mov	a,#0x04
+   0723 2D                 1987 	add	a,r5
+   0724 FA                 1988 	mov	r2,a
+   0725 E4                 1989 	clr	a
+   0726 3E                 1990 	addc	a,r6
+   0727 FB                 1991 	mov	r3,a
+   0728 8F 04              1992 	mov	ar4,r7
+   072A 8A 82              1993 	mov	dpl,r2
+   072C 8B 83              1994 	mov	dph,r3
+   072E 8C F0              1995 	mov	b,r4
+   0730 E4                 1996 	clr	a
+   0731 12s00r00           1997 	lcall	__gptrput
+   0734 A3                 1998 	inc	dptr
+   0735 E4                 1999 	clr	a
+   0736 12s00r00           2000 	lcall	__gptrput
+   0739                    2001 00146$:
+                           2002 ;	../../core/net/tcpip.c:412: cptr < &uip_udp_conns[UIP_UDP_CONNS]; ++cptr) {
+   0739 74 0F              2003 	mov	a,#0x0F
+   073B 2D                 2004 	add	a,r5
+   073C FD                 2005 	mov	r5,a
+   073D E4                 2006 	clr	a
+   073E 3E                 2007 	addc	a,r6
+   073F FE                 2008 	mov	r6,a
+                           2009 ;	../../core/net/tcpip.c:421: case PROCESS_EVENT_TIMER:
+   0740 80 85              2010 	sjmp	00144$
+   0742                    2011 00108$:
+                           2012 ;	../../core/net/tcpip.c:426: if(data == &periodic &&
+   0742 E5*00              2013 	mov	a,_bp
+   0744 24 FB              2014 	add	a,#0xfb
+   0746 F8                 2015 	mov	r0,a
+   0747 74r01              2016 	mov	a,#_periodic
+   0749 C0 E0              2017 	push	acc
+   074B 74s00              2018 	mov	a,#(_periodic >> 8)
+   074D C0 E0              2019 	push	acc
+   074F E4                 2020 	clr	a
+   0750 C0 E0              2021 	push	acc
+   0752 86 82              2022 	mov	dpl,@r0
+   0754 08                 2023 	inc	r0
+   0755 86 83              2024 	mov	dph,@r0
+   0757 08                 2025 	inc	r0
+   0758 86 F0              2026 	mov	b,@r0
+   075A 12s00r00           2027 	lcall	___gptr_cmp
+   075D 15 81              2028 	dec	sp
+   075F 15 81              2029 	dec	sp
+   0761 15 81              2030 	dec	sp
+   0763 60 03              2031 	jz	00220$
+   0765 02s08r57           2032 	ljmp	00152$
+   0768                    2033 00220$:
+                           2034 ;	../../core/net/tcpip.c:427: etimer_expired(&periodic)) {
+   0768 90s00r01           2035 	mov	dptr,#_periodic
+   076B 75 F0 00           2036 	mov	b,#0x00
+   076E 12s00r00           2037 	lcall	_etimer_expired
+   0771 E5 82              2038 	mov	a,dpl
+   0773 85 83 F0           2039 	mov	b,dph
+   0776 45 F0              2040 	orl	a,b
+   0778 70 03              2041 	jnz	00221$
+   077A 02s08r57           2042 	ljmp	00152$
+   077D                    2043 00221$:
+                           2044 ;	../../core/net/tcpip.c:429: for(i = 0; i < UIP_CONNS; ++i) {
+   077D 90s00r77           2045 	mov	dptr,#_eventhandler_i_1_1
+   0780 E4                 2046 	clr	a
+   0781 F0                 2047 	movx	@dptr,a
+   0782                    2048 00148$:
+   0782 90s00r77           2049 	mov	dptr,#_eventhandler_i_1_1
+   0785 E0                 2050 	movx	a,@dptr
+   0786 FF                 2051 	mov	r7,a
+   0787 BF 0A 00           2052 	cjne	r7,#0x0A,00222$
+   078A                    2053 00222$:
+   078A 50 5C              2054 	jnc	00151$
+                           2055 ;	../../core/net/tcpip.c:430: if(uip_conn_active(i)) {
+   078C EF                 2056 	mov	a,r7
+   078D 75 F0 22           2057 	mov	b,#0x22
+   0790 A4                 2058 	mul	ab
+   0791 24r00              2059 	add	a,#_uip_conns
+   0793 FE                 2060 	mov	r6,a
+   0794 74s00              2061 	mov	a,#(_uip_conns >> 8)
+   0796 35 F0              2062 	addc	a,b
+   0798 FF                 2063 	mov	r7,a
+   0799 74 19              2064 	mov	a,#0x19
+   079B 2E                 2065 	add	a,r6
+   079C FE                 2066 	mov	r6,a
+   079D E4                 2067 	clr	a
+   079E 3F                 2068 	addc	a,r7
+   079F FF                 2069 	mov	r7,a
+   07A0 8E 82              2070 	mov	dpl,r6
+   07A2 8F 83              2071 	mov	dph,r7
+   07A4 E0                 2072 	movx	a,@dptr
+   07A5 60 38              2073 	jz	00150$
+                           2074 ;	../../core/net/tcpip.c:433: etimer_restart(&periodic);
+   07A7 90s00r01           2075 	mov	dptr,#_periodic
+   07AA 75 F0 00           2076 	mov	b,#0x00
+   07AD 12s00r00           2077 	lcall	_etimer_restart
+                           2078 ;	../../core/net/tcpip.c:434: uip_periodic(i);
+   07B0 90s00r77           2079 	mov	dptr,#_eventhandler_i_1_1
+   07B3 E0                 2080 	movx	a,@dptr
+   07B4 75 F0 22           2081 	mov	b,#0x22
+   07B7 A4                 2082 	mul	ab
+   07B8 24r00              2083 	add	a,#_uip_conns
+   07BA FE                 2084 	mov	r6,a
+   07BB 74s00              2085 	mov	a,#(_uip_conns >> 8)
+   07BD 35 F0              2086 	addc	a,b
+   07BF FF                 2087 	mov	r7,a
+   07C0 90s00r00           2088 	mov	dptr,#_uip_conn
+   07C3 EE                 2089 	mov	a,r6
+   07C4 F0                 2090 	movx	@dptr,a
+   07C5 A3                 2091 	inc	dptr
+   07C6 EF                 2092 	mov	a,r7
+   07C7 F0                 2093 	movx	@dptr,a
+   07C8 A3                 2094 	inc	dptr
+   07C9 E4                 2095 	clr	a
+   07CA F0                 2096 	movx	@dptr,a
+   07CB 75 82 02           2097 	mov	dpl,#0x02
+   07CE 12s00r00           2098 	lcall	_uip_process
+                           2099 ;	../../core/net/tcpip.c:438: if(uip_len > 0) {
+   07D1 90s00r00           2100 	mov	dptr,#_uip_len
+   07D4 E0                 2101 	movx	a,@dptr
+   07D5 FE                 2102 	mov	r6,a
+   07D6 A3                 2103 	inc	dptr
+   07D7 E0                 2104 	movx	a,@dptr
+   07D8 FF                 2105 	mov	r7,a
+   07D9 4E                 2106 	orl	a,r6
+   07DA 60 03              2107 	jz	00150$
+                           2108 ;	../../core/net/tcpip.c:440: tcpip_output();
+   07DC 12s00r00           2109 	lcall	_tcpip_output
+   07DF                    2110 00150$:
+                           2111 ;	../../core/net/tcpip.c:429: for(i = 0; i < UIP_CONNS; ++i) {
+   07DF 90s00r77           2112 	mov	dptr,#_eventhandler_i_1_1
+   07E2 E0                 2113 	movx	a,@dptr
+   07E3 24 01              2114 	add	a,#0x01
+   07E5 F0                 2115 	movx	@dptr,a
+   07E6 80 9A              2116 	sjmp	00148$
+   07E8                    2117 00151$:
+                           2118 ;	../../core/net/tcpip.c:448: uip_fw_periodic();
+   07E8 12s00r00           2119 	lcall	_uip_fw_periodic
+                           2120 ;	../../core/net/tcpip.c:486: break;
+                           2121 ;	../../core/net/tcpip.c:489: case TCP_POLL:
+   07EB 80 6A              2122 	sjmp	00152$
+   07ED                    2123 00119$:
+                           2124 ;	../../core/net/tcpip.c:490: if(data != NULL) {
+   07ED E5*00              2125 	mov	a,_bp
+   07EF 24 FB              2126 	add	a,#0xfb
+   07F1 F8                 2127 	mov	r0,a
+   07F2 E6                 2128 	mov	a,@r0
+   07F3 08                 2129 	inc	r0
+   07F4 46                 2130 	orl	a,@r0
+   07F5 60 60              2131 	jz	00152$
+                           2132 ;	../../core/net/tcpip.c:491: uip_poll_conn(data);
+   07F7 E5*00              2133 	mov	a,_bp
+   07F9 24 FB              2134 	add	a,#0xfb
+   07FB F8                 2135 	mov	r0,a
+   07FC 90s00r00           2136 	mov	dptr,#_uip_conn
+   07FF E6                 2137 	mov	a,@r0
+   0800 F0                 2138 	movx	@dptr,a
+   0801 08                 2139 	inc	r0
+   0802 A3                 2140 	inc	dptr
+   0803 E6                 2141 	mov	a,@r0
+   0804 F0                 2142 	movx	@dptr,a
+   0805 08                 2143 	inc	r0
+   0806 A3                 2144 	inc	dptr
+   0807 E6                 2145 	mov	a,@r0
+   0808 F0                 2146 	movx	@dptr,a
+   0809 75 82 03           2147 	mov	dpl,#0x03
+   080C 12s00r00           2148 	lcall	_uip_process
+                           2149 ;	../../core/net/tcpip.c:495: if(uip_len > 0) {
+   080F 90s00r00           2150 	mov	dptr,#_uip_len
+   0812 E0                 2151 	movx	a,@dptr
+   0813 FE                 2152 	mov	r6,a
+   0814 A3                 2153 	inc	dptr
+   0815 E0                 2154 	movx	a,@dptr
+   0816 FF                 2155 	mov	r7,a
+   0817 4E                 2156 	orl	a,r6
+   0818 60 03              2157 	jz	00124$
+                           2158 ;	../../core/net/tcpip.c:497: tcpip_output();
+   081A 12s00r00           2159 	lcall	_tcpip_output
+   081D                    2160 00124$:
+                           2161 ;	../../core/net/tcpip.c:501: start_periodic_tcp_timer();
+   081D 12s00r29           2162 	lcall	_start_periodic_tcp_timer
+                           2163 ;	../../core/net/tcpip.c:503: break;
+                           2164 ;	../../core/net/tcpip.c:506: case UDP_POLL:
+   0820 80 35              2165 	sjmp	00152$
+   0822                    2166 00127$:
+                           2167 ;	../../core/net/tcpip.c:507: if(data != NULL) {
+   0822 E5*00              2168 	mov	a,_bp
+   0824 24 FB              2169 	add	a,#0xfb
+   0826 F8                 2170 	mov	r0,a
+   0827 E6                 2171 	mov	a,@r0
+   0828 08                 2172 	inc	r0
+   0829 46                 2173 	orl	a,@r0
+   082A 60 2B              2174 	jz	00152$
+                           2175 ;	../../core/net/tcpip.c:508: uip_udp_periodic_conn(data);
+   082C E5*00              2176 	mov	a,_bp
+   082E 24 FB              2177 	add	a,#0xfb
+   0830 F8                 2178 	mov	r0,a
+   0831 90s00r00           2179 	mov	dptr,#_uip_udp_conn
+   0834 E6                 2180 	mov	a,@r0
+   0835 F0                 2181 	movx	@dptr,a
+   0836 08                 2182 	inc	r0
+   0837 A3                 2183 	inc	dptr
+   0838 E6                 2184 	mov	a,@r0
+   0839 F0                 2185 	movx	@dptr,a
+   083A 08                 2186 	inc	r0
+   083B A3                 2187 	inc	dptr
+   083C E6                 2188 	mov	a,@r0
+   083D F0                 2189 	movx	@dptr,a
+   083E 75 82 05           2190 	mov	dpl,#0x05
+   0841 12s00r00           2191 	lcall	_uip_process
+                           2192 ;	../../core/net/tcpip.c:512: if(uip_len > 0) {
+   0844 90s00r00           2193 	mov	dptr,#_uip_len
+   0847 E0                 2194 	movx	a,@dptr
+   0848 FE                 2195 	mov	r6,a
+   0849 A3                 2196 	inc	dptr
+   084A E0                 2197 	movx	a,@dptr
+   084B FF                 2198 	mov	r7,a
+   084C 4E                 2199 	orl	a,r6
+   084D 60 08              2200 	jz	00152$
+                           2201 ;	../../core/net/tcpip.c:513: tcpip_output();
+   084F 12s00r00           2202 	lcall	_tcpip_output
+                           2203 ;	../../core/net/tcpip.c:517: break;
+                           2204 ;	../../core/net/tcpip.c:520: case PACKET_INPUT:
+   0852 80 03              2205 	sjmp	00152$
+   0854                    2206 00135$:
+                           2207 ;	../../core/net/tcpip.c:521: packet_input();
+   0854 12s00r70           2208 	lcall	_packet_input
+                           2209 ;	../../core/net/tcpip.c:523: };
+   0857                    2210 00152$:
+   0857 85*00 81           2211 	mov	sp,_bp
+   085A D0*00              2212 	pop	_bp
+   085C 22                 2213 	ret
+                           2214 ;------------------------------------------------------------
+                           2215 ;Allocation info for local variables in function 'tcpip_input'
+                           2216 ;------------------------------------------------------------
+                           2217 ;	../../core/net/tcpip.c:527: tcpip_input(void)
+                           2218 ;	-----------------------------------------
+                           2219 ;	 function tcpip_input
+                           2220 ;	-----------------------------------------
+   085D                    2221 _tcpip_input:
+                           2222 ;	../../core/net/tcpip.c:529: process_post_synch(&tcpip_process, PACKET_INPUT, NULL);
+   085D E4                 2223 	clr	a
+   085E C0 E0              2224 	push	acc
+   0860 C0 E0              2225 	push	acc
+   0862 C0 E0              2226 	push	acc
+   0864 74 02              2227 	mov	a,#0x02
+   0866 C0 E0              2228 	push	acc
+   0868 90s00r00           2229 	mov	dptr,#_tcpip_process
+   086B 75 F0 00           2230 	mov	b,#0x00
+   086E 12s00r00           2231 	lcall	_process_post_synch
+   0871 E5 81              2232 	mov	a,sp
+   0873 24 FC              2233 	add	a,#0xfc
+   0875 F5 81              2234 	mov	sp,a
+                           2235 ;	../../core/net/tcpip.c:530: uip_len = 0;
+   0877 90s00r00           2236 	mov	dptr,#_uip_len
+   087A E4                 2237 	clr	a
+   087B F0                 2238 	movx	@dptr,a
+   087C A3                 2239 	inc	dptr
+   087D F0                 2240 	movx	@dptr,a
+   087E 22                 2241 	ret
+                           2242 ;------------------------------------------------------------
+                           2243 ;Allocation info for local variables in function 'tcpip_poll_udp'
+                           2244 ;------------------------------------------------------------
+                           2245 ;conn                      Allocated to registers r5 r6 r7 
+                           2246 ;------------------------------------------------------------
+                           2247 ;	../../core/net/tcpip.c:678: tcpip_poll_udp(struct uip_udp_conn *conn)
+                           2248 ;	-----------------------------------------
+                           2249 ;	 function tcpip_poll_udp
+                           2250 ;	-----------------------------------------
+   087F                    2251 _tcpip_poll_udp:
+   087F AD 82              2252 	mov	r5,dpl
+   0881 AE 83              2253 	mov	r6,dph
+   0883 AF F0              2254 	mov	r7,b
+                           2255 ;	../../core/net/tcpip.c:680: process_post(&tcpip_process, UDP_POLL, conn);
+   0885 C0 05              2256 	push	ar5
+   0887 C0 06              2257 	push	ar6
+   0889 C0 07              2258 	push	ar7
+   088B 74 01              2259 	mov	a,#0x01
+   088D C0 E0              2260 	push	acc
+   088F 90s00r00           2261 	mov	dptr,#_tcpip_process
+   0892 75 F0 00           2262 	mov	b,#0x00
+   0895 12s00r00           2263 	lcall	_process_post
+   0898 E5 81              2264 	mov	a,sp
+   089A 24 FC              2265 	add	a,#0xfc
+   089C F5 81              2266 	mov	sp,a
+   089E 22                 2267 	ret
+                           2268 ;------------------------------------------------------------
+                           2269 ;Allocation info for local variables in function 'tcpip_poll_tcp'
+                           2270 ;------------------------------------------------------------
+                           2271 ;conn                      Allocated to registers r5 r6 r7 
+                           2272 ;------------------------------------------------------------
+                           2273 ;	../../core/net/tcpip.c:686: tcpip_poll_tcp(struct uip_conn *conn)
+                           2274 ;	-----------------------------------------
+                           2275 ;	 function tcpip_poll_tcp
+                           2276 ;	-----------------------------------------
+   089F                    2277 _tcpip_poll_tcp:
+   089F AD 82              2278 	mov	r5,dpl
+   08A1 AE 83              2279 	mov	r6,dph
+   08A3 AF F0              2280 	mov	r7,b
+                           2281 ;	../../core/net/tcpip.c:688: process_post(&tcpip_process, TCP_POLL, conn);
+   08A5 C0 05              2282 	push	ar5
+   08A7 C0 06              2283 	push	ar6
+   08A9 C0 07              2284 	push	ar7
+   08AB E4                 2285 	clr	a
+   08AC C0 E0              2286 	push	acc
+   08AE 90s00r00           2287 	mov	dptr,#_tcpip_process
+   08B1 75 F0 00           2288 	mov	b,#0x00
+   08B4 12s00r00           2289 	lcall	_process_post
+   08B7 E5 81              2290 	mov	a,sp
+   08B9 24 FC              2291 	add	a,#0xfc
+   08BB F5 81              2292 	mov	sp,a
+   08BD 22                 2293 	ret
+                           2294 ;------------------------------------------------------------
+                           2295 ;Allocation info for local variables in function 'tcpip_uipcall'
+                           2296 ;------------------------------------------------------------
+                           2297 ;ts                        Allocated to stack - _bp +1
+                           2298 ;l                         Allocated to registers 
+                           2299 ;sloc0                     Allocated to stack - _bp +4
+                           2300 ;i                         Allocated with name '_tcpip_uipcall_i_2_4'
+                           2301 ;------------------------------------------------------------
+                           2302 ;	../../core/net/tcpip.c:693: tcpip_uipcall(void)
+                           2303 ;	-----------------------------------------
+                           2304 ;	 function tcpip_uipcall
+                           2305 ;	-----------------------------------------
+   08BE                    2306 _tcpip_uipcall:
+   08BE C0*00              2307 	push	_bp
+   08C0 E5 81              2308 	mov	a,sp
+   08C2 F5*00              2309 	mov	_bp,a
+   08C4 24 06              2310 	add	a,#0x06
+   08C6 F5 81              2311 	mov	sp,a
+                           2312 ;	../../core/net/tcpip.c:698: if(uip_conn != NULL) {
+   08C8 90s00r00           2313 	mov	dptr,#_uip_conn
+   08CB E0                 2314 	movx	a,@dptr
+   08CC FA                 2315 	mov	r2,a
+   08CD A3                 2316 	inc	dptr
+   08CE E0                 2317 	movx	a,@dptr
+   08CF FB                 2318 	mov	r3,a
+   08D0 A3                 2319 	inc	dptr
+   08D1 E0                 2320 	movx	a,@dptr
+   08D2 FC                 2321 	mov	r4,a
+   08D3 EA                 2322 	mov	a,r2
+   08D4 4B                 2323 	orl	a,r3
+   08D5 60 10              2324 	jz	00102$
+                           2325 ;	../../core/net/tcpip.c:699: ts = &uip_conn->appstate;
+   08D7 A8*00              2326 	mov	r0,_bp
+   08D9 08                 2327 	inc	r0
+   08DA 74 1C              2328 	mov	a,#0x1C
+   08DC 2A                 2329 	add	a,r2
+   08DD F6                 2330 	mov	@r0,a
+   08DE E4                 2331 	clr	a
+   08DF 3B                 2332 	addc	a,r3
+   08E0 08                 2333 	inc	r0
+   08E1 F6                 2334 	mov	@r0,a
+   08E2 08                 2335 	inc	r0
+   08E3 A6 04              2336 	mov	@r0,ar4
+   08E5 80 19              2337 	sjmp	00103$
+   08E7                    2338 00102$:
+                           2339 ;	../../core/net/tcpip.c:701: ts = &uip_udp_conn->appstate;
+   08E7 90s00r00           2340 	mov	dptr,#_uip_udp_conn
+   08EA E0                 2341 	movx	a,@dptr
+   08EB FD                 2342 	mov	r5,a
+   08EC A3                 2343 	inc	dptr
+   08ED E0                 2344 	movx	a,@dptr
+   08EE FE                 2345 	mov	r6,a
+   08EF A3                 2346 	inc	dptr
+   08F0 E0                 2347 	movx	a,@dptr
+   08F1 FF                 2348 	mov	r7,a
+   08F2 A8*00              2349 	mov	r0,_bp
+   08F4 08                 2350 	inc	r0
+   08F5 74 09              2351 	mov	a,#0x09
+   08F7 2D                 2352 	add	a,r5
+   08F8 F6                 2353 	mov	@r0,a
+   08F9 E4                 2354 	clr	a
+   08FA 3E                 2355 	addc	a,r6
+   08FB 08                 2356 	inc	r0
+   08FC F6                 2357 	mov	@r0,a
+   08FD 08                 2358 	inc	r0
+   08FE A6 07              2359 	mov	@r0,ar7
+   0900                    2360 00103$:
+                           2361 ;	../../core/net/tcpip.c:714: if(uip_connected()) {
+   0900 90s00r00           2362 	mov	dptr,#_uip_flags
+   0903 E0                 2363 	movx	a,@dptr
+   0904 FF                 2364 	mov	r7,a
+   0905 20 E6 03           2365 	jb	acc.6,00132$
+   0908 02s09rD2           2366 	ljmp	00112$
+   090B                    2367 00132$:
+                           2368 ;	../../core/net/tcpip.c:715: l = &s.listenports[0];
+   090B 7Dr0B              2369 	mov	r5,#_s
+   090D 7Es00              2370 	mov	r6,#(_s >> 8)
+   090F 7F 00              2371 	mov	r7,#0x00
+                           2372 ;	../../core/net/tcpip.c:716: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   0911 90s00r78           2373 	mov	dptr,#_tcpip_uipcall_i_2_4
+   0914 E4                 2374 	clr	a
+   0915 F0                 2375 	movx	@dptr,a
+   0916 74 04              2376 	mov	a,#0x04
+   0918 2A                 2377 	add	a,r2
+   0919 FA                 2378 	mov	r2,a
+   091A E4                 2379 	clr	a
+   091B 3B                 2380 	addc	a,r3
+   091C FB                 2381 	mov	r3,a
+   091D 8A 82              2382 	mov	dpl,r2
+   091F 8B 83              2383 	mov	dph,r3
+   0921 8C F0              2384 	mov	b,r4
+   0923 E5*00              2385 	mov	a,_bp
+   0925 24 04              2386 	add	a,#0x04
+   0927 F8                 2387 	mov	r0,a
+   0928 12s00r00           2388 	lcall	__gptrget
+   092B F6                 2389 	mov	@r0,a
+   092C A3                 2390 	inc	dptr
+   092D 12s00r00           2391 	lcall	__gptrget
+   0930 08                 2392 	inc	r0
+   0931 F6                 2393 	mov	@r0,a
+   0932                    2394 00107$:
+   0932 90s00r78           2395 	mov	dptr,#_tcpip_uipcall_i_2_4
+   0935 E0                 2396 	movx	a,@dptr
+   0936 FA                 2397 	mov	r2,a
+   0937 BA 14 00           2398 	cjne	r2,#0x14,00133$
+   093A                    2399 00133$:
+   093A 40 03              2400 	jc	00134$
+   093C 02s09rCF           2401 	ljmp	00110$
+   093F                    2402 00134$:
+                           2403 ;	../../core/net/tcpip.c:717: if(l->port == uip_conn->lport &&
+   093F 8D 82              2404 	mov	dpl,r5
+   0941 8E 83              2405 	mov	dph,r6
+   0943 8F F0              2406 	mov	b,r7
+   0945 12s00r00           2407 	lcall	__gptrget
+   0948 FA                 2408 	mov	r2,a
+   0949 A3                 2409 	inc	dptr
+   094A 12s00r00           2410 	lcall	__gptrget
+   094D FC                 2411 	mov	r4,a
+   094E E5*00              2412 	mov	a,_bp
+   0950 24 04              2413 	add	a,#0x04
+   0952 F8                 2414 	mov	r0,a
+   0953 E6                 2415 	mov	a,@r0
+   0954 B5 02 07           2416 	cjne	a,ar2,00135$
+   0957 08                 2417 	inc	r0
+   0958 E6                 2418 	mov	a,@r0
+   0959 B5 04 02           2419 	cjne	a,ar4,00135$
+   095C 80 02              2420 	sjmp	00136$
+   095E                    2421 00135$:
+   095E 80 5E              2422 	sjmp	00105$
+   0960                    2423 00136$:
+                           2424 ;	../../core/net/tcpip.c:718: l->p != PROCESS_NONE) {
+   0960 74 02              2425 	mov	a,#0x02
+   0962 2D                 2426 	add	a,r5
+   0963 FA                 2427 	mov	r2,a
+   0964 E4                 2428 	clr	a
+   0965 3E                 2429 	addc	a,r6
+   0966 FB                 2430 	mov	r3,a
+   0967 8F 04              2431 	mov	ar4,r7
+   0969 8A 82              2432 	mov	dpl,r2
+   096B 8B 83              2433 	mov	dph,r3
+   096D 8C F0              2434 	mov	b,r4
+   096F 12s00r00           2435 	lcall	__gptrget
+   0972 FA                 2436 	mov	r2,a
+   0973 A3                 2437 	inc	dptr
+   0974 12s00r00           2438 	lcall	__gptrget
+   0977 FB                 2439 	mov	r3,a
+   0978 A3                 2440 	inc	dptr
+   0979 12s00r00           2441 	lcall	__gptrget
+   097C FC                 2442 	mov	r4,a
+   097D EA                 2443 	mov	a,r2
+   097E 4B                 2444 	orl	a,r3
+   097F 60 3D              2445 	jz	00105$
+                           2446 ;	../../core/net/tcpip.c:719: ts->p = l->p;
+   0981 A8*00              2447 	mov	r0,_bp
+   0983 08                 2448 	inc	r0
+   0984 86 82              2449 	mov	dpl,@r0
+   0986 08                 2450 	inc	r0
+   0987 86 83              2451 	mov	dph,@r0
+   0989 08                 2452 	inc	r0
+   098A 86 F0              2453 	mov	b,@r0
+   098C EA                 2454 	mov	a,r2
+   098D 12s00r00           2455 	lcall	__gptrput
+   0990 A3                 2456 	inc	dptr
+   0991 EB                 2457 	mov	a,r3
+   0992 12s00r00           2458 	lcall	__gptrput
+   0995 A3                 2459 	inc	dptr
+   0996 EC                 2460 	mov	a,r4
+   0997 12s00r00           2461 	lcall	__gptrput
+                           2462 ;	../../core/net/tcpip.c:720: ts->state = NULL;
+   099A A8*00              2463 	mov	r0,_bp
+   099C 08                 2464 	inc	r0
+   099D 74 03              2465 	mov	a,#0x03
+   099F 26                 2466 	add	a,@r0
+   09A0 FA                 2467 	mov	r2,a
+   09A1 E4                 2468 	clr	a
+   09A2 08                 2469 	inc	r0
+   09A3 36                 2470 	addc	a,@r0
+   09A4 FB                 2471 	mov	r3,a
+   09A5 08                 2472 	inc	r0
+   09A6 86 04              2473 	mov	ar4,@r0
+   09A8 8A 82              2474 	mov	dpl,r2
+   09AA 8B 83              2475 	mov	dph,r3
+   09AC 8C F0              2476 	mov	b,r4
+   09AE E4                 2477 	clr	a
+   09AF 12s00r00           2478 	lcall	__gptrput
+   09B2 A3                 2479 	inc	dptr
+   09B3 E4                 2480 	clr	a
+   09B4 12s00r00           2481 	lcall	__gptrput
+   09B7 A3                 2482 	inc	dptr
+   09B8 E4                 2483 	clr	a
+   09B9 12s00r00           2484 	lcall	__gptrput
+                           2485 ;	../../core/net/tcpip.c:721: break;
+   09BC 80 11              2486 	sjmp	00110$
+   09BE                    2487 00105$:
+                           2488 ;	../../core/net/tcpip.c:723: ++l;
+   09BE 74 05              2489 	mov	a,#0x05
+   09C0 2D                 2490 	add	a,r5
+   09C1 FD                 2491 	mov	r5,a
+   09C2 E4                 2492 	clr	a
+   09C3 3E                 2493 	addc	a,r6
+   09C4 FE                 2494 	mov	r6,a
+                           2495 ;	../../core/net/tcpip.c:716: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   09C5 90s00r78           2496 	mov	dptr,#_tcpip_uipcall_i_2_4
+   09C8 E0                 2497 	movx	a,@dptr
+   09C9 24 01              2498 	add	a,#0x01
+   09CB F0                 2499 	movx	@dptr,a
+   09CC 02s09r32           2500 	ljmp	00107$
+   09CF                    2501 00110$:
+                           2502 ;	../../core/net/tcpip.c:727: start_periodic_tcp_timer();
+   09CF 12s00r29           2503 	lcall	_start_periodic_tcp_timer
+   09D2                    2504 00112$:
+                           2505 ;	../../core/net/tcpip.c:732: if(ts->p != NULL) {
+   09D2 A8*00              2506 	mov	r0,_bp
+   09D4 08                 2507 	inc	r0
+   09D5 86 82              2508 	mov	dpl,@r0
+   09D7 08                 2509 	inc	r0
+   09D8 86 83              2510 	mov	dph,@r0
+   09DA 08                 2511 	inc	r0
+   09DB 86 F0              2512 	mov	b,@r0
+   09DD 12s00r00           2513 	lcall	__gptrget
+   09E0 FD                 2514 	mov	r5,a
+   09E1 A3                 2515 	inc	dptr
+   09E2 12s00r00           2516 	lcall	__gptrget
+   09E5 FE                 2517 	mov	r6,a
+   09E6 A3                 2518 	inc	dptr
+   09E7 12s00r00           2519 	lcall	__gptrget
+   09EA FF                 2520 	mov	r7,a
+   09EB ED                 2521 	mov	a,r5
+   09EC 4E                 2522 	orl	a,r6
+   09ED 60 3D              2523 	jz	00115$
+                           2524 ;	../../core/net/tcpip.c:733: process_post_synch(ts->p, tcpip_event, ts->state);
+   09EF A8*00              2525 	mov	r0,_bp
+   09F1 08                 2526 	inc	r0
+   09F2 74 03              2527 	mov	a,#0x03
+   09F4 26                 2528 	add	a,@r0
+   09F5 FA                 2529 	mov	r2,a
+   09F6 E4                 2530 	clr	a
+   09F7 08                 2531 	inc	r0
+   09F8 36                 2532 	addc	a,@r0
+   09F9 FB                 2533 	mov	r3,a
+   09FA 08                 2534 	inc	r0
+   09FB 86 04              2535 	mov	ar4,@r0
+   09FD 8A 82              2536 	mov	dpl,r2
+   09FF 8B 83              2537 	mov	dph,r3
+   0A01 8C F0              2538 	mov	b,r4
+   0A03 12s00r00           2539 	lcall	__gptrget
+   0A06 FA                 2540 	mov	r2,a
+   0A07 A3                 2541 	inc	dptr
+   0A08 12s00r00           2542 	lcall	__gptrget
+   0A0B FB                 2543 	mov	r3,a
+   0A0C A3                 2544 	inc	dptr
+   0A0D 12s00r00           2545 	lcall	__gptrget
+   0A10 FC                 2546 	mov	r4,a
+   0A11 C0 02              2547 	push	ar2
+   0A13 C0 03              2548 	push	ar3
+   0A15 C0 04              2549 	push	ar4
+   0A17 90s00r00           2550 	mov	dptr,#_tcpip_event
+   0A1A E0                 2551 	movx	a,@dptr
+   0A1B C0 E0              2552 	push	acc
+   0A1D 8D 82              2553 	mov	dpl,r5
+   0A1F 8E 83              2554 	mov	dph,r6
+   0A21 8F F0              2555 	mov	b,r7
+   0A23 12s00r00           2556 	lcall	_process_post_synch
+   0A26 E5 81              2557 	mov	a,sp
+   0A28 24 FC              2558 	add	a,#0xfc
+   0A2A F5 81              2559 	mov	sp,a
+   0A2C                    2560 00115$:
+   0A2C 85*00 81           2561 	mov	sp,_bp
+   0A2F D0*00              2562 	pop	_bp
+   0A31 22                 2563 	ret
+                           2564 ;------------------------------------------------------------
+                           2565 ;Allocation info for local variables in function 'process_thread_tcpip_process'
+                           2566 ;------------------------------------------------------------
+                           2567 ;ev                        Allocated to stack - _bp -3
+                           2568 ;data                      Allocated to stack - _bp -6
+                           2569 ;process_pt                Allocated to registers r5 r6 r7 
+                           2570 ;PT_YIELD_FLAG             Allocated to registers r4 
+                           2571 ;i                         Allocated with name '_process_thread_tcpip_process_i_4_5'
+                           2572 ;------------------------------------------------------------
+                           2573 ;	../../core/net/tcpip.c:737: PROCESS_THREAD(tcpip_process, ev, data)
+                           2574 ;	-----------------------------------------
+                           2575 ;	 function process_thread_tcpip_process
+                           2576 ;	-----------------------------------------
+   0A32                    2577 _process_thread_tcpip_process:
+   0A32 C0*00              2578 	push	_bp
+   0A34 85 81*00           2579 	mov	_bp,sp
+                           2580 ;	../../core/net/tcpip.c:739: PROCESS_BEGIN();
+   0A37 AD 82              2581 	mov	r5,dpl
+   0A39 AE 83              2582 	mov	r6,dph
+   0A3B AF F0              2583 	mov	r7,b
+   0A3D 7C 01              2584 	mov	r4,#0x01
+   0A3F 12s00r00           2585 	lcall	__gptrget
+   0A42 FA                 2586 	mov	r2,a
+   0A43 A3                 2587 	inc	dptr
+   0A44 12s00r00           2588 	lcall	__gptrget
+   0A47 FB                 2589 	mov	r3,a
+   0A48 BA 00 05           2590 	cjne	r2,#0x00,00130$
+   0A4B BB 00 02           2591 	cjne	r3,#0x00,00130$
+   0A4E 80 0C              2592 	sjmp	00101$
+   0A50                    2593 00130$:
+   0A50 BA 00 06           2594 	cjne	r2,#0x00,00131$
+   0A53 BB 03 03           2595 	cjne	r3,#0x03,00131$
+   0A56 02s0ArE5           2596 	ljmp	00102$
+   0A59                    2597 00131$:
+   0A59 02s0Br1B           2598 	ljmp	00111$
+   0A5C                    2599 00101$:
+                           2600 ;	../../core/net/tcpip.c:745: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   0A5C 90s00r79           2601 	mov	dptr,#_process_thread_tcpip_process_i_4_5
+   0A5F E4                 2602 	clr	a
+   0A60 F0                 2603 	movx	@dptr,a
+   0A61                    2604 00112$:
+   0A61 90s00r79           2605 	mov	dptr,#_process_thread_tcpip_process_i_4_5
+   0A64 E0                 2606 	movx	a,@dptr
+   0A65 FB                 2607 	mov	r3,a
+   0A66 BB 14 00           2608 	cjne	r3,#0x14,00132$
+   0A69                    2609 00132$:
+   0A69 50 1A              2610 	jnc	00115$
+                           2611 ;	../../core/net/tcpip.c:746: s.listenports[i].port = 0;
+   0A6B EB                 2612 	mov	a,r3
+   0A6C 75 F0 05           2613 	mov	b,#0x05
+   0A6F A4                 2614 	mul	ab
+   0A70 24r0B              2615 	add	a,#_s
+   0A72 F5 82              2616 	mov	dpl,a
+   0A74 E4                 2617 	clr	a
+   0A75 34s00              2618 	addc	a,#(_s >> 8)
+   0A77 F5 83              2619 	mov	dph,a
+   0A79 E4                 2620 	clr	a
+   0A7A F0                 2621 	movx	@dptr,a
+   0A7B A3                 2622 	inc	dptr
+   0A7C F0                 2623 	movx	@dptr,a
+                           2624 ;	../../core/net/tcpip.c:745: for(i = 0; i < UIP_LISTENPORTS; ++i) {
+   0A7D 90s00r79           2625 	mov	dptr,#_process_thread_tcpip_process_i_4_5
+   0A80 EB                 2626 	mov	a,r3
+   0A81 04                 2627 	inc	a
+   0A82 F0                 2628 	movx	@dptr,a
+   0A83 80 DC              2629 	sjmp	00112$
+   0A85                    2630 00115$:
+                           2631 ;	../../core/net/tcpip.c:748: s.p = PROCESS_CURRENT();
+   0A85 C0 05              2632 	push	ar5
+   0A87 C0 06              2633 	push	ar6
+   0A89 C0 07              2634 	push	ar7
+   0A8B 90s00r00           2635 	mov	dptr,#_process_current
+   0A8E E0                 2636 	movx	a,@dptr
+   0A8F FA                 2637 	mov	r2,a
+   0A90 A3                 2638 	inc	dptr
+   0A91 E0                 2639 	movx	a,@dptr
+   0A92 FB                 2640 	mov	r3,a
+   0A93 A3                 2641 	inc	dptr
+   0A94 E0                 2642 	movx	a,@dptr
+   0A95 FF                 2643 	mov	r7,a
+   0A96 90s00r6F           2644 	mov	dptr,#(_s + 0x0064)
+   0A99 EA                 2645 	mov	a,r2
+   0A9A F0                 2646 	movx	@dptr,a
+   0A9B A3                 2647 	inc	dptr
+   0A9C EB                 2648 	mov	a,r3
+   0A9D F0                 2649 	movx	@dptr,a
+   0A9E A3                 2650 	inc	dptr
+   0A9F EF                 2651 	mov	a,r7
+   0AA0 F0                 2652 	movx	@dptr,a
+                           2653 ;	../../core/net/tcpip.c:752: tcpip_event = process_alloc_event();
+   0AA1 C0 07              2654 	push	ar7
+   0AA3 C0 06              2655 	push	ar6
+   0AA5 C0 05              2656 	push	ar5
+   0AA7 12s00r00           2657 	lcall	_process_alloc_event
+   0AAA E5 82              2658 	mov	a,dpl
+   0AAC 90s00r00           2659 	mov	dptr,#_tcpip_event
+   0AAF F0                 2660 	movx	@dptr,a
+                           2661 ;	../../core/net/tcpip.c:756: etimer_set(&periodic, CLOCK_SECOND / 2);
+   0AB0 74 40              2662 	mov	a,#0x40
+   0AB2 C0 E0              2663 	push	acc
+   0AB4 E4                 2664 	clr	a
+   0AB5 C0 E0              2665 	push	acc
+   0AB7 90s00r01           2666 	mov	dptr,#_periodic
+   0ABA 75 F0 00           2667 	mov	b,#0x00
+   0ABD 12s00r00           2668 	lcall	_etimer_set
+   0AC0 15 81              2669 	dec	sp
+   0AC2 15 81              2670 	dec	sp
+                           2671 ;	../../core/net/tcpip.c:758: uip_init();
+   0AC4 12s00r00           2672 	lcall	_uip_init
+   0AC7 D0 05              2673 	pop	ar5
+   0AC9 D0 06              2674 	pop	ar6
+   0ACB D0 07              2675 	pop	ar7
+                           2676 ;	../../core/net/tcpip.c:772: PROCESS_END();
+   0ACD D0 07              2677 	pop	ar7
+   0ACF D0 06              2678 	pop	ar6
+   0AD1 D0 05              2679 	pop	ar5
+                           2680 ;	../../core/net/tcpip.c:767: while(1) {
+   0AD3                    2681 00109$:
+                           2682 ;	../../core/net/tcpip.c:768: PROCESS_YIELD();
+   0AD3 7C 00              2683 	mov	r4,#0x00
+   0AD5 8D 82              2684 	mov	dpl,r5
+   0AD7 8E 83              2685 	mov	dph,r6
+   0AD9 8F F0              2686 	mov	b,r7
+   0ADB E4                 2687 	clr	a
+   0ADC 12s00r00           2688 	lcall	__gptrput
+   0ADF A3                 2689 	inc	dptr
+   0AE0 74 03              2690 	mov	a,#0x03
+   0AE2 12s00r00           2691 	lcall	__gptrput
+   0AE5                    2692 00102$:
+   0AE5 EC                 2693 	mov	a,r4
+   0AE6 70 05              2694 	jnz	00106$
+   0AE8 75 82 01           2695 	mov	dpl,#0x01
+   0AEB 80 40              2696 	sjmp	00116$
+   0AED                    2697 00106$:
+                           2698 ;	../../core/net/tcpip.c:769: eventhandler(ev, data);
+   0AED C0 07              2699 	push	ar7
+   0AEF C0 06              2700 	push	ar6
+   0AF1 C0 05              2701 	push	ar5
+   0AF3 E5*00              2702 	mov	a,_bp
+   0AF5 24 FA              2703 	add	a,#0xfa
+   0AF7 F8                 2704 	mov	r0,a
+   0AF8 E6                 2705 	mov	a,@r0
+   0AF9 C0 E0              2706 	push	acc
+   0AFB 08                 2707 	inc	r0
+   0AFC E6                 2708 	mov	a,@r0
+   0AFD C0 E0              2709 	push	acc
+   0AFF 08                 2710 	inc	r0
+   0B00 E6                 2711 	mov	a,@r0
+   0B01 C0 E0              2712 	push	acc
+   0B03 E5*00              2713 	mov	a,_bp
+   0B05 24 FD              2714 	add	a,#0xfd
+   0B07 F8                 2715 	mov	r0,a
+   0B08 86 82              2716 	mov	dpl,@r0
+   0B0A 12s05r0C           2717 	lcall	_eventhandler
+   0B0D 15 81              2718 	dec	sp
+   0B0F 15 81              2719 	dec	sp
+   0B11 15 81              2720 	dec	sp
+   0B13 D0 05              2721 	pop	ar5
+   0B15 D0 06              2722 	pop	ar6
+   0B17 D0 07              2723 	pop	ar7
+                           2724 ;	../../core/net/tcpip.c:772: PROCESS_END();
+   0B19 80 B8              2725 	sjmp	00109$
+   0B1B                    2726 00111$:
+   0B1B 8D 82              2727 	mov	dpl,r5
+   0B1D 8E 83              2728 	mov	dph,r6
+   0B1F 8F F0              2729 	mov	b,r7
+   0B21 E4                 2730 	clr	a
+   0B22 12s00r00           2731 	lcall	__gptrput
+   0B25 A3                 2732 	inc	dptr
+   0B26 E4                 2733 	clr	a
+   0B27 12s00r00           2734 	lcall	__gptrput
+   0B2A 75 82 03           2735 	mov	dpl,#0x03
+   0B2D                    2736 00116$:
+   0B2D D0*00              2737 	pop	_bp
+   0B2F 22                 2738 	ret
+                           2739 	.area CSEG    (CODE)
+                           2740 	.area CONST   (CODE)
+                           2741 	.area XINIT   (CODE)
+   0000                    2742 __xinit__tcpip_process:
+                           2743 ; generic printIvalPtr
+   0000 00 00 00           2744 	.byte #0x00,#0x00,#0x00
+   0003r32s0A              2745 	.byte _process_thread_tcpip_process,(_process_thread_tcpip_process >> 8)
+   0005 00 00              2746 	.byte #0x00,#0x00	; 0
+   0007 00                 2747 	.db #0x00	; 0
+   0008 00                 2748 	.db #0x00	; 0
+                           2749 	.area CABS    (ABS,CODE)

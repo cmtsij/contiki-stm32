@@ -1,0 +1,3444 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:19 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module cxmac
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _cxmac_driver
+                             13 	.globl _cxmac_init
+                             14 	.globl _cxmac_set_announcement_radio_txpower
+                             15 	.globl _memb_alloc
+                             16 	.globl _memb_init
+                             17 	.globl _list_item_next
+                             18 	.globl _list_add
+                             19 	.globl _list_head
+                             20 	.globl _list_init
+                             21 	.globl _queuebuf_free
+                             22 	.globl _queuebuf_to_packetbuf
+                             23 	.globl _queuebuf_new_from_packetbuf
+                             24 	.globl _packetbuf_addr
+                             25 	.globl _packetbuf_set_addr
+                             26 	.globl _packetbuf_attr
+                             27 	.globl _packetbuf_compact
+                             28 	.globl _packetbuf_set_datalen
+                             29 	.globl _packetbuf_totlen
+                             30 	.globl _packetbuf_hdrptr
+                             31 	.globl _packetbuf_dataptr
+                             32 	.globl _packetbuf_clear
+                             33 	.globl _ctimer_set
+                             34 	.globl _rimeaddr_cmp
+                             35 	.globl _rimeaddr_copy
+                             36 	.globl _mac_call_sent_callback
+                             37 	.globl _memcpy
+                             38 	.globl _watchdog_stop
+                             39 	.globl _watchdog_start
+                             40 	.globl _IRCON2_P2IF
+                             41 	.globl _IRCON2_UTX0IF
+                             42 	.globl _IRCON2_UTX1IF
+                             43 	.globl _IRCON2_P1IF
+                             44 	.globl _IRCON2_WDTIF
+                             45 	.globl _CY
+                             46 	.globl _AC
+                             47 	.globl _F0
+                             48 	.globl _RS1
+                             49 	.globl _RS0
+                             50 	.globl _OV
+                             51 	.globl _F1
+                             52 	.globl _P
+                             53 	.globl _IRCON_DMAIF
+                             54 	.globl _IRCON_T1IF
+                             55 	.globl _IRCON_T2IF
+                             56 	.globl _IRCON_T3IF
+                             57 	.globl _IRCON_T4IF
+                             58 	.globl _IRCON_P0IF
+                             59 	.globl _IRCON_STIF
+                             60 	.globl _IEN1_DMAIE
+                             61 	.globl _IEN1_T1IE
+                             62 	.globl _IEN1_T2IE
+                             63 	.globl _IEN1_T3IE
+                             64 	.globl _IEN1_T4IE
+                             65 	.globl _IEN1_P0IE
+                             66 	.globl _IEN0_RFERRIE
+                             67 	.globl _IEN0_ADCIE
+                             68 	.globl _IEN0_URX0IE
+                             69 	.globl _IEN0_URX1IE
+                             70 	.globl _IEN0_ENCIE
+                             71 	.globl _IEN0_STIE
+                             72 	.globl _IEN0_EA
+                             73 	.globl _EA
+                             74 	.globl _P2_4
+                             75 	.globl _P2_3
+                             76 	.globl _P2_2
+                             77 	.globl _P2_1
+                             78 	.globl _P2_0
+                             79 	.globl _S0CON_ENCIF_0
+                             80 	.globl _S0CON_ENCIF_1
+                             81 	.globl _P1_7
+                             82 	.globl _P1_6
+                             83 	.globl _P1_5
+                             84 	.globl _P1_4
+                             85 	.globl _P1_3
+                             86 	.globl _P1_2
+                             87 	.globl _P1_1
+                             88 	.globl _P1_0
+                             89 	.globl _TCON_IT0
+                             90 	.globl _TCON_RFERRIF
+                             91 	.globl _TCON_IT1
+                             92 	.globl _TCON_URX0IF
+                             93 	.globl _TCON_ADCIF
+                             94 	.globl _TCON_URX1IF
+                             95 	.globl _P0_0
+                             96 	.globl _P0_1
+                             97 	.globl _P0_2
+                             98 	.globl _P0_3
+                             99 	.globl _P0_4
+                            100 	.globl _P0_5
+                            101 	.globl _P0_6
+                            102 	.globl _P0_7
+                            103 	.globl _P2DIR
+                            104 	.globl _P1DIR
+                            105 	.globl _P0DIR
+                            106 	.globl _U1GCR
+                            107 	.globl _U1UCR
+                            108 	.globl _U1BAUD
+                            109 	.globl _U1BUF
+                            110 	.globl _U1CSR
+                            111 	.globl _P2INP
+                            112 	.globl _P1INP
+                            113 	.globl _P2SEL
+                            114 	.globl _P1SEL
+                            115 	.globl _P0SEL
+                            116 	.globl _ADCCFG
+                            117 	.globl _PERCFG
+                            118 	.globl _B
+                            119 	.globl _T4CC1
+                            120 	.globl _T4CCTL1
+                            121 	.globl _T4CC0
+                            122 	.globl _T4CCTL0
+                            123 	.globl _T4CTL
+                            124 	.globl _T4CNT
+                            125 	.globl _RFIF
+                            126 	.globl _IRCON2
+                            127 	.globl _T1CCTL2
+                            128 	.globl _T1CCTL1
+                            129 	.globl _T1CCTL0
+                            130 	.globl _T1CTL
+                            131 	.globl _T1CNTH
+                            132 	.globl _T1CNTL
+                            133 	.globl _RFST
+                            134 	.globl _ACC
+                            135 	.globl _T1CC2H
+                            136 	.globl _T1CC2L
+                            137 	.globl _T1CC1H
+                            138 	.globl _T1CC1L
+                            139 	.globl _T1CC0H
+                            140 	.globl _T1CC0L
+                            141 	.globl _RFD
+                            142 	.globl _TIMIF
+                            143 	.globl _DMAREQ
+                            144 	.globl _DMAARM
+                            145 	.globl _DMA0CFGH
+                            146 	.globl _DMA0CFGL
+                            147 	.globl _DMA1CFGH
+                            148 	.globl _DMA1CFGL
+                            149 	.globl _DMAIRQ
+                            150 	.globl _PSW
+                            151 	.globl _T3CC1
+                            152 	.globl _T3CCTL1
+                            153 	.globl _T3CC0
+                            154 	.globl _T3CCTL0
+                            155 	.globl _T3CTL
+                            156 	.globl _T3CNT
+                            157 	.globl _WDCTL
+                            158 	.globl _T2CON
+                            159 	.globl _MEMCTR
+                            160 	.globl _CLKCON
+                            161 	.globl _U0GCR
+                            162 	.globl _U0UCR
+                            163 	.globl _T2CNF
+                            164 	.globl _U0BAUD
+                            165 	.globl _U0BUF
+                            166 	.globl _IRCON
+                            167 	.globl _SLEEP
+                            168 	.globl _RNDH
+                            169 	.globl _RNDL
+                            170 	.globl _ADCH
+                            171 	.globl _ADCL
+                            172 	.globl _IP1
+                            173 	.globl _IEN1
+                            174 	.globl _RCCTL
+                            175 	.globl _ADCCON3
+                            176 	.globl _ADCCON2
+                            177 	.globl _ADCCON1
+                            178 	.globl _ENCCS
+                            179 	.globl _ENCDO
+                            180 	.globl _ENCDI
+                            181 	.globl _FWDATA
+                            182 	.globl _FCTL
+                            183 	.globl _FADDRH
+                            184 	.globl _FADDRL
+                            185 	.globl _FWT
+                            186 	.globl _IP0
+                            187 	.globl _IEN0
+                            188 	.globl _IE
+                            189 	.globl _T2THD
+                            190 	.globl _T2TLD
+                            191 	.globl _T2CAPHPH
+                            192 	.globl _T2CAPLPL
+                            193 	.globl _T2OF2
+                            194 	.globl _T2OF1
+                            195 	.globl _T2OF0
+                            196 	.globl _P2
+                            197 	.globl _PSBANK
+                            198 	.globl _FMAP
+                            199 	.globl _T2PEROF2
+                            200 	.globl _T2PEROF1
+                            201 	.globl _T2PEROF0
+                            202 	.globl _S1CON
+                            203 	.globl _IEN2
+                            204 	.globl _HSRC
+                            205 	.globl _S0CON
+                            206 	.globl _ST2
+                            207 	.globl _ST1
+                            208 	.globl _ST0
+                            209 	.globl _T2CMP
+                            210 	.globl __XPAGE
+                            211 	.globl _DPS
+                            212 	.globl _RFIM
+                            213 	.globl _P1
+                            214 	.globl _P0INP
+                            215 	.globl _P1IEN
+                            216 	.globl _PICTL
+                            217 	.globl _P2IFG
+                            218 	.globl _P1IFG
+                            219 	.globl _P0IFG
+                            220 	.globl _TCON
+                            221 	.globl _PCON
+                            222 	.globl _U0CSR
+                            223 	.globl _DPH1
+                            224 	.globl _DPL1
+                            225 	.globl _DPH0
+                            226 	.globl _DPL0
+                            227 	.globl _SP
+                            228 	.globl _P0
+                            229 	.globl _cxmac_config
+                            230 	.globl _ADC_SHADOW
+                            231 	.globl _U1BUF_SHADOW
+                            232 	.globl _RFD_SHADOW
+                            233 	.globl _U0BUF_SHADOW
+                            234 	.globl _RFSTATUS
+                            235 	.globl _CHIPID
+                            236 	.globl _CHVER
+                            237 	.globl _FSMTC1
+                            238 	.globl _RXFIFOCNT
+                            239 	.globl _IOCFG3
+                            240 	.globl _IOCFG2
+                            241 	.globl _IOCFG1
+                            242 	.globl _IOCFG0
+                            243 	.globl _SHORTADDRL
+                            244 	.globl _SHORTADDRH
+                            245 	.globl _PANIDL
+                            246 	.globl _PANIDH
+                            247 	.globl _IEEE_ADDR7
+                            248 	.globl _IEEE_ADDR6
+                            249 	.globl _IEEE_ADDR5
+                            250 	.globl _IEEE_ADDR4
+                            251 	.globl _IEEE_ADDR3
+                            252 	.globl _IEEE_ADDR2
+                            253 	.globl _IEEE_ADDR1
+                            254 	.globl _IEEE_ADDR0
+                            255 	.globl _DACTSTL
+                            256 	.globl _DACTSTH
+                            257 	.globl _ADCTSTL
+                            258 	.globl _ADCTSTH
+                            259 	.globl _FSMSTATE
+                            260 	.globl _AGCCTRLL
+                            261 	.globl _AGCCTRLH
+                            262 	.globl _MANORL
+                            263 	.globl _MANORH
+                            264 	.globl _MANANDL
+                            265 	.globl _MANANDH
+                            266 	.globl _FSMTCL
+                            267 	.globl _FSMTCH
+                            268 	.globl _RFPWR
+                            269 	.globl _CSPT
+                            270 	.globl _CSPCTRL
+                            271 	.globl _CSPZ
+                            272 	.globl _CSPY
+                            273 	.globl _CSPX
+                            274 	.globl _FSCTRLL
+                            275 	.globl _FSCTRLH
+                            276 	.globl _RXCTRL1L
+                            277 	.globl _RXCTRL1H
+                            278 	.globl _RXCTRL0L
+                            279 	.globl _RXCTRL0H
+                            280 	.globl _TXCTRLL
+                            281 	.globl _TXCTRLH
+                            282 	.globl _SYNCWORDL
+                            283 	.globl _SYNCWORDH
+                            284 	.globl _RSSIL
+                            285 	.globl _RSSIH
+                            286 	.globl _MDMCTRL1L
+                            287 	.globl _MDMCTRL1H
+                            288 	.globl _MDMCTRL0L
+                            289 	.globl _MDMCTRL0H
+                            290 ;--------------------------------------------------------
+                            291 ; special function registers
+                            292 ;--------------------------------------------------------
+                            293 	.area RSEG    (ABS,DATA)
+   0000                     294 	.org 0x0000
+                    0080    295 _P0	=	0x0080
+                    0081    296 _SP	=	0x0081
+                    0082    297 _DPL0	=	0x0082
+                    0083    298 _DPH0	=	0x0083
+                    0084    299 _DPL1	=	0x0084
+                    0085    300 _DPH1	=	0x0085
+                    0086    301 _U0CSR	=	0x0086
+                    0087    302 _PCON	=	0x0087
+                    0088    303 _TCON	=	0x0088
+                    0089    304 _P0IFG	=	0x0089
+                    008A    305 _P1IFG	=	0x008a
+                    008B    306 _P2IFG	=	0x008b
+                    008C    307 _PICTL	=	0x008c
+                    008D    308 _P1IEN	=	0x008d
+                    008F    309 _P0INP	=	0x008f
+                    0090    310 _P1	=	0x0090
+                    0091    311 _RFIM	=	0x0091
+                    0092    312 _DPS	=	0x0092
+                    0093    313 __XPAGE	=	0x0093
+                    0094    314 _T2CMP	=	0x0094
+                    0095    315 _ST0	=	0x0095
+                    0096    316 _ST1	=	0x0096
+                    0097    317 _ST2	=	0x0097
+                    0098    318 _S0CON	=	0x0098
+                    0099    319 _HSRC	=	0x0099
+                    009A    320 _IEN2	=	0x009a
+                    009B    321 _S1CON	=	0x009b
+                    009C    322 _T2PEROF0	=	0x009c
+                    009D    323 _T2PEROF1	=	0x009d
+                    009E    324 _T2PEROF2	=	0x009e
+                    009F    325 _FMAP	=	0x009f
+                    009F    326 _PSBANK	=	0x009f
+                    00A0    327 _P2	=	0x00a0
+                    00A1    328 _T2OF0	=	0x00a1
+                    00A2    329 _T2OF1	=	0x00a2
+                    00A3    330 _T2OF2	=	0x00a3
+                    00A4    331 _T2CAPLPL	=	0x00a4
+                    00A5    332 _T2CAPHPH	=	0x00a5
+                    00A6    333 _T2TLD	=	0x00a6
+                    00A7    334 _T2THD	=	0x00a7
+                    00A8    335 _IE	=	0x00a8
+                    00A8    336 _IEN0	=	0x00a8
+                    00A9    337 _IP0	=	0x00a9
+                    00AB    338 _FWT	=	0x00ab
+                    00AC    339 _FADDRL	=	0x00ac
+                    00AD    340 _FADDRH	=	0x00ad
+                    00AE    341 _FCTL	=	0x00ae
+                    00AF    342 _FWDATA	=	0x00af
+                    00B1    343 _ENCDI	=	0x00b1
+                    00B2    344 _ENCDO	=	0x00b2
+                    00B3    345 _ENCCS	=	0x00b3
+                    00B4    346 _ADCCON1	=	0x00b4
+                    00B5    347 _ADCCON2	=	0x00b5
+                    00B6    348 _ADCCON3	=	0x00b6
+                    00B7    349 _RCCTL	=	0x00b7
+                    00B8    350 _IEN1	=	0x00b8
+                    00B9    351 _IP1	=	0x00b9
+                    00BA    352 _ADCL	=	0x00ba
+                    00BB    353 _ADCH	=	0x00bb
+                    00BC    354 _RNDL	=	0x00bc
+                    00BD    355 _RNDH	=	0x00bd
+                    00BE    356 _SLEEP	=	0x00be
+                    00C0    357 _IRCON	=	0x00c0
+                    00C1    358 _U0BUF	=	0x00c1
+                    00C2    359 _U0BAUD	=	0x00c2
+                    00C3    360 _T2CNF	=	0x00c3
+                    00C4    361 _U0UCR	=	0x00c4
+                    00C5    362 _U0GCR	=	0x00c5
+                    00C6    363 _CLKCON	=	0x00c6
+                    00C7    364 _MEMCTR	=	0x00c7
+                    00C8    365 _T2CON	=	0x00c8
+                    00C9    366 _WDCTL	=	0x00c9
+                    00CA    367 _T3CNT	=	0x00ca
+                    00CB    368 _T3CTL	=	0x00cb
+                    00CC    369 _T3CCTL0	=	0x00cc
+                    00CD    370 _T3CC0	=	0x00cd
+                    00CE    371 _T3CCTL1	=	0x00ce
+                    00CF    372 _T3CC1	=	0x00cf
+                    00D0    373 _PSW	=	0x00d0
+                    00D1    374 _DMAIRQ	=	0x00d1
+                    00D2    375 _DMA1CFGL	=	0x00d2
+                    00D3    376 _DMA1CFGH	=	0x00d3
+                    00D4    377 _DMA0CFGL	=	0x00d4
+                    00D5    378 _DMA0CFGH	=	0x00d5
+                    00D6    379 _DMAARM	=	0x00d6
+                    00D7    380 _DMAREQ	=	0x00d7
+                    00D8    381 _TIMIF	=	0x00d8
+                    00D9    382 _RFD	=	0x00d9
+                    00DA    383 _T1CC0L	=	0x00da
+                    00DB    384 _T1CC0H	=	0x00db
+                    00DC    385 _T1CC1L	=	0x00dc
+                    00DD    386 _T1CC1H	=	0x00dd
+                    00DE    387 _T1CC2L	=	0x00de
+                    00DF    388 _T1CC2H	=	0x00df
+                    00E0    389 _ACC	=	0x00e0
+                    00E1    390 _RFST	=	0x00e1
+                    00E2    391 _T1CNTL	=	0x00e2
+                    00E3    392 _T1CNTH	=	0x00e3
+                    00E4    393 _T1CTL	=	0x00e4
+                    00E5    394 _T1CCTL0	=	0x00e5
+                    00E6    395 _T1CCTL1	=	0x00e6
+                    00E7    396 _T1CCTL2	=	0x00e7
+                    00E8    397 _IRCON2	=	0x00e8
+                    00E9    398 _RFIF	=	0x00e9
+                    00EA    399 _T4CNT	=	0x00ea
+                    00EB    400 _T4CTL	=	0x00eb
+                    00EC    401 _T4CCTL0	=	0x00ec
+                    00ED    402 _T4CC0	=	0x00ed
+                    00EE    403 _T4CCTL1	=	0x00ee
+                    00EF    404 _T4CC1	=	0x00ef
+                    00F0    405 _B	=	0x00f0
+                    00F1    406 _PERCFG	=	0x00f1
+                    00F2    407 _ADCCFG	=	0x00f2
+                    00F3    408 _P0SEL	=	0x00f3
+                    00F4    409 _P1SEL	=	0x00f4
+                    00F5    410 _P2SEL	=	0x00f5
+                    00F6    411 _P1INP	=	0x00f6
+                    00F7    412 _P2INP	=	0x00f7
+                    00F8    413 _U1CSR	=	0x00f8
+                    00F9    414 _U1BUF	=	0x00f9
+                    00FA    415 _U1BAUD	=	0x00fa
+                    00FB    416 _U1UCR	=	0x00fb
+                    00FC    417 _U1GCR	=	0x00fc
+                    00FD    418 _P0DIR	=	0x00fd
+                    00FE    419 _P1DIR	=	0x00fe
+                    00FF    420 _P2DIR	=	0x00ff
+                            421 ;--------------------------------------------------------
+                            422 ; special function bits
+                            423 ;--------------------------------------------------------
+                            424 	.area RSEG    (ABS,DATA)
+   0000                     425 	.org 0x0000
+                    0087    426 _P0_7	=	0x0087
+                    0086    427 _P0_6	=	0x0086
+                    0085    428 _P0_5	=	0x0085
+                    0084    429 _P0_4	=	0x0084
+                    0083    430 _P0_3	=	0x0083
+                    0082    431 _P0_2	=	0x0082
+                    0081    432 _P0_1	=	0x0081
+                    0080    433 _P0_0	=	0x0080
+                    008F    434 _TCON_URX1IF	=	0x008f
+                    008D    435 _TCON_ADCIF	=	0x008d
+                    008B    436 _TCON_URX0IF	=	0x008b
+                    008A    437 _TCON_IT1	=	0x008a
+                    0089    438 _TCON_RFERRIF	=	0x0089
+                    0088    439 _TCON_IT0	=	0x0088
+                    0090    440 _P1_0	=	0x0090
+                    0091    441 _P1_1	=	0x0091
+                    0092    442 _P1_2	=	0x0092
+                    0093    443 _P1_3	=	0x0093
+                    0094    444 _P1_4	=	0x0094
+                    0095    445 _P1_5	=	0x0095
+                    0096    446 _P1_6	=	0x0096
+                    0097    447 _P1_7	=	0x0097
+                    0099    448 _S0CON_ENCIF_1	=	0x0099
+                    0098    449 _S0CON_ENCIF_0	=	0x0098
+                    00A0    450 _P2_0	=	0x00a0
+                    00A1    451 _P2_1	=	0x00a1
+                    00A2    452 _P2_2	=	0x00a2
+                    00A3    453 _P2_3	=	0x00a3
+                    00A4    454 _P2_4	=	0x00a4
+                    00AF    455 _EA	=	0x00af
+                    00AF    456 _IEN0_EA	=	0x00af
+                    00AD    457 _IEN0_STIE	=	0x00ad
+                    00AC    458 _IEN0_ENCIE	=	0x00ac
+                    00AB    459 _IEN0_URX1IE	=	0x00ab
+                    00AA    460 _IEN0_URX0IE	=	0x00aa
+                    00A9    461 _IEN0_ADCIE	=	0x00a9
+                    00A8    462 _IEN0_RFERRIE	=	0x00a8
+                    00BD    463 _IEN1_P0IE	=	0x00bd
+                    00BC    464 _IEN1_T4IE	=	0x00bc
+                    00BB    465 _IEN1_T3IE	=	0x00bb
+                    00BA    466 _IEN1_T2IE	=	0x00ba
+                    00B9    467 _IEN1_T1IE	=	0x00b9
+                    00B8    468 _IEN1_DMAIE	=	0x00b8
+                    00C7    469 _IRCON_STIF	=	0x00c7
+                    00C5    470 _IRCON_P0IF	=	0x00c5
+                    00C4    471 _IRCON_T4IF	=	0x00c4
+                    00C3    472 _IRCON_T3IF	=	0x00c3
+                    00C2    473 _IRCON_T2IF	=	0x00c2
+                    00C1    474 _IRCON_T1IF	=	0x00c1
+                    00C0    475 _IRCON_DMAIF	=	0x00c0
+                    00D0    476 _P	=	0x00d0
+                    00D1    477 _F1	=	0x00d1
+                    00D2    478 _OV	=	0x00d2
+                    00D3    479 _RS0	=	0x00d3
+                    00D4    480 _RS1	=	0x00d4
+                    00D5    481 _F0	=	0x00d5
+                    00D6    482 _AC	=	0x00d6
+                    00D7    483 _CY	=	0x00d7
+                    00EC    484 _IRCON2_WDTIF	=	0x00ec
+                    00EB    485 _IRCON2_P1IF	=	0x00eb
+                    00EA    486 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    487 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    488 _IRCON2_P2IF	=	0x00e8
+                            489 ;--------------------------------------------------------
+                            490 ; overlayable register banks
+                            491 ;--------------------------------------------------------
+                            492 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     493 	.ds 8
+                            494 ;--------------------------------------------------------
+                            495 ; internal ram data
+                            496 ;--------------------------------------------------------
+                            497 	.area DSEG    (DATA)
+                            498 ;--------------------------------------------------------
+                            499 ; overlayable items in internal ram 
+                            500 ;--------------------------------------------------------
+                            501 	.area OSEG    (OVR,DATA)
+                            502 ;--------------------------------------------------------
+                            503 ; indirectly addressable internal ram data
+                            504 ;--------------------------------------------------------
+                            505 	.area ISEG    (DATA)
+                            506 ;--------------------------------------------------------
+                            507 ; absolute internal ram data
+                            508 ;--------------------------------------------------------
+                            509 	.area IABS    (ABS,DATA)
+                            510 	.area IABS    (ABS,DATA)
+                            511 ;--------------------------------------------------------
+                            512 ; bit data
+                            513 ;--------------------------------------------------------
+                            514 	.area BSEG    (BIT)
+                            515 ;--------------------------------------------------------
+                            516 ; paged external ram data
+                            517 ;--------------------------------------------------------
+                            518 	.area PSEG    (PAG,XDATA)
+                            519 ;--------------------------------------------------------
+                            520 ; external ram data
+                            521 ;--------------------------------------------------------
+                            522 	.area XSEG    (XDATA)
+                    DF02    523 _MDMCTRL0H	=	0xdf02
+                    DF03    524 _MDMCTRL0L	=	0xdf03
+                    DF04    525 _MDMCTRL1H	=	0xdf04
+                    DF05    526 _MDMCTRL1L	=	0xdf05
+                    DF06    527 _RSSIH	=	0xdf06
+                    DF07    528 _RSSIL	=	0xdf07
+                    DF08    529 _SYNCWORDH	=	0xdf08
+                    DF09    530 _SYNCWORDL	=	0xdf09
+                    DF0A    531 _TXCTRLH	=	0xdf0a
+                    DF0B    532 _TXCTRLL	=	0xdf0b
+                    DF0C    533 _RXCTRL0H	=	0xdf0c
+                    DF0D    534 _RXCTRL0L	=	0xdf0d
+                    DF0E    535 _RXCTRL1H	=	0xdf0e
+                    DF0F    536 _RXCTRL1L	=	0xdf0f
+                    DF10    537 _FSCTRLH	=	0xdf10
+                    DF11    538 _FSCTRLL	=	0xdf11
+                    DF12    539 _CSPX	=	0xdf12
+                    DF13    540 _CSPY	=	0xdf13
+                    DF14    541 _CSPZ	=	0xdf14
+                    DF15    542 _CSPCTRL	=	0xdf15
+                    DF16    543 _CSPT	=	0xdf16
+                    DF17    544 _RFPWR	=	0xdf17
+                    DF20    545 _FSMTCH	=	0xdf20
+                    DF21    546 _FSMTCL	=	0xdf21
+                    DF22    547 _MANANDH	=	0xdf22
+                    DF23    548 _MANANDL	=	0xdf23
+                    DF24    549 _MANORH	=	0xdf24
+                    DF25    550 _MANORL	=	0xdf25
+                    DF26    551 _AGCCTRLH	=	0xdf26
+                    DF27    552 _AGCCTRLL	=	0xdf27
+                    DF39    553 _FSMSTATE	=	0xdf39
+                    DF3A    554 _ADCTSTH	=	0xdf3a
+                    DF3B    555 _ADCTSTL	=	0xdf3b
+                    DF3C    556 _DACTSTH	=	0xdf3c
+                    DF3D    557 _DACTSTL	=	0xdf3d
+                    DF43    558 _IEEE_ADDR0	=	0xdf43
+                    DF44    559 _IEEE_ADDR1	=	0xdf44
+                    DF45    560 _IEEE_ADDR2	=	0xdf45
+                    DF46    561 _IEEE_ADDR3	=	0xdf46
+                    DF47    562 _IEEE_ADDR4	=	0xdf47
+                    DF48    563 _IEEE_ADDR5	=	0xdf48
+                    DF49    564 _IEEE_ADDR6	=	0xdf49
+                    DF4A    565 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    566 _PANIDH	=	0xdf4b
+                    DF4C    567 _PANIDL	=	0xdf4c
+                    DF4D    568 _SHORTADDRH	=	0xdf4d
+                    DF4E    569 _SHORTADDRL	=	0xdf4e
+                    DF4F    570 _IOCFG0	=	0xdf4f
+                    DF50    571 _IOCFG1	=	0xdf50
+                    DF51    572 _IOCFG2	=	0xdf51
+                    DF52    573 _IOCFG3	=	0xdf52
+                    DF53    574 _RXFIFOCNT	=	0xdf53
+                    DF54    575 _FSMTC1	=	0xdf54
+                    DF60    576 _CHVER	=	0xdf60
+                    DF61    577 _CHIPID	=	0xdf61
+                    DF62    578 _RFSTATUS	=	0xdf62
+                    DFC1    579 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    580 _RFD_SHADOW	=	0xdfd9
+                    DFF9    581 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    582 _ADC_SHADOW	=	0xdfba
+   0000                     583 _pt:
+   0000                     584 	.ds 2
+   0002                     585 _is_listening:
+   0002                     586 	.ds 1
+   0003                     587 _encounter_memb_memb_count:
+   0003                     588 	.ds 4
+   0007                     589 _encounter_memb_memb_mem:
+   0007                     590 	.ds 28
+   0023                     591 _is_streaming:
+   0023                     592 	.ds 1
+   0024                     593 _is_streaming_to:
+   0024                     594 	.ds 2
+   0026                     595 _is_streaming_to_too:
+   0026                     596 	.ds 2
+   0028                     597 _stream_until:
+   0028                     598 	.ds 2
+   002A                     599 _cpowercycle_ctimer:
+   002A                     600 	.ds 21
+                            601 ;--------------------------------------------------------
+                            602 ; absolute external ram data
+                            603 ;--------------------------------------------------------
+                            604 	.area XABS    (ABS,XDATA)
+                            605 ;--------------------------------------------------------
+                            606 ; external initialized ram data
+                            607 ;--------------------------------------------------------
+                            608 	.area XISEG   (XDATA)
+   0000                     609 _cxmac_config::
+   0000                     610 	.ds 8
+   0008                     611 _cxmac_is_on:
+   0008                     612 	.ds 1
+   0009                     613 _waiting_for_packet:
+   0009                     614 	.ds 1
+   000A                     615 _someone_is_sending:
+   000A                     616 	.ds 1
+   000B                     617 _we_are_sending:
+   000B                     618 	.ds 1
+   000C                     619 _radio_is_on:
+   000C                     620 	.ds 1
+   000D                     621 _encounter_list_list:
+   000D                     622 	.ds 3
+   0010                     623 _encounter_list:
+   0010                     624 	.ds 3
+   0013                     625 _encounter_memb:
+   0013                     626 	.ds 10
+                            627 	.area HOME    (CODE)
+                            628 	.area GSINIT0 (CODE)
+                            629 	.area GSINIT1 (CODE)
+                            630 	.area GSINIT2 (CODE)
+                            631 	.area GSINIT3 (CODE)
+                            632 	.area GSINIT4 (CODE)
+                            633 	.area GSINIT5 (CODE)
+                            634 	.area GSINIT  (CODE)
+                            635 	.area GSFINAL (CODE)
+                            636 	.area CSEG    (CODE)
+                            637 ;--------------------------------------------------------
+                            638 ; global & static initialisations
+                            639 ;--------------------------------------------------------
+                            640 	.area HOME    (CODE)
+                            641 	.area GSINIT  (CODE)
+                            642 	.area GSFINAL (CODE)
+                            643 	.area GSINIT  (CODE)
+                            644 ;--------------------------------------------------------
+                            645 ; Home
+                            646 ;--------------------------------------------------------
+                            647 	.area HOME    (CODE)
+                            648 	.area HOME    (CODE)
+                            649 ;--------------------------------------------------------
+                            650 ; code
+                            651 ;--------------------------------------------------------
+                            652 	.area CSEG    (CODE)
+                            653 ;------------------------------------------------------------
+                            654 ;Allocation info for local variables in function 'on'
+                            655 ;------------------------------------------------------------
+                            656 ;	../../core/net/mac/cxmac.c:224: on(void)
+                            657 ;	-----------------------------------------
+                            658 ;	 function on
+                            659 ;	-----------------------------------------
+   0000                     660 _on:
+                    0007    661 	ar7 = 0x07
+                    0006    662 	ar6 = 0x06
+                    0005    663 	ar5 = 0x05
+                    0004    664 	ar4 = 0x04
+                    0003    665 	ar3 = 0x03
+                    0002    666 	ar2 = 0x02
+                    0001    667 	ar1 = 0x01
+                    0000    668 	ar0 = 0x00
+                            669 ;	../../core/net/mac/cxmac.c:226: if(cxmac_is_on && radio_is_on == 0) {
+   0000 90s00r08            670 	mov	dptr,#_cxmac_is_on
+   0003 E0                  671 	movx	a,@dptr
+   0004 FF                  672 	mov	r7,a
+   0005 60 26               673 	jz	00104$
+   0007 90s00r0C            674 	mov	dptr,#_radio_is_on
+   000A E0                  675 	movx	a,@dptr
+   000B FF                  676 	mov	r7,a
+   000C 70 1F               677 	jnz	00104$
+                            678 ;	../../core/net/mac/cxmac.c:227: radio_is_on = 1;
+   000E 90s00r0C            679 	mov	dptr,#_radio_is_on
+   0011 74 01               680 	mov	a,#0x01
+   0013 F0                  681 	movx	@dptr,a
+                            682 ;	../../core/net/mac/cxmac.c:228: NETSTACK_RADIO.on();
+   0014 90s00r10            683 	mov	dptr,#(_cc2430_rf_driver + 0x0010)
+   0017 E4                  684 	clr	a
+   0018 93                  685 	movc	a,@a+dptr
+   0019 FE                  686 	mov	r6,a
+   001A A3                  687 	inc	dptr
+   001B E4                  688 	clr	a
+   001C 93                  689 	movc	a,@a+dptr
+   001D FF                  690 	mov	r7,a
+   001E C0 07               691 	push	ar7
+   0020 C0 06               692 	push	ar6
+   0022 8E 82               693 	mov	dpl,r6
+   0024 8F 83               694 	mov	dph,r7
+   0026 12s00r00            695 	lcall	__sdcc_call_dptr
+   0029 D0 06               696 	pop	ar6
+   002B D0 07               697 	pop	ar7
+   002D                     698 00104$:
+   002D 22                  699 	ret
+                            700 ;------------------------------------------------------------
+                            701 ;Allocation info for local variables in function 'off'
+                            702 ;------------------------------------------------------------
+                            703 ;	../../core/net/mac/cxmac.c:234: off(void)
+                            704 ;	-----------------------------------------
+                            705 ;	 function off
+                            706 ;	-----------------------------------------
+   002E                     707 _off:
+                            708 ;	../../core/net/mac/cxmac.c:236: if(cxmac_is_on && radio_is_on != 0 && is_listening == 0 &&
+   002E 90s00r08            709 	mov	dptr,#_cxmac_is_on
+   0031 E0                  710 	movx	a,@dptr
+   0032 FF                  711 	mov	r7,a
+   0033 60 33               712 	jz	00106$
+   0035 90s00r0C            713 	mov	dptr,#_radio_is_on
+   0038 E0                  714 	movx	a,@dptr
+   0039 FF                  715 	mov	r7,a
+   003A 60 2C               716 	jz	00106$
+   003C 90s00r02            717 	mov	dptr,#_is_listening
+   003F E0                  718 	movx	a,@dptr
+   0040 FF                  719 	mov	r7,a
+   0041 70 25               720 	jnz	00106$
+                            721 ;	../../core/net/mac/cxmac.c:237: is_streaming == 0) {
+   0043 90s00r23            722 	mov	dptr,#_is_streaming
+   0046 E0                  723 	movx	a,@dptr
+   0047 FF                  724 	mov	r7,a
+   0048 70 1E               725 	jnz	00106$
+                            726 ;	../../core/net/mac/cxmac.c:238: radio_is_on = 0;
+   004A 90s00r0C            727 	mov	dptr,#_radio_is_on
+   004D E4                  728 	clr	a
+   004E F0                  729 	movx	@dptr,a
+                            730 ;	../../core/net/mac/cxmac.c:239: NETSTACK_RADIO.off();
+   004F 90s00r12            731 	mov	dptr,#(_cc2430_rf_driver + 0x0012)
+   0052 E4                  732 	clr	a
+   0053 93                  733 	movc	a,@a+dptr
+   0054 FE                  734 	mov	r6,a
+   0055 A3                  735 	inc	dptr
+   0056 E4                  736 	clr	a
+   0057 93                  737 	movc	a,@a+dptr
+   0058 FF                  738 	mov	r7,a
+   0059 C0 07               739 	push	ar7
+   005B C0 06               740 	push	ar6
+   005D 8E 82               741 	mov	dpl,r6
+   005F 8F 83               742 	mov	dph,r7
+   0061 12s00r00            743 	lcall	__sdcc_call_dptr
+   0064 D0 06               744 	pop	ar6
+   0066 D0 07               745 	pop	ar7
+   0068                     746 00106$:
+   0068 22                  747 	ret
+                            748 ;------------------------------------------------------------
+                            749 ;Allocation info for local variables in function 'powercycle_turn_radio_off'
+                            750 ;------------------------------------------------------------
+                            751 ;	../../core/net/mac/cxmac.c:245: powercycle_turn_radio_off(void)
+                            752 ;	-----------------------------------------
+                            753 ;	 function powercycle_turn_radio_off
+                            754 ;	-----------------------------------------
+   0069                     755 _powercycle_turn_radio_off:
+                            756 ;	../../core/net/mac/cxmac.c:247: if(we_are_sending == 0 &&
+   0069 90s00r0B            757 	mov	dptr,#_we_are_sending
+   006C E0                  758 	movx	a,@dptr
+   006D FF                  759 	mov	r7,a
+   006E 70 0A               760 	jnz	00104$
+                            761 ;	../../core/net/mac/cxmac.c:248: waiting_for_packet == 0) {
+   0070 90s00r09            762 	mov	dptr,#_waiting_for_packet
+   0073 E0                  763 	movx	a,@dptr
+   0074 FF                  764 	mov	r7,a
+   0075 70 03               765 	jnz	00104$
+                            766 ;	../../core/net/mac/cxmac.c:249: off();
+   0077 02s00r2E            767 	ljmp	_off
+   007A                     768 00104$:
+   007A 22                  769 	ret
+                            770 ;------------------------------------------------------------
+                            771 ;Allocation info for local variables in function 'powercycle_turn_radio_on'
+                            772 ;------------------------------------------------------------
+                            773 ;	../../core/net/mac/cxmac.c:256: powercycle_turn_radio_on(void)
+                            774 ;	-----------------------------------------
+                            775 ;	 function powercycle_turn_radio_on
+                            776 ;	-----------------------------------------
+   007B                     777 _powercycle_turn_radio_on:
+                            778 ;	../../core/net/mac/cxmac.c:258: if(we_are_sending == 0 &&
+   007B 90s00r0B            779 	mov	dptr,#_we_are_sending
+   007E E0                  780 	movx	a,@dptr
+   007F FF                  781 	mov	r7,a
+   0080 70 0A               782 	jnz	00104$
+                            783 ;	../../core/net/mac/cxmac.c:259: waiting_for_packet == 0) {
+   0082 90s00r09            784 	mov	dptr,#_waiting_for_packet
+   0085 E0                  785 	movx	a,@dptr
+   0086 FF                  786 	mov	r7,a
+   0087 70 03               787 	jnz	00104$
+                            788 ;	../../core/net/mac/cxmac.c:260: on();
+   0089 02s00r00            789 	ljmp	_on
+   008C                     790 00104$:
+   008C 22                  791 	ret
+                            792 ;------------------------------------------------------------
+                            793 ;Allocation info for local variables in function 'cschedule_powercycle'
+                            794 ;------------------------------------------------------------
+                            795 ;time                      Allocated to registers r6 r7 
+                            796 ;------------------------------------------------------------
+                            797 ;	../../core/net/mac/cxmac.c:268: cschedule_powercycle(clock_time_t time)
+                            798 ;	-----------------------------------------
+                            799 ;	 function cschedule_powercycle
+                            800 ;	-----------------------------------------
+   008D                     801 _cschedule_powercycle:
+   008D AE 82               802 	mov	r6,dpl
+   008F AF 83               803 	mov	r7,dph
+                            804 ;	../../core/net/mac/cxmac.c:271: if(cxmac_is_on) {
+   0091 90s00r08            805 	mov	dptr,#_cxmac_is_on
+   0094 E0                  806 	movx	a,@dptr
+   0095 FD                  807 	mov	r5,a
+   0096 60 29               808 	jz	00105$
+                            809 ;	../../core/net/mac/cxmac.c:272: if(time == 0) {
+   0098 EE                  810 	mov	a,r6
+   0099 4F                  811 	orl	a,r7
+                            812 ;	../../core/net/mac/cxmac.c:273: time = 1;
+   009A 70 03               813 	jnz	00102$
+   009C 7E 01               814 	mov	r6,#0x01
+   009E FF                  815 	mov	r7,a
+   009F                     816 00102$:
+                            817 ;	../../core/net/mac/cxmac.c:276: (void (*)(void *))cpowercycle, NULL);
+   009F 7CrC2               818 	mov	r4,#_cpowercycle
+   00A1 7Ds00               819 	mov	r5,#(_cpowercycle >> 8)
+                            820 ;	../../core/net/mac/cxmac.c:275: ctimer_set(&cpowercycle_ctimer, time,
+   00A3 E4                  821 	clr	a
+   00A4 C0 E0               822 	push	acc
+   00A6 C0 E0               823 	push	acc
+   00A8 C0 E0               824 	push	acc
+   00AA C0 04               825 	push	ar4
+   00AC C0 05               826 	push	ar5
+   00AE C0 06               827 	push	ar6
+   00B0 C0 07               828 	push	ar7
+   00B2 90s00r2A            829 	mov	dptr,#_cpowercycle_ctimer
+   00B5 75 F0 00            830 	mov	b,#0x00
+   00B8 12s00r00            831 	lcall	_ctimer_set
+   00BB E5 81               832 	mov	a,sp
+   00BD 24 F9               833 	add	a,#0xf9
+   00BF F5 81               834 	mov	sp,a
+   00C1                     835 00105$:
+   00C1 22                  836 	ret
+                            837 ;------------------------------------------------------------
+                            838 ;Allocation info for local variables in function 'cpowercycle'
+                            839 ;------------------------------------------------------------
+                            840 ;ptr                       Allocated to registers 
+                            841 ;PT_YIELD_FLAG             Allocated to registers r7 
+                            842 ;------------------------------------------------------------
+                            843 ;	../../core/net/mac/cxmac.c:281: cpowercycle(void *ptr)
+                            844 ;	-----------------------------------------
+                            845 ;	 function cpowercycle
+                            846 ;	-----------------------------------------
+   00C2                     847 _cpowercycle:
+                            848 ;	../../core/net/mac/cxmac.c:283: if(is_streaming) {
+   00C2 90s00r23            849 	mov	dptr,#_is_streaming
+   00C5 E0                  850 	movx	a,@dptr
+   00C6 FF                  851 	mov	r7,a
+   00C7 60 5B               852 	jz	00104$
+                            853 ;	../../core/net/mac/cxmac.c:284: if(!RTIMER_CLOCK_LT(RTIMER_NOW(), stream_until)) {
+   00C9 AE E2               854 	mov	r6,_T1CNTL
+   00CB 7F 00               855 	mov	r7,#0x00
+   00CD AC E3               856 	mov	r4,_T1CNTH
+   00CF 8C 05               857 	mov	ar5,r4
+   00D1 E4                  858 	clr	a
+   00D2 2E                  859 	add	a,r6
+   00D3 FE                  860 	mov	r6,a
+   00D4 ED                  861 	mov	a,r5
+   00D5 3F                  862 	addc	a,r7
+   00D6 FF                  863 	mov	r7,a
+   00D7 90s00r28            864 	mov	dptr,#_stream_until
+   00DA E0                  865 	movx	a,@dptr
+   00DB FC                  866 	mov	r4,a
+   00DC A3                  867 	inc	dptr
+   00DD E0                  868 	movx	a,@dptr
+   00DE FD                  869 	mov	r5,a
+   00DF EE                  870 	mov	a,r6
+   00E0 C3                  871 	clr	c
+   00E1 9C                  872 	subb	a,r4
+   00E2 FE                  873 	mov	r6,a
+   00E3 EF                  874 	mov	a,r7
+   00E4 9D                  875 	subb	a,r5
+   00E5 FF                  876 	mov	r7,a
+   00E6 20 E7 3B            877 	jb	acc.7,00104$
+                            878 ;	../../core/net/mac/cxmac.c:285: is_streaming = 0;
+   00E9 90s00r23            879 	mov	dptr,#_is_streaming
+   00EC E4                  880 	clr	a
+   00ED F0                  881 	movx	@dptr,a
+                            882 ;	../../core/net/mac/cxmac.c:286: rimeaddr_copy(&is_streaming_to, &rimeaddr_null);
+   00EE 74r00               883 	mov	a,#_rimeaddr_null
+   00F0 C0 E0               884 	push	acc
+   00F2 74s00               885 	mov	a,#(_rimeaddr_null >> 8)
+   00F4 C0 E0               886 	push	acc
+   00F6 74 80               887 	mov	a,#0x80
+   00F8 C0 E0               888 	push	acc
+   00FA 90s00r24            889 	mov	dptr,#_is_streaming_to
+   00FD 75 F0 00            890 	mov	b,#0x00
+   0100 12s00r00            891 	lcall	_rimeaddr_copy
+   0103 15 81               892 	dec	sp
+   0105 15 81               893 	dec	sp
+   0107 15 81               894 	dec	sp
+                            895 ;	../../core/net/mac/cxmac.c:287: rimeaddr_copy(&is_streaming_to_too, &rimeaddr_null);
+   0109 74r00               896 	mov	a,#_rimeaddr_null
+   010B C0 E0               897 	push	acc
+   010D 74s00               898 	mov	a,#(_rimeaddr_null >> 8)
+   010F C0 E0               899 	push	acc
+   0111 74 80               900 	mov	a,#0x80
+   0113 C0 E0               901 	push	acc
+   0115 90s00r26            902 	mov	dptr,#_is_streaming_to_too
+   0118 75 F0 00            903 	mov	b,#0x00
+   011B 12s00r00            904 	lcall	_rimeaddr_copy
+   011E 15 81               905 	dec	sp
+   0120 15 81               906 	dec	sp
+   0122 15 81               907 	dec	sp
+   0124                     908 00104$:
+                            909 ;	../../core/net/mac/cxmac.c:291: PT_BEGIN(&pt);
+   0124 7F 01               910 	mov	r7,#0x01
+   0126 90s00r00            911 	mov	dptr,#_pt
+   0129 E0                  912 	movx	a,@dptr
+   012A FD                  913 	mov	r5,a
+   012B A3                  914 	inc	dptr
+   012C E0                  915 	movx	a,@dptr
+   012D FE                  916 	mov	r6,a
+   012E BD 00 05            917 	cjne	r5,#0x00,00158$
+   0131 BE 00 02            918 	cjne	r6,#0x00,00158$
+   0134 80 13               919 	sjmp	00127$
+   0136                     920 00158$:
+   0136 BD 2E 05            921 	cjne	r5,#0x2E,00159$
+   0139 BE 01 02            922 	cjne	r6,#0x01,00159$
+   013C 80 30               923 	sjmp	00108$
+   013E                     924 00159$:
+   013E BD 3D 05            925 	cjne	r5,#0x3D,00160$
+   0141 BE 01 02            926 	cjne	r6,#0x01,00160$
+   0144 80 6E               927 	sjmp	00118$
+   0146                     928 00160$:
+   0146 02s01rBB            929 	ljmp	00129$
+                            930 ;	../../core/net/mac/cxmac.c:293: while(1) {
+   0149                     931 00127$:
+                            932 ;	../../core/net/mac/cxmac.c:295: if(someone_is_sending > 0) {
+   0149 90s00r0A            933 	mov	dptr,#_someone_is_sending
+   014C E0                  934 	movx	a,@dptr
+   014D FE                  935 	mov	r6,a
+   014E 60 09               936 	jz	00107$
+                            937 ;	../../core/net/mac/cxmac.c:296: someone_is_sending--;
+   0150 90s00r0A            938 	mov	dptr,#_someone_is_sending
+   0153 E0                  939 	movx	a,@dptr
+   0154 14                  940 	dec	a
+   0155 90s00r0A            941 	mov	dptr,#_someone_is_sending
+   0158 F0                  942 	movx	@dptr,a
+   0159                     943 00107$:
+                            944 ;	../../core/net/mac/cxmac.c:300: powercycle_turn_radio_on();
+   0159 12s00r7B            945 	lcall	_powercycle_turn_radio_on
+                            946 ;	../../core/net/mac/cxmac.c:301: CSCHEDULE_POWERCYCLE(DEFAULT_ON_TIME);
+   015C 90 00 00            947 	mov	dptr,#0x0000
+   015F 12s00r8D            948 	lcall	_cschedule_powercycle
+                            949 ;	../../core/net/mac/cxmac.c:302: PT_YIELD(&pt);
+   0162 7F 00               950 	mov	r7,#0x00
+   0164 90s00r00            951 	mov	dptr,#_pt
+   0167 74 2E               952 	mov	a,#0x2E
+   0169 F0                  953 	movx	@dptr,a
+   016A A3                  954 	inc	dptr
+   016B 74 01               955 	mov	a,#0x01
+   016D F0                  956 	movx	@dptr,a
+   016E                     957 00108$:
+   016E EF                  958 	mov	a,r7
+   016F 70 04               959 	jnz	00112$
+   0171 75 82 01            960 	mov	dpl,#0x01
+   0174 22                  961 	ret
+   0175                     962 00112$:
+                            963 ;	../../core/net/mac/cxmac.c:304: if(cxmac_config.off_time > 0) {
+   0175 90s00r02            964 	mov	dptr,#(_cxmac_config + 0x0002)
+   0178 E0                  965 	movx	a,@dptr
+   0179 FD                  966 	mov	r5,a
+   017A A3                  967 	inc	dptr
+   017B E0                  968 	movx	a,@dptr
+   017C FE                  969 	mov	r6,a
+   017D 4D                  970 	orl	a,r5
+   017E 60 C9               971 	jz	00127$
+                            972 ;	../../core/net/mac/cxmac.c:305: powercycle_turn_radio_off();
+   0180 12s00r69            973 	lcall	_powercycle_turn_radio_off
+                            974 ;	../../core/net/mac/cxmac.c:306: if(waiting_for_packet != 0) {
+   0183 90s00r09            975 	mov	dptr,#_waiting_for_packet
+   0186 E0                  976 	movx	a,@dptr
+   0187 FE                  977 	mov	r6,a
+   0188 60 18               978 	jz	00117$
+                            979 ;	../../core/net/mac/cxmac.c:307: waiting_for_packet++;
+   018A 90s00r09            980 	mov	dptr,#_waiting_for_packet
+   018D E0                  981 	movx	a,@dptr
+   018E 24 01               982 	add	a,#0x01
+   0190 F0                  983 	movx	@dptr,a
+                            984 ;	../../core/net/mac/cxmac.c:308: if(waiting_for_packet > 2) {
+   0191 90s00r09            985 	mov	dptr,#_waiting_for_packet
+   0194 E0                  986 	movx	a,@dptr
+   0195 FE                  987 	mov  r6,a
+   0196 24 FD               988 	add	a,#0xff - 0x02
+   0198 50 08               989 	jnc	00117$
+                            990 ;	../../core/net/mac/cxmac.c:312: waiting_for_packet = 0;
+   019A 90s00r09            991 	mov	dptr,#_waiting_for_packet
+   019D E4                  992 	clr	a
+   019E F0                  993 	movx	@dptr,a
+                            994 ;	../../core/net/mac/cxmac.c:313: powercycle_turn_radio_off();
+   019F 12s00r69            995 	lcall	_powercycle_turn_radio_off
+   01A2                     996 00117$:
+                            997 ;	../../core/net/mac/cxmac.c:316: CSCHEDULE_POWERCYCLE(DEFAULT_OFF_TIME);
+   01A2 90 00 0F            998 	mov	dptr,#0x000F
+   01A5 12s00r8D            999 	lcall	_cschedule_powercycle
+                           1000 ;	../../core/net/mac/cxmac.c:317: PT_YIELD(&pt);
+   01A8 7F 00              1001 	mov	r7,#0x00
+   01AA 90s00r00           1002 	mov	dptr,#_pt
+   01AD 74 3D              1003 	mov	a,#0x3D
+   01AF F0                 1004 	movx	@dptr,a
+   01B0 A3                 1005 	inc	dptr
+   01B1 74 01              1006 	mov	a,#0x01
+   01B3 F0                 1007 	movx	@dptr,a
+   01B4                    1008 00118$:
+   01B4 EF                 1009 	mov	a,r7
+   01B5 70 92              1010 	jnz	00127$
+   01B7 75 82 01           1011 	mov	dpl,#0x01
+                           1012 ;	../../core/net/mac/cxmac.c:321: PT_END(&pt);
+   01BA 22                 1013 	ret
+   01BB                    1014 00129$:
+   01BB 90s00r00           1015 	mov	dptr,#_pt
+   01BE E4                 1016 	clr	a
+   01BF F0                 1017 	movx	@dptr,a
+   01C0 A3                 1018 	inc	dptr
+   01C1 F0                 1019 	movx	@dptr,a
+   01C2 75 82 03           1020 	mov	dpl,#0x03
+   01C5 22                 1021 	ret
+                           1022 ;------------------------------------------------------------
+                           1023 ;Allocation info for local variables in function 'register_encounter'
+                           1024 ;------------------------------------------------------------
+                           1025 ;time                      Allocated to stack - _bp -4
+                           1026 ;neighbor                  Allocated to stack - _bp +1
+                           1027 ;e                         Allocated to registers r2 r3 r4 
+                           1028 ;------------------------------------------------------------
+                           1029 ;	../../core/net/mac/cxmac.c:386: register_encounter(const rimeaddr_t *neighbor, rtimer_clock_t time)
+                           1030 ;	-----------------------------------------
+                           1031 ;	 function register_encounter
+                           1032 ;	-----------------------------------------
+   01C6                    1033 _register_encounter:
+   01C6 C0*00              1034 	push	_bp
+   01C8 85 81*00           1035 	mov	_bp,sp
+   01CB C0 82              1036 	push	dpl
+   01CD C0 83              1037 	push	dph
+   01CF C0 F0              1038 	push	b
+                           1039 ;	../../core/net/mac/cxmac.c:391: for(e = list_head(encounter_list); e != NULL; e = list_item_next(e)) {
+   01D1 90s00r10           1040 	mov	dptr,#_encounter_list
+   01D4 E0                 1041 	movx	a,@dptr
+   01D5 FA                 1042 	mov	r2,a
+   01D6 A3                 1043 	inc	dptr
+   01D7 E0                 1044 	movx	a,@dptr
+   01D8 FB                 1045 	mov	r3,a
+   01D9 A3                 1046 	inc	dptr
+   01DA E0                 1047 	movx	a,@dptr
+   01DB FC                 1048 	mov	r4,a
+   01DC 8A 82              1049 	mov	dpl,r2
+   01DE 8B 83              1050 	mov	dph,r3
+   01E0 8C F0              1051 	mov	b,r4
+   01E2 12s00r00           1052 	lcall	_list_head
+   01E5 AA 82              1053 	mov	r2,dpl
+   01E7 AB 83              1054 	mov	r3,dph
+   01E9 AC F0              1055 	mov	r4,b
+   01EB                    1056 00103$:
+   01EB EA                 1057 	mov	a,r2
+   01EC 4B                 1058 	orl	a,r3
+   01ED 60 74              1059 	jz	00106$
+                           1060 ;	../../core/net/mac/cxmac.c:392: if(rimeaddr_cmp(neighbor, &e->neighbor)) {
+   01EF 74 03              1061 	mov	a,#0x03
+   01F1 2A                 1062 	add	a,r2
+   01F2 FD                 1063 	mov	r5,a
+   01F3 E4                 1064 	clr	a
+   01F4 3B                 1065 	addc	a,r3
+   01F5 FE                 1066 	mov	r6,a
+   01F6 8C 07              1067 	mov	ar7,r4
+   01F8 C0 04              1068 	push	ar4
+   01FA C0 03              1069 	push	ar3
+   01FC C0 02              1070 	push	ar2
+   01FE C0 05              1071 	push	ar5
+   0200 C0 06              1072 	push	ar6
+   0202 C0 07              1073 	push	ar7
+   0204 A8*00              1074 	mov	r0,_bp
+   0206 08                 1075 	inc	r0
+   0207 86 82              1076 	mov	dpl,@r0
+   0209 08                 1077 	inc	r0
+   020A 86 83              1078 	mov	dph,@r0
+   020C 08                 1079 	inc	r0
+   020D 86 F0              1080 	mov	b,@r0
+   020F 12s00r00           1081 	lcall	_rimeaddr_cmp
+   0212 AE 82              1082 	mov	r6,dpl
+   0214 AF 83              1083 	mov	r7,dph
+   0216 15 81              1084 	dec	sp
+   0218 15 81              1085 	dec	sp
+   021A 15 81              1086 	dec	sp
+   021C D0 02              1087 	pop	ar2
+   021E D0 03              1088 	pop	ar3
+   0220 D0 04              1089 	pop	ar4
+   0222 EE                 1090 	mov	a,r6
+   0223 4F                 1091 	orl	a,r7
+   0224 60 20              1092 	jz	00105$
+                           1093 ;	../../core/net/mac/cxmac.c:393: e->time = time;
+   0226 74 05              1094 	mov	a,#0x05
+   0228 2A                 1095 	add	a,r2
+   0229 FD                 1096 	mov	r5,a
+   022A E4                 1097 	clr	a
+   022B 3B                 1098 	addc	a,r3
+   022C FE                 1099 	mov	r6,a
+   022D 8C 07              1100 	mov	ar7,r4
+   022F 8D 82              1101 	mov	dpl,r5
+   0231 8E 83              1102 	mov	dph,r6
+   0233 8F F0              1103 	mov	b,r7
+   0235 E5*00              1104 	mov	a,_bp
+   0237 24 FC              1105 	add	a,#0xfc
+   0239 F8                 1106 	mov	r0,a
+   023A E6                 1107 	mov	a,@r0
+   023B 12s00r00           1108 	lcall	__gptrput
+   023E A3                 1109 	inc	dptr
+   023F 08                 1110 	inc	r0
+   0240 E6                 1111 	mov	a,@r0
+   0241 12s00r00           1112 	lcall	__gptrput
+                           1113 ;	../../core/net/mac/cxmac.c:394: break;
+   0244 80 1D              1114 	sjmp	00106$
+   0246                    1115 00105$:
+                           1116 ;	../../core/net/mac/cxmac.c:391: for(e = list_head(encounter_list); e != NULL; e = list_item_next(e)) {
+   0246 8A 05              1117 	mov	ar5,r2
+   0248 8B 06              1118 	mov	ar6,r3
+   024A 8C 07              1119 	mov	ar7,r4
+   024C 8D 82              1120 	mov	dpl,r5
+   024E 8E 83              1121 	mov	dph,r6
+   0250 8F F0              1122 	mov	b,r7
+   0252 12s00r00           1123 	lcall	_list_item_next
+   0255 AD 82              1124 	mov	r5,dpl
+   0257 AE 83              1125 	mov	r6,dph
+   0259 AF F0              1126 	mov	r7,b
+   025B 8D 02              1127 	mov	ar2,r5
+   025D 8E 03              1128 	mov	ar3,r6
+   025F 8F 04              1129 	mov	ar4,r7
+   0261 80 88              1130 	sjmp	00103$
+   0263                    1131 00106$:
+                           1132 ;	../../core/net/mac/cxmac.c:398: if(e == NULL) {
+   0263 EA                 1133 	mov	a,r2
+   0264 4B                 1134 	orl	a,r3
+   0265 60 03              1135 	jz	00125$
+   0267 02s02rF5           1136 	ljmp	00111$
+   026A                    1137 00125$:
+                           1138 ;	../../core/net/mac/cxmac.c:399: e = memb_alloc(&encounter_memb);
+   026A 90s00r13           1139 	mov	dptr,#_encounter_memb
+   026D 75 F0 00           1140 	mov	b,#0x00
+   0270 12s00r00           1141 	lcall	_memb_alloc
+   0273 AD 82              1142 	mov	r5,dpl
+   0275 AE 83              1143 	mov	r6,dph
+   0277 AF F0              1144 	mov	r7,b
+   0279 8D 02              1145 	mov	ar2,r5
+   027B 8E 03              1146 	mov	ar3,r6
+   027D 8F 04              1147 	mov	ar4,r7
+                           1148 ;	../../core/net/mac/cxmac.c:400: if(e == NULL) {
+   027F EA                 1149 	mov	a,r2
+   0280 4B                 1150 	orl	a,r3
+   0281 70 02              1151 	jnz	00108$
+                           1152 ;	../../core/net/mac/cxmac.c:402: return;
+   0283 80 70              1153 	sjmp	00111$
+   0285                    1154 00108$:
+                           1155 ;	../../core/net/mac/cxmac.c:404: rimeaddr_copy(&e->neighbor, neighbor);
+   0285 74 03              1156 	mov	a,#0x03
+   0287 2A                 1157 	add	a,r2
+   0288 FD                 1158 	mov	r5,a
+   0289 E4                 1159 	clr	a
+   028A 3B                 1160 	addc	a,r3
+   028B FE                 1161 	mov	r6,a
+   028C 8C 07              1162 	mov	ar7,r4
+   028E C0 04              1163 	push	ar4
+   0290 C0 03              1164 	push	ar3
+   0292 C0 02              1165 	push	ar2
+   0294 A8*00              1166 	mov	r0,_bp
+   0296 08                 1167 	inc	r0
+   0297 E6                 1168 	mov	a,@r0
+   0298 C0 E0              1169 	push	acc
+   029A 08                 1170 	inc	r0
+   029B E6                 1171 	mov	a,@r0
+   029C C0 E0              1172 	push	acc
+   029E 08                 1173 	inc	r0
+   029F E6                 1174 	mov	a,@r0
+   02A0 C0 E0              1175 	push	acc
+   02A2 8D 82              1176 	mov	dpl,r5
+   02A4 8E 83              1177 	mov	dph,r6
+   02A6 8F F0              1178 	mov	b,r7
+   02A8 12s00r00           1179 	lcall	_rimeaddr_copy
+   02AB 15 81              1180 	dec	sp
+   02AD 15 81              1181 	dec	sp
+   02AF 15 81              1182 	dec	sp
+   02B1 D0 02              1183 	pop	ar2
+   02B3 D0 03              1184 	pop	ar3
+   02B5 D0 04              1185 	pop	ar4
+                           1186 ;	../../core/net/mac/cxmac.c:405: e->time = time;
+   02B7 74 05              1187 	mov	a,#0x05
+   02B9 2A                 1188 	add	a,r2
+   02BA FD                 1189 	mov	r5,a
+   02BB E4                 1190 	clr	a
+   02BC 3B                 1191 	addc	a,r3
+   02BD FE                 1192 	mov	r6,a
+   02BE 8C 07              1193 	mov	ar7,r4
+   02C0 8D 82              1194 	mov	dpl,r5
+   02C2 8E 83              1195 	mov	dph,r6
+   02C4 8F F0              1196 	mov	b,r7
+   02C6 E5*00              1197 	mov	a,_bp
+   02C8 24 FC              1198 	add	a,#0xfc
+   02CA F8                 1199 	mov	r0,a
+   02CB E6                 1200 	mov	a,@r0
+   02CC 12s00r00           1201 	lcall	__gptrput
+   02CF A3                 1202 	inc	dptr
+   02D0 08                 1203 	inc	r0
+   02D1 E6                 1204 	mov	a,@r0
+   02D2 12s00r00           1205 	lcall	__gptrput
+                           1206 ;	../../core/net/mac/cxmac.c:406: list_add(encounter_list, e);
+   02D5 90s00r10           1207 	mov	dptr,#_encounter_list
+   02D8 E0                 1208 	movx	a,@dptr
+   02D9 FD                 1209 	mov	r5,a
+   02DA A3                 1210 	inc	dptr
+   02DB E0                 1211 	movx	a,@dptr
+   02DC FE                 1212 	mov	r6,a
+   02DD A3                 1213 	inc	dptr
+   02DE E0                 1214 	movx	a,@dptr
+   02DF FF                 1215 	mov	r7,a
+   02E0 C0 02              1216 	push	ar2
+   02E2 C0 03              1217 	push	ar3
+   02E4 C0 04              1218 	push	ar4
+   02E6 8D 82              1219 	mov	dpl,r5
+   02E8 8E 83              1220 	mov	dph,r6
+   02EA 8F F0              1221 	mov	b,r7
+   02EC 12s00r00           1222 	lcall	_list_add
+   02EF 15 81              1223 	dec	sp
+   02F1 15 81              1224 	dec	sp
+   02F3 15 81              1225 	dec	sp
+   02F5                    1226 00111$:
+   02F5 85*00 81           1227 	mov	sp,_bp
+   02F8 D0*00              1228 	pop	_bp
+   02FA 22                 1229 	ret
+                           1230 ;------------------------------------------------------------
+                           1231 ;Allocation info for local variables in function 'send_packet'
+                           1232 ;------------------------------------------------------------
+                           1233 ;t0                        Allocated to registers r6 r7 
+                           1234 ;t                         Allocated to stack - _bp +1
+                           1235 ;encounter_time            Allocated to stack - _bp +3
+                           1236 ;strobes                   Allocated to stack - _bp +5
+                           1237 ;hdr                       Allocated to registers r2 r3 r7 
+                           1238 ;got_strobe_ack            Allocated to stack - _bp +7
+                           1239 ;strobe                    Allocated to stack - _bp +9
+                           1240 ;strobe_len                Allocated to stack - _bp +59
+                           1241 ;len                       Allocated to stack - _bp +61
+                           1242 ;is_broadcast              Allocated to stack - _bp +63
+                           1243 ;is_dispatch               Allocated to stack - _bp +65
+                           1244 ;is_strobe_ack             Allocated to registers r2 r5 
+                           1245 ;e                         Allocated to stack - _bp +67
+                           1246 ;packet                    Allocated to stack - _bp +70
+                           1247 ;is_already_streaming      Allocated to stack - _bp +73
+                           1248 ;collisions                Allocated to stack - _bp +75
+                           1249 ;neighbor                  Allocated to registers r7 r6 r5 
+                           1250 ;wait                      Allocated to registers 
+                           1251 ;now                       Allocated to registers r3 r4 
+                           1252 ;expected                  Allocated to registers r3 r2 
+                           1253 ;now                       Allocated to stack - _bp +76
+                           1254 ;sloc0                     Allocated to stack - _bp +78
+                           1255 ;sloc1                     Allocated to stack - _bp +79
+                           1256 ;sloc2                     Allocated to stack - _bp +81
+                           1257 ;------------------------------------------------------------
+                           1258 ;	../../core/net/mac/cxmac.c:412: send_packet(void)
+                           1259 ;	-----------------------------------------
+                           1260 ;	 function send_packet
+                           1261 ;	-----------------------------------------
+   02FB                    1262 _send_packet:
+   02FB C0*00              1263 	push	_bp
+   02FD E5 81              1264 	mov	a,sp
+   02FF F5*00              1265 	mov	_bp,a
+   0301 24 52              1266 	add	a,#0x52
+   0303 F5 81              1267 	mov	sp,a
+                           1268 ;	../../core/net/mac/cxmac.c:416: rtimer_clock_t encounter_time = 0;
+   0305 E5*00              1269 	mov	a,_bp
+   0307 24 03              1270 	add	a,#0x03
+   0309 F8                 1271 	mov	r0,a
+   030A E4                 1272 	clr	a
+   030B F6                 1273 	mov	@r0,a
+   030C 08                 1274 	inc	r0
+   030D F6                 1275 	mov	@r0,a
+                           1276 ;	../../core/net/mac/cxmac.c:419: int got_strobe_ack = 0;
+   030E E5*00              1277 	mov	a,_bp
+   0310 24 07              1278 	add	a,#0x07
+   0312 F8                 1279 	mov	r0,a
+   0313 E4                 1280 	clr	a
+   0314 F6                 1281 	mov	@r0,a
+   0315 08                 1282 	inc	r0
+   0316 F6                 1283 	mov	@r0,a
+                           1284 ;	../../core/net/mac/cxmac.c:422: int is_broadcast = 0;
+   0317 E5*00              1285 	mov	a,_bp
+   0319 24 3F              1286 	add	a,#0x3f
+   031B F8                 1287 	mov	r0,a
+   031C E4                 1288 	clr	a
+   031D F6                 1289 	mov	@r0,a
+   031E 08                 1290 	inc	r0
+   031F F6                 1291 	mov	@r0,a
+                           1292 ;	../../core/net/mac/cxmac.c:427: int is_already_streaming = 0;
+   0320 E5*00              1293 	mov	a,_bp
+   0322 24 49              1294 	add	a,#0x49
+   0324 F8                 1295 	mov	r0,a
+   0325 E4                 1296 	clr	a
+   0326 F6                 1297 	mov	@r0,a
+   0327 08                 1298 	inc	r0
+   0328 F6                 1299 	mov	@r0,a
+                           1300 ;	../../core/net/mac/cxmac.c:432: packetbuf_set_addr(PACKETBUF_ADDR_SENDER, &rimeaddr_node_addr);
+   0329 74r00              1301 	mov	a,#_rimeaddr_node_addr
+   032B C0 E0              1302 	push	acc
+   032D 74s00              1303 	mov	a,#(_rimeaddr_node_addr >> 8)
+   032F C0 E0              1304 	push	acc
+   0331 E4                 1305 	clr	a
+   0332 C0 E0              1306 	push	acc
+   0334 75 82 18           1307 	mov	dpl,#0x18
+   0337 12s00r00           1308 	lcall	_packetbuf_set_addr
+   033A 15 81              1309 	dec	sp
+   033C 15 81              1310 	dec	sp
+   033E 15 81              1311 	dec	sp
+                           1312 ;	../../core/net/mac/cxmac.c:433: if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), &rimeaddr_null)) {
+   0340 75 82 19           1313 	mov	dpl,#0x19
+   0343 12s00r00           1314 	lcall	_packetbuf_addr
+   0346 AB 82              1315 	mov	r3,dpl
+   0348 AE 83              1316 	mov	r6,dph
+   034A AF F0              1317 	mov	r7,b
+   034C 74r00              1318 	mov	a,#_rimeaddr_null
+   034E C0 E0              1319 	push	acc
+   0350 74s00              1320 	mov	a,#(_rimeaddr_null >> 8)
+   0352 C0 E0              1321 	push	acc
+   0354 74 80              1322 	mov	a,#0x80
+   0356 C0 E0              1323 	push	acc
+   0358 8B 82              1324 	mov	dpl,r3
+   035A 8E 83              1325 	mov	dph,r6
+   035C 8F F0              1326 	mov	b,r7
+   035E 12s00r00           1327 	lcall	_rimeaddr_cmp
+   0361 AE 82              1328 	mov	r6,dpl
+   0363 AF 83              1329 	mov	r7,dph
+   0365 15 81              1330 	dec	sp
+   0367 15 81              1331 	dec	sp
+   0369 15 81              1332 	dec	sp
+   036B EE                 1333 	mov	a,r6
+   036C 4F                 1334 	orl	a,r7
+   036D 60 0A              1335 	jz	00102$
+                           1336 ;	../../core/net/mac/cxmac.c:434: is_broadcast = 1;
+   036F E5*00              1337 	mov	a,_bp
+   0371 24 3F              1338 	add	a,#0x3f
+   0373 F8                 1339 	mov	r0,a
+   0374 76 01              1340 	mov	@r0,#0x01
+   0376 08                 1341 	inc	r0
+   0377 76 00              1342 	mov	@r0,#0x00
+   0379                    1343 00102$:
+                           1344 ;	../../core/net/mac/cxmac.c:455: len = NETSTACK_FRAMER.create();
+   0379 90s00r00           1345 	mov	dptr,#_framer_802154
+   037C E4                 1346 	clr	a
+   037D 93                 1347 	movc	a,@a+dptr
+   037E FE                 1348 	mov	r6,a
+   037F A3                 1349 	inc	dptr
+   0380 E4                 1350 	clr	a
+   0381 93                 1351 	movc	a,@a+dptr
+   0382 FF                 1352 	mov	r7,a
+   0383 8E 82              1353 	mov	dpl,r6
+   0385 8F 83              1354 	mov	dph,r7
+   0387 12s00r00           1355 	lcall	__sdcc_call_dptr
+   038A AE 82              1356 	mov	r6,dpl
+   038C AF 83              1357 	mov	r7,dph
+   038E E5*00              1358 	mov	a,_bp
+   0390 24 3D              1359 	add	a,#0x3d
+   0392 F8                 1360 	mov	r0,a
+   0393 A6 06              1361 	mov	@r0,ar6
+   0395 08                 1362 	inc	r0
+   0396 A6 07              1363 	mov	@r0,ar7
+                           1364 ;	../../core/net/mac/cxmac.c:456: strobe_len = len + sizeof(struct cxmac_hdr);
+   0398 E5*00              1365 	mov	a,_bp
+   039A 24 3D              1366 	add	a,#0x3d
+   039C F8                 1367 	mov	r0,a
+   039D E5*00              1368 	mov	a,_bp
+   039F 24 3B              1369 	add	a,#0x3b
+   03A1 F9                 1370 	mov	r1,a
+   03A2 74 02              1371 	mov	a,#0x02
+   03A4 26                 1372 	add	a,@r0
+   03A5 F7                 1373 	mov	@r1,a
+   03A6 E4                 1374 	clr	a
+   03A7 08                 1375 	inc	r0
+   03A8 36                 1376 	addc	a,@r0
+   03A9 09                 1377 	inc	r1
+   03AA F7                 1378 	mov	@r1,a
+                           1379 ;	../../core/net/mac/cxmac.c:457: if(len < 0 || strobe_len > (int)sizeof(strobe)) {
+   03AB E5*00              1380 	mov	a,_bp
+   03AD 24 3D              1381 	add	a,#0x3d
+   03AF F8                 1382 	mov	r0,a
+   03B0 08                 1383 	inc	r0
+   03B1 E6                 1384 	mov	a,@r0
+   03B2 20 E7 16           1385 	jb	acc.7,00103$
+   03B5 E5*00              1386 	mov	a,_bp
+   03B7 24 3B              1387 	add	a,#0x3b
+   03B9 F8                 1388 	mov	r0,a
+   03BA C3                 1389 	clr	c
+   03BB 74 32              1390 	mov	a,#0x32
+   03BD 96                 1391 	subb	a,@r0
+   03BE E4                 1392 	clr	a
+   03BF 64 80              1393 	xrl	a,#0x80
+   03C1 08                 1394 	inc	r0
+   03C2 86 F0              1395 	mov	b,@r0
+   03C4 63 F0 80           1396 	xrl	b,#0x80
+   03C7 95 F0              1397 	subb	a,b
+   03C9 50 06              1398 	jnc	00104$
+   03CB                    1399 00103$:
+                           1400 ;	../../core/net/mac/cxmac.c:460: return MAC_TX_ERR_FATAL;
+   03CB 90 00 05           1401 	mov	dptr,#0x0005
+   03CE 02s0Cr27           1402 	ljmp	00180$
+   03D1                    1403 00104$:
+                           1404 ;	../../core/net/mac/cxmac.c:462: memcpy(strobe, packetbuf_hdrptr(), len);
+   03D1 E5*00              1405 	mov	a,_bp
+   03D3 24 3D              1406 	add	a,#0x3d
+   03D5 F8                 1407 	mov	r0,a
+   03D6 E5*00              1408 	mov	a,_bp
+   03D8 24 4F              1409 	add	a,#0x4f
+   03DA F9                 1410 	mov	r1,a
+   03DB E6                 1411 	mov	a,@r0
+   03DC F7                 1412 	mov	@r1,a
+   03DD 08                 1413 	inc	r0
+   03DE 09                 1414 	inc	r1
+   03DF E6                 1415 	mov	a,@r0
+   03E0 F7                 1416 	mov	@r1,a
+   03E1 12s00r00           1417 	lcall	_packetbuf_hdrptr
+   03E4 AD 82              1418 	mov	r5,dpl
+   03E6 AE 83              1419 	mov	r6,dph
+   03E8 AF F0              1420 	mov	r7,b
+   03EA E5*00              1421 	mov	a,_bp
+   03EC 24 4E              1422 	add	a,#0x4e
+   03EE F8                 1423 	mov	r0,a
+   03EF E5*00              1424 	mov	a,_bp
+   03F1 24 09              1425 	add	a,#0x09
+   03F3 F6                 1426 	mov	@r0,a
+   03F4 E5*00              1427 	mov	a,_bp
+   03F6 24 4E              1428 	add	a,#0x4e
+   03F8 F8                 1429 	mov	r0,a
+   03F9 86 02              1430 	mov	ar2,@r0
+   03FB 7B 00              1431 	mov	r3,#0x00
+   03FD 7C 40              1432 	mov	r4,#0x40
+   03FF E5*00              1433 	mov	a,_bp
+   0401 24 4F              1434 	add	a,#0x4f
+   0403 F8                 1435 	mov	r0,a
+   0404 E6                 1436 	mov	a,@r0
+   0405 C0 E0              1437 	push	acc
+   0407 08                 1438 	inc	r0
+   0408 E6                 1439 	mov	a,@r0
+   0409 C0 E0              1440 	push	acc
+   040B C0 05              1441 	push	ar5
+   040D C0 06              1442 	push	ar6
+   040F C0 07              1443 	push	ar7
+   0411 8A 82              1444 	mov	dpl,r2
+   0413 8B 83              1445 	mov	dph,r3
+   0415 8C F0              1446 	mov	b,r4
+   0417 12s00r00           1447 	lcall	_memcpy
+   041A E5 81              1448 	mov	a,sp
+   041C 24 FB              1449 	add	a,#0xfb
+   041E F5 81              1450 	mov	sp,a
+                           1451 ;	../../core/net/mac/cxmac.c:463: strobe[len] = DISPATCH; /* dispatch */
+   0420 E5*00              1452 	mov	a,_bp
+   0422 24 4E              1453 	add	a,#0x4e
+   0424 F8                 1454 	mov	r0,a
+   0425 E5*00              1455 	mov	a,_bp
+   0427 24 3D              1456 	add	a,#0x3d
+   0429 F9                 1457 	mov	r1,a
+   042A E7                 1458 	mov	a,@r1
+   042B 26                 1459 	add	a,@r0
+   042C F8                 1460 	mov	r0,a
+   042D 76 00              1461 	mov	@r0,#0x00
+                           1462 ;	../../core/net/mac/cxmac.c:464: strobe[len + 1] = TYPE_STROBE; /* type */
+   042F E5*00              1463 	mov	a,_bp
+   0431 24 3D              1464 	add	a,#0x3d
+   0433 F8                 1465 	mov	r0,a
+   0434 E6                 1466 	mov	a,@r0
+   0435 04                 1467 	inc	a
+   0436 C8                 1468 	xch	a,r0
+   0437 E5*00              1469 	mov	a,_bp
+   0439 24 4E              1470 	add	a,#0x4e
+   043B C8                 1471 	xch	a,r0
+   043C 26                 1472 	add	a,@r0
+   043D F8                 1473 	mov	r0,a
+   043E 76 10              1474 	mov	@r0,#0x10
+                           1475 ;	../../core/net/mac/cxmac.c:466: packetbuf_compact();
+   0440 12s00r00           1476 	lcall	_packetbuf_compact
+                           1477 ;	../../core/net/mac/cxmac.c:467: packet = queuebuf_new_from_packetbuf();
+   0443 12s00r00           1478 	lcall	_queuebuf_new_from_packetbuf
+   0446 AD 82              1479 	mov	r5,dpl
+   0448 AE 83              1480 	mov	r6,dph
+   044A AF F0              1481 	mov	r7,b
+   044C E5*00              1482 	mov	a,_bp
+   044E 24 46              1483 	add	a,#0x46
+   0450 F8                 1484 	mov	r0,a
+   0451 A6 05              1485 	mov	@r0,ar5
+   0453 08                 1486 	inc	r0
+   0454 A6 06              1487 	mov	@r0,ar6
+   0456 08                 1488 	inc	r0
+   0457 A6 07              1489 	mov	@r0,ar7
+                           1490 ;	../../core/net/mac/cxmac.c:468: if(packet == NULL) {
+   0459 E5*00              1491 	mov	a,_bp
+   045B 24 46              1492 	add	a,#0x46
+   045D F8                 1493 	mov	r0,a
+   045E E6                 1494 	mov	a,@r0
+   045F 08                 1495 	inc	r0
+   0460 46                 1496 	orl	a,@r0
+   0461 70 06              1497 	jnz	00107$
+                           1498 ;	../../core/net/mac/cxmac.c:472: return MAC_TX_ERR;
+   0463 90 00 04           1499 	mov	dptr,#0x0004
+   0466 02s0Cr27           1500 	ljmp	00180$
+   0469                    1501 00107$:
+                           1502 ;	../../core/net/mac/cxmac.c:476: if(is_streaming == 1 &&
+   0469 90s00r23           1503 	mov	dptr,#_is_streaming
+   046C E0                 1504 	movx	a,@dptr
+   046D FF                 1505 	mov	r7,a
+   046E BF 01 66           1506 	cjne	r7,#0x01,00109$
+                           1507 ;	../../core/net/mac/cxmac.c:478: &is_streaming_to) ||
+                           1508 ;	../../core/net/mac/cxmac.c:477: (rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+   0471 75 82 19           1509 	mov	dpl,#0x19
+   0474 12s00r00           1510 	lcall	_packetbuf_addr
+   0477 AD 82              1511 	mov	r5,dpl
+   0479 AE 83              1512 	mov	r6,dph
+   047B AF F0              1513 	mov	r7,b
+   047D 74r24              1514 	mov	a,#_is_streaming_to
+   047F C0 E0              1515 	push	acc
+   0481 74s00              1516 	mov	a,#(_is_streaming_to >> 8)
+   0483 C0 E0              1517 	push	acc
+   0485 E4                 1518 	clr	a
+   0486 C0 E0              1519 	push	acc
+   0488 8D 82              1520 	mov	dpl,r5
+   048A 8E 83              1521 	mov	dph,r6
+   048C 8F F0              1522 	mov	b,r7
+   048E 12s00r00           1523 	lcall	_rimeaddr_cmp
+   0491 AE 82              1524 	mov	r6,dpl
+   0493 AF 83              1525 	mov	r7,dph
+   0495 15 81              1526 	dec	sp
+   0497 15 81              1527 	dec	sp
+   0499 15 81              1528 	dec	sp
+   049B EE                 1529 	mov	a,r6
+   049C 4F                 1530 	orl	a,r7
+   049D 70 2E              1531 	jnz	00108$
+                           1532 ;	../../core/net/mac/cxmac.c:480: &is_streaming_to_too))) {
+                           1533 ;	../../core/net/mac/cxmac.c:479: rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+   049F 75 82 19           1534 	mov	dpl,#0x19
+   04A2 12s00r00           1535 	lcall	_packetbuf_addr
+   04A5 AD 82              1536 	mov	r5,dpl
+   04A7 AE 83              1537 	mov	r6,dph
+   04A9 AF F0              1538 	mov	r7,b
+   04AB 74r26              1539 	mov	a,#_is_streaming_to_too
+   04AD C0 E0              1540 	push	acc
+   04AF 74s00              1541 	mov	a,#(_is_streaming_to_too >> 8)
+   04B1 C0 E0              1542 	push	acc
+   04B3 E4                 1543 	clr	a
+   04B4 C0 E0              1544 	push	acc
+   04B6 8D 82              1545 	mov	dpl,r5
+   04B8 8E 83              1546 	mov	dph,r6
+   04BA 8F F0              1547 	mov	b,r7
+   04BC 12s00r00           1548 	lcall	_rimeaddr_cmp
+   04BF AE 82              1549 	mov	r6,dpl
+   04C1 AF 83              1550 	mov	r7,dph
+   04C3 15 81              1551 	dec	sp
+   04C5 15 81              1552 	dec	sp
+   04C7 15 81              1553 	dec	sp
+   04C9 EE                 1554 	mov	a,r6
+   04CA 4F                 1555 	orl	a,r7
+   04CB 60 0A              1556 	jz	00109$
+   04CD                    1557 00108$:
+                           1558 ;	../../core/net/mac/cxmac.c:481: is_already_streaming = 1;
+   04CD E5*00              1559 	mov	a,_bp
+   04CF 24 49              1560 	add	a,#0x49
+   04D1 F8                 1561 	mov	r0,a
+   04D2 76 01              1562 	mov	@r0,#0x01
+   04D4 08                 1563 	inc	r0
+   04D5 76 00              1564 	mov	@r0,#0x00
+   04D7                    1565 00109$:
+                           1566 ;	../../core/net/mac/cxmac.c:483: if(packetbuf_attr(PACKETBUF_ATTR_PACKET_TYPE) ==
+   04D7 75 82 0E           1567 	mov	dpl,#0x0E
+   04DA 12s00r00           1568 	lcall	_packetbuf_attr
+   04DD AE 82              1569 	mov	r6,dpl
+   04DF AF 83              1570 	mov	r7,dph
+   04E1 BE 02 05           1571 	cjne	r6,#0x02,00272$
+   04E4 BF 00 02           1572 	cjne	r7,#0x00,00272$
+   04E7 80 03              1573 	sjmp	00273$
+   04E9                    1574 00272$:
+   04E9 02s05r9D           1575 	ljmp	00118$
+   04EC                    1576 00273$:
+                           1577 ;	../../core/net/mac/cxmac.c:485: is_streaming = 1;
+   04EC 90s00r23           1578 	mov	dptr,#_is_streaming
+   04EF 74 01              1579 	mov	a,#0x01
+   04F1 F0                 1580 	movx	@dptr,a
+                           1581 ;	../../core/net/mac/cxmac.c:486: if(rimeaddr_cmp(&is_streaming_to, &rimeaddr_null)) {
+   04F2 74r00              1582 	mov	a,#_rimeaddr_null
+   04F4 C0 E0              1583 	push	acc
+   04F6 74s00              1584 	mov	a,#(_rimeaddr_null >> 8)
+   04F8 C0 E0              1585 	push	acc
+   04FA 74 80              1586 	mov	a,#0x80
+   04FC C0 E0              1587 	push	acc
+   04FE 90s00r24           1588 	mov	dptr,#_is_streaming_to
+   0501 75 F0 00           1589 	mov	b,#0x00
+   0504 12s00r00           1590 	lcall	_rimeaddr_cmp
+   0507 AE 82              1591 	mov	r6,dpl
+   0509 AF 83              1592 	mov	r7,dph
+   050B 15 81              1593 	dec	sp
+   050D 15 81              1594 	dec	sp
+   050F 15 81              1595 	dec	sp
+   0511 EE                 1596 	mov	a,r6
+   0512 4F                 1597 	orl	a,r7
+   0513 60 23              1598 	jz	00115$
+                           1599 ;	../../core/net/mac/cxmac.c:487: rimeaddr_copy(&is_streaming_to, packetbuf_addr(PACKETBUF_ADDR_RECEIVER));
+   0515 75 82 19           1600 	mov	dpl,#0x19
+   0518 12s00r00           1601 	lcall	_packetbuf_addr
+   051B AD 82              1602 	mov	r5,dpl
+   051D AE 83              1603 	mov	r6,dph
+   051F AF F0              1604 	mov	r7,b
+   0521 C0 05              1605 	push	ar5
+   0523 C0 06              1606 	push	ar6
+   0525 C0 07              1607 	push	ar7
+   0527 90s00r24           1608 	mov	dptr,#_is_streaming_to
+   052A 75 F0 00           1609 	mov	b,#0x00
+   052D 12s00r00           1610 	lcall	_rimeaddr_copy
+   0530 15 81              1611 	dec	sp
+   0532 15 81              1612 	dec	sp
+   0534 15 81              1613 	dec	sp
+   0536 80 4A              1614 	sjmp	00116$
+   0538                    1615 00115$:
+                           1616 ;	../../core/net/mac/cxmac.c:488: } else if(!rimeaddr_cmp(&is_streaming_to, packetbuf_addr(PACKETBUF_ADDR_RECEIVER))) {
+   0538 75 82 19           1617 	mov	dpl,#0x19
+   053B 12s00r00           1618 	lcall	_packetbuf_addr
+   053E AD 82              1619 	mov	r5,dpl
+   0540 AE 83              1620 	mov	r6,dph
+   0542 AF F0              1621 	mov	r7,b
+   0544 C0 05              1622 	push	ar5
+   0546 C0 06              1623 	push	ar6
+   0548 C0 07              1624 	push	ar7
+   054A 90s00r24           1625 	mov	dptr,#_is_streaming_to
+   054D 75 F0 00           1626 	mov	b,#0x00
+   0550 12s00r00           1627 	lcall	_rimeaddr_cmp
+   0553 AE 82              1628 	mov	r6,dpl
+   0555 AF 83              1629 	mov	r7,dph
+   0557 15 81              1630 	dec	sp
+   0559 15 81              1631 	dec	sp
+   055B 15 81              1632 	dec	sp
+   055D EE                 1633 	mov	a,r6
+   055E 4F                 1634 	orl	a,r7
+   055F 70 21              1635 	jnz	00116$
+                           1636 ;	../../core/net/mac/cxmac.c:489: rimeaddr_copy(&is_streaming_to_too, packetbuf_addr(PACKETBUF_ADDR_RECEIVER));
+   0561 75 82 19           1637 	mov	dpl,#0x19
+   0564 12s00r00           1638 	lcall	_packetbuf_addr
+   0567 AD 82              1639 	mov	r5,dpl
+   0569 AE 83              1640 	mov	r6,dph
+   056B AF F0              1641 	mov	r7,b
+   056D C0 05              1642 	push	ar5
+   056F C0 06              1643 	push	ar6
+   0571 C0 07              1644 	push	ar7
+   0573 90s00r26           1645 	mov	dptr,#_is_streaming_to_too
+   0576 75 F0 00           1646 	mov	b,#0x00
+   0579 12s00r00           1647 	lcall	_rimeaddr_copy
+   057C 15 81              1648 	dec	sp
+   057E 15 81              1649 	dec	sp
+   0580 15 81              1650 	dec	sp
+   0582                    1651 00116$:
+                           1652 ;	../../core/net/mac/cxmac.c:491: stream_until = RTIMER_NOW() + DEFAULT_STREAM_TIME;
+   0582 AE E2              1653 	mov	r6,_T1CNTL
+   0584 7F 00              1654 	mov	r7,#0x00
+   0586 AC E3              1655 	mov	r4,_T1CNTH
+   0588 8C 05              1656 	mov	ar5,r4
+   058A E4                 1657 	clr	a
+   058B FC                 1658 	mov	r4,a
+   058C 2E                 1659 	add	a,r6
+   058D FE                 1660 	mov	r6,a
+   058E ED                 1661 	mov	a,r5
+   058F 3F                 1662 	addc	a,r7
+   0590 FF                 1663 	mov	r7,a
+   0591 90s00r28           1664 	mov	dptr,#_stream_until
+   0594 74 09              1665 	mov	a,#0x09
+   0596 2E                 1666 	add	a,r6
+   0597 F0                 1667 	movx	@dptr,a
+   0598 74 3D              1668 	mov	a,#0x3D
+   059A 3F                 1669 	addc	a,r7
+   059B A3                 1670 	inc	dptr
+   059C F0                 1671 	movx	@dptr,a
+   059D                    1672 00118$:
+                           1673 ;	../../core/net/mac/cxmac.c:495: off();
+   059D 12s00r2E           1674 	lcall	_off
+                           1675 ;	../../core/net/mac/cxmac.c:502: for(e = list_head(encounter_list); e != NULL; e = list_item_next(e)) {
+   05A0 90s00r10           1676 	mov	dptr,#_encounter_list
+   05A3 E0                 1677 	movx	a,@dptr
+   05A4 FD                 1678 	mov	r5,a
+   05A5 A3                 1679 	inc	dptr
+   05A6 E0                 1680 	movx	a,@dptr
+   05A7 FE                 1681 	mov	r6,a
+   05A8 A3                 1682 	inc	dptr
+   05A9 E0                 1683 	movx	a,@dptr
+   05AA FF                 1684 	mov	r7,a
+   05AB 8D 82              1685 	mov	dpl,r5
+   05AD 8E 83              1686 	mov	dph,r6
+   05AF 8F F0              1687 	mov	b,r7
+   05B1 12s00r00           1688 	lcall	_list_head
+   05B4 AD 82              1689 	mov	r5,dpl
+   05B6 AE 83              1690 	mov	r6,dph
+   05B8 AF F0              1691 	mov	r7,b
+   05BA E5*00              1692 	mov	a,_bp
+   05BC 24 43              1693 	add	a,#0x43
+   05BE F8                 1694 	mov	r0,a
+   05BF A6 05              1695 	mov	@r0,ar5
+   05C1 08                 1696 	inc	r0
+   05C2 A6 06              1697 	mov	@r0,ar6
+   05C4 08                 1698 	inc	r0
+   05C5 A6 07              1699 	mov	@r0,ar7
+   05C7                    1700 00170$:
+   05C7 E5*00              1701 	mov	a,_bp
+   05C9 24 43              1702 	add	a,#0x43
+   05CB F8                 1703 	mov	r0,a
+   05CC E4                 1704 	clr	a
+   05CD C0 E0              1705 	push	acc
+   05CF E4                 1706 	clr	a
+   05D0 C0 E0              1707 	push	acc
+   05D2 E4                 1708 	clr	a
+   05D3 C0 E0              1709 	push	acc
+   05D5 86 82              1710 	mov	dpl,@r0
+   05D7 08                 1711 	inc	r0
+   05D8 86 83              1712 	mov	dph,@r0
+   05DA 08                 1713 	inc	r0
+   05DB 86 F0              1714 	mov	b,@r0
+   05DD 12s00r00           1715 	lcall	___gptr_cmp
+   05E0 15 81              1716 	dec	sp
+   05E2 15 81              1717 	dec	sp
+   05E4 15 81              1718 	dec	sp
+   05E6 70 03              1719 	jnz	00276$
+   05E8 02s06rEE           1720 	ljmp	00173$
+   05EB                    1721 00276$:
+                           1722 ;	../../core/net/mac/cxmac.c:503: const rimeaddr_t *neighbor = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
+   05EB 75 82 19           1723 	mov	dpl,#0x19
+   05EE 12s00r00           1724 	lcall	_packetbuf_addr
+   05F1 AF 82              1725 	mov	r7,dpl
+   05F3 AE 83              1726 	mov	r6,dph
+   05F5 AD F0              1727 	mov	r5,b
+                           1728 ;	../../core/net/mac/cxmac.c:505: if(rimeaddr_cmp(neighbor, &e->neighbor)) {
+   05F7 E5*00              1729 	mov	a,_bp
+   05F9 24 43              1730 	add	a,#0x43
+   05FB F8                 1731 	mov	r0,a
+   05FC 74 03              1732 	mov	a,#0x03
+   05FE 26                 1733 	add	a,@r0
+   05FF FA                 1734 	mov	r2,a
+   0600 E4                 1735 	clr	a
+   0601 08                 1736 	inc	r0
+   0602 36                 1737 	addc	a,@r0
+   0603 FB                 1738 	mov	r3,a
+   0604 08                 1739 	inc	r0
+   0605 86 04              1740 	mov	ar4,@r0
+   0607 C0 02              1741 	push	ar2
+   0609 C0 03              1742 	push	ar3
+   060B C0 04              1743 	push	ar4
+   060D 8F 82              1744 	mov	dpl,r7
+   060F 8E 83              1745 	mov	dph,r6
+   0611 8D F0              1746 	mov	b,r5
+   0613 12s00r00           1747 	lcall	_rimeaddr_cmp
+   0616 AB 82              1748 	mov	r3,dpl
+   0618 AC 83              1749 	mov	r4,dph
+   061A 15 81              1750 	dec	sp
+   061C 15 81              1751 	dec	sp
+   061E 15 81              1752 	dec	sp
+   0620 EB                 1753 	mov	a,r3
+   0621 4C                 1754 	orl	a,r4
+   0622 70 03              1755 	jnz	00277$
+   0624 02s06rC2           1756 	ljmp	00172$
+   0627                    1757 00277$:
+                           1758 ;	../../core/net/mac/cxmac.c:515: now = RTIMER_NOW();
+   0627 AB E2              1759 	mov	r3,_T1CNTL
+   0629 7C 00              1760 	mov	r4,#0x00
+   062B AA E3              1761 	mov	r2,_T1CNTH
+   062D 8A 07              1762 	mov	ar7,r2
+   062F E4                 1763 	clr	a
+   0630 2B                 1764 	add	a,r3
+   0631 FB                 1765 	mov	r3,a
+   0632 EF                 1766 	mov	a,r7
+   0633 3C                 1767 	addc	a,r4
+   0634 FC                 1768 	mov	r4,a
+                           1769 ;	../../core/net/mac/cxmac.c:516: wait = ((rtimer_clock_t)(e->time - now)) % (DEFAULT_PERIOD);
+   0635 E5*00              1770 	mov	a,_bp
+   0637 24 43              1771 	add	a,#0x43
+   0639 F8                 1772 	mov	r0,a
+   063A 74 05              1773 	mov	a,#0x05
+   063C 26                 1774 	add	a,@r0
+   063D FD                 1775 	mov	r5,a
+   063E E4                 1776 	clr	a
+   063F 08                 1777 	inc	r0
+   0640 36                 1778 	addc	a,@r0
+   0641 FE                 1779 	mov	r6,a
+   0642 08                 1780 	inc	r0
+   0643 86 07              1781 	mov	ar7,@r0
+   0645 8D 82              1782 	mov	dpl,r5
+   0647 8E 83              1783 	mov	dph,r6
+   0649 8F F0              1784 	mov	b,r7
+   064B 12s00r00           1785 	lcall	__gptrget
+   064E FD                 1786 	mov	r5,a
+   064F A3                 1787 	inc	dptr
+   0650 12s00r00           1788 	lcall	__gptrget
+   0653 FE                 1789 	mov	r6,a
+   0654 ED                 1790 	mov	a,r5
+   0655 C3                 1791 	clr	c
+   0656 9B                 1792 	subb	a,r3
+   0657 FD                 1793 	mov	r5,a
+   0658 EE                 1794 	mov	a,r6
+   0659 9C                 1795 	subb	a,r4
+   065A FE                 1796 	mov	r6,a
+   065B C0 04              1797 	push	ar4
+   065D C0 03              1798 	push	ar3
+   065F 74 A1              1799 	mov	a,#0xA1
+   0661 C0 E0              1800 	push	acc
+   0663 74 07              1801 	mov	a,#0x07
+   0665 C0 E0              1802 	push	acc
+   0667 8D 82              1803 	mov	dpl,r5
+   0669 8E 83              1804 	mov	dph,r6
+   066B 12s00r00           1805 	lcall	__moduint
+   066E AE 82              1806 	mov	r6,dpl
+   0670 AF 83              1807 	mov	r7,dph
+   0672 15 81              1808 	dec	sp
+   0674 15 81              1809 	dec	sp
+   0676 D0 03              1810 	pop	ar3
+   0678 D0 04              1811 	pop	ar4
+                           1812 ;	../../core/net/mac/cxmac.c:517: expected = now + wait - 2 * DEFAULT_ON_TIME;
+   067A EE                 1813 	mov	a,r6
+   067B 2B                 1814 	add	a,r3
+   067C FB                 1815 	mov	r3,a
+   067D EF                 1816 	mov	a,r7
+   067E 3C                 1817 	addc	a,r4
+   067F FC                 1818 	mov	r4,a
+   0680 EB                 1819 	mov	a,r3
+   0681 24 3E              1820 	add	a,#0x3E
+   0683 FB                 1821 	mov	r3,a
+   0684 EC                 1822 	mov	a,r4
+   0685 34 FF              1823 	addc	a,#0xFF
+   0687 FA                 1824 	mov	r2,a
+                           1825 ;	../../core/net/mac/cxmac.c:521: if(packetbuf_attr(PACKETBUF_ATTR_PACKET_TYPE) !=
+   0688 75 82 0E           1826 	mov	dpl,#0x0E
+   068B C0 03              1827 	push	ar3
+   068D C0 02              1828 	push	ar2
+   068F 12s00r00           1829 	lcall	_packetbuf_attr
+   0692 AE 82              1830 	mov	r6,dpl
+   0694 AF 83              1831 	mov	r7,dph
+   0696 D0 02              1832 	pop	ar2
+   0698 D0 03              1833 	pop	ar3
+   069A BE 01 05           1834 	cjne	r6,#0x01,00278$
+   069D BF 00 02           1835 	cjne	r7,#0x00,00278$
+   06A0 80 20              1836 	sjmp	00172$
+   06A2                    1837 00278$:
+                           1838 ;	../../core/net/mac/cxmac.c:523: is_streaming == 0) {
+   06A2 90s00r23           1839 	mov	dptr,#_is_streaming
+   06A5 E0                 1840 	movx	a,@dptr
+   06A6 FF                 1841 	mov	r7,a
+   06A7 70 19              1842 	jnz	00172$
+                           1843 ;	../../core/net/mac/cxmac.c:526: while(RTIMER_CLOCK_LT(RTIMER_NOW(), expected));
+   06A9                    1844 00119$:
+   06A9 AE E2              1845 	mov	r6,_T1CNTL
+   06AB 7F 00              1846 	mov	r7,#0x00
+   06AD AC E3              1847 	mov	r4,_T1CNTH
+   06AF 8C 05              1848 	mov	ar5,r4
+   06B1 E4                 1849 	clr	a
+   06B2 FC                 1850 	mov	r4,a
+   06B3 2E                 1851 	add	a,r6
+   06B4 FE                 1852 	mov	r6,a
+   06B5 ED                 1853 	mov	a,r5
+   06B6 3F                 1854 	addc	a,r7
+   06B7 FF                 1855 	mov	r7,a
+   06B8 EE                 1856 	mov	a,r6
+   06B9 C3                 1857 	clr	c
+   06BA 9B                 1858 	subb	a,r3
+   06BB FE                 1859 	mov	r6,a
+   06BC EF                 1860 	mov	a,r7
+   06BD 9A                 1861 	subb	a,r2
+   06BE FF                 1862 	mov	r7,a
+   06BF 20 E7 E7           1863 	jb	acc.7,00119$
+   06C2                    1864 00172$:
+                           1865 ;	../../core/net/mac/cxmac.c:502: for(e = list_head(encounter_list); e != NULL; e = list_item_next(e)) {
+   06C2 E5*00              1866 	mov	a,_bp
+   06C4 24 43              1867 	add	a,#0x43
+   06C6 F8                 1868 	mov	r0,a
+   06C7 86 05              1869 	mov	ar5,@r0
+   06C9 08                 1870 	inc	r0
+   06CA 86 06              1871 	mov	ar6,@r0
+   06CC 08                 1872 	inc	r0
+   06CD 86 07              1873 	mov	ar7,@r0
+   06CF 8D 82              1874 	mov	dpl,r5
+   06D1 8E 83              1875 	mov	dph,r6
+   06D3 8F F0              1876 	mov	b,r7
+   06D5 12s00r00           1877 	lcall	_list_item_next
+   06D8 AD 82              1878 	mov	r5,dpl
+   06DA AE 83              1879 	mov	r6,dph
+   06DC AF F0              1880 	mov	r7,b
+   06DE E5*00              1881 	mov	a,_bp
+   06E0 24 43              1882 	add	a,#0x43
+   06E2 F8                 1883 	mov	r0,a
+   06E3 A6 05              1884 	mov	@r0,ar5
+   06E5 08                 1885 	inc	r0
+   06E6 A6 06              1886 	mov	@r0,ar6
+   06E8 08                 1887 	inc	r0
+   06E9 A6 07              1888 	mov	@r0,ar7
+   06EB 02s05rC7           1889 	ljmp	00170$
+   06EE                    1890 00173$:
+                           1891 ;	../../core/net/mac/cxmac.c:538: we_are_sending = 1;
+   06EE 90s00r0B           1892 	mov	dptr,#_we_are_sending
+   06F1 74 01              1893 	mov	a,#0x01
+   06F3 F0                 1894 	movx	@dptr,a
+                           1895 ;	../../core/net/mac/cxmac.c:540: t0 = RTIMER_NOW();
+   06F4 AE E2              1896 	mov	r6,_T1CNTL
+   06F6 7F 00              1897 	mov	r7,#0x00
+   06F8 AC E3              1898 	mov	r4,_T1CNTH
+   06FA 8C 05              1899 	mov	ar5,r4
+   06FC E4                 1900 	clr	a
+   06FD 2E                 1901 	add	a,r6
+   06FE FE                 1902 	mov	r6,a
+   06FF ED                 1903 	mov	a,r5
+   0700 3F                 1904 	addc	a,r7
+   0701 FF                 1905 	mov	r7,a
+                           1906 ;	../../core/net/mac/cxmac.c:548: on();
+   0702 C0 07              1907 	push	ar7
+   0704 C0 06              1908 	push	ar6
+   0706 12s00r00           1909 	lcall	_on
+   0709 D0 06              1910 	pop	ar6
+   070B D0 07              1911 	pop	ar7
+                           1912 ;	../../core/net/mac/cxmac.c:549: collisions = 0;
+   070D E5*00              1913 	mov	a,_bp
+   070F 24 4B              1914 	add	a,#0x4b
+   0711 F8                 1915 	mov	r0,a
+   0712 76 00              1916 	mov	@r0,#0x00
+                           1917 ;	../../core/net/mac/cxmac.c:550: if(!is_already_streaming) {
+   0714 E5*00              1918 	mov	a,_bp
+   0716 24 49              1919 	add	a,#0x49
+   0718 F8                 1920 	mov	r0,a
+   0719 E6                 1921 	mov	a,@r0
+   071A 08                 1922 	inc	r0
+   071B 46                 1923 	orl	a,@r0
+   071C 60 03              1924 	jz	00281$
+   071E 02s0ArDC           1925 	ljmp	00148$
+   0721                    1926 00281$:
+                           1927 ;	../../core/net/mac/cxmac.c:551: watchdog_stop();
+   0721 C0 06              1928 	push	ar6
+   0723 C0 07              1929 	push	ar7
+   0725 C0 07              1930 	push	ar7
+   0727 C0 06              1931 	push	ar6
+   0729 12s00r00           1932 	lcall	_watchdog_stop
+   072C D0 06              1933 	pop	ar6
+   072E D0 07              1934 	pop	ar7
+                           1935 ;	../../core/net/mac/cxmac.c:552: got_strobe_ack = 0;
+   0730 E5*00              1936 	mov	a,_bp
+   0732 24 07              1937 	add	a,#0x07
+   0734 F8                 1938 	mov	r0,a
+   0735 E4                 1939 	clr	a
+   0736 F6                 1940 	mov	@r0,a
+   0737 08                 1941 	inc	r0
+   0738 F6                 1942 	mov	@r0,a
+                           1943 ;	../../core/net/mac/cxmac.c:553: t = RTIMER_NOW();
+   0739 AC E2              1944 	mov	r4,_T1CNTL
+   073B 7F 00              1945 	mov	r7,#0x00
+   073D AB E3              1946 	mov	r3,_T1CNTH
+   073F 8B 06              1947 	mov	ar6,r3
+   0741 E4                 1948 	clr	a
+   0742 FB                 1949 	mov	r3,a
+   0743 2C                 1950 	add	a,r4
+   0744 FC                 1951 	mov	r4,a
+   0745 EE                 1952 	mov	a,r6
+   0746 3F                 1953 	addc	a,r7
+   0747 FF                 1954 	mov	r7,a
+   0748 A8*00              1955 	mov	r0,_bp
+   074A 08                 1956 	inc	r0
+   074B A6 04              1957 	mov	@r0,ar4
+   074D 08                 1958 	inc	r0
+   074E A6 07              1959 	mov	@r0,ar7
+                           1960 ;	../../core/net/mac/cxmac.c:554: for(strobes = 0, collisions = 0;
+   0750 E5*00              1961 	mov	a,_bp
+   0752 24 4B              1962 	add	a,#0x4b
+   0754 F8                 1963 	mov	r0,a
+   0755 76 00              1964 	mov	@r0,#0x00
+   0757 E5*00              1965 	mov	a,_bp
+   0759 24 4E              1966 	add	a,#0x4e
+   075B F8                 1967 	mov	r0,a
+   075C E5*00              1968 	mov	a,_bp
+   075E 24 4F              1969 	add	a,#0x4f
+   0760 F9                 1970 	mov	r1,a
+   0761 E6                 1971 	mov	a,@r0
+   0762 F7                 1972 	mov	@r1,a
+   0763 E5*00              1973 	mov	a,_bp
+   0765 24 05              1974 	add	a,#0x05
+   0767 F8                 1975 	mov	r0,a
+   0768 E4                 1976 	clr	a
+   0769 F6                 1977 	mov	@r0,a
+   076A 08                 1978 	inc	r0
+   076B F6                 1979 	mov	@r0,a
+                           1980 ;	../../core/net/mac/cxmac.c:682: return MAC_TX_COLLISION;
+   076C D0 07              1981 	pop	ar7
+   076E D0 06              1982 	pop	ar6
+                           1983 ;	../../core/net/mac/cxmac.c:554: for(strobes = 0, collisions = 0;
+   0770                    1984 00176$:
+                           1985 ;	../../core/net/mac/cxmac.c:555: got_strobe_ack == 0 && collisions == 0 &&
+   0770 E5*00              1986 	mov	a,_bp
+   0772 24 07              1987 	add	a,#0x07
+   0774 F8                 1988 	mov	r0,a
+   0775 B6 00 06           1989 	cjne	@r0,#0x00,00282$
+   0778 08                 1990 	inc	r0
+   0779 B6 00 02           1991 	cjne	@r0,#0x00,00282$
+   077C 80 03              1992 	sjmp	00283$
+   077E                    1993 00282$:
+   077E 02s0ArDC           1994 	ljmp	00148$
+   0781                    1995 00283$:
+   0781 E5*00              1996 	mov	a,_bp
+   0783 24 4B              1997 	add	a,#0x4b
+   0785 F8                 1998 	mov	r0,a
+   0786 B6 00 02           1999 	cjne	@r0,#0x00,00284$
+   0789 80 03              2000 	sjmp	00285$
+   078B                    2001 00284$:
+   078B 02s0ArDC           2002 	ljmp	00148$
+   078E                    2003 00285$:
+                           2004 ;	../../core/net/mac/cxmac.c:556: RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + cxmac_config.strobe_time);
+   078E AB E2              2005 	mov	r3,_T1CNTL
+   0790 7C 00              2006 	mov	r4,#0x00
+   0792 AA E3              2007 	mov	r2,_T1CNTH
+   0794 8A 05              2008 	mov	ar5,r2
+   0796 E4                 2009 	clr	a
+   0797 2B                 2010 	add	a,r3
+   0798 FB                 2011 	mov	r3,a
+   0799 ED                 2012 	mov	a,r5
+   079A 3C                 2013 	addc	a,r4
+   079B FC                 2014 	mov	r4,a
+   079C 90s00r04           2015 	mov	dptr,#(_cxmac_config + 0x0004)
+   079F E0                 2016 	movx	a,@dptr
+   07A0 FA                 2017 	mov	r2,a
+   07A1 A3                 2018 	inc	dptr
+   07A2 E0                 2019 	movx	a,@dptr
+   07A3 FD                 2020 	mov	r5,a
+   07A4 EA                 2021 	mov	a,r2
+   07A5 2E                 2022 	add	a,r6
+   07A6 FA                 2023 	mov	r2,a
+   07A7 ED                 2024 	mov	a,r5
+   07A8 3F                 2025 	addc	a,r7
+   07A9 FD                 2026 	mov	r5,a
+   07AA EB                 2027 	mov	a,r3
+   07AB C3                 2028 	clr	c
+   07AC 9A                 2029 	subb	a,r2
+   07AD FB                 2030 	mov	r3,a
+   07AE EC                 2031 	mov	a,r4
+   07AF 9D                 2032 	subb	a,r5
+   07B0 FC                 2033 	mov	r4,a
+   07B1 20 E7 03           2034 	jb	acc.7,00286$
+   07B4 02s0ArDC           2035 	ljmp	00148$
+   07B7                    2036 00286$:
+                           2037 ;	../../core/net/mac/cxmac.c:559: while(got_strobe_ack == 0 &&
+   07B7 E5*00              2038 	mov	a,_bp
+   07B9 24 4B              2039 	add	a,#0x4b
+   07BB F8                 2040 	mov	r0,a
+   07BC 86 04              2041 	mov	ar4,@r0
+   07BE                    2042 00138$:
+   07BE E5*00              2043 	mov	a,_bp
+   07C0 24 07              2044 	add	a,#0x07
+   07C2 F8                 2045 	mov	r0,a
+   07C3 E6                 2046 	mov	a,@r0
+   07C4 08                 2047 	inc	r0
+   07C5 46                 2048 	orl	a,@r0
+   07C6 60 03              2049 	jz	00287$
+   07C8 02s09r9D           2050 	ljmp	00221$
+   07CB                    2051 00287$:
+                           2052 ;	../../core/net/mac/cxmac.c:560: RTIMER_CLOCK_LT(RTIMER_NOW(), t + cxmac_config.strobe_wait_time)) {
+   07CB C0 06              2053 	push	ar6
+   07CD C0 07              2054 	push	ar7
+   07CF AA E2              2055 	mov	r2,_T1CNTL
+   07D1 7B 00              2056 	mov	r3,#0x00
+   07D3 AE E3              2057 	mov	r6,_T1CNTH
+   07D5 8E 07              2058 	mov	ar7,r6
+   07D7 E4                 2059 	clr	a
+   07D8 2A                 2060 	add	a,r2
+   07D9 FA                 2061 	mov	r2,a
+   07DA EF                 2062 	mov	a,r7
+   07DB 3B                 2063 	addc	a,r3
+   07DC FB                 2064 	mov	r3,a
+   07DD 90s00r06           2065 	mov	dptr,#(_cxmac_config + 0x0006)
+   07E0 E0                 2066 	movx	a,@dptr
+   07E1 FE                 2067 	mov	r6,a
+   07E2 A3                 2068 	inc	dptr
+   07E3 E0                 2069 	movx	a,@dptr
+   07E4 FF                 2070 	mov	r7,a
+   07E5 A8*00              2071 	mov	r0,_bp
+   07E7 08                 2072 	inc	r0
+   07E8 EE                 2073 	mov	a,r6
+   07E9 26                 2074 	add	a,@r0
+   07EA FE                 2075 	mov	r6,a
+   07EB EF                 2076 	mov	a,r7
+   07EC 08                 2077 	inc	r0
+   07ED 36                 2078 	addc	a,@r0
+   07EE FF                 2079 	mov	r7,a
+   07EF EA                 2080 	mov	a,r2
+   07F0 C3                 2081 	clr	c
+   07F1 9E                 2082 	subb	a,r6
+   07F2 FA                 2083 	mov	r2,a
+   07F3 EB                 2084 	mov	a,r3
+   07F4 9F                 2085 	subb	a,r7
+   07F5 FB                 2086 	mov	r3,a
+   07F6 D0 07              2087 	pop	ar7
+   07F8 D0 06              2088 	pop	ar6
+   07FA 20 E7 03           2089 	jb	acc.7,00288$
+   07FD 02s09r9D           2090 	ljmp	00221$
+   0800                    2091 00288$:
+                           2092 ;	../../core/net/mac/cxmac.c:561: rtimer_clock_t now = RTIMER_NOW();
+   0800 C0 06              2093 	push	ar6
+   0802 C0 07              2094 	push	ar7
+   0804 AA E2              2095 	mov	r2,_T1CNTL
+   0806 7B 00              2096 	mov	r3,#0x00
+   0808 AE E3              2097 	mov	r6,_T1CNTH
+   080A 8E 07              2098 	mov	ar7,r6
+   080C E4                 2099 	clr	a
+   080D FE                 2100 	mov	r6,a
+   080E 2A                 2101 	add	a,r2
+   080F FA                 2102 	mov	r2,a
+   0810 EF                 2103 	mov	a,r7
+   0811 3B                 2104 	addc	a,r3
+   0812 FB                 2105 	mov	r3,a
+   0813 E5*00              2106 	mov	a,_bp
+   0815 24 4C              2107 	add	a,#0x4c
+   0817 F8                 2108 	mov	r0,a
+   0818 A6 02              2109 	mov	@r0,ar2
+   081A 08                 2110 	inc	r0
+   081B A6 03              2111 	mov	@r0,ar3
+                           2112 ;	../../core/net/mac/cxmac.c:564: packetbuf_clear();
+   081D C0 07              2113 	push	ar7
+   081F C0 06              2114 	push	ar6
+   0821 C0 04              2115 	push	ar4
+   0823 12s00r00           2116 	lcall	_packetbuf_clear
+   0826 D0 04              2117 	pop	ar4
+   0828 D0 06              2118 	pop	ar6
+   082A D0 07              2119 	pop	ar7
+                           2120 ;	../../core/net/mac/cxmac.c:565: len = NETSTACK_RADIO.read(packetbuf_dataptr(), PACKETBUF_SIZE);
+   082C 90s00r08           2121 	mov	dptr,#(_cc2430_rf_driver + 0x0008)
+   082F E5*00              2122 	mov	a,_bp
+   0831 24 51              2123 	add	a,#0x51
+   0833 F8                 2124 	mov	r0,a
+   0834 E4                 2125 	clr	a
+   0835 93                 2126 	movc	a,@a+dptr
+   0836 F6                 2127 	mov	@r0,a
+   0837 A3                 2128 	inc	dptr
+   0838 E4                 2129 	clr	a
+   0839 93                 2130 	movc	a,@a+dptr
+   083A 08                 2131 	inc	r0
+   083B F6                 2132 	mov	@r0,a
+   083C C0 06              2133 	push	ar6
+   083E C0 04              2134 	push	ar4
+   0840 12s00r00           2135 	lcall	_packetbuf_dataptr
+   0843 AA 82              2136 	mov	r2,dpl
+   0845 AB 83              2137 	mov	r3,dph
+   0847 AF F0              2138 	mov	r7,b
+   0849 D0 04              2139 	pop	ar4
+   084B D0 06              2140 	pop	ar6
+   084D C0 04              2141 	push	ar4
+   084F 74 80              2142 	mov	a,#0x80
+   0851 C0 E0              2143 	push	acc
+   0853 E4                 2144 	clr	a
+   0854 C0 E0              2145 	push	acc
+   0856 74r71              2146 	mov	a,#00289$
+   0858 C0 E0              2147 	push	acc
+   085A 74s08              2148 	mov	a,#(00289$ >> 8)
+   085C C0 E0              2149 	push	acc
+   085E E5*00              2150 	mov	a,_bp
+   0860 24 51              2151 	add	a,#0x51
+   0862 F8                 2152 	mov	r0,a
+   0863 E6                 2153 	mov	a,@r0
+   0864 C0 E0              2154 	push	acc
+   0866 08                 2155 	inc	r0
+   0867 E6                 2156 	mov	a,@r0
+   0868 C0 E0              2157 	push	acc
+   086A 8A 82              2158 	mov	dpl,r2
+   086C 8B 83              2159 	mov	dph,r3
+   086E 8F F0              2160 	mov	b,r7
+   0870 22                 2161 	ret
+   0871                    2162 00289$:
+   0871 AE 82              2163 	mov	r6,dpl
+   0873 AF 83              2164 	mov	r7,dph
+   0875 15 81              2165 	dec	sp
+   0877 15 81              2166 	dec	sp
+   0879 D0 04              2167 	pop	ar4
+   087B E5*00              2168 	mov	a,_bp
+   087D 24 3D              2169 	add	a,#0x3d
+   087F F8                 2170 	mov	r0,a
+   0880 A6 06              2171 	mov	@r0,ar6
+   0882 08                 2172 	inc	r0
+   0883 A6 07              2173 	mov	@r0,ar7
+                           2174 ;	../../core/net/mac/cxmac.c:566: if(len > 0) {
+   0885 E5*00              2175 	mov	a,_bp
+   0887 24 3D              2176 	add	a,#0x3d
+   0889 F8                 2177 	mov	r0,a
+   088A C3                 2178 	clr	c
+   088B E4                 2179 	clr	a
+   088C 96                 2180 	subb	a,@r0
+   088D E4                 2181 	clr	a
+   088E 64 80              2182 	xrl	a,#0x80
+   0890 08                 2183 	inc	r0
+   0891 86 F0              2184 	mov	b,@r0
+   0893 63 F0 80           2185 	xrl	b,#0x80
+   0896 95 F0              2186 	subb	a,b
+   0898 D0 07              2187 	pop	ar7
+   089A D0 06              2188 	pop	ar6
+   089C 40 03              2189 	jc	00290$
+   089E 02s07rBE           2190 	ljmp	00138$
+   08A1                    2191 00290$:
+                           2192 ;	../../core/net/mac/cxmac.c:567: packetbuf_set_datalen(len);
+   08A1 E5*00              2193 	mov	a,_bp
+   08A3 24 3D              2194 	add	a,#0x3d
+   08A5 F8                 2195 	mov	r0,a
+   08A6 86 02              2196 	mov	ar2,@r0
+   08A8 08                 2197 	inc	r0
+   08A9 86 03              2198 	mov	ar3,@r0
+   08AB 8A 82              2199 	mov	dpl,r2
+   08AD 8B 83              2200 	mov	dph,r3
+   08AF C0 07              2201 	push	ar7
+   08B1 C0 06              2202 	push	ar6
+   08B3 C0 04              2203 	push	ar4
+   08B5 12s00r00           2204 	lcall	_packetbuf_set_datalen
+                           2205 ;	../../core/net/mac/cxmac.c:568: if(NETSTACK_FRAMER.parse() >= 0) {
+   08B8 90s00r02           2206 	mov	dptr,#(_framer_802154 + 0x0002)
+   08BB E4                 2207 	clr	a
+   08BC 93                 2208 	movc	a,@a+dptr
+   08BD FA                 2209 	mov	r2,a
+   08BE A3                 2210 	inc	dptr
+   08BF E4                 2211 	clr	a
+   08C0 93                 2212 	movc	a,@a+dptr
+   08C1 FB                 2213 	mov	r3,a
+   08C2 8A 82              2214 	mov	dpl,r2
+   08C4 8B 83              2215 	mov	dph,r3
+   08C6 12s00r00           2216 	lcall	__sdcc_call_dptr
+   08C9 AA 82              2217 	mov	r2,dpl
+   08CB AB 83              2218 	mov	r3,dph
+   08CD D0 04              2219 	pop	ar4
+   08CF D0 06              2220 	pop	ar6
+   08D1 D0 07              2221 	pop	ar7
+   08D3 EB                 2222 	mov	a,r3
+   08D4 30 E7 03           2223 	jnb	acc.7,00292$
+   08D7 02s07rBE           2224 	ljmp	00138$
+   08DA                    2225 00292$:
+                           2226 ;	../../core/net/mac/cxmac.c:569: hdr = packetbuf_dataptr();
+   08DA C0 06              2227 	push	ar6
+   08DC C0 07              2228 	push	ar7
+   08DE C0 06              2229 	push	ar6
+   08E0 C0 04              2230 	push	ar4
+   08E2 12s00r00           2231 	lcall	_packetbuf_dataptr
+   08E5 AA 82              2232 	mov	r2,dpl
+   08E7 AB 83              2233 	mov	r3,dph
+   08E9 AF F0              2234 	mov	r7,b
+   08EB D0 04              2235 	pop	ar4
+   08ED D0 06              2236 	pop	ar6
+                           2237 ;	../../core/net/mac/cxmac.c:570: is_dispatch = hdr->dispatch == DISPATCH;
+   08EF 8A 82              2238 	mov	dpl,r2
+   08F1 8B 83              2239 	mov	dph,r3
+   08F3 8F F0              2240 	mov	b,r7
+   08F5 12s00r00           2241 	lcall	__gptrget
+   08F8 FE                 2242 	mov	r6,a
+   08F9 E4                 2243 	clr	a
+   08FA BE 00 01           2244 	cjne	r6,#0x00,00293$
+   08FD 04                 2245 	inc	a
+   08FE                    2246 00293$:
+   08FE FE                 2247 	mov	r6,a
+   08FF E5*00              2248 	mov	a,_bp
+   0901 24 41              2249 	add	a,#0x41
+   0903 F8                 2250 	mov	r0,a
+   0904 A6 06              2251 	mov	@r0,ar6
+   0906 EE                 2252 	mov	a,r6
+   0907 33                 2253 	rlc	a
+   0908 95 E0              2254 	subb	a,acc
+   090A 08                 2255 	inc	r0
+   090B F6                 2256 	mov	@r0,a
+                           2257 ;	../../core/net/mac/cxmac.c:571: is_strobe_ack = hdr->type == TYPE_STROBE_ACK;
+   090C 0A                 2258 	inc	r2
+   090D BA 00 01           2259 	cjne	r2,#0x00,00295$
+   0910 0B                 2260 	inc	r3
+   0911                    2261 00295$:
+   0911 8A 82              2262 	mov	dpl,r2
+   0913 8B 83              2263 	mov	dph,r3
+   0915 8F F0              2264 	mov	b,r7
+   0917 12s00r00           2265 	lcall	__gptrget
+   091A FA                 2266 	mov	r2,a
+   091B E4                 2267 	clr	a
+   091C BA 13 01           2268 	cjne	r2,#0x13,00296$
+   091F 04                 2269 	inc	a
+   0920                    2270 00296$:
+   0920 FA                 2271 	mov	r2,a
+   0921 33                 2272 	rlc	a
+   0922 95 E0              2273 	subb	a,acc
+   0924 FD                 2274 	mov	r5,a
+                           2275 ;	../../core/net/mac/cxmac.c:572: if(is_dispatch && is_strobe_ack) {
+   0925 D0 07              2276 	pop	ar7
+   0927 D0 06              2277 	pop	ar6
+   0929 E5*00              2278 	mov	a,_bp
+   092B 24 41              2279 	add	a,#0x41
+   092D F8                 2280 	mov	r0,a
+   092E E6                 2281 	mov	a,@r0
+   092F 08                 2282 	inc	r0
+   0930 46                 2283 	orl	a,@r0
+   0931 60 66              2284 	jz	00130$
+   0933 EA                 2285 	mov	a,r2
+   0934 4D                 2286 	orl	a,r5
+   0935 60 62              2287 	jz	00130$
+                           2288 ;	../../core/net/mac/cxmac.c:574: &rimeaddr_node_addr)) {
+   0937 C0 06              2289 	push	ar6
+   0939 C0 07              2290 	push	ar7
+                           2291 ;	../../core/net/mac/cxmac.c:573: if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+   093B 75 82 19           2292 	mov	dpl,#0x19
+   093E C0 06              2293 	push	ar6
+   0940 C0 04              2294 	push	ar4
+   0942 12s00r00           2295 	lcall	_packetbuf_addr
+   0945 AA 82              2296 	mov	r2,dpl
+   0947 AB 83              2297 	mov	r3,dph
+   0949 AF F0              2298 	mov	r7,b
+   094B D0 04              2299 	pop	ar4
+   094D D0 06              2300 	pop	ar6
+   094F C0 04              2301 	push	ar4
+   0951 74r00              2302 	mov	a,#_rimeaddr_node_addr
+   0953 C0 E0              2303 	push	acc
+   0955 74s00              2304 	mov	a,#(_rimeaddr_node_addr >> 8)
+   0957 C0 E0              2305 	push	acc
+   0959 E4                 2306 	clr	a
+   095A C0 E0              2307 	push	acc
+   095C 8A 82              2308 	mov	dpl,r2
+   095E 8B 83              2309 	mov	dph,r3
+   0960 8F F0              2310 	mov	b,r7
+   0962 12s00r00           2311 	lcall	_rimeaddr_cmp
+   0965 AE 82              2312 	mov	r6,dpl
+   0967 AF 83              2313 	mov	r7,dph
+   0969 15 81              2314 	dec	sp
+   096B 15 81              2315 	dec	sp
+   096D 15 81              2316 	dec	sp
+   096F D0 04              2317 	pop	ar4
+   0971 EE                 2318 	mov	a,r6
+   0972 4F                 2319 	orl	a,r7
+   0973 D0 07              2320 	pop	ar7
+   0975 D0 06              2321 	pop	ar6
+   0977 70 03              2322 	jnz	00300$
+   0979 02s07rBE           2323 	ljmp	00138$
+   097C                    2324 00300$:
+                           2325 ;	../../core/net/mac/cxmac.c:577: got_strobe_ack = 1;
+   097C E5*00              2326 	mov	a,_bp
+   097E 24 07              2327 	add	a,#0x07
+   0980 F8                 2328 	mov	r0,a
+   0981 76 01              2329 	mov	@r0,#0x01
+   0983 08                 2330 	inc	r0
+   0984 76 00              2331 	mov	@r0,#0x00
+                           2332 ;	../../core/net/mac/cxmac.c:578: encounter_time = now;
+   0986 E5*00              2333 	mov	a,_bp
+   0988 24 4C              2334 	add	a,#0x4c
+   098A F8                 2335 	mov	r0,a
+   098B E5*00              2336 	mov	a,_bp
+   098D 24 03              2337 	add	a,#0x03
+   098F F9                 2338 	mov	r1,a
+   0990 E6                 2339 	mov	a,@r0
+   0991 F7                 2340 	mov	@r1,a
+   0992 08                 2341 	inc	r0
+   0993 09                 2342 	inc	r1
+   0994 E6                 2343 	mov	a,@r0
+   0995 F7                 2344 	mov	@r1,a
+   0996 02s07rBE           2345 	ljmp	00138$
+   0999                    2346 00130$:
+                           2347 ;	../../core/net/mac/cxmac.c:584: collisions++;
+   0999 0C                 2348 	inc	r4
+   099A 02s07rBE           2349 	ljmp	00138$
+   099D                    2350 00221$:
+   099D C0 06              2351 	push	ar6
+   099F C0 07              2352 	push	ar7
+   09A1 E5*00              2353 	mov	a,_bp
+   09A3 24 4B              2354 	add	a,#0x4b
+   09A5 F8                 2355 	mov	r0,a
+   09A6 A6 04              2356 	mov	@r0,ar4
+                           2357 ;	../../core/net/mac/cxmac.c:592: t = RTIMER_NOW();
+   09A8 AA E2              2358 	mov	r2,_T1CNTL
+   09AA 7B 00              2359 	mov	r3,#0x00
+   09AC AE E3              2360 	mov	r6,_T1CNTH
+   09AE 8E 07              2361 	mov	ar7,r6
+   09B0 E4                 2362 	clr	a
+   09B1 2A                 2363 	add	a,r2
+   09B2 FA                 2364 	mov	r2,a
+   09B3 EF                 2365 	mov	a,r7
+   09B4 3B                 2366 	addc	a,r3
+   09B5 FB                 2367 	mov	r3,a
+   09B6 A8*00              2368 	mov	r0,_bp
+   09B8 08                 2369 	inc	r0
+   09B9 A6 02              2370 	mov	@r0,ar2
+   09BB 08                 2371 	inc	r0
+   09BC A6 03              2372 	mov	@r0,ar3
+                           2373 ;	../../core/net/mac/cxmac.c:594: if(got_strobe_ack == 0 && collisions == 0) {
+   09BE D0 07              2374 	pop	ar7
+   09C0 D0 06              2375 	pop	ar6
+   09C2 E5*00              2376 	mov	a,_bp
+   09C4 24 07              2377 	add	a,#0x07
+   09C6 F8                 2378 	mov	r0,a
+   09C7 E6                 2379 	mov	a,@r0
+   09C8 08                 2380 	inc	r0
+   09C9 46                 2381 	orl	a,@r0
+   09CA 60 03              2382 	jz	00301$
+   09CC 02s0ArCE           2383 	ljmp	00178$
+   09CF                    2384 00301$:
+   09CF EC                 2385 	mov	a,r4
+   09D0 60 03              2386 	jz	00302$
+   09D2 02s0ArCE           2387 	ljmp	00178$
+   09D5                    2388 00302$:
+                           2389 ;	../../core/net/mac/cxmac.c:595: if(is_broadcast) {
+   09D5 E5*00              2390 	mov	a,_bp
+   09D7 24 3F              2391 	add	a,#0x3f
+   09D9 F8                 2392 	mov	r0,a
+   09DA E6                 2393 	mov	a,@r0
+   09DB 08                 2394 	inc	r0
+   09DC 46                 2395 	orl	a,@r0
+   09DD 70 03              2396 	jnz	00303$
+   09DF 02s0Ar6B           2397 	ljmp	00142$
+   09E2                    2398 00303$:
+                           2399 ;	../../core/net/mac/cxmac.c:600: queuebuf_to_packetbuf(packet);
+   09E2 C0 06              2400 	push	ar6
+   09E4 C0 07              2401 	push	ar7
+   09E6 E5*00              2402 	mov	a,_bp
+   09E8 24 46              2403 	add	a,#0x46
+   09EA F8                 2404 	mov	r0,a
+   09EB 86 82              2405 	mov	dpl,@r0
+   09ED 08                 2406 	inc	r0
+   09EE 86 83              2407 	mov	dph,@r0
+   09F0 08                 2408 	inc	r0
+   09F1 86 F0              2409 	mov	b,@r0
+   09F3 C0 07              2410 	push	ar7
+   09F5 C0 06              2411 	push	ar6
+   09F7 12s00r00           2412 	lcall	_queuebuf_to_packetbuf
+                           2413 ;	../../core/net/mac/cxmac.c:601: NETSTACK_RADIO.send(packetbuf_hdrptr(), packetbuf_totlen());
+   09FA 90s00r06           2414 	mov	dptr,#(_cc2430_rf_driver + 0x0006)
+   09FD E4                 2415 	clr	a
+   09FE 93                 2416 	movc	a,@a+dptr
+   09FF FB                 2417 	mov	r3,a
+   0A00 A3                 2418 	inc	dptr
+   0A01 E4                 2419 	clr	a
+   0A02 93                 2420 	movc	a,@a+dptr
+   0A03 FC                 2421 	mov	r4,a
+   0A04 C0 04              2422 	push	ar4
+   0A06 C0 03              2423 	push	ar3
+   0A08 12s00r00           2424 	lcall	_packetbuf_totlen
+   0A0B C8                 2425 	xch	a,r0
+   0A0C E5*00              2426 	mov	a,_bp
+   0A0E 24 51              2427 	add	a,#0x51
+   0A10 C8                 2428 	xch	a,r0
+   0A11 A6 82              2429 	mov	@r0,dpl
+   0A13 08                 2430 	inc	r0
+   0A14 A6 83              2431 	mov	@r0,dph
+   0A16 D0 03              2432 	pop	ar3
+   0A18 D0 04              2433 	pop	ar4
+   0A1A D0 06              2434 	pop	ar6
+   0A1C D0 07              2435 	pop	ar7
+   0A1E C0 04              2436 	push	ar4
+   0A20 C0 03              2437 	push	ar3
+   0A22 12s00r00           2438 	lcall	_packetbuf_hdrptr
+   0A25 AD 82              2439 	mov	r5,dpl
+   0A27 AE 83              2440 	mov	r6,dph
+   0A29 AF F0              2441 	mov	r7,b
+   0A2B D0 03              2442 	pop	ar3
+   0A2D D0 04              2443 	pop	ar4
+   0A2F C0 07              2444 	push	ar7
+   0A31 C0 06              2445 	push	ar6
+   0A33 C0 04              2446 	push	ar4
+   0A35 C0 03              2447 	push	ar3
+   0A37 E5*00              2448 	mov	a,_bp
+   0A39 24 51              2449 	add	a,#0x51
+   0A3B F8                 2450 	mov	r0,a
+   0A3C E6                 2451 	mov	a,@r0
+   0A3D C0 E0              2452 	push	acc
+   0A3F 08                 2453 	inc	r0
+   0A40 E6                 2454 	mov	a,@r0
+   0A41 C0 E0              2455 	push	acc
+   0A43 74r56              2456 	mov	a,#00304$
+   0A45 C0 E0              2457 	push	acc
+   0A47 74s0A              2458 	mov	a,#(00304$ >> 8)
+   0A49 C0 E0              2459 	push	acc
+   0A4B C0 03              2460 	push	ar3
+   0A4D C0 04              2461 	push	ar4
+   0A4F 8D 82              2462 	mov	dpl,r5
+   0A51 8E 83              2463 	mov	dph,r6
+   0A53 8F F0              2464 	mov	b,r7
+   0A55 22                 2465 	ret
+   0A56                    2466 00304$:
+   0A56 15 81              2467 	dec	sp
+   0A58 15 81              2468 	dec	sp
+   0A5A D0 03              2469 	pop	ar3
+   0A5C D0 04              2470 	pop	ar4
+                           2471 ;	../../core/net/mac/cxmac.c:603: off();
+   0A5E 12s00r2E           2472 	lcall	_off
+   0A61 D0 06              2473 	pop	ar6
+   0A63 D0 07              2474 	pop	ar7
+   0A65 D0 07              2475 	pop	ar7
+   0A67 D0 06              2476 	pop	ar6
+   0A69 80 63              2477 	sjmp	00178$
+   0A6B                    2478 00142$:
+                           2479 ;	../../core/net/mac/cxmac.c:605: NETSTACK_RADIO.send(strobe, strobe_len);
+   0A6B C0 06              2480 	push	ar6
+   0A6D C0 07              2481 	push	ar7
+   0A6F 90s00r06           2482 	mov	dptr,#(_cc2430_rf_driver + 0x0006)
+   0A72 E4                 2483 	clr	a
+   0A73 93                 2484 	movc	a,@a+dptr
+   0A74 FC                 2485 	mov	r4,a
+   0A75 A3                 2486 	inc	dptr
+   0A76 E4                 2487 	clr	a
+   0A77 93                 2488 	movc	a,@a+dptr
+   0A78 FD                 2489 	mov	r5,a
+   0A79 E5*00              2490 	mov	a,_bp
+   0A7B 24 3B              2491 	add	a,#0x3b
+   0A7D F8                 2492 	mov	r0,a
+   0A7E E5*00              2493 	mov	a,_bp
+   0A80 24 51              2494 	add	a,#0x51
+   0A82 F9                 2495 	mov	r1,a
+   0A83 E6                 2496 	mov	a,@r0
+   0A84 F7                 2497 	mov	@r1,a
+   0A85 08                 2498 	inc	r0
+   0A86 09                 2499 	inc	r1
+   0A87 E6                 2500 	mov	a,@r0
+   0A88 F7                 2501 	mov	@r1,a
+   0A89 E5*00              2502 	mov	a,_bp
+   0A8B 24 4F              2503 	add	a,#0x4f
+   0A8D F8                 2504 	mov	r0,a
+   0A8E 86 03              2505 	mov	ar3,@r0
+   0A90 7E 00              2506 	mov	r6,#0x00
+   0A92 7F 40              2507 	mov	r7,#0x40
+   0A94 C0 07              2508 	push	ar7
+   0A96 C0 06              2509 	push	ar6
+   0A98 C0 05              2510 	push	ar5
+   0A9A C0 04              2511 	push	ar4
+   0A9C E5*00              2512 	mov	a,_bp
+   0A9E 24 51              2513 	add	a,#0x51
+   0AA0 F8                 2514 	mov	r0,a
+   0AA1 E6                 2515 	mov	a,@r0
+   0AA2 C0 E0              2516 	push	acc
+   0AA4 08                 2517 	inc	r0
+   0AA5 E6                 2518 	mov	a,@r0
+   0AA6 C0 E0              2519 	push	acc
+   0AA8 74rBB              2520 	mov	a,#00305$
+   0AAA C0 E0              2521 	push	acc
+   0AAC 74s0A              2522 	mov	a,#(00305$ >> 8)
+   0AAE C0 E0              2523 	push	acc
+   0AB0 C0 04              2524 	push	ar4
+   0AB2 C0 05              2525 	push	ar5
+   0AB4 8B 82              2526 	mov	dpl,r3
+   0AB6 8E 83              2527 	mov	dph,r6
+   0AB8 8F F0              2528 	mov	b,r7
+   0ABA 22                 2529 	ret
+   0ABB                    2530 00305$:
+   0ABB 15 81              2531 	dec	sp
+   0ABD 15 81              2532 	dec	sp
+   0ABF D0 04              2533 	pop	ar4
+   0AC1 D0 05              2534 	pop	ar5
+                           2535 ;	../../core/net/mac/cxmac.c:614: on();
+   0AC3 12s00r00           2536 	lcall	_on
+   0AC6 D0 06              2537 	pop	ar6
+   0AC8 D0 07              2538 	pop	ar7
+                           2539 ;	../../core/net/mac/cxmac.c:682: return MAC_TX_COLLISION;
+   0ACA D0 07              2540 	pop	ar7
+   0ACC D0 06              2541 	pop	ar6
+                           2542 ;	../../core/net/mac/cxmac.c:614: on();
+   0ACE                    2543 00178$:
+                           2544 ;	../../core/net/mac/cxmac.c:557: strobes++) {
+   0ACE E5*00              2545 	mov	a,_bp
+   0AD0 24 05              2546 	add	a,#0x05
+   0AD2 F8                 2547 	mov	r0,a
+   0AD3 06                 2548 	inc	@r0
+   0AD4 B6 00 02           2549 	cjne	@r0,#0x00,00306$
+   0AD7 08                 2550 	inc	r0
+   0AD8 06                 2551 	inc	@r0
+   0AD9                    2552 00306$:
+   0AD9 02s07r70           2553 	ljmp	00176$
+   0ADC                    2554 00148$:
+                           2555 ;	../../core/net/mac/cxmac.c:624: if(got_strobe_ack && (packetbuf_attr(PACKETBUF_ATTR_RELIABLE) ||
+   0ADC E5*00              2556 	mov	a,_bp
+   0ADE 24 07              2557 	add	a,#0x07
+   0AE0 F8                 2558 	mov	r0,a
+   0AE1 E6                 2559 	mov	a,@r0
+   0AE2 08                 2560 	inc	r0
+   0AE3 46                 2561 	orl	a,@r0
+   0AE4 60 39              2562 	jz	00150$
+   0AE6 75 82 0C           2563 	mov	dpl,#0x0C
+   0AE9 12s00r00           2564 	lcall	_packetbuf_attr
+   0AEC E5 82              2565 	mov	a,dpl
+   0AEE 85 83 F0           2566 	mov	b,dph
+   0AF1 45 F0              2567 	orl	a,b
+   0AF3 70 1F              2568 	jnz	00149$
+                           2569 ;	../../core/net/mac/cxmac.c:625: packetbuf_attr(PACKETBUF_ATTR_ERELIABLE) ||
+   0AF5 75 82 17           2570 	mov	dpl,#0x17
+   0AF8 12s00r00           2571 	lcall	_packetbuf_attr
+   0AFB E5 82              2572 	mov	a,dpl
+   0AFD 85 83 F0           2573 	mov	b,dph
+   0B00 45 F0              2574 	orl	a,b
+   0B02 70 10              2575 	jnz	00149$
+                           2576 ;	../../core/net/mac/cxmac.c:626: packetbuf_attr(PACKETBUF_ATTR_PACKET_TYPE) ==
+   0B04 75 82 0E           2577 	mov	dpl,#0x0E
+   0B07 12s00r00           2578 	lcall	_packetbuf_attr
+   0B0A AE 82              2579 	mov	r6,dpl
+   0B0C AF 83              2580 	mov	r7,dph
+   0B0E BE 02 0E           2581 	cjne	r6,#0x02,00150$
+   0B11 BF 00 0B           2582 	cjne	r7,#0x00,00150$
+   0B14                    2583 00149$:
+                           2584 ;	../../core/net/mac/cxmac.c:628: on(); /* Wait for ACK packet */
+   0B14 12s00r00           2585 	lcall	_on
+                           2586 ;	../../core/net/mac/cxmac.c:629: waiting_for_packet = 1;
+   0B17 90s00r09           2587 	mov	dptr,#_waiting_for_packet
+   0B1A 74 01              2588 	mov	a,#0x01
+   0B1C F0                 2589 	movx	@dptr,a
+   0B1D 80 03              2590 	sjmp	00151$
+   0B1F                    2591 00150$:
+                           2592 ;	../../core/net/mac/cxmac.c:631: off();
+   0B1F 12s00r2E           2593 	lcall	_off
+   0B22                    2594 00151$:
+                           2595 ;	../../core/net/mac/cxmac.c:638: queuebuf_to_packetbuf(packet);
+   0B22 E5*00              2596 	mov	a,_bp
+   0B24 24 46              2597 	add	a,#0x46
+   0B26 F8                 2598 	mov	r0,a
+   0B27 86 82              2599 	mov	dpl,@r0
+   0B29 08                 2600 	inc	r0
+   0B2A 86 83              2601 	mov	dph,@r0
+   0B2C 08                 2602 	inc	r0
+   0B2D 86 F0              2603 	mov	b,@r0
+   0B2F 12s00r00           2604 	lcall	_queuebuf_to_packetbuf
+                           2605 ;	../../core/net/mac/cxmac.c:639: queuebuf_free(packet);
+   0B32 E5*00              2606 	mov	a,_bp
+   0B34 24 46              2607 	add	a,#0x46
+   0B36 F8                 2608 	mov	r0,a
+   0B37 86 82              2609 	mov	dpl,@r0
+   0B39 08                 2610 	inc	r0
+   0B3A 86 83              2611 	mov	dph,@r0
+   0B3C 08                 2612 	inc	r0
+   0B3D 86 F0              2613 	mov	b,@r0
+   0B3F 12s00r00           2614 	lcall	_queuebuf_free
+                           2615 ;	../../core/net/mac/cxmac.c:642: if((is_broadcast || got_strobe_ack || is_streaming) && collisions == 0) {
+   0B42 E5*00              2616 	mov	a,_bp
+   0B44 24 3F              2617 	add	a,#0x3f
+   0B46 F8                 2618 	mov	r0,a
+   0B47 E6                 2619 	mov	a,@r0
+   0B48 08                 2620 	inc	r0
+   0B49 46                 2621 	orl	a,@r0
+   0B4A 70 11              2622 	jnz	00159$
+   0B4C E5*00              2623 	mov	a,_bp
+   0B4E 24 07              2624 	add	a,#0x07
+   0B50 F8                 2625 	mov	r0,a
+   0B51 E6                 2626 	mov	a,@r0
+   0B52 08                 2627 	inc	r0
+   0B53 46                 2628 	orl	a,@r0
+   0B54 70 07              2629 	jnz	00159$
+   0B56 90s00r23           2630 	mov	dptr,#_is_streaming
+   0B59 E0                 2631 	movx	a,@dptr
+   0B5A FF                 2632 	mov	r7,a
+   0B5B 60 5C              2633 	jz	00156$
+   0B5D                    2634 00159$:
+   0B5D E5*00              2635 	mov	a,_bp
+   0B5F 24 4B              2636 	add	a,#0x4b
+   0B61 F8                 2637 	mov	r0,a
+   0B62 E6                 2638 	mov	a,@r0
+   0B63 70 54              2639 	jnz	00156$
+                           2640 ;	../../core/net/mac/cxmac.c:643: NETSTACK_RADIO.send(packetbuf_hdrptr(), packetbuf_totlen());
+   0B65 90s00r06           2641 	mov	dptr,#(_cc2430_rf_driver + 0x0006)
+   0B68 E4                 2642 	clr	a
+   0B69 93                 2643 	movc	a,@a+dptr
+   0B6A FE                 2644 	mov	r6,a
+   0B6B A3                 2645 	inc	dptr
+   0B6C E4                 2646 	clr	a
+   0B6D 93                 2647 	movc	a,@a+dptr
+   0B6E FF                 2648 	mov	r7,a
+   0B6F C0 07              2649 	push	ar7
+   0B71 C0 06              2650 	push	ar6
+   0B73 12s00r00           2651 	lcall	_packetbuf_totlen
+   0B76 C8                 2652 	xch	a,r0
+   0B77 E5*00              2653 	mov	a,_bp
+   0B79 24 51              2654 	add	a,#0x51
+   0B7B C8                 2655 	xch	a,r0
+   0B7C A6 82              2656 	mov	@r0,dpl
+   0B7E 08                 2657 	inc	r0
+   0B7F A6 83              2658 	mov	@r0,dph
+   0B81 12s00r00           2659 	lcall	_packetbuf_hdrptr
+   0B84 AA 82              2660 	mov	r2,dpl
+   0B86 AB 83              2661 	mov	r3,dph
+   0B88 AD F0              2662 	mov	r5,b
+   0B8A D0 06              2663 	pop	ar6
+   0B8C D0 07              2664 	pop	ar7
+   0B8E C0 07              2665 	push	ar7
+   0B90 C0 06              2666 	push	ar6
+   0B92 E5*00              2667 	mov	a,_bp
+   0B94 24 51              2668 	add	a,#0x51
+   0B96 F8                 2669 	mov	r0,a
+   0B97 E6                 2670 	mov	a,@r0
+   0B98 C0 E0              2671 	push	acc
+   0B9A 08                 2672 	inc	r0
+   0B9B E6                 2673 	mov	a,@r0
+   0B9C C0 E0              2674 	push	acc
+   0B9E 74rB1              2675 	mov	a,#00316$
+   0BA0 C0 E0              2676 	push	acc
+   0BA2 74s0B              2677 	mov	a,#(00316$ >> 8)
+   0BA4 C0 E0              2678 	push	acc
+   0BA6 C0 06              2679 	push	ar6
+   0BA8 C0 07              2680 	push	ar7
+   0BAA 8A 82              2681 	mov	dpl,r2
+   0BAC 8B 83              2682 	mov	dph,r3
+   0BAE 8D F0              2683 	mov	b,r5
+   0BB0 22                 2684 	ret
+   0BB1                    2685 00316$:
+   0BB1 15 81              2686 	dec	sp
+   0BB3 15 81              2687 	dec	sp
+   0BB5 D0 06              2688 	pop	ar6
+   0BB7 D0 07              2689 	pop	ar7
+   0BB9                    2690 00156$:
+                           2691 ;	../../core/net/mac/cxmac.c:647: if(got_strobe_ack && !is_streaming) {
+   0BB9 E5*00              2692 	mov	a,_bp
+   0BBB 24 07              2693 	add	a,#0x07
+   0BBD F8                 2694 	mov	r0,a
+   0BBE E6                 2695 	mov	a,@r0
+   0BBF 08                 2696 	inc	r0
+   0BC0 46                 2697 	orl	a,@r0
+   0BC1 60 2C              2698 	jz	00161$
+   0BC3 90s00r23           2699 	mov	dptr,#_is_streaming
+   0BC6 E0                 2700 	movx	a,@dptr
+   0BC7 FF                 2701 	mov	r7,a
+   0BC8 70 25              2702 	jnz	00161$
+                           2703 ;	../../core/net/mac/cxmac.c:648: register_encounter(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), encounter_time);
+   0BCA 75 82 19           2704 	mov	dpl,#0x19
+   0BCD 12s00r00           2705 	lcall	_packetbuf_addr
+   0BD0 AD 82              2706 	mov	r5,dpl
+   0BD2 AE 83              2707 	mov	r6,dph
+   0BD4 AF F0              2708 	mov	r7,b
+   0BD6 E5*00              2709 	mov	a,_bp
+   0BD8 24 03              2710 	add	a,#0x03
+   0BDA F8                 2711 	mov	r0,a
+   0BDB E6                 2712 	mov	a,@r0
+   0BDC C0 E0              2713 	push	acc
+   0BDE 08                 2714 	inc	r0
+   0BDF E6                 2715 	mov	a,@r0
+   0BE0 C0 E0              2716 	push	acc
+   0BE2 8D 82              2717 	mov	dpl,r5
+   0BE4 8E 83              2718 	mov	dph,r6
+   0BE6 8F F0              2719 	mov	b,r7
+   0BE8 12s01rC6           2720 	lcall	_register_encounter
+   0BEB 15 81              2721 	dec	sp
+   0BED 15 81              2722 	dec	sp
+   0BEF                    2723 00161$:
+                           2724 ;	../../core/net/mac/cxmac.c:651: watchdog_start();
+   0BEF 12s00r00           2725 	lcall	_watchdog_start
+                           2726 ;	../../core/net/mac/cxmac.c:671: we_are_sending = 0;
+   0BF2 90s00r0B           2727 	mov	dptr,#_we_are_sending
+   0BF5 E4                 2728 	clr	a
+   0BF6 F0                 2729 	movx	@dptr,a
+                           2730 ;	../../core/net/mac/cxmac.c:674: if(collisions == 0) {
+   0BF7 E5*00              2731 	mov	a,_bp
+   0BF9 24 4B              2732 	add	a,#0x4b
+   0BFB F8                 2733 	mov	r0,a
+   0BFC E6                 2734 	mov	a,@r0
+   0BFD 70 1E              2735 	jnz	00168$
+                           2736 ;	../../core/net/mac/cxmac.c:675: if(!is_broadcast && !got_strobe_ack) {
+   0BFF E5*00              2737 	mov	a,_bp
+   0C01 24 3F              2738 	add	a,#0x3f
+   0C03 F8                 2739 	mov	r0,a
+   0C04 E6                 2740 	mov	a,@r0
+   0C05 08                 2741 	inc	r0
+   0C06 46                 2742 	orl	a,@r0
+   0C07 70 0F              2743 	jnz	00164$
+   0C09 E5*00              2744 	mov	a,_bp
+   0C0B 24 07              2745 	add	a,#0x07
+   0C0D F8                 2746 	mov	r0,a
+   0C0E E6                 2747 	mov	a,@r0
+   0C0F 08                 2748 	inc	r0
+   0C10 46                 2749 	orl	a,@r0
+   0C11 70 05              2750 	jnz	00164$
+                           2751 ;	../../core/net/mac/cxmac.c:676: return MAC_TX_NOACK;
+   0C13 90 00 02           2752 	mov	dptr,#0x0002
+   0C16 80 0F              2753 	sjmp	00180$
+   0C18                    2754 00164$:
+                           2755 ;	../../core/net/mac/cxmac.c:678: return MAC_TX_OK;
+   0C18 90 00 00           2756 	mov	dptr,#0x0000
+   0C1B 80 0A              2757 	sjmp	00180$
+   0C1D                    2758 00168$:
+                           2759 ;	../../core/net/mac/cxmac.c:681: someone_is_sending++;
+   0C1D 90s00r0A           2760 	mov	dptr,#_someone_is_sending
+   0C20 E0                 2761 	movx	a,@dptr
+   0C21 24 01              2762 	add	a,#0x01
+   0C23 F0                 2763 	movx	@dptr,a
+                           2764 ;	../../core/net/mac/cxmac.c:682: return MAC_TX_COLLISION;
+   0C24 90 00 01           2765 	mov	dptr,#0x0001
+   0C27                    2766 00180$:
+   0C27 85*00 81           2767 	mov	sp,_bp
+   0C2A D0*00              2768 	pop	_bp
+   0C2C 22                 2769 	ret
+                           2770 ;------------------------------------------------------------
+                           2771 ;Allocation info for local variables in function 'qsend_packet'
+                           2772 ;------------------------------------------------------------
+                           2773 ;ptr                       Allocated to stack - _bp -5
+                           2774 ;sent                      Allocated to registers r6 r7 
+                           2775 ;ret                       Allocated to registers r4 r5 
+                           2776 ;------------------------------------------------------------
+                           2777 ;	../../core/net/mac/cxmac.c:688: qsend_packet(mac_callback_t sent, void *ptr)
+                           2778 ;	-----------------------------------------
+                           2779 ;	 function qsend_packet
+                           2780 ;	-----------------------------------------
+   0C2D                    2781 _qsend_packet:
+   0C2D C0*00              2782 	push	_bp
+   0C2F 85 81*00           2783 	mov	_bp,sp
+   0C32 AE 82              2784 	mov	r6,dpl
+   0C34 AF 83              2785 	mov	r7,dph
+                           2786 ;	../../core/net/mac/cxmac.c:691: if(someone_is_sending) {
+   0C36 90s00r0A           2787 	mov	dptr,#_someone_is_sending
+   0C39 E0                 2788 	movx	a,@dptr
+   0C3A FD                 2789 	mov	r5,a
+   0C3B 60 2F              2790 	jz	00102$
+                           2791 ;	../../core/net/mac/cxmac.c:694: RIMESTATS_ADD(sendingdrop);
+   0C3D 90s00r3C           2792 	mov	dptr,#(_rimestats + 0x003c)
+   0C40 E0                 2793 	movx	a,@dptr
+   0C41 FA                 2794 	mov	r2,a
+   0C42 A3                 2795 	inc	dptr
+   0C43 E0                 2796 	movx	a,@dptr
+   0C44 FB                 2797 	mov	r3,a
+   0C45 A3                 2798 	inc	dptr
+   0C46 E0                 2799 	movx	a,@dptr
+   0C47 FC                 2800 	mov	r4,a
+   0C48 A3                 2801 	inc	dptr
+   0C49 E0                 2802 	movx	a,@dptr
+   0C4A FD                 2803 	mov	r5,a
+   0C4B 0A                 2804 	inc	r2
+   0C4C BA 00 09           2805 	cjne	r2,#0x00,00109$
+   0C4F 0B                 2806 	inc	r3
+   0C50 BB 00 05           2807 	cjne	r3,#0x00,00109$
+   0C53 0C                 2808 	inc	r4
+   0C54 BC 00 01           2809 	cjne	r4,#0x00,00109$
+   0C57 0D                 2810 	inc	r5
+   0C58                    2811 00109$:
+   0C58 90s00r3C           2812 	mov	dptr,#(_rimestats + 0x003c)
+   0C5B EA                 2813 	mov	a,r2
+   0C5C F0                 2814 	movx	@dptr,a
+   0C5D A3                 2815 	inc	dptr
+   0C5E EB                 2816 	mov	a,r3
+   0C5F F0                 2817 	movx	@dptr,a
+   0C60 A3                 2818 	inc	dptr
+   0C61 EC                 2819 	mov	a,r4
+   0C62 F0                 2820 	movx	@dptr,a
+   0C63 A3                 2821 	inc	dptr
+   0C64 ED                 2822 	mov	a,r5
+   0C65 F0                 2823 	movx	@dptr,a
+                           2824 ;	../../core/net/mac/cxmac.c:695: ret = MAC_TX_COLLISION;
+   0C66 7C 01              2825 	mov	r4,#0x01
+   0C68 7D 00              2826 	mov	r5,#0x00
+   0C6A 80 13              2827 	sjmp	00103$
+   0C6C                    2828 00102$:
+                           2829 ;	../../core/net/mac/cxmac.c:698: ret = send_packet();
+   0C6C C0 07              2830 	push	ar7
+   0C6E C0 06              2831 	push	ar6
+   0C70 12s02rFB           2832 	lcall	_send_packet
+   0C73 AA 82              2833 	mov	r2,dpl
+   0C75 AB 83              2834 	mov	r3,dph
+   0C77 D0 06              2835 	pop	ar6
+   0C79 D0 07              2836 	pop	ar7
+   0C7B 8A 04              2837 	mov	ar4,r2
+   0C7D 8B 05              2838 	mov	ar5,r3
+   0C7F                    2839 00103$:
+                           2840 ;	../../core/net/mac/cxmac.c:701: mac_call_sent_callback(sent, ptr, ret, 1);
+   0C7F 74 01              2841 	mov	a,#0x01
+   0C81 C0 E0              2842 	push	acc
+   0C83 E4                 2843 	clr	a
+   0C84 C0 E0              2844 	push	acc
+   0C86 C0 04              2845 	push	ar4
+   0C88 C0 05              2846 	push	ar5
+   0C8A E5*00              2847 	mov	a,_bp
+   0C8C 24 FB              2848 	add	a,#0xfb
+   0C8E F8                 2849 	mov	r0,a
+   0C8F E6                 2850 	mov	a,@r0
+   0C90 C0 E0              2851 	push	acc
+   0C92 08                 2852 	inc	r0
+   0C93 E6                 2853 	mov	a,@r0
+   0C94 C0 E0              2854 	push	acc
+   0C96 08                 2855 	inc	r0
+   0C97 E6                 2856 	mov	a,@r0
+   0C98 C0 E0              2857 	push	acc
+   0C9A 8E 82              2858 	mov	dpl,r6
+   0C9C 8F 83              2859 	mov	dph,r7
+   0C9E 12s00r00           2860 	lcall	_mac_call_sent_callback
+   0CA1 E5 81              2861 	mov	a,sp
+   0CA3 24 F9              2862 	add	a,#0xf9
+   0CA5 F5 81              2863 	mov	sp,a
+   0CA7 D0*00              2864 	pop	_bp
+   0CA9 22                 2865 	ret
+                           2866 ;------------------------------------------------------------
+                           2867 ;Allocation info for local variables in function 'qsend_list'
+                           2868 ;------------------------------------------------------------
+                           2869 ;ptr                       Allocated to stack - _bp -5
+                           2870 ;buf_list                  Allocated to stack - _bp -8
+                           2871 ;sent                      Allocated to registers r6 r7 
+                           2872 ;------------------------------------------------------------
+                           2873 ;	../../core/net/mac/cxmac.c:705: qsend_list(mac_callback_t sent, void *ptr, struct rdc_buf_list *buf_list)
+                           2874 ;	-----------------------------------------
+                           2875 ;	 function qsend_list
+                           2876 ;	-----------------------------------------
+   0CAA                    2877 _qsend_list:
+   0CAA C0*00              2878 	push	_bp
+   0CAC 85 81*00           2879 	mov	_bp,sp
+   0CAF AE 82              2880 	mov	r6,dpl
+   0CB1 AF 83              2881 	mov	r7,dph
+                           2882 ;	../../core/net/mac/cxmac.c:707: if(buf_list != NULL) {
+   0CB3 E5*00              2883 	mov	a,_bp
+   0CB5 24 F8              2884 	add	a,#0xf8
+   0CB7 F8                 2885 	mov	r0,a
+   0CB8 E6                 2886 	mov	a,@r0
+   0CB9 08                 2887 	inc	r0
+   0CBA 46                 2888 	orl	a,@r0
+   0CBB 60 56              2889 	jz	00103$
+                           2890 ;	../../core/net/mac/cxmac.c:708: queuebuf_to_packetbuf(buf_list->buf);
+   0CBD E5*00              2891 	mov	a,_bp
+   0CBF 24 F8              2892 	add	a,#0xf8
+   0CC1 F8                 2893 	mov	r0,a
+   0CC2 86 03              2894 	mov	ar3,@r0
+   0CC4 08                 2895 	inc	r0
+   0CC5 86 04              2896 	mov	ar4,@r0
+   0CC7 08                 2897 	inc	r0
+   0CC8 86 05              2898 	mov	ar5,@r0
+   0CCA 74 03              2899 	mov	a,#0x03
+   0CCC 2B                 2900 	add	a,r3
+   0CCD FB                 2901 	mov	r3,a
+   0CCE E4                 2902 	clr	a
+   0CCF 3C                 2903 	addc	a,r4
+   0CD0 FC                 2904 	mov	r4,a
+   0CD1 8B 82              2905 	mov	dpl,r3
+   0CD3 8C 83              2906 	mov	dph,r4
+   0CD5 8D F0              2907 	mov	b,r5
+   0CD7 12s00r00           2908 	lcall	__gptrget
+   0CDA FB                 2909 	mov	r3,a
+   0CDB A3                 2910 	inc	dptr
+   0CDC 12s00r00           2911 	lcall	__gptrget
+   0CDF FC                 2912 	mov	r4,a
+   0CE0 A3                 2913 	inc	dptr
+   0CE1 12s00r00           2914 	lcall	__gptrget
+   0CE4 FD                 2915 	mov	r5,a
+   0CE5 8B 82              2916 	mov	dpl,r3
+   0CE7 8C 83              2917 	mov	dph,r4
+   0CE9 8D F0              2918 	mov	b,r5
+   0CEB C0 07              2919 	push	ar7
+   0CED C0 06              2920 	push	ar6
+   0CEF 12s00r00           2921 	lcall	_queuebuf_to_packetbuf
+   0CF2 D0 06              2922 	pop	ar6
+   0CF4 D0 07              2923 	pop	ar7
+                           2924 ;	../../core/net/mac/cxmac.c:709: qsend_packet(sent, ptr);
+   0CF6 E5*00              2925 	mov	a,_bp
+   0CF8 24 FB              2926 	add	a,#0xfb
+   0CFA F8                 2927 	mov	r0,a
+   0CFB E6                 2928 	mov	a,@r0
+   0CFC C0 E0              2929 	push	acc
+   0CFE 08                 2930 	inc	r0
+   0CFF E6                 2931 	mov	a,@r0
+   0D00 C0 E0              2932 	push	acc
+   0D02 08                 2933 	inc	r0
+   0D03 E6                 2934 	mov	a,@r0
+   0D04 C0 E0              2935 	push	acc
+   0D06 8E 82              2936 	mov	dpl,r6
+   0D08 8F 83              2937 	mov	dph,r7
+   0D0A 12s0Cr2D           2938 	lcall	_qsend_packet
+   0D0D 15 81              2939 	dec	sp
+   0D0F 15 81              2940 	dec	sp
+   0D11 15 81              2941 	dec	sp
+   0D13                    2942 00103$:
+   0D13 D0*00              2943 	pop	_bp
+   0D15 22                 2944 	ret
+                           2945 ;------------------------------------------------------------
+                           2946 ;Allocation info for local variables in function 'input_packet'
+                           2947 ;------------------------------------------------------------
+                           2948 ;hdr                       Allocated to registers r5 r6 r7 
+                           2949 ;sloc0                     Allocated to stack - _bp +1
+                           2950 ;------------------------------------------------------------
+                           2951 ;	../../core/net/mac/cxmac.c:714: input_packet(void)
+                           2952 ;	-----------------------------------------
+                           2953 ;	 function input_packet
+                           2954 ;	-----------------------------------------
+   0D16                    2955 _input_packet:
+   0D16 C0*00              2956 	push	_bp
+   0D18 85 81*00           2957 	mov	_bp,sp
+   0D1B 05 81              2958 	inc	sp
+   0D1D 05 81              2959 	inc	sp
+                           2960 ;	../../core/net/mac/cxmac.c:718: if(NETSTACK_FRAMER.parse() >= 0) {
+   0D1F 90s00r02           2961 	mov	dptr,#(_framer_802154 + 0x0002)
+   0D22 E4                 2962 	clr	a
+   0D23 93                 2963 	movc	a,@a+dptr
+   0D24 FE                 2964 	mov	r6,a
+   0D25 A3                 2965 	inc	dptr
+   0D26 E4                 2966 	clr	a
+   0D27 93                 2967 	movc	a,@a+dptr
+   0D28 FF                 2968 	mov	r7,a
+   0D29 8E 82              2969 	mov	dpl,r6
+   0D2B 8F 83              2970 	mov	dph,r7
+   0D2D 12s00r00           2971 	lcall	__sdcc_call_dptr
+   0D30 AE 82              2972 	mov	r6,dpl
+   0D32 E5 83              2973 	mov	a,dph
+   0D34 FF                 2974 	mov	r7,a
+   0D35 30 E7 03           2975 	jnb	acc.7,00136$
+   0D38 02s0Fr26           2976 	ljmp	00119$
+   0D3B                    2977 00136$:
+                           2978 ;	../../core/net/mac/cxmac.c:719: hdr = packetbuf_dataptr();
+   0D3B 12s00r00           2979 	lcall	_packetbuf_dataptr
+                           2980 ;	../../core/net/mac/cxmac.c:721: if(hdr->dispatch != DISPATCH) {
+   0D3E AD 82              2981 	mov	r5,dpl
+   0D40 AE 83              2982 	mov	r6,dph
+   0D42 AF F0              2983 	mov	r7,b
+   0D44 12s00r00           2984 	lcall	__gptrget
+   0D47 70 03              2985 	jnz	00137$
+   0D49 02s0DrD5           2986 	ljmp	00115$
+   0D4C                    2987 00137$:
+                           2988 ;	../../core/net/mac/cxmac.c:722: someone_is_sending = 0;
+   0D4C 90s00r0A           2989 	mov	dptr,#_someone_is_sending
+   0D4F E4                 2990 	clr	a
+   0D50 F0                 2991 	movx	@dptr,a
+                           2992 ;	../../core/net/mac/cxmac.c:724: &rimeaddr_node_addr) ||
+                           2993 ;	../../core/net/mac/cxmac.c:723: if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+   0D51 75 82 19           2994 	mov	dpl,#0x19
+   0D54 12s00r00           2995 	lcall	_packetbuf_addr
+   0D57 AA 82              2996 	mov	r2,dpl
+   0D59 AB 83              2997 	mov	r3,dph
+   0D5B AC F0              2998 	mov	r4,b
+   0D5D 74r00              2999 	mov	a,#_rimeaddr_node_addr
+   0D5F C0 E0              3000 	push	acc
+   0D61 74s00              3001 	mov	a,#(_rimeaddr_node_addr >> 8)
+   0D63 C0 E0              3002 	push	acc
+   0D65 E4                 3003 	clr	a
+   0D66 C0 E0              3004 	push	acc
+   0D68 8A 82              3005 	mov	dpl,r2
+   0D6A 8B 83              3006 	mov	dph,r3
+   0D6C 8C F0              3007 	mov	b,r4
+   0D6E 12s00r00           3008 	lcall	_rimeaddr_cmp
+   0D71 AB 82              3009 	mov	r3,dpl
+   0D73 AC 83              3010 	mov	r4,dph
+   0D75 15 81              3011 	dec	sp
+   0D77 15 81              3012 	dec	sp
+   0D79 15 81              3013 	dec	sp
+   0D7B EB                 3014 	mov	a,r3
+   0D7C 4C                 3015 	orl	a,r4
+   0D7D 70 32              3016 	jnz	00101$
+                           3017 ;	../../core/net/mac/cxmac.c:726: &rimeaddr_null)) {
+                           3018 ;	../../core/net/mac/cxmac.c:725: rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+   0D7F 75 82 19           3019 	mov	dpl,#0x19
+   0D82 12s00r00           3020 	lcall	_packetbuf_addr
+   0D85 AA 82              3021 	mov	r2,dpl
+   0D87 AB 83              3022 	mov	r3,dph
+   0D89 AC F0              3023 	mov	r4,b
+   0D8B 74r00              3024 	mov	a,#_rimeaddr_null
+   0D8D C0 E0              3025 	push	acc
+   0D8F 74s00              3026 	mov	a,#(_rimeaddr_null >> 8)
+   0D91 C0 E0              3027 	push	acc
+   0D93 74 80              3028 	mov	a,#0x80
+   0D95 C0 E0              3029 	push	acc
+   0D97 8A 82              3030 	mov	dpl,r2
+   0D99 8B 83              3031 	mov	dph,r3
+   0D9B 8C F0              3032 	mov	b,r4
+   0D9D 12s00r00           3033 	lcall	_rimeaddr_cmp
+   0DA0 AB 82              3034 	mov	r3,dpl
+   0DA2 AC 83              3035 	mov	r4,dph
+   0DA4 15 81              3036 	dec	sp
+   0DA6 15 81              3037 	dec	sp
+   0DA8 15 81              3038 	dec	sp
+   0DAA EB                 3039 	mov	a,r3
+   0DAB 4C                 3040 	orl	a,r4
+   0DAC 70 03              3041 	jnz	00139$
+   0DAE 02s0Fr26           3042 	ljmp	00119$
+   0DB1                    3043 00139$:
+   0DB1                    3044 00101$:
+                           3045 ;	../../core/net/mac/cxmac.c:732: off();
+   0DB1 12s00r2E           3046 	lcall	_off
+                           3047 ;	../../core/net/mac/cxmac.c:748: waiting_for_packet = 0;
+   0DB4 90s00r09           3048 	mov	dptr,#_waiting_for_packet
+   0DB7 E4                 3049 	clr	a
+   0DB8 F0                 3050 	movx	@dptr,a
+                           3051 ;	../../core/net/mac/cxmac.c:751: NETSTACK_MAC.input();
+   0DB9 90s00r07           3052 	mov	dptr,#(_csma_driver + 0x0007)
+   0DBC E4                 3053 	clr	a
+   0DBD 93                 3054 	movc	a,@a+dptr
+   0DBE FB                 3055 	mov	r3,a
+   0DBF A3                 3056 	inc	dptr
+   0DC0 E4                 3057 	clr	a
+   0DC1 93                 3058 	movc	a,@a+dptr
+   0DC2 FC                 3059 	mov	r4,a
+   0DC3 C0 04              3060 	push	ar4
+   0DC5 C0 03              3061 	push	ar3
+   0DC7 8B 82              3062 	mov	dpl,r3
+   0DC9 8C 83              3063 	mov	dph,r4
+   0DCB 12s00r00           3064 	lcall	__sdcc_call_dptr
+   0DCE D0 03              3065 	pop	ar3
+   0DD0 D0 04              3066 	pop	ar4
+                           3067 ;	../../core/net/mac/cxmac.c:752: return;
+   0DD2 02s0Fr26           3068 	ljmp	00119$
+   0DD5                    3069 00115$:
+                           3070 ;	../../core/net/mac/cxmac.c:757: } else if(hdr->type == TYPE_STROBE) {
+   0DD5 0D                 3071 	inc	r5
+   0DD6 BD 00 01           3072 	cjne	r5,#0x00,00141$
+   0DD9 0E                 3073 	inc	r6
+   0DDA                    3074 00141$:
+   0DDA 8D 82              3075 	mov	dpl,r5
+   0DDC 8E 83              3076 	mov	dph,r6
+   0DDE 8F F0              3077 	mov	b,r7
+   0DE0 12s00r00           3078 	lcall	__gptrget
+   0DE3 FC                 3079 	mov	r4,a
+   0DE4 BC 10 02           3080 	cjne	r4,#0x10,00142$
+   0DE7 80 03              3081 	sjmp	00143$
+   0DE9                    3082 00142$:
+   0DE9 02s0Fr26           3083 	ljmp	00119$
+   0DEC                    3084 00143$:
+                           3085 ;	../../core/net/mac/cxmac.c:758: someone_is_sending = 2;
+   0DEC 90s00r0A           3086 	mov	dptr,#_someone_is_sending
+   0DEF 74 02              3087 	mov	a,#0x02
+   0DF1 F0                 3088 	movx	@dptr,a
+                           3089 ;	../../core/net/mac/cxmac.c:761: &rimeaddr_node_addr)) {
+                           3090 ;	../../core/net/mac/cxmac.c:760: if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+   0DF2 75 82 19           3091 	mov	dpl,#0x19
+   0DF5 C0 07              3092 	push	ar7
+   0DF7 C0 06              3093 	push	ar6
+   0DF9 C0 05              3094 	push	ar5
+   0DFB 12s00r00           3095 	lcall	_packetbuf_addr
+   0DFE AA 82              3096 	mov	r2,dpl
+   0E00 AB 83              3097 	mov	r3,dph
+   0E02 AC F0              3098 	mov	r4,b
+   0E04 74r00              3099 	mov	a,#_rimeaddr_node_addr
+   0E06 C0 E0              3100 	push	acc
+   0E08 74s00              3101 	mov	a,#(_rimeaddr_node_addr >> 8)
+   0E0A C0 E0              3102 	push	acc
+   0E0C E4                 3103 	clr	a
+   0E0D C0 E0              3104 	push	acc
+   0E0F 8A 82              3105 	mov	dpl,r2
+   0E11 8B 83              3106 	mov	dph,r3
+   0E13 8C F0              3107 	mov	b,r4
+   0E15 12s00r00           3108 	lcall	_rimeaddr_cmp
+   0E18 AB 82              3109 	mov	r3,dpl
+   0E1A AC 83              3110 	mov	r4,dph
+   0E1C 15 81              3111 	dec	sp
+   0E1E 15 81              3112 	dec	sp
+   0E20 15 81              3113 	dec	sp
+   0E22 D0 05              3114 	pop	ar5
+   0E24 D0 06              3115 	pop	ar6
+   0E26 D0 07              3116 	pop	ar7
+   0E28 EB                 3117 	mov	a,r3
+   0E29 4C                 3118 	orl	a,r4
+   0E2A 70 03              3119 	jnz	00144$
+   0E2C 02s0ErEE           3120 	ljmp	00109$
+   0E2F                    3121 00144$:
+                           3122 ;	../../core/net/mac/cxmac.c:768: hdr->type = TYPE_STROBE_ACK;
+   0E2F 8D 82              3123 	mov	dpl,r5
+   0E31 8E 83              3124 	mov	dph,r6
+   0E33 8F F0              3125 	mov	b,r7
+   0E35 74 13              3126 	mov	a,#0x13
+   0E37 12s00r00           3127 	lcall	__gptrput
+                           3128 ;	../../core/net/mac/cxmac.c:770: packetbuf_addr(PACKETBUF_ADDR_SENDER));
+   0E3A 75 82 18           3129 	mov	dpl,#0x18
+   0E3D 12s00r00           3130 	lcall	_packetbuf_addr
+   0E40 AD 82              3131 	mov	r5,dpl
+   0E42 AE 83              3132 	mov	r6,dph
+   0E44 AF F0              3133 	mov	r7,b
+                           3134 ;	../../core/net/mac/cxmac.c:769: packetbuf_set_addr(PACKETBUF_ADDR_RECEIVER,
+   0E46 C0 05              3135 	push	ar5
+   0E48 C0 06              3136 	push	ar6
+   0E4A C0 07              3137 	push	ar7
+   0E4C 75 82 19           3138 	mov	dpl,#0x19
+   0E4F 12s00r00           3139 	lcall	_packetbuf_set_addr
+   0E52 15 81              3140 	dec	sp
+   0E54 15 81              3141 	dec	sp
+   0E56 15 81              3142 	dec	sp
+                           3143 ;	../../core/net/mac/cxmac.c:771: packetbuf_set_addr(PACKETBUF_ADDR_SENDER, &rimeaddr_node_addr);
+   0E58 74r00              3144 	mov	a,#_rimeaddr_node_addr
+   0E5A C0 E0              3145 	push	acc
+   0E5C 74s00              3146 	mov	a,#(_rimeaddr_node_addr >> 8)
+   0E5E C0 E0              3147 	push	acc
+   0E60 E4                 3148 	clr	a
+   0E61 C0 E0              3149 	push	acc
+   0E63 75 82 18           3150 	mov	dpl,#0x18
+   0E66 12s00r00           3151 	lcall	_packetbuf_set_addr
+   0E69 15 81              3152 	dec	sp
+   0E6B 15 81              3153 	dec	sp
+   0E6D 15 81              3154 	dec	sp
+                           3155 ;	../../core/net/mac/cxmac.c:772: packetbuf_compact();
+   0E6F 12s00r00           3156 	lcall	_packetbuf_compact
+                           3157 ;	../../core/net/mac/cxmac.c:773: if(NETSTACK_FRAMER.create() >= 0) {
+   0E72 90s00r00           3158 	mov	dptr,#_framer_802154
+   0E75 E4                 3159 	clr	a
+   0E76 93                 3160 	movc	a,@a+dptr
+   0E77 FE                 3161 	mov	r6,a
+   0E78 A3                 3162 	inc	dptr
+   0E79 E4                 3163 	clr	a
+   0E7A 93                 3164 	movc	a,@a+dptr
+   0E7B FF                 3165 	mov	r7,a
+   0E7C 8E 82              3166 	mov	dpl,r6
+   0E7E 8F 83              3167 	mov	dph,r7
+   0E80 12s00r00           3168 	lcall	__sdcc_call_dptr
+   0E83 AE 82              3169 	mov	r6,dpl
+   0E85 E5 83              3170 	mov	a,dph
+   0E87 FF                 3171 	mov	r7,a
+   0E88 30 E7 03           3172 	jnb	acc.7,00146$
+   0E8B 02s0Fr26           3173 	ljmp	00110$
+   0E8E                    3174 00146$:
+                           3175 ;	../../core/net/mac/cxmac.c:776: someone_is_sending = 1;
+   0E8E 90s00r0A           3176 	mov	dptr,#_someone_is_sending
+   0E91 74 01              3177 	mov	a,#0x01
+   0E93 F0                 3178 	movx	@dptr,a
+                           3179 ;	../../core/net/mac/cxmac.c:777: waiting_for_packet = 1;
+   0E94 90s00r09           3180 	mov	dptr,#_waiting_for_packet
+   0E97 74 01              3181 	mov	a,#0x01
+   0E99 F0                 3182 	movx	@dptr,a
+                           3183 ;	../../core/net/mac/cxmac.c:778: on();
+   0E9A 12s00r00           3184 	lcall	_on
+                           3185 ;	../../core/net/mac/cxmac.c:779: NETSTACK_RADIO.send(packetbuf_hdrptr(), packetbuf_totlen());
+   0E9D 90s00r06           3186 	mov	dptr,#(_cc2430_rf_driver + 0x0006)
+   0EA0 E4                 3187 	clr	a
+   0EA1 93                 3188 	movc	a,@a+dptr
+   0EA2 FE                 3189 	mov	r6,a
+   0EA3 A3                 3190 	inc	dptr
+   0EA4 E4                 3191 	clr	a
+   0EA5 93                 3192 	movc	a,@a+dptr
+   0EA6 FF                 3193 	mov	r7,a
+   0EA7 C0 07              3194 	push	ar7
+   0EA9 C0 06              3195 	push	ar6
+   0EAB 12s00r00           3196 	lcall	_packetbuf_totlen
+   0EAE A8*00              3197 	mov	r0,_bp
+   0EB0 08                 3198 	inc	r0
+   0EB1 A6 82              3199 	mov	@r0,dpl
+   0EB3 08                 3200 	inc	r0
+   0EB4 A6 83              3201 	mov	@r0,dph
+   0EB6 12s00r00           3202 	lcall	_packetbuf_hdrptr
+   0EB9 AA 82              3203 	mov	r2,dpl
+   0EBB AB 83              3204 	mov	r3,dph
+   0EBD AD F0              3205 	mov	r5,b
+   0EBF D0 06              3206 	pop	ar6
+   0EC1 D0 07              3207 	pop	ar7
+   0EC3 C0 07              3208 	push	ar7
+   0EC5 C0 06              3209 	push	ar6
+   0EC7 A8*00              3210 	mov	r0,_bp
+   0EC9 08                 3211 	inc	r0
+   0ECA E6                 3212 	mov	a,@r0
+   0ECB C0 E0              3213 	push	acc
+   0ECD 08                 3214 	inc	r0
+   0ECE E6                 3215 	mov	a,@r0
+   0ECF C0 E0              3216 	push	acc
+   0ED1 74rE4              3217 	mov	a,#00147$
+   0ED3 C0 E0              3218 	push	acc
+   0ED5 74s0E              3219 	mov	a,#(00147$ >> 8)
+   0ED7 C0 E0              3220 	push	acc
+   0ED9 C0 06              3221 	push	ar6
+   0EDB C0 07              3222 	push	ar7
+   0EDD 8A 82              3223 	mov	dpl,r2
+   0EDF 8B 83              3224 	mov	dph,r3
+   0EE1 8D F0              3225 	mov	b,r5
+   0EE3 22                 3226 	ret
+   0EE4                    3227 00147$:
+   0EE4 15 81              3228 	dec	sp
+   0EE6 15 81              3229 	dec	sp
+   0EE8 D0 06              3230 	pop	ar6
+   0EEA D0 07              3231 	pop	ar7
+   0EEC 80 38              3232 	sjmp	00110$
+   0EEE                    3233 00109$:
+                           3234 ;	../../core/net/mac/cxmac.c:785: &rimeaddr_null)) {
+                           3235 ;	../../core/net/mac/cxmac.c:784: } else if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+   0EEE 75 82 19           3236 	mov	dpl,#0x19
+   0EF1 12s00r00           3237 	lcall	_packetbuf_addr
+   0EF4 AD 82              3238 	mov	r5,dpl
+   0EF6 AE 83              3239 	mov	r6,dph
+   0EF8 AF F0              3240 	mov	r7,b
+   0EFA 74r00              3241 	mov	a,#_rimeaddr_null
+   0EFC C0 E0              3242 	push	acc
+   0EFE 74s00              3243 	mov	a,#(_rimeaddr_null >> 8)
+   0F00 C0 E0              3244 	push	acc
+   0F02 74 80              3245 	mov	a,#0x80
+   0F04 C0 E0              3246 	push	acc
+   0F06 8D 82              3247 	mov	dpl,r5
+   0F08 8E 83              3248 	mov	dph,r6
+   0F0A 8F F0              3249 	mov	b,r7
+   0F0C 12s00r00           3250 	lcall	_rimeaddr_cmp
+   0F0F AE 82              3251 	mov	r6,dpl
+   0F11 AF 83              3252 	mov	r7,dph
+   0F13 15 81              3253 	dec	sp
+   0F15 15 81              3254 	dec	sp
+   0F17 15 81              3255 	dec	sp
+   0F19 EE                 3256 	mov	a,r6
+   0F1A 4F                 3257 	orl	a,r7
+   0F1B 60 09              3258 	jz	00110$
+                           3259 ;	../../core/net/mac/cxmac.c:790: waiting_for_packet = 1;
+   0F1D 90s00r09           3260 	mov	dptr,#_waiting_for_packet
+   0F20 74 01              3261 	mov	a,#0x01
+   0F22 F0                 3262 	movx	@dptr,a
+                           3263 ;	../../core/net/mac/cxmac.c:791: on();
+   0F23 12s00r00           3264 	lcall	_on
+   0F26                    3265 00110$:
+                           3266 ;	../../core/net/mac/cxmac.c:798: return;
+                           3267 ;	../../core/net/mac/cxmac.c:804: } else if(hdr->type == TYPE_STROBE_ACK) {
+   0F26                    3268 00119$:
+   0F26 85*00 81           3269 	mov	sp,_bp
+   0F29 D0*00              3270 	pop	_bp
+   0F2B 22                 3271 	ret
+                           3272 ;------------------------------------------------------------
+                           3273 ;Allocation info for local variables in function 'cxmac_set_announcement_radio_txpower'
+                           3274 ;------------------------------------------------------------
+                           3275 ;txpower                   Allocated to registers 
+                           3276 ;------------------------------------------------------------
+                           3277 ;	../../core/net/mac/cxmac.c:864: cxmac_set_announcement_radio_txpower(int txpower)
+                           3278 ;	-----------------------------------------
+                           3279 ;	 function cxmac_set_announcement_radio_txpower
+                           3280 ;	-----------------------------------------
+   0F2C                    3281 _cxmac_set_announcement_radio_txpower:
+                           3282 ;	../../core/net/mac/cxmac.c:869: }
+   0F2C 22                 3283 	ret
+                           3284 ;------------------------------------------------------------
+                           3285 ;Allocation info for local variables in function 'cxmac_init'
+                           3286 ;------------------------------------------------------------
+                           3287 ;	../../core/net/mac/cxmac.c:872: cxmac_init(void)
+                           3288 ;	-----------------------------------------
+                           3289 ;	 function cxmac_init
+                           3290 ;	-----------------------------------------
+   0F2D                    3291 _cxmac_init:
+                           3292 ;	../../core/net/mac/cxmac.c:874: radio_is_on = 0;
+   0F2D 90s00r0C           3293 	mov	dptr,#_radio_is_on
+                           3294 ;	../../core/net/mac/cxmac.c:875: waiting_for_packet = 0;
+                           3295 ;	../../core/net/mac/cxmac.c:876: PT_INIT(&pt);
+   0F30 E4                 3296 	clr	a
+   0F31 F0                 3297 	movx	@dptr,a
+   0F32 90s00r09           3298 	mov	dptr,#_waiting_for_packet
+   0F35 F0                 3299 	movx	@dptr,a
+   0F36 90s00r00           3300 	mov	dptr,#_pt
+   0F39 F0                 3301 	movx	@dptr,a
+   0F3A A3                 3302 	inc	dptr
+   0F3B E4                 3303 	clr	a
+   0F3C F0                 3304 	movx	@dptr,a
+                           3305 ;	../../core/net/mac/cxmac.c:880: cxmac_is_on = 1;
+   0F3D 90s00r08           3306 	mov	dptr,#_cxmac_is_on
+   0F40 74 01              3307 	mov	a,#0x01
+   0F42 F0                 3308 	movx	@dptr,a
+                           3309 ;	../../core/net/mac/cxmac.c:883: list_init(encounter_list);
+   0F43 90s00r10           3310 	mov	dptr,#_encounter_list
+   0F46 E0                 3311 	movx	a,@dptr
+   0F47 FD                 3312 	mov	r5,a
+   0F48 A3                 3313 	inc	dptr
+   0F49 E0                 3314 	movx	a,@dptr
+   0F4A FE                 3315 	mov	r6,a
+   0F4B A3                 3316 	inc	dptr
+   0F4C E0                 3317 	movx	a,@dptr
+   0F4D FF                 3318 	mov	r7,a
+   0F4E 8D 82              3319 	mov	dpl,r5
+   0F50 8E 83              3320 	mov	dph,r6
+   0F52 8F F0              3321 	mov	b,r7
+   0F54 12s00r00           3322 	lcall	_list_init
+                           3323 ;	../../core/net/mac/cxmac.c:884: memb_init(&encounter_memb);
+   0F57 90s00r13           3324 	mov	dptr,#_encounter_memb
+   0F5A 75 F0 00           3325 	mov	b,#0x00
+   0F5D 12s00r00           3326 	lcall	_memb_init
+                           3327 ;	../../core/net/mac/cxmac.c:893: CSCHEDULE_POWERCYCLE(DEFAULT_OFF_TIME);
+   0F60 90 00 0F           3328 	mov	dptr,#0x000F
+   0F63 02s00r8D           3329 	ljmp	_cschedule_powercycle
+                           3330 ;------------------------------------------------------------
+                           3331 ;Allocation info for local variables in function 'turn_on'
+                           3332 ;------------------------------------------------------------
+                           3333 ;	../../core/net/mac/cxmac.c:897: turn_on(void)
+                           3334 ;	-----------------------------------------
+                           3335 ;	 function turn_on
+                           3336 ;	-----------------------------------------
+   0F66                    3337 _turn_on:
+                           3338 ;	../../core/net/mac/cxmac.c:899: cxmac_is_on = 1;
+   0F66 90s00r08           3339 	mov	dptr,#_cxmac_is_on
+   0F69 74 01              3340 	mov	a,#0x01
+   0F6B F0                 3341 	movx	@dptr,a
+                           3342 ;	../../core/net/mac/cxmac.c:902: CSCHEDULE_POWERCYCLE(DEFAULT_OFF_TIME);
+   0F6C 90 00 0F           3343 	mov	dptr,#0x000F
+   0F6F 12s00r8D           3344 	lcall	_cschedule_powercycle
+                           3345 ;	../../core/net/mac/cxmac.c:903: return 1;
+   0F72 90 00 01           3346 	mov	dptr,#0x0001
+   0F75 22                 3347 	ret
+                           3348 ;------------------------------------------------------------
+                           3349 ;Allocation info for local variables in function 'turn_off'
+                           3350 ;------------------------------------------------------------
+                           3351 ;keep_radio_on             Allocated to registers r6 r7 
+                           3352 ;------------------------------------------------------------
+                           3353 ;	../../core/net/mac/cxmac.c:907: turn_off(int keep_radio_on)
+                           3354 ;	-----------------------------------------
+                           3355 ;	 function turn_off
+                           3356 ;	-----------------------------------------
+   0F76                    3357 _turn_off:
+   0F76 AE 82              3358 	mov	r6,dpl
+   0F78 AF 83              3359 	mov	r7,dph
+                           3360 ;	../../core/net/mac/cxmac.c:909: cxmac_is_on = 0;
+   0F7A 90s00r08           3361 	mov	dptr,#_cxmac_is_on
+   0F7D E4                 3362 	clr	a
+   0F7E F0                 3363 	movx	@dptr,a
+                           3364 ;	../../core/net/mac/cxmac.c:910: if(keep_radio_on) {
+   0F7F EE                 3365 	mov	a,r6
+   0F80 4F                 3366 	orl	a,r7
+   0F81 60 11              3367 	jz	00102$
+                           3368 ;	../../core/net/mac/cxmac.c:911: return NETSTACK_RADIO.on();
+   0F83 90s00r10           3369 	mov	dptr,#(_cc2430_rf_driver + 0x0010)
+   0F86 E4                 3370 	clr	a
+   0F87 93                 3371 	movc	a,@a+dptr
+   0F88 FE                 3372 	mov	r6,a
+   0F89 A3                 3373 	inc	dptr
+   0F8A E4                 3374 	clr	a
+   0F8B 93                 3375 	movc	a,@a+dptr
+   0F8C FF                 3376 	mov	r7,a
+   0F8D 8E 82              3377 	mov	dpl,r6
+   0F8F 8F 83              3378 	mov	dph,r7
+   0F91 02s00r00           3379 	ljmp	__sdcc_call_dptr
+   0F94                    3380 00102$:
+                           3381 ;	../../core/net/mac/cxmac.c:913: return NETSTACK_RADIO.off();
+   0F94 90s00r12           3382 	mov	dptr,#(_cc2430_rf_driver + 0x0012)
+   0F97 E4                 3383 	clr	a
+   0F98 93                 3384 	movc	a,@a+dptr
+   0F99 FE                 3385 	mov	r6,a
+   0F9A A3                 3386 	inc	dptr
+   0F9B E4                 3387 	clr	a
+   0F9C 93                 3388 	movc	a,@a+dptr
+   0F9D FF                 3389 	mov	r7,a
+   0F9E 8E 82              3390 	mov	dpl,r6
+   0FA0 8F 83              3391 	mov	dph,r7
+   0FA2 02s00r00           3392 	ljmp	__sdcc_call_dptr
+                           3393 ;------------------------------------------------------------
+                           3394 ;Allocation info for local variables in function 'channel_check_interval'
+                           3395 ;------------------------------------------------------------
+                           3396 ;	../../core/net/mac/cxmac.c:918: channel_check_interval(void)
+                           3397 ;	-----------------------------------------
+                           3398 ;	 function channel_check_interval
+                           3399 ;	-----------------------------------------
+   0FA5                    3400 _channel_check_interval:
+                           3401 ;	../../core/net/mac/cxmac.c:920: return (1ul * CLOCK_SECOND * DEFAULT_PERIOD) / RTIMER_ARCH_SECOND;
+   0FA5 90 00 0F           3402 	mov	dptr,#0x000F
+   0FA8 22                 3403 	ret
+                           3404 	.area CSEG    (CODE)
+                           3405 	.area CONST   (CODE)
+   0000                    3406 _cxmac_driver:
+   0000r11s00 80           3407 	.byte _str_0,(_str_0 >> 8),#0x80
+   0003r2Ds0F              3408 	.byte _cxmac_init,(_cxmac_init >> 8)
+   0005r2Ds0C              3409 	.byte _qsend_packet,(_qsend_packet >> 8)
+   0007rAAs0C              3410 	.byte _qsend_list,(_qsend_list >> 8)
+   0009r16s0D              3411 	.byte _input_packet,(_input_packet >> 8)
+   000Br66s0F              3412 	.byte _turn_on,(_turn_on >> 8)
+   000Dr76s0F              3413 	.byte _turn_off,(_turn_off >> 8)
+   000FrA5s0F              3414 	.byte _channel_check_interval,(_channel_check_interval >> 8)
+   0011                    3415 _str_0:
+   0011 43 58 2D 4D 41 43  3416 	.ascii "CX-MAC"
+   0017 00                 3417 	.db 0x00
+                           3418 	.area XINIT   (CODE)
+   0000                    3419 __xinit__cxmac_config:
+   0000 61 00              3420 	.byte #0x61,#0x00	; 97
+   0002 40 07              3421 	.byte #0x40,#0x07	; 1856
+   0004 C4 08              3422 	.byte #0xC4,#0x08	; 2244
+   0006 54 00              3423 	.byte #0x54,#0x00	; 84
+   0008                    3424 __xinit__cxmac_is_on:
+   0008 00                 3425 	.db #0x00	; 0
+   0009                    3426 __xinit__waiting_for_packet:
+   0009 00                 3427 	.db #0x00	; 0
+   000A                    3428 __xinit__someone_is_sending:
+   000A 00                 3429 	.db #0x00	; 0
+   000B                    3430 __xinit__we_are_sending:
+   000B 00                 3431 	.db #0x00	; 0
+   000C                    3432 __xinit__radio_is_on:
+   000C 00                 3433 	.db #0x00	; 0
+   000D                    3434 __xinit__encounter_list_list:
+                           3435 ; generic printIvalPtr
+   000D 00 00 00           3436 	.byte #0x00,#0x00,#0x00
+   0010                    3437 __xinit__encounter_list:
+   0010r0Ds00 00           3438 	.byte _encounter_list_list,(_encounter_list_list >> 8),#0x00
+   0013                    3439 __xinit__encounter_memb:
+   0013 07 00              3440 	.byte #0x07,#0x00	; 7
+   0015 04 00              3441 	.byte #0x04,#0x00	; 4
+   0017r03s00 00           3442 	.byte _encounter_memb_memb_count,(_encounter_memb_memb_count >> 8),#0x00
+   001Ar07s00 00           3443 	.byte _encounter_memb_memb_mem,(_encounter_memb_memb_mem >> 8),#0x00
+                           3444 	.area CABS    (ABS,CODE)

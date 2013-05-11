@@ -1,0 +1,915 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:18 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module channel
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _list_item_next
+                             13 	.globl _list_remove
+                             14 	.globl _list_add
+                             15 	.globl _list_head
+                             16 	.globl _list_init
+                             17 	.globl _chameleon_hdrsize
+                             18 	.globl _IRCON2_P2IF
+                             19 	.globl _IRCON2_UTX0IF
+                             20 	.globl _IRCON2_UTX1IF
+                             21 	.globl _IRCON2_P1IF
+                             22 	.globl _IRCON2_WDTIF
+                             23 	.globl _CY
+                             24 	.globl _AC
+                             25 	.globl _F0
+                             26 	.globl _RS1
+                             27 	.globl _RS0
+                             28 	.globl _OV
+                             29 	.globl _F1
+                             30 	.globl _P
+                             31 	.globl _IRCON_DMAIF
+                             32 	.globl _IRCON_T1IF
+                             33 	.globl _IRCON_T2IF
+                             34 	.globl _IRCON_T3IF
+                             35 	.globl _IRCON_T4IF
+                             36 	.globl _IRCON_P0IF
+                             37 	.globl _IRCON_STIF
+                             38 	.globl _IEN1_DMAIE
+                             39 	.globl _IEN1_T1IE
+                             40 	.globl _IEN1_T2IE
+                             41 	.globl _IEN1_T3IE
+                             42 	.globl _IEN1_T4IE
+                             43 	.globl _IEN1_P0IE
+                             44 	.globl _IEN0_RFERRIE
+                             45 	.globl _IEN0_ADCIE
+                             46 	.globl _IEN0_URX0IE
+                             47 	.globl _IEN0_URX1IE
+                             48 	.globl _IEN0_ENCIE
+                             49 	.globl _IEN0_STIE
+                             50 	.globl _IEN0_EA
+                             51 	.globl _EA
+                             52 	.globl _P2_4
+                             53 	.globl _P2_3
+                             54 	.globl _P2_2
+                             55 	.globl _P2_1
+                             56 	.globl _P2_0
+                             57 	.globl _S0CON_ENCIF_0
+                             58 	.globl _S0CON_ENCIF_1
+                             59 	.globl _P1_7
+                             60 	.globl _P1_6
+                             61 	.globl _P1_5
+                             62 	.globl _P1_4
+                             63 	.globl _P1_3
+                             64 	.globl _P1_2
+                             65 	.globl _P1_1
+                             66 	.globl _P1_0
+                             67 	.globl _TCON_IT0
+                             68 	.globl _TCON_RFERRIF
+                             69 	.globl _TCON_IT1
+                             70 	.globl _TCON_URX0IF
+                             71 	.globl _TCON_ADCIF
+                             72 	.globl _TCON_URX1IF
+                             73 	.globl _P0_0
+                             74 	.globl _P0_1
+                             75 	.globl _P0_2
+                             76 	.globl _P0_3
+                             77 	.globl _P0_4
+                             78 	.globl _P0_5
+                             79 	.globl _P0_6
+                             80 	.globl _P0_7
+                             81 	.globl _P2DIR
+                             82 	.globl _P1DIR
+                             83 	.globl _P0DIR
+                             84 	.globl _U1GCR
+                             85 	.globl _U1UCR
+                             86 	.globl _U1BAUD
+                             87 	.globl _U1BUF
+                             88 	.globl _U1CSR
+                             89 	.globl _P2INP
+                             90 	.globl _P1INP
+                             91 	.globl _P2SEL
+                             92 	.globl _P1SEL
+                             93 	.globl _P0SEL
+                             94 	.globl _ADCCFG
+                             95 	.globl _PERCFG
+                             96 	.globl _B
+                             97 	.globl _T4CC1
+                             98 	.globl _T4CCTL1
+                             99 	.globl _T4CC0
+                            100 	.globl _T4CCTL0
+                            101 	.globl _T4CTL
+                            102 	.globl _T4CNT
+                            103 	.globl _RFIF
+                            104 	.globl _IRCON2
+                            105 	.globl _T1CCTL2
+                            106 	.globl _T1CCTL1
+                            107 	.globl _T1CCTL0
+                            108 	.globl _T1CTL
+                            109 	.globl _T1CNTH
+                            110 	.globl _T1CNTL
+                            111 	.globl _RFST
+                            112 	.globl _ACC
+                            113 	.globl _T1CC2H
+                            114 	.globl _T1CC2L
+                            115 	.globl _T1CC1H
+                            116 	.globl _T1CC1L
+                            117 	.globl _T1CC0H
+                            118 	.globl _T1CC0L
+                            119 	.globl _RFD
+                            120 	.globl _TIMIF
+                            121 	.globl _DMAREQ
+                            122 	.globl _DMAARM
+                            123 	.globl _DMA0CFGH
+                            124 	.globl _DMA0CFGL
+                            125 	.globl _DMA1CFGH
+                            126 	.globl _DMA1CFGL
+                            127 	.globl _DMAIRQ
+                            128 	.globl _PSW
+                            129 	.globl _T3CC1
+                            130 	.globl _T3CCTL1
+                            131 	.globl _T3CC0
+                            132 	.globl _T3CCTL0
+                            133 	.globl _T3CTL
+                            134 	.globl _T3CNT
+                            135 	.globl _WDCTL
+                            136 	.globl _T2CON
+                            137 	.globl _MEMCTR
+                            138 	.globl _CLKCON
+                            139 	.globl _U0GCR
+                            140 	.globl _U0UCR
+                            141 	.globl _T2CNF
+                            142 	.globl _U0BAUD
+                            143 	.globl _U0BUF
+                            144 	.globl _IRCON
+                            145 	.globl _SLEEP
+                            146 	.globl _RNDH
+                            147 	.globl _RNDL
+                            148 	.globl _ADCH
+                            149 	.globl _ADCL
+                            150 	.globl _IP1
+                            151 	.globl _IEN1
+                            152 	.globl _RCCTL
+                            153 	.globl _ADCCON3
+                            154 	.globl _ADCCON2
+                            155 	.globl _ADCCON1
+                            156 	.globl _ENCCS
+                            157 	.globl _ENCDO
+                            158 	.globl _ENCDI
+                            159 	.globl _FWDATA
+                            160 	.globl _FCTL
+                            161 	.globl _FADDRH
+                            162 	.globl _FADDRL
+                            163 	.globl _FWT
+                            164 	.globl _IP0
+                            165 	.globl _IEN0
+                            166 	.globl _IE
+                            167 	.globl _T2THD
+                            168 	.globl _T2TLD
+                            169 	.globl _T2CAPHPH
+                            170 	.globl _T2CAPLPL
+                            171 	.globl _T2OF2
+                            172 	.globl _T2OF1
+                            173 	.globl _T2OF0
+                            174 	.globl _P2
+                            175 	.globl _PSBANK
+                            176 	.globl _FMAP
+                            177 	.globl _T2PEROF2
+                            178 	.globl _T2PEROF1
+                            179 	.globl _T2PEROF0
+                            180 	.globl _S1CON
+                            181 	.globl _IEN2
+                            182 	.globl _HSRC
+                            183 	.globl _S0CON
+                            184 	.globl _ST2
+                            185 	.globl _ST1
+                            186 	.globl _ST0
+                            187 	.globl _T2CMP
+                            188 	.globl __XPAGE
+                            189 	.globl _DPS
+                            190 	.globl _RFIM
+                            191 	.globl _P1
+                            192 	.globl _P0INP
+                            193 	.globl _P1IEN
+                            194 	.globl _PICTL
+                            195 	.globl _P2IFG
+                            196 	.globl _P1IFG
+                            197 	.globl _P0IFG
+                            198 	.globl _TCON
+                            199 	.globl _PCON
+                            200 	.globl _U0CSR
+                            201 	.globl _DPH1
+                            202 	.globl _DPL1
+                            203 	.globl _DPH0
+                            204 	.globl _DPL0
+                            205 	.globl _SP
+                            206 	.globl _P0
+                            207 	.globl _ADC_SHADOW
+                            208 	.globl _U1BUF_SHADOW
+                            209 	.globl _RFD_SHADOW
+                            210 	.globl _U0BUF_SHADOW
+                            211 	.globl _RFSTATUS
+                            212 	.globl _CHIPID
+                            213 	.globl _CHVER
+                            214 	.globl _FSMTC1
+                            215 	.globl _RXFIFOCNT
+                            216 	.globl _IOCFG3
+                            217 	.globl _IOCFG2
+                            218 	.globl _IOCFG1
+                            219 	.globl _IOCFG0
+                            220 	.globl _SHORTADDRL
+                            221 	.globl _SHORTADDRH
+                            222 	.globl _PANIDL
+                            223 	.globl _PANIDH
+                            224 	.globl _IEEE_ADDR7
+                            225 	.globl _IEEE_ADDR6
+                            226 	.globl _IEEE_ADDR5
+                            227 	.globl _IEEE_ADDR4
+                            228 	.globl _IEEE_ADDR3
+                            229 	.globl _IEEE_ADDR2
+                            230 	.globl _IEEE_ADDR1
+                            231 	.globl _IEEE_ADDR0
+                            232 	.globl _DACTSTL
+                            233 	.globl _DACTSTH
+                            234 	.globl _ADCTSTL
+                            235 	.globl _ADCTSTH
+                            236 	.globl _FSMSTATE
+                            237 	.globl _AGCCTRLL
+                            238 	.globl _AGCCTRLH
+                            239 	.globl _MANORL
+                            240 	.globl _MANORH
+                            241 	.globl _MANANDL
+                            242 	.globl _MANANDH
+                            243 	.globl _FSMTCL
+                            244 	.globl _FSMTCH
+                            245 	.globl _RFPWR
+                            246 	.globl _CSPT
+                            247 	.globl _CSPCTRL
+                            248 	.globl _CSPZ
+                            249 	.globl _CSPY
+                            250 	.globl _CSPX
+                            251 	.globl _FSCTRLL
+                            252 	.globl _FSCTRLH
+                            253 	.globl _RXCTRL1L
+                            254 	.globl _RXCTRL1H
+                            255 	.globl _RXCTRL0L
+                            256 	.globl _RXCTRL0H
+                            257 	.globl _TXCTRLL
+                            258 	.globl _TXCTRLH
+                            259 	.globl _SYNCWORDL
+                            260 	.globl _SYNCWORDH
+                            261 	.globl _RSSIL
+                            262 	.globl _RSSIH
+                            263 	.globl _MDMCTRL1L
+                            264 	.globl _MDMCTRL1H
+                            265 	.globl _MDMCTRL0L
+                            266 	.globl _MDMCTRL0H
+                            267 	.globl _channel_init
+                            268 	.globl _channel_set_attributes
+                            269 	.globl _channel_open
+                            270 	.globl _channel_close
+                            271 	.globl _channel_lookup
+                            272 ;--------------------------------------------------------
+                            273 ; special function registers
+                            274 ;--------------------------------------------------------
+                            275 	.area RSEG    (ABS,DATA)
+   0000                     276 	.org 0x0000
+                    0080    277 _P0	=	0x0080
+                    0081    278 _SP	=	0x0081
+                    0082    279 _DPL0	=	0x0082
+                    0083    280 _DPH0	=	0x0083
+                    0084    281 _DPL1	=	0x0084
+                    0085    282 _DPH1	=	0x0085
+                    0086    283 _U0CSR	=	0x0086
+                    0087    284 _PCON	=	0x0087
+                    0088    285 _TCON	=	0x0088
+                    0089    286 _P0IFG	=	0x0089
+                    008A    287 _P1IFG	=	0x008a
+                    008B    288 _P2IFG	=	0x008b
+                    008C    289 _PICTL	=	0x008c
+                    008D    290 _P1IEN	=	0x008d
+                    008F    291 _P0INP	=	0x008f
+                    0090    292 _P1	=	0x0090
+                    0091    293 _RFIM	=	0x0091
+                    0092    294 _DPS	=	0x0092
+                    0093    295 __XPAGE	=	0x0093
+                    0094    296 _T2CMP	=	0x0094
+                    0095    297 _ST0	=	0x0095
+                    0096    298 _ST1	=	0x0096
+                    0097    299 _ST2	=	0x0097
+                    0098    300 _S0CON	=	0x0098
+                    0099    301 _HSRC	=	0x0099
+                    009A    302 _IEN2	=	0x009a
+                    009B    303 _S1CON	=	0x009b
+                    009C    304 _T2PEROF0	=	0x009c
+                    009D    305 _T2PEROF1	=	0x009d
+                    009E    306 _T2PEROF2	=	0x009e
+                    009F    307 _FMAP	=	0x009f
+                    009F    308 _PSBANK	=	0x009f
+                    00A0    309 _P2	=	0x00a0
+                    00A1    310 _T2OF0	=	0x00a1
+                    00A2    311 _T2OF1	=	0x00a2
+                    00A3    312 _T2OF2	=	0x00a3
+                    00A4    313 _T2CAPLPL	=	0x00a4
+                    00A5    314 _T2CAPHPH	=	0x00a5
+                    00A6    315 _T2TLD	=	0x00a6
+                    00A7    316 _T2THD	=	0x00a7
+                    00A8    317 _IE	=	0x00a8
+                    00A8    318 _IEN0	=	0x00a8
+                    00A9    319 _IP0	=	0x00a9
+                    00AB    320 _FWT	=	0x00ab
+                    00AC    321 _FADDRL	=	0x00ac
+                    00AD    322 _FADDRH	=	0x00ad
+                    00AE    323 _FCTL	=	0x00ae
+                    00AF    324 _FWDATA	=	0x00af
+                    00B1    325 _ENCDI	=	0x00b1
+                    00B2    326 _ENCDO	=	0x00b2
+                    00B3    327 _ENCCS	=	0x00b3
+                    00B4    328 _ADCCON1	=	0x00b4
+                    00B5    329 _ADCCON2	=	0x00b5
+                    00B6    330 _ADCCON3	=	0x00b6
+                    00B7    331 _RCCTL	=	0x00b7
+                    00B8    332 _IEN1	=	0x00b8
+                    00B9    333 _IP1	=	0x00b9
+                    00BA    334 _ADCL	=	0x00ba
+                    00BB    335 _ADCH	=	0x00bb
+                    00BC    336 _RNDL	=	0x00bc
+                    00BD    337 _RNDH	=	0x00bd
+                    00BE    338 _SLEEP	=	0x00be
+                    00C0    339 _IRCON	=	0x00c0
+                    00C1    340 _U0BUF	=	0x00c1
+                    00C2    341 _U0BAUD	=	0x00c2
+                    00C3    342 _T2CNF	=	0x00c3
+                    00C4    343 _U0UCR	=	0x00c4
+                    00C5    344 _U0GCR	=	0x00c5
+                    00C6    345 _CLKCON	=	0x00c6
+                    00C7    346 _MEMCTR	=	0x00c7
+                    00C8    347 _T2CON	=	0x00c8
+                    00C9    348 _WDCTL	=	0x00c9
+                    00CA    349 _T3CNT	=	0x00ca
+                    00CB    350 _T3CTL	=	0x00cb
+                    00CC    351 _T3CCTL0	=	0x00cc
+                    00CD    352 _T3CC0	=	0x00cd
+                    00CE    353 _T3CCTL1	=	0x00ce
+                    00CF    354 _T3CC1	=	0x00cf
+                    00D0    355 _PSW	=	0x00d0
+                    00D1    356 _DMAIRQ	=	0x00d1
+                    00D2    357 _DMA1CFGL	=	0x00d2
+                    00D3    358 _DMA1CFGH	=	0x00d3
+                    00D4    359 _DMA0CFGL	=	0x00d4
+                    00D5    360 _DMA0CFGH	=	0x00d5
+                    00D6    361 _DMAARM	=	0x00d6
+                    00D7    362 _DMAREQ	=	0x00d7
+                    00D8    363 _TIMIF	=	0x00d8
+                    00D9    364 _RFD	=	0x00d9
+                    00DA    365 _T1CC0L	=	0x00da
+                    00DB    366 _T1CC0H	=	0x00db
+                    00DC    367 _T1CC1L	=	0x00dc
+                    00DD    368 _T1CC1H	=	0x00dd
+                    00DE    369 _T1CC2L	=	0x00de
+                    00DF    370 _T1CC2H	=	0x00df
+                    00E0    371 _ACC	=	0x00e0
+                    00E1    372 _RFST	=	0x00e1
+                    00E2    373 _T1CNTL	=	0x00e2
+                    00E3    374 _T1CNTH	=	0x00e3
+                    00E4    375 _T1CTL	=	0x00e4
+                    00E5    376 _T1CCTL0	=	0x00e5
+                    00E6    377 _T1CCTL1	=	0x00e6
+                    00E7    378 _T1CCTL2	=	0x00e7
+                    00E8    379 _IRCON2	=	0x00e8
+                    00E9    380 _RFIF	=	0x00e9
+                    00EA    381 _T4CNT	=	0x00ea
+                    00EB    382 _T4CTL	=	0x00eb
+                    00EC    383 _T4CCTL0	=	0x00ec
+                    00ED    384 _T4CC0	=	0x00ed
+                    00EE    385 _T4CCTL1	=	0x00ee
+                    00EF    386 _T4CC1	=	0x00ef
+                    00F0    387 _B	=	0x00f0
+                    00F1    388 _PERCFG	=	0x00f1
+                    00F2    389 _ADCCFG	=	0x00f2
+                    00F3    390 _P0SEL	=	0x00f3
+                    00F4    391 _P1SEL	=	0x00f4
+                    00F5    392 _P2SEL	=	0x00f5
+                    00F6    393 _P1INP	=	0x00f6
+                    00F7    394 _P2INP	=	0x00f7
+                    00F8    395 _U1CSR	=	0x00f8
+                    00F9    396 _U1BUF	=	0x00f9
+                    00FA    397 _U1BAUD	=	0x00fa
+                    00FB    398 _U1UCR	=	0x00fb
+                    00FC    399 _U1GCR	=	0x00fc
+                    00FD    400 _P0DIR	=	0x00fd
+                    00FE    401 _P1DIR	=	0x00fe
+                    00FF    402 _P2DIR	=	0x00ff
+                            403 ;--------------------------------------------------------
+                            404 ; special function bits
+                            405 ;--------------------------------------------------------
+                            406 	.area RSEG    (ABS,DATA)
+   0000                     407 	.org 0x0000
+                    0087    408 _P0_7	=	0x0087
+                    0086    409 _P0_6	=	0x0086
+                    0085    410 _P0_5	=	0x0085
+                    0084    411 _P0_4	=	0x0084
+                    0083    412 _P0_3	=	0x0083
+                    0082    413 _P0_2	=	0x0082
+                    0081    414 _P0_1	=	0x0081
+                    0080    415 _P0_0	=	0x0080
+                    008F    416 _TCON_URX1IF	=	0x008f
+                    008D    417 _TCON_ADCIF	=	0x008d
+                    008B    418 _TCON_URX0IF	=	0x008b
+                    008A    419 _TCON_IT1	=	0x008a
+                    0089    420 _TCON_RFERRIF	=	0x0089
+                    0088    421 _TCON_IT0	=	0x0088
+                    0090    422 _P1_0	=	0x0090
+                    0091    423 _P1_1	=	0x0091
+                    0092    424 _P1_2	=	0x0092
+                    0093    425 _P1_3	=	0x0093
+                    0094    426 _P1_4	=	0x0094
+                    0095    427 _P1_5	=	0x0095
+                    0096    428 _P1_6	=	0x0096
+                    0097    429 _P1_7	=	0x0097
+                    0099    430 _S0CON_ENCIF_1	=	0x0099
+                    0098    431 _S0CON_ENCIF_0	=	0x0098
+                    00A0    432 _P2_0	=	0x00a0
+                    00A1    433 _P2_1	=	0x00a1
+                    00A2    434 _P2_2	=	0x00a2
+                    00A3    435 _P2_3	=	0x00a3
+                    00A4    436 _P2_4	=	0x00a4
+                    00AF    437 _EA	=	0x00af
+                    00AF    438 _IEN0_EA	=	0x00af
+                    00AD    439 _IEN0_STIE	=	0x00ad
+                    00AC    440 _IEN0_ENCIE	=	0x00ac
+                    00AB    441 _IEN0_URX1IE	=	0x00ab
+                    00AA    442 _IEN0_URX0IE	=	0x00aa
+                    00A9    443 _IEN0_ADCIE	=	0x00a9
+                    00A8    444 _IEN0_RFERRIE	=	0x00a8
+                    00BD    445 _IEN1_P0IE	=	0x00bd
+                    00BC    446 _IEN1_T4IE	=	0x00bc
+                    00BB    447 _IEN1_T3IE	=	0x00bb
+                    00BA    448 _IEN1_T2IE	=	0x00ba
+                    00B9    449 _IEN1_T1IE	=	0x00b9
+                    00B8    450 _IEN1_DMAIE	=	0x00b8
+                    00C7    451 _IRCON_STIF	=	0x00c7
+                    00C5    452 _IRCON_P0IF	=	0x00c5
+                    00C4    453 _IRCON_T4IF	=	0x00c4
+                    00C3    454 _IRCON_T3IF	=	0x00c3
+                    00C2    455 _IRCON_T2IF	=	0x00c2
+                    00C1    456 _IRCON_T1IF	=	0x00c1
+                    00C0    457 _IRCON_DMAIF	=	0x00c0
+                    00D0    458 _P	=	0x00d0
+                    00D1    459 _F1	=	0x00d1
+                    00D2    460 _OV	=	0x00d2
+                    00D3    461 _RS0	=	0x00d3
+                    00D4    462 _RS1	=	0x00d4
+                    00D5    463 _F0	=	0x00d5
+                    00D6    464 _AC	=	0x00d6
+                    00D7    465 _CY	=	0x00d7
+                    00EC    466 _IRCON2_WDTIF	=	0x00ec
+                    00EB    467 _IRCON2_P1IF	=	0x00eb
+                    00EA    468 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    469 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    470 _IRCON2_P2IF	=	0x00e8
+                            471 ;--------------------------------------------------------
+                            472 ; overlayable register banks
+                            473 ;--------------------------------------------------------
+                            474 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     475 	.ds 8
+                            476 ;--------------------------------------------------------
+                            477 ; internal ram data
+                            478 ;--------------------------------------------------------
+                            479 	.area DSEG    (DATA)
+                            480 ;--------------------------------------------------------
+                            481 ; overlayable items in internal ram 
+                            482 ;--------------------------------------------------------
+                            483 	.area OSEG    (OVR,DATA)
+                            484 ;--------------------------------------------------------
+                            485 ; indirectly addressable internal ram data
+                            486 ;--------------------------------------------------------
+                            487 	.area ISEG    (DATA)
+                            488 ;--------------------------------------------------------
+                            489 ; absolute internal ram data
+                            490 ;--------------------------------------------------------
+                            491 	.area IABS    (ABS,DATA)
+                            492 	.area IABS    (ABS,DATA)
+                            493 ;--------------------------------------------------------
+                            494 ; bit data
+                            495 ;--------------------------------------------------------
+                            496 	.area BSEG    (BIT)
+                            497 ;--------------------------------------------------------
+                            498 ; paged external ram data
+                            499 ;--------------------------------------------------------
+                            500 	.area PSEG    (PAG,XDATA)
+                            501 ;--------------------------------------------------------
+                            502 ; external ram data
+                            503 ;--------------------------------------------------------
+                            504 	.area XSEG    (XDATA)
+                    DF02    505 _MDMCTRL0H	=	0xdf02
+                    DF03    506 _MDMCTRL0L	=	0xdf03
+                    DF04    507 _MDMCTRL1H	=	0xdf04
+                    DF05    508 _MDMCTRL1L	=	0xdf05
+                    DF06    509 _RSSIH	=	0xdf06
+                    DF07    510 _RSSIL	=	0xdf07
+                    DF08    511 _SYNCWORDH	=	0xdf08
+                    DF09    512 _SYNCWORDL	=	0xdf09
+                    DF0A    513 _TXCTRLH	=	0xdf0a
+                    DF0B    514 _TXCTRLL	=	0xdf0b
+                    DF0C    515 _RXCTRL0H	=	0xdf0c
+                    DF0D    516 _RXCTRL0L	=	0xdf0d
+                    DF0E    517 _RXCTRL1H	=	0xdf0e
+                    DF0F    518 _RXCTRL1L	=	0xdf0f
+                    DF10    519 _FSCTRLH	=	0xdf10
+                    DF11    520 _FSCTRLL	=	0xdf11
+                    DF12    521 _CSPX	=	0xdf12
+                    DF13    522 _CSPY	=	0xdf13
+                    DF14    523 _CSPZ	=	0xdf14
+                    DF15    524 _CSPCTRL	=	0xdf15
+                    DF16    525 _CSPT	=	0xdf16
+                    DF17    526 _RFPWR	=	0xdf17
+                    DF20    527 _FSMTCH	=	0xdf20
+                    DF21    528 _FSMTCL	=	0xdf21
+                    DF22    529 _MANANDH	=	0xdf22
+                    DF23    530 _MANANDL	=	0xdf23
+                    DF24    531 _MANORH	=	0xdf24
+                    DF25    532 _MANORL	=	0xdf25
+                    DF26    533 _AGCCTRLH	=	0xdf26
+                    DF27    534 _AGCCTRLL	=	0xdf27
+                    DF39    535 _FSMSTATE	=	0xdf39
+                    DF3A    536 _ADCTSTH	=	0xdf3a
+                    DF3B    537 _ADCTSTL	=	0xdf3b
+                    DF3C    538 _DACTSTH	=	0xdf3c
+                    DF3D    539 _DACTSTL	=	0xdf3d
+                    DF43    540 _IEEE_ADDR0	=	0xdf43
+                    DF44    541 _IEEE_ADDR1	=	0xdf44
+                    DF45    542 _IEEE_ADDR2	=	0xdf45
+                    DF46    543 _IEEE_ADDR3	=	0xdf46
+                    DF47    544 _IEEE_ADDR4	=	0xdf47
+                    DF48    545 _IEEE_ADDR5	=	0xdf48
+                    DF49    546 _IEEE_ADDR6	=	0xdf49
+                    DF4A    547 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    548 _PANIDH	=	0xdf4b
+                    DF4C    549 _PANIDL	=	0xdf4c
+                    DF4D    550 _SHORTADDRH	=	0xdf4d
+                    DF4E    551 _SHORTADDRL	=	0xdf4e
+                    DF4F    552 _IOCFG0	=	0xdf4f
+                    DF50    553 _IOCFG1	=	0xdf50
+                    DF51    554 _IOCFG2	=	0xdf51
+                    DF52    555 _IOCFG3	=	0xdf52
+                    DF53    556 _RXFIFOCNT	=	0xdf53
+                    DF54    557 _FSMTC1	=	0xdf54
+                    DF60    558 _CHVER	=	0xdf60
+                    DF61    559 _CHIPID	=	0xdf61
+                    DF62    560 _RFSTATUS	=	0xdf62
+                    DFC1    561 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    562 _RFD_SHADOW	=	0xdfd9
+                    DFF9    563 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    564 _ADC_SHADOW	=	0xdfba
+                            565 ;--------------------------------------------------------
+                            566 ; absolute external ram data
+                            567 ;--------------------------------------------------------
+                            568 	.area XABS    (ABS,XDATA)
+                            569 ;--------------------------------------------------------
+                            570 ; external initialized ram data
+                            571 ;--------------------------------------------------------
+                            572 	.area XISEG   (XDATA)
+   0000                     573 _channel_list_list:
+   0000                     574 	.ds 3
+   0003                     575 _channel_list:
+   0003                     576 	.ds 3
+                            577 	.area HOME    (CODE)
+                            578 	.area GSINIT0 (CODE)
+                            579 	.area GSINIT1 (CODE)
+                            580 	.area GSINIT2 (CODE)
+                            581 	.area GSINIT3 (CODE)
+                            582 	.area GSINIT4 (CODE)
+                            583 	.area GSINIT5 (CODE)
+                            584 	.area GSINIT  (CODE)
+                            585 	.area GSFINAL (CODE)
+                            586 	.area CSEG    (CODE)
+                            587 ;--------------------------------------------------------
+                            588 ; global & static initialisations
+                            589 ;--------------------------------------------------------
+                            590 	.area HOME    (CODE)
+                            591 	.area GSINIT  (CODE)
+                            592 	.area GSFINAL (CODE)
+                            593 	.area GSINIT  (CODE)
+                            594 ;--------------------------------------------------------
+                            595 ; Home
+                            596 ;--------------------------------------------------------
+                            597 	.area HOME    (CODE)
+                            598 	.area HOME    (CODE)
+                            599 ;--------------------------------------------------------
+                            600 ; code
+                            601 ;--------------------------------------------------------
+                            602 	.area CSEG    (CODE)
+                            603 ;------------------------------------------------------------
+                            604 ;Allocation info for local variables in function 'channel_init'
+                            605 ;------------------------------------------------------------
+                            606 ;	../../core/net/rime/channel.c:49: channel_init(void)
+                            607 ;	-----------------------------------------
+                            608 ;	 function channel_init
+                            609 ;	-----------------------------------------
+   0000                     610 _channel_init:
+                    0007    611 	ar7 = 0x07
+                    0006    612 	ar6 = 0x06
+                    0005    613 	ar5 = 0x05
+                    0004    614 	ar4 = 0x04
+                    0003    615 	ar3 = 0x03
+                    0002    616 	ar2 = 0x02
+                    0001    617 	ar1 = 0x01
+                    0000    618 	ar0 = 0x00
+                            619 ;	../../core/net/rime/channel.c:51: list_init(channel_list);
+   0000 90s00r03            620 	mov	dptr,#_channel_list
+   0003 E0                  621 	movx	a,@dptr
+   0004 FD                  622 	mov	r5,a
+   0005 A3                  623 	inc	dptr
+   0006 E0                  624 	movx	a,@dptr
+   0007 FE                  625 	mov	r6,a
+   0008 A3                  626 	inc	dptr
+   0009 E0                  627 	movx	a,@dptr
+   000A FF                  628 	mov	r7,a
+   000B 8D 82               629 	mov	dpl,r5
+   000D 8E 83               630 	mov	dph,r6
+   000F 8F F0               631 	mov	b,r7
+   0011 02s00r00            632 	ljmp	_list_init
+                            633 ;------------------------------------------------------------
+                            634 ;Allocation info for local variables in function 'channel_set_attributes'
+                            635 ;------------------------------------------------------------
+                            636 ;attrlist                  Allocated to stack - _bp -5
+                            637 ;channelno                 Allocated to registers r6 r7 
+                            638 ;c                         Allocated to registers r5 r6 r7 
+                            639 ;------------------------------------------------------------
+                            640 ;	../../core/net/rime/channel.c:55: channel_set_attributes(uint16_t channelno,
+                            641 ;	-----------------------------------------
+                            642 ;	 function channel_set_attributes
+                            643 ;	-----------------------------------------
+   0014                     644 _channel_set_attributes:
+   0014 C0*00               645 	push	_bp
+   0016 85 81*00            646 	mov	_bp,sp
+                            647 ;	../../core/net/rime/channel.c:59: c = channel_lookup(channelno);
+   0019 12s00rF1            648 	lcall	_channel_lookup
+   001C AD 82               649 	mov	r5,dpl
+   001E AE 83               650 	mov	r6,dph
+   0020 AF F0               651 	mov	r7,b
+                            652 ;	../../core/net/rime/channel.c:60: if(c != NULL) {
+   0022 ED                  653 	mov	a,r5
+   0023 4E                  654 	orl	a,r6
+   0024 60 55               655 	jz	00103$
+                            656 ;	../../core/net/rime/channel.c:61: c->attrlist = attrlist;
+   0026 74 05               657 	mov	a,#0x05
+   0028 2D                  658 	add	a,r5
+   0029 FA                  659 	mov	r2,a
+   002A E4                  660 	clr	a
+   002B 3E                  661 	addc	a,r6
+   002C FB                  662 	mov	r3,a
+   002D 8F 04               663 	mov	ar4,r7
+   002F 8A 82               664 	mov	dpl,r2
+   0031 8B 83               665 	mov	dph,r3
+   0033 8C F0               666 	mov	b,r4
+   0035 E5*00               667 	mov	a,_bp
+   0037 24 FB               668 	add	a,#0xfb
+   0039 F8                  669 	mov	r0,a
+   003A E6                  670 	mov	a,@r0
+   003B 12s00r00            671 	lcall	__gptrput
+   003E A3                  672 	inc	dptr
+   003F 08                  673 	inc	r0
+   0040 E6                  674 	mov	a,@r0
+   0041 12s00r00            675 	lcall	__gptrput
+   0044 A3                  676 	inc	dptr
+   0045 08                  677 	inc	r0
+   0046 E6                  678 	mov	a,@r0
+   0047 12s00r00            679 	lcall	__gptrput
+                            680 ;	../../core/net/rime/channel.c:62: c->hdrsize = chameleon_hdrsize(attrlist);
+   004A 74 08               681 	mov	a,#0x08
+   004C 2D                  682 	add	a,r5
+   004D FD                  683 	mov	r5,a
+   004E E4                  684 	clr	a
+   004F 3E                  685 	addc	a,r6
+   0050 FE                  686 	mov	r6,a
+   0051 E5*00               687 	mov	a,_bp
+   0053 24 FB               688 	add	a,#0xfb
+   0055 F8                  689 	mov	r0,a
+   0056 86 82               690 	mov	dpl,@r0
+   0058 08                  691 	inc	r0
+   0059 86 83               692 	mov	dph,@r0
+   005B 08                  693 	inc	r0
+   005C 86 F0               694 	mov	b,@r0
+   005E C0 07               695 	push	ar7
+   0060 C0 06               696 	push	ar6
+   0062 C0 05               697 	push	ar5
+   0064 12s00r00            698 	lcall	_chameleon_hdrsize
+   0067 AB 82               699 	mov	r3,dpl
+   0069 AC 83               700 	mov	r4,dph
+   006B D0 05               701 	pop	ar5
+   006D D0 06               702 	pop	ar6
+   006F D0 07               703 	pop	ar7
+   0071 8D 82               704 	mov	dpl,r5
+   0073 8E 83               705 	mov	dph,r6
+   0075 8F F0               706 	mov	b,r7
+   0077 EB                  707 	mov	a,r3
+   0078 12s00r00            708 	lcall	__gptrput
+   007B                     709 00103$:
+   007B D0*00               710 	pop	_bp
+   007D 22                  711 	ret
+                            712 ;------------------------------------------------------------
+                            713 ;Allocation info for local variables in function 'channel_open'
+                            714 ;------------------------------------------------------------
+                            715 ;channelno                 Allocated to stack - _bp -4
+                            716 ;c                         Allocated to registers r5 r6 r7 
+                            717 ;------------------------------------------------------------
+                            718 ;	../../core/net/rime/channel.c:67: channel_open(struct channel *c, uint16_t channelno)
+                            719 ;	-----------------------------------------
+                            720 ;	 function channel_open
+                            721 ;	-----------------------------------------
+   007E                     722 _channel_open:
+   007E C0*00               723 	push	_bp
+   0080 85 81*00            724 	mov	_bp,sp
+   0083 AD 82               725 	mov	r5,dpl
+   0085 AE 83               726 	mov	r6,dph
+   0087 AF F0               727 	mov	r7,b
+                            728 ;	../../core/net/rime/channel.c:69: c->channelno = channelno;
+   0089 74 03               729 	mov	a,#0x03
+   008B 2D                  730 	add	a,r5
+   008C FA                  731 	mov	r2,a
+   008D E4                  732 	clr	a
+   008E 3E                  733 	addc	a,r6
+   008F FB                  734 	mov	r3,a
+   0090 8F 04               735 	mov	ar4,r7
+   0092 8A 82               736 	mov	dpl,r2
+   0094 8B 83               737 	mov	dph,r3
+   0096 8C F0               738 	mov	b,r4
+   0098 E5*00               739 	mov	a,_bp
+   009A 24 FC               740 	add	a,#0xfc
+   009C F8                  741 	mov	r0,a
+   009D E6                  742 	mov	a,@r0
+   009E 12s00r00            743 	lcall	__gptrput
+   00A1 A3                  744 	inc	dptr
+   00A2 08                  745 	inc	r0
+   00A3 E6                  746 	mov	a,@r0
+   00A4 12s00r00            747 	lcall	__gptrput
+                            748 ;	../../core/net/rime/channel.c:70: list_add(channel_list, c);
+   00A7 90s00r03            749 	mov	dptr,#_channel_list
+   00AA E0                  750 	movx	a,@dptr
+   00AB FA                  751 	mov	r2,a
+   00AC A3                  752 	inc	dptr
+   00AD E0                  753 	movx	a,@dptr
+   00AE FB                  754 	mov	r3,a
+   00AF A3                  755 	inc	dptr
+   00B0 E0                  756 	movx	a,@dptr
+   00B1 FC                  757 	mov	r4,a
+   00B2 C0 05               758 	push	ar5
+   00B4 C0 06               759 	push	ar6
+   00B6 C0 07               760 	push	ar7
+   00B8 8A 82               761 	mov	dpl,r2
+   00BA 8B 83               762 	mov	dph,r3
+   00BC 8C F0               763 	mov	b,r4
+   00BE 12s00r00            764 	lcall	_list_add
+   00C1 15 81               765 	dec	sp
+   00C3 15 81               766 	dec	sp
+   00C5 15 81               767 	dec	sp
+   00C7 D0*00               768 	pop	_bp
+   00C9 22                  769 	ret
+                            770 ;------------------------------------------------------------
+                            771 ;Allocation info for local variables in function 'channel_close'
+                            772 ;------------------------------------------------------------
+                            773 ;c                         Allocated to registers r5 r6 r7 
+                            774 ;------------------------------------------------------------
+                            775 ;	../../core/net/rime/channel.c:74: channel_close(struct channel *c)
+                            776 ;	-----------------------------------------
+                            777 ;	 function channel_close
+                            778 ;	-----------------------------------------
+   00CA                     779 _channel_close:
+   00CA AD 82               780 	mov	r5,dpl
+   00CC AE 83               781 	mov	r6,dph
+   00CE AF F0               782 	mov	r7,b
+                            783 ;	../../core/net/rime/channel.c:76: list_remove(channel_list, c);
+   00D0 90s00r03            784 	mov	dptr,#_channel_list
+   00D3 E0                  785 	movx	a,@dptr
+   00D4 FA                  786 	mov	r2,a
+   00D5 A3                  787 	inc	dptr
+   00D6 E0                  788 	movx	a,@dptr
+   00D7 FB                  789 	mov	r3,a
+   00D8 A3                  790 	inc	dptr
+   00D9 E0                  791 	movx	a,@dptr
+   00DA FC                  792 	mov	r4,a
+   00DB C0 05               793 	push	ar5
+   00DD C0 06               794 	push	ar6
+   00DF C0 07               795 	push	ar7
+   00E1 8A 82               796 	mov	dpl,r2
+   00E3 8B 83               797 	mov	dph,r3
+   00E5 8C F0               798 	mov	b,r4
+   00E7 12s00r00            799 	lcall	_list_remove
+   00EA 15 81               800 	dec	sp
+   00EC 15 81               801 	dec	sp
+   00EE 15 81               802 	dec	sp
+   00F0 22                  803 	ret
+                            804 ;------------------------------------------------------------
+                            805 ;Allocation info for local variables in function 'channel_lookup'
+                            806 ;------------------------------------------------------------
+                            807 ;channelno                 Allocated to stack - _bp +1
+                            808 ;c                         Allocated to registers r3 r4 r5 
+                            809 ;------------------------------------------------------------
+                            810 ;	../../core/net/rime/channel.c:80: channel_lookup(uint16_t channelno)
+                            811 ;	-----------------------------------------
+                            812 ;	 function channel_lookup
+                            813 ;	-----------------------------------------
+   00F1                     814 _channel_lookup:
+   00F1 C0*00               815 	push	_bp
+   00F3 85 81*00            816 	mov	_bp,sp
+   00F6 C0 82               817 	push	dpl
+   00F8 C0 83               818 	push	dph
+                            819 ;	../../core/net/rime/channel.c:83: for(c = list_head(channel_list); c != NULL; c = list_item_next(c)) {
+   00FA 90s00r03            820 	mov	dptr,#_channel_list
+   00FD E0                  821 	movx	a,@dptr
+   00FE FB                  822 	mov	r3,a
+   00FF A3                  823 	inc	dptr
+   0100 E0                  824 	movx	a,@dptr
+   0101 FC                  825 	mov	r4,a
+   0102 A3                  826 	inc	dptr
+   0103 E0                  827 	movx	a,@dptr
+   0104 FD                  828 	mov	r5,a
+   0105 8B 82               829 	mov	dpl,r3
+   0107 8C 83               830 	mov	dph,r4
+   0109 8D F0               831 	mov	b,r5
+   010B 12s00r00            832 	lcall	_list_head
+   010E AB 82               833 	mov	r3,dpl
+   0110 AC 83               834 	mov	r4,dph
+   0112 AD F0               835 	mov	r5,b
+   0114                     836 00103$:
+   0114 E4                  837 	clr	a
+   0115 C0 E0               838 	push	acc
+   0117 E4                  839 	clr	a
+   0118 C0 E0               840 	push	acc
+   011A E4                  841 	clr	a
+   011B C0 E0               842 	push	acc
+   011D 8B 82               843 	mov	dpl,r3
+   011F 8C 83               844 	mov	dph,r4
+   0121 8D F0               845 	mov	b,r5
+   0123 12s00r00            846 	lcall	___gptr_cmp
+   0126 15 81               847 	dec	sp
+   0128 15 81               848 	dec	sp
+   012A 15 81               849 	dec	sp
+   012C 60 4D               850 	jz	00106$
+                            851 ;	../../core/net/rime/channel.c:84: if(c->channelno == channelno) {
+   012E 74 03               852 	mov	a,#0x03
+   0130 2B                  853 	add	a,r3
+   0131 FA                  854 	mov	r2,a
+   0132 E4                  855 	clr	a
+   0133 3C                  856 	addc	a,r4
+   0134 FE                  857 	mov	r6,a
+   0135 8D 07               858 	mov	ar7,r5
+   0137 8A 82               859 	mov	dpl,r2
+   0139 8E 83               860 	mov	dph,r6
+   013B 8F F0               861 	mov	b,r7
+   013D 12s00r00            862 	lcall	__gptrget
+   0140 FA                  863 	mov	r2,a
+   0141 A3                  864 	inc	dptr
+   0142 12s00r00            865 	lcall	__gptrget
+   0145 FE                  866 	mov	r6,a
+   0146 A8*00               867 	mov	r0,_bp
+   0148 08                  868 	inc	r0
+   0149 E6                  869 	mov	a,@r0
+   014A B5 02 07            870 	cjne	a,ar2,00116$
+   014D 08                  871 	inc	r0
+   014E E6                  872 	mov	a,@r0
+   014F B5 06 02            873 	cjne	a,ar6,00116$
+   0152 80 02               874 	sjmp	00117$
+   0154                     875 00116$:
+   0154 80 08               876 	sjmp	00105$
+   0156                     877 00117$:
+                            878 ;	../../core/net/rime/channel.c:85: return c;
+   0156 8B 82               879 	mov	dpl,r3
+   0158 8C 83               880 	mov	dph,r4
+   015A 8D F0               881 	mov	b,r5
+   015C 80 23               882 	sjmp	00107$
+   015E                     883 00105$:
+                            884 ;	../../core/net/rime/channel.c:83: for(c = list_head(channel_list); c != NULL; c = list_item_next(c)) {
+   015E 8B 02               885 	mov	ar2,r3
+   0160 8C 06               886 	mov	ar6,r4
+   0162 8D 07               887 	mov	ar7,r5
+   0164 8A 82               888 	mov	dpl,r2
+   0166 8E 83               889 	mov	dph,r6
+   0168 8F F0               890 	mov	b,r7
+   016A 12s00r00            891 	lcall	_list_item_next
+   016D AA 82               892 	mov	r2,dpl
+   016F AE 83               893 	mov	r6,dph
+   0171 AF F0               894 	mov	r7,b
+   0173 8A 03               895 	mov	ar3,r2
+   0175 8E 04               896 	mov	ar4,r6
+   0177 8F 05               897 	mov	ar5,r7
+   0179 80 99               898 	sjmp	00103$
+   017B                     899 00106$:
+                            900 ;	../../core/net/rime/channel.c:88: return NULL;
+   017B 90 00 00            901 	mov	dptr,#0x0000
+   017E 75 F0 00            902 	mov	b,#0x00
+   0181                     903 00107$:
+   0181 85*00 81            904 	mov	sp,_bp
+   0184 D0*00               905 	pop	_bp
+   0186 22                  906 	ret
+                            907 	.area CSEG    (CODE)
+                            908 	.area CONST   (CODE)
+                            909 	.area XINIT   (CODE)
+   0000                     910 __xinit__channel_list_list:
+                            911 ; generic printIvalPtr
+   0000 00 00 00            912 	.byte #0x00,#0x00,#0x00
+   0003                     913 __xinit__channel_list:
+   0003r00s00 00            914 	.byte _channel_list_list,(_channel_list_list >> 8),#0x00
+                            915 	.area CABS    (ABS,CODE)

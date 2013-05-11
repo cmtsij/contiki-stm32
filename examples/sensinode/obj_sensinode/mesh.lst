@@ -1,0 +1,1669 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:16 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module mesh
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _route_refresh
+                             13 	.globl _route_lookup
+                             14 	.globl _route_init
+                             15 	.globl _route_discovery_close
+                             16 	.globl _route_discovery_discover
+                             17 	.globl _route_discovery_open
+                             18 	.globl _multihop_resend
+                             19 	.globl _multihop_send
+                             20 	.globl _multihop_close
+                             21 	.globl _multihop_open
+                             22 	.globl _queuebuf_free
+                             23 	.globl _queuebuf_to_packetbuf
+                             24 	.globl _queuebuf_new_from_packetbuf
+                             25 	.globl _rimeaddr_cmp
+                             26 	.globl _rimeaddr_copy
+                             27 	.globl _IRCON2_P2IF
+                             28 	.globl _IRCON2_UTX0IF
+                             29 	.globl _IRCON2_UTX1IF
+                             30 	.globl _IRCON2_P1IF
+                             31 	.globl _IRCON2_WDTIF
+                             32 	.globl _CY
+                             33 	.globl _AC
+                             34 	.globl _F0
+                             35 	.globl _RS1
+                             36 	.globl _RS0
+                             37 	.globl _OV
+                             38 	.globl _F1
+                             39 	.globl _P
+                             40 	.globl _IRCON_DMAIF
+                             41 	.globl _IRCON_T1IF
+                             42 	.globl _IRCON_T2IF
+                             43 	.globl _IRCON_T3IF
+                             44 	.globl _IRCON_T4IF
+                             45 	.globl _IRCON_P0IF
+                             46 	.globl _IRCON_STIF
+                             47 	.globl _IEN1_DMAIE
+                             48 	.globl _IEN1_T1IE
+                             49 	.globl _IEN1_T2IE
+                             50 	.globl _IEN1_T3IE
+                             51 	.globl _IEN1_T4IE
+                             52 	.globl _IEN1_P0IE
+                             53 	.globl _IEN0_RFERRIE
+                             54 	.globl _IEN0_ADCIE
+                             55 	.globl _IEN0_URX0IE
+                             56 	.globl _IEN0_URX1IE
+                             57 	.globl _IEN0_ENCIE
+                             58 	.globl _IEN0_STIE
+                             59 	.globl _IEN0_EA
+                             60 	.globl _EA
+                             61 	.globl _P2_4
+                             62 	.globl _P2_3
+                             63 	.globl _P2_2
+                             64 	.globl _P2_1
+                             65 	.globl _P2_0
+                             66 	.globl _S0CON_ENCIF_0
+                             67 	.globl _S0CON_ENCIF_1
+                             68 	.globl _P1_7
+                             69 	.globl _P1_6
+                             70 	.globl _P1_5
+                             71 	.globl _P1_4
+                             72 	.globl _P1_3
+                             73 	.globl _P1_2
+                             74 	.globl _P1_1
+                             75 	.globl _P1_0
+                             76 	.globl _TCON_IT0
+                             77 	.globl _TCON_RFERRIF
+                             78 	.globl _TCON_IT1
+                             79 	.globl _TCON_URX0IF
+                             80 	.globl _TCON_ADCIF
+                             81 	.globl _TCON_URX1IF
+                             82 	.globl _P0_0
+                             83 	.globl _P0_1
+                             84 	.globl _P0_2
+                             85 	.globl _P0_3
+                             86 	.globl _P0_4
+                             87 	.globl _P0_5
+                             88 	.globl _P0_6
+                             89 	.globl _P0_7
+                             90 	.globl _P2DIR
+                             91 	.globl _P1DIR
+                             92 	.globl _P0DIR
+                             93 	.globl _U1GCR
+                             94 	.globl _U1UCR
+                             95 	.globl _U1BAUD
+                             96 	.globl _U1BUF
+                             97 	.globl _U1CSR
+                             98 	.globl _P2INP
+                             99 	.globl _P1INP
+                            100 	.globl _P2SEL
+                            101 	.globl _P1SEL
+                            102 	.globl _P0SEL
+                            103 	.globl _ADCCFG
+                            104 	.globl _PERCFG
+                            105 	.globl _B
+                            106 	.globl _T4CC1
+                            107 	.globl _T4CCTL1
+                            108 	.globl _T4CC0
+                            109 	.globl _T4CCTL0
+                            110 	.globl _T4CTL
+                            111 	.globl _T4CNT
+                            112 	.globl _RFIF
+                            113 	.globl _IRCON2
+                            114 	.globl _T1CCTL2
+                            115 	.globl _T1CCTL1
+                            116 	.globl _T1CCTL0
+                            117 	.globl _T1CTL
+                            118 	.globl _T1CNTH
+                            119 	.globl _T1CNTL
+                            120 	.globl _RFST
+                            121 	.globl _ACC
+                            122 	.globl _T1CC2H
+                            123 	.globl _T1CC2L
+                            124 	.globl _T1CC1H
+                            125 	.globl _T1CC1L
+                            126 	.globl _T1CC0H
+                            127 	.globl _T1CC0L
+                            128 	.globl _RFD
+                            129 	.globl _TIMIF
+                            130 	.globl _DMAREQ
+                            131 	.globl _DMAARM
+                            132 	.globl _DMA0CFGH
+                            133 	.globl _DMA0CFGL
+                            134 	.globl _DMA1CFGH
+                            135 	.globl _DMA1CFGL
+                            136 	.globl _DMAIRQ
+                            137 	.globl _PSW
+                            138 	.globl _T3CC1
+                            139 	.globl _T3CCTL1
+                            140 	.globl _T3CC0
+                            141 	.globl _T3CCTL0
+                            142 	.globl _T3CTL
+                            143 	.globl _T3CNT
+                            144 	.globl _WDCTL
+                            145 	.globl _T2CON
+                            146 	.globl _MEMCTR
+                            147 	.globl _CLKCON
+                            148 	.globl _U0GCR
+                            149 	.globl _U0UCR
+                            150 	.globl _T2CNF
+                            151 	.globl _U0BAUD
+                            152 	.globl _U0BUF
+                            153 	.globl _IRCON
+                            154 	.globl _SLEEP
+                            155 	.globl _RNDH
+                            156 	.globl _RNDL
+                            157 	.globl _ADCH
+                            158 	.globl _ADCL
+                            159 	.globl _IP1
+                            160 	.globl _IEN1
+                            161 	.globl _RCCTL
+                            162 	.globl _ADCCON3
+                            163 	.globl _ADCCON2
+                            164 	.globl _ADCCON1
+                            165 	.globl _ENCCS
+                            166 	.globl _ENCDO
+                            167 	.globl _ENCDI
+                            168 	.globl _FWDATA
+                            169 	.globl _FCTL
+                            170 	.globl _FADDRH
+                            171 	.globl _FADDRL
+                            172 	.globl _FWT
+                            173 	.globl _IP0
+                            174 	.globl _IEN0
+                            175 	.globl _IE
+                            176 	.globl _T2THD
+                            177 	.globl _T2TLD
+                            178 	.globl _T2CAPHPH
+                            179 	.globl _T2CAPLPL
+                            180 	.globl _T2OF2
+                            181 	.globl _T2OF1
+                            182 	.globl _T2OF0
+                            183 	.globl _P2
+                            184 	.globl _PSBANK
+                            185 	.globl _FMAP
+                            186 	.globl _T2PEROF2
+                            187 	.globl _T2PEROF1
+                            188 	.globl _T2PEROF0
+                            189 	.globl _S1CON
+                            190 	.globl _IEN2
+                            191 	.globl _HSRC
+                            192 	.globl _S0CON
+                            193 	.globl _ST2
+                            194 	.globl _ST1
+                            195 	.globl _ST0
+                            196 	.globl _T2CMP
+                            197 	.globl __XPAGE
+                            198 	.globl _DPS
+                            199 	.globl _RFIM
+                            200 	.globl _P1
+                            201 	.globl _P0INP
+                            202 	.globl _P1IEN
+                            203 	.globl _PICTL
+                            204 	.globl _P2IFG
+                            205 	.globl _P1IFG
+                            206 	.globl _P0IFG
+                            207 	.globl _TCON
+                            208 	.globl _PCON
+                            209 	.globl _U0CSR
+                            210 	.globl _DPH1
+                            211 	.globl _DPL1
+                            212 	.globl _DPH0
+                            213 	.globl _DPL0
+                            214 	.globl _SP
+                            215 	.globl _P0
+                            216 	.globl _ADC_SHADOW
+                            217 	.globl _U1BUF_SHADOW
+                            218 	.globl _RFD_SHADOW
+                            219 	.globl _U0BUF_SHADOW
+                            220 	.globl _RFSTATUS
+                            221 	.globl _CHIPID
+                            222 	.globl _CHVER
+                            223 	.globl _FSMTC1
+                            224 	.globl _RXFIFOCNT
+                            225 	.globl _IOCFG3
+                            226 	.globl _IOCFG2
+                            227 	.globl _IOCFG1
+                            228 	.globl _IOCFG0
+                            229 	.globl _SHORTADDRL
+                            230 	.globl _SHORTADDRH
+                            231 	.globl _PANIDL
+                            232 	.globl _PANIDH
+                            233 	.globl _IEEE_ADDR7
+                            234 	.globl _IEEE_ADDR6
+                            235 	.globl _IEEE_ADDR5
+                            236 	.globl _IEEE_ADDR4
+                            237 	.globl _IEEE_ADDR3
+                            238 	.globl _IEEE_ADDR2
+                            239 	.globl _IEEE_ADDR1
+                            240 	.globl _IEEE_ADDR0
+                            241 	.globl _DACTSTL
+                            242 	.globl _DACTSTH
+                            243 	.globl _ADCTSTL
+                            244 	.globl _ADCTSTH
+                            245 	.globl _FSMSTATE
+                            246 	.globl _AGCCTRLL
+                            247 	.globl _AGCCTRLH
+                            248 	.globl _MANORL
+                            249 	.globl _MANORH
+                            250 	.globl _MANANDL
+                            251 	.globl _MANANDH
+                            252 	.globl _FSMTCL
+                            253 	.globl _FSMTCH
+                            254 	.globl _RFPWR
+                            255 	.globl _CSPT
+                            256 	.globl _CSPCTRL
+                            257 	.globl _CSPZ
+                            258 	.globl _CSPY
+                            259 	.globl _CSPX
+                            260 	.globl _FSCTRLL
+                            261 	.globl _FSCTRLH
+                            262 	.globl _RXCTRL1L
+                            263 	.globl _RXCTRL1H
+                            264 	.globl _RXCTRL0L
+                            265 	.globl _RXCTRL0H
+                            266 	.globl _TXCTRLL
+                            267 	.globl _TXCTRLH
+                            268 	.globl _SYNCWORDL
+                            269 	.globl _SYNCWORDH
+                            270 	.globl _RSSIL
+                            271 	.globl _RSSIH
+                            272 	.globl _MDMCTRL1L
+                            273 	.globl _MDMCTRL1H
+                            274 	.globl _MDMCTRL0L
+                            275 	.globl _MDMCTRL0H
+                            276 	.globl _mesh_open
+                            277 	.globl _mesh_close
+                            278 	.globl _mesh_send
+                            279 ;--------------------------------------------------------
+                            280 ; special function registers
+                            281 ;--------------------------------------------------------
+                            282 	.area RSEG    (ABS,DATA)
+   0000                     283 	.org 0x0000
+                    0080    284 _P0	=	0x0080
+                    0081    285 _SP	=	0x0081
+                    0082    286 _DPL0	=	0x0082
+                    0083    287 _DPH0	=	0x0083
+                    0084    288 _DPL1	=	0x0084
+                    0085    289 _DPH1	=	0x0085
+                    0086    290 _U0CSR	=	0x0086
+                    0087    291 _PCON	=	0x0087
+                    0088    292 _TCON	=	0x0088
+                    0089    293 _P0IFG	=	0x0089
+                    008A    294 _P1IFG	=	0x008a
+                    008B    295 _P2IFG	=	0x008b
+                    008C    296 _PICTL	=	0x008c
+                    008D    297 _P1IEN	=	0x008d
+                    008F    298 _P0INP	=	0x008f
+                    0090    299 _P1	=	0x0090
+                    0091    300 _RFIM	=	0x0091
+                    0092    301 _DPS	=	0x0092
+                    0093    302 __XPAGE	=	0x0093
+                    0094    303 _T2CMP	=	0x0094
+                    0095    304 _ST0	=	0x0095
+                    0096    305 _ST1	=	0x0096
+                    0097    306 _ST2	=	0x0097
+                    0098    307 _S0CON	=	0x0098
+                    0099    308 _HSRC	=	0x0099
+                    009A    309 _IEN2	=	0x009a
+                    009B    310 _S1CON	=	0x009b
+                    009C    311 _T2PEROF0	=	0x009c
+                    009D    312 _T2PEROF1	=	0x009d
+                    009E    313 _T2PEROF2	=	0x009e
+                    009F    314 _FMAP	=	0x009f
+                    009F    315 _PSBANK	=	0x009f
+                    00A0    316 _P2	=	0x00a0
+                    00A1    317 _T2OF0	=	0x00a1
+                    00A2    318 _T2OF1	=	0x00a2
+                    00A3    319 _T2OF2	=	0x00a3
+                    00A4    320 _T2CAPLPL	=	0x00a4
+                    00A5    321 _T2CAPHPH	=	0x00a5
+                    00A6    322 _T2TLD	=	0x00a6
+                    00A7    323 _T2THD	=	0x00a7
+                    00A8    324 _IE	=	0x00a8
+                    00A8    325 _IEN0	=	0x00a8
+                    00A9    326 _IP0	=	0x00a9
+                    00AB    327 _FWT	=	0x00ab
+                    00AC    328 _FADDRL	=	0x00ac
+                    00AD    329 _FADDRH	=	0x00ad
+                    00AE    330 _FCTL	=	0x00ae
+                    00AF    331 _FWDATA	=	0x00af
+                    00B1    332 _ENCDI	=	0x00b1
+                    00B2    333 _ENCDO	=	0x00b2
+                    00B3    334 _ENCCS	=	0x00b3
+                    00B4    335 _ADCCON1	=	0x00b4
+                    00B5    336 _ADCCON2	=	0x00b5
+                    00B6    337 _ADCCON3	=	0x00b6
+                    00B7    338 _RCCTL	=	0x00b7
+                    00B8    339 _IEN1	=	0x00b8
+                    00B9    340 _IP1	=	0x00b9
+                    00BA    341 _ADCL	=	0x00ba
+                    00BB    342 _ADCH	=	0x00bb
+                    00BC    343 _RNDL	=	0x00bc
+                    00BD    344 _RNDH	=	0x00bd
+                    00BE    345 _SLEEP	=	0x00be
+                    00C0    346 _IRCON	=	0x00c0
+                    00C1    347 _U0BUF	=	0x00c1
+                    00C2    348 _U0BAUD	=	0x00c2
+                    00C3    349 _T2CNF	=	0x00c3
+                    00C4    350 _U0UCR	=	0x00c4
+                    00C5    351 _U0GCR	=	0x00c5
+                    00C6    352 _CLKCON	=	0x00c6
+                    00C7    353 _MEMCTR	=	0x00c7
+                    00C8    354 _T2CON	=	0x00c8
+                    00C9    355 _WDCTL	=	0x00c9
+                    00CA    356 _T3CNT	=	0x00ca
+                    00CB    357 _T3CTL	=	0x00cb
+                    00CC    358 _T3CCTL0	=	0x00cc
+                    00CD    359 _T3CC0	=	0x00cd
+                    00CE    360 _T3CCTL1	=	0x00ce
+                    00CF    361 _T3CC1	=	0x00cf
+                    00D0    362 _PSW	=	0x00d0
+                    00D1    363 _DMAIRQ	=	0x00d1
+                    00D2    364 _DMA1CFGL	=	0x00d2
+                    00D3    365 _DMA1CFGH	=	0x00d3
+                    00D4    366 _DMA0CFGL	=	0x00d4
+                    00D5    367 _DMA0CFGH	=	0x00d5
+                    00D6    368 _DMAARM	=	0x00d6
+                    00D7    369 _DMAREQ	=	0x00d7
+                    00D8    370 _TIMIF	=	0x00d8
+                    00D9    371 _RFD	=	0x00d9
+                    00DA    372 _T1CC0L	=	0x00da
+                    00DB    373 _T1CC0H	=	0x00db
+                    00DC    374 _T1CC1L	=	0x00dc
+                    00DD    375 _T1CC1H	=	0x00dd
+                    00DE    376 _T1CC2L	=	0x00de
+                    00DF    377 _T1CC2H	=	0x00df
+                    00E0    378 _ACC	=	0x00e0
+                    00E1    379 _RFST	=	0x00e1
+                    00E2    380 _T1CNTL	=	0x00e2
+                    00E3    381 _T1CNTH	=	0x00e3
+                    00E4    382 _T1CTL	=	0x00e4
+                    00E5    383 _T1CCTL0	=	0x00e5
+                    00E6    384 _T1CCTL1	=	0x00e6
+                    00E7    385 _T1CCTL2	=	0x00e7
+                    00E8    386 _IRCON2	=	0x00e8
+                    00E9    387 _RFIF	=	0x00e9
+                    00EA    388 _T4CNT	=	0x00ea
+                    00EB    389 _T4CTL	=	0x00eb
+                    00EC    390 _T4CCTL0	=	0x00ec
+                    00ED    391 _T4CC0	=	0x00ed
+                    00EE    392 _T4CCTL1	=	0x00ee
+                    00EF    393 _T4CC1	=	0x00ef
+                    00F0    394 _B	=	0x00f0
+                    00F1    395 _PERCFG	=	0x00f1
+                    00F2    396 _ADCCFG	=	0x00f2
+                    00F3    397 _P0SEL	=	0x00f3
+                    00F4    398 _P1SEL	=	0x00f4
+                    00F5    399 _P2SEL	=	0x00f5
+                    00F6    400 _P1INP	=	0x00f6
+                    00F7    401 _P2INP	=	0x00f7
+                    00F8    402 _U1CSR	=	0x00f8
+                    00F9    403 _U1BUF	=	0x00f9
+                    00FA    404 _U1BAUD	=	0x00fa
+                    00FB    405 _U1UCR	=	0x00fb
+                    00FC    406 _U1GCR	=	0x00fc
+                    00FD    407 _P0DIR	=	0x00fd
+                    00FE    408 _P1DIR	=	0x00fe
+                    00FF    409 _P2DIR	=	0x00ff
+                            410 ;--------------------------------------------------------
+                            411 ; special function bits
+                            412 ;--------------------------------------------------------
+                            413 	.area RSEG    (ABS,DATA)
+   0000                     414 	.org 0x0000
+                    0087    415 _P0_7	=	0x0087
+                    0086    416 _P0_6	=	0x0086
+                    0085    417 _P0_5	=	0x0085
+                    0084    418 _P0_4	=	0x0084
+                    0083    419 _P0_3	=	0x0083
+                    0082    420 _P0_2	=	0x0082
+                    0081    421 _P0_1	=	0x0081
+                    0080    422 _P0_0	=	0x0080
+                    008F    423 _TCON_URX1IF	=	0x008f
+                    008D    424 _TCON_ADCIF	=	0x008d
+                    008B    425 _TCON_URX0IF	=	0x008b
+                    008A    426 _TCON_IT1	=	0x008a
+                    0089    427 _TCON_RFERRIF	=	0x0089
+                    0088    428 _TCON_IT0	=	0x0088
+                    0090    429 _P1_0	=	0x0090
+                    0091    430 _P1_1	=	0x0091
+                    0092    431 _P1_2	=	0x0092
+                    0093    432 _P1_3	=	0x0093
+                    0094    433 _P1_4	=	0x0094
+                    0095    434 _P1_5	=	0x0095
+                    0096    435 _P1_6	=	0x0096
+                    0097    436 _P1_7	=	0x0097
+                    0099    437 _S0CON_ENCIF_1	=	0x0099
+                    0098    438 _S0CON_ENCIF_0	=	0x0098
+                    00A0    439 _P2_0	=	0x00a0
+                    00A1    440 _P2_1	=	0x00a1
+                    00A2    441 _P2_2	=	0x00a2
+                    00A3    442 _P2_3	=	0x00a3
+                    00A4    443 _P2_4	=	0x00a4
+                    00AF    444 _EA	=	0x00af
+                    00AF    445 _IEN0_EA	=	0x00af
+                    00AD    446 _IEN0_STIE	=	0x00ad
+                    00AC    447 _IEN0_ENCIE	=	0x00ac
+                    00AB    448 _IEN0_URX1IE	=	0x00ab
+                    00AA    449 _IEN0_URX0IE	=	0x00aa
+                    00A9    450 _IEN0_ADCIE	=	0x00a9
+                    00A8    451 _IEN0_RFERRIE	=	0x00a8
+                    00BD    452 _IEN1_P0IE	=	0x00bd
+                    00BC    453 _IEN1_T4IE	=	0x00bc
+                    00BB    454 _IEN1_T3IE	=	0x00bb
+                    00BA    455 _IEN1_T2IE	=	0x00ba
+                    00B9    456 _IEN1_T1IE	=	0x00b9
+                    00B8    457 _IEN1_DMAIE	=	0x00b8
+                    00C7    458 _IRCON_STIF	=	0x00c7
+                    00C5    459 _IRCON_P0IF	=	0x00c5
+                    00C4    460 _IRCON_T4IF	=	0x00c4
+                    00C3    461 _IRCON_T3IF	=	0x00c3
+                    00C2    462 _IRCON_T2IF	=	0x00c2
+                    00C1    463 _IRCON_T1IF	=	0x00c1
+                    00C0    464 _IRCON_DMAIF	=	0x00c0
+                    00D0    465 _P	=	0x00d0
+                    00D1    466 _F1	=	0x00d1
+                    00D2    467 _OV	=	0x00d2
+                    00D3    468 _RS0	=	0x00d3
+                    00D4    469 _RS1	=	0x00d4
+                    00D5    470 _F0	=	0x00d5
+                    00D6    471 _AC	=	0x00d6
+                    00D7    472 _CY	=	0x00d7
+                    00EC    473 _IRCON2_WDTIF	=	0x00ec
+                    00EB    474 _IRCON2_P1IF	=	0x00eb
+                    00EA    475 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    476 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    477 _IRCON2_P2IF	=	0x00e8
+                            478 ;--------------------------------------------------------
+                            479 ; overlayable register banks
+                            480 ;--------------------------------------------------------
+                            481 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     482 	.ds 8
+                            483 ;--------------------------------------------------------
+                            484 ; internal ram data
+                            485 ;--------------------------------------------------------
+                            486 	.area DSEG    (DATA)
+                            487 ;--------------------------------------------------------
+                            488 ; overlayable items in internal ram 
+                            489 ;--------------------------------------------------------
+                            490 	.area OSEG    (OVR,DATA)
+                            491 ;--------------------------------------------------------
+                            492 ; indirectly addressable internal ram data
+                            493 ;--------------------------------------------------------
+                            494 	.area ISEG    (DATA)
+                            495 ;--------------------------------------------------------
+                            496 ; absolute internal ram data
+                            497 ;--------------------------------------------------------
+                            498 	.area IABS    (ABS,DATA)
+                            499 	.area IABS    (ABS,DATA)
+                            500 ;--------------------------------------------------------
+                            501 ; bit data
+                            502 ;--------------------------------------------------------
+                            503 	.area BSEG    (BIT)
+                            504 ;--------------------------------------------------------
+                            505 ; paged external ram data
+                            506 ;--------------------------------------------------------
+                            507 	.area PSEG    (PAG,XDATA)
+                            508 ;--------------------------------------------------------
+                            509 ; external ram data
+                            510 ;--------------------------------------------------------
+                            511 	.area XSEG    (XDATA)
+                    DF02    512 _MDMCTRL0H	=	0xdf02
+                    DF03    513 _MDMCTRL0L	=	0xdf03
+                    DF04    514 _MDMCTRL1H	=	0xdf04
+                    DF05    515 _MDMCTRL1L	=	0xdf05
+                    DF06    516 _RSSIH	=	0xdf06
+                    DF07    517 _RSSIL	=	0xdf07
+                    DF08    518 _SYNCWORDH	=	0xdf08
+                    DF09    519 _SYNCWORDL	=	0xdf09
+                    DF0A    520 _TXCTRLH	=	0xdf0a
+                    DF0B    521 _TXCTRLL	=	0xdf0b
+                    DF0C    522 _RXCTRL0H	=	0xdf0c
+                    DF0D    523 _RXCTRL0L	=	0xdf0d
+                    DF0E    524 _RXCTRL1H	=	0xdf0e
+                    DF0F    525 _RXCTRL1L	=	0xdf0f
+                    DF10    526 _FSCTRLH	=	0xdf10
+                    DF11    527 _FSCTRLL	=	0xdf11
+                    DF12    528 _CSPX	=	0xdf12
+                    DF13    529 _CSPY	=	0xdf13
+                    DF14    530 _CSPZ	=	0xdf14
+                    DF15    531 _CSPCTRL	=	0xdf15
+                    DF16    532 _CSPT	=	0xdf16
+                    DF17    533 _RFPWR	=	0xdf17
+                    DF20    534 _FSMTCH	=	0xdf20
+                    DF21    535 _FSMTCL	=	0xdf21
+                    DF22    536 _MANANDH	=	0xdf22
+                    DF23    537 _MANANDL	=	0xdf23
+                    DF24    538 _MANORH	=	0xdf24
+                    DF25    539 _MANORL	=	0xdf25
+                    DF26    540 _AGCCTRLH	=	0xdf26
+                    DF27    541 _AGCCTRLL	=	0xdf27
+                    DF39    542 _FSMSTATE	=	0xdf39
+                    DF3A    543 _ADCTSTH	=	0xdf3a
+                    DF3B    544 _ADCTSTL	=	0xdf3b
+                    DF3C    545 _DACTSTH	=	0xdf3c
+                    DF3D    546 _DACTSTL	=	0xdf3d
+                    DF43    547 _IEEE_ADDR0	=	0xdf43
+                    DF44    548 _IEEE_ADDR1	=	0xdf44
+                    DF45    549 _IEEE_ADDR2	=	0xdf45
+                    DF46    550 _IEEE_ADDR3	=	0xdf46
+                    DF47    551 _IEEE_ADDR4	=	0xdf47
+                    DF48    552 _IEEE_ADDR5	=	0xdf48
+                    DF49    553 _IEEE_ADDR6	=	0xdf49
+                    DF4A    554 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    555 _PANIDH	=	0xdf4b
+                    DF4C    556 _PANIDL	=	0xdf4c
+                    DF4D    557 _SHORTADDRH	=	0xdf4d
+                    DF4E    558 _SHORTADDRL	=	0xdf4e
+                    DF4F    559 _IOCFG0	=	0xdf4f
+                    DF50    560 _IOCFG1	=	0xdf50
+                    DF51    561 _IOCFG2	=	0xdf51
+                    DF52    562 _IOCFG3	=	0xdf52
+                    DF53    563 _RXFIFOCNT	=	0xdf53
+                    DF54    564 _FSMTC1	=	0xdf54
+                    DF60    565 _CHVER	=	0xdf60
+                    DF61    566 _CHIPID	=	0xdf61
+                    DF62    567 _RFSTATUS	=	0xdf62
+                    DFC1    568 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    569 _RFD_SHADOW	=	0xdfd9
+                    DFF9    570 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    571 _ADC_SHADOW	=	0xdfba
+                            572 ;--------------------------------------------------------
+                            573 ; absolute external ram data
+                            574 ;--------------------------------------------------------
+                            575 	.area XABS    (ABS,XDATA)
+                            576 ;--------------------------------------------------------
+                            577 ; external initialized ram data
+                            578 ;--------------------------------------------------------
+                            579 	.area XISEG   (XDATA)
+                            580 	.area HOME    (CODE)
+                            581 	.area GSINIT0 (CODE)
+                            582 	.area GSINIT1 (CODE)
+                            583 	.area GSINIT2 (CODE)
+                            584 	.area GSINIT3 (CODE)
+                            585 	.area GSINIT4 (CODE)
+                            586 	.area GSINIT5 (CODE)
+                            587 	.area GSINIT  (CODE)
+                            588 	.area GSFINAL (CODE)
+                            589 	.area CSEG    (CODE)
+                            590 ;--------------------------------------------------------
+                            591 ; global & static initialisations
+                            592 ;--------------------------------------------------------
+                            593 	.area HOME    (CODE)
+                            594 	.area GSINIT  (CODE)
+                            595 	.area GSFINAL (CODE)
+                            596 	.area GSINIT  (CODE)
+                            597 ;--------------------------------------------------------
+                            598 ; Home
+                            599 ;--------------------------------------------------------
+                            600 	.area HOME    (CODE)
+                            601 	.area HOME    (CODE)
+                            602 ;--------------------------------------------------------
+                            603 ; code
+                            604 ;--------------------------------------------------------
+                            605 	.area CSEG    (CODE)
+                            606 ;------------------------------------------------------------
+                            607 ;Allocation info for local variables in function 'data_packet_received'
+                            608 ;------------------------------------------------------------
+                            609 ;from                      Allocated to stack - _bp -5
+                            610 ;prevhop                   Allocated to stack - _bp -8
+                            611 ;hops                      Allocated to stack - _bp -9
+                            612 ;multihop                  Allocated to registers r5 r6 r7 
+                            613 ;c                         Allocated to registers r5 r6 r7 
+                            614 ;rt                        Allocated to registers r2 r3 r4 
+                            615 ;------------------------------------------------------------
+                            616 ;	../../core/net/rime/mesh.c:65: data_packet_received(struct multihop_conn *multihop,
+                            617 ;	-----------------------------------------
+                            618 ;	 function data_packet_received
+                            619 ;	-----------------------------------------
+   0000                     620 _data_packet_received:
+                    0007    621 	ar7 = 0x07
+                    0006    622 	ar6 = 0x06
+                    0005    623 	ar5 = 0x05
+                    0004    624 	ar4 = 0x04
+                    0003    625 	ar3 = 0x03
+                    0002    626 	ar2 = 0x02
+                    0001    627 	ar1 = 0x01
+                    0000    628 	ar0 = 0x00
+   0000 C0*00               629 	push	_bp
+   0002 85 81*00            630 	mov	_bp,sp
+   0005 AD 82               631 	mov	r5,dpl
+   0007 AE 83               632 	mov	r6,dph
+   0009 AF F0               633 	mov	r7,b
+                            634 ;	../../core/net/rime/mesh.c:69: struct mesh_conn *c = (struct mesh_conn *)
+                            635 ;	../../core/net/rime/mesh.c:75: rt = route_lookup(from);
+   000B E5*00               636 	mov	a,_bp
+   000D 24 FB               637 	add	a,#0xfb
+   000F F8                  638 	mov	r0,a
+   0010 86 82               639 	mov	dpl,@r0
+   0012 08                  640 	inc	r0
+   0013 86 83               641 	mov	dph,@r0
+   0015 08                  642 	inc	r0
+   0016 86 F0               643 	mov	b,@r0
+   0018 C0 07               644 	push	ar7
+   001A C0 06               645 	push	ar6
+   001C C0 05               646 	push	ar5
+   001E 12s00r00            647 	lcall	_route_lookup
+   0021 AA 82               648 	mov	r2,dpl
+   0023 AB 83               649 	mov	r3,dph
+   0025 AC F0               650 	mov	r4,b
+   0027 D0 05               651 	pop	ar5
+   0029 D0 06               652 	pop	ar6
+   002B D0 07               653 	pop	ar7
+                            654 ;	../../core/net/rime/mesh.c:76: if(rt != NULL) {
+   002D EA                  655 	mov	a,r2
+   002E 4B                  656 	orl	a,r3
+   002F 60 15               657 	jz	00102$
+                            658 ;	../../core/net/rime/mesh.c:77: route_refresh(rt);
+   0031 8A 82               659 	mov	dpl,r2
+   0033 8B 83               660 	mov	dph,r3
+   0035 8C F0               661 	mov	b,r4
+   0037 C0 07               662 	push	ar7
+   0039 C0 06               663 	push	ar6
+   003B C0 05               664 	push	ar5
+   003D 12s00r00            665 	lcall	_route_refresh
+   0040 D0 05               666 	pop	ar5
+   0042 D0 06               667 	pop	ar6
+   0044 D0 07               668 	pop	ar7
+   0046                     669 00102$:
+                            670 ;	../../core/net/rime/mesh.c:80: if(c->cb->recv) {
+   0046 74 7F               671 	mov	a,#0x7F
+   0048 2D                  672 	add	a,r5
+   0049 FA                  673 	mov	r2,a
+   004A E4                  674 	clr	a
+   004B 3E                  675 	addc	a,r6
+   004C FB                  676 	mov	r3,a
+   004D 8F 04               677 	mov	ar4,r7
+   004F 8A 82               678 	mov	dpl,r2
+   0051 8B 83               679 	mov	dph,r3
+   0053 8C F0               680 	mov	b,r4
+   0055 12s00r00            681 	lcall	__gptrget
+   0058 FA                  682 	mov	r2,a
+   0059 A3                  683 	inc	dptr
+   005A 12s00r00            684 	lcall	__gptrget
+   005D FB                  685 	mov	r3,a
+   005E A3                  686 	inc	dptr
+   005F 12s00r00            687 	lcall	__gptrget
+   0062 FC                  688 	mov	r4,a
+   0063 8A 82               689 	mov	dpl,r2
+   0065 8B 83               690 	mov	dph,r3
+   0067 8C F0               691 	mov	b,r4
+   0069 12s00r00            692 	lcall	__gptrget
+   006C FB                  693 	mov	r3,a
+   006D A3                  694 	inc	dptr
+   006E 12s00r00            695 	lcall	__gptrget
+   0071 FC                  696 	mov	r4,a
+   0072 4B                  697 	orl	a,r3
+   0073 60 39               698 	jz	00105$
+                            699 ;	../../core/net/rime/mesh.c:81: c->cb->recv(c, from, hops);
+   0075 C0 04               700 	push	ar4
+   0077 C0 03               701 	push	ar3
+   0079 E5*00               702 	mov	a,_bp
+   007B 24 F7               703 	add	a,#0xf7
+   007D F8                  704 	mov	r0,a
+   007E E6                  705 	mov	a,@r0
+   007F C0 E0               706 	push	acc
+   0081 E5*00               707 	mov	a,_bp
+   0083 24 FB               708 	add	a,#0xfb
+   0085 F8                  709 	mov	r0,a
+   0086 E6                  710 	mov	a,@r0
+   0087 C0 E0               711 	push	acc
+   0089 08                  712 	inc	r0
+   008A E6                  713 	mov	a,@r0
+   008B C0 E0               714 	push	acc
+   008D 08                  715 	inc	r0
+   008E E6                  716 	mov	a,@r0
+   008F C0 E0               717 	push	acc
+   0091 74rA4               718 	mov	a,#00113$
+   0093 C0 E0               719 	push	acc
+   0095 74s00               720 	mov	a,#(00113$ >> 8)
+   0097 C0 E0               721 	push	acc
+   0099 C0 03               722 	push	ar3
+   009B C0 04               723 	push	ar4
+   009D 8D 82               724 	mov	dpl,r5
+   009F 8E 83               725 	mov	dph,r6
+   00A1 8F F0               726 	mov	b,r7
+   00A3 22                  727 	ret
+   00A4                     728 00113$:
+   00A4 E5 81               729 	mov	a,sp
+   00A6 24 FC               730 	add	a,#0xfc
+   00A8 F5 81               731 	mov	sp,a
+   00AA D0 03               732 	pop	ar3
+   00AC D0 04               733 	pop	ar4
+   00AE                     734 00105$:
+   00AE D0*00               735 	pop	_bp
+   00B0 22                  736 	ret
+                            737 ;------------------------------------------------------------
+                            738 ;Allocation info for local variables in function 'data_packet_forward'
+                            739 ;------------------------------------------------------------
+                            740 ;originator                Allocated to stack - _bp -5
+                            741 ;dest                      Allocated to stack - _bp -8
+                            742 ;prevhop                   Allocated to stack - _bp -11
+                            743 ;hops                      Allocated to stack - _bp -12
+                            744 ;multihop                  Allocated to registers r5 r6 r7 
+                            745 ;rt                        Allocated to registers r2 r3 r4 
+                            746 ;c                         Allocated to stack - _bp +1
+                            747 ;sloc0                     Allocated to stack - _bp +10
+                            748 ;sloc1                     Allocated to stack - _bp +13
+                            749 ;------------------------------------------------------------
+                            750 ;	../../core/net/rime/mesh.c:86: data_packet_forward(struct multihop_conn *multihop,
+                            751 ;	-----------------------------------------
+                            752 ;	 function data_packet_forward
+                            753 ;	-----------------------------------------
+   00B1                     754 _data_packet_forward:
+   00B1 C0*00               755 	push	_bp
+   00B3 85 81*00            756 	mov	_bp,sp
+   00B6 05 81               757 	inc	sp
+   00B8 05 81               758 	inc	sp
+   00BA 05 81               759 	inc	sp
+   00BC AD 82               760 	mov	r5,dpl
+   00BE AE 83               761 	mov	r6,dph
+   00C0 AF F0               762 	mov	r7,b
+                            763 ;	../../core/net/rime/mesh.c:92: struct mesh_conn *c = (struct mesh_conn *)
+   00C2 A8*00               764 	mov	r0,_bp
+   00C4 08                  765 	inc	r0
+   00C5 A6 05               766 	mov	@r0,ar5
+   00C7 08                  767 	inc	r0
+   00C8 A6 06               768 	mov	@r0,ar6
+   00CA 08                  769 	inc	r0
+   00CB A6 07               770 	mov	@r0,ar7
+                            771 ;	../../core/net/rime/mesh.c:95: rt = route_lookup(dest);
+   00CD E5*00               772 	mov	a,_bp
+   00CF 24 F8               773 	add	a,#0xf8
+   00D1 F8                  774 	mov	r0,a
+   00D2 86 82               775 	mov	dpl,@r0
+   00D4 08                  776 	inc	r0
+   00D5 86 83               777 	mov	dph,@r0
+   00D7 08                  778 	inc	r0
+   00D8 86 F0               779 	mov	b,@r0
+   00DA 12s00r00            780 	lcall	_route_lookup
+   00DD AA 82               781 	mov	r2,dpl
+   00DF AB 83               782 	mov	r3,dph
+   00E1 AC F0               783 	mov	r4,b
+                            784 ;	../../core/net/rime/mesh.c:96: if(rt == NULL) {
+   00E3 EA                  785 	mov	a,r2
+   00E4 4B                  786 	orl	a,r3
+   00E5 60 03               787 	jz	00112$
+   00E7 02s01rB7            788 	ljmp	00104$
+   00EA                     789 00112$:
+                            790 ;	../../core/net/rime/mesh.c:97: if(c->queued_data != NULL) {
+   00EA A8*00               791 	mov	r0,_bp
+   00EC 08                  792 	inc	r0
+   00ED 74 7A               793 	mov	a,#0x7A
+   00EF 26                  794 	add	a,@r0
+   00F0 FC                  795 	mov	r4,a
+   00F1 E4                  796 	clr	a
+   00F2 08                  797 	inc	r0
+   00F3 36                  798 	addc	a,@r0
+   00F4 FB                  799 	mov	r3,a
+   00F5 08                  800 	inc	r0
+   00F6 86 02               801 	mov	ar2,@r0
+   00F8 8C 82               802 	mov	dpl,r4
+   00FA 8B 83               803 	mov	dph,r3
+   00FC 8A F0               804 	mov	b,r2
+   00FE 12s00r00            805 	lcall	__gptrget
+   0101 FF                  806 	mov	r7,a
+   0102 A3                  807 	inc	dptr
+   0103 12s00r00            808 	lcall	__gptrget
+   0106 FE                  809 	mov	r6,a
+   0107 A3                  810 	inc	dptr
+   0108 12s00r00            811 	lcall	__gptrget
+   010B FD                  812 	mov	r5,a
+   010C EF                  813 	mov	a,r7
+   010D 4E                  814 	orl	a,r6
+   010E 60 15               815 	jz	00102$
+                            816 ;	../../core/net/rime/mesh.c:98: queuebuf_free(c->queued_data);
+   0110 8F 82               817 	mov	dpl,r7
+   0112 8E 83               818 	mov	dph,r6
+   0114 8D F0               819 	mov	b,r5
+   0116 C0 04               820 	push	ar4
+   0118 C0 03               821 	push	ar3
+   011A C0 02               822 	push	ar2
+   011C 12s00r00            823 	lcall	_queuebuf_free
+   011F D0 02               824 	pop	ar2
+   0121 D0 03               825 	pop	ar3
+   0123 D0 04               826 	pop	ar4
+   0125                     827 00102$:
+                            828 ;	../../core/net/rime/mesh.c:102: c->queued_data = queuebuf_new_from_packetbuf();
+   0125 C0 04               829 	push	ar4
+   0127 C0 03               830 	push	ar3
+   0129 C0 02               831 	push	ar2
+   012B 12s00r00            832 	lcall	_queuebuf_new_from_packetbuf
+   012E AD 82               833 	mov	r5,dpl
+   0130 AE 83               834 	mov	r6,dph
+   0132 AF F0               835 	mov	r7,b
+   0134 D0 02               836 	pop	ar2
+   0136 D0 03               837 	pop	ar3
+   0138 D0 04               838 	pop	ar4
+   013A 8C 82               839 	mov	dpl,r4
+   013C 8B 83               840 	mov	dph,r3
+   013E 8A F0               841 	mov	b,r2
+   0140 ED                  842 	mov	a,r5
+   0141 12s00r00            843 	lcall	__gptrput
+   0144 A3                  844 	inc	dptr
+   0145 EE                  845 	mov	a,r6
+   0146 12s00r00            846 	lcall	__gptrput
+   0149 A3                  847 	inc	dptr
+   014A EF                  848 	mov	a,r7
+   014B 12s00r00            849 	lcall	__gptrput
+                            850 ;	../../core/net/rime/mesh.c:103: rimeaddr_copy(&c->queued_data_dest, dest);
+   014E A8*00               851 	mov	r0,_bp
+   0150 08                  852 	inc	r0
+   0151 74 7D               853 	mov	a,#0x7D
+   0153 26                  854 	add	a,@r0
+   0154 FD                  855 	mov	r5,a
+   0155 E4                  856 	clr	a
+   0156 08                  857 	inc	r0
+   0157 36                  858 	addc	a,@r0
+   0158 FE                  859 	mov	r6,a
+   0159 08                  860 	inc	r0
+   015A 86 07               861 	mov	ar7,@r0
+   015C E5*00               862 	mov	a,_bp
+   015E 24 F8               863 	add	a,#0xf8
+   0160 F8                  864 	mov	r0,a
+   0161 E6                  865 	mov	a,@r0
+   0162 C0 E0               866 	push	acc
+   0164 08                  867 	inc	r0
+   0165 E6                  868 	mov	a,@r0
+   0166 C0 E0               869 	push	acc
+   0168 08                  870 	inc	r0
+   0169 E6                  871 	mov	a,@r0
+   016A C0 E0               872 	push	acc
+   016C 8D 82               873 	mov	dpl,r5
+   016E 8E 83               874 	mov	dph,r6
+   0170 8F F0               875 	mov	b,r7
+   0172 12s00r00            876 	lcall	_rimeaddr_copy
+   0175 15 81               877 	dec	sp
+   0177 15 81               878 	dec	sp
+   0179 15 81               879 	dec	sp
+                            880 ;	../../core/net/rime/mesh.c:104: route_discovery_discover(&c->route_discovery_conn, dest, PACKET_TIMEOUT);
+   017B A8*00               881 	mov	r0,_bp
+   017D 08                  882 	inc	r0
+   017E 74 15               883 	mov	a,#0x15
+   0180 26                  884 	add	a,@r0
+   0181 FD                  885 	mov	r5,a
+   0182 E4                  886 	clr	a
+   0183 08                  887 	inc	r0
+   0184 36                  888 	addc	a,@r0
+   0185 FE                  889 	mov	r6,a
+   0186 08                  890 	inc	r0
+   0187 86 07               891 	mov	ar7,@r0
+   0189 E4                  892 	clr	a
+   018A C0 E0               893 	push	acc
+   018C 74 05               894 	mov	a,#0x05
+   018E C0 E0               895 	push	acc
+   0190 E5*00               896 	mov	a,_bp
+   0192 24 F8               897 	add	a,#0xf8
+   0194 F8                  898 	mov	r0,a
+   0195 E6                  899 	mov	a,@r0
+   0196 C0 E0               900 	push	acc
+   0198 08                  901 	inc	r0
+   0199 E6                  902 	mov	a,@r0
+   019A C0 E0               903 	push	acc
+   019C 08                  904 	inc	r0
+   019D E6                  905 	mov	a,@r0
+   019E C0 E0               906 	push	acc
+   01A0 8D 82               907 	mov	dpl,r5
+   01A2 8E 83               908 	mov	dph,r6
+   01A4 8F F0               909 	mov	b,r7
+   01A6 12s00r00            910 	lcall	_route_discovery_discover
+   01A9 E5 81               911 	mov	a,sp
+   01AB 24 FB               912 	add	a,#0xfb
+   01AD F5 81               913 	mov	sp,a
+                            914 ;	../../core/net/rime/mesh.c:106: return NULL;
+   01AF 90 00 00            915 	mov	dptr,#0x0000
+   01B2 75 F0 00            916 	mov	b,#0x00
+   01B5 80 22               917 	sjmp	00106$
+   01B7                     918 00104$:
+                            919 ;	../../core/net/rime/mesh.c:108: route_refresh(rt);
+   01B7 8A 82               920 	mov	dpl,r2
+   01B9 8B 83               921 	mov	dph,r3
+   01BB 8C F0               922 	mov	b,r4
+   01BD C0 04               923 	push	ar4
+   01BF C0 03               924 	push	ar3
+   01C1 C0 02               925 	push	ar2
+   01C3 12s00r00            926 	lcall	_route_refresh
+   01C6 D0 02               927 	pop	ar2
+   01C8 D0 03               928 	pop	ar3
+   01CA D0 04               929 	pop	ar4
+                            930 ;	../../core/net/rime/mesh.c:111: return &rt->nexthop;
+   01CC 74 05               931 	mov	a,#0x05
+   01CE 2A                  932 	add	a,r2
+   01CF FA                  933 	mov	r2,a
+   01D0 E4                  934 	clr	a
+   01D1 3B                  935 	addc	a,r3
+   01D2 FB                  936 	mov	r3,a
+   01D3 8A 82               937 	mov	dpl,r2
+   01D5 8B 83               938 	mov	dph,r3
+   01D7 8C F0               939 	mov	b,r4
+   01D9                     940 00106$:
+   01D9 85*00 81            941 	mov	sp,_bp
+   01DC D0*00               942 	pop	_bp
+   01DE 22                  943 	ret
+                            944 ;------------------------------------------------------------
+                            945 ;Allocation info for local variables in function 'found_route'
+                            946 ;------------------------------------------------------------
+                            947 ;dest                      Allocated to stack - _bp -5
+                            948 ;rdc                       Allocated to registers r5 r6 r7 
+                            949 ;rt                        Allocated to registers r5 r6 r7 
+                            950 ;c                         Allocated to stack - _bp +1
+                            951 ;------------------------------------------------------------
+                            952 ;	../../core/net/rime/mesh.c:115: found_route(struct route_discovery_conn *rdc, const rimeaddr_t *dest)
+                            953 ;	-----------------------------------------
+                            954 ;	 function found_route
+                            955 ;	-----------------------------------------
+   01DF                     956 _found_route:
+   01DF C0*00               957 	push	_bp
+   01E1 85 81*00            958 	mov	_bp,sp
+   01E4 05 81               959 	inc	sp
+   01E6 05 81               960 	inc	sp
+   01E8 05 81               961 	inc	sp
+   01EA AD 82               962 	mov	r5,dpl
+   01EC AE 83               963 	mov	r6,dph
+   01EE AF F0               964 	mov	r7,b
+                            965 ;	../../core/net/rime/mesh.c:118: struct mesh_conn *c = (struct mesh_conn *)
+   01F0 ED                  966 	mov	a,r5
+   01F1 24 EB               967 	add	a,#0xEB
+   01F3 FD                  968 	mov	r5,a
+   01F4 EE                  969 	mov	a,r6
+   01F5 34 FF               970 	addc	a,#0xFF
+   01F7 FE                  971 	mov	r6,a
+   01F8 A8*00               972 	mov	r0,_bp
+   01FA 08                  973 	inc	r0
+   01FB A6 05               974 	mov	@r0,ar5
+   01FD 08                  975 	inc	r0
+   01FE A6 06               976 	mov	@r0,ar6
+   0200 08                  977 	inc	r0
+   0201 A6 07               978 	mov	@r0,ar7
+                            979 ;	../../core/net/rime/mesh.c:123: if(c->queued_data != NULL &&
+   0203 A8*00               980 	mov	r0,_bp
+   0205 08                  981 	inc	r0
+   0206 74 7A               982 	mov	a,#0x7A
+   0208 26                  983 	add	a,@r0
+   0209 FA                  984 	mov	r2,a
+   020A E4                  985 	clr	a
+   020B 08                  986 	inc	r0
+   020C 36                  987 	addc	a,@r0
+   020D FB                  988 	mov	r3,a
+   020E 08                  989 	inc	r0
+   020F 86 04               990 	mov	ar4,@r0
+   0211 8A 82               991 	mov	dpl,r2
+   0213 8B 83               992 	mov	dph,r3
+   0215 8C F0               993 	mov	b,r4
+   0217 12s00r00            994 	lcall	__gptrget
+   021A FD                  995 	mov	r5,a
+   021B A3                  996 	inc	dptr
+   021C 12s00r00            997 	lcall	__gptrget
+   021F FE                  998 	mov	r6,a
+   0220 A3                  999 	inc	dptr
+   0221 12s00r00           1000 	lcall	__gptrget
+   0224 FF                 1001 	mov	r7,a
+   0225 ED                 1002 	mov	a,r5
+   0226 4E                 1003 	orl	a,r6
+   0227 70 03              1004 	jnz	00115$
+   0229 02s03rC0           1005 	ljmp	00107$
+   022C                    1006 00115$:
+                           1007 ;	../../core/net/rime/mesh.c:124: rimeaddr_cmp(dest, &c->queued_data_dest)) {
+   022C A8*00              1008 	mov	r0,_bp
+   022E 08                 1009 	inc	r0
+   022F 74 7D              1010 	mov	a,#0x7D
+   0231 26                 1011 	add	a,@r0
+   0232 FD                 1012 	mov	r5,a
+   0233 E4                 1013 	clr	a
+   0234 08                 1014 	inc	r0
+   0235 36                 1015 	addc	a,@r0
+   0236 FE                 1016 	mov	r6,a
+   0237 08                 1017 	inc	r0
+   0238 86 07              1018 	mov	ar7,@r0
+   023A C0 04              1019 	push	ar4
+   023C C0 03              1020 	push	ar3
+   023E C0 02              1021 	push	ar2
+   0240 C0 05              1022 	push	ar5
+   0242 C0 06              1023 	push	ar6
+   0244 C0 07              1024 	push	ar7
+   0246 E5*00              1025 	mov	a,_bp
+   0248 24 FB              1026 	add	a,#0xfb
+   024A F8                 1027 	mov	r0,a
+   024B 86 82              1028 	mov	dpl,@r0
+   024D 08                 1029 	inc	r0
+   024E 86 83              1030 	mov	dph,@r0
+   0250 08                 1031 	inc	r0
+   0251 86 F0              1032 	mov	b,@r0
+   0253 12s00r00           1033 	lcall	_rimeaddr_cmp
+   0256 AE 82              1034 	mov	r6,dpl
+   0258 AF 83              1035 	mov	r7,dph
+   025A 15 81              1036 	dec	sp
+   025C 15 81              1037 	dec	sp
+   025E 15 81              1038 	dec	sp
+   0260 D0 02              1039 	pop	ar2
+   0262 D0 03              1040 	pop	ar3
+   0264 D0 04              1041 	pop	ar4
+   0266 EE                 1042 	mov	a,r6
+   0267 4F                 1043 	orl	a,r7
+   0268 70 03              1044 	jnz	00116$
+   026A 02s03rC0           1045 	ljmp	00107$
+   026D                    1046 00116$:
+                           1047 ;	../../core/net/rime/mesh.c:125: queuebuf_to_packetbuf(c->queued_data);
+   026D 8A 82              1048 	mov	dpl,r2
+   026F 8B 83              1049 	mov	dph,r3
+   0271 8C F0              1050 	mov	b,r4
+   0273 12s00r00           1051 	lcall	__gptrget
+   0276 FD                 1052 	mov	r5,a
+   0277 A3                 1053 	inc	dptr
+   0278 12s00r00           1054 	lcall	__gptrget
+   027B FE                 1055 	mov	r6,a
+   027C A3                 1056 	inc	dptr
+   027D 12s00r00           1057 	lcall	__gptrget
+   0280 FF                 1058 	mov	r7,a
+   0281 8D 82              1059 	mov	dpl,r5
+   0283 8E 83              1060 	mov	dph,r6
+   0285 8F F0              1061 	mov	b,r7
+   0287 C0 04              1062 	push	ar4
+   0289 C0 03              1063 	push	ar3
+   028B C0 02              1064 	push	ar2
+   028D 12s00r00           1065 	lcall	_queuebuf_to_packetbuf
+   0290 D0 02              1066 	pop	ar2
+   0292 D0 03              1067 	pop	ar3
+   0294 D0 04              1068 	pop	ar4
+                           1069 ;	../../core/net/rime/mesh.c:126: queuebuf_free(c->queued_data);
+   0296 8A 82              1070 	mov	dpl,r2
+   0298 8B 83              1071 	mov	dph,r3
+   029A 8C F0              1072 	mov	b,r4
+   029C 12s00r00           1073 	lcall	__gptrget
+   029F FD                 1074 	mov	r5,a
+   02A0 A3                 1075 	inc	dptr
+   02A1 12s00r00           1076 	lcall	__gptrget
+   02A4 FE                 1077 	mov	r6,a
+   02A5 A3                 1078 	inc	dptr
+   02A6 12s00r00           1079 	lcall	__gptrget
+   02A9 FF                 1080 	mov	r7,a
+   02AA 8D 82              1081 	mov	dpl,r5
+   02AC 8E 83              1082 	mov	dph,r6
+   02AE 8F F0              1083 	mov	b,r7
+   02B0 C0 04              1084 	push	ar4
+   02B2 C0 03              1085 	push	ar3
+   02B4 C0 02              1086 	push	ar2
+   02B6 12s00r00           1087 	lcall	_queuebuf_free
+   02B9 D0 02              1088 	pop	ar2
+   02BB D0 03              1089 	pop	ar3
+   02BD D0 04              1090 	pop	ar4
+                           1091 ;	../../core/net/rime/mesh.c:127: c->queued_data = NULL;
+   02BF 8A 82              1092 	mov	dpl,r2
+   02C1 8B 83              1093 	mov	dph,r3
+   02C3 8C F0              1094 	mov	b,r4
+   02C5 E4                 1095 	clr	a
+   02C6 12s00r00           1096 	lcall	__gptrput
+   02C9 A3                 1097 	inc	dptr
+   02CA E4                 1098 	clr	a
+   02CB 12s00r00           1099 	lcall	__gptrput
+   02CE A3                 1100 	inc	dptr
+   02CF E4                 1101 	clr	a
+   02D0 12s00r00           1102 	lcall	__gptrput
+                           1103 ;	../../core/net/rime/mesh.c:129: rt = route_lookup(dest);
+   02D3 E5*00              1104 	mov	a,_bp
+   02D5 24 FB              1105 	add	a,#0xfb
+   02D7 F8                 1106 	mov	r0,a
+   02D8 86 82              1107 	mov	dpl,@r0
+   02DA 08                 1108 	inc	r0
+   02DB 86 83              1109 	mov	dph,@r0
+   02DD 08                 1110 	inc	r0
+   02DE 86 F0              1111 	mov	b,@r0
+   02E0 12s00r00           1112 	lcall	_route_lookup
+   02E3 AD 82              1113 	mov	r5,dpl
+   02E5 AE 83              1114 	mov	r6,dph
+   02E7 AF F0              1115 	mov	r7,b
+                           1116 ;	../../core/net/rime/mesh.c:130: if (rt != NULL) {
+   02E9 ED                 1117 	mov	a,r5
+   02EA 4E                 1118 	orl	a,r6
+   02EB 60 7B              1119 	jz	00102$
+                           1120 ;	../../core/net/rime/mesh.c:131: multihop_resend(&c->multihop, &rt->nexthop);
+   02ED 74 05              1121 	mov	a,#0x05
+   02EF 2D                 1122 	add	a,r5
+   02F0 FD                 1123 	mov	r5,a
+   02F1 E4                 1124 	clr	a
+   02F2 3E                 1125 	addc	a,r6
+   02F3 FE                 1126 	mov	r6,a
+   02F4 C0 05              1127 	push	ar5
+   02F6 C0 06              1128 	push	ar6
+   02F8 C0 07              1129 	push	ar7
+   02FA A8*00              1130 	mov	r0,_bp
+   02FC 08                 1131 	inc	r0
+   02FD 86 82              1132 	mov	dpl,@r0
+   02FF 08                 1133 	inc	r0
+   0300 86 83              1134 	mov	dph,@r0
+   0302 08                 1135 	inc	r0
+   0303 86 F0              1136 	mov	b,@r0
+   0305 12s00r00           1137 	lcall	_multihop_resend
+   0308 15 81              1138 	dec	sp
+   030A 15 81              1139 	dec	sp
+   030C 15 81              1140 	dec	sp
+                           1141 ;	../../core/net/rime/mesh.c:132: c->cb->sent(c);
+   030E A8*00              1142 	mov	r0,_bp
+   0310 08                 1143 	inc	r0
+   0311 74 7F              1144 	mov	a,#0x7F
+   0313 26                 1145 	add	a,@r0
+   0314 FD                 1146 	mov	r5,a
+   0315 E4                 1147 	clr	a
+   0316 08                 1148 	inc	r0
+   0317 36                 1149 	addc	a,@r0
+   0318 FE                 1150 	mov	r6,a
+   0319 08                 1151 	inc	r0
+   031A 86 07              1152 	mov	ar7,@r0
+   031C 8D 82              1153 	mov	dpl,r5
+   031E 8E 83              1154 	mov	dph,r6
+   0320 8F F0              1155 	mov	b,r7
+   0322 12s00r00           1156 	lcall	__gptrget
+   0325 FD                 1157 	mov	r5,a
+   0326 A3                 1158 	inc	dptr
+   0327 12s00r00           1159 	lcall	__gptrget
+   032A FE                 1160 	mov	r6,a
+   032B A3                 1161 	inc	dptr
+   032C 12s00r00           1162 	lcall	__gptrget
+   032F FF                 1163 	mov	r7,a
+   0330 74 02              1164 	mov	a,#0x02
+   0332 2D                 1165 	add	a,r5
+   0333 FD                 1166 	mov	r5,a
+   0334 E4                 1167 	clr	a
+   0335 3E                 1168 	addc	a,r6
+   0336 FE                 1169 	mov	r6,a
+   0337 8D 82              1170 	mov	dpl,r5
+   0339 8E 83              1171 	mov	dph,r6
+   033B 8F F0              1172 	mov	b,r7
+   033D 12s00r00           1173 	lcall	__gptrget
+   0340 FD                 1174 	mov	r5,a
+   0341 A3                 1175 	inc	dptr
+   0342 12s00r00           1176 	lcall	__gptrget
+   0345 FE                 1177 	mov	r6,a
+   0346 C0 06              1178 	push	ar6
+   0348 C0 05              1179 	push	ar5
+   034A 74r62              1180 	mov	a,#00118$
+   034C C0 E0              1181 	push	acc
+   034E 74s03              1182 	mov	a,#(00118$ >> 8)
+   0350 C0 E0              1183 	push	acc
+   0352 C0 05              1184 	push	ar5
+   0354 C0 06              1185 	push	ar6
+   0356 A8*00              1186 	mov	r0,_bp
+   0358 08                 1187 	inc	r0
+   0359 86 82              1188 	mov	dpl,@r0
+   035B 08                 1189 	inc	r0
+   035C 86 83              1190 	mov	dph,@r0
+   035E 08                 1191 	inc	r0
+   035F 86 F0              1192 	mov	b,@r0
+   0361 22                 1193 	ret
+   0362                    1194 00118$:
+   0362 D0 05              1195 	pop	ar5
+   0364 D0 06              1196 	pop	ar6
+   0366 80 58              1197 	sjmp	00107$
+   0368                    1198 00102$:
+                           1199 ;	../../core/net/rime/mesh.c:134: c->cb->timedout(c);
+   0368 A8*00              1200 	mov	r0,_bp
+   036A 08                 1201 	inc	r0
+   036B 74 7F              1202 	mov	a,#0x7F
+   036D 26                 1203 	add	a,@r0
+   036E FD                 1204 	mov	r5,a
+   036F E4                 1205 	clr	a
+   0370 08                 1206 	inc	r0
+   0371 36                 1207 	addc	a,@r0
+   0372 FE                 1208 	mov	r6,a
+   0373 08                 1209 	inc	r0
+   0374 86 07              1210 	mov	ar7,@r0
+   0376 8D 82              1211 	mov	dpl,r5
+   0378 8E 83              1212 	mov	dph,r6
+   037A 8F F0              1213 	mov	b,r7
+   037C 12s00r00           1214 	lcall	__gptrget
+   037F FD                 1215 	mov	r5,a
+   0380 A3                 1216 	inc	dptr
+   0381 12s00r00           1217 	lcall	__gptrget
+   0384 FE                 1218 	mov	r6,a
+   0385 A3                 1219 	inc	dptr
+   0386 12s00r00           1220 	lcall	__gptrget
+   0389 FF                 1221 	mov	r7,a
+   038A 74 04              1222 	mov	a,#0x04
+   038C 2D                 1223 	add	a,r5
+   038D FD                 1224 	mov	r5,a
+   038E E4                 1225 	clr	a
+   038F 3E                 1226 	addc	a,r6
+   0390 FE                 1227 	mov	r6,a
+   0391 8D 82              1228 	mov	dpl,r5
+   0393 8E 83              1229 	mov	dph,r6
+   0395 8F F0              1230 	mov	b,r7
+   0397 12s00r00           1231 	lcall	__gptrget
+   039A FD                 1232 	mov	r5,a
+   039B A3                 1233 	inc	dptr
+   039C 12s00r00           1234 	lcall	__gptrget
+   039F FE                 1235 	mov	r6,a
+   03A0 C0 06              1236 	push	ar6
+   03A2 C0 05              1237 	push	ar5
+   03A4 74rBC              1238 	mov	a,#00119$
+   03A6 C0 E0              1239 	push	acc
+   03A8 74s03              1240 	mov	a,#(00119$ >> 8)
+   03AA C0 E0              1241 	push	acc
+   03AC C0 05              1242 	push	ar5
+   03AE C0 06              1243 	push	ar6
+   03B0 A8*00              1244 	mov	r0,_bp
+   03B2 08                 1245 	inc	r0
+   03B3 86 82              1246 	mov	dpl,@r0
+   03B5 08                 1247 	inc	r0
+   03B6 86 83              1248 	mov	dph,@r0
+   03B8 08                 1249 	inc	r0
+   03B9 86 F0              1250 	mov	b,@r0
+   03BB 22                 1251 	ret
+   03BC                    1252 00119$:
+   03BC D0 05              1253 	pop	ar5
+   03BE D0 06              1254 	pop	ar6
+   03C0                    1255 00107$:
+   03C0 85*00 81           1256 	mov	sp,_bp
+   03C3 D0*00              1257 	pop	_bp
+   03C5 22                 1258 	ret
+                           1259 ;------------------------------------------------------------
+                           1260 ;Allocation info for local variables in function 'route_timed_out'
+                           1261 ;------------------------------------------------------------
+                           1262 ;rdc                       Allocated to registers r5 r6 r7 
+                           1263 ;c                         Allocated to registers r5 r6 r7 
+                           1264 ;sloc0                     Allocated to stack - _bp +1
+                           1265 ;------------------------------------------------------------
+                           1266 ;	../../core/net/rime/mesh.c:140: route_timed_out(struct route_discovery_conn *rdc)
+                           1267 ;	-----------------------------------------
+                           1268 ;	 function route_timed_out
+                           1269 ;	-----------------------------------------
+   03C6                    1270 _route_timed_out:
+   03C6 C0*00              1271 	push	_bp
+   03C8 85 81*00           1272 	mov	_bp,sp
+   03CB 05 81              1273 	inc	sp
+   03CD 05 81              1274 	inc	sp
+   03CF 05 81              1275 	inc	sp
+   03D1 AD 82              1276 	mov	r5,dpl
+   03D3 AE 83              1277 	mov	r6,dph
+   03D5 AF F0              1278 	mov	r7,b
+                           1279 ;	../../core/net/rime/mesh.c:142: struct mesh_conn *c = (struct mesh_conn *)
+   03D7 ED                 1280 	mov	a,r5
+   03D8 24 EB              1281 	add	a,#0xEB
+   03DA FD                 1282 	mov	r5,a
+   03DB EE                 1283 	mov	a,r6
+   03DC 34 FF              1284 	addc	a,#0xFF
+   03DE FE                 1285 	mov	r6,a
+                           1286 ;	../../core/net/rime/mesh.c:145: if(c->queued_data != NULL) {
+   03DF 74 7A              1287 	mov	a,#0x7A
+   03E1 2D                 1288 	add	a,r5
+   03E2 FA                 1289 	mov	r2,a
+   03E3 E4                 1290 	clr	a
+   03E4 3E                 1291 	addc	a,r6
+   03E5 FB                 1292 	mov	r3,a
+   03E6 8F 04              1293 	mov	ar4,r7
+   03E8 8A 82              1294 	mov	dpl,r2
+   03EA 8B 83              1295 	mov	dph,r3
+   03EC 8C F0              1296 	mov	b,r4
+   03EE A8*00              1297 	mov	r0,_bp
+   03F0 08                 1298 	inc	r0
+   03F1 12s00r00           1299 	lcall	__gptrget
+   03F4 F6                 1300 	mov	@r0,a
+   03F5 A3                 1301 	inc	dptr
+   03F6 12s00r00           1302 	lcall	__gptrget
+   03F9 08                 1303 	inc	r0
+   03FA F6                 1304 	mov	@r0,a
+   03FB A3                 1305 	inc	dptr
+   03FC 12s00r00           1306 	lcall	__gptrget
+   03FF 08                 1307 	inc	r0
+   0400 F6                 1308 	mov	@r0,a
+   0401 A8*00              1309 	mov	r0,_bp
+   0403 08                 1310 	inc	r0
+   0404 E6                 1311 	mov	a,@r0
+   0405 08                 1312 	inc	r0
+   0406 46                 1313 	orl	a,@r0
+   0407 60 3A              1314 	jz	00102$
+                           1315 ;	../../core/net/rime/mesh.c:146: queuebuf_free(c->queued_data);
+   0409 A8*00              1316 	mov	r0,_bp
+   040B 08                 1317 	inc	r0
+   040C 86 82              1318 	mov	dpl,@r0
+   040E 08                 1319 	inc	r0
+   040F 86 83              1320 	mov	dph,@r0
+   0411 08                 1321 	inc	r0
+   0412 86 F0              1322 	mov	b,@r0
+   0414 C0 07              1323 	push	ar7
+   0416 C0 06              1324 	push	ar6
+   0418 C0 05              1325 	push	ar5
+   041A C0 04              1326 	push	ar4
+   041C C0 03              1327 	push	ar3
+   041E C0 02              1328 	push	ar2
+   0420 12s00r00           1329 	lcall	_queuebuf_free
+   0423 D0 02              1330 	pop	ar2
+   0425 D0 03              1331 	pop	ar3
+   0427 D0 04              1332 	pop	ar4
+   0429 D0 05              1333 	pop	ar5
+   042B D0 06              1334 	pop	ar6
+   042D D0 07              1335 	pop	ar7
+                           1336 ;	../../core/net/rime/mesh.c:147: c->queued_data = NULL;
+   042F 8A 82              1337 	mov	dpl,r2
+   0431 8B 83              1338 	mov	dph,r3
+   0433 8C F0              1339 	mov	b,r4
+   0435 E4                 1340 	clr	a
+   0436 12s00r00           1341 	lcall	__gptrput
+   0439 A3                 1342 	inc	dptr
+   043A E4                 1343 	clr	a
+   043B 12s00r00           1344 	lcall	__gptrput
+   043E A3                 1345 	inc	dptr
+   043F E4                 1346 	clr	a
+   0440 12s00r00           1347 	lcall	__gptrput
+   0443                    1348 00102$:
+                           1349 ;	../../core/net/rime/mesh.c:150: if(c->cb->timedout) {
+   0443 74 7F              1350 	mov	a,#0x7F
+   0445 2D                 1351 	add	a,r5
+   0446 FA                 1352 	mov	r2,a
+   0447 E4                 1353 	clr	a
+   0448 3E                 1354 	addc	a,r6
+   0449 FB                 1355 	mov	r3,a
+   044A 8F 04              1356 	mov	ar4,r7
+   044C 8A 82              1357 	mov	dpl,r2
+   044E 8B 83              1358 	mov	dph,r3
+   0450 8C F0              1359 	mov	b,r4
+   0452 12s00r00           1360 	lcall	__gptrget
+   0455 FA                 1361 	mov	r2,a
+   0456 A3                 1362 	inc	dptr
+   0457 12s00r00           1363 	lcall	__gptrget
+   045A FB                 1364 	mov	r3,a
+   045B A3                 1365 	inc	dptr
+   045C 12s00r00           1366 	lcall	__gptrget
+   045F FC                 1367 	mov	r4,a
+   0460 74 04              1368 	mov	a,#0x04
+   0462 2A                 1369 	add	a,r2
+   0463 FA                 1370 	mov	r2,a
+   0464 E4                 1371 	clr	a
+   0465 3B                 1372 	addc	a,r3
+   0466 FB                 1373 	mov	r3,a
+   0467 8A 82              1374 	mov	dpl,r2
+   0469 8B 83              1375 	mov	dph,r3
+   046B 8C F0              1376 	mov	b,r4
+   046D 12s00r00           1377 	lcall	__gptrget
+   0470 FB                 1378 	mov	r3,a
+   0471 A3                 1379 	inc	dptr
+   0472 12s00r00           1380 	lcall	__gptrget
+   0475 FC                 1381 	mov	r4,a
+   0476 4B                 1382 	orl	a,r3
+   0477 60 1B              1383 	jz	00105$
+                           1384 ;	../../core/net/rime/mesh.c:151: c->cb->timedout(c);
+   0479 C0 04              1385 	push	ar4
+   047B C0 03              1386 	push	ar3
+   047D 74r90              1387 	mov	a,#00113$
+   047F C0 E0              1388 	push	acc
+   0481 74s04              1389 	mov	a,#(00113$ >> 8)
+   0483 C0 E0              1390 	push	acc
+   0485 C0 03              1391 	push	ar3
+   0487 C0 04              1392 	push	ar4
+   0489 8D 82              1393 	mov	dpl,r5
+   048B 8E 83              1394 	mov	dph,r6
+   048D 8F F0              1395 	mov	b,r7
+   048F 22                 1396 	ret
+   0490                    1397 00113$:
+   0490 D0 03              1398 	pop	ar3
+   0492 D0 04              1399 	pop	ar4
+   0494                    1400 00105$:
+   0494 85*00 81           1401 	mov	sp,_bp
+   0497 D0*00              1402 	pop	_bp
+   0499 22                 1403 	ret
+                           1404 ;------------------------------------------------------------
+                           1405 ;Allocation info for local variables in function 'mesh_open'
+                           1406 ;------------------------------------------------------------
+                           1407 ;channels                  Allocated to stack - _bp -4
+                           1408 ;callbacks                 Allocated to stack - _bp -7
+                           1409 ;c                         Allocated to stack - _bp +1
+                           1410 ;------------------------------------------------------------
+                           1411 ;	../../core/net/rime/mesh.c:161: mesh_open(struct mesh_conn *c, uint16_t channels,
+                           1412 ;	-----------------------------------------
+                           1413 ;	 function mesh_open
+                           1414 ;	-----------------------------------------
+   049A                    1415 _mesh_open:
+   049A C0*00              1416 	push	_bp
+   049C 85 81*00           1417 	mov	_bp,sp
+   049F C0 82              1418 	push	dpl
+   04A1 C0 83              1419 	push	dph
+   04A3 C0 F0              1420 	push	b
+                           1421 ;	../../core/net/rime/mesh.c:164: route_init();
+   04A5 12s00r00           1422 	lcall	_route_init
+                           1423 ;	../../core/net/rime/mesh.c:165: multihop_open(&c->multihop, channels, &data_callbacks);
+   04A8 74r00              1424 	mov	a,#_data_callbacks
+   04AA C0 E0              1425 	push	acc
+   04AC 74s00              1426 	mov	a,#(_data_callbacks >> 8)
+   04AE C0 E0              1427 	push	acc
+   04B0 74 80              1428 	mov	a,#0x80
+   04B2 C0 E0              1429 	push	acc
+   04B4 E5*00              1430 	mov	a,_bp
+   04B6 24 FC              1431 	add	a,#0xfc
+   04B8 F8                 1432 	mov	r0,a
+   04B9 E6                 1433 	mov	a,@r0
+   04BA C0 E0              1434 	push	acc
+   04BC 08                 1435 	inc	r0
+   04BD E6                 1436 	mov	a,@r0
+   04BE C0 E0              1437 	push	acc
+   04C0 A8*00              1438 	mov	r0,_bp
+   04C2 08                 1439 	inc	r0
+   04C3 86 82              1440 	mov	dpl,@r0
+   04C5 08                 1441 	inc	r0
+   04C6 86 83              1442 	mov	dph,@r0
+   04C8 08                 1443 	inc	r0
+   04C9 86 F0              1444 	mov	b,@r0
+   04CB 12s00r00           1445 	lcall	_multihop_open
+   04CE E5 81              1446 	mov	a,sp
+   04D0 24 FB              1447 	add	a,#0xfb
+   04D2 F5 81              1448 	mov	sp,a
+                           1449 ;	../../core/net/rime/mesh.c:169: &route_discovery_callbacks);
+                           1450 ;	../../core/net/rime/mesh.c:168: channels + 1,
+   04D4 E5*00              1451 	mov	a,_bp
+   04D6 24 FC              1452 	add	a,#0xfc
+   04D8 F8                 1453 	mov	r0,a
+   04D9 74 01              1454 	mov	a,#0x01
+   04DB 26                 1455 	add	a,@r0
+   04DC FB                 1456 	mov	r3,a
+   04DD E4                 1457 	clr	a
+   04DE 08                 1458 	inc	r0
+   04DF 36                 1459 	addc	a,@r0
+   04E0 FC                 1460 	mov	r4,a
+                           1461 ;	../../core/net/rime/mesh.c:166: route_discovery_open(&c->route_discovery_conn,
+   04E1 A8*00              1462 	mov	r0,_bp
+   04E3 08                 1463 	inc	r0
+   04E4 74 15              1464 	mov	a,#0x15
+   04E6 26                 1465 	add	a,@r0
+   04E7 FA                 1466 	mov	r2,a
+   04E8 E4                 1467 	clr	a
+   04E9 08                 1468 	inc	r0
+   04EA 36                 1469 	addc	a,@r0
+   04EB FE                 1470 	mov	r6,a
+   04EC 08                 1471 	inc	r0
+   04ED 86 07              1472 	mov	ar7,@r0
+   04EF 74r04              1473 	mov	a,#_route_discovery_callbacks
+   04F1 C0 E0              1474 	push	acc
+   04F3 74s00              1475 	mov	a,#(_route_discovery_callbacks >> 8)
+   04F5 C0 E0              1476 	push	acc
+   04F7 74 80              1477 	mov	a,#0x80
+   04F9 C0 E0              1478 	push	acc
+   04FB C0 03              1479 	push	ar3
+   04FD C0 04              1480 	push	ar4
+   04FF E4                 1481 	clr	a
+   0500 C0 E0              1482 	push	acc
+   0502 74 01              1483 	mov	a,#0x01
+   0504 C0 E0              1484 	push	acc
+   0506 8A 82              1485 	mov	dpl,r2
+   0508 8E 83              1486 	mov	dph,r6
+   050A 8F F0              1487 	mov	b,r7
+   050C 12s00r00           1488 	lcall	_route_discovery_open
+   050F E5 81              1489 	mov	a,sp
+   0511 24 F9              1490 	add	a,#0xf9
+   0513 F5 81              1491 	mov	sp,a
+                           1492 ;	../../core/net/rime/mesh.c:170: c->cb = callbacks;
+   0515 A8*00              1493 	mov	r0,_bp
+   0517 08                 1494 	inc	r0
+   0518 74 7F              1495 	mov	a,#0x7F
+   051A 26                 1496 	add	a,@r0
+   051B FD                 1497 	mov	r5,a
+   051C E4                 1498 	clr	a
+   051D 08                 1499 	inc	r0
+   051E 36                 1500 	addc	a,@r0
+   051F FE                 1501 	mov	r6,a
+   0520 08                 1502 	inc	r0
+   0521 86 07              1503 	mov	ar7,@r0
+   0523 8D 82              1504 	mov	dpl,r5
+   0525 8E 83              1505 	mov	dph,r6
+   0527 8F F0              1506 	mov	b,r7
+   0529 E5*00              1507 	mov	a,_bp
+   052B 24 F9              1508 	add	a,#0xf9
+   052D F8                 1509 	mov	r0,a
+   052E E6                 1510 	mov	a,@r0
+   052F 12s00r00           1511 	lcall	__gptrput
+   0532 A3                 1512 	inc	dptr
+   0533 08                 1513 	inc	r0
+   0534 E6                 1514 	mov	a,@r0
+   0535 12s00r00           1515 	lcall	__gptrput
+   0538 A3                 1516 	inc	dptr
+   0539 08                 1517 	inc	r0
+   053A E6                 1518 	mov	a,@r0
+   053B 12s00r00           1519 	lcall	__gptrput
+   053E 85*00 81           1520 	mov	sp,_bp
+   0541 D0*00              1521 	pop	_bp
+   0543 22                 1522 	ret
+                           1523 ;------------------------------------------------------------
+                           1524 ;Allocation info for local variables in function 'mesh_close'
+                           1525 ;------------------------------------------------------------
+                           1526 ;c                         Allocated to registers r5 r6 r7 
+                           1527 ;------------------------------------------------------------
+                           1528 ;	../../core/net/rime/mesh.c:174: mesh_close(struct mesh_conn *c)
+                           1529 ;	-----------------------------------------
+                           1530 ;	 function mesh_close
+                           1531 ;	-----------------------------------------
+   0544                    1532 _mesh_close:
+                           1533 ;	../../core/net/rime/mesh.c:176: multihop_close(&c->multihop);
+   0544 AD 82              1534 	mov	r5,dpl
+   0546 AE 83              1535 	mov	r6,dph
+   0548 AF F0              1536 	mov	r7,b
+   054A C0 07              1537 	push	ar7
+   054C C0 06              1538 	push	ar6
+   054E C0 05              1539 	push	ar5
+   0550 12s00r00           1540 	lcall	_multihop_close
+   0553 D0 05              1541 	pop	ar5
+   0555 D0 06              1542 	pop	ar6
+   0557 D0 07              1543 	pop	ar7
+                           1544 ;	../../core/net/rime/mesh.c:177: route_discovery_close(&c->route_discovery_conn);
+   0559 74 15              1545 	mov	a,#0x15
+   055B 2D                 1546 	add	a,r5
+   055C FD                 1547 	mov	r5,a
+   055D E4                 1548 	clr	a
+   055E 3E                 1549 	addc	a,r6
+   055F FE                 1550 	mov	r6,a
+   0560 8D 82              1551 	mov	dpl,r5
+   0562 8E 83              1552 	mov	dph,r6
+   0564 8F F0              1553 	mov	b,r7
+   0566 02s00r00           1554 	ljmp	_route_discovery_close
+                           1555 ;------------------------------------------------------------
+                           1556 ;Allocation info for local variables in function 'mesh_send'
+                           1557 ;------------------------------------------------------------
+                           1558 ;to                        Allocated to stack - _bp -5
+                           1559 ;c                         Allocated to registers r5 r6 r7 
+                           1560 ;could_send                Allocated to registers r3 r4 
+                           1561 ;------------------------------------------------------------
+                           1562 ;	../../core/net/rime/mesh.c:181: mesh_send(struct mesh_conn *c, const rimeaddr_t *to)
+                           1563 ;	-----------------------------------------
+                           1564 ;	 function mesh_send
+                           1565 ;	-----------------------------------------
+   0569                    1566 _mesh_send:
+   0569 C0*00              1567 	push	_bp
+   056B 85 81*00           1568 	mov	_bp,sp
+   056E AD 82              1569 	mov	r5,dpl
+   0570 AE 83              1570 	mov	r6,dph
+   0572 AF F0              1571 	mov	r7,b
+                           1572 ;	../../core/net/rime/mesh.c:189: could_send = multihop_send(&c->multihop, to);
+   0574 C0 07              1573 	push	ar7
+   0576 C0 06              1574 	push	ar6
+   0578 C0 05              1575 	push	ar5
+   057A E5*00              1576 	mov	a,_bp
+   057C 24 FB              1577 	add	a,#0xfb
+   057E F8                 1578 	mov	r0,a
+   057F E6                 1579 	mov	a,@r0
+   0580 C0 E0              1580 	push	acc
+   0582 08                 1581 	inc	r0
+   0583 E6                 1582 	mov	a,@r0
+   0584 C0 E0              1583 	push	acc
+   0586 08                 1584 	inc	r0
+   0587 E6                 1585 	mov	a,@r0
+   0588 C0 E0              1586 	push	acc
+   058A 8D 82              1587 	mov	dpl,r5
+   058C 8E 83              1588 	mov	dph,r6
+   058E 8F F0              1589 	mov	b,r7
+   0590 12s00r00           1590 	lcall	_multihop_send
+   0593 AB 82              1591 	mov	r3,dpl
+   0595 AC 83              1592 	mov	r4,dph
+   0597 15 81              1593 	dec	sp
+   0599 15 81              1594 	dec	sp
+   059B 15 81              1595 	dec	sp
+   059D D0 05              1596 	pop	ar5
+   059F D0 06              1597 	pop	ar6
+   05A1 D0 07              1598 	pop	ar7
+                           1599 ;	../../core/net/rime/mesh.c:191: if(!could_send) {
+   05A3 EB                 1600 	mov	a,r3
+   05A4 4C                 1601 	orl	a,r4
+   05A5 70 05              1602 	jnz	00102$
+                           1603 ;	../../core/net/rime/mesh.c:193: return 0;
+   05A7 90 00 00           1604 	mov	dptr,#0x0000
+   05AA 80 51              1605 	sjmp	00103$
+   05AC                    1606 00102$:
+                           1607 ;	../../core/net/rime/mesh.c:195: c->cb->sent(c);
+   05AC 74 7F              1608 	mov	a,#0x7F
+   05AE 2D                 1609 	add	a,r5
+   05AF FA                 1610 	mov	r2,a
+   05B0 E4                 1611 	clr	a
+   05B1 3E                 1612 	addc	a,r6
+   05B2 FB                 1613 	mov	r3,a
+   05B3 8F 04              1614 	mov	ar4,r7
+   05B5 8A 82              1615 	mov	dpl,r2
+   05B7 8B 83              1616 	mov	dph,r3
+   05B9 8C F0              1617 	mov	b,r4
+   05BB 12s00r00           1618 	lcall	__gptrget
+   05BE FA                 1619 	mov	r2,a
+   05BF A3                 1620 	inc	dptr
+   05C0 12s00r00           1621 	lcall	__gptrget
+   05C3 FB                 1622 	mov	r3,a
+   05C4 A3                 1623 	inc	dptr
+   05C5 12s00r00           1624 	lcall	__gptrget
+   05C8 FC                 1625 	mov	r4,a
+   05C9 74 02              1626 	mov	a,#0x02
+   05CB 2A                 1627 	add	a,r2
+   05CC FA                 1628 	mov	r2,a
+   05CD E4                 1629 	clr	a
+   05CE 3B                 1630 	addc	a,r3
+   05CF FB                 1631 	mov	r3,a
+   05D0 8A 82              1632 	mov	dpl,r2
+   05D2 8B 83              1633 	mov	dph,r3
+   05D4 8C F0              1634 	mov	b,r4
+   05D6 12s00r00           1635 	lcall	__gptrget
+   05D9 FA                 1636 	mov	r2,a
+   05DA A3                 1637 	inc	dptr
+   05DB 12s00r00           1638 	lcall	__gptrget
+   05DE FB                 1639 	mov	r3,a
+   05DF C0 03              1640 	push	ar3
+   05E1 C0 02              1641 	push	ar2
+   05E3 74rF6              1642 	mov	a,#00108$
+   05E5 C0 E0              1643 	push	acc
+   05E7 74s05              1644 	mov	a,#(00108$ >> 8)
+   05E9 C0 E0              1645 	push	acc
+   05EB C0 02              1646 	push	ar2
+   05ED C0 03              1647 	push	ar3
+   05EF 8D 82              1648 	mov	dpl,r5
+   05F1 8E 83              1649 	mov	dph,r6
+   05F3 8F F0              1650 	mov	b,r7
+   05F5 22                 1651 	ret
+   05F6                    1652 00108$:
+   05F6 D0 02              1653 	pop	ar2
+   05F8 D0 03              1654 	pop	ar3
+                           1655 ;	../../core/net/rime/mesh.c:196: return 1;
+   05FA 90 00 01           1656 	mov	dptr,#0x0001
+   05FD                    1657 00103$:
+   05FD D0*00              1658 	pop	_bp
+   05FF 22                 1659 	ret
+                           1660 	.area CSEG    (CODE)
+                           1661 	.area CONST   (CODE)
+   0000                    1662 _data_callbacks:
+   0000r00s00              1663 	.byte _data_packet_received,(_data_packet_received >> 8)
+   0002rB1s00              1664 	.byte _data_packet_forward,(_data_packet_forward >> 8)
+   0004                    1665 _route_discovery_callbacks:
+   0004rDFs01              1666 	.byte _found_route,(_found_route >> 8)
+   0006rC6s03              1667 	.byte _route_timed_out,(_route_timed_out >> 8)
+                           1668 	.area XINIT   (CODE)
+                           1669 	.area CABS    (ABS,CODE)

@@ -1,0 +1,335 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:25 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module crc16
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _crc16_data
+                             13 	.globl _crc16_add
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 	.area RSEG    (ABS,DATA)
+   0000                      18 	.org 0x0000
+                             19 ;--------------------------------------------------------
+                             20 ; special function bits
+                             21 ;--------------------------------------------------------
+                             22 	.area RSEG    (ABS,DATA)
+   0000                      23 	.org 0x0000
+                             24 ;--------------------------------------------------------
+                             25 ; overlayable register banks
+                             26 ;--------------------------------------------------------
+                             27 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                      28 	.ds 8
+                             29 ;--------------------------------------------------------
+                             30 ; internal ram data
+                             31 ;--------------------------------------------------------
+                             32 	.area DSEG    (DATA)
+                             33 ;--------------------------------------------------------
+                             34 ; overlayable items in internal ram 
+                             35 ;--------------------------------------------------------
+                             36 	.area OSEG    (OVR,DATA)
+                             37 ;--------------------------------------------------------
+                             38 ; indirectly addressable internal ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area ISEG    (DATA)
+                             41 ;--------------------------------------------------------
+                             42 ; absolute internal ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area IABS    (ABS,DATA)
+                             45 	.area IABS    (ABS,DATA)
+                             46 ;--------------------------------------------------------
+                             47 ; bit data
+                             48 ;--------------------------------------------------------
+                             49 	.area BSEG    (BIT)
+                             50 ;--------------------------------------------------------
+                             51 ; paged external ram data
+                             52 ;--------------------------------------------------------
+                             53 	.area PSEG    (PAG,XDATA)
+                             54 ;--------------------------------------------------------
+                             55 ; external ram data
+                             56 ;--------------------------------------------------------
+                             57 	.area XSEG    (XDATA)
+                             58 ;--------------------------------------------------------
+                             59 ; absolute external ram data
+                             60 ;--------------------------------------------------------
+                             61 	.area XABS    (ABS,XDATA)
+                             62 ;--------------------------------------------------------
+                             63 ; external initialized ram data
+                             64 ;--------------------------------------------------------
+                             65 	.area XISEG   (XDATA)
+                             66 	.area HOME    (CODE)
+                             67 	.area GSINIT0 (CODE)
+                             68 	.area GSINIT1 (CODE)
+                             69 	.area GSINIT2 (CODE)
+                             70 	.area GSINIT3 (CODE)
+                             71 	.area GSINIT4 (CODE)
+                             72 	.area GSINIT5 (CODE)
+                             73 	.area GSINIT  (CODE)
+                             74 	.area GSFINAL (CODE)
+                             75 	.area CSEG    (CODE)
+                             76 ;--------------------------------------------------------
+                             77 ; global & static initialisations
+                             78 ;--------------------------------------------------------
+                             79 	.area HOME    (CODE)
+                             80 	.area GSINIT  (CODE)
+                             81 	.area GSFINAL (CODE)
+                             82 	.area GSINIT  (CODE)
+                             83 ;--------------------------------------------------------
+                             84 ; Home
+                             85 ;--------------------------------------------------------
+                             86 	.area HOME    (CODE)
+                             87 	.area HOME    (CODE)
+                             88 ;--------------------------------------------------------
+                             89 ; code
+                             90 ;--------------------------------------------------------
+                             91 	.area CSEG    (CODE)
+                             92 ;------------------------------------------------------------
+                             93 ;Allocation info for local variables in function 'crc16_add'
+                             94 ;------------------------------------------------------------
+                             95 ;acc                       Allocated to stack - _bp -4
+                             96 ;b                         Allocated to registers r7 
+                             97 ;------------------------------------------------------------
+                             98 ;	../../core/lib/crc16.c:48: crc16_add(unsigned char b, unsigned short acc)
+                             99 ;	-----------------------------------------
+                            100 ;	 function crc16_add
+                            101 ;	-----------------------------------------
+   0000                     102 _crc16_add:
+                    0007    103 	ar7 = 0x07
+                    0006    104 	ar6 = 0x06
+                    0005    105 	ar5 = 0x05
+                    0004    106 	ar4 = 0x04
+                    0003    107 	ar3 = 0x03
+                    0002    108 	ar2 = 0x02
+                    0001    109 	ar1 = 0x01
+                    0000    110 	ar0 = 0x00
+   0000 C0*00               111 	push	_bp
+   0002 85 81*00            112 	mov	_bp,sp
+   0005 AF 82               113 	mov	r7,dpl
+                            114 ;	../../core/lib/crc16.c:58: acc ^= b;
+   0007 7E 00               115 	mov	r6,#0x00
+   0009 E5*00               116 	mov	a,_bp
+   000B 24 FC               117 	add	a,#0xfc
+   000D F8                  118 	mov	r0,a
+   000E EF                  119 	mov	a,r7
+   000F 66                  120 	xrl	a,@r0
+   0010 F6                  121 	mov	@r0,a
+   0011 EE                  122 	mov	a,r6
+   0012 08                  123 	inc	r0
+   0013 66                  124 	xrl	a,@r0
+   0014 F6                  125 	mov	@r0,a
+                            126 ;	../../core/lib/crc16.c:59: acc  = (acc >> 8) | (acc << 8);
+   0015 E5*00               127 	mov	a,_bp
+   0017 24 FC               128 	add	a,#0xfc
+   0019 F8                  129 	mov	r0,a
+   001A E6                  130 	mov	a,@r0
+   001B 08                  131 	inc	r0
+   001C 18                  132 	dec	r0
+   001D E6                  133 	mov	a,@r0
+   001E F6                  134 	mov	@r0,a
+   001F 08                  135 	inc	r0
+   0020 F6                  136 	mov	@r0,a
+                            137 ;	../../core/lib/crc16.c:60: acc ^= (acc & 0xff00) << 4;
+   0021 E5*00               138 	mov	a,_bp
+   0023 24 FC               139 	add	a,#0xfc
+   0025 F8                  140 	mov	r0,a
+   0026 7E 00               141 	mov	r6,#0x00
+   0028 08                  142 	inc	r0
+   0029 E6                  143 	mov	a,@r0
+   002A C4                  144 	swap	a
+   002B 54 F0               145 	anl	a,#0xF0
+   002D CE                  146 	xch	a,r6
+   002E C4                  147 	swap	a
+   002F CE                  148 	xch	a,r6
+   0030 6E                  149 	xrl	a,r6
+   0031 CE                  150 	xch	a,r6
+   0032 54 F0               151 	anl	a,#0xF0
+   0034 CE                  152 	xch	a,r6
+   0035 6E                  153 	xrl	a,r6
+   0036 FF                  154 	mov	r7,a
+   0037 E5*00               155 	mov	a,_bp
+   0039 24 FC               156 	add	a,#0xfc
+   003B F8                  157 	mov	r0,a
+   003C EE                  158 	mov	a,r6
+   003D 66                  159 	xrl	a,@r0
+   003E F6                  160 	mov	@r0,a
+   003F EF                  161 	mov	a,r7
+   0040 08                  162 	inc	r0
+   0041 66                  163 	xrl	a,@r0
+   0042 F6                  164 	mov	@r0,a
+                            165 ;	../../core/lib/crc16.c:61: acc ^= (acc >> 8) >> 4;
+   0043 E5*00               166 	mov	a,_bp
+   0045 24 FC               167 	add	a,#0xfc
+   0047 F8                  168 	mov	r0,a
+   0048 08                  169 	inc	r0
+   0049 86 06               170 	mov	ar6,@r0
+   004B E4                  171 	clr	a
+   004C C4                  172 	swap	a
+   004D CE                  173 	xch	a,r6
+   004E C4                  174 	swap	a
+   004F 54 0F               175 	anl	a,#0x0F
+   0051 6E                  176 	xrl	a,r6
+   0052 CE                  177 	xch	a,r6
+   0053 54 0F               178 	anl	a,#0x0F
+   0055 CE                  179 	xch	a,r6
+   0056 6E                  180 	xrl	a,r6
+   0057 CE                  181 	xch	a,r6
+   0058 FF                  182 	mov	r7,a
+   0059 E5*00               183 	mov	a,_bp
+   005B 24 FC               184 	add	a,#0xfc
+   005D F8                  185 	mov	r0,a
+   005E EE                  186 	mov	a,r6
+   005F 66                  187 	xrl	a,@r0
+   0060 F6                  188 	mov	@r0,a
+   0061 EF                  189 	mov	a,r7
+   0062 08                  190 	inc	r0
+   0063 66                  191 	xrl	a,@r0
+   0064 F6                  192 	mov	@r0,a
+                            193 ;	../../core/lib/crc16.c:62: acc ^= (acc & 0xff00) >> 5;
+   0065 E5*00               194 	mov	a,_bp
+   0067 24 FC               195 	add	a,#0xfc
+   0069 F8                  196 	mov	r0,a
+   006A 7E 00               197 	mov	r6,#0x00
+   006C 08                  198 	inc	r0
+   006D E6                  199 	mov	a,@r0
+   006E C4                  200 	swap	a
+   006F 03                  201 	rr	a
+   0070 CE                  202 	xch	a,r6
+   0071 C4                  203 	swap	a
+   0072 03                  204 	rr	a
+   0073 54 07               205 	anl	a,#0x07
+   0075 6E                  206 	xrl	a,r6
+   0076 CE                  207 	xch	a,r6
+   0077 54 07               208 	anl	a,#0x07
+   0079 CE                  209 	xch	a,r6
+   007A 6E                  210 	xrl	a,r6
+   007B CE                  211 	xch	a,r6
+   007C FF                  212 	mov	r7,a
+   007D E5*00               213 	mov	a,_bp
+   007F 24 FC               214 	add	a,#0xfc
+   0081 F8                  215 	mov	r0,a
+   0082 EE                  216 	mov	a,r6
+   0083 66                  217 	xrl	a,@r0
+   0084 F6                  218 	mov	@r0,a
+   0085 EF                  219 	mov	a,r7
+   0086 08                  220 	inc	r0
+   0087 66                  221 	xrl	a,@r0
+   0088 F6                  222 	mov	@r0,a
+                            223 ;	../../core/lib/crc16.c:63: return acc;
+   0089 E5*00               224 	mov	a,_bp
+   008B 24 FC               225 	add	a,#0xfc
+   008D F8                  226 	mov	r0,a
+   008E 86 82               227 	mov	dpl,@r0
+   0090 08                  228 	inc	r0
+   0091 86 83               229 	mov	dph,@r0
+   0093 D0*00               230 	pop	_bp
+   0095 22                  231 	ret
+                            232 ;------------------------------------------------------------
+                            233 ;Allocation info for local variables in function 'crc16_data'
+                            234 ;------------------------------------------------------------
+                            235 ;len                       Allocated to stack - _bp -4
+                            236 ;acc                       Allocated to stack - _bp -6
+                            237 ;data                      Allocated to registers 
+                            238 ;i                         Allocated to stack - _bp +1
+                            239 ;------------------------------------------------------------
+                            240 ;	../../core/lib/crc16.c:67: crc16_data(const unsigned char *data, int len, unsigned short acc)
+                            241 ;	-----------------------------------------
+                            242 ;	 function crc16_data
+                            243 ;	-----------------------------------------
+   0096                     244 _crc16_data:
+   0096 C0*00               245 	push	_bp
+   0098 85 81*00            246 	mov	_bp,sp
+   009B 05 81               247 	inc	sp
+   009D 05 81               248 	inc	sp
+   009F AD 82               249 	mov	r5,dpl
+   00A1 AE 83               250 	mov	r6,dph
+   00A3 AF F0               251 	mov	r7,b
+                            252 ;	../../core/lib/crc16.c:71: for(i = 0; i < len; ++i) {
+   00A5 A8*00               253 	mov	r0,_bp
+   00A7 08                  254 	inc	r0
+   00A8 E4                  255 	clr	a
+   00A9 F6                  256 	mov	@r0,a
+   00AA 08                  257 	inc	r0
+   00AB F6                  258 	mov	@r0,a
+   00AC                     259 00101$:
+   00AC A8*00               260 	mov	r0,_bp
+   00AE 08                  261 	inc	r0
+   00AF E5*00               262 	mov	a,_bp
+   00B1 24 FC               263 	add	a,#0xfc
+   00B3 F9                  264 	mov	r1,a
+   00B4 C3                  265 	clr	c
+   00B5 E6                  266 	mov	a,@r0
+   00B6 97                  267 	subb	a,@r1
+   00B7 08                  268 	inc	r0
+   00B8 E6                  269 	mov	a,@r0
+   00B9 64 80               270 	xrl	a,#0x80
+   00BB 09                  271 	inc	r1
+   00BC 87 F0               272 	mov	b,@r1
+   00BE 63 F0 80            273 	xrl	b,#0x80
+   00C1 95 F0               274 	subb	a,b
+   00C3 50 49               275 	jnc	00104$
+                            276 ;	../../core/lib/crc16.c:72: acc = crc16_add(*data, acc);
+   00C5 8D 82               277 	mov	dpl,r5
+   00C7 8E 83               278 	mov	dph,r6
+   00C9 8F F0               279 	mov	b,r7
+   00CB 12s00r00            280 	lcall	__gptrget
+   00CE FA                  281 	mov	r2,a
+   00CF A3                  282 	inc	dptr
+   00D0 AD 82               283 	mov	r5,dpl
+   00D2 AE 83               284 	mov	r6,dph
+   00D4 C0 07               285 	push	ar7
+   00D6 C0 06               286 	push	ar6
+   00D8 C0 05               287 	push	ar5
+   00DA E5*00               288 	mov	a,_bp
+   00DC 24 FA               289 	add	a,#0xfa
+   00DE F8                  290 	mov	r0,a
+   00DF E6                  291 	mov	a,@r0
+   00E0 C0 E0               292 	push	acc
+   00E2 08                  293 	inc	r0
+   00E3 E6                  294 	mov	a,@r0
+   00E4 C0 E0               295 	push	acc
+   00E6 8A 82               296 	mov	dpl,r2
+   00E8 12s00r00            297 	lcall	_crc16_add
+   00EB AA 82               298 	mov	r2,dpl
+   00ED AC 83               299 	mov	r4,dph
+   00EF 15 81               300 	dec	sp
+   00F1 15 81               301 	dec	sp
+   00F3 D0 05               302 	pop	ar5
+   00F5 D0 06               303 	pop	ar6
+   00F7 D0 07               304 	pop	ar7
+   00F9 E5*00               305 	mov	a,_bp
+   00FB 24 FA               306 	add	a,#0xfa
+   00FD F8                  307 	mov	r0,a
+   00FE A6 02               308 	mov	@r0,ar2
+   0100 08                  309 	inc	r0
+   0101 A6 04               310 	mov	@r0,ar4
+                            311 ;	../../core/lib/crc16.c:73: ++data;
+                            312 ;	../../core/lib/crc16.c:71: for(i = 0; i < len; ++i) {
+   0103 A8*00               313 	mov	r0,_bp
+   0105 08                  314 	inc	r0
+   0106 06                  315 	inc	@r0
+   0107 B6 00 02            316 	cjne	@r0,#0x00,00113$
+   010A 08                  317 	inc	r0
+   010B 06                  318 	inc	@r0
+   010C                     319 00113$:
+   010C 80 9E               320 	sjmp	00101$
+   010E                     321 00104$:
+                            322 ;	../../core/lib/crc16.c:75: return acc;
+   010E E5*00               323 	mov	a,_bp
+   0110 24 FA               324 	add	a,#0xfa
+   0112 F8                  325 	mov	r0,a
+   0113 86 82               326 	mov	dpl,@r0
+   0115 08                  327 	inc	r0
+   0116 86 83               328 	mov	dph,@r0
+   0118 85*00 81            329 	mov	sp,_bp
+   011B D0*00               330 	pop	_bp
+   011D 22                  331 	ret
+                            332 	.area CSEG    (CODE)
+                            333 	.area CONST   (CODE)
+                            334 	.area XINIT   (CODE)
+                            335 	.area CABS    (ABS,CODE)

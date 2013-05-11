@@ -1,0 +1,1390 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:16 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module route
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _rimeaddr_cmp
+                             13 	.globl _rimeaddr_copy
+                             14 	.globl _ctimer_set
+                             15 	.globl _memb_free
+                             16 	.globl _memb_alloc
+                             17 	.globl _memb_init
+                             18 	.globl _list_item_next
+                             19 	.globl _list_remove
+                             20 	.globl _list_chop
+                             21 	.globl _list_push
+                             22 	.globl _list_pop
+                             23 	.globl _list_head
+                             24 	.globl _list_init
+                             25 	.globl _route_init
+                             26 	.globl _route_add
+                             27 	.globl _route_lookup
+                             28 	.globl _route_refresh
+                             29 	.globl _route_decay
+                             30 	.globl _route_remove
+                             31 	.globl _route_flush_all
+                             32 	.globl _route_set_lifetime
+                             33 	.globl _route_num
+                             34 	.globl _route_get
+                             35 ;--------------------------------------------------------
+                             36 ; special function registers
+                             37 ;--------------------------------------------------------
+                             38 	.area RSEG    (ABS,DATA)
+   0000                      39 	.org 0x0000
+                             40 ;--------------------------------------------------------
+                             41 ; special function bits
+                             42 ;--------------------------------------------------------
+                             43 	.area RSEG    (ABS,DATA)
+   0000                      44 	.org 0x0000
+                             45 ;--------------------------------------------------------
+                             46 ; overlayable register banks
+                             47 ;--------------------------------------------------------
+                             48 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                      49 	.ds 8
+                             50 ;--------------------------------------------------------
+                             51 ; internal ram data
+                             52 ;--------------------------------------------------------
+                             53 	.area DSEG    (DATA)
+                             54 ;--------------------------------------------------------
+                             55 ; overlayable items in internal ram 
+                             56 ;--------------------------------------------------------
+                             57 	.area OSEG    (OVR,DATA)
+                             58 ;--------------------------------------------------------
+                             59 ; indirectly addressable internal ram data
+                             60 ;--------------------------------------------------------
+                             61 	.area ISEG    (DATA)
+                             62 ;--------------------------------------------------------
+                             63 ; absolute internal ram data
+                             64 ;--------------------------------------------------------
+                             65 	.area IABS    (ABS,DATA)
+                             66 	.area IABS    (ABS,DATA)
+                             67 ;--------------------------------------------------------
+                             68 ; bit data
+                             69 ;--------------------------------------------------------
+                             70 	.area BSEG    (BIT)
+                             71 ;--------------------------------------------------------
+                             72 ; paged external ram data
+                             73 ;--------------------------------------------------------
+                             74 	.area PSEG    (PAG,XDATA)
+                             75 ;--------------------------------------------------------
+                             76 ; external ram data
+                             77 ;--------------------------------------------------------
+                             78 	.area XSEG    (XDATA)
+   0000                      79 _route_mem_memb_count:
+   0000                      80 	.ds 8
+   0008                      81 _route_mem_memb_mem:
+   0008                      82 	.ds 96
+   0068                      83 _t:
+   0068                      84 	.ds 21
+                             85 ;--------------------------------------------------------
+                             86 ; absolute external ram data
+                             87 ;--------------------------------------------------------
+                             88 	.area XABS    (ABS,XDATA)
+                             89 ;--------------------------------------------------------
+                             90 ; external initialized ram data
+                             91 ;--------------------------------------------------------
+                             92 	.area XISEG   (XDATA)
+   0000                      93 _route_table_list:
+   0000                      94 	.ds 3
+   0003                      95 _route_table:
+   0003                      96 	.ds 3
+   0006                      97 _route_mem:
+   0006                      98 	.ds 10
+   0010                      99 _max_time:
+   0010                     100 	.ds 2
+                            101 	.area HOME    (CODE)
+                            102 	.area GSINIT0 (CODE)
+                            103 	.area GSINIT1 (CODE)
+                            104 	.area GSINIT2 (CODE)
+                            105 	.area GSINIT3 (CODE)
+                            106 	.area GSINIT4 (CODE)
+                            107 	.area GSINIT5 (CODE)
+                            108 	.area GSINIT  (CODE)
+                            109 	.area GSFINAL (CODE)
+                            110 	.area CSEG    (CODE)
+                            111 ;--------------------------------------------------------
+                            112 ; global & static initialisations
+                            113 ;--------------------------------------------------------
+                            114 	.area HOME    (CODE)
+                            115 	.area GSINIT  (CODE)
+                            116 	.area GSFINAL (CODE)
+                            117 	.area GSINIT  (CODE)
+                            118 ;--------------------------------------------------------
+                            119 ; Home
+                            120 ;--------------------------------------------------------
+                            121 	.area HOME    (CODE)
+                            122 	.area HOME    (CODE)
+                            123 ;--------------------------------------------------------
+                            124 ; code
+                            125 ;--------------------------------------------------------
+                            126 	.area CSEG    (CODE)
+                            127 ;------------------------------------------------------------
+                            128 ;Allocation info for local variables in function 'periodic'
+                            129 ;------------------------------------------------------------
+                            130 ;ptr                       Allocated to registers 
+                            131 ;e                         Allocated to stack - _bp +1
+                            132 ;------------------------------------------------------------
+                            133 ;	../../core/net/rime/route.c:93: periodic(void *ptr)
+                            134 ;	-----------------------------------------
+                            135 ;	 function periodic
+                            136 ;	-----------------------------------------
+   0000                     137 _periodic:
+                    0007    138 	ar7 = 0x07
+                    0006    139 	ar6 = 0x06
+                    0005    140 	ar5 = 0x05
+                    0004    141 	ar4 = 0x04
+                    0003    142 	ar3 = 0x03
+                    0002    143 	ar2 = 0x02
+                    0001    144 	ar1 = 0x01
+                    0000    145 	ar0 = 0x00
+   0000 C0*00               146 	push	_bp
+   0002 85 81*00            147 	mov	_bp,sp
+   0005 05 81               148 	inc	sp
+   0007 05 81               149 	inc	sp
+   0009 05 81               150 	inc	sp
+                            151 ;	../../core/net/rime/route.c:97: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+   000B 90s00r03            152 	mov	dptr,#_route_table
+   000E E0                  153 	movx	a,@dptr
+   000F FD                  154 	mov	r5,a
+   0010 A3                  155 	inc	dptr
+   0011 E0                  156 	movx	a,@dptr
+   0012 FE                  157 	mov	r6,a
+   0013 A3                  158 	inc	dptr
+   0014 E0                  159 	movx	a,@dptr
+   0015 FF                  160 	mov	r7,a
+   0016 8D 82               161 	mov	dpl,r5
+   0018 8E 83               162 	mov	dph,r6
+   001A 8F F0               163 	mov	b,r7
+   001C 12s00r00            164 	lcall	_list_head
+   001F AD 82               165 	mov	r5,dpl
+   0021 AE 83               166 	mov	r6,dph
+   0023 AF F0               167 	mov	r7,b
+   0025 A8*00               168 	mov	r0,_bp
+   0027 08                  169 	inc	r0
+   0028 A6 05               170 	mov	@r0,ar5
+   002A 08                  171 	inc	r0
+   002B A6 06               172 	mov	@r0,ar6
+   002D 08                  173 	inc	r0
+   002E A6 07               174 	mov	@r0,ar7
+   0030                     175 00103$:
+   0030 A8*00               176 	mov	r0,_bp
+   0032 08                  177 	inc	r0
+   0033 E4                  178 	clr	a
+   0034 C0 E0               179 	push	acc
+   0036 E4                  180 	clr	a
+   0037 C0 E0               181 	push	acc
+   0039 E4                  182 	clr	a
+   003A C0 E0               183 	push	acc
+   003C 86 82               184 	mov	dpl,@r0
+   003E 08                  185 	inc	r0
+   003F 86 83               186 	mov	dph,@r0
+   0041 08                  187 	inc	r0
+   0042 86 F0               188 	mov	b,@r0
+   0044 12s00r00            189 	lcall	___gptr_cmp
+   0047 15 81               190 	dec	sp
+   0049 15 81               191 	dec	sp
+   004B 15 81               192 	dec	sp
+   004D 70 03               193 	jnz	00115$
+   004F 02s01r01            194 	ljmp	00106$
+   0052                     195 00115$:
+                            196 ;	../../core/net/rime/route.c:98: e->time++;
+   0052 A8*00               197 	mov	r0,_bp
+   0054 08                  198 	inc	r0
+   0055 74 09               199 	mov	a,#0x09
+   0057 26                  200 	add	a,@r0
+   0058 FA                  201 	mov	r2,a
+   0059 E4                  202 	clr	a
+   005A 08                  203 	inc	r0
+   005B 36                  204 	addc	a,@r0
+   005C FB                  205 	mov	r3,a
+   005D 08                  206 	inc	r0
+   005E 86 04               207 	mov	ar4,@r0
+   0060 8A 82               208 	mov	dpl,r2
+   0062 8B 83               209 	mov	dph,r3
+   0064 8C F0               210 	mov	b,r4
+   0066 12s00r00            211 	lcall	__gptrget
+   0069 FF                  212 	mov	r7,a
+   006A 0F                  213 	inc	r7
+   006B 8A 82               214 	mov	dpl,r2
+   006D 8B 83               215 	mov	dph,r3
+   006F 8C F0               216 	mov	b,r4
+   0071 EF                  217 	mov	a,r7
+   0072 12s00r00            218 	lcall	__gptrput
+                            219 ;	../../core/net/rime/route.c:99: if(e->time >= max_time) {
+   0075 90s00r10            220 	mov	dptr,#_max_time
+   0078 E0                  221 	movx	a,@dptr
+   0079 FD                  222 	mov	r5,a
+   007A A3                  223 	inc	dptr
+   007B E0                  224 	movx	a,@dptr
+   007C FE                  225 	mov	r6,a
+   007D 7C 00               226 	mov	r4,#0x00
+   007F C3                  227 	clr	c
+   0080 EF                  228 	mov	a,r7
+   0081 9D                  229 	subb	a,r5
+   0082 EC                  230 	mov	a,r4
+   0083 64 80               231 	xrl	a,#0x80
+   0085 8E F0               232 	mov	b,r6
+   0087 63 F0 80            233 	xrl	b,#0x80
+   008A 95 F0               234 	subb	a,b
+   008C 40 4B               235 	jc	00105$
+                            236 ;	../../core/net/rime/route.c:104: list_remove(route_table, e);
+   008E A8*00               237 	mov	r0,_bp
+   0090 08                  238 	inc	r0
+   0091 86 02               239 	mov	ar2,@r0
+   0093 08                  240 	inc	r0
+   0094 86 03               241 	mov	ar3,@r0
+   0096 08                  242 	inc	r0
+   0097 86 04               243 	mov	ar4,@r0
+   0099 90s00r03            244 	mov	dptr,#_route_table
+   009C E0                  245 	movx	a,@dptr
+   009D FD                  246 	mov	r5,a
+   009E A3                  247 	inc	dptr
+   009F E0                  248 	movx	a,@dptr
+   00A0 FE                  249 	mov	r6,a
+   00A1 A3                  250 	inc	dptr
+   00A2 E0                  251 	movx	a,@dptr
+   00A3 FF                  252 	mov	r7,a
+   00A4 C0 02               253 	push	ar2
+   00A6 C0 03               254 	push	ar3
+   00A8 C0 04               255 	push	ar4
+   00AA 8D 82               256 	mov	dpl,r5
+   00AC 8E 83               257 	mov	dph,r6
+   00AE 8F F0               258 	mov	b,r7
+   00B0 12s00r00            259 	lcall	_list_remove
+   00B3 15 81               260 	dec	sp
+   00B5 15 81               261 	dec	sp
+   00B7 15 81               262 	dec	sp
+                            263 ;	../../core/net/rime/route.c:105: memb_free(&route_mem, e);
+   00B9 A8*00               264 	mov	r0,_bp
+   00BB 08                  265 	inc	r0
+   00BC 86 05               266 	mov	ar5,@r0
+   00BE 08                  267 	inc	r0
+   00BF 86 06               268 	mov	ar6,@r0
+   00C1 08                  269 	inc	r0
+   00C2 86 07               270 	mov	ar7,@r0
+   00C4 C0 05               271 	push	ar5
+   00C6 C0 06               272 	push	ar6
+   00C8 C0 07               273 	push	ar7
+   00CA 90s00r06            274 	mov	dptr,#_route_mem
+   00CD 75 F0 00            275 	mov	b,#0x00
+   00D0 12s00r00            276 	lcall	_memb_free
+   00D3 15 81               277 	dec	sp
+   00D5 15 81               278 	dec	sp
+   00D7 15 81               279 	dec	sp
+   00D9                     280 00105$:
+                            281 ;	../../core/net/rime/route.c:97: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+   00D9 A8*00               282 	mov	r0,_bp
+   00DB 08                  283 	inc	r0
+   00DC 86 05               284 	mov	ar5,@r0
+   00DE 08                  285 	inc	r0
+   00DF 86 06               286 	mov	ar6,@r0
+   00E1 08                  287 	inc	r0
+   00E2 86 07               288 	mov	ar7,@r0
+   00E4 8D 82               289 	mov	dpl,r5
+   00E6 8E 83               290 	mov	dph,r6
+   00E8 8F F0               291 	mov	b,r7
+   00EA 12s00r00            292 	lcall	_list_item_next
+   00ED AD 82               293 	mov	r5,dpl
+   00EF AE 83               294 	mov	r6,dph
+   00F1 AF F0               295 	mov	r7,b
+   00F3 A8*00               296 	mov	r0,_bp
+   00F5 08                  297 	inc	r0
+   00F6 A6 05               298 	mov	@r0,ar5
+   00F8 08                  299 	inc	r0
+   00F9 A6 06               300 	mov	@r0,ar6
+   00FB 08                  301 	inc	r0
+   00FC A6 07               302 	mov	@r0,ar7
+   00FE 02s00r30            303 	ljmp	00103$
+   0101                     304 00106$:
+                            305 ;	../../core/net/rime/route.c:109: ctimer_set(&t, CLOCK_SECOND, periodic, NULL);
+   0101 E4                  306 	clr	a
+   0102 C0 E0               307 	push	acc
+   0104 C0 E0               308 	push	acc
+   0106 C0 E0               309 	push	acc
+   0108 74r00               310 	mov	a,#_periodic
+   010A C0 E0               311 	push	acc
+   010C 74s00               312 	mov	a,#(_periodic >> 8)
+   010E C0 E0               313 	push	acc
+   0110 74 80               314 	mov	a,#0x80
+   0112 C0 E0               315 	push	acc
+   0114 E4                  316 	clr	a
+   0115 C0 E0               317 	push	acc
+   0117 90s00r68            318 	mov	dptr,#_t
+   011A 75 F0 00            319 	mov	b,#0x00
+   011D 12s00r00            320 	lcall	_ctimer_set
+   0120 E5 81               321 	mov	a,sp
+   0122 24 F9               322 	add	a,#0xf9
+   0124 F5 81               323 	mov	sp,a
+   0126 85*00 81            324 	mov	sp,_bp
+   0129 D0*00               325 	pop	_bp
+   012B 22                  326 	ret
+                            327 ;------------------------------------------------------------
+                            328 ;Allocation info for local variables in function 'route_init'
+                            329 ;------------------------------------------------------------
+                            330 ;	../../core/net/rime/route.c:113: route_init(void)
+                            331 ;	-----------------------------------------
+                            332 ;	 function route_init
+                            333 ;	-----------------------------------------
+   012C                     334 _route_init:
+                            335 ;	../../core/net/rime/route.c:115: list_init(route_table);
+   012C 90s00r03            336 	mov	dptr,#_route_table
+   012F E0                  337 	movx	a,@dptr
+   0130 FD                  338 	mov	r5,a
+   0131 A3                  339 	inc	dptr
+   0132 E0                  340 	movx	a,@dptr
+   0133 FE                  341 	mov	r6,a
+   0134 A3                  342 	inc	dptr
+   0135 E0                  343 	movx	a,@dptr
+   0136 FF                  344 	mov	r7,a
+   0137 8D 82               345 	mov	dpl,r5
+   0139 8E 83               346 	mov	dph,r6
+   013B 8F F0               347 	mov	b,r7
+   013D 12s00r00            348 	lcall	_list_init
+                            349 ;	../../core/net/rime/route.c:116: memb_init(&route_mem);
+   0140 90s00r06            350 	mov	dptr,#_route_mem
+   0143 75 F0 00            351 	mov	b,#0x00
+   0146 12s00r00            352 	lcall	_memb_init
+                            353 ;	../../core/net/rime/route.c:118: ctimer_set(&t, CLOCK_SECOND, periodic, NULL);
+   0149 E4                  354 	clr	a
+   014A C0 E0               355 	push	acc
+   014C C0 E0               356 	push	acc
+   014E C0 E0               357 	push	acc
+   0150 74r00               358 	mov	a,#_periodic
+   0152 C0 E0               359 	push	acc
+   0154 74s00               360 	mov	a,#(_periodic >> 8)
+   0156 C0 E0               361 	push	acc
+   0158 74 80               362 	mov	a,#0x80
+   015A C0 E0               363 	push	acc
+   015C E4                  364 	clr	a
+   015D C0 E0               365 	push	acc
+   015F 90s00r68            366 	mov	dptr,#_t
+   0162 75 F0 00            367 	mov	b,#0x00
+   0165 12s00r00            368 	lcall	_ctimer_set
+   0168 E5 81               369 	mov	a,sp
+   016A 24 F9               370 	add	a,#0xf9
+   016C F5 81               371 	mov	sp,a
+   016E 22                  372 	ret
+                            373 ;------------------------------------------------------------
+                            374 ;Allocation info for local variables in function 'route_add'
+                            375 ;------------------------------------------------------------
+                            376 ;nexthop                   Allocated to stack - _bp -5
+                            377 ;cost                      Allocated to stack - _bp -6
+                            378 ;seqno                     Allocated to stack - _bp -7
+                            379 ;dest                      Allocated to registers r5 r6 r7 
+                            380 ;e                         Allocated to stack - _bp +1
+                            381 ;------------------------------------------------------------
+                            382 ;	../../core/net/rime/route.c:122: route_add(const rimeaddr_t *dest, const rimeaddr_t *nexthop,
+                            383 ;	-----------------------------------------
+                            384 ;	 function route_add
+                            385 ;	-----------------------------------------
+   016F                     386 _route_add:
+   016F C0*00               387 	push	_bp
+   0171 85 81*00            388 	mov	_bp,sp
+   0174 05 81               389 	inc	sp
+   0176 05 81               390 	inc	sp
+   0178 05 81               391 	inc	sp
+                            392 ;	../../core/net/rime/route.c:128: e = route_lookup(dest);
+   017A AD 82               393 	mov	r5,dpl
+   017C AE 83               394 	mov	r6,dph
+   017E AF F0               395 	mov	r7,b
+   0180 C0 07               396 	push	ar7
+   0182 C0 06               397 	push	ar6
+   0184 C0 05               398 	push	ar5
+   0186 12s03r82            399 	lcall	_route_lookup
+   0189 AA 82               400 	mov	r2,dpl
+   018B AB 83               401 	mov	r3,dph
+   018D AC F0               402 	mov	r4,b
+   018F D0 05               403 	pop	ar5
+   0191 D0 06               404 	pop	ar6
+   0193 D0 07               405 	pop	ar7
+   0195 A8*00               406 	mov	r0,_bp
+   0197 08                  407 	inc	r0
+   0198 A6 02               408 	mov	@r0,ar2
+   019A 08                  409 	inc	r0
+   019B A6 03               410 	mov	@r0,ar3
+   019D 08                  411 	inc	r0
+   019E A6 04               412 	mov	@r0,ar4
+                            413 ;	../../core/net/rime/route.c:129: if(e != NULL && rimeaddr_cmp(&e->nexthop, nexthop)) {
+   01A0 A8*00               414 	mov	r0,_bp
+   01A2 08                  415 	inc	r0
+   01A3 E6                  416 	mov	a,@r0
+   01A4 08                  417 	inc	r0
+   01A5 46                  418 	orl	a,@r0
+   01A6 70 03               419 	jnz	00115$
+   01A8 02s02r35            420 	ljmp	00104$
+   01AB                     421 00115$:
+   01AB C0 05               422 	push	ar5
+   01AD C0 06               423 	push	ar6
+   01AF C0 07               424 	push	ar7
+   01B1 A8*00               425 	mov	r0,_bp
+   01B3 08                  426 	inc	r0
+   01B4 74 05               427 	mov	a,#0x05
+   01B6 26                  428 	add	a,@r0
+   01B7 FD                  429 	mov	r5,a
+   01B8 E4                  430 	clr	a
+   01B9 08                  431 	inc	r0
+   01BA 36                  432 	addc	a,@r0
+   01BB FE                  433 	mov	r6,a
+   01BC 08                  434 	inc	r0
+   01BD 86 07               435 	mov	ar7,@r0
+   01BF C0 05               436 	push	ar5
+   01C1 E5*00               437 	mov	a,_bp
+   01C3 24 FB               438 	add	a,#0xfb
+   01C5 F8                  439 	mov	r0,a
+   01C6 E6                  440 	mov	a,@r0
+   01C7 C0 E0               441 	push	acc
+   01C9 08                  442 	inc	r0
+   01CA E6                  443 	mov	a,@r0
+   01CB C0 E0               444 	push	acc
+   01CD 08                  445 	inc	r0
+   01CE E6                  446 	mov	a,@r0
+   01CF C0 E0               447 	push	acc
+   01D1 8D 82               448 	mov	dpl,r5
+   01D3 8E 83               449 	mov	dph,r6
+   01D5 8F F0               450 	mov	b,r7
+   01D7 12s00r00            451 	lcall	_rimeaddr_cmp
+   01DA AE 82               452 	mov	r6,dpl
+   01DC AF 83               453 	mov	r7,dph
+   01DE 15 81               454 	dec	sp
+   01E0 15 81               455 	dec	sp
+   01E2 15 81               456 	dec	sp
+   01E4 D0 05               457 	pop	ar5
+   01E6 EE                  458 	mov	a,r6
+   01E7 4F                  459 	orl	a,r7
+   01E8 D0 07               460 	pop	ar7
+   01EA D0 06               461 	pop	ar6
+   01EC D0 05               462 	pop	ar5
+   01EE 60 45               463 	jz	00104$
+                            464 ;	../../core/net/rime/route.c:130: list_remove(route_table, e);
+   01F0 C0 05               465 	push	ar5
+   01F2 C0 06               466 	push	ar6
+   01F4 C0 07               467 	push	ar7
+   01F6 A8*00               468 	mov	r0,_bp
+   01F8 08                  469 	inc	r0
+   01F9 86 05               470 	mov	ar5,@r0
+   01FB 08                  471 	inc	r0
+   01FC 86 06               472 	mov	ar6,@r0
+   01FE 08                  473 	inc	r0
+   01FF 86 07               474 	mov	ar7,@r0
+   0201 90s00r03            475 	mov	dptr,#_route_table
+   0204 E0                  476 	movx	a,@dptr
+   0205 FA                  477 	mov	r2,a
+   0206 A3                  478 	inc	dptr
+   0207 E0                  479 	movx	a,@dptr
+   0208 FB                  480 	mov	r3,a
+   0209 A3                  481 	inc	dptr
+   020A E0                  482 	movx	a,@dptr
+   020B FC                  483 	mov	r4,a
+   020C C0 07               484 	push	ar7
+   020E C0 06               485 	push	ar6
+   0210 C0 05               486 	push	ar5
+   0212 C0 05               487 	push	ar5
+   0214 C0 06               488 	push	ar6
+   0216 C0 07               489 	push	ar7
+   0218 8A 82               490 	mov	dpl,r2
+   021A 8B 83               491 	mov	dph,r3
+   021C 8C F0               492 	mov	b,r4
+   021E 12s00r00            493 	lcall	_list_remove
+   0221 15 81               494 	dec	sp
+   0223 15 81               495 	dec	sp
+   0225 15 81               496 	dec	sp
+   0227 D0 05               497 	pop	ar5
+   0229 D0 06               498 	pop	ar6
+   022B D0 07               499 	pop	ar7
+   022D D0 07               500 	pop	ar7
+   022F D0 06               501 	pop	ar6
+   0231 D0 05               502 	pop	ar5
+   0233 80 5F               503 	sjmp	00105$
+   0235                     504 00104$:
+                            505 ;	../../core/net/rime/route.c:133: e = memb_alloc(&route_mem);
+   0235 90s00r06            506 	mov	dptr,#_route_mem
+   0238 75 F0 00            507 	mov	b,#0x00
+   023B C0 07               508 	push	ar7
+   023D C0 06               509 	push	ar6
+   023F C0 05               510 	push	ar5
+   0241 12s00r00            511 	lcall	_memb_alloc
+   0244 AA 82               512 	mov	r2,dpl
+   0246 AB 83               513 	mov	r3,dph
+   0248 AC F0               514 	mov	r4,b
+   024A D0 05               515 	pop	ar5
+   024C D0 06               516 	pop	ar6
+   024E D0 07               517 	pop	ar7
+   0250 A8*00               518 	mov	r0,_bp
+   0252 08                  519 	inc	r0
+   0253 A6 02               520 	mov	@r0,ar2
+   0255 08                  521 	inc	r0
+   0256 A6 03               522 	mov	@r0,ar3
+   0258 08                  523 	inc	r0
+   0259 A6 04               524 	mov	@r0,ar4
+                            525 ;	../../core/net/rime/route.c:134: if(e == NULL) {
+   025B A8*00               526 	mov	r0,_bp
+   025D 08                  527 	inc	r0
+   025E E6                  528 	mov	a,@r0
+   025F 08                  529 	inc	r0
+   0260 46                  530 	orl	a,@r0
+   0261 70 31               531 	jnz	00105$
+                            532 ;	../../core/net/rime/route.c:136: e = list_chop(route_table);
+   0263 90s00r03            533 	mov	dptr,#_route_table
+   0266 E0                  534 	movx	a,@dptr
+   0267 FA                  535 	mov	r2,a
+   0268 A3                  536 	inc	dptr
+   0269 E0                  537 	movx	a,@dptr
+   026A FB                  538 	mov	r3,a
+   026B A3                  539 	inc	dptr
+   026C E0                  540 	movx	a,@dptr
+   026D FC                  541 	mov	r4,a
+   026E 8A 82               542 	mov	dpl,r2
+   0270 8B 83               543 	mov	dph,r3
+   0272 8C F0               544 	mov	b,r4
+   0274 C0 07               545 	push	ar7
+   0276 C0 06               546 	push	ar6
+   0278 C0 05               547 	push	ar5
+   027A 12s00r00            548 	lcall	_list_chop
+   027D AA 82               549 	mov	r2,dpl
+   027F AB 83               550 	mov	r3,dph
+   0281 AC F0               551 	mov	r4,b
+   0283 D0 05               552 	pop	ar5
+   0285 D0 06               553 	pop	ar6
+   0287 D0 07               554 	pop	ar7
+   0289 A8*00               555 	mov	r0,_bp
+   028B 08                  556 	inc	r0
+   028C A6 02               557 	mov	@r0,ar2
+   028E 08                  558 	inc	r0
+   028F A6 03               559 	mov	@r0,ar3
+   0291 08                  560 	inc	r0
+   0292 A6 04               561 	mov	@r0,ar4
+   0294                     562 00105$:
+                            563 ;	../../core/net/rime/route.c:144: rimeaddr_copy(&e->dest, dest);
+   0294 A8*00               564 	mov	r0,_bp
+   0296 08                  565 	inc	r0
+   0297 74 03               566 	mov	a,#0x03
+   0299 26                  567 	add	a,@r0
+   029A FA                  568 	mov	r2,a
+   029B E4                  569 	clr	a
+   029C 08                  570 	inc	r0
+   029D 36                  571 	addc	a,@r0
+   029E FB                  572 	mov	r3,a
+   029F 08                  573 	inc	r0
+   02A0 86 04               574 	mov	ar4,@r0
+   02A2 C0 05               575 	push	ar5
+   02A4 C0 06               576 	push	ar6
+   02A6 C0 07               577 	push	ar7
+   02A8 8A 82               578 	mov	dpl,r2
+   02AA 8B 83               579 	mov	dph,r3
+   02AC 8C F0               580 	mov	b,r4
+   02AE 12s00r00            581 	lcall	_rimeaddr_copy
+   02B1 15 81               582 	dec	sp
+   02B3 15 81               583 	dec	sp
+   02B5 15 81               584 	dec	sp
+                            585 ;	../../core/net/rime/route.c:145: rimeaddr_copy(&e->nexthop, nexthop);
+   02B7 A8*00               586 	mov	r0,_bp
+   02B9 08                  587 	inc	r0
+   02BA 74 05               588 	mov	a,#0x05
+   02BC 26                  589 	add	a,@r0
+   02BD FD                  590 	mov	r5,a
+   02BE E4                  591 	clr	a
+   02BF 08                  592 	inc	r0
+   02C0 36                  593 	addc	a,@r0
+   02C1 FE                  594 	mov	r6,a
+   02C2 08                  595 	inc	r0
+   02C3 86 07               596 	mov	ar7,@r0
+   02C5 E5*00               597 	mov	a,_bp
+   02C7 24 FB               598 	add	a,#0xfb
+   02C9 F8                  599 	mov	r0,a
+   02CA E6                  600 	mov	a,@r0
+   02CB C0 E0               601 	push	acc
+   02CD 08                  602 	inc	r0
+   02CE E6                  603 	mov	a,@r0
+   02CF C0 E0               604 	push	acc
+   02D1 08                  605 	inc	r0
+   02D2 E6                  606 	mov	a,@r0
+   02D3 C0 E0               607 	push	acc
+   02D5 8D 82               608 	mov	dpl,r5
+   02D7 8E 83               609 	mov	dph,r6
+   02D9 8F F0               610 	mov	b,r7
+   02DB 12s00r00            611 	lcall	_rimeaddr_copy
+   02DE 15 81               612 	dec	sp
+   02E0 15 81               613 	dec	sp
+   02E2 15 81               614 	dec	sp
+                            615 ;	../../core/net/rime/route.c:146: e->cost = cost;
+   02E4 A8*00               616 	mov	r0,_bp
+   02E6 08                  617 	inc	r0
+   02E7 74 08               618 	mov	a,#0x08
+   02E9 26                  619 	add	a,@r0
+   02EA FD                  620 	mov	r5,a
+   02EB E4                  621 	clr	a
+   02EC 08                  622 	inc	r0
+   02ED 36                  623 	addc	a,@r0
+   02EE FE                  624 	mov	r6,a
+   02EF 08                  625 	inc	r0
+   02F0 86 07               626 	mov	ar7,@r0
+   02F2 8D 82               627 	mov	dpl,r5
+   02F4 8E 83               628 	mov	dph,r6
+   02F6 8F F0               629 	mov	b,r7
+   02F8 E5*00               630 	mov	a,_bp
+   02FA 24 FA               631 	add	a,#0xfa
+   02FC F8                  632 	mov	r0,a
+   02FD E6                  633 	mov	a,@r0
+   02FE 12s00r00            634 	lcall	__gptrput
+                            635 ;	../../core/net/rime/route.c:147: e->seqno = seqno;
+   0301 A8*00               636 	mov	r0,_bp
+   0303 08                  637 	inc	r0
+   0304 74 07               638 	mov	a,#0x07
+   0306 26                  639 	add	a,@r0
+   0307 FD                  640 	mov	r5,a
+   0308 E4                  641 	clr	a
+   0309 08                  642 	inc	r0
+   030A 36                  643 	addc	a,@r0
+   030B FE                  644 	mov	r6,a
+   030C 08                  645 	inc	r0
+   030D 86 07               646 	mov	ar7,@r0
+   030F 8D 82               647 	mov	dpl,r5
+   0311 8E 83               648 	mov	dph,r6
+   0313 8F F0               649 	mov	b,r7
+   0315 E5*00               650 	mov	a,_bp
+   0317 24 F9               651 	add	a,#0xf9
+   0319 F8                  652 	mov	r0,a
+   031A E6                  653 	mov	a,@r0
+   031B 12s00r00            654 	lcall	__gptrput
+                            655 ;	../../core/net/rime/route.c:148: e->time = 0;
+   031E A8*00               656 	mov	r0,_bp
+   0320 08                  657 	inc	r0
+   0321 74 09               658 	mov	a,#0x09
+   0323 26                  659 	add	a,@r0
+   0324 FD                  660 	mov	r5,a
+   0325 E4                  661 	clr	a
+   0326 08                  662 	inc	r0
+   0327 36                  663 	addc	a,@r0
+   0328 FE                  664 	mov	r6,a
+   0329 08                  665 	inc	r0
+   032A 86 07               666 	mov	ar7,@r0
+   032C 8D 82               667 	mov	dpl,r5
+   032E 8E 83               668 	mov	dph,r6
+   0330 8F F0               669 	mov	b,r7
+   0332 E4                  670 	clr	a
+   0333 12s00r00            671 	lcall	__gptrput
+                            672 ;	../../core/net/rime/route.c:149: e->decay = 0;
+   0336 A8*00               673 	mov	r0,_bp
+   0338 08                  674 	inc	r0
+   0339 74 0A               675 	mov	a,#0x0A
+   033B 26                  676 	add	a,@r0
+   033C FD                  677 	mov	r5,a
+   033D E4                  678 	clr	a
+   033E 08                  679 	inc	r0
+   033F 36                  680 	addc	a,@r0
+   0340 FE                  681 	mov	r6,a
+   0341 08                  682 	inc	r0
+   0342 86 07               683 	mov	ar7,@r0
+   0344 8D 82               684 	mov	dpl,r5
+   0346 8E 83               685 	mov	dph,r6
+   0348 8F F0               686 	mov	b,r7
+   034A E4                  687 	clr	a
+   034B 12s00r00            688 	lcall	__gptrput
+                            689 ;	../../core/net/rime/route.c:152: list_push(route_table, e);
+   034E A8*00               690 	mov	r0,_bp
+   0350 08                  691 	inc	r0
+   0351 86 02               692 	mov	ar2,@r0
+   0353 08                  693 	inc	r0
+   0354 86 03               694 	mov	ar3,@r0
+   0356 08                  695 	inc	r0
+   0357 86 04               696 	mov	ar4,@r0
+   0359 90s00r03            697 	mov	dptr,#_route_table
+   035C E0                  698 	movx	a,@dptr
+   035D FD                  699 	mov	r5,a
+   035E A3                  700 	inc	dptr
+   035F E0                  701 	movx	a,@dptr
+   0360 FE                  702 	mov	r6,a
+   0361 A3                  703 	inc	dptr
+   0362 E0                  704 	movx	a,@dptr
+   0363 FF                  705 	mov	r7,a
+   0364 C0 02               706 	push	ar2
+   0366 C0 03               707 	push	ar3
+   0368 C0 04               708 	push	ar4
+   036A 8D 82               709 	mov	dpl,r5
+   036C 8E 83               710 	mov	dph,r6
+   036E 8F F0               711 	mov	b,r7
+   0370 12s00r00            712 	lcall	_list_push
+   0373 15 81               713 	dec	sp
+   0375 15 81               714 	dec	sp
+   0377 15 81               715 	dec	sp
+                            716 ;	../../core/net/rime/route.c:159: return 0;
+   0379 90 00 00            717 	mov	dptr,#0x0000
+   037C 85*00 81            718 	mov	sp,_bp
+   037F D0*00               719 	pop	_bp
+   0381 22                  720 	ret
+                            721 ;------------------------------------------------------------
+                            722 ;Allocation info for local variables in function 'route_lookup'
+                            723 ;------------------------------------------------------------
+                            724 ;dest                      Allocated to stack - _bp +1
+                            725 ;e                         Allocated to stack - _bp +4
+                            726 ;lowest_cost               Allocated to registers r4 
+                            727 ;best_entry                Allocated to stack - _bp +7
+                            728 ;------------------------------------------------------------
+                            729 ;	../../core/net/rime/route.c:163: route_lookup(const rimeaddr_t *dest)
+                            730 ;	-----------------------------------------
+                            731 ;	 function route_lookup
+                            732 ;	-----------------------------------------
+   0382                     733 _route_lookup:
+   0382 C0*00               734 	push	_bp
+   0384 85 81*00            735 	mov	_bp,sp
+   0387 C0 82               736 	push	dpl
+   0389 C0 83               737 	push	dph
+   038B C0 F0               738 	push	b
+   038D E5 81               739 	mov	a,sp
+   038F 24 06               740 	add	a,#0x06
+   0391 F5 81               741 	mov	sp,a
+                            742 ;	../../core/net/rime/route.c:169: lowest_cost = -1;
+   0393 7C FF               743 	mov	r4,#0xFF
+                            744 ;	../../core/net/rime/route.c:170: best_entry = NULL;
+   0395 E5*00               745 	mov	a,_bp
+   0397 24 07               746 	add	a,#0x07
+   0399 F8                  747 	mov	r0,a
+   039A E4                  748 	clr	a
+   039B F6                  749 	mov	@r0,a
+   039C 08                  750 	inc	r0
+   039D F6                  751 	mov	@r0,a
+   039E 08                  752 	inc	r0
+   039F 76 00               753 	mov	@r0,#0x00
+                            754 ;	../../core/net/rime/route.c:173: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+   03A1 90s00r03            755 	mov	dptr,#_route_table
+   03A4 E0                  756 	movx	a,@dptr
+   03A5 FA                  757 	mov	r2,a
+   03A6 A3                  758 	inc	dptr
+   03A7 E0                  759 	movx	a,@dptr
+   03A8 FB                  760 	mov	r3,a
+   03A9 A3                  761 	inc	dptr
+   03AA E0                  762 	movx	a,@dptr
+   03AB FF                  763 	mov	r7,a
+   03AC 8A 82               764 	mov	dpl,r2
+   03AE 8B 83               765 	mov	dph,r3
+   03B0 8F F0               766 	mov	b,r7
+   03B2 C0 04               767 	push	ar4
+   03B4 12s00r00            768 	lcall	_list_head
+   03B7 AD 82               769 	mov	r5,dpl
+   03B9 AE 83               770 	mov	r6,dph
+   03BB AF F0               771 	mov	r7,b
+   03BD D0 04               772 	pop	ar4
+   03BF E5*00               773 	mov	a,_bp
+   03C1 24 04               774 	add	a,#0x04
+   03C3 F8                  775 	mov	r0,a
+   03C4 A6 05               776 	mov	@r0,ar5
+   03C6 08                  777 	inc	r0
+   03C7 A6 06               778 	mov	@r0,ar6
+   03C9 08                  779 	inc	r0
+   03CA A6 07               780 	mov	@r0,ar7
+   03CC                     781 00105$:
+   03CC E5*00               782 	mov	a,_bp
+   03CE 24 04               783 	add	a,#0x04
+   03D0 F8                  784 	mov	r0,a
+   03D1 E4                  785 	clr	a
+   03D2 C0 E0               786 	push	acc
+   03D4 E4                  787 	clr	a
+   03D5 C0 E0               788 	push	acc
+   03D7 E4                  789 	clr	a
+   03D8 C0 E0               790 	push	acc
+   03DA 86 82               791 	mov	dpl,@r0
+   03DC 08                  792 	inc	r0
+   03DD 86 83               793 	mov	dph,@r0
+   03DF 08                  794 	inc	r0
+   03E0 86 F0               795 	mov	b,@r0
+   03E2 12s00r00            796 	lcall	___gptr_cmp
+   03E5 15 81               797 	dec	sp
+   03E7 15 81               798 	dec	sp
+   03E9 15 81               799 	dec	sp
+   03EB 70 03               800 	jnz	00119$
+   03ED 02s04r8A            801 	ljmp	00108$
+   03F0                     802 00119$:
+                            803 ;	../../core/net/rime/route.c:177: if(rimeaddr_cmp(dest, &e->dest)) {
+   03F0 C0 04               804 	push	ar4
+   03F2 E5*00               805 	mov	a,_bp
+   03F4 24 04               806 	add	a,#0x04
+   03F6 F8                  807 	mov	r0,a
+   03F7 74 03               808 	mov	a,#0x03
+   03F9 26                  809 	add	a,@r0
+   03FA FA                  810 	mov	r2,a
+   03FB E4                  811 	clr	a
+   03FC 08                  812 	inc	r0
+   03FD 36                  813 	addc	a,@r0
+   03FE FB                  814 	mov	r3,a
+   03FF 08                  815 	inc	r0
+   0400 86 04               816 	mov	ar4,@r0
+   0402 C0 02               817 	push	ar2
+   0404 C0 03               818 	push	ar3
+   0406 C0 04               819 	push	ar4
+   0408 A8*00               820 	mov	r0,_bp
+   040A 08                  821 	inc	r0
+   040B 86 82               822 	mov	dpl,@r0
+   040D 08                  823 	inc	r0
+   040E 86 83               824 	mov	dph,@r0
+   0410 08                  825 	inc	r0
+   0411 86 F0               826 	mov	b,@r0
+   0413 12s00r00            827 	lcall	_rimeaddr_cmp
+   0416 AB 82               828 	mov	r3,dpl
+   0418 AC 83               829 	mov	r4,dph
+   041A 15 81               830 	dec	sp
+   041C 15 81               831 	dec	sp
+   041E 15 81               832 	dec	sp
+   0420 EB                  833 	mov	a,r3
+   0421 4C                  834 	orl	a,r4
+   0422 D0 04               835 	pop	ar4
+   0424 60 34               836 	jz	00107$
+                            837 ;	../../core/net/rime/route.c:178: if(e->cost < lowest_cost) {
+   0426 E5*00               838 	mov	a,_bp
+   0428 24 04               839 	add	a,#0x04
+   042A F8                  840 	mov	r0,a
+   042B 74 08               841 	mov	a,#0x08
+   042D 26                  842 	add	a,@r0
+   042E FA                  843 	mov	r2,a
+   042F E4                  844 	clr	a
+   0430 08                  845 	inc	r0
+   0431 36                  846 	addc	a,@r0
+   0432 FB                  847 	mov	r3,a
+   0433 08                  848 	inc	r0
+   0434 86 07               849 	mov	ar7,@r0
+   0436 8A 82               850 	mov	dpl,r2
+   0438 8B 83               851 	mov	dph,r3
+   043A 8F F0               852 	mov	b,r7
+   043C 12s00r00            853 	lcall	__gptrget
+   043F FF                  854 	mov	r7,a
+   0440 C3                  855 	clr	c
+   0441 9C                  856 	subb	a,r4
+   0442 50 16               857 	jnc	00107$
+                            858 ;	../../core/net/rime/route.c:179: best_entry = e;
+   0444 E5*00               859 	mov	a,_bp
+   0446 24 04               860 	add	a,#0x04
+   0448 F8                  861 	mov	r0,a
+   0449 E5*00               862 	mov	a,_bp
+   044B 24 07               863 	add	a,#0x07
+   044D F9                  864 	mov	r1,a
+   044E E6                  865 	mov	a,@r0
+   044F F7                  866 	mov	@r1,a
+   0450 08                  867 	inc	r0
+   0451 09                  868 	inc	r1
+   0452 E6                  869 	mov	a,@r0
+   0453 F7                  870 	mov	@r1,a
+   0454 08                  871 	inc	r0
+   0455 09                  872 	inc	r1
+   0456 E6                  873 	mov	a,@r0
+   0457 F7                  874 	mov	@r1,a
+                            875 ;	../../core/net/rime/route.c:180: lowest_cost = e->cost;
+   0458 8F 04               876 	mov	ar4,r7
+   045A                     877 00107$:
+                            878 ;	../../core/net/rime/route.c:173: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+   045A E5*00               879 	mov	a,_bp
+   045C 24 04               880 	add	a,#0x04
+   045E F8                  881 	mov	r0,a
+   045F 86 05               882 	mov	ar5,@r0
+   0461 08                  883 	inc	r0
+   0462 86 06               884 	mov	ar6,@r0
+   0464 08                  885 	inc	r0
+   0465 86 07               886 	mov	ar7,@r0
+   0467 8D 82               887 	mov	dpl,r5
+   0469 8E 83               888 	mov	dph,r6
+   046B 8F F0               889 	mov	b,r7
+   046D C0 04               890 	push	ar4
+   046F 12s00r00            891 	lcall	_list_item_next
+   0472 AD 82               892 	mov	r5,dpl
+   0474 AE 83               893 	mov	r6,dph
+   0476 AF F0               894 	mov	r7,b
+   0478 D0 04               895 	pop	ar4
+   047A E5*00               896 	mov	a,_bp
+   047C 24 04               897 	add	a,#0x04
+   047E F8                  898 	mov	r0,a
+   047F A6 05               899 	mov	@r0,ar5
+   0481 08                  900 	inc	r0
+   0482 A6 06               901 	mov	@r0,ar6
+   0484 08                  902 	inc	r0
+   0485 A6 07               903 	mov	@r0,ar7
+   0487 02s03rCC            904 	ljmp	00105$
+   048A                     905 00108$:
+                            906 ;	../../core/net/rime/route.c:184: return best_entry;
+   048A E5*00               907 	mov	a,_bp
+   048C 24 07               908 	add	a,#0x07
+   048E F8                  909 	mov	r0,a
+   048F 86 82               910 	mov	dpl,@r0
+   0491 08                  911 	inc	r0
+   0492 86 83               912 	mov	dph,@r0
+   0494 08                  913 	inc	r0
+   0495 86 F0               914 	mov	b,@r0
+   0497 85*00 81            915 	mov	sp,_bp
+   049A D0*00               916 	pop	_bp
+   049C 22                  917 	ret
+                            918 ;------------------------------------------------------------
+                            919 ;Allocation info for local variables in function 'route_refresh'
+                            920 ;------------------------------------------------------------
+                            921 ;e                         Allocated to registers r5 r6 r7 
+                            922 ;------------------------------------------------------------
+                            923 ;	../../core/net/rime/route.c:188: route_refresh(struct route_entry *e)
+                            924 ;	-----------------------------------------
+                            925 ;	 function route_refresh
+                            926 ;	-----------------------------------------
+   049D                     927 _route_refresh:
+   049D AD 82               928 	mov	r5,dpl
+   049F AE 83               929 	mov	r6,dph
+   04A1 AF F0               930 	mov	r7,b
+                            931 ;	../../core/net/rime/route.c:190: if(e != NULL) {
+   04A3 ED                  932 	mov	a,r5
+   04A4 4E                  933 	orl	a,r6
+   04A5 60 24               934 	jz	00103$
+                            935 ;	../../core/net/rime/route.c:193: e->time = 0;
+   04A7 74 09               936 	mov	a,#0x09
+   04A9 2D                  937 	add	a,r5
+   04AA FA                  938 	mov	r2,a
+   04AB E4                  939 	clr	a
+   04AC 3E                  940 	addc	a,r6
+   04AD FB                  941 	mov	r3,a
+   04AE 8F 04               942 	mov	ar4,r7
+   04B0 8A 82               943 	mov	dpl,r2
+   04B2 8B 83               944 	mov	dph,r3
+   04B4 8C F0               945 	mov	b,r4
+   04B6 E4                  946 	clr	a
+   04B7 12s00r00            947 	lcall	__gptrput
+                            948 ;	../../core/net/rime/route.c:194: e->decay = 0;
+   04BA 74 0A               949 	mov	a,#0x0A
+   04BC 2D                  950 	add	a,r5
+   04BD FD                  951 	mov	r5,a
+   04BE E4                  952 	clr	a
+   04BF 3E                  953 	addc	a,r6
+   04C0 FE                  954 	mov	r6,a
+   04C1 8D 82               955 	mov	dpl,r5
+   04C3 8E 83               956 	mov	dph,r6
+   04C5 8F F0               957 	mov	b,r7
+   04C7 E4                  958 	clr	a
+   04C8 02s00r00            959 	ljmp	__gptrput
+   04CB                     960 00103$:
+   04CB 22                  961 	ret
+                            962 ;------------------------------------------------------------
+                            963 ;Allocation info for local variables in function 'route_decay'
+                            964 ;------------------------------------------------------------
+                            965 ;e                         Allocated to registers r5 r6 r7 
+                            966 ;------------------------------------------------------------
+                            967 ;	../../core/net/rime/route.c:206: route_decay(struct route_entry *e)
+                            968 ;	-----------------------------------------
+                            969 ;	 function route_decay
+                            970 ;	-----------------------------------------
+   04CC                     971 _route_decay:
+   04CC AD 82               972 	mov	r5,dpl
+   04CE AE 83               973 	mov	r6,dph
+   04D0 AF F0               974 	mov	r7,b
+                            975 ;	../../core/net/rime/route.c:217: if(e->time != e->time_last_decay) {
+   04D2 74 09               976 	mov	a,#0x09
+   04D4 2D                  977 	add	a,r5
+   04D5 FA                  978 	mov	r2,a
+   04D6 E4                  979 	clr	a
+   04D7 3E                  980 	addc	a,r6
+   04D8 FB                  981 	mov	r3,a
+   04D9 8F 04               982 	mov	ar4,r7
+   04DB 8A 82               983 	mov	dpl,r2
+   04DD 8B 83               984 	mov	dph,r3
+   04DF 8C F0               985 	mov	b,r4
+   04E1 12s00r00            986 	lcall	__gptrget
+   04E4 FC                  987 	mov	r4,a
+   04E5 74 0B               988 	mov	a,#0x0B
+   04E7 2D                  989 	add	a,r5
+   04E8 F9                  990 	mov	r1,a
+   04E9 E4                  991 	clr	a
+   04EA 3E                  992 	addc	a,r6
+   04EB FA                  993 	mov	r2,a
+   04EC 8F 03               994 	mov	ar3,r7
+   04EE 89 82               995 	mov	dpl,r1
+   04F0 8A 83               996 	mov	dph,r2
+   04F2 8B F0               997 	mov	b,r3
+   04F4 12s00r00            998 	lcall	__gptrget
+   04F7 F8                  999 	mov	r0,a
+   04F8 EC                 1000 	mov	a,r4
+   04F9 B5 00 01           1001 	cjne	a,ar0,00111$
+   04FC 22                 1002 	ret
+   04FD                    1003 00111$:
+                           1004 ;	../../core/net/rime/route.c:219: e->time_last_decay = e->time;
+   04FD 89 82              1005 	mov	dpl,r1
+   04FF 8A 83              1006 	mov	dph,r2
+   0501 8B F0              1007 	mov	b,r3
+   0503 EC                 1008 	mov	a,r4
+   0504 12s00r00           1009 	lcall	__gptrput
+                           1010 ;	../../core/net/rime/route.c:220: e->decay++;
+   0507 74 0A              1011 	mov	a,#0x0A
+   0509 2D                 1012 	add	a,r5
+   050A FA                 1013 	mov	r2,a
+   050B E4                 1014 	clr	a
+   050C 3E                 1015 	addc	a,r6
+   050D FB                 1016 	mov	r3,a
+   050E 8F 04              1017 	mov	ar4,r7
+   0510 8A 82              1018 	mov	dpl,r2
+   0512 8B 83              1019 	mov	dph,r3
+   0514 8C F0              1020 	mov	b,r4
+   0516 12s00r00           1021 	lcall	__gptrget
+   0519 F9                 1022 	mov	r1,a
+   051A 09                 1023 	inc	r1
+   051B 8A 82              1024 	mov	dpl,r2
+   051D 8B 83              1025 	mov	dph,r3
+   051F 8C F0              1026 	mov	b,r4
+   0521 E9                 1027 	mov	a,r1
+   0522 12s00r00           1028 	lcall	__gptrput
+                           1029 ;	../../core/net/rime/route.c:222: if(e->decay >= DECAY_THRESHOLD) {
+   0525 B9 08 00           1030 	cjne	r1,#0x08,00112$
+   0528                    1031 00112$:
+   0528 40 09              1032 	jc	00105$
+                           1033 ;	../../core/net/rime/route.c:227: route_remove(e);
+   052A 8D 82              1034 	mov	dpl,r5
+   052C 8E 83              1035 	mov	dph,r6
+   052E 8F F0              1036 	mov	b,r7
+   0530 02s05r34           1037 	ljmp	_route_remove
+   0533                    1038 00105$:
+   0533 22                 1039 	ret
+                           1040 ;------------------------------------------------------------
+                           1041 ;Allocation info for local variables in function 'route_remove'
+                           1042 ;------------------------------------------------------------
+                           1043 ;e                         Allocated to registers r7 r5 r6 
+                           1044 ;sloc0                     Allocated to stack - _bp +1
+                           1045 ;------------------------------------------------------------
+                           1046 ;	../../core/net/rime/route.c:233: route_remove(struct route_entry *e)
+                           1047 ;	-----------------------------------------
+                           1048 ;	 function route_remove
+                           1049 ;	-----------------------------------------
+   0534                    1050 _route_remove:
+   0534 C0*00              1051 	push	_bp
+   0536 85 81*00           1052 	mov	_bp,sp
+   0539 05 81              1053 	inc	sp
+   053B 05 81              1054 	inc	sp
+   053D 05 81              1055 	inc	sp
+   053F AF 82              1056 	mov	r7,dpl
+   0541 AD 83              1057 	mov	r5,dph
+   0543 AE F0              1058 	mov	r6,b
+                           1059 ;	../../core/net/rime/route.c:235: list_remove(route_table, e);
+   0545 8F 02              1060 	mov	ar2,r7
+   0547 8D 03              1061 	mov	ar3,r5
+   0549 8E 04              1062 	mov	ar4,r6
+   054B 90s00r03           1063 	mov	dptr,#_route_table
+   054E A8*00              1064 	mov	r0,_bp
+   0550 08                 1065 	inc	r0
+   0551 E0                 1066 	movx	a,@dptr
+   0552 F6                 1067 	mov	@r0,a
+   0553 A3                 1068 	inc	dptr
+   0554 E0                 1069 	movx	a,@dptr
+   0555 08                 1070 	inc	r0
+   0556 F6                 1071 	mov	@r0,a
+   0557 A3                 1072 	inc	dptr
+   0558 E0                 1073 	movx	a,@dptr
+   0559 08                 1074 	inc	r0
+   055A F6                 1075 	mov	@r0,a
+   055B C0 07              1076 	push	ar7
+   055D C0 06              1077 	push	ar6
+   055F C0 05              1078 	push	ar5
+   0561 C0 02              1079 	push	ar2
+   0563 C0 03              1080 	push	ar3
+   0565 C0 04              1081 	push	ar4
+   0567 A8*00              1082 	mov	r0,_bp
+   0569 08                 1083 	inc	r0
+   056A 86 82              1084 	mov	dpl,@r0
+   056C 08                 1085 	inc	r0
+   056D 86 83              1086 	mov	dph,@r0
+   056F 08                 1087 	inc	r0
+   0570 86 F0              1088 	mov	b,@r0
+   0572 12s00r00           1089 	lcall	_list_remove
+   0575 15 81              1090 	dec	sp
+   0577 15 81              1091 	dec	sp
+   0579 15 81              1092 	dec	sp
+   057B D0 05              1093 	pop	ar5
+   057D D0 06              1094 	pop	ar6
+   057F D0 07              1095 	pop	ar7
+                           1096 ;	../../core/net/rime/route.c:236: memb_free(&route_mem, e);
+   0581 8F 04              1097 	mov	ar4,r7
+   0583 C0 04              1098 	push	ar4
+   0585 C0 05              1099 	push	ar5
+   0587 C0 06              1100 	push	ar6
+   0589 90s00r06           1101 	mov	dptr,#_route_mem
+   058C 75 F0 00           1102 	mov	b,#0x00
+   058F 12s00r00           1103 	lcall	_memb_free
+   0592 15 81              1104 	dec	sp
+   0594 15 81              1105 	dec	sp
+   0596 15 81              1106 	dec	sp
+   0598 85*00 81           1107 	mov	sp,_bp
+   059B D0*00              1108 	pop	_bp
+   059D 22                 1109 	ret
+                           1110 ;------------------------------------------------------------
+                           1111 ;Allocation info for local variables in function 'route_flush_all'
+                           1112 ;------------------------------------------------------------
+                           1113 ;e                         Allocated to registers r5 r6 r7 
+                           1114 ;------------------------------------------------------------
+                           1115 ;	../../core/net/rime/route.c:240: route_flush_all(void)
+                           1116 ;	-----------------------------------------
+                           1117 ;	 function route_flush_all
+                           1118 ;	-----------------------------------------
+   059E                    1119 _route_flush_all:
+                           1120 ;	../../core/net/rime/route.c:244: while(1) {
+   059E                    1121 00105$:
+                           1122 ;	../../core/net/rime/route.c:245: e = list_pop(route_table);
+   059E 90s00r03           1123 	mov	dptr,#_route_table
+   05A1 E0                 1124 	movx	a,@dptr
+   05A2 FD                 1125 	mov	r5,a
+   05A3 A3                 1126 	inc	dptr
+   05A4 E0                 1127 	movx	a,@dptr
+   05A5 FE                 1128 	mov	r6,a
+   05A6 A3                 1129 	inc	dptr
+   05A7 E0                 1130 	movx	a,@dptr
+   05A8 FF                 1131 	mov	r7,a
+   05A9 8D 82              1132 	mov	dpl,r5
+   05AB 8E 83              1133 	mov	dph,r6
+   05AD 8F F0              1134 	mov	b,r7
+   05AF 12s00r00           1135 	lcall	_list_pop
+   05B2 AD 82              1136 	mov	r5,dpl
+   05B4 AE 83              1137 	mov	r6,dph
+   05B6 AF F0              1138 	mov	r7,b
+                           1139 ;	../../core/net/rime/route.c:246: if(e != NULL) {
+   05B8 ED                 1140 	mov	a,r5
+   05B9 4E                 1141 	orl	a,r6
+   05BA 60 17              1142 	jz	00107$
+                           1143 ;	../../core/net/rime/route.c:247: memb_free(&route_mem, e);
+   05BC C0 05              1144 	push	ar5
+   05BE C0 06              1145 	push	ar6
+   05C0 C0 07              1146 	push	ar7
+   05C2 90s00r06           1147 	mov	dptr,#_route_mem
+   05C5 75 F0 00           1148 	mov	b,#0x00
+   05C8 12s00r00           1149 	lcall	_memb_free
+   05CB 15 81              1150 	dec	sp
+   05CD 15 81              1151 	dec	sp
+   05CF 15 81              1152 	dec	sp
+                           1153 ;	../../core/net/rime/route.c:249: break;
+   05D1 80 CB              1154 	sjmp	00105$
+   05D3                    1155 00107$:
+   05D3 22                 1156 	ret
+                           1157 ;------------------------------------------------------------
+                           1158 ;Allocation info for local variables in function 'route_set_lifetime'
+                           1159 ;------------------------------------------------------------
+                           1160 ;seconds                   Allocated to registers 
+                           1161 ;------------------------------------------------------------
+                           1162 ;	../../core/net/rime/route.c:255: route_set_lifetime(int seconds)
+                           1163 ;	-----------------------------------------
+                           1164 ;	 function route_set_lifetime
+                           1165 ;	-----------------------------------------
+   05D4                    1166 _route_set_lifetime:
+   05D4 AF 83              1167 	mov	r7,dph
+   05D6 E5 82              1168 	mov	a,dpl
+   05D8 90s00r10           1169 	mov	dptr,#_max_time
+   05DB F0                 1170 	movx	@dptr,a
+   05DC A3                 1171 	inc	dptr
+   05DD EF                 1172 	mov	a,r7
+   05DE F0                 1173 	movx	@dptr,a
+                           1174 ;	../../core/net/rime/route.c:257: max_time = seconds;
+   05DF 22                 1175 	ret
+                           1176 ;------------------------------------------------------------
+                           1177 ;Allocation info for local variables in function 'route_num'
+                           1178 ;------------------------------------------------------------
+                           1179 ;e                         Allocated to registers r5 r6 r7 
+                           1180 ;i                         Allocated to stack - _bp +1
+                           1181 ;------------------------------------------------------------
+                           1182 ;	../../core/net/rime/route.c:261: route_num(void)
+                           1183 ;	-----------------------------------------
+                           1184 ;	 function route_num
+                           1185 ;	-----------------------------------------
+   05E0                    1186 _route_num:
+   05E0 C0*00              1187 	push	_bp
+   05E2 85 81*00           1188 	mov	_bp,sp
+   05E5 05 81              1189 	inc	sp
+   05E7 05 81              1190 	inc	sp
+                           1191 ;	../../core/net/rime/route.c:266: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+   05E9 90s00r03           1192 	mov	dptr,#_route_table
+   05EC E0                 1193 	movx	a,@dptr
+   05ED FD                 1194 	mov	r5,a
+   05EE A3                 1195 	inc	dptr
+   05EF E0                 1196 	movx	a,@dptr
+   05F0 FE                 1197 	mov	r6,a
+   05F1 A3                 1198 	inc	dptr
+   05F2 E0                 1199 	movx	a,@dptr
+   05F3 FF                 1200 	mov	r7,a
+   05F4 8D 82              1201 	mov	dpl,r5
+   05F6 8E 83              1202 	mov	dph,r6
+   05F8 8F F0              1203 	mov	b,r7
+   05FA 12s00r00           1204 	lcall	_list_head
+   05FD AD 82              1205 	mov	r5,dpl
+   05FF AE 83              1206 	mov	r6,dph
+   0601 AF F0              1207 	mov	r7,b
+   0603 A8*00              1208 	mov	r0,_bp
+   0605 08                 1209 	inc	r0
+   0606 E4                 1210 	clr	a
+   0607 F6                 1211 	mov	@r0,a
+   0608 08                 1212 	inc	r0
+   0609 F6                 1213 	mov	@r0,a
+   060A                    1214 00101$:
+   060A E4                 1215 	clr	a
+   060B C0 E0              1216 	push	acc
+   060D E4                 1217 	clr	a
+   060E C0 E0              1218 	push	acc
+   0610 E4                 1219 	clr	a
+   0611 C0 E0              1220 	push	acc
+   0613 8D 82              1221 	mov	dpl,r5
+   0615 8E 83              1222 	mov	dph,r6
+   0617 8F F0              1223 	mov	b,r7
+   0619 12s00r00           1224 	lcall	___gptr_cmp
+   061C 15 81              1225 	dec	sp
+   061E 15 81              1226 	dec	sp
+   0620 15 81              1227 	dec	sp
+   0622 60 26              1228 	jz	00104$
+                           1229 ;	../../core/net/rime/route.c:267: i++;
+   0624 A8*00              1230 	mov	r0,_bp
+   0626 08                 1231 	inc	r0
+   0627 06                 1232 	inc	@r0
+   0628 B6 00 02           1233 	cjne	@r0,#0x00,00113$
+   062B 08                 1234 	inc	r0
+   062C 06                 1235 	inc	@r0
+   062D                    1236 00113$:
+                           1237 ;	../../core/net/rime/route.c:266: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+   062D 8D 02              1238 	mov	ar2,r5
+   062F 8E 03              1239 	mov	ar3,r6
+   0631 8F 04              1240 	mov	ar4,r7
+   0633 8A 82              1241 	mov	dpl,r2
+   0635 8B 83              1242 	mov	dph,r3
+   0637 8C F0              1243 	mov	b,r4
+   0639 12s00r00           1244 	lcall	_list_item_next
+   063C AA 82              1245 	mov	r2,dpl
+   063E AB 83              1246 	mov	r3,dph
+   0640 AC F0              1247 	mov	r4,b
+   0642 8A 05              1248 	mov	ar5,r2
+   0644 8B 06              1249 	mov	ar6,r3
+   0646 8C 07              1250 	mov	ar7,r4
+   0648 80 C0              1251 	sjmp	00101$
+   064A                    1252 00104$:
+                           1253 ;	../../core/net/rime/route.c:269: return i;
+   064A A8*00              1254 	mov	r0,_bp
+   064C 08                 1255 	inc	r0
+   064D 86 82              1256 	mov	dpl,@r0
+   064F 08                 1257 	inc	r0
+   0650 86 83              1258 	mov	dph,@r0
+   0652 85*00 81           1259 	mov	sp,_bp
+   0655 D0*00              1260 	pop	_bp
+   0657 22                 1261 	ret
+                           1262 ;------------------------------------------------------------
+                           1263 ;Allocation info for local variables in function 'route_get'
+                           1264 ;------------------------------------------------------------
+                           1265 ;num                       Allocated to stack - _bp +1
+                           1266 ;e                         Allocated to registers r3 r4 r5 
+                           1267 ;i                         Allocated to stack - _bp +3
+                           1268 ;------------------------------------------------------------
+                           1269 ;	../../core/net/rime/route.c:273: route_get(int num)
+                           1270 ;	-----------------------------------------
+                           1271 ;	 function route_get
+                           1272 ;	-----------------------------------------
+   0658                    1273 _route_get:
+   0658 C0*00              1274 	push	_bp
+   065A 85 81*00           1275 	mov	_bp,sp
+   065D C0 82              1276 	push	dpl
+   065F C0 83              1277 	push	dph
+   0661 05 81              1278 	inc	sp
+   0663 05 81              1279 	inc	sp
+                           1280 ;	../../core/net/rime/route.c:278: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+   0665 90s00r03           1281 	mov	dptr,#_route_table
+   0668 E0                 1282 	movx	a,@dptr
+   0669 FB                 1283 	mov	r3,a
+   066A A3                 1284 	inc	dptr
+   066B E0                 1285 	movx	a,@dptr
+   066C FC                 1286 	mov	r4,a
+   066D A3                 1287 	inc	dptr
+   066E E0                 1288 	movx	a,@dptr
+   066F FD                 1289 	mov	r5,a
+   0670 8B 82              1290 	mov	dpl,r3
+   0672 8C 83              1291 	mov	dph,r4
+   0674 8D F0              1292 	mov	b,r5
+   0676 12s00r00           1293 	lcall	_list_head
+   0679 AB 82              1294 	mov	r3,dpl
+   067B AC 83              1295 	mov	r4,dph
+   067D AD F0              1296 	mov	r5,b
+   067F E5*00              1297 	mov	a,_bp
+   0681 24 03              1298 	add	a,#0x03
+   0683 F8                 1299 	mov	r0,a
+   0684 E4                 1300 	clr	a
+   0685 F6                 1301 	mov	@r0,a
+   0686 08                 1302 	inc	r0
+   0687 F6                 1303 	mov	@r0,a
+   0688                    1304 00103$:
+   0688 E4                 1305 	clr	a
+   0689 C0 E0              1306 	push	acc
+   068B E4                 1307 	clr	a
+   068C C0 E0              1308 	push	acc
+   068E E4                 1309 	clr	a
+   068F C0 E0              1310 	push	acc
+   0691 8B 82              1311 	mov	dpl,r3
+   0693 8C 83              1312 	mov	dph,r4
+   0695 8D F0              1313 	mov	b,r5
+   0697 12s00r00           1314 	lcall	___gptr_cmp
+   069A 15 81              1315 	dec	sp
+   069C 15 81              1316 	dec	sp
+   069E 15 81              1317 	dec	sp
+   06A0 60 4A              1318 	jz	00106$
+                           1319 ;	../../core/net/rime/route.c:279: if(i == num) {
+   06A2 E5*00              1320 	mov	a,_bp
+   06A4 24 03              1321 	add	a,#0x03
+   06A6 F8                 1322 	mov	r0,a
+   06A7 A9*00              1323 	mov	r1,_bp
+   06A9 09                 1324 	inc	r1
+   06AA 86 F0              1325 	mov	b,@r0
+   06AC E7                 1326 	mov	a,@r1
+   06AD B5 F0 0A           1327 	cjne	a,b,00116$
+   06B0 08                 1328 	inc	r0
+   06B1 86 F0              1329 	mov	b,@r0
+   06B3 09                 1330 	inc	r1
+   06B4 E7                 1331 	mov	a,@r1
+   06B5 B5 F0 02           1332 	cjne	a,b,00116$
+   06B8 80 02              1333 	sjmp	00117$
+   06BA                    1334 00116$:
+   06BA 80 08              1335 	sjmp	00102$
+   06BC                    1336 00117$:
+                           1337 ;	../../core/net/rime/route.c:280: return e;
+   06BC 8B 82              1338 	mov	dpl,r3
+   06BE 8C 83              1339 	mov	dph,r4
+   06C0 8D F0              1340 	mov	b,r5
+   06C2 80 2E              1341 	sjmp	00107$
+   06C4                    1342 00102$:
+                           1343 ;	../../core/net/rime/route.c:282: i++;
+   06C4 E5*00              1344 	mov	a,_bp
+   06C6 24 03              1345 	add	a,#0x03
+   06C8 F8                 1346 	mov	r0,a
+   06C9 06                 1347 	inc	@r0
+   06CA B6 00 02           1348 	cjne	@r0,#0x00,00118$
+   06CD 08                 1349 	inc	r0
+   06CE 06                 1350 	inc	@r0
+   06CF                    1351 00118$:
+                           1352 ;	../../core/net/rime/route.c:278: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+   06CF 8B 02              1353 	mov	ar2,r3
+   06D1 8C 06              1354 	mov	ar6,r4
+   06D3 8D 07              1355 	mov	ar7,r5
+   06D5 8A 82              1356 	mov	dpl,r2
+   06D7 8E 83              1357 	mov	dph,r6
+   06D9 8F F0              1358 	mov	b,r7
+   06DB 12s00r00           1359 	lcall	_list_item_next
+   06DE AA 82              1360 	mov	r2,dpl
+   06E0 AE 83              1361 	mov	r6,dph
+   06E2 AF F0              1362 	mov	r7,b
+   06E4 8A 03              1363 	mov	ar3,r2
+   06E6 8E 04              1364 	mov	ar4,r6
+   06E8 8F 05              1365 	mov	ar5,r7
+   06EA 80 9C              1366 	sjmp	00103$
+   06EC                    1367 00106$:
+                           1368 ;	../../core/net/rime/route.c:284: return NULL;
+   06EC 90 00 00           1369 	mov	dptr,#0x0000
+   06EF 75 F0 00           1370 	mov	b,#0x00
+   06F2                    1371 00107$:
+   06F2 85*00 81           1372 	mov	sp,_bp
+   06F5 D0*00              1373 	pop	_bp
+   06F7 22                 1374 	ret
+                           1375 	.area CSEG    (CODE)
+                           1376 	.area CONST   (CODE)
+                           1377 	.area XINIT   (CODE)
+   0000                    1378 __xinit__route_table_list:
+                           1379 ; generic printIvalPtr
+   0000 00 00 00           1380 	.byte #0x00,#0x00,#0x00
+   0003                    1381 __xinit__route_table:
+   0003r00s00 00           1382 	.byte _route_table_list,(_route_table_list >> 8),#0x00
+   0006                    1383 __xinit__route_mem:
+   0006 0C 00              1384 	.byte #0x0C,#0x00	; 12
+   0008 08 00              1385 	.byte #0x08,#0x00	; 8
+   000Ar00s00 00           1386 	.byte _route_mem_memb_count,(_route_mem_memb_count >> 8),#0x00
+   000Dr08s00 00           1387 	.byte _route_mem_memb_mem,(_route_mem_memb_mem >> 8),#0x00
+   0010                    1388 __xinit__max_time:
+   0010 3C 00              1389 	.byte #0x3C,#0x00	;  60
+                           1390 	.area CABS    (ABS,CODE)

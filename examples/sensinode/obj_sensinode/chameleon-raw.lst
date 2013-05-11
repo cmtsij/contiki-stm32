@@ -1,0 +1,1730 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:18 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module chameleon_raw
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _chameleon_raw
+                             13 	.globl _channel_lookup
+                             14 	.globl _packetbuf_addr
+                             15 	.globl _packetbuf_set_addr
+                             16 	.globl _packetbuf_attr
+                             17 	.globl _packetbuf_set_attr
+                             18 	.globl _packetbuf_hdrreduce
+                             19 	.globl _packetbuf_hdralloc
+                             20 	.globl _packetbuf_hdrptr
+                             21 	.globl _packetbuf_dataptr
+                             22 	.globl _memcpy
+                             23 	.globl _IRCON2_P2IF
+                             24 	.globl _IRCON2_UTX0IF
+                             25 	.globl _IRCON2_UTX1IF
+                             26 	.globl _IRCON2_P1IF
+                             27 	.globl _IRCON2_WDTIF
+                             28 	.globl _CY
+                             29 	.globl _AC
+                             30 	.globl _F0
+                             31 	.globl _RS1
+                             32 	.globl _RS0
+                             33 	.globl _OV
+                             34 	.globl _F1
+                             35 	.globl _P
+                             36 	.globl _IRCON_DMAIF
+                             37 	.globl _IRCON_T1IF
+                             38 	.globl _IRCON_T2IF
+                             39 	.globl _IRCON_T3IF
+                             40 	.globl _IRCON_T4IF
+                             41 	.globl _IRCON_P0IF
+                             42 	.globl _IRCON_STIF
+                             43 	.globl _IEN1_DMAIE
+                             44 	.globl _IEN1_T1IE
+                             45 	.globl _IEN1_T2IE
+                             46 	.globl _IEN1_T3IE
+                             47 	.globl _IEN1_T4IE
+                             48 	.globl _IEN1_P0IE
+                             49 	.globl _IEN0_RFERRIE
+                             50 	.globl _IEN0_ADCIE
+                             51 	.globl _IEN0_URX0IE
+                             52 	.globl _IEN0_URX1IE
+                             53 	.globl _IEN0_ENCIE
+                             54 	.globl _IEN0_STIE
+                             55 	.globl _IEN0_EA
+                             56 	.globl _EA
+                             57 	.globl _P2_4
+                             58 	.globl _P2_3
+                             59 	.globl _P2_2
+                             60 	.globl _P2_1
+                             61 	.globl _P2_0
+                             62 	.globl _S0CON_ENCIF_0
+                             63 	.globl _S0CON_ENCIF_1
+                             64 	.globl _P1_7
+                             65 	.globl _P1_6
+                             66 	.globl _P1_5
+                             67 	.globl _P1_4
+                             68 	.globl _P1_3
+                             69 	.globl _P1_2
+                             70 	.globl _P1_1
+                             71 	.globl _P1_0
+                             72 	.globl _TCON_IT0
+                             73 	.globl _TCON_RFERRIF
+                             74 	.globl _TCON_IT1
+                             75 	.globl _TCON_URX0IF
+                             76 	.globl _TCON_ADCIF
+                             77 	.globl _TCON_URX1IF
+                             78 	.globl _P0_0
+                             79 	.globl _P0_1
+                             80 	.globl _P0_2
+                             81 	.globl _P0_3
+                             82 	.globl _P0_4
+                             83 	.globl _P0_5
+                             84 	.globl _P0_6
+                             85 	.globl _P0_7
+                             86 	.globl _P2DIR
+                             87 	.globl _P1DIR
+                             88 	.globl _P0DIR
+                             89 	.globl _U1GCR
+                             90 	.globl _U1UCR
+                             91 	.globl _U1BAUD
+                             92 	.globl _U1BUF
+                             93 	.globl _U1CSR
+                             94 	.globl _P2INP
+                             95 	.globl _P1INP
+                             96 	.globl _P2SEL
+                             97 	.globl _P1SEL
+                             98 	.globl _P0SEL
+                             99 	.globl _ADCCFG
+                            100 	.globl _PERCFG
+                            101 	.globl _B
+                            102 	.globl _T4CC1
+                            103 	.globl _T4CCTL1
+                            104 	.globl _T4CC0
+                            105 	.globl _T4CCTL0
+                            106 	.globl _T4CTL
+                            107 	.globl _T4CNT
+                            108 	.globl _RFIF
+                            109 	.globl _IRCON2
+                            110 	.globl _T1CCTL2
+                            111 	.globl _T1CCTL1
+                            112 	.globl _T1CCTL0
+                            113 	.globl _T1CTL
+                            114 	.globl _T1CNTH
+                            115 	.globl _T1CNTL
+                            116 	.globl _RFST
+                            117 	.globl _ACC
+                            118 	.globl _T1CC2H
+                            119 	.globl _T1CC2L
+                            120 	.globl _T1CC1H
+                            121 	.globl _T1CC1L
+                            122 	.globl _T1CC0H
+                            123 	.globl _T1CC0L
+                            124 	.globl _RFD
+                            125 	.globl _TIMIF
+                            126 	.globl _DMAREQ
+                            127 	.globl _DMAARM
+                            128 	.globl _DMA0CFGH
+                            129 	.globl _DMA0CFGL
+                            130 	.globl _DMA1CFGH
+                            131 	.globl _DMA1CFGL
+                            132 	.globl _DMAIRQ
+                            133 	.globl _PSW
+                            134 	.globl _T3CC1
+                            135 	.globl _T3CCTL1
+                            136 	.globl _T3CC0
+                            137 	.globl _T3CCTL0
+                            138 	.globl _T3CTL
+                            139 	.globl _T3CNT
+                            140 	.globl _WDCTL
+                            141 	.globl _T2CON
+                            142 	.globl _MEMCTR
+                            143 	.globl _CLKCON
+                            144 	.globl _U0GCR
+                            145 	.globl _U0UCR
+                            146 	.globl _T2CNF
+                            147 	.globl _U0BAUD
+                            148 	.globl _U0BUF
+                            149 	.globl _IRCON
+                            150 	.globl _SLEEP
+                            151 	.globl _RNDH
+                            152 	.globl _RNDL
+                            153 	.globl _ADCH
+                            154 	.globl _ADCL
+                            155 	.globl _IP1
+                            156 	.globl _IEN1
+                            157 	.globl _RCCTL
+                            158 	.globl _ADCCON3
+                            159 	.globl _ADCCON2
+                            160 	.globl _ADCCON1
+                            161 	.globl _ENCCS
+                            162 	.globl _ENCDO
+                            163 	.globl _ENCDI
+                            164 	.globl _FWDATA
+                            165 	.globl _FCTL
+                            166 	.globl _FADDRH
+                            167 	.globl _FADDRL
+                            168 	.globl _FWT
+                            169 	.globl _IP0
+                            170 	.globl _IEN0
+                            171 	.globl _IE
+                            172 	.globl _T2THD
+                            173 	.globl _T2TLD
+                            174 	.globl _T2CAPHPH
+                            175 	.globl _T2CAPLPL
+                            176 	.globl _T2OF2
+                            177 	.globl _T2OF1
+                            178 	.globl _T2OF0
+                            179 	.globl _P2
+                            180 	.globl _PSBANK
+                            181 	.globl _FMAP
+                            182 	.globl _T2PEROF2
+                            183 	.globl _T2PEROF1
+                            184 	.globl _T2PEROF0
+                            185 	.globl _S1CON
+                            186 	.globl _IEN2
+                            187 	.globl _HSRC
+                            188 	.globl _S0CON
+                            189 	.globl _ST2
+                            190 	.globl _ST1
+                            191 	.globl _ST0
+                            192 	.globl _T2CMP
+                            193 	.globl __XPAGE
+                            194 	.globl _DPS
+                            195 	.globl _RFIM
+                            196 	.globl _P1
+                            197 	.globl _P0INP
+                            198 	.globl _P1IEN
+                            199 	.globl _PICTL
+                            200 	.globl _P2IFG
+                            201 	.globl _P1IFG
+                            202 	.globl _P0IFG
+                            203 	.globl _TCON
+                            204 	.globl _PCON
+                            205 	.globl _U0CSR
+                            206 	.globl _DPH1
+                            207 	.globl _DPL1
+                            208 	.globl _DPH0
+                            209 	.globl _DPL0
+                            210 	.globl _SP
+                            211 	.globl _P0
+                            212 	.globl _ADC_SHADOW
+                            213 	.globl _U1BUF_SHADOW
+                            214 	.globl _RFD_SHADOW
+                            215 	.globl _U0BUF_SHADOW
+                            216 	.globl _RFSTATUS
+                            217 	.globl _CHIPID
+                            218 	.globl _CHVER
+                            219 	.globl _FSMTC1
+                            220 	.globl _RXFIFOCNT
+                            221 	.globl _IOCFG3
+                            222 	.globl _IOCFG2
+                            223 	.globl _IOCFG1
+                            224 	.globl _IOCFG0
+                            225 	.globl _SHORTADDRL
+                            226 	.globl _SHORTADDRH
+                            227 	.globl _PANIDL
+                            228 	.globl _PANIDH
+                            229 	.globl _IEEE_ADDR7
+                            230 	.globl _IEEE_ADDR6
+                            231 	.globl _IEEE_ADDR5
+                            232 	.globl _IEEE_ADDR4
+                            233 	.globl _IEEE_ADDR3
+                            234 	.globl _IEEE_ADDR2
+                            235 	.globl _IEEE_ADDR1
+                            236 	.globl _IEEE_ADDR0
+                            237 	.globl _DACTSTL
+                            238 	.globl _DACTSTH
+                            239 	.globl _ADCTSTL
+                            240 	.globl _ADCTSTH
+                            241 	.globl _FSMSTATE
+                            242 	.globl _AGCCTRLL
+                            243 	.globl _AGCCTRLH
+                            244 	.globl _MANORL
+                            245 	.globl _MANORH
+                            246 	.globl _MANANDL
+                            247 	.globl _MANANDH
+                            248 	.globl _FSMTCL
+                            249 	.globl _FSMTCH
+                            250 	.globl _RFPWR
+                            251 	.globl _CSPT
+                            252 	.globl _CSPCTRL
+                            253 	.globl _CSPZ
+                            254 	.globl _CSPY
+                            255 	.globl _CSPX
+                            256 	.globl _FSCTRLL
+                            257 	.globl _FSCTRLH
+                            258 	.globl _RXCTRL1L
+                            259 	.globl _RXCTRL1H
+                            260 	.globl _RXCTRL0L
+                            261 	.globl _RXCTRL0H
+                            262 	.globl _TXCTRLL
+                            263 	.globl _TXCTRLH
+                            264 	.globl _SYNCWORDL
+                            265 	.globl _SYNCWORDH
+                            266 	.globl _RSSIL
+                            267 	.globl _RSSIH
+                            268 	.globl _MDMCTRL1L
+                            269 	.globl _MDMCTRL1H
+                            270 	.globl _MDMCTRL0L
+                            271 	.globl _MDMCTRL0H
+                            272 ;--------------------------------------------------------
+                            273 ; special function registers
+                            274 ;--------------------------------------------------------
+                            275 	.area RSEG    (ABS,DATA)
+   0000                     276 	.org 0x0000
+                    0080    277 _P0	=	0x0080
+                    0081    278 _SP	=	0x0081
+                    0082    279 _DPL0	=	0x0082
+                    0083    280 _DPH0	=	0x0083
+                    0084    281 _DPL1	=	0x0084
+                    0085    282 _DPH1	=	0x0085
+                    0086    283 _U0CSR	=	0x0086
+                    0087    284 _PCON	=	0x0087
+                    0088    285 _TCON	=	0x0088
+                    0089    286 _P0IFG	=	0x0089
+                    008A    287 _P1IFG	=	0x008a
+                    008B    288 _P2IFG	=	0x008b
+                    008C    289 _PICTL	=	0x008c
+                    008D    290 _P1IEN	=	0x008d
+                    008F    291 _P0INP	=	0x008f
+                    0090    292 _P1	=	0x0090
+                    0091    293 _RFIM	=	0x0091
+                    0092    294 _DPS	=	0x0092
+                    0093    295 __XPAGE	=	0x0093
+                    0094    296 _T2CMP	=	0x0094
+                    0095    297 _ST0	=	0x0095
+                    0096    298 _ST1	=	0x0096
+                    0097    299 _ST2	=	0x0097
+                    0098    300 _S0CON	=	0x0098
+                    0099    301 _HSRC	=	0x0099
+                    009A    302 _IEN2	=	0x009a
+                    009B    303 _S1CON	=	0x009b
+                    009C    304 _T2PEROF0	=	0x009c
+                    009D    305 _T2PEROF1	=	0x009d
+                    009E    306 _T2PEROF2	=	0x009e
+                    009F    307 _FMAP	=	0x009f
+                    009F    308 _PSBANK	=	0x009f
+                    00A0    309 _P2	=	0x00a0
+                    00A1    310 _T2OF0	=	0x00a1
+                    00A2    311 _T2OF1	=	0x00a2
+                    00A3    312 _T2OF2	=	0x00a3
+                    00A4    313 _T2CAPLPL	=	0x00a4
+                    00A5    314 _T2CAPHPH	=	0x00a5
+                    00A6    315 _T2TLD	=	0x00a6
+                    00A7    316 _T2THD	=	0x00a7
+                    00A8    317 _IE	=	0x00a8
+                    00A8    318 _IEN0	=	0x00a8
+                    00A9    319 _IP0	=	0x00a9
+                    00AB    320 _FWT	=	0x00ab
+                    00AC    321 _FADDRL	=	0x00ac
+                    00AD    322 _FADDRH	=	0x00ad
+                    00AE    323 _FCTL	=	0x00ae
+                    00AF    324 _FWDATA	=	0x00af
+                    00B1    325 _ENCDI	=	0x00b1
+                    00B2    326 _ENCDO	=	0x00b2
+                    00B3    327 _ENCCS	=	0x00b3
+                    00B4    328 _ADCCON1	=	0x00b4
+                    00B5    329 _ADCCON2	=	0x00b5
+                    00B6    330 _ADCCON3	=	0x00b6
+                    00B7    331 _RCCTL	=	0x00b7
+                    00B8    332 _IEN1	=	0x00b8
+                    00B9    333 _IP1	=	0x00b9
+                    00BA    334 _ADCL	=	0x00ba
+                    00BB    335 _ADCH	=	0x00bb
+                    00BC    336 _RNDL	=	0x00bc
+                    00BD    337 _RNDH	=	0x00bd
+                    00BE    338 _SLEEP	=	0x00be
+                    00C0    339 _IRCON	=	0x00c0
+                    00C1    340 _U0BUF	=	0x00c1
+                    00C2    341 _U0BAUD	=	0x00c2
+                    00C3    342 _T2CNF	=	0x00c3
+                    00C4    343 _U0UCR	=	0x00c4
+                    00C5    344 _U0GCR	=	0x00c5
+                    00C6    345 _CLKCON	=	0x00c6
+                    00C7    346 _MEMCTR	=	0x00c7
+                    00C8    347 _T2CON	=	0x00c8
+                    00C9    348 _WDCTL	=	0x00c9
+                    00CA    349 _T3CNT	=	0x00ca
+                    00CB    350 _T3CTL	=	0x00cb
+                    00CC    351 _T3CCTL0	=	0x00cc
+                    00CD    352 _T3CC0	=	0x00cd
+                    00CE    353 _T3CCTL1	=	0x00ce
+                    00CF    354 _T3CC1	=	0x00cf
+                    00D0    355 _PSW	=	0x00d0
+                    00D1    356 _DMAIRQ	=	0x00d1
+                    00D2    357 _DMA1CFGL	=	0x00d2
+                    00D3    358 _DMA1CFGH	=	0x00d3
+                    00D4    359 _DMA0CFGL	=	0x00d4
+                    00D5    360 _DMA0CFGH	=	0x00d5
+                    00D6    361 _DMAARM	=	0x00d6
+                    00D7    362 _DMAREQ	=	0x00d7
+                    00D8    363 _TIMIF	=	0x00d8
+                    00D9    364 _RFD	=	0x00d9
+                    00DA    365 _T1CC0L	=	0x00da
+                    00DB    366 _T1CC0H	=	0x00db
+                    00DC    367 _T1CC1L	=	0x00dc
+                    00DD    368 _T1CC1H	=	0x00dd
+                    00DE    369 _T1CC2L	=	0x00de
+                    00DF    370 _T1CC2H	=	0x00df
+                    00E0    371 _ACC	=	0x00e0
+                    00E1    372 _RFST	=	0x00e1
+                    00E2    373 _T1CNTL	=	0x00e2
+                    00E3    374 _T1CNTH	=	0x00e3
+                    00E4    375 _T1CTL	=	0x00e4
+                    00E5    376 _T1CCTL0	=	0x00e5
+                    00E6    377 _T1CCTL1	=	0x00e6
+                    00E7    378 _T1CCTL2	=	0x00e7
+                    00E8    379 _IRCON2	=	0x00e8
+                    00E9    380 _RFIF	=	0x00e9
+                    00EA    381 _T4CNT	=	0x00ea
+                    00EB    382 _T4CTL	=	0x00eb
+                    00EC    383 _T4CCTL0	=	0x00ec
+                    00ED    384 _T4CC0	=	0x00ed
+                    00EE    385 _T4CCTL1	=	0x00ee
+                    00EF    386 _T4CC1	=	0x00ef
+                    00F0    387 _B	=	0x00f0
+                    00F1    388 _PERCFG	=	0x00f1
+                    00F2    389 _ADCCFG	=	0x00f2
+                    00F3    390 _P0SEL	=	0x00f3
+                    00F4    391 _P1SEL	=	0x00f4
+                    00F5    392 _P2SEL	=	0x00f5
+                    00F6    393 _P1INP	=	0x00f6
+                    00F7    394 _P2INP	=	0x00f7
+                    00F8    395 _U1CSR	=	0x00f8
+                    00F9    396 _U1BUF	=	0x00f9
+                    00FA    397 _U1BAUD	=	0x00fa
+                    00FB    398 _U1UCR	=	0x00fb
+                    00FC    399 _U1GCR	=	0x00fc
+                    00FD    400 _P0DIR	=	0x00fd
+                    00FE    401 _P1DIR	=	0x00fe
+                    00FF    402 _P2DIR	=	0x00ff
+                            403 ;--------------------------------------------------------
+                            404 ; special function bits
+                            405 ;--------------------------------------------------------
+                            406 	.area RSEG    (ABS,DATA)
+   0000                     407 	.org 0x0000
+                    0087    408 _P0_7	=	0x0087
+                    0086    409 _P0_6	=	0x0086
+                    0085    410 _P0_5	=	0x0085
+                    0084    411 _P0_4	=	0x0084
+                    0083    412 _P0_3	=	0x0083
+                    0082    413 _P0_2	=	0x0082
+                    0081    414 _P0_1	=	0x0081
+                    0080    415 _P0_0	=	0x0080
+                    008F    416 _TCON_URX1IF	=	0x008f
+                    008D    417 _TCON_ADCIF	=	0x008d
+                    008B    418 _TCON_URX0IF	=	0x008b
+                    008A    419 _TCON_IT1	=	0x008a
+                    0089    420 _TCON_RFERRIF	=	0x0089
+                    0088    421 _TCON_IT0	=	0x0088
+                    0090    422 _P1_0	=	0x0090
+                    0091    423 _P1_1	=	0x0091
+                    0092    424 _P1_2	=	0x0092
+                    0093    425 _P1_3	=	0x0093
+                    0094    426 _P1_4	=	0x0094
+                    0095    427 _P1_5	=	0x0095
+                    0096    428 _P1_6	=	0x0096
+                    0097    429 _P1_7	=	0x0097
+                    0099    430 _S0CON_ENCIF_1	=	0x0099
+                    0098    431 _S0CON_ENCIF_0	=	0x0098
+                    00A0    432 _P2_0	=	0x00a0
+                    00A1    433 _P2_1	=	0x00a1
+                    00A2    434 _P2_2	=	0x00a2
+                    00A3    435 _P2_3	=	0x00a3
+                    00A4    436 _P2_4	=	0x00a4
+                    00AF    437 _EA	=	0x00af
+                    00AF    438 _IEN0_EA	=	0x00af
+                    00AD    439 _IEN0_STIE	=	0x00ad
+                    00AC    440 _IEN0_ENCIE	=	0x00ac
+                    00AB    441 _IEN0_URX1IE	=	0x00ab
+                    00AA    442 _IEN0_URX0IE	=	0x00aa
+                    00A9    443 _IEN0_ADCIE	=	0x00a9
+                    00A8    444 _IEN0_RFERRIE	=	0x00a8
+                    00BD    445 _IEN1_P0IE	=	0x00bd
+                    00BC    446 _IEN1_T4IE	=	0x00bc
+                    00BB    447 _IEN1_T3IE	=	0x00bb
+                    00BA    448 _IEN1_T2IE	=	0x00ba
+                    00B9    449 _IEN1_T1IE	=	0x00b9
+                    00B8    450 _IEN1_DMAIE	=	0x00b8
+                    00C7    451 _IRCON_STIF	=	0x00c7
+                    00C5    452 _IRCON_P0IF	=	0x00c5
+                    00C4    453 _IRCON_T4IF	=	0x00c4
+                    00C3    454 _IRCON_T3IF	=	0x00c3
+                    00C2    455 _IRCON_T2IF	=	0x00c2
+                    00C1    456 _IRCON_T1IF	=	0x00c1
+                    00C0    457 _IRCON_DMAIF	=	0x00c0
+                    00D0    458 _P	=	0x00d0
+                    00D1    459 _F1	=	0x00d1
+                    00D2    460 _OV	=	0x00d2
+                    00D3    461 _RS0	=	0x00d3
+                    00D4    462 _RS1	=	0x00d4
+                    00D5    463 _F0	=	0x00d5
+                    00D6    464 _AC	=	0x00d6
+                    00D7    465 _CY	=	0x00d7
+                    00EC    466 _IRCON2_WDTIF	=	0x00ec
+                    00EB    467 _IRCON2_P1IF	=	0x00eb
+                    00EA    468 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    469 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    470 _IRCON2_P2IF	=	0x00e8
+                            471 ;--------------------------------------------------------
+                            472 ; overlayable register banks
+                            473 ;--------------------------------------------------------
+                            474 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     475 	.ds 8
+                            476 ;--------------------------------------------------------
+                            477 ; internal ram data
+                            478 ;--------------------------------------------------------
+                            479 	.area DSEG    (DATA)
+                            480 ;--------------------------------------------------------
+                            481 ; overlayable items in internal ram 
+                            482 ;--------------------------------------------------------
+                            483 	.area OSEG    (OVR,DATA)
+                            484 ;--------------------------------------------------------
+                            485 ; indirectly addressable internal ram data
+                            486 ;--------------------------------------------------------
+                            487 	.area ISEG    (DATA)
+                            488 ;--------------------------------------------------------
+                            489 ; absolute internal ram data
+                            490 ;--------------------------------------------------------
+                            491 	.area IABS    (ABS,DATA)
+                            492 	.area IABS    (ABS,DATA)
+                            493 ;--------------------------------------------------------
+                            494 ; bit data
+                            495 ;--------------------------------------------------------
+                            496 	.area BSEG    (BIT)
+                            497 ;--------------------------------------------------------
+                            498 ; paged external ram data
+                            499 ;--------------------------------------------------------
+                            500 	.area PSEG    (PAG,XDATA)
+                            501 ;--------------------------------------------------------
+                            502 ; external ram data
+                            503 ;--------------------------------------------------------
+                            504 	.area XSEG    (XDATA)
+                    DF02    505 _MDMCTRL0H	=	0xdf02
+                    DF03    506 _MDMCTRL0L	=	0xdf03
+                    DF04    507 _MDMCTRL1H	=	0xdf04
+                    DF05    508 _MDMCTRL1L	=	0xdf05
+                    DF06    509 _RSSIH	=	0xdf06
+                    DF07    510 _RSSIL	=	0xdf07
+                    DF08    511 _SYNCWORDH	=	0xdf08
+                    DF09    512 _SYNCWORDL	=	0xdf09
+                    DF0A    513 _TXCTRLH	=	0xdf0a
+                    DF0B    514 _TXCTRLL	=	0xdf0b
+                    DF0C    515 _RXCTRL0H	=	0xdf0c
+                    DF0D    516 _RXCTRL0L	=	0xdf0d
+                    DF0E    517 _RXCTRL1H	=	0xdf0e
+                    DF0F    518 _RXCTRL1L	=	0xdf0f
+                    DF10    519 _FSCTRLH	=	0xdf10
+                    DF11    520 _FSCTRLL	=	0xdf11
+                    DF12    521 _CSPX	=	0xdf12
+                    DF13    522 _CSPY	=	0xdf13
+                    DF14    523 _CSPZ	=	0xdf14
+                    DF15    524 _CSPCTRL	=	0xdf15
+                    DF16    525 _CSPT	=	0xdf16
+                    DF17    526 _RFPWR	=	0xdf17
+                    DF20    527 _FSMTCH	=	0xdf20
+                    DF21    528 _FSMTCL	=	0xdf21
+                    DF22    529 _MANANDH	=	0xdf22
+                    DF23    530 _MANANDL	=	0xdf23
+                    DF24    531 _MANORH	=	0xdf24
+                    DF25    532 _MANORL	=	0xdf25
+                    DF26    533 _AGCCTRLH	=	0xdf26
+                    DF27    534 _AGCCTRLL	=	0xdf27
+                    DF39    535 _FSMSTATE	=	0xdf39
+                    DF3A    536 _ADCTSTH	=	0xdf3a
+                    DF3B    537 _ADCTSTL	=	0xdf3b
+                    DF3C    538 _DACTSTH	=	0xdf3c
+                    DF3D    539 _DACTSTL	=	0xdf3d
+                    DF43    540 _IEEE_ADDR0	=	0xdf43
+                    DF44    541 _IEEE_ADDR1	=	0xdf44
+                    DF45    542 _IEEE_ADDR2	=	0xdf45
+                    DF46    543 _IEEE_ADDR3	=	0xdf46
+                    DF47    544 _IEEE_ADDR4	=	0xdf47
+                    DF48    545 _IEEE_ADDR5	=	0xdf48
+                    DF49    546 _IEEE_ADDR6	=	0xdf49
+                    DF4A    547 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    548 _PANIDH	=	0xdf4b
+                    DF4C    549 _PANIDL	=	0xdf4c
+                    DF4D    550 _SHORTADDRH	=	0xdf4d
+                    DF4E    551 _SHORTADDRL	=	0xdf4e
+                    DF4F    552 _IOCFG0	=	0xdf4f
+                    DF50    553 _IOCFG1	=	0xdf50
+                    DF51    554 _IOCFG2	=	0xdf51
+                    DF52    555 _IOCFG3	=	0xdf52
+                    DF53    556 _RXFIFOCNT	=	0xdf53
+                    DF54    557 _FSMTC1	=	0xdf54
+                    DF60    558 _CHVER	=	0xdf60
+                    DF61    559 _CHIPID	=	0xdf61
+                    DF62    560 _RFSTATUS	=	0xdf62
+                    DFC1    561 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    562 _RFD_SHADOW	=	0xdfd9
+                    DFF9    563 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    564 _ADC_SHADOW	=	0xdfba
+                            565 ;--------------------------------------------------------
+                            566 ; absolute external ram data
+                            567 ;--------------------------------------------------------
+                            568 	.area XABS    (ABS,XDATA)
+                            569 ;--------------------------------------------------------
+                            570 ; external initialized ram data
+                            571 ;--------------------------------------------------------
+                            572 	.area XISEG   (XDATA)
+                            573 	.area HOME    (CODE)
+                            574 	.area GSINIT0 (CODE)
+                            575 	.area GSINIT1 (CODE)
+                            576 	.area GSINIT2 (CODE)
+                            577 	.area GSINIT3 (CODE)
+                            578 	.area GSINIT4 (CODE)
+                            579 	.area GSINIT5 (CODE)
+                            580 	.area GSINIT  (CODE)
+                            581 	.area GSFINAL (CODE)
+                            582 	.area CSEG    (CODE)
+                            583 ;--------------------------------------------------------
+                            584 ; global & static initialisations
+                            585 ;--------------------------------------------------------
+                            586 	.area HOME    (CODE)
+                            587 	.area GSINIT  (CODE)
+                            588 	.area GSFINAL (CODE)
+                            589 	.area GSINIT  (CODE)
+                            590 ;--------------------------------------------------------
+                            591 ; Home
+                            592 ;--------------------------------------------------------
+                            593 	.area HOME    (CODE)
+                            594 	.area HOME    (CODE)
+                            595 ;--------------------------------------------------------
+                            596 ; code
+                            597 ;--------------------------------------------------------
+                            598 	.area CSEG    (CODE)
+                            599 ;------------------------------------------------------------
+                            600 ;Allocation info for local variables in function 'input'
+                            601 ;------------------------------------------------------------
+                            602 ;a                         Allocated to registers 
+                            603 ;byteptr                   Allocated to stack - _bp +1
+                            604 ;bitptr                    Allocated to registers 
+                            605 ;len                       Allocated to stack - _bp +3
+                            606 ;hdrptr                    Allocated to stack - _bp +5
+                            607 ;hdr                       Allocated to registers r5 r6 r7 
+                            608 ;c                         Allocated to stack - _bp +8
+                            609 ;addr                      Allocated to stack - _bp +11
+                            610 ;val                       Allocated to stack - _bp +13
+                            611 ;sloc0                     Allocated to stack - _bp +15
+                            612 ;sloc1                     Allocated to stack - _bp +17
+                            613 ;sloc2                     Allocated to stack - _bp +20
+                            614 ;------------------------------------------------------------
+                            615 ;	../../core/net/rime/chameleon-raw.c:70: input(void)
+                            616 ;	-----------------------------------------
+                            617 ;	 function input
+                            618 ;	-----------------------------------------
+   0000                     619 _input:
+                    0007    620 	ar7 = 0x07
+                    0006    621 	ar6 = 0x06
+                    0005    622 	ar5 = 0x05
+                    0004    623 	ar4 = 0x04
+                    0003    624 	ar3 = 0x03
+                    0002    625 	ar2 = 0x02
+                    0001    626 	ar1 = 0x01
+                    0000    627 	ar0 = 0x00
+   0000 C0*00               628 	push	_bp
+   0002 E5 81               629 	mov	a,sp
+   0004 F5*00               630 	mov	_bp,a
+   0006 24 16               631 	add	a,#0x16
+   0008 F5 81               632 	mov	sp,a
+                            633 ;	../../core/net/rime/chameleon-raw.c:80: hdr = (struct raw_hdr *)packetbuf_dataptr();
+   000A 12s00r00            634 	lcall	_packetbuf_dataptr
+   000D AD 82               635 	mov	r5,dpl
+   000F AE 83               636 	mov	r6,dph
+   0011 AF F0               637 	mov	r7,b
+                            638 ;	../../core/net/rime/chameleon-raw.c:81: if(packetbuf_hdrreduce(sizeof(struct raw_hdr)) == 0) {
+   0013 90 00 02            639 	mov	dptr,#0x0002
+   0016 C0 07               640 	push	ar7
+   0018 C0 06               641 	push	ar6
+   001A C0 05               642 	push	ar5
+   001C 12s00r00            643 	lcall	_packetbuf_hdrreduce
+   001F E5 82               644 	mov	a,dpl
+   0021 85 83 F0            645 	mov	b,dph
+   0024 D0 05               646 	pop	ar5
+   0026 D0 06               647 	pop	ar6
+   0028 D0 07               648 	pop	ar7
+   002A 45 F0               649 	orl	a,b
+                            650 ;	../../core/net/rime/chameleon-raw.c:83: return NULL;
+   002C 70 08               651 	jnz	00102$
+   002E 90 00 00            652 	mov	dptr,#0x0000
+   0031 F5 F0               653 	mov	b,a
+   0033 02s03r2E            654 	ljmp	00114$
+   0036                     655 00102$:
+                            656 ;	../../core/net/rime/chameleon-raw.c:85: c = channel_lookup((hdr->channel[1] << 8) + hdr->channel[0]);
+   0036 74 01               657 	mov	a,#0x01
+   0038 2D                  658 	add	a,r5
+   0039 FA                  659 	mov	r2,a
+   003A E4                  660 	clr	a
+   003B 3E                  661 	addc	a,r6
+   003C FB                  662 	mov	r3,a
+   003D 8F 04               663 	mov	ar4,r7
+   003F 8A 82               664 	mov	dpl,r2
+   0041 8B 83               665 	mov	dph,r3
+   0043 8C F0               666 	mov	b,r4
+   0045 12s00r00            667 	lcall	__gptrget
+   0048 FC                  668 	mov	r4,a
+   0049 7A 00               669 	mov	r2,#0x00
+   004B 8D 82               670 	mov	dpl,r5
+   004D 8E 83               671 	mov	dph,r6
+   004F 8F F0               672 	mov	b,r7
+   0051 12s00r00            673 	lcall	__gptrget
+   0054 7F 00               674 	mov	r7,#0x00
+   0056 2A                  675 	add	a,r2
+   0057 FA                  676 	mov	r2,a
+   0058 EF                  677 	mov	a,r7
+   0059 3C                  678 	addc	a,r4
+   005A FC                  679 	mov	r4,a
+   005B 8A 82               680 	mov	dpl,r2
+   005D 8C 83               681 	mov	dph,r4
+   005F 12s00r00            682 	lcall	_channel_lookup
+   0062 AD 82               683 	mov	r5,dpl
+   0064 AE 83               684 	mov	r6,dph
+   0066 AF F0               685 	mov	r7,b
+   0068 E5*00               686 	mov	a,_bp
+   006A 24 08               687 	add	a,#0x08
+   006C F8                  688 	mov	r0,a
+   006D A6 05               689 	mov	@r0,ar5
+   006F 08                  690 	inc	r0
+   0070 A6 06               691 	mov	@r0,ar6
+   0072 08                  692 	inc	r0
+   0073 A6 07               693 	mov	@r0,ar7
+                            694 ;	../../core/net/rime/chameleon-raw.c:86: if(c == NULL) {
+   0075 E5*00               695 	mov	a,_bp
+   0077 24 08               696 	add	a,#0x08
+   0079 F8                  697 	mov	r0,a
+   007A E6                  698 	mov	a,@r0
+   007B 08                  699 	inc	r0
+   007C 46                  700 	orl	a,@r0
+                            701 ;	../../core/net/rime/chameleon-raw.c:89: return NULL;
+   007D 70 08               702 	jnz	00104$
+   007F 90 00 00            703 	mov	dptr,#0x0000
+   0082 F5 F0               704 	mov	b,a
+   0084 02s03r2E            705 	ljmp	00114$
+   0087                     706 00104$:
+                            707 ;	../../core/net/rime/chameleon-raw.c:92: hdrptr = packetbuf_dataptr();
+   0087 12s00r00            708 	lcall	_packetbuf_dataptr
+   008A AA 82               709 	mov	r2,dpl
+   008C AB 83               710 	mov	r3,dph
+   008E AC F0               711 	mov	r4,b
+   0090 E5*00               712 	mov	a,_bp
+   0092 24 05               713 	add	a,#0x05
+   0094 F8                  714 	mov	r0,a
+   0095 A6 02               715 	mov	@r0,ar2
+   0097 08                  716 	inc	r0
+   0098 A6 03               717 	mov	@r0,ar3
+   009A 08                  718 	inc	r0
+   009B A6 04               719 	mov	@r0,ar4
+                            720 ;	../../core/net/rime/chameleon-raw.c:93: if(packetbuf_hdrreduce(c->hdrsize) == 0) {
+   009D E5*00               721 	mov	a,_bp
+   009F 24 08               722 	add	a,#0x08
+   00A1 F8                  723 	mov	r0,a
+   00A2 74 08               724 	mov	a,#0x08
+   00A4 26                  725 	add	a,@r0
+   00A5 FD                  726 	mov	r5,a
+   00A6 E4                  727 	clr	a
+   00A7 08                  728 	inc	r0
+   00A8 36                  729 	addc	a,@r0
+   00A9 FE                  730 	mov	r6,a
+   00AA 08                  731 	inc	r0
+   00AB 86 07               732 	mov	ar7,@r0
+   00AD 8D 82               733 	mov	dpl,r5
+   00AF 8E 83               734 	mov	dph,r6
+   00B1 8F F0               735 	mov	b,r7
+   00B3 12s00r00            736 	lcall	__gptrget
+   00B6 FD                  737 	mov	r5,a
+   00B7 7F 00               738 	mov	r7,#0x00
+   00B9 8D 82               739 	mov	dpl,r5
+   00BB 8F 83               740 	mov	dph,r7
+   00BD 12s00r00            741 	lcall	_packetbuf_hdrreduce
+   00C0 E5 82               742 	mov	a,dpl
+   00C2 85 83 F0            743 	mov	b,dph
+   00C5 45 F0               744 	orl	a,b
+                            745 ;	../../core/net/rime/chameleon-raw.c:95: return NULL;
+   00C7 70 08               746 	jnz	00106$
+   00C9 90 00 00            747 	mov	dptr,#0x0000
+   00CC F5 F0               748 	mov	b,a
+   00CE 02s03r2E            749 	ljmp	00114$
+   00D1                     750 00106$:
+                            751 ;	../../core/net/rime/chameleon-raw.c:97: byteptr = bitptr = 0;
+   00D1 A8*00               752 	mov	r0,_bp
+   00D3 08                  753 	inc	r0
+   00D4 E4                  754 	clr	a
+   00D5 F6                  755 	mov	@r0,a
+   00D6 08                  756 	inc	r0
+   00D7 F6                  757 	mov	@r0,a
+                            758 ;	../../core/net/rime/chameleon-raw.c:98: for(a = c->attrlist; a->type != PACKETBUF_ATTR_NONE; ++a) {
+   00D8 E5*00               759 	mov	a,_bp
+   00DA 24 08               760 	add	a,#0x08
+   00DC F8                  761 	mov	r0,a
+   00DD 74 05               762 	mov	a,#0x05
+   00DF 26                  763 	add	a,@r0
+   00E0 FB                  764 	mov	r3,a
+   00E1 E4                  765 	clr	a
+   00E2 08                  766 	inc	r0
+   00E3 36                  767 	addc	a,@r0
+   00E4 FC                  768 	mov	r4,a
+   00E5 08                  769 	inc	r0
+   00E6 86 05               770 	mov	ar5,@r0
+   00E8 8B 82               771 	mov	dpl,r3
+   00EA 8C 83               772 	mov	dph,r4
+   00EC 8D F0               773 	mov	b,r5
+   00EE 12s00r00            774 	lcall	__gptrget
+   00F1 FB                  775 	mov	r3,a
+   00F2 A3                  776 	inc	dptr
+   00F3 12s00r00            777 	lcall	__gptrget
+   00F6 FC                  778 	mov	r4,a
+   00F7 A3                  779 	inc	dptr
+   00F8 12s00r00            780 	lcall	__gptrget
+   00FB FD                  781 	mov	r5,a
+   00FC                     782 00110$:
+   00FC 8B 82               783 	mov	dpl,r3
+   00FE 8C 83               784 	mov	dph,r4
+   0100 8D F0               785 	mov	b,r5
+   0102 12s00r00            786 	lcall	__gptrget
+   0105 FA                  787 	mov	r2,a
+   0106 BA 00 03            788 	cjne	r2,#0x00,00136$
+   0109 02s03r21            789 	ljmp	00113$
+   010C                     790 00136$:
+                            791 ;	../../core/net/rime/chameleon-raw.c:109: len = (a->len & 0xf8) + ((a->len & 7) ? 8: 0);
+   010C 74 01               792 	mov	a,#0x01
+   010E 2B                  793 	add	a,r3
+   010F FA                  794 	mov	r2,a
+   0110 E4                  795 	clr	a
+   0111 3C                  796 	addc	a,r4
+   0112 FE                  797 	mov	r6,a
+   0113 8D 07               798 	mov	ar7,r5
+   0115 8A 82               799 	mov	dpl,r2
+   0117 8E 83               800 	mov	dph,r6
+   0119 8F F0               801 	mov	b,r7
+   011B 12s00r00            802 	lcall	__gptrget
+   011E FA                  803 	mov	r2,a
+   011F 74 F8               804 	mov	a,#0xF8
+   0121 5A                  805 	anl	a,r2
+   0122 FF                  806 	mov	r7,a
+   0123 E5*00               807 	mov	a,_bp
+   0125 24 0F               808 	add	a,#0x0f
+   0127 F8                  809 	mov	r0,a
+   0128 A6 07               810 	mov	@r0,ar7
+   012A 08                  811 	inc	r0
+   012B 76 00               812 	mov	@r0,#0x00
+   012D EA                  813 	mov	a,r2
+   012E 54 07               814 	anl	a,#0x07
+   0130 60 02               815 	jz	00116$
+   0132 74 08               816 	mov	a,#0x08
+   0134                     817 00116$:
+   0134 FA                  818 	mov	r2,a
+   0135 7F 00               819 	mov	r7,#0x00
+   0137 E5*00               820 	mov	a,_bp
+   0139 24 0F               821 	add	a,#0x0f
+   013B F8                  822 	mov	r0,a
+   013C EA                  823 	mov	a,r2
+   013D 26                  824 	add	a,@r0
+   013E FA                  825 	mov	r2,a
+   013F EF                  826 	mov	a,r7
+   0140 08                  827 	inc	r0
+   0141 36                  828 	addc	a,@r0
+   0142 FF                  829 	mov	r7,a
+   0143 E5*00               830 	mov	a,_bp
+   0145 24 03               831 	add	a,#0x03
+   0147 F8                  832 	mov	r0,a
+   0148 A6 02               833 	mov	@r0,ar2
+   014A 08                  834 	inc	r0
+   014B A6 07               835 	mov	@r0,ar7
+                            836 ;	../../core/net/rime/chameleon-raw.c:110: if(PACKETBUF_IS_ADDR(a->type)) {
+   014D 8B 82               837 	mov	dpl,r3
+   014F 8C 83               838 	mov	dph,r4
+   0151 8D F0               839 	mov	b,r5
+   0153 12s00r00            840 	lcall	__gptrget
+   0156 FF                  841 	mov	r7,a
+   0157 BF 18 00            842 	cjne	r7,#0x18,00138$
+   015A                     843 00138$:
+   015A 50 03               844 	jnc	00139$
+   015C 02s02r2B            845 	ljmp	00108$
+   015F                     846 00139$:
+                            847 ;	../../core/net/rime/chameleon-raw.c:112: memcpy((uint8_t *)&addr, &hdrptr[byteptr], len / 8);
+   015F C0 05               848 	push	ar5
+   0161 C0 04               849 	push	ar4
+   0163 C0 03               850 	push	ar3
+   0165 74 08               851 	mov	a,#0x08
+   0167 C0 E0               852 	push	acc
+   0169 E4                  853 	clr	a
+   016A C0 E0               854 	push	acc
+   016C E5*00               855 	mov	a,_bp
+   016E 24 03               856 	add	a,#0x03
+   0170 F8                  857 	mov	r0,a
+   0171 86 82               858 	mov	dpl,@r0
+   0173 08                  859 	inc	r0
+   0174 86 83               860 	mov	dph,@r0
+   0176 12s00r00            861 	lcall	__divsint
+   0179 AA 82               862 	mov	r2,dpl
+   017B AF 83               863 	mov	r7,dph
+   017D 15 81               864 	dec	sp
+   017F 15 81               865 	dec	sp
+   0181 E5*00               866 	mov	a,_bp
+   0183 24 0F               867 	add	a,#0x0f
+   0185 F8                  868 	mov	r0,a
+   0186 A6 02               869 	mov	@r0,ar2
+   0188 08                  870 	inc	r0
+   0189 A6 07               871 	mov	@r0,ar7
+   018B E5*00               872 	mov	a,_bp
+   018D 24 05               873 	add	a,#0x05
+   018F F8                  874 	mov	r0,a
+   0190 A9*00               875 	mov	r1,_bp
+   0192 09                  876 	inc	r1
+   0193 E7                  877 	mov	a,@r1
+   0194 26                  878 	add	a,@r0
+   0195 FA                  879 	mov	r2,a
+   0196 09                  880 	inc	r1
+   0197 E7                  881 	mov	a,@r1
+   0198 08                  882 	inc	r0
+   0199 36                  883 	addc	a,@r0
+   019A FE                  884 	mov	r6,a
+   019B 08                  885 	inc	r0
+   019C 86 07               886 	mov	ar7,@r0
+   019E E5*00               887 	mov	a,_bp
+   01A0 24 11               888 	add	a,#0x11
+   01A2 F8                  889 	mov	r0,a
+   01A3 A6 02               890 	mov	@r0,ar2
+   01A5 08                  891 	inc	r0
+   01A6 A6 06               892 	mov	@r0,ar6
+   01A8 08                  893 	inc	r0
+   01A9 A6 07               894 	mov	@r0,ar7
+   01AB E5*00               895 	mov	a,_bp
+   01AD 24 0B               896 	add	a,#0x0B
+   01AF FF                  897 	mov	r7,a
+   01B0 7E 00               898 	mov	r6,#0x00
+   01B2 7A 40               899 	mov	r2,#0x40
+   01B4 E5*00               900 	mov	a,_bp
+   01B6 24 0F               901 	add	a,#0x0f
+   01B8 F8                  902 	mov	r0,a
+   01B9 E6                  903 	mov	a,@r0
+   01BA C0 E0               904 	push	acc
+   01BC 08                  905 	inc	r0
+   01BD E6                  906 	mov	a,@r0
+   01BE C0 E0               907 	push	acc
+   01C0 E5*00               908 	mov	a,_bp
+   01C2 24 11               909 	add	a,#0x11
+   01C4 F8                  910 	mov	r0,a
+   01C5 E6                  911 	mov	a,@r0
+   01C6 C0 E0               912 	push	acc
+   01C8 08                  913 	inc	r0
+   01C9 E6                  914 	mov	a,@r0
+   01CA C0 E0               915 	push	acc
+   01CC 08                  916 	inc	r0
+   01CD E6                  917 	mov	a,@r0
+   01CE C0 E0               918 	push	acc
+   01D0 8F 82               919 	mov	dpl,r7
+   01D2 8E 83               920 	mov	dph,r6
+   01D4 8A F0               921 	mov	b,r2
+   01D6 12s00r00            922 	lcall	_memcpy
+   01D9 E5 81               923 	mov	a,sp
+   01DB 24 FB               924 	add	a,#0xfb
+   01DD F5 81               925 	mov	sp,a
+   01DF D0 03               926 	pop	ar3
+   01E1 D0 04               927 	pop	ar4
+   01E3 D0 05               928 	pop	ar5
+                            929 ;	../../core/net/rime/chameleon-raw.c:116: packetbuf_set_addr(a->type, &addr);
+   01E5 E5*00               930 	mov	a,_bp
+   01E7 24 0B               931 	add	a,#0x0B
+   01E9 FF                  932 	mov	r7,a
+   01EA E5*00               933 	mov	a,_bp
+   01EC 24 11               934 	add	a,#0x11
+   01EE F8                  935 	mov	r0,a
+   01EF A6 07               936 	mov	@r0,ar7
+   01F1 08                  937 	inc	r0
+   01F2 76 00               938 	mov	@r0,#0x00
+   01F4 08                  939 	inc	r0
+   01F5 76 40               940 	mov	@r0,#0x40
+   01F7 8B 82               941 	mov	dpl,r3
+   01F9 8C 83               942 	mov	dph,r4
+   01FB 8D F0               943 	mov	b,r5
+   01FD 12s00r00            944 	lcall	__gptrget
+   0200 FF                  945 	mov	r7,a
+   0201 C0 05               946 	push	ar5
+   0203 C0 04               947 	push	ar4
+   0205 C0 03               948 	push	ar3
+   0207 E5*00               949 	mov	a,_bp
+   0209 24 11               950 	add	a,#0x11
+   020B F8                  951 	mov	r0,a
+   020C E6                  952 	mov	a,@r0
+   020D C0 E0               953 	push	acc
+   020F 08                  954 	inc	r0
+   0210 E6                  955 	mov	a,@r0
+   0211 C0 E0               956 	push	acc
+   0213 08                  957 	inc	r0
+   0214 E6                  958 	mov	a,@r0
+   0215 C0 E0               959 	push	acc
+   0217 8F 82               960 	mov	dpl,r7
+   0219 12s00r00            961 	lcall	_packetbuf_set_addr
+   021C 15 81               962 	dec	sp
+   021E 15 81               963 	dec	sp
+   0220 15 81               964 	dec	sp
+   0222 D0 03               965 	pop	ar3
+   0224 D0 04               966 	pop	ar4
+   0226 D0 05               967 	pop	ar5
+   0228 02s02rE5            968 	ljmp	00109$
+   022B                     969 00108$:
+                            970 ;	../../core/net/rime/chameleon-raw.c:118: packetbuf_attr_t val = 0;
+   022B E5*00               971 	mov	a,_bp
+   022D 24 0D               972 	add	a,#0x0d
+   022F F8                  973 	mov	r0,a
+   0230 E4                  974 	clr	a
+   0231 F6                  975 	mov	@r0,a
+   0232 08                  976 	inc	r0
+   0233 F6                  977 	mov	@r0,a
+                            978 ;	../../core/net/rime/chameleon-raw.c:119: memcpy((uint8_t *)&val, &hdrptr[byteptr], len / 8);
+   0234 C0 05               979 	push	ar5
+   0236 C0 04               980 	push	ar4
+   0238 C0 03               981 	push	ar3
+   023A 74 08               982 	mov	a,#0x08
+   023C C0 E0               983 	push	acc
+   023E E4                  984 	clr	a
+   023F C0 E0               985 	push	acc
+   0241 E5*00               986 	mov	a,_bp
+   0243 24 03               987 	add	a,#0x03
+   0245 F8                  988 	mov	r0,a
+   0246 86 82               989 	mov	dpl,@r0
+   0248 08                  990 	inc	r0
+   0249 86 83               991 	mov	dph,@r0
+   024B 12s00r00            992 	lcall	__divsint
+   024E AE 82               993 	mov	r6,dpl
+   0250 AF 83               994 	mov	r7,dph
+   0252 15 81               995 	dec	sp
+   0254 15 81               996 	dec	sp
+   0256 E5*00               997 	mov	a,_bp
+   0258 24 11               998 	add	a,#0x11
+   025A F8                  999 	mov	r0,a
+   025B A6 06              1000 	mov	@r0,ar6
+   025D 08                 1001 	inc	r0
+   025E A6 07              1002 	mov	@r0,ar7
+   0260 E5*00              1003 	mov	a,_bp
+   0262 24 05              1004 	add	a,#0x05
+   0264 F8                 1005 	mov	r0,a
+   0265 A9*00              1006 	mov	r1,_bp
+   0267 09                 1007 	inc	r1
+   0268 E7                 1008 	mov	a,@r1
+   0269 26                 1009 	add	a,@r0
+   026A FA                 1010 	mov	r2,a
+   026B 09                 1011 	inc	r1
+   026C E7                 1012 	mov	a,@r1
+   026D 08                 1013 	inc	r0
+   026E 36                 1014 	addc	a,@r0
+   026F FE                 1015 	mov	r6,a
+   0270 08                 1016 	inc	r0
+   0271 86 07              1017 	mov	ar7,@r0
+   0273 E5*00              1018 	mov	a,_bp
+   0275 24 14              1019 	add	a,#0x14
+   0277 F8                 1020 	mov	r0,a
+   0278 A6 02              1021 	mov	@r0,ar2
+   027A 08                 1022 	inc	r0
+   027B A6 06              1023 	mov	@r0,ar6
+   027D 08                 1024 	inc	r0
+   027E A6 07              1025 	mov	@r0,ar7
+   0280 E5*00              1026 	mov	a,_bp
+   0282 24 0D              1027 	add	a,#0x0D
+   0284 FF                 1028 	mov	r7,a
+   0285 7E 00              1029 	mov	r6,#0x00
+   0287 7A 40              1030 	mov	r2,#0x40
+   0289 E5*00              1031 	mov	a,_bp
+   028B 24 11              1032 	add	a,#0x11
+   028D F8                 1033 	mov	r0,a
+   028E E6                 1034 	mov	a,@r0
+   028F C0 E0              1035 	push	acc
+   0291 08                 1036 	inc	r0
+   0292 E6                 1037 	mov	a,@r0
+   0293 C0 E0              1038 	push	acc
+   0295 E5*00              1039 	mov	a,_bp
+   0297 24 14              1040 	add	a,#0x14
+   0299 F8                 1041 	mov	r0,a
+   029A E6                 1042 	mov	a,@r0
+   029B C0 E0              1043 	push	acc
+   029D 08                 1044 	inc	r0
+   029E E6                 1045 	mov	a,@r0
+   029F C0 E0              1046 	push	acc
+   02A1 08                 1047 	inc	r0
+   02A2 E6                 1048 	mov	a,@r0
+   02A3 C0 E0              1049 	push	acc
+   02A5 8F 82              1050 	mov	dpl,r7
+   02A7 8E 83              1051 	mov	dph,r6
+   02A9 8A F0              1052 	mov	b,r2
+   02AB 12s00r00           1053 	lcall	_memcpy
+   02AE E5 81              1054 	mov	a,sp
+   02B0 24 FB              1055 	add	a,#0xfb
+   02B2 F5 81              1056 	mov	sp,a
+   02B4 D0 03              1057 	pop	ar3
+   02B6 D0 04              1058 	pop	ar4
+   02B8 D0 05              1059 	pop	ar5
+                           1060 ;	../../core/net/rime/chameleon-raw.c:121: packetbuf_set_attr(a->type, val);
+   02BA 8B 82              1061 	mov	dpl,r3
+   02BC 8C 83              1062 	mov	dph,r4
+   02BE 8D F0              1063 	mov	b,r5
+   02C0 12s00r00           1064 	lcall	__gptrget
+   02C3 FF                 1065 	mov	r7,a
+   02C4 C0 05              1066 	push	ar5
+   02C6 C0 04              1067 	push	ar4
+   02C8 C0 03              1068 	push	ar3
+   02CA E5*00              1069 	mov	a,_bp
+   02CC 24 0D              1070 	add	a,#0x0d
+   02CE F8                 1071 	mov	r0,a
+   02CF E6                 1072 	mov	a,@r0
+   02D0 C0 E0              1073 	push	acc
+   02D2 08                 1074 	inc	r0
+   02D3 E6                 1075 	mov	a,@r0
+   02D4 C0 E0              1076 	push	acc
+   02D6 8F 82              1077 	mov	dpl,r7
+   02D8 12s00r00           1078 	lcall	_packetbuf_set_attr
+   02DB 15 81              1079 	dec	sp
+   02DD 15 81              1080 	dec	sp
+   02DF D0 03              1081 	pop	ar3
+   02E1 D0 04              1082 	pop	ar4
+   02E3 D0 05              1083 	pop	ar5
+   02E5                    1084 00109$:
+                           1085 ;	../../core/net/rime/chameleon-raw.c:126: byteptr += len / 8;
+   02E5 C0 05              1086 	push	ar5
+   02E7 C0 04              1087 	push	ar4
+   02E9 C0 03              1088 	push	ar3
+   02EB 74 08              1089 	mov	a,#0x08
+   02ED C0 E0              1090 	push	acc
+   02EF E4                 1091 	clr	a
+   02F0 C0 E0              1092 	push	acc
+   02F2 E5*00              1093 	mov	a,_bp
+   02F4 24 03              1094 	add	a,#0x03
+   02F6 F8                 1095 	mov	r0,a
+   02F7 86 82              1096 	mov	dpl,@r0
+   02F9 08                 1097 	inc	r0
+   02FA 86 83              1098 	mov	dph,@r0
+   02FC 12s00r00           1099 	lcall	__divsint
+   02FF AE 82              1100 	mov	r6,dpl
+   0301 AF 83              1101 	mov	r7,dph
+   0303 15 81              1102 	dec	sp
+   0305 15 81              1103 	dec	sp
+   0307 D0 03              1104 	pop	ar3
+   0309 D0 04              1105 	pop	ar4
+   030B D0 05              1106 	pop	ar5
+   030D A8*00              1107 	mov	r0,_bp
+   030F 08                 1108 	inc	r0
+   0310 EE                 1109 	mov	a,r6
+   0311 26                 1110 	add	a,@r0
+   0312 F6                 1111 	mov	@r0,a
+   0313 EF                 1112 	mov	a,r7
+   0314 08                 1113 	inc	r0
+   0315 36                 1114 	addc	a,@r0
+   0316 F6                 1115 	mov	@r0,a
+                           1116 ;	../../core/net/rime/chameleon-raw.c:98: for(a = c->attrlist; a->type != PACKETBUF_ATTR_NONE; ++a) {
+   0317 74 02              1117 	mov	a,#0x02
+   0319 2B                 1118 	add	a,r3
+   031A FB                 1119 	mov	r3,a
+   031B E4                 1120 	clr	a
+   031C 3C                 1121 	addc	a,r4
+   031D FC                 1122 	mov	r4,a
+   031E 02s00rFC           1123 	ljmp	00110$
+   0321                    1124 00113$:
+                           1125 ;	../../core/net/rime/chameleon-raw.c:128: return c;
+   0321 E5*00              1126 	mov	a,_bp
+   0323 24 08              1127 	add	a,#0x08
+   0325 F8                 1128 	mov	r0,a
+   0326 86 82              1129 	mov	dpl,@r0
+   0328 08                 1130 	inc	r0
+   0329 86 83              1131 	mov	dph,@r0
+   032B 08                 1132 	inc	r0
+   032C 86 F0              1133 	mov	b,@r0
+   032E                    1134 00114$:
+   032E 85*00 81           1135 	mov	sp,_bp
+   0331 D0*00              1136 	pop	_bp
+   0333 22                 1137 	ret
+                           1138 ;------------------------------------------------------------
+                           1139 ;Allocation info for local variables in function 'output'
+                           1140 ;------------------------------------------------------------
+                           1141 ;c                         Allocated to stack - _bp +1
+                           1142 ;a                         Allocated to registers 
+                           1143 ;byteptr                   Allocated to stack - _bp +4
+                           1144 ;len                       Allocated to stack - _bp +6
+                           1145 ;hdrptr                    Allocated to stack - _bp +8
+                           1146 ;hdr                       Allocated to stack - _bp +11
+                           1147 ;rimeaddr                  Allocated to stack - _bp +14
+                           1148 ;val                       Allocated to stack - _bp +17
+                           1149 ;sloc0                     Allocated to stack - _bp +19
+                           1150 ;------------------------------------------------------------
+                           1151 ;	../../core/net/rime/chameleon-raw.c:132: output(struct channel *c)
+                           1152 ;	-----------------------------------------
+                           1153 ;	 function output
+                           1154 ;	-----------------------------------------
+   0334                    1155 _output:
+   0334 C0*00              1156 	push	_bp
+   0336 85 81*00           1157 	mov	_bp,sp
+   0339 C0 82              1158 	push	dpl
+   033B C0 83              1159 	push	dph
+   033D C0 F0              1160 	push	b
+   033F E5 81              1161 	mov	a,sp
+   0341 24 11              1162 	add	a,#0x11
+   0343 F5 81              1163 	mov	sp,a
+                           1164 ;	../../core/net/rime/chameleon-raw.c:141: if(packetbuf_hdralloc(c->hdrsize + sizeof(struct raw_hdr)) == 0) {
+   0345 A8*00              1165 	mov	r0,_bp
+   0347 08                 1166 	inc	r0
+   0348 74 08              1167 	mov	a,#0x08
+   034A 26                 1168 	add	a,@r0
+   034B FA                 1169 	mov	r2,a
+   034C E4                 1170 	clr	a
+   034D 08                 1171 	inc	r0
+   034E 36                 1172 	addc	a,@r0
+   034F FB                 1173 	mov	r3,a
+   0350 08                 1174 	inc	r0
+   0351 86 04              1175 	mov	ar4,@r0
+   0353 8A 82              1176 	mov	dpl,r2
+   0355 8B 83              1177 	mov	dph,r3
+   0357 8C F0              1178 	mov	b,r4
+   0359 12s00r00           1179 	lcall	__gptrget
+   035C FA                 1180 	mov	r2,a
+   035D 7C 00              1181 	mov	r4,#0x00
+   035F 74 02              1182 	mov	a,#0x02
+   0361 2A                 1183 	add	a,r2
+   0362 FA                 1184 	mov	r2,a
+   0363 E4                 1185 	clr	a
+   0364 3C                 1186 	addc	a,r4
+   0365 FC                 1187 	mov	r4,a
+   0366 8A 82              1188 	mov	dpl,r2
+   0368 8C 83              1189 	mov	dph,r4
+   036A 12s00r00           1190 	lcall	_packetbuf_hdralloc
+   036D E5 82              1191 	mov	a,dpl
+   036F 85 83 F0           1192 	mov	b,dph
+   0372 45 F0              1193 	orl	a,b
+   0374 70 06              1194 	jnz	00102$
+                           1195 ;	../../core/net/rime/chameleon-raw.c:143: return 0;
+   0376 90 00 00           1196 	mov	dptr,#0x0000
+   0379 02s06r02           1197 	ljmp	00110$
+   037C                    1198 00102$:
+                           1199 ;	../../core/net/rime/chameleon-raw.c:145: hdr = (struct raw_hdr *)packetbuf_hdrptr();
+   037C 12s00r00           1200 	lcall	_packetbuf_hdrptr
+   037F AA 82              1201 	mov	r2,dpl
+   0381 AB 83              1202 	mov	r3,dph
+   0383 AC F0              1203 	mov	r4,b
+   0385 E5*00              1204 	mov	a,_bp
+   0387 24 0B              1205 	add	a,#0x0b
+   0389 F8                 1206 	mov	r0,a
+   038A A6 02              1207 	mov	@r0,ar2
+   038C 08                 1208 	inc	r0
+   038D A6 03              1209 	mov	@r0,ar3
+   038F 08                 1210 	inc	r0
+   0390 A6 04              1211 	mov	@r0,ar4
+                           1212 ;	../../core/net/rime/chameleon-raw.c:146: hdr->channel[0] = c->channelno & 0xff;
+   0392 A8*00              1213 	mov	r0,_bp
+   0394 08                 1214 	inc	r0
+   0395 74 03              1215 	mov	a,#0x03
+   0397 26                 1216 	add	a,@r0
+   0398 FD                 1217 	mov	r5,a
+   0399 E4                 1218 	clr	a
+   039A 08                 1219 	inc	r0
+   039B 36                 1220 	addc	a,@r0
+   039C FE                 1221 	mov	r6,a
+   039D 08                 1222 	inc	r0
+   039E 86 07              1223 	mov	ar7,@r0
+   03A0 8D 82              1224 	mov	dpl,r5
+   03A2 8E 83              1225 	mov	dph,r6
+   03A4 8F F0              1226 	mov	b,r7
+   03A6 12s00r00           1227 	lcall	__gptrget
+   03A9 FD                 1228 	mov	r5,a
+   03AA A3                 1229 	inc	dptr
+   03AB 12s00r00           1230 	lcall	__gptrget
+   03AE FE                 1231 	mov	r6,a
+   03AF 8D 04              1232 	mov	ar4,r5
+   03B1 E5*00              1233 	mov	a,_bp
+   03B3 24 0B              1234 	add	a,#0x0b
+   03B5 F8                 1235 	mov	r0,a
+   03B6 86 82              1236 	mov	dpl,@r0
+   03B8 08                 1237 	inc	r0
+   03B9 86 83              1238 	mov	dph,@r0
+   03BB 08                 1239 	inc	r0
+   03BC 86 F0              1240 	mov	b,@r0
+   03BE EC                 1241 	mov	a,r4
+   03BF 12s00r00           1242 	lcall	__gptrput
+                           1243 ;	../../core/net/rime/chameleon-raw.c:147: hdr->channel[1] = (c->channelno >> 8) & 0xff;
+   03C2 E5*00              1244 	mov	a,_bp
+   03C4 24 0B              1245 	add	a,#0x0b
+   03C6 F8                 1246 	mov	r0,a
+   03C7 74 01              1247 	mov	a,#0x01
+   03C9 26                 1248 	add	a,@r0
+   03CA FB                 1249 	mov	r3,a
+   03CB E4                 1250 	clr	a
+   03CC 08                 1251 	inc	r0
+   03CD 36                 1252 	addc	a,@r0
+   03CE FC                 1253 	mov	r4,a
+   03CF 08                 1254 	inc	r0
+   03D0 86 07              1255 	mov	ar7,@r0
+   03D2 8E 05              1256 	mov	ar5,r6
+   03D4 8B 82              1257 	mov	dpl,r3
+   03D6 8C 83              1258 	mov	dph,r4
+   03D8 8F F0              1259 	mov	b,r7
+   03DA ED                 1260 	mov	a,r5
+   03DB 12s00r00           1261 	lcall	__gptrput
+                           1262 ;	../../core/net/rime/chameleon-raw.c:149: hdrptr = ((uint8_t *)packetbuf_hdrptr()) + sizeof(struct raw_hdr);
+   03DE 12s00r00           1263 	lcall	_packetbuf_hdrptr
+   03E1 AD 82              1264 	mov	r5,dpl
+   03E3 AE 83              1265 	mov	r6,dph
+   03E5 AF F0              1266 	mov	r7,b
+   03E7 E5*00              1267 	mov	a,_bp
+   03E9 24 08              1268 	add	a,#0x08
+   03EB F8                 1269 	mov	r0,a
+   03EC 74 02              1270 	mov	a,#0x02
+   03EE 2D                 1271 	add	a,r5
+   03EF F6                 1272 	mov	@r0,a
+   03F0 E4                 1273 	clr	a
+   03F1 3E                 1274 	addc	a,r6
+   03F2 08                 1275 	inc	r0
+   03F3 F6                 1276 	mov	@r0,a
+   03F4 08                 1277 	inc	r0
+   03F5 A6 07              1278 	mov	@r0,ar7
+                           1279 ;	../../core/net/rime/chameleon-raw.c:150: byteptr = 0;
+   03F7 E5*00              1280 	mov	a,_bp
+   03F9 24 04              1281 	add	a,#0x04
+   03FB F8                 1282 	mov	r0,a
+   03FC E4                 1283 	clr	a
+   03FD F6                 1284 	mov	@r0,a
+   03FE 08                 1285 	inc	r0
+   03FF F6                 1286 	mov	@r0,a
+                           1287 ;	../../core/net/rime/chameleon-raw.c:151: for(a = c->attrlist; a->type != PACKETBUF_ATTR_NONE; ++a) {
+   0400 A8*00              1288 	mov	r0,_bp
+   0402 08                 1289 	inc	r0
+   0403 74 05              1290 	mov	a,#0x05
+   0405 26                 1291 	add	a,@r0
+   0406 FA                 1292 	mov	r2,a
+   0407 E4                 1293 	clr	a
+   0408 08                 1294 	inc	r0
+   0409 36                 1295 	addc	a,@r0
+   040A FE                 1296 	mov	r6,a
+   040B 08                 1297 	inc	r0
+   040C 86 07              1298 	mov	ar7,@r0
+   040E 8A 82              1299 	mov	dpl,r2
+   0410 8E 83              1300 	mov	dph,r6
+   0412 8F F0              1301 	mov	b,r7
+   0414 12s00r00           1302 	lcall	__gptrget
+   0417 FD                 1303 	mov	r5,a
+   0418 A3                 1304 	inc	dptr
+   0419 12s00r00           1305 	lcall	__gptrget
+   041C FE                 1306 	mov	r6,a
+   041D A3                 1307 	inc	dptr
+   041E 12s00r00           1308 	lcall	__gptrget
+   0421 FF                 1309 	mov	r7,a
+   0422                    1310 00106$:
+   0422 8D 82              1311 	mov	dpl,r5
+   0424 8E 83              1312 	mov	dph,r6
+   0426 8F F0              1313 	mov	b,r7
+   0428 12s00r00           1314 	lcall	__gptrget
+   042B FA                 1315 	mov	r2,a
+   042C BA 00 03           1316 	cjne	r2,#0x00,00126$
+   042F 02s05rFF           1317 	ljmp	00109$
+   0432                    1318 00126$:
+                           1319 ;	../../core/net/rime/chameleon-raw.c:163: len = (a->len & 0xf8) + ((a->len & 7) ? 8: 0);
+   0432 74 01              1320 	mov	a,#0x01
+   0434 2D                 1321 	add	a,r5
+   0435 FA                 1322 	mov	r2,a
+   0436 E4                 1323 	clr	a
+   0437 3E                 1324 	addc	a,r6
+   0438 FB                 1325 	mov	r3,a
+   0439 8F 04              1326 	mov	ar4,r7
+   043B 8A 82              1327 	mov	dpl,r2
+   043D 8B 83              1328 	mov	dph,r3
+   043F 8C F0              1329 	mov	b,r4
+   0441 12s00r00           1330 	lcall	__gptrget
+   0444 FA                 1331 	mov	r2,a
+   0445 74 F8              1332 	mov	a,#0xF8
+   0447 5A                 1333 	anl	a,r2
+   0448 FC                 1334 	mov	r4,a
+   0449 E5*00              1335 	mov	a,_bp
+   044B 24 13              1336 	add	a,#0x13
+   044D F8                 1337 	mov	r0,a
+   044E A6 04              1338 	mov	@r0,ar4
+   0450 08                 1339 	inc	r0
+   0451 76 00              1340 	mov	@r0,#0x00
+   0453 EA                 1341 	mov	a,r2
+   0454 54 07              1342 	anl	a,#0x07
+   0456 60 02              1343 	jz	00112$
+   0458 74 08              1344 	mov	a,#0x08
+   045A                    1345 00112$:
+   045A FA                 1346 	mov	r2,a
+   045B 7C 00              1347 	mov	r4,#0x00
+   045D E5*00              1348 	mov	a,_bp
+   045F 24 13              1349 	add	a,#0x13
+   0461 F8                 1350 	mov	r0,a
+   0462 EA                 1351 	mov	a,r2
+   0463 26                 1352 	add	a,@r0
+   0464 FA                 1353 	mov	r2,a
+   0465 EC                 1354 	mov	a,r4
+   0466 08                 1355 	inc	r0
+   0467 36                 1356 	addc	a,@r0
+   0468 FC                 1357 	mov	r4,a
+   0469 E5*00              1358 	mov	a,_bp
+   046B 24 06              1359 	add	a,#0x06
+   046D F8                 1360 	mov	r0,a
+   046E A6 02              1361 	mov	@r0,ar2
+   0470 08                 1362 	inc	r0
+   0471 A6 04              1363 	mov	@r0,ar4
+                           1364 ;	../../core/net/rime/chameleon-raw.c:164: if(PACKETBUF_IS_ADDR(a->type)) {
+   0473 8D 82              1365 	mov	dpl,r5
+   0475 8E 83              1366 	mov	dph,r6
+   0477 8F F0              1367 	mov	b,r7
+   0479 12s00r00           1368 	lcall	__gptrget
+   047C FC                 1369 	mov	r4,a
+   047D BC 18 00           1370 	cjne	r4,#0x18,00128$
+   0480                    1371 00128$:
+   0480 50 03              1372 	jnc	00129$
+   0482 02s05r25           1373 	ljmp	00104$
+   0485                    1374 00129$:
+                           1375 ;	../../core/net/rime/chameleon-raw.c:167: rimeaddr = packetbuf_addr(a->type);
+   0485 C0 05              1376 	push	ar5
+   0487 C0 06              1377 	push	ar6
+   0489 C0 07              1378 	push	ar7
+   048B 8C 82              1379 	mov	dpl,r4
+   048D C0 07              1380 	push	ar7
+   048F C0 06              1381 	push	ar6
+   0491 C0 05              1382 	push	ar5
+   0493 12s00r00           1383 	lcall	_packetbuf_addr
+   0496 AC 82              1384 	mov	r4,dpl
+   0498 AB 83              1385 	mov	r3,dph
+   049A AA F0              1386 	mov	r2,b
+   049C D0 05              1387 	pop	ar5
+   049E D0 06              1388 	pop	ar6
+   04A0 D0 07              1389 	pop	ar7
+   04A2 E5*00              1390 	mov	a,_bp
+   04A4 24 0E              1391 	add	a,#0x0e
+   04A6 F8                 1392 	mov	r0,a
+   04A7 A6 04              1393 	mov	@r0,ar4
+   04A9 08                 1394 	inc	r0
+   04AA A6 03              1395 	mov	@r0,ar3
+   04AC 08                 1396 	inc	r0
+   04AD A6 02              1397 	mov	@r0,ar2
+                           1398 ;	../../core/net/rime/chameleon-raw.c:168: hdrptr[byteptr] = rimeaddr->u8[0];
+   04AF E5*00              1399 	mov	a,_bp
+   04B1 24 08              1400 	add	a,#0x08
+   04B3 F8                 1401 	mov	r0,a
+   04B4 E5*00              1402 	mov	a,_bp
+   04B6 24 04              1403 	add	a,#0x04
+   04B8 F9                 1404 	mov	r1,a
+   04B9 E7                 1405 	mov	a,@r1
+   04BA 26                 1406 	add	a,@r0
+   04BB FA                 1407 	mov	r2,a
+   04BC 09                 1408 	inc	r1
+   04BD E7                 1409 	mov	a,@r1
+   04BE 08                 1410 	inc	r0
+   04BF 36                 1411 	addc	a,@r0
+   04C0 FE                 1412 	mov	r6,a
+   04C1 08                 1413 	inc	r0
+   04C2 86 07              1414 	mov	ar7,@r0
+   04C4 E5*00              1415 	mov	a,_bp
+   04C6 24 0E              1416 	add	a,#0x0e
+   04C8 F8                 1417 	mov	r0,a
+   04C9 86 82              1418 	mov	dpl,@r0
+   04CB 08                 1419 	inc	r0
+   04CC 86 83              1420 	mov	dph,@r0
+   04CE 08                 1421 	inc	r0
+   04CF 86 F0              1422 	mov	b,@r0
+   04D1 12s00r00           1423 	lcall	__gptrget
+   04D4 8A 82              1424 	mov	dpl,r2
+   04D6 8E 83              1425 	mov	dph,r6
+   04D8 8F F0              1426 	mov	b,r7
+   04DA 12s00r00           1427 	lcall	__gptrput
+                           1428 ;	../../core/net/rime/chameleon-raw.c:169: hdrptr[byteptr + 1] = rimeaddr->u8[1];
+   04DD E5*00              1429 	mov	a,_bp
+   04DF 24 04              1430 	add	a,#0x04
+   04E1 F8                 1431 	mov	r0,a
+   04E2 74 01              1432 	mov	a,#0x01
+   04E4 26                 1433 	add	a,@r0
+   04E5 FE                 1434 	mov	r6,a
+   04E6 E4                 1435 	clr	a
+   04E7 08                 1436 	inc	r0
+   04E8 36                 1437 	addc	a,@r0
+   04E9 FF                 1438 	mov	r7,a
+   04EA E5*00              1439 	mov	a,_bp
+   04EC 24 08              1440 	add	a,#0x08
+   04EE F8                 1441 	mov	r0,a
+   04EF EE                 1442 	mov	a,r6
+   04F0 26                 1443 	add	a,@r0
+   04F1 FE                 1444 	mov	r6,a
+   04F2 EF                 1445 	mov	a,r7
+   04F3 08                 1446 	inc	r0
+   04F4 36                 1447 	addc	a,@r0
+   04F5 FF                 1448 	mov	r7,a
+   04F6 08                 1449 	inc	r0
+   04F7 86 05              1450 	mov	ar5,@r0
+   04F9 E5*00              1451 	mov	a,_bp
+   04FB 24 0E              1452 	add	a,#0x0e
+   04FD F8                 1453 	mov	r0,a
+   04FE 74 01              1454 	mov	a,#0x01
+   0500 26                 1455 	add	a,@r0
+   0501 FA                 1456 	mov	r2,a
+   0502 E4                 1457 	clr	a
+   0503 08                 1458 	inc	r0
+   0504 36                 1459 	addc	a,@r0
+   0505 FB                 1460 	mov	r3,a
+   0506 08                 1461 	inc	r0
+   0507 86 04              1462 	mov	ar4,@r0
+   0509 8A 82              1463 	mov	dpl,r2
+   050B 8B 83              1464 	mov	dph,r3
+   050D 8C F0              1465 	mov	b,r4
+   050F 12s00r00           1466 	lcall	__gptrget
+   0512 FA                 1467 	mov	r2,a
+   0513 8E 82              1468 	mov	dpl,r6
+   0515 8F 83              1469 	mov	dph,r7
+   0517 8D F0              1470 	mov	b,r5
+   0519 12s00r00           1471 	lcall	__gptrput
+   051C D0 07              1472 	pop	ar7
+   051E D0 06              1473 	pop	ar6
+   0520 D0 05              1474 	pop	ar5
+   0522 02s05rC1           1475 	ljmp	00105$
+   0525                    1476 00104$:
+                           1477 ;	../../core/net/rime/chameleon-raw.c:177: val = packetbuf_attr(a->type);
+   0525 C0 05              1478 	push	ar5
+   0527 C0 06              1479 	push	ar6
+   0529 C0 07              1480 	push	ar7
+   052B 8C 82              1481 	mov	dpl,r4
+   052D C0 07              1482 	push	ar7
+   052F C0 06              1483 	push	ar6
+   0531 C0 05              1484 	push	ar5
+   0533 12s00r00           1485 	lcall	_packetbuf_attr
+   0536 AB 82              1486 	mov	r3,dpl
+   0538 AC 83              1487 	mov	r4,dph
+   053A E5*00              1488 	mov	a,_bp
+   053C 24 11              1489 	add	a,#0x11
+   053E F8                 1490 	mov	r0,a
+   053F A6 03              1491 	mov	@r0,ar3
+   0541 08                 1492 	inc	r0
+   0542 A6 04              1493 	mov	@r0,ar4
+                           1494 ;	../../core/net/rime/chameleon-raw.c:178: memcpy(&hdrptr[byteptr], &val, len / 8);
+   0544 74 08              1495 	mov	a,#0x08
+   0546 C0 E0              1496 	push	acc
+   0548 E4                 1497 	clr	a
+   0549 C0 E0              1498 	push	acc
+   054B E5*00              1499 	mov	a,_bp
+   054D 24 06              1500 	add	a,#0x06
+   054F F8                 1501 	mov	r0,a
+   0550 86 82              1502 	mov	dpl,@r0
+   0552 08                 1503 	inc	r0
+   0553 86 83              1504 	mov	dph,@r0
+   0555 12s00r00           1505 	lcall	__divsint
+   0558 AB 82              1506 	mov	r3,dpl
+   055A AC 83              1507 	mov	r4,dph
+   055C 15 81              1508 	dec	sp
+   055E 15 81              1509 	dec	sp
+   0560 D0 05              1510 	pop	ar5
+   0562 D0 06              1511 	pop	ar6
+   0564 D0 07              1512 	pop	ar7
+   0566 E5*00              1513 	mov	a,_bp
+   0568 24 13              1514 	add	a,#0x13
+   056A F8                 1515 	mov	r0,a
+   056B A6 03              1516 	mov	@r0,ar3
+   056D 08                 1517 	inc	r0
+   056E A6 04              1518 	mov	@r0,ar4
+   0570 E5*00              1519 	mov	a,_bp
+   0572 24 11              1520 	add	a,#0x11
+   0574 FA                 1521 	mov	r2,a
+   0575 7E 00              1522 	mov	r6,#0x00
+   0577 7F 40              1523 	mov	r7,#0x40
+   0579 E5*00              1524 	mov	a,_bp
+   057B 24 08              1525 	add	a,#0x08
+   057D F8                 1526 	mov	r0,a
+   057E E5*00              1527 	mov	a,_bp
+   0580 24 04              1528 	add	a,#0x04
+   0582 F9                 1529 	mov	r1,a
+   0583 E7                 1530 	mov	a,@r1
+   0584 26                 1531 	add	a,@r0
+   0585 FB                 1532 	mov	r3,a
+   0586 09                 1533 	inc	r1
+   0587 E7                 1534 	mov	a,@r1
+   0588 08                 1535 	inc	r0
+   0589 36                 1536 	addc	a,@r0
+   058A FC                 1537 	mov	r4,a
+   058B 08                 1538 	inc	r0
+   058C 86 05              1539 	mov	ar5,@r0
+   058E C0 07              1540 	push	ar7
+   0590 C0 06              1541 	push	ar6
+   0592 C0 05              1542 	push	ar5
+   0594 E5*00              1543 	mov	a,_bp
+   0596 24 13              1544 	add	a,#0x13
+   0598 F8                 1545 	mov	r0,a
+   0599 E6                 1546 	mov	a,@r0
+   059A C0 E0              1547 	push	acc
+   059C 08                 1548 	inc	r0
+   059D E6                 1549 	mov	a,@r0
+   059E C0 E0              1550 	push	acc
+   05A0 C0 02              1551 	push	ar2
+   05A2 C0 06              1552 	push	ar6
+   05A4 C0 07              1553 	push	ar7
+   05A6 8B 82              1554 	mov	dpl,r3
+   05A8 8C 83              1555 	mov	dph,r4
+   05AA 8D F0              1556 	mov	b,r5
+   05AC 12s00r00           1557 	lcall	_memcpy
+   05AF E5 81              1558 	mov	a,sp
+   05B1 24 FB              1559 	add	a,#0xfb
+   05B3 F5 81              1560 	mov	sp,a
+   05B5 D0 05              1561 	pop	ar5
+   05B7 D0 06              1562 	pop	ar6
+   05B9 D0 07              1563 	pop	ar7
+                           1564 ;	../../core/net/rime/chameleon-raw.c:186: return 1; /* Send out packet */
+   05BB D0 07              1565 	pop	ar7
+   05BD D0 06              1566 	pop	ar6
+   05BF D0 05              1567 	pop	ar5
+                           1568 ;	../../core/net/rime/chameleon-raw.c:178: memcpy(&hdrptr[byteptr], &val, len / 8);
+   05C1                    1569 00105$:
+                           1570 ;	../../core/net/rime/chameleon-raw.c:183: byteptr += len / 8;
+   05C1 C0 07              1571 	push	ar7
+   05C3 C0 06              1572 	push	ar6
+   05C5 C0 05              1573 	push	ar5
+   05C7 74 08              1574 	mov	a,#0x08
+   05C9 C0 E0              1575 	push	acc
+   05CB E4                 1576 	clr	a
+   05CC C0 E0              1577 	push	acc
+   05CE E5*00              1578 	mov	a,_bp
+   05D0 24 06              1579 	add	a,#0x06
+   05D2 F8                 1580 	mov	r0,a
+   05D3 86 82              1581 	mov	dpl,@r0
+   05D5 08                 1582 	inc	r0
+   05D6 86 83              1583 	mov	dph,@r0
+   05D8 12s00r00           1584 	lcall	__divsint
+   05DB AB 82              1585 	mov	r3,dpl
+   05DD AC 83              1586 	mov	r4,dph
+   05DF 15 81              1587 	dec	sp
+   05E1 15 81              1588 	dec	sp
+   05E3 D0 05              1589 	pop	ar5
+   05E5 D0 06              1590 	pop	ar6
+   05E7 D0 07              1591 	pop	ar7
+   05E9 E5*00              1592 	mov	a,_bp
+   05EB 24 04              1593 	add	a,#0x04
+   05ED F8                 1594 	mov	r0,a
+   05EE EB                 1595 	mov	a,r3
+   05EF 26                 1596 	add	a,@r0
+   05F0 F6                 1597 	mov	@r0,a
+   05F1 EC                 1598 	mov	a,r4
+   05F2 08                 1599 	inc	r0
+   05F3 36                 1600 	addc	a,@r0
+   05F4 F6                 1601 	mov	@r0,a
+                           1602 ;	../../core/net/rime/chameleon-raw.c:151: for(a = c->attrlist; a->type != PACKETBUF_ATTR_NONE; ++a) {
+   05F5 74 02              1603 	mov	a,#0x02
+   05F7 2D                 1604 	add	a,r5
+   05F8 FD                 1605 	mov	r5,a
+   05F9 E4                 1606 	clr	a
+   05FA 3E                 1607 	addc	a,r6
+   05FB FE                 1608 	mov	r6,a
+   05FC 02s04r22           1609 	ljmp	00106$
+   05FF                    1610 00109$:
+                           1611 ;	../../core/net/rime/chameleon-raw.c:186: return 1; /* Send out packet */
+   05FF 90 00 01           1612 	mov	dptr,#0x0001
+   0602                    1613 00110$:
+   0602 85*00 81           1614 	mov	sp,_bp
+   0605 D0*00              1615 	pop	_bp
+   0607 22                 1616 	ret
+                           1617 ;------------------------------------------------------------
+                           1618 ;Allocation info for local variables in function 'hdrsize'
+                           1619 ;------------------------------------------------------------
+                           1620 ;a                         Allocated to registers 
+                           1621 ;size                      Allocated to registers r3 r4 
+                           1622 ;len                       Allocated to stack - _bp +1
+                           1623 ;------------------------------------------------------------
+                           1624 ;	../../core/net/rime/chameleon-raw.c:190: hdrsize(const struct packetbuf_attrlist *a)
+                           1625 ;	-----------------------------------------
+                           1626 ;	 function hdrsize
+                           1627 ;	-----------------------------------------
+   0608                    1628 _hdrsize:
+   0608 C0*00              1629 	push	_bp
+   060A 85 81*00           1630 	mov	_bp,sp
+   060D 05 81              1631 	inc	sp
+   060F 05 81              1632 	inc	sp
+   0611 AD 82              1633 	mov	r5,dpl
+   0613 AE 83              1634 	mov	r6,dph
+   0615 AF F0              1635 	mov	r7,b
+                           1636 ;	../../core/net/rime/chameleon-raw.c:197: size = 0;
+   0617 7B 00              1637 	mov	r3,#0x00
+   0619 7C 00              1638 	mov	r4,#0x00
+   061B                    1639 00103$:
+                           1640 ;	../../core/net/rime/chameleon-raw.c:198: for(; a->type != PACKETBUF_ATTR_NONE; ++a) {
+   061B 8D 82              1641 	mov	dpl,r5
+   061D 8E 83              1642 	mov	dph,r6
+   061F 8F F0              1643 	mov	b,r7
+   0621 12s00r00           1644 	lcall	__gptrget
+   0624 FA                 1645 	mov	r2,a
+   0625 60 4D              1646 	jz	00106$
+                           1647 ;	../../core/net/rime/chameleon-raw.c:208: len = a->len;
+   0627 C0 03              1648 	push	ar3
+   0629 C0 04              1649 	push	ar4
+   062B 74 01              1650 	mov	a,#0x01
+   062D 2D                 1651 	add	a,r5
+   062E FA                 1652 	mov	r2,a
+   062F E4                 1653 	clr	a
+   0630 3E                 1654 	addc	a,r6
+   0631 FB                 1655 	mov	r3,a
+   0632 8F 04              1656 	mov	ar4,r7
+   0634 8A 82              1657 	mov	dpl,r2
+   0636 8B 83              1658 	mov	dph,r3
+   0638 8C F0              1659 	mov	b,r4
+   063A 12s00r00           1660 	lcall	__gptrget
+   063D FA                 1661 	mov	r2,a
+   063E A8*00              1662 	mov	r0,_bp
+   0640 08                 1663 	inc	r0
+   0641 A6 02              1664 	mov	@r0,ar2
+   0643 08                 1665 	inc	r0
+   0644 76 00              1666 	mov	@r0,#0x00
+                           1667 ;	../../core/net/rime/chameleon-raw.c:209: if(len < 8) {
+   0646 A8*00              1668 	mov	r0,_bp
+   0648 08                 1669 	inc	r0
+   0649 C3                 1670 	clr	c
+   064A E6                 1671 	mov	a,@r0
+   064B 94 08              1672 	subb	a,#0x08
+   064D 08                 1673 	inc	r0
+   064E E6                 1674 	mov	a,@r0
+   064F 64 80              1675 	xrl	a,#0x80
+   0651 94 80              1676 	subb	a,#0x80
+   0653 D0 04              1677 	pop	ar4
+   0655 D0 03              1678 	pop	ar3
+   0657 50 08              1679 	jnc	00102$
+                           1680 ;	../../core/net/rime/chameleon-raw.c:210: len = 8;
+   0659 A8*00              1681 	mov	r0,_bp
+   065B 08                 1682 	inc	r0
+   065C 76 08              1683 	mov	@r0,#0x08
+   065E 08                 1684 	inc	r0
+   065F 76 00              1685 	mov	@r0,#0x00
+   0661                    1686 00102$:
+                           1687 ;	../../core/net/rime/chameleon-raw.c:212: size += len;
+   0661 A8*00              1688 	mov	r0,_bp
+   0663 08                 1689 	inc	r0
+   0664 E6                 1690 	mov	a,@r0
+   0665 2B                 1691 	add	a,r3
+   0666 FB                 1692 	mov	r3,a
+   0667 08                 1693 	inc	r0
+   0668 E6                 1694 	mov	a,@r0
+   0669 3C                 1695 	addc	a,r4
+   066A FC                 1696 	mov	r4,a
+                           1697 ;	../../core/net/rime/chameleon-raw.c:198: for(; a->type != PACKETBUF_ATTR_NONE; ++a) {
+   066B 74 02              1698 	mov	a,#0x02
+   066D 2D                 1699 	add	a,r5
+   066E FD                 1700 	mov	r5,a
+   066F E4                 1701 	clr	a
+   0670 3E                 1702 	addc	a,r6
+   0671 FE                 1703 	mov	r6,a
+   0672 80 A7              1704 	sjmp	00103$
+   0674                    1705 00106$:
+                           1706 ;	../../core/net/rime/chameleon-raw.c:214: return size / 8;
+   0674 74 08              1707 	mov	a,#0x08
+   0676 C0 E0              1708 	push	acc
+   0678 E4                 1709 	clr	a
+   0679 C0 E0              1710 	push	acc
+   067B 8B 82              1711 	mov	dpl,r3
+   067D 8C 83              1712 	mov	dph,r4
+   067F 12s00r00           1713 	lcall	__divsint
+   0682 AE 82              1714 	mov	r6,dpl
+   0684 AF 83              1715 	mov	r7,dph
+   0686 15 81              1716 	dec	sp
+   0688 15 81              1717 	dec	sp
+   068A 8E 82              1718 	mov	dpl,r6
+   068C 8F 83              1719 	mov	dph,r7
+   068E 85*00 81           1720 	mov	sp,_bp
+   0691 D0*00              1721 	pop	_bp
+   0693 22                 1722 	ret
+                           1723 	.area CSEG    (CODE)
+                           1724 	.area CONST   (CODE)
+   0000                    1725 _chameleon_raw:
+   0000r00s00              1726 	.byte _input,(_input >> 8)
+   0002r34s03              1727 	.byte _output,(_output >> 8)
+   0004r08s06              1728 	.byte _hdrsize,(_hdrsize >> 8)
+                           1729 	.area XINIT   (CODE)
+                           1730 	.area CABS    (ABS,CODE)

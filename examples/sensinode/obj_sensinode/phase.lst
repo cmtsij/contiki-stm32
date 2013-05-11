@@ -1,0 +1,2416 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:22 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module phase
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _find_neighbor
+                             13 	.globl _queuebuf_free
+                             14 	.globl _queuebuf_to_packetbuf
+                             15 	.globl _queuebuf_new_from_packetbuf
+                             16 	.globl _ctimer_set
+                             17 	.globl _memb_free
+                             18 	.globl _memb_alloc
+                             19 	.globl _memb_init
+                             20 	.globl _list_item_next
+                             21 	.globl _list_remove
+                             22 	.globl _list_chop
+                             23 	.globl _list_push
+                             24 	.globl _list_head
+                             25 	.globl _list_init
+                             26 	.globl _timer_expired
+                             27 	.globl _timer_set
+                             28 	.globl _rimeaddr_cmp
+                             29 	.globl _rimeaddr_copy
+                             30 	.globl _IRCON2_P2IF
+                             31 	.globl _IRCON2_UTX0IF
+                             32 	.globl _IRCON2_UTX1IF
+                             33 	.globl _IRCON2_P1IF
+                             34 	.globl _IRCON2_WDTIF
+                             35 	.globl _CY
+                             36 	.globl _AC
+                             37 	.globl _F0
+                             38 	.globl _RS1
+                             39 	.globl _RS0
+                             40 	.globl _OV
+                             41 	.globl _F1
+                             42 	.globl _P
+                             43 	.globl _IRCON_DMAIF
+                             44 	.globl _IRCON_T1IF
+                             45 	.globl _IRCON_T2IF
+                             46 	.globl _IRCON_T3IF
+                             47 	.globl _IRCON_T4IF
+                             48 	.globl _IRCON_P0IF
+                             49 	.globl _IRCON_STIF
+                             50 	.globl _IEN1_DMAIE
+                             51 	.globl _IEN1_T1IE
+                             52 	.globl _IEN1_T2IE
+                             53 	.globl _IEN1_T3IE
+                             54 	.globl _IEN1_T4IE
+                             55 	.globl _IEN1_P0IE
+                             56 	.globl _IEN0_RFERRIE
+                             57 	.globl _IEN0_ADCIE
+                             58 	.globl _IEN0_URX0IE
+                             59 	.globl _IEN0_URX1IE
+                             60 	.globl _IEN0_ENCIE
+                             61 	.globl _IEN0_STIE
+                             62 	.globl _IEN0_EA
+                             63 	.globl _EA
+                             64 	.globl _P2_4
+                             65 	.globl _P2_3
+                             66 	.globl _P2_2
+                             67 	.globl _P2_1
+                             68 	.globl _P2_0
+                             69 	.globl _S0CON_ENCIF_0
+                             70 	.globl _S0CON_ENCIF_1
+                             71 	.globl _P1_7
+                             72 	.globl _P1_6
+                             73 	.globl _P1_5
+                             74 	.globl _P1_4
+                             75 	.globl _P1_3
+                             76 	.globl _P1_2
+                             77 	.globl _P1_1
+                             78 	.globl _P1_0
+                             79 	.globl _TCON_IT0
+                             80 	.globl _TCON_RFERRIF
+                             81 	.globl _TCON_IT1
+                             82 	.globl _TCON_URX0IF
+                             83 	.globl _TCON_ADCIF
+                             84 	.globl _TCON_URX1IF
+                             85 	.globl _P0_0
+                             86 	.globl _P0_1
+                             87 	.globl _P0_2
+                             88 	.globl _P0_3
+                             89 	.globl _P0_4
+                             90 	.globl _P0_5
+                             91 	.globl _P0_6
+                             92 	.globl _P0_7
+                             93 	.globl _P2DIR
+                             94 	.globl _P1DIR
+                             95 	.globl _P0DIR
+                             96 	.globl _U1GCR
+                             97 	.globl _U1UCR
+                             98 	.globl _U1BAUD
+                             99 	.globl _U1BUF
+                            100 	.globl _U1CSR
+                            101 	.globl _P2INP
+                            102 	.globl _P1INP
+                            103 	.globl _P2SEL
+                            104 	.globl _P1SEL
+                            105 	.globl _P0SEL
+                            106 	.globl _ADCCFG
+                            107 	.globl _PERCFG
+                            108 	.globl _B
+                            109 	.globl _T4CC1
+                            110 	.globl _T4CCTL1
+                            111 	.globl _T4CC0
+                            112 	.globl _T4CCTL0
+                            113 	.globl _T4CTL
+                            114 	.globl _T4CNT
+                            115 	.globl _RFIF
+                            116 	.globl _IRCON2
+                            117 	.globl _T1CCTL2
+                            118 	.globl _T1CCTL1
+                            119 	.globl _T1CCTL0
+                            120 	.globl _T1CTL
+                            121 	.globl _T1CNTH
+                            122 	.globl _T1CNTL
+                            123 	.globl _RFST
+                            124 	.globl _ACC
+                            125 	.globl _T1CC2H
+                            126 	.globl _T1CC2L
+                            127 	.globl _T1CC1H
+                            128 	.globl _T1CC1L
+                            129 	.globl _T1CC0H
+                            130 	.globl _T1CC0L
+                            131 	.globl _RFD
+                            132 	.globl _TIMIF
+                            133 	.globl _DMAREQ
+                            134 	.globl _DMAARM
+                            135 	.globl _DMA0CFGH
+                            136 	.globl _DMA0CFGL
+                            137 	.globl _DMA1CFGH
+                            138 	.globl _DMA1CFGL
+                            139 	.globl _DMAIRQ
+                            140 	.globl _PSW
+                            141 	.globl _T3CC1
+                            142 	.globl _T3CCTL1
+                            143 	.globl _T3CC0
+                            144 	.globl _T3CCTL0
+                            145 	.globl _T3CTL
+                            146 	.globl _T3CNT
+                            147 	.globl _WDCTL
+                            148 	.globl _T2CON
+                            149 	.globl _MEMCTR
+                            150 	.globl _CLKCON
+                            151 	.globl _U0GCR
+                            152 	.globl _U0UCR
+                            153 	.globl _T2CNF
+                            154 	.globl _U0BAUD
+                            155 	.globl _U0BUF
+                            156 	.globl _IRCON
+                            157 	.globl _SLEEP
+                            158 	.globl _RNDH
+                            159 	.globl _RNDL
+                            160 	.globl _ADCH
+                            161 	.globl _ADCL
+                            162 	.globl _IP1
+                            163 	.globl _IEN1
+                            164 	.globl _RCCTL
+                            165 	.globl _ADCCON3
+                            166 	.globl _ADCCON2
+                            167 	.globl _ADCCON1
+                            168 	.globl _ENCCS
+                            169 	.globl _ENCDO
+                            170 	.globl _ENCDI
+                            171 	.globl _FWDATA
+                            172 	.globl _FCTL
+                            173 	.globl _FADDRH
+                            174 	.globl _FADDRL
+                            175 	.globl _FWT
+                            176 	.globl _IP0
+                            177 	.globl _IEN0
+                            178 	.globl _IE
+                            179 	.globl _T2THD
+                            180 	.globl _T2TLD
+                            181 	.globl _T2CAPHPH
+                            182 	.globl _T2CAPLPL
+                            183 	.globl _T2OF2
+                            184 	.globl _T2OF1
+                            185 	.globl _T2OF0
+                            186 	.globl _P2
+                            187 	.globl _PSBANK
+                            188 	.globl _FMAP
+                            189 	.globl _T2PEROF2
+                            190 	.globl _T2PEROF1
+                            191 	.globl _T2PEROF0
+                            192 	.globl _S1CON
+                            193 	.globl _IEN2
+                            194 	.globl _HSRC
+                            195 	.globl _S0CON
+                            196 	.globl _ST2
+                            197 	.globl _ST1
+                            198 	.globl _ST0
+                            199 	.globl _T2CMP
+                            200 	.globl __XPAGE
+                            201 	.globl _DPS
+                            202 	.globl _RFIM
+                            203 	.globl _P1
+                            204 	.globl _P0INP
+                            205 	.globl _P1IEN
+                            206 	.globl _PICTL
+                            207 	.globl _P2IFG
+                            208 	.globl _P1IFG
+                            209 	.globl _P0IFG
+                            210 	.globl _TCON
+                            211 	.globl _PCON
+                            212 	.globl _U0CSR
+                            213 	.globl _DPH1
+                            214 	.globl _DPL1
+                            215 	.globl _DPH0
+                            216 	.globl _DPL0
+                            217 	.globl _SP
+                            218 	.globl _P0
+                            219 	.globl _ADC_SHADOW
+                            220 	.globl _U1BUF_SHADOW
+                            221 	.globl _RFD_SHADOW
+                            222 	.globl _U0BUF_SHADOW
+                            223 	.globl _RFSTATUS
+                            224 	.globl _CHIPID
+                            225 	.globl _CHVER
+                            226 	.globl _FSMTC1
+                            227 	.globl _RXFIFOCNT
+                            228 	.globl _IOCFG3
+                            229 	.globl _IOCFG2
+                            230 	.globl _IOCFG1
+                            231 	.globl _IOCFG0
+                            232 	.globl _SHORTADDRL
+                            233 	.globl _SHORTADDRH
+                            234 	.globl _PANIDL
+                            235 	.globl _PANIDH
+                            236 	.globl _IEEE_ADDR7
+                            237 	.globl _IEEE_ADDR6
+                            238 	.globl _IEEE_ADDR5
+                            239 	.globl _IEEE_ADDR4
+                            240 	.globl _IEEE_ADDR3
+                            241 	.globl _IEEE_ADDR2
+                            242 	.globl _IEEE_ADDR1
+                            243 	.globl _IEEE_ADDR0
+                            244 	.globl _DACTSTL
+                            245 	.globl _DACTSTH
+                            246 	.globl _ADCTSTL
+                            247 	.globl _ADCTSTH
+                            248 	.globl _FSMSTATE
+                            249 	.globl _AGCCTRLL
+                            250 	.globl _AGCCTRLH
+                            251 	.globl _MANORL
+                            252 	.globl _MANORH
+                            253 	.globl _MANANDL
+                            254 	.globl _MANANDH
+                            255 	.globl _FSMTCL
+                            256 	.globl _FSMTCH
+                            257 	.globl _RFPWR
+                            258 	.globl _CSPT
+                            259 	.globl _CSPCTRL
+                            260 	.globl _CSPZ
+                            261 	.globl _CSPY
+                            262 	.globl _CSPX
+                            263 	.globl _FSCTRLL
+                            264 	.globl _FSCTRLH
+                            265 	.globl _RXCTRL1L
+                            266 	.globl _RXCTRL1H
+                            267 	.globl _RXCTRL0L
+                            268 	.globl _RXCTRL0H
+                            269 	.globl _TXCTRLL
+                            270 	.globl _TXCTRLH
+                            271 	.globl _SYNCWORDL
+                            272 	.globl _SYNCWORDH
+                            273 	.globl _RSSIL
+                            274 	.globl _RSSIH
+                            275 	.globl _MDMCTRL1L
+                            276 	.globl _MDMCTRL1H
+                            277 	.globl _MDMCTRL0L
+                            278 	.globl _MDMCTRL0H
+                            279 	.globl _phase_remove
+                            280 	.globl _phase_update
+                            281 	.globl _phase_wait
+                            282 	.globl _phase_init
+                            283 ;--------------------------------------------------------
+                            284 ; special function registers
+                            285 ;--------------------------------------------------------
+                            286 	.area RSEG    (ABS,DATA)
+   0000                     287 	.org 0x0000
+                    0080    288 _P0	=	0x0080
+                    0081    289 _SP	=	0x0081
+                    0082    290 _DPL0	=	0x0082
+                    0083    291 _DPH0	=	0x0083
+                    0084    292 _DPL1	=	0x0084
+                    0085    293 _DPH1	=	0x0085
+                    0086    294 _U0CSR	=	0x0086
+                    0087    295 _PCON	=	0x0087
+                    0088    296 _TCON	=	0x0088
+                    0089    297 _P0IFG	=	0x0089
+                    008A    298 _P1IFG	=	0x008a
+                    008B    299 _P2IFG	=	0x008b
+                    008C    300 _PICTL	=	0x008c
+                    008D    301 _P1IEN	=	0x008d
+                    008F    302 _P0INP	=	0x008f
+                    0090    303 _P1	=	0x0090
+                    0091    304 _RFIM	=	0x0091
+                    0092    305 _DPS	=	0x0092
+                    0093    306 __XPAGE	=	0x0093
+                    0094    307 _T2CMP	=	0x0094
+                    0095    308 _ST0	=	0x0095
+                    0096    309 _ST1	=	0x0096
+                    0097    310 _ST2	=	0x0097
+                    0098    311 _S0CON	=	0x0098
+                    0099    312 _HSRC	=	0x0099
+                    009A    313 _IEN2	=	0x009a
+                    009B    314 _S1CON	=	0x009b
+                    009C    315 _T2PEROF0	=	0x009c
+                    009D    316 _T2PEROF1	=	0x009d
+                    009E    317 _T2PEROF2	=	0x009e
+                    009F    318 _FMAP	=	0x009f
+                    009F    319 _PSBANK	=	0x009f
+                    00A0    320 _P2	=	0x00a0
+                    00A1    321 _T2OF0	=	0x00a1
+                    00A2    322 _T2OF1	=	0x00a2
+                    00A3    323 _T2OF2	=	0x00a3
+                    00A4    324 _T2CAPLPL	=	0x00a4
+                    00A5    325 _T2CAPHPH	=	0x00a5
+                    00A6    326 _T2TLD	=	0x00a6
+                    00A7    327 _T2THD	=	0x00a7
+                    00A8    328 _IE	=	0x00a8
+                    00A8    329 _IEN0	=	0x00a8
+                    00A9    330 _IP0	=	0x00a9
+                    00AB    331 _FWT	=	0x00ab
+                    00AC    332 _FADDRL	=	0x00ac
+                    00AD    333 _FADDRH	=	0x00ad
+                    00AE    334 _FCTL	=	0x00ae
+                    00AF    335 _FWDATA	=	0x00af
+                    00B1    336 _ENCDI	=	0x00b1
+                    00B2    337 _ENCDO	=	0x00b2
+                    00B3    338 _ENCCS	=	0x00b3
+                    00B4    339 _ADCCON1	=	0x00b4
+                    00B5    340 _ADCCON2	=	0x00b5
+                    00B6    341 _ADCCON3	=	0x00b6
+                    00B7    342 _RCCTL	=	0x00b7
+                    00B8    343 _IEN1	=	0x00b8
+                    00B9    344 _IP1	=	0x00b9
+                    00BA    345 _ADCL	=	0x00ba
+                    00BB    346 _ADCH	=	0x00bb
+                    00BC    347 _RNDL	=	0x00bc
+                    00BD    348 _RNDH	=	0x00bd
+                    00BE    349 _SLEEP	=	0x00be
+                    00C0    350 _IRCON	=	0x00c0
+                    00C1    351 _U0BUF	=	0x00c1
+                    00C2    352 _U0BAUD	=	0x00c2
+                    00C3    353 _T2CNF	=	0x00c3
+                    00C4    354 _U0UCR	=	0x00c4
+                    00C5    355 _U0GCR	=	0x00c5
+                    00C6    356 _CLKCON	=	0x00c6
+                    00C7    357 _MEMCTR	=	0x00c7
+                    00C8    358 _T2CON	=	0x00c8
+                    00C9    359 _WDCTL	=	0x00c9
+                    00CA    360 _T3CNT	=	0x00ca
+                    00CB    361 _T3CTL	=	0x00cb
+                    00CC    362 _T3CCTL0	=	0x00cc
+                    00CD    363 _T3CC0	=	0x00cd
+                    00CE    364 _T3CCTL1	=	0x00ce
+                    00CF    365 _T3CC1	=	0x00cf
+                    00D0    366 _PSW	=	0x00d0
+                    00D1    367 _DMAIRQ	=	0x00d1
+                    00D2    368 _DMA1CFGL	=	0x00d2
+                    00D3    369 _DMA1CFGH	=	0x00d3
+                    00D4    370 _DMA0CFGL	=	0x00d4
+                    00D5    371 _DMA0CFGH	=	0x00d5
+                    00D6    372 _DMAARM	=	0x00d6
+                    00D7    373 _DMAREQ	=	0x00d7
+                    00D8    374 _TIMIF	=	0x00d8
+                    00D9    375 _RFD	=	0x00d9
+                    00DA    376 _T1CC0L	=	0x00da
+                    00DB    377 _T1CC0H	=	0x00db
+                    00DC    378 _T1CC1L	=	0x00dc
+                    00DD    379 _T1CC1H	=	0x00dd
+                    00DE    380 _T1CC2L	=	0x00de
+                    00DF    381 _T1CC2H	=	0x00df
+                    00E0    382 _ACC	=	0x00e0
+                    00E1    383 _RFST	=	0x00e1
+                    00E2    384 _T1CNTL	=	0x00e2
+                    00E3    385 _T1CNTH	=	0x00e3
+                    00E4    386 _T1CTL	=	0x00e4
+                    00E5    387 _T1CCTL0	=	0x00e5
+                    00E6    388 _T1CCTL1	=	0x00e6
+                    00E7    389 _T1CCTL2	=	0x00e7
+                    00E8    390 _IRCON2	=	0x00e8
+                    00E9    391 _RFIF	=	0x00e9
+                    00EA    392 _T4CNT	=	0x00ea
+                    00EB    393 _T4CTL	=	0x00eb
+                    00EC    394 _T4CCTL0	=	0x00ec
+                    00ED    395 _T4CC0	=	0x00ed
+                    00EE    396 _T4CCTL1	=	0x00ee
+                    00EF    397 _T4CC1	=	0x00ef
+                    00F0    398 _B	=	0x00f0
+                    00F1    399 _PERCFG	=	0x00f1
+                    00F2    400 _ADCCFG	=	0x00f2
+                    00F3    401 _P0SEL	=	0x00f3
+                    00F4    402 _P1SEL	=	0x00f4
+                    00F5    403 _P2SEL	=	0x00f5
+                    00F6    404 _P1INP	=	0x00f6
+                    00F7    405 _P2INP	=	0x00f7
+                    00F8    406 _U1CSR	=	0x00f8
+                    00F9    407 _U1BUF	=	0x00f9
+                    00FA    408 _U1BAUD	=	0x00fa
+                    00FB    409 _U1UCR	=	0x00fb
+                    00FC    410 _U1GCR	=	0x00fc
+                    00FD    411 _P0DIR	=	0x00fd
+                    00FE    412 _P1DIR	=	0x00fe
+                    00FF    413 _P2DIR	=	0x00ff
+                            414 ;--------------------------------------------------------
+                            415 ; special function bits
+                            416 ;--------------------------------------------------------
+                            417 	.area RSEG    (ABS,DATA)
+   0000                     418 	.org 0x0000
+                    0087    419 _P0_7	=	0x0087
+                    0086    420 _P0_6	=	0x0086
+                    0085    421 _P0_5	=	0x0085
+                    0084    422 _P0_4	=	0x0084
+                    0083    423 _P0_3	=	0x0083
+                    0082    424 _P0_2	=	0x0082
+                    0081    425 _P0_1	=	0x0081
+                    0080    426 _P0_0	=	0x0080
+                    008F    427 _TCON_URX1IF	=	0x008f
+                    008D    428 _TCON_ADCIF	=	0x008d
+                    008B    429 _TCON_URX0IF	=	0x008b
+                    008A    430 _TCON_IT1	=	0x008a
+                    0089    431 _TCON_RFERRIF	=	0x0089
+                    0088    432 _TCON_IT0	=	0x0088
+                    0090    433 _P1_0	=	0x0090
+                    0091    434 _P1_1	=	0x0091
+                    0092    435 _P1_2	=	0x0092
+                    0093    436 _P1_3	=	0x0093
+                    0094    437 _P1_4	=	0x0094
+                    0095    438 _P1_5	=	0x0095
+                    0096    439 _P1_6	=	0x0096
+                    0097    440 _P1_7	=	0x0097
+                    0099    441 _S0CON_ENCIF_1	=	0x0099
+                    0098    442 _S0CON_ENCIF_0	=	0x0098
+                    00A0    443 _P2_0	=	0x00a0
+                    00A1    444 _P2_1	=	0x00a1
+                    00A2    445 _P2_2	=	0x00a2
+                    00A3    446 _P2_3	=	0x00a3
+                    00A4    447 _P2_4	=	0x00a4
+                    00AF    448 _EA	=	0x00af
+                    00AF    449 _IEN0_EA	=	0x00af
+                    00AD    450 _IEN0_STIE	=	0x00ad
+                    00AC    451 _IEN0_ENCIE	=	0x00ac
+                    00AB    452 _IEN0_URX1IE	=	0x00ab
+                    00AA    453 _IEN0_URX0IE	=	0x00aa
+                    00A9    454 _IEN0_ADCIE	=	0x00a9
+                    00A8    455 _IEN0_RFERRIE	=	0x00a8
+                    00BD    456 _IEN1_P0IE	=	0x00bd
+                    00BC    457 _IEN1_T4IE	=	0x00bc
+                    00BB    458 _IEN1_T3IE	=	0x00bb
+                    00BA    459 _IEN1_T2IE	=	0x00ba
+                    00B9    460 _IEN1_T1IE	=	0x00b9
+                    00B8    461 _IEN1_DMAIE	=	0x00b8
+                    00C7    462 _IRCON_STIF	=	0x00c7
+                    00C5    463 _IRCON_P0IF	=	0x00c5
+                    00C4    464 _IRCON_T4IF	=	0x00c4
+                    00C3    465 _IRCON_T3IF	=	0x00c3
+                    00C2    466 _IRCON_T2IF	=	0x00c2
+                    00C1    467 _IRCON_T1IF	=	0x00c1
+                    00C0    468 _IRCON_DMAIF	=	0x00c0
+                    00D0    469 _P	=	0x00d0
+                    00D1    470 _F1	=	0x00d1
+                    00D2    471 _OV	=	0x00d2
+                    00D3    472 _RS0	=	0x00d3
+                    00D4    473 _RS1	=	0x00d4
+                    00D5    474 _F0	=	0x00d5
+                    00D6    475 _AC	=	0x00d6
+                    00D7    476 _CY	=	0x00d7
+                    00EC    477 _IRCON2_WDTIF	=	0x00ec
+                    00EB    478 _IRCON2_P1IF	=	0x00eb
+                    00EA    479 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    480 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    481 _IRCON2_P2IF	=	0x00e8
+                            482 ;--------------------------------------------------------
+                            483 ; overlayable register banks
+                            484 ;--------------------------------------------------------
+                            485 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     486 	.ds 8
+                            487 ;--------------------------------------------------------
+                            488 ; internal ram data
+                            489 ;--------------------------------------------------------
+                            490 	.area DSEG    (DATA)
+                            491 ;--------------------------------------------------------
+                            492 ; overlayable items in internal ram 
+                            493 ;--------------------------------------------------------
+                            494 	.area OSEG    (OVR,DATA)
+                            495 ;--------------------------------------------------------
+                            496 ; indirectly addressable internal ram data
+                            497 ;--------------------------------------------------------
+                            498 	.area ISEG    (DATA)
+                            499 ;--------------------------------------------------------
+                            500 ; absolute internal ram data
+                            501 ;--------------------------------------------------------
+                            502 	.area IABS    (ABS,DATA)
+                            503 	.area IABS    (ABS,DATA)
+                            504 ;--------------------------------------------------------
+                            505 ; bit data
+                            506 ;--------------------------------------------------------
+                            507 	.area BSEG    (BIT)
+                            508 ;--------------------------------------------------------
+                            509 ; paged external ram data
+                            510 ;--------------------------------------------------------
+                            511 	.area PSEG    (PAG,XDATA)
+                            512 ;--------------------------------------------------------
+                            513 ; external ram data
+                            514 ;--------------------------------------------------------
+                            515 	.area XSEG    (XDATA)
+                    DF02    516 _MDMCTRL0H	=	0xdf02
+                    DF03    517 _MDMCTRL0L	=	0xdf03
+                    DF04    518 _MDMCTRL1H	=	0xdf04
+                    DF05    519 _MDMCTRL1L	=	0xdf05
+                    DF06    520 _RSSIH	=	0xdf06
+                    DF07    521 _RSSIL	=	0xdf07
+                    DF08    522 _SYNCWORDH	=	0xdf08
+                    DF09    523 _SYNCWORDL	=	0xdf09
+                    DF0A    524 _TXCTRLH	=	0xdf0a
+                    DF0B    525 _TXCTRLL	=	0xdf0b
+                    DF0C    526 _RXCTRL0H	=	0xdf0c
+                    DF0D    527 _RXCTRL0L	=	0xdf0d
+                    DF0E    528 _RXCTRL1H	=	0xdf0e
+                    DF0F    529 _RXCTRL1L	=	0xdf0f
+                    DF10    530 _FSCTRLH	=	0xdf10
+                    DF11    531 _FSCTRLL	=	0xdf11
+                    DF12    532 _CSPX	=	0xdf12
+                    DF13    533 _CSPY	=	0xdf13
+                    DF14    534 _CSPZ	=	0xdf14
+                    DF15    535 _CSPCTRL	=	0xdf15
+                    DF16    536 _CSPT	=	0xdf16
+                    DF17    537 _RFPWR	=	0xdf17
+                    DF20    538 _FSMTCH	=	0xdf20
+                    DF21    539 _FSMTCL	=	0xdf21
+                    DF22    540 _MANANDH	=	0xdf22
+                    DF23    541 _MANANDL	=	0xdf23
+                    DF24    542 _MANORH	=	0xdf24
+                    DF25    543 _MANORL	=	0xdf25
+                    DF26    544 _AGCCTRLH	=	0xdf26
+                    DF27    545 _AGCCTRLL	=	0xdf27
+                    DF39    546 _FSMSTATE	=	0xdf39
+                    DF3A    547 _ADCTSTH	=	0xdf3a
+                    DF3B    548 _ADCTSTL	=	0xdf3b
+                    DF3C    549 _DACTSTH	=	0xdf3c
+                    DF3D    550 _DACTSTL	=	0xdf3d
+                    DF43    551 _IEEE_ADDR0	=	0xdf43
+                    DF44    552 _IEEE_ADDR1	=	0xdf44
+                    DF45    553 _IEEE_ADDR2	=	0xdf45
+                    DF46    554 _IEEE_ADDR3	=	0xdf46
+                    DF47    555 _IEEE_ADDR4	=	0xdf47
+                    DF48    556 _IEEE_ADDR5	=	0xdf48
+                    DF49    557 _IEEE_ADDR6	=	0xdf49
+                    DF4A    558 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    559 _PANIDH	=	0xdf4b
+                    DF4C    560 _PANIDL	=	0xdf4c
+                    DF4D    561 _SHORTADDRH	=	0xdf4d
+                    DF4E    562 _SHORTADDRL	=	0xdf4e
+                    DF4F    563 _IOCFG0	=	0xdf4f
+                    DF50    564 _IOCFG1	=	0xdf50
+                    DF51    565 _IOCFG2	=	0xdf51
+                    DF52    566 _IOCFG3	=	0xdf52
+                    DF53    567 _RXFIFOCNT	=	0xdf53
+                    DF54    568 _FSMTC1	=	0xdf54
+                    DF60    569 _CHVER	=	0xdf60
+                    DF61    570 _CHIPID	=	0xdf61
+                    DF62    571 _RFSTATUS	=	0xdf62
+                    DFC1    572 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    573 _RFD_SHADOW	=	0xdfd9
+                    DFF9    574 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    575 _ADC_SHADOW	=	0xdfba
+   0000                     576 _queued_packets_memb_memb_count:
+   0000                     577 	.ds 8
+   0008                     578 _queued_packets_memb_memb_mem:
+   0008                     579 	.ds 256
+                            580 ;--------------------------------------------------------
+                            581 ; absolute external ram data
+                            582 ;--------------------------------------------------------
+                            583 	.area XABS    (ABS,XDATA)
+                            584 ;--------------------------------------------------------
+                            585 ; external initialized ram data
+                            586 ;--------------------------------------------------------
+                            587 	.area XISEG   (XDATA)
+   0000                     588 _queued_packets_memb:
+   0000                     589 	.ds 10
+                            590 	.area HOME    (CODE)
+                            591 	.area GSINIT0 (CODE)
+                            592 	.area GSINIT1 (CODE)
+                            593 	.area GSINIT2 (CODE)
+                            594 	.area GSINIT3 (CODE)
+                            595 	.area GSINIT4 (CODE)
+                            596 	.area GSINIT5 (CODE)
+                            597 	.area GSINIT  (CODE)
+                            598 	.area GSFINAL (CODE)
+                            599 	.area CSEG    (CODE)
+                            600 ;--------------------------------------------------------
+                            601 ; global & static initialisations
+                            602 ;--------------------------------------------------------
+                            603 	.area HOME    (CODE)
+                            604 	.area GSINIT  (CODE)
+                            605 	.area GSFINAL (CODE)
+                            606 	.area GSINIT  (CODE)
+                            607 ;--------------------------------------------------------
+                            608 ; Home
+                            609 ;--------------------------------------------------------
+                            610 	.area HOME    (CODE)
+                            611 	.area HOME    (CODE)
+                            612 ;--------------------------------------------------------
+                            613 ; code
+                            614 ;--------------------------------------------------------
+                            615 	.area CSEG    (CODE)
+                            616 ;------------------------------------------------------------
+                            617 ;Allocation info for local variables in function 'find_neighbor'
+                            618 ;------------------------------------------------------------
+                            619 ;addr                      Allocated to stack - _bp -5
+                            620 ;list                      Allocated to registers r5 r6 r7 
+                            621 ;e                         Allocated to registers r5 r6 r7 
+                            622 ;------------------------------------------------------------
+                            623 ;	../../core/net/mac/phase.c:77: find_neighbor(const struct phase_list *list, const rimeaddr_t *addr)
+                            624 ;	-----------------------------------------
+                            625 ;	 function find_neighbor
+                            626 ;	-----------------------------------------
+   0000                     627 _find_neighbor:
+                    0007    628 	ar7 = 0x07
+                    0006    629 	ar6 = 0x06
+                    0005    630 	ar5 = 0x05
+                    0004    631 	ar4 = 0x04
+                    0003    632 	ar3 = 0x03
+                    0002    633 	ar2 = 0x02
+                    0001    634 	ar1 = 0x01
+                    0000    635 	ar0 = 0x00
+   0000 C0*00               636 	push	_bp
+   0002 85 81*00            637 	mov	_bp,sp
+                            638 ;	../../core/net/mac/phase.c:80: for(e = list_head(*list->list); e != NULL; e = list_item_next(e)) {
+   0005 12s00r00            639 	lcall	__gptrget
+   0008 FD                  640 	mov	r5,a
+   0009 A3                  641 	inc	dptr
+   000A 12s00r00            642 	lcall	__gptrget
+   000D FE                  643 	mov	r6,a
+   000E A3                  644 	inc	dptr
+   000F 12s00r00            645 	lcall	__gptrget
+   0012 FF                  646 	mov	r7,a
+   0013 8D 82               647 	mov	dpl,r5
+   0015 8E 83               648 	mov	dph,r6
+   0017 8F F0               649 	mov	b,r7
+   0019 12s00r00            650 	lcall	__gptrget
+   001C FD                  651 	mov	r5,a
+   001D A3                  652 	inc	dptr
+   001E 12s00r00            653 	lcall	__gptrget
+   0021 FE                  654 	mov	r6,a
+   0022 A3                  655 	inc	dptr
+   0023 12s00r00            656 	lcall	__gptrget
+   0026 FF                  657 	mov	r7,a
+   0027 8D 82               658 	mov	dpl,r5
+   0029 8E 83               659 	mov	dph,r6
+   002B 8F F0               660 	mov	b,r7
+   002D 12s00r00            661 	lcall	_list_head
+   0030 AD 82               662 	mov	r5,dpl
+   0032 AE 83               663 	mov	r6,dph
+   0034 AF F0               664 	mov	r7,b
+   0036                     665 00103$:
+   0036 E4                  666 	clr	a
+   0037 C0 E0               667 	push	acc
+   0039 E4                  668 	clr	a
+   003A C0 E0               669 	push	acc
+   003C E4                  670 	clr	a
+   003D C0 E0               671 	push	acc
+   003F 8D 82               672 	mov	dpl,r5
+   0041 8E 83               673 	mov	dph,r6
+   0043 8F F0               674 	mov	b,r7
+   0045 12s00r00            675 	lcall	___gptr_cmp
+   0048 15 81               676 	dec	sp
+   004A 15 81               677 	dec	sp
+   004C 15 81               678 	dec	sp
+   004E 60 5E               679 	jz	00106$
+                            680 ;	../../core/net/mac/phase.c:81: if(rimeaddr_cmp(addr, &e->neighbor)) {
+   0050 74 03               681 	mov	a,#0x03
+   0052 2D                  682 	add	a,r5
+   0053 FA                  683 	mov	r2,a
+   0054 E4                  684 	clr	a
+   0055 3E                  685 	addc	a,r6
+   0056 FB                  686 	mov	r3,a
+   0057 8F 04               687 	mov	ar4,r7
+   0059 C0 07               688 	push	ar7
+   005B C0 06               689 	push	ar6
+   005D C0 05               690 	push	ar5
+   005F C0 02               691 	push	ar2
+   0061 C0 03               692 	push	ar3
+   0063 C0 04               693 	push	ar4
+   0065 E5*00               694 	mov	a,_bp
+   0067 24 FB               695 	add	a,#0xfb
+   0069 F8                  696 	mov	r0,a
+   006A 86 82               697 	mov	dpl,@r0
+   006C 08                  698 	inc	r0
+   006D 86 83               699 	mov	dph,@r0
+   006F 08                  700 	inc	r0
+   0070 86 F0               701 	mov	b,@r0
+   0072 12s00r00            702 	lcall	_rimeaddr_cmp
+   0075 AB 82               703 	mov	r3,dpl
+   0077 AC 83               704 	mov	r4,dph
+   0079 15 81               705 	dec	sp
+   007B 15 81               706 	dec	sp
+   007D 15 81               707 	dec	sp
+   007F D0 05               708 	pop	ar5
+   0081 D0 06               709 	pop	ar6
+   0083 D0 07               710 	pop	ar7
+   0085 EB                  711 	mov	a,r3
+   0086 4C                  712 	orl	a,r4
+   0087 60 08               713 	jz	00105$
+                            714 ;	../../core/net/mac/phase.c:82: return e;
+   0089 8D 82               715 	mov	dpl,r5
+   008B 8E 83               716 	mov	dph,r6
+   008D 8F F0               717 	mov	b,r7
+   008F 80 23               718 	sjmp	00107$
+   0091                     719 00105$:
+                            720 ;	../../core/net/mac/phase.c:80: for(e = list_head(*list->list); e != NULL; e = list_item_next(e)) {
+   0091 8D 02               721 	mov	ar2,r5
+   0093 8E 03               722 	mov	ar3,r6
+   0095 8F 04               723 	mov	ar4,r7
+   0097 8A 82               724 	mov	dpl,r2
+   0099 8B 83               725 	mov	dph,r3
+   009B 8C F0               726 	mov	b,r4
+   009D 12s00r00            727 	lcall	_list_item_next
+   00A0 AA 82               728 	mov	r2,dpl
+   00A2 AB 83               729 	mov	r3,dph
+   00A4 AC F0               730 	mov	r4,b
+   00A6 8A 05               731 	mov	ar5,r2
+   00A8 8B 06               732 	mov	ar6,r3
+   00AA 8C 07               733 	mov	ar7,r4
+   00AC 80 88               734 	sjmp	00103$
+   00AE                     735 00106$:
+                            736 ;	../../core/net/mac/phase.c:85: return NULL;
+   00AE 90 00 00            737 	mov	dptr,#0x0000
+   00B1 75 F0 00            738 	mov	b,#0x00
+   00B4                     739 00107$:
+   00B4 D0*00               740 	pop	_bp
+   00B6 22                  741 	ret
+                            742 ;------------------------------------------------------------
+                            743 ;Allocation info for local variables in function 'phase_remove'
+                            744 ;------------------------------------------------------------
+                            745 ;neighbor                  Allocated to stack - _bp -5
+                            746 ;list                      Allocated to stack - _bp +1
+                            747 ;e                         Allocated to stack - _bp +4
+                            748 ;------------------------------------------------------------
+                            749 ;	../../core/net/mac/phase.c:89: phase_remove(const struct phase_list *list, const rimeaddr_t *neighbor)
+                            750 ;	-----------------------------------------
+                            751 ;	 function phase_remove
+                            752 ;	-----------------------------------------
+   00B7                     753 _phase_remove:
+   00B7 C0*00               754 	push	_bp
+   00B9 85 81*00            755 	mov	_bp,sp
+   00BC C0 82               756 	push	dpl
+   00BE C0 83               757 	push	dph
+   00C0 C0 F0               758 	push	b
+   00C2 05 81               759 	inc	sp
+   00C4 05 81               760 	inc	sp
+   00C6 05 81               761 	inc	sp
+                            762 ;	../../core/net/mac/phase.c:92: e = find_neighbor(list, neighbor);
+   00C8 E5*00               763 	mov	a,_bp
+   00CA 24 FB               764 	add	a,#0xfb
+   00CC F8                  765 	mov	r0,a
+   00CD E6                  766 	mov	a,@r0
+   00CE C0 E0               767 	push	acc
+   00D0 08                  768 	inc	r0
+   00D1 E6                  769 	mov	a,@r0
+   00D2 C0 E0               770 	push	acc
+   00D4 08                  771 	inc	r0
+   00D5 E6                  772 	mov	a,@r0
+   00D6 C0 E0               773 	push	acc
+   00D8 A8*00               774 	mov	r0,_bp
+   00DA 08                  775 	inc	r0
+   00DB 86 82               776 	mov	dpl,@r0
+   00DD 08                  777 	inc	r0
+   00DE 86 83               778 	mov	dph,@r0
+   00E0 08                  779 	inc	r0
+   00E1 86 F0               780 	mov	b,@r0
+   00E3 12s00r00            781 	lcall	_find_neighbor
+   00E6 AA 82               782 	mov	r2,dpl
+   00E8 AB 83               783 	mov	r3,dph
+   00EA AC F0               784 	mov	r4,b
+   00EC 15 81               785 	dec	sp
+   00EE 15 81               786 	dec	sp
+   00F0 15 81               787 	dec	sp
+   00F2 E5*00               788 	mov	a,_bp
+   00F4 24 04               789 	add	a,#0x04
+   00F6 F8                  790 	mov	r0,a
+   00F7 A6 02               791 	mov	@r0,ar2
+   00F9 08                  792 	inc	r0
+   00FA A6 03               793 	mov	@r0,ar3
+   00FC 08                  794 	inc	r0
+   00FD A6 04               795 	mov	@r0,ar4
+                            796 ;	../../core/net/mac/phase.c:93: if(e != NULL) {
+   00FF E5*00               797 	mov	a,_bp
+   0101 24 04               798 	add	a,#0x04
+   0103 F8                  799 	mov	r0,a
+   0104 E6                  800 	mov	a,@r0
+   0105 08                  801 	inc	r0
+   0106 46                  802 	orl	a,@r0
+   0107 70 03               803 	jnz	00107$
+   0109 02s01r9F            804 	ljmp	00103$
+   010C                     805 00107$:
+                            806 ;	../../core/net/mac/phase.c:94: list_remove(*list->list, e);
+   010C E5*00               807 	mov	a,_bp
+   010E 24 04               808 	add	a,#0x04
+   0110 F8                  809 	mov	r0,a
+   0111 86 02               810 	mov	ar2,@r0
+   0113 08                  811 	inc	r0
+   0114 86 03               812 	mov	ar3,@r0
+   0116 08                  813 	inc	r0
+   0117 86 04               814 	mov	ar4,@r0
+   0119 A8*00               815 	mov	r0,_bp
+   011B 08                  816 	inc	r0
+   011C 86 82               817 	mov	dpl,@r0
+   011E 08                  818 	inc	r0
+   011F 86 83               819 	mov	dph,@r0
+   0121 08                  820 	inc	r0
+   0122 86 F0               821 	mov	b,@r0
+   0124 12s00r00            822 	lcall	__gptrget
+   0127 FD                  823 	mov	r5,a
+   0128 A3                  824 	inc	dptr
+   0129 12s00r00            825 	lcall	__gptrget
+   012C FE                  826 	mov	r6,a
+   012D A3                  827 	inc	dptr
+   012E 12s00r00            828 	lcall	__gptrget
+   0131 FF                  829 	mov	r7,a
+   0132 8D 82               830 	mov	dpl,r5
+   0134 8E 83               831 	mov	dph,r6
+   0136 8F F0               832 	mov	b,r7
+   0138 12s00r00            833 	lcall	__gptrget
+   013B FD                  834 	mov	r5,a
+   013C A3                  835 	inc	dptr
+   013D 12s00r00            836 	lcall	__gptrget
+   0140 FE                  837 	mov	r6,a
+   0141 A3                  838 	inc	dptr
+   0142 12s00r00            839 	lcall	__gptrget
+   0145 FF                  840 	mov	r7,a
+   0146 C0 02               841 	push	ar2
+   0148 C0 03               842 	push	ar3
+   014A C0 04               843 	push	ar4
+   014C 8D 82               844 	mov	dpl,r5
+   014E 8E 83               845 	mov	dph,r6
+   0150 8F F0               846 	mov	b,r7
+   0152 12s00r00            847 	lcall	_list_remove
+   0155 15 81               848 	dec	sp
+   0157 15 81               849 	dec	sp
+   0159 15 81               850 	dec	sp
+                            851 ;	../../core/net/mac/phase.c:95: memb_free(list->memb, e);
+   015B E5*00               852 	mov	a,_bp
+   015D 24 04               853 	add	a,#0x04
+   015F F8                  854 	mov	r0,a
+   0160 86 02               855 	mov	ar2,@r0
+   0162 08                  856 	inc	r0
+   0163 86 03               857 	mov	ar3,@r0
+   0165 08                  858 	inc	r0
+   0166 86 04               859 	mov	ar4,@r0
+   0168 A8*00               860 	mov	r0,_bp
+   016A 08                  861 	inc	r0
+   016B 74 03               862 	mov	a,#0x03
+   016D 26                  863 	add	a,@r0
+   016E FD                  864 	mov	r5,a
+   016F E4                  865 	clr	a
+   0170 08                  866 	inc	r0
+   0171 36                  867 	addc	a,@r0
+   0172 FE                  868 	mov	r6,a
+   0173 08                  869 	inc	r0
+   0174 86 07               870 	mov	ar7,@r0
+   0176 8D 82               871 	mov	dpl,r5
+   0178 8E 83               872 	mov	dph,r6
+   017A 8F F0               873 	mov	b,r7
+   017C 12s00r00            874 	lcall	__gptrget
+   017F FD                  875 	mov	r5,a
+   0180 A3                  876 	inc	dptr
+   0181 12s00r00            877 	lcall	__gptrget
+   0184 FE                  878 	mov	r6,a
+   0185 A3                  879 	inc	dptr
+   0186 12s00r00            880 	lcall	__gptrget
+   0189 FF                  881 	mov	r7,a
+   018A C0 02               882 	push	ar2
+   018C C0 03               883 	push	ar3
+   018E C0 04               884 	push	ar4
+   0190 8D 82               885 	mov	dpl,r5
+   0192 8E 83               886 	mov	dph,r6
+   0194 8F F0               887 	mov	b,r7
+   0196 12s00r00            888 	lcall	_memb_free
+   0199 15 81               889 	dec	sp
+   019B 15 81               890 	dec	sp
+   019D 15 81               891 	dec	sp
+   019F                     892 00103$:
+   019F 85*00 81            893 	mov	sp,_bp
+   01A2 D0*00               894 	pop	_bp
+   01A4 22                  895 	ret
+                            896 ;------------------------------------------------------------
+                            897 ;Allocation info for local variables in function 'phase_update'
+                            898 ;------------------------------------------------------------
+                            899 ;neighbor                  Allocated to stack - _bp -5
+                            900 ;time                      Allocated to stack - _bp -7
+                            901 ;mac_status                Allocated to stack - _bp -9
+                            902 ;list                      Allocated to stack - _bp +1
+                            903 ;e                         Allocated to stack - _bp +4
+                            904 ;------------------------------------------------------------
+                            905 ;	../../core/net/mac/phase.c:100: phase_update(const struct phase_list *list,
+                            906 ;	-----------------------------------------
+                            907 ;	 function phase_update
+                            908 ;	-----------------------------------------
+   01A5                     909 _phase_update:
+   01A5 C0*00               910 	push	_bp
+   01A7 85 81*00            911 	mov	_bp,sp
+   01AA C0 82               912 	push	dpl
+   01AC C0 83               913 	push	dph
+   01AE C0 F0               914 	push	b
+   01B0 05 81               915 	inc	sp
+   01B2 05 81               916 	inc	sp
+   01B4 05 81               917 	inc	sp
+                            918 ;	../../core/net/mac/phase.c:107: e = find_neighbor(list, neighbor);
+   01B6 E5*00               919 	mov	a,_bp
+   01B8 24 FB               920 	add	a,#0xfb
+   01BA F8                  921 	mov	r0,a
+   01BB E6                  922 	mov	a,@r0
+   01BC C0 E0               923 	push	acc
+   01BE 08                  924 	inc	r0
+   01BF E6                  925 	mov	a,@r0
+   01C0 C0 E0               926 	push	acc
+   01C2 08                  927 	inc	r0
+   01C3 E6                  928 	mov	a,@r0
+   01C4 C0 E0               929 	push	acc
+   01C6 A8*00               930 	mov	r0,_bp
+   01C8 08                  931 	inc	r0
+   01C9 86 82               932 	mov	dpl,@r0
+   01CB 08                  933 	inc	r0
+   01CC 86 83               934 	mov	dph,@r0
+   01CE 08                  935 	inc	r0
+   01CF 86 F0               936 	mov	b,@r0
+   01D1 12s00r00            937 	lcall	_find_neighbor
+   01D4 AA 82               938 	mov	r2,dpl
+   01D6 AB 83               939 	mov	r3,dph
+   01D8 AC F0               940 	mov	r4,b
+   01DA 15 81               941 	dec	sp
+   01DC 15 81               942 	dec	sp
+   01DE 15 81               943 	dec	sp
+   01E0 E5*00               944 	mov	a,_bp
+   01E2 24 04               945 	add	a,#0x04
+   01E4 F8                  946 	mov	r0,a
+   01E5 A6 02               947 	mov	@r0,ar2
+   01E7 08                  948 	inc	r0
+   01E8 A6 03               949 	mov	@r0,ar3
+   01EA 08                  950 	inc	r0
+   01EB A6 04               951 	mov	@r0,ar4
+                            952 ;	../../core/net/mac/phase.c:108: if(e != NULL) {
+   01ED E5*00               953 	mov	a,_bp
+   01EF 24 04               954 	add	a,#0x04
+   01F1 F8                  955 	mov	r0,a
+   01F2 E6                  956 	mov	a,@r0
+   01F3 08                  957 	inc	r0
+   01F4 46                  958 	orl	a,@r0
+   01F5 70 03               959 	jnz	00141$
+   01F7 02s03r92            960 	ljmp	00119$
+   01FA                     961 00141$:
+                            962 ;	../../core/net/mac/phase.c:109: if(mac_status == MAC_TX_OK) {
+   01FA E5*00               963 	mov	a,_bp
+   01FC 24 F7               964 	add	a,#0xf7
+   01FE F8                  965 	mov	r0,a
+   01FF E6                  966 	mov	a,@r0
+   0200 08                  967 	inc	r0
+   0201 46                  968 	orl	a,@r0
+   0202 70 25               969 	jnz	00102$
+                            970 ;	../../core/net/mac/phase.c:113: e->time = time;
+   0204 E5*00               971 	mov	a,_bp
+   0206 24 04               972 	add	a,#0x04
+   0208 F8                  973 	mov	r0,a
+   0209 74 05               974 	mov	a,#0x05
+   020B 26                  975 	add	a,@r0
+   020C FA                  976 	mov	r2,a
+   020D E4                  977 	clr	a
+   020E 08                  978 	inc	r0
+   020F 36                  979 	addc	a,@r0
+   0210 FB                  980 	mov	r3,a
+   0211 08                  981 	inc	r0
+   0212 86 04               982 	mov	ar4,@r0
+   0214 8A 82               983 	mov	dpl,r2
+   0216 8B 83               984 	mov	dph,r3
+   0218 8C F0               985 	mov	b,r4
+   021A E5*00               986 	mov	a,_bp
+   021C 24 F9               987 	add	a,#0xf9
+   021E F8                  988 	mov	r0,a
+   021F E6                  989 	mov	a,@r0
+   0220 12s00r00            990 	lcall	__gptrput
+   0223 A3                  991 	inc	dptr
+   0224 08                  992 	inc	r0
+   0225 E6                  993 	mov	a,@r0
+   0226 12s00r00            994 	lcall	__gptrput
+   0229                     995 00102$:
+                            996 ;	../../core/net/mac/phase.c:118: if(mac_status == MAC_TX_NOACK) {
+   0229 E5*00               997 	mov	a,_bp
+   022B 24 F7               998 	add	a,#0xf7
+   022D F8                  999 	mov	r0,a
+   022E B6 02 06           1000 	cjne	@r0,#0x02,00143$
+   0231 08                 1001 	inc	r0
+   0232 B6 00 02           1002 	cjne	@r0,#0x00,00143$
+   0235 80 03              1003 	sjmp	00144$
+   0237                    1004 00143$:
+   0237 02s03r68           1005 	ljmp	00111$
+   023A                    1006 00144$:
+                           1007 ;	../../core/net/mac/phase.c:120: e->noacks++;
+   023A E5*00              1008 	mov	a,_bp
+   023C 24 04              1009 	add	a,#0x04
+   023E F8                 1010 	mov	r0,a
+   023F 74 07              1011 	mov	a,#0x07
+   0241 26                 1012 	add	a,@r0
+   0242 FA                 1013 	mov	r2,a
+   0243 E4                 1014 	clr	a
+   0244 08                 1015 	inc	r0
+   0245 36                 1016 	addc	a,@r0
+   0246 FB                 1017 	mov	r3,a
+   0247 08                 1018 	inc	r0
+   0248 86 04              1019 	mov	ar4,@r0
+   024A 8A 82              1020 	mov	dpl,r2
+   024C 8B 83              1021 	mov	dph,r3
+   024E 8C F0              1022 	mov	b,r4
+   0250 12s00r00           1023 	lcall	__gptrget
+   0253 FF                 1024 	mov	r7,a
+   0254 0F                 1025 	inc	r7
+   0255 8A 82              1026 	mov	dpl,r2
+   0257 8B 83              1027 	mov	dph,r3
+   0259 8C F0              1028 	mov	b,r4
+   025B EF                 1029 	mov	a,r7
+   025C 12s00r00           1030 	lcall	__gptrput
+                           1031 ;	../../core/net/mac/phase.c:121: if(e->noacks == 1) {
+   025F BF 01 3C           1032 	cjne	r7,#0x01,00104$
+                           1033 ;	../../core/net/mac/phase.c:122: timer_set(&e->noacks_timer, MAX_NOACKS_TIME);
+   0262 C0 02              1034 	push	ar2
+   0264 C0 03              1035 	push	ar3
+   0266 C0 04              1036 	push	ar4
+   0268 E5*00              1037 	mov	a,_bp
+   026A 24 04              1038 	add	a,#0x04
+   026C F8                 1039 	mov	r0,a
+   026D 74 08              1040 	mov	a,#0x08
+   026F 26                 1041 	add	a,@r0
+   0270 FA                 1042 	mov	r2,a
+   0271 E4                 1043 	clr	a
+   0272 08                 1044 	inc	r0
+   0273 36                 1045 	addc	a,@r0
+   0274 FB                 1046 	mov	r3,a
+   0275 08                 1047 	inc	r0
+   0276 86 04              1048 	mov	ar4,@r0
+   0278 C0 04              1049 	push	ar4
+   027A C0 03              1050 	push	ar3
+   027C C0 02              1051 	push	ar2
+   027E E4                 1052 	clr	a
+   027F C0 E0              1053 	push	acc
+   0281 74 0F              1054 	mov	a,#0x0F
+   0283 C0 E0              1055 	push	acc
+   0285 8A 82              1056 	mov	dpl,r2
+   0287 8B 83              1057 	mov	dph,r3
+   0289 8C F0              1058 	mov	b,r4
+   028B 12s00r00           1059 	lcall	_timer_set
+   028E 15 81              1060 	dec	sp
+   0290 15 81              1061 	dec	sp
+   0292 D0 02              1062 	pop	ar2
+   0294 D0 03              1063 	pop	ar3
+   0296 D0 04              1064 	pop	ar4
+                           1065 ;	../../core/net/mac/phase.c:149: list_push(*list->list, e);
+   0298 D0 04              1066 	pop	ar4
+   029A D0 03              1067 	pop	ar3
+   029C D0 02              1068 	pop	ar2
+                           1069 ;	../../core/net/mac/phase.c:122: timer_set(&e->noacks_timer, MAX_NOACKS_TIME);
+   029E                    1070 00104$:
+                           1071 ;	../../core/net/mac/phase.c:124: if(e->noacks >= MAX_NOACKS || timer_expired(&e->noacks_timer)) {
+   029E 8A 82              1072 	mov	dpl,r2
+   02A0 8B 83              1073 	mov	dph,r3
+   02A2 8C F0              1074 	mov	b,r4
+   02A4 12s00r00           1075 	lcall	__gptrget
+   02A7 FA                 1076 	mov	r2,a
+   02A8 BA 10 00           1077 	cjne	r2,#0x10,00147$
+   02AB                    1078 00147$:
+   02AB 50 25              1079 	jnc	00105$
+   02AD E5*00              1080 	mov	a,_bp
+   02AF 24 04              1081 	add	a,#0x04
+   02B1 F8                 1082 	mov	r0,a
+   02B2 74 08              1083 	mov	a,#0x08
+   02B4 26                 1084 	add	a,@r0
+   02B5 FA                 1085 	mov	r2,a
+   02B6 E4                 1086 	clr	a
+   02B7 08                 1087 	inc	r0
+   02B8 36                 1088 	addc	a,@r0
+   02B9 FB                 1089 	mov	r3,a
+   02BA 08                 1090 	inc	r0
+   02BB 86 04              1091 	mov	ar4,@r0
+   02BD 8A 82              1092 	mov	dpl,r2
+   02BF 8B 83              1093 	mov	dph,r3
+   02C1 8C F0              1094 	mov	b,r4
+   02C3 12s00r00           1095 	lcall	_timer_expired
+   02C6 E5 82              1096 	mov	a,dpl
+   02C8 85 83 F0           1097 	mov	b,dph
+   02CB 45 F0              1098 	orl	a,b
+   02CD 70 03              1099 	jnz	00149$
+   02CF 02s04rFA           1100 	ljmp	00121$
+   02D2                    1101 00149$:
+   02D2                    1102 00105$:
+                           1103 ;	../../core/net/mac/phase.c:126: list_remove(*list->list, e);
+   02D2 E5*00              1104 	mov	a,_bp
+   02D4 24 04              1105 	add	a,#0x04
+   02D6 F8                 1106 	mov	r0,a
+   02D7 86 02              1107 	mov	ar2,@r0
+   02D9 08                 1108 	inc	r0
+   02DA 86 03              1109 	mov	ar3,@r0
+   02DC 08                 1110 	inc	r0
+   02DD 86 04              1111 	mov	ar4,@r0
+   02DF A8*00              1112 	mov	r0,_bp
+   02E1 08                 1113 	inc	r0
+   02E2 86 82              1114 	mov	dpl,@r0
+   02E4 08                 1115 	inc	r0
+   02E5 86 83              1116 	mov	dph,@r0
+   02E7 08                 1117 	inc	r0
+   02E8 86 F0              1118 	mov	b,@r0
+   02EA 12s00r00           1119 	lcall	__gptrget
+   02ED FD                 1120 	mov	r5,a
+   02EE A3                 1121 	inc	dptr
+   02EF 12s00r00           1122 	lcall	__gptrget
+   02F2 FE                 1123 	mov	r6,a
+   02F3 A3                 1124 	inc	dptr
+   02F4 12s00r00           1125 	lcall	__gptrget
+   02F7 FF                 1126 	mov	r7,a
+   02F8 8D 82              1127 	mov	dpl,r5
+   02FA 8E 83              1128 	mov	dph,r6
+   02FC 8F F0              1129 	mov	b,r7
+   02FE 12s00r00           1130 	lcall	__gptrget
+   0301 FD                 1131 	mov	r5,a
+   0302 A3                 1132 	inc	dptr
+   0303 12s00r00           1133 	lcall	__gptrget
+   0306 FE                 1134 	mov	r6,a
+   0307 A3                 1135 	inc	dptr
+   0308 12s00r00           1136 	lcall	__gptrget
+   030B FF                 1137 	mov	r7,a
+   030C C0 02              1138 	push	ar2
+   030E C0 03              1139 	push	ar3
+   0310 C0 04              1140 	push	ar4
+   0312 8D 82              1141 	mov	dpl,r5
+   0314 8E 83              1142 	mov	dph,r6
+   0316 8F F0              1143 	mov	b,r7
+   0318 12s00r00           1144 	lcall	_list_remove
+   031B 15 81              1145 	dec	sp
+   031D 15 81              1146 	dec	sp
+   031F 15 81              1147 	dec	sp
+                           1148 ;	../../core/net/mac/phase.c:127: memb_free(list->memb, e);
+   0321 E5*00              1149 	mov	a,_bp
+   0323 24 04              1150 	add	a,#0x04
+   0325 F8                 1151 	mov	r0,a
+   0326 86 02              1152 	mov	ar2,@r0
+   0328 08                 1153 	inc	r0
+   0329 86 03              1154 	mov	ar3,@r0
+   032B 08                 1155 	inc	r0
+   032C 86 04              1156 	mov	ar4,@r0
+   032E A8*00              1157 	mov	r0,_bp
+   0330 08                 1158 	inc	r0
+   0331 74 03              1159 	mov	a,#0x03
+   0333 26                 1160 	add	a,@r0
+   0334 FD                 1161 	mov	r5,a
+   0335 E4                 1162 	clr	a
+   0336 08                 1163 	inc	r0
+   0337 36                 1164 	addc	a,@r0
+   0338 FE                 1165 	mov	r6,a
+   0339 08                 1166 	inc	r0
+   033A 86 07              1167 	mov	ar7,@r0
+   033C 8D 82              1168 	mov	dpl,r5
+   033E 8E 83              1169 	mov	dph,r6
+   0340 8F F0              1170 	mov	b,r7
+   0342 12s00r00           1171 	lcall	__gptrget
+   0345 FD                 1172 	mov	r5,a
+   0346 A3                 1173 	inc	dptr
+   0347 12s00r00           1174 	lcall	__gptrget
+   034A FE                 1175 	mov	r6,a
+   034B A3                 1176 	inc	dptr
+   034C 12s00r00           1177 	lcall	__gptrget
+   034F FF                 1178 	mov	r7,a
+   0350 C0 02              1179 	push	ar2
+   0352 C0 03              1180 	push	ar3
+   0354 C0 04              1181 	push	ar4
+   0356 8D 82              1182 	mov	dpl,r5
+   0358 8E 83              1183 	mov	dph,r6
+   035A 8F F0              1184 	mov	b,r7
+   035C 12s00r00           1185 	lcall	_memb_free
+   035F 15 81              1186 	dec	sp
+   0361 15 81              1187 	dec	sp
+   0363 15 81              1188 	dec	sp
+                           1189 ;	../../core/net/mac/phase.c:128: return;
+   0365 02s04rFA           1190 	ljmp	00121$
+   0368                    1191 00111$:
+                           1192 ;	../../core/net/mac/phase.c:130: } else if(mac_status == MAC_TX_OK) {
+   0368 E5*00              1193 	mov	a,_bp
+   036A 24 F7              1194 	add	a,#0xf7
+   036C F8                 1195 	mov	r0,a
+   036D E6                 1196 	mov	a,@r0
+   036E 08                 1197 	inc	r0
+   036F 46                 1198 	orl	a,@r0
+   0370 60 03              1199 	jz	00150$
+   0372 02s04rFA           1200 	ljmp	00121$
+   0375                    1201 00150$:
+                           1202 ;	../../core/net/mac/phase.c:131: e->noacks = 0;
+   0375 E5*00              1203 	mov	a,_bp
+   0377 24 04              1204 	add	a,#0x04
+   0379 F8                 1205 	mov	r0,a
+   037A 74 07              1206 	mov	a,#0x07
+   037C 26                 1207 	add	a,@r0
+   037D FD                 1208 	mov	r5,a
+   037E E4                 1209 	clr	a
+   037F 08                 1210 	inc	r0
+   0380 36                 1211 	addc	a,@r0
+   0381 FE                 1212 	mov	r6,a
+   0382 08                 1213 	inc	r0
+   0383 86 07              1214 	mov	ar7,@r0
+   0385 8D 82              1215 	mov	dpl,r5
+   0387 8E 83              1216 	mov	dph,r6
+   0389 8F F0              1217 	mov	b,r7
+   038B E4                 1218 	clr	a
+   038C 12s00r00           1219 	lcall	__gptrput
+   038F 02s04rFA           1220 	ljmp	00121$
+   0392                    1221 00119$:
+                           1222 ;	../../core/net/mac/phase.c:135: if(mac_status == MAC_TX_OK && e == NULL) {
+   0392 E5*00              1223 	mov	a,_bp
+   0394 24 F7              1224 	add	a,#0xf7
+   0396 F8                 1225 	mov	r0,a
+   0397 E6                 1226 	mov	a,@r0
+   0398 08                 1227 	inc	r0
+   0399 46                 1228 	orl	a,@r0
+   039A 60 03              1229 	jz	00151$
+   039C 02s04rFA           1230 	ljmp	00121$
+   039F                    1231 00151$:
+   039F E5*00              1232 	mov	a,_bp
+   03A1 24 04              1233 	add	a,#0x04
+   03A3 F8                 1234 	mov	r0,a
+   03A4 E6                 1235 	mov	a,@r0
+   03A5 08                 1236 	inc	r0
+   03A6 46                 1237 	orl	a,@r0
+   03A7 60 03              1238 	jz	00152$
+   03A9 02s04rFA           1239 	ljmp	00121$
+   03AC                    1240 00152$:
+                           1241 ;	../../core/net/mac/phase.c:136: e = memb_alloc(list->memb);
+   03AC A8*00              1242 	mov	r0,_bp
+   03AE 08                 1243 	inc	r0
+   03AF 74 03              1244 	mov	a,#0x03
+   03B1 26                 1245 	add	a,@r0
+   03B2 FD                 1246 	mov	r5,a
+   03B3 E4                 1247 	clr	a
+   03B4 08                 1248 	inc	r0
+   03B5 36                 1249 	addc	a,@r0
+   03B6 FE                 1250 	mov	r6,a
+   03B7 08                 1251 	inc	r0
+   03B8 86 07              1252 	mov	ar7,@r0
+   03BA 8D 82              1253 	mov	dpl,r5
+   03BC 8E 83              1254 	mov	dph,r6
+   03BE 8F F0              1255 	mov	b,r7
+   03C0 12s00r00           1256 	lcall	__gptrget
+   03C3 FD                 1257 	mov	r5,a
+   03C4 A3                 1258 	inc	dptr
+   03C5 12s00r00           1259 	lcall	__gptrget
+   03C8 FE                 1260 	mov	r6,a
+   03C9 A3                 1261 	inc	dptr
+   03CA 12s00r00           1262 	lcall	__gptrget
+   03CD FF                 1263 	mov	r7,a
+   03CE 8D 82              1264 	mov	dpl,r5
+   03D0 8E 83              1265 	mov	dph,r6
+   03D2 8F F0              1266 	mov	b,r7
+   03D4 12s00r00           1267 	lcall	_memb_alloc
+   03D7 AD 82              1268 	mov	r5,dpl
+   03D9 AE 83              1269 	mov	r6,dph
+   03DB AF F0              1270 	mov	r7,b
+   03DD E5*00              1271 	mov	a,_bp
+   03DF 24 04              1272 	add	a,#0x04
+   03E1 F8                 1273 	mov	r0,a
+   03E2 A6 05              1274 	mov	@r0,ar5
+   03E4 08                 1275 	inc	r0
+   03E5 A6 06              1276 	mov	@r0,ar6
+   03E7 08                 1277 	inc	r0
+   03E8 A6 07              1278 	mov	@r0,ar7
+                           1279 ;	../../core/net/mac/phase.c:137: if(e == NULL) {
+   03EA E5*00              1280 	mov	a,_bp
+   03EC 24 04              1281 	add	a,#0x04
+   03EE F8                 1282 	mov	r0,a
+   03EF E6                 1283 	mov	a,@r0
+   03F0 08                 1284 	inc	r0
+   03F1 46                 1285 	orl	a,@r0
+   03F2 70 49              1286 	jnz	00114$
+                           1287 ;	../../core/net/mac/phase.c:141: e = list_chop(*list->list);
+   03F4 A8*00              1288 	mov	r0,_bp
+   03F6 08                 1289 	inc	r0
+   03F7 86 82              1290 	mov	dpl,@r0
+   03F9 08                 1291 	inc	r0
+   03FA 86 83              1292 	mov	dph,@r0
+   03FC 08                 1293 	inc	r0
+   03FD 86 F0              1294 	mov	b,@r0
+   03FF 12s00r00           1295 	lcall	__gptrget
+   0402 FD                 1296 	mov	r5,a
+   0403 A3                 1297 	inc	dptr
+   0404 12s00r00           1298 	lcall	__gptrget
+   0407 FE                 1299 	mov	r6,a
+   0408 A3                 1300 	inc	dptr
+   0409 12s00r00           1301 	lcall	__gptrget
+   040C FF                 1302 	mov	r7,a
+   040D 8D 82              1303 	mov	dpl,r5
+   040F 8E 83              1304 	mov	dph,r6
+   0411 8F F0              1305 	mov	b,r7
+   0413 12s00r00           1306 	lcall	__gptrget
+   0416 FD                 1307 	mov	r5,a
+   0417 A3                 1308 	inc	dptr
+   0418 12s00r00           1309 	lcall	__gptrget
+   041B FE                 1310 	mov	r6,a
+   041C A3                 1311 	inc	dptr
+   041D 12s00r00           1312 	lcall	__gptrget
+   0420 FF                 1313 	mov	r7,a
+   0421 8D 82              1314 	mov	dpl,r5
+   0423 8E 83              1315 	mov	dph,r6
+   0425 8F F0              1316 	mov	b,r7
+   0427 12s00r00           1317 	lcall	_list_chop
+   042A AD 82              1318 	mov	r5,dpl
+   042C AE 83              1319 	mov	r6,dph
+   042E AF F0              1320 	mov	r7,b
+   0430 E5*00              1321 	mov	a,_bp
+   0432 24 04              1322 	add	a,#0x04
+   0434 F8                 1323 	mov	r0,a
+   0435 A6 05              1324 	mov	@r0,ar5
+   0437 08                 1325 	inc	r0
+   0438 A6 06              1326 	mov	@r0,ar6
+   043A 08                 1327 	inc	r0
+   043B A6 07              1328 	mov	@r0,ar7
+   043D                    1329 00114$:
+                           1330 ;	../../core/net/mac/phase.c:143: rimeaddr_copy(&e->neighbor, neighbor);
+   043D E5*00              1331 	mov	a,_bp
+   043F 24 04              1332 	add	a,#0x04
+   0441 F8                 1333 	mov	r0,a
+   0442 74 03              1334 	mov	a,#0x03
+   0444 26                 1335 	add	a,@r0
+   0445 FD                 1336 	mov	r5,a
+   0446 E4                 1337 	clr	a
+   0447 08                 1338 	inc	r0
+   0448 36                 1339 	addc	a,@r0
+   0449 FE                 1340 	mov	r6,a
+   044A 08                 1341 	inc	r0
+   044B 86 07              1342 	mov	ar7,@r0
+   044D E5*00              1343 	mov	a,_bp
+   044F 24 FB              1344 	add	a,#0xfb
+   0451 F8                 1345 	mov	r0,a
+   0452 E6                 1346 	mov	a,@r0
+   0453 C0 E0              1347 	push	acc
+   0455 08                 1348 	inc	r0
+   0456 E6                 1349 	mov	a,@r0
+   0457 C0 E0              1350 	push	acc
+   0459 08                 1351 	inc	r0
+   045A E6                 1352 	mov	a,@r0
+   045B C0 E0              1353 	push	acc
+   045D 8D 82              1354 	mov	dpl,r5
+   045F 8E 83              1355 	mov	dph,r6
+   0461 8F F0              1356 	mov	b,r7
+   0463 12s00r00           1357 	lcall	_rimeaddr_copy
+   0466 15 81              1358 	dec	sp
+   0468 15 81              1359 	dec	sp
+   046A 15 81              1360 	dec	sp
+                           1361 ;	../../core/net/mac/phase.c:144: e->time = time;
+   046C E5*00              1362 	mov	a,_bp
+   046E 24 04              1363 	add	a,#0x04
+   0470 F8                 1364 	mov	r0,a
+   0471 74 05              1365 	mov	a,#0x05
+   0473 26                 1366 	add	a,@r0
+   0474 FD                 1367 	mov	r5,a
+   0475 E4                 1368 	clr	a
+   0476 08                 1369 	inc	r0
+   0477 36                 1370 	addc	a,@r0
+   0478 FE                 1371 	mov	r6,a
+   0479 08                 1372 	inc	r0
+   047A 86 07              1373 	mov	ar7,@r0
+   047C 8D 82              1374 	mov	dpl,r5
+   047E 8E 83              1375 	mov	dph,r6
+   0480 8F F0              1376 	mov	b,r7
+   0482 E5*00              1377 	mov	a,_bp
+   0484 24 F9              1378 	add	a,#0xf9
+   0486 F8                 1379 	mov	r0,a
+   0487 E6                 1380 	mov	a,@r0
+   0488 12s00r00           1381 	lcall	__gptrput
+   048B A3                 1382 	inc	dptr
+   048C 08                 1383 	inc	r0
+   048D E6                 1384 	mov	a,@r0
+   048E 12s00r00           1385 	lcall	__gptrput
+                           1386 ;	../../core/net/mac/phase.c:148: e->noacks = 0;
+   0491 E5*00              1387 	mov	a,_bp
+   0493 24 04              1388 	add	a,#0x04
+   0495 F8                 1389 	mov	r0,a
+   0496 74 07              1390 	mov	a,#0x07
+   0498 26                 1391 	add	a,@r0
+   0499 FD                 1392 	mov	r5,a
+   049A E4                 1393 	clr	a
+   049B 08                 1394 	inc	r0
+   049C 36                 1395 	addc	a,@r0
+   049D FE                 1396 	mov	r6,a
+   049E 08                 1397 	inc	r0
+   049F 86 07              1398 	mov	ar7,@r0
+   04A1 8D 82              1399 	mov	dpl,r5
+   04A3 8E 83              1400 	mov	dph,r6
+   04A5 8F F0              1401 	mov	b,r7
+   04A7 E4                 1402 	clr	a
+   04A8 12s00r00           1403 	lcall	__gptrput
+                           1404 ;	../../core/net/mac/phase.c:149: list_push(*list->list, e);
+   04AB E5*00              1405 	mov	a,_bp
+   04AD 24 04              1406 	add	a,#0x04
+   04AF F8                 1407 	mov	r0,a
+   04B0 86 02              1408 	mov	ar2,@r0
+   04B2 08                 1409 	inc	r0
+   04B3 86 03              1410 	mov	ar3,@r0
+   04B5 08                 1411 	inc	r0
+   04B6 86 04              1412 	mov	ar4,@r0
+   04B8 A8*00              1413 	mov	r0,_bp
+   04BA 08                 1414 	inc	r0
+   04BB 86 82              1415 	mov	dpl,@r0
+   04BD 08                 1416 	inc	r0
+   04BE 86 83              1417 	mov	dph,@r0
+   04C0 08                 1418 	inc	r0
+   04C1 86 F0              1419 	mov	b,@r0
+   04C3 12s00r00           1420 	lcall	__gptrget
+   04C6 FD                 1421 	mov	r5,a
+   04C7 A3                 1422 	inc	dptr
+   04C8 12s00r00           1423 	lcall	__gptrget
+   04CB FE                 1424 	mov	r6,a
+   04CC A3                 1425 	inc	dptr
+   04CD 12s00r00           1426 	lcall	__gptrget
+   04D0 FF                 1427 	mov	r7,a
+   04D1 8D 82              1428 	mov	dpl,r5
+   04D3 8E 83              1429 	mov	dph,r6
+   04D5 8F F0              1430 	mov	b,r7
+   04D7 12s00r00           1431 	lcall	__gptrget
+   04DA FD                 1432 	mov	r5,a
+   04DB A3                 1433 	inc	dptr
+   04DC 12s00r00           1434 	lcall	__gptrget
+   04DF FE                 1435 	mov	r6,a
+   04E0 A3                 1436 	inc	dptr
+   04E1 12s00r00           1437 	lcall	__gptrget
+   04E4 FF                 1438 	mov	r7,a
+   04E5 C0 02              1439 	push	ar2
+   04E7 C0 03              1440 	push	ar3
+   04E9 C0 04              1441 	push	ar4
+   04EB 8D 82              1442 	mov	dpl,r5
+   04ED 8E 83              1443 	mov	dph,r6
+   04EF 8F F0              1444 	mov	b,r7
+   04F1 12s00r00           1445 	lcall	_list_push
+   04F4 15 81              1446 	dec	sp
+   04F6 15 81              1447 	dec	sp
+   04F8 15 81              1448 	dec	sp
+   04FA                    1449 00121$:
+   04FA 85*00 81           1450 	mov	sp,_bp
+   04FD D0*00              1451 	pop	_bp
+   04FF 22                 1452 	ret
+                           1453 ;------------------------------------------------------------
+                           1454 ;Allocation info for local variables in function 'send_packet'
+                           1455 ;------------------------------------------------------------
+                           1456 ;ptr                       Allocated to registers r5 r6 r7 
+                           1457 ;p                         Allocated to stack - _bp +1
+                           1458 ;sloc0                     Allocated to stack - _bp +4
+                           1459 ;sloc1                     Allocated to stack - _bp +7
+                           1460 ;------------------------------------------------------------
+                           1461 ;	../../core/net/mac/phase.c:155: send_packet(void *ptr)
+                           1462 ;	-----------------------------------------
+                           1463 ;	 function send_packet
+                           1464 ;	-----------------------------------------
+   0500                    1465 _send_packet:
+   0500 C0*00              1466 	push	_bp
+   0502 E5 81              1467 	mov	a,sp
+   0504 F5*00              1468 	mov	_bp,a
+   0506 24 09              1469 	add	a,#0x09
+   0508 F5 81              1470 	mov	sp,a
+   050A AD 82              1471 	mov	r5,dpl
+   050C AE 83              1472 	mov	r6,dph
+   050E AF F0              1473 	mov	r7,b
+                           1474 ;	../../core/net/mac/phase.c:157: struct phase_queueitem *p = ptr;
+   0510 A8*00              1475 	mov	r0,_bp
+   0512 08                 1476 	inc	r0
+   0513 A6 05              1477 	mov	@r0,ar5
+   0515 08                 1478 	inc	r0
+   0516 A6 06              1479 	mov	@r0,ar6
+   0518 08                 1480 	inc	r0
+   0519 A6 07              1481 	mov	@r0,ar7
+                           1482 ;	../../core/net/mac/phase.c:159: if(p->buf_list == NULL) {
+   051B A8*00              1483 	mov	r0,_bp
+   051D 08                 1484 	inc	r0
+   051E 74 1D              1485 	mov	a,#0x1D
+   0520 26                 1486 	add	a,@r0
+   0521 FA                 1487 	mov	r2,a
+   0522 E4                 1488 	clr	a
+   0523 08                 1489 	inc	r0
+   0524 36                 1490 	addc	a,@r0
+   0525 FB                 1491 	mov	r3,a
+   0526 08                 1492 	inc	r0
+   0527 86 04              1493 	mov	ar4,@r0
+   0529 8A 82              1494 	mov	dpl,r2
+   052B 8B 83              1495 	mov	dph,r3
+   052D 8C F0              1496 	mov	b,r4
+   052F 12s00r00           1497 	lcall	__gptrget
+   0532 FA                 1498 	mov	r2,a
+   0533 A3                 1499 	inc	dptr
+   0534 12s00r00           1500 	lcall	__gptrget
+   0537 FB                 1501 	mov	r3,a
+   0538 A3                 1502 	inc	dptr
+   0539 12s00r00           1503 	lcall	__gptrget
+   053C FC                 1504 	mov	r4,a
+   053D EA                 1505 	mov	a,r2
+   053E 4B                 1506 	orl	a,r3
+   053F 60 03              1507 	jz	00108$
+   0541 02s06r1A           1508 	ljmp	00102$
+   0544                    1509 00108$:
+                           1510 ;	../../core/net/mac/phase.c:160: queuebuf_to_packetbuf(p->q);
+   0544 A8*00              1511 	mov	r0,_bp
+   0546 08                 1512 	inc	r0
+   0547 74 1A              1513 	mov	a,#0x1A
+   0549 26                 1514 	add	a,@r0
+   054A FC                 1515 	mov	r4,a
+   054B E4                 1516 	clr	a
+   054C 08                 1517 	inc	r0
+   054D 36                 1518 	addc	a,@r0
+   054E FB                 1519 	mov	r3,a
+   054F 08                 1520 	inc	r0
+   0550 86 02              1521 	mov	ar2,@r0
+   0552 8C 82              1522 	mov	dpl,r4
+   0554 8B 83              1523 	mov	dph,r3
+   0556 8A F0              1524 	mov	b,r2
+   0558 12s00r00           1525 	lcall	__gptrget
+   055B FD                 1526 	mov	r5,a
+   055C A3                 1527 	inc	dptr
+   055D 12s00r00           1528 	lcall	__gptrget
+   0560 FE                 1529 	mov	r6,a
+   0561 A3                 1530 	inc	dptr
+   0562 12s00r00           1531 	lcall	__gptrget
+   0565 FF                 1532 	mov	r7,a
+   0566 8D 82              1533 	mov	dpl,r5
+   0568 8E 83              1534 	mov	dph,r6
+   056A 8F F0              1535 	mov	b,r7
+   056C C0 04              1536 	push	ar4
+   056E C0 03              1537 	push	ar3
+   0570 C0 02              1538 	push	ar2
+   0572 12s00r00           1539 	lcall	_queuebuf_to_packetbuf
+   0575 D0 02              1540 	pop	ar2
+   0577 D0 03              1541 	pop	ar3
+   0579 D0 04              1542 	pop	ar4
+                           1543 ;	../../core/net/mac/phase.c:161: queuebuf_free(p->q);
+   057B 8C 82              1544 	mov	dpl,r4
+   057D 8B 83              1545 	mov	dph,r3
+   057F 8A F0              1546 	mov	b,r2
+   0581 12s00r00           1547 	lcall	__gptrget
+   0584 FD                 1548 	mov	r5,a
+   0585 A3                 1549 	inc	dptr
+   0586 12s00r00           1550 	lcall	__gptrget
+   0589 FE                 1551 	mov	r6,a
+   058A A3                 1552 	inc	dptr
+   058B 12s00r00           1553 	lcall	__gptrget
+   058E FF                 1554 	mov	r7,a
+   058F 8D 82              1555 	mov	dpl,r5
+   0591 8E 83              1556 	mov	dph,r6
+   0593 8F F0              1557 	mov	b,r7
+   0595 12s00r00           1558 	lcall	_queuebuf_free
+                           1559 ;	../../core/net/mac/phase.c:162: NETSTACK_RDC.send(p->mac_callback, p->mac_callback_ptr);
+   0598 90s00r05           1560 	mov	dptr,#(_nullrdc_driver + 0x0005)
+   059B E4                 1561 	clr	a
+   059C 93                 1562 	movc	a,@a+dptr
+   059D FC                 1563 	mov	r4,a
+   059E A3                 1564 	inc	dptr
+   059F E4                 1565 	clr	a
+   05A0 93                 1566 	movc	a,@a+dptr
+   05A1 FB                 1567 	mov	r3,a
+   05A2 A8*00              1568 	mov	r0,_bp
+   05A4 08                 1569 	inc	r0
+   05A5 74 17              1570 	mov	a,#0x17
+   05A7 26                 1571 	add	a,@r0
+   05A8 FD                 1572 	mov	r5,a
+   05A9 E4                 1573 	clr	a
+   05AA 08                 1574 	inc	r0
+   05AB 36                 1575 	addc	a,@r0
+   05AC FE                 1576 	mov	r6,a
+   05AD 08                 1577 	inc	r0
+   05AE 86 07              1578 	mov	ar7,@r0
+   05B0 8D 82              1579 	mov	dpl,r5
+   05B2 8E 83              1580 	mov	dph,r6
+   05B4 8F F0              1581 	mov	b,r7
+   05B6 E5*00              1582 	mov	a,_bp
+   05B8 24 07              1583 	add	a,#0x07
+   05BA F8                 1584 	mov	r0,a
+   05BB 12s00r00           1585 	lcall	__gptrget
+   05BE F6                 1586 	mov	@r0,a
+   05BF A3                 1587 	inc	dptr
+   05C0 12s00r00           1588 	lcall	__gptrget
+   05C3 08                 1589 	inc	r0
+   05C4 F6                 1590 	mov	@r0,a
+   05C5 A3                 1591 	inc	dptr
+   05C6 12s00r00           1592 	lcall	__gptrget
+   05C9 08                 1593 	inc	r0
+   05CA F6                 1594 	mov	@r0,a
+   05CB A8*00              1595 	mov	r0,_bp
+   05CD 08                 1596 	inc	r0
+   05CE 74 15              1597 	mov	a,#0x15
+   05D0 26                 1598 	add	a,@r0
+   05D1 FD                 1599 	mov	r5,a
+   05D2 E4                 1600 	clr	a
+   05D3 08                 1601 	inc	r0
+   05D4 36                 1602 	addc	a,@r0
+   05D5 FE                 1603 	mov	r6,a
+   05D6 08                 1604 	inc	r0
+   05D7 86 07              1605 	mov	ar7,@r0
+   05D9 8D 82              1606 	mov	dpl,r5
+   05DB 8E 83              1607 	mov	dph,r6
+   05DD 8F F0              1608 	mov	b,r7
+   05DF 12s00r00           1609 	lcall	__gptrget
+   05E2 FD                 1610 	mov	r5,a
+   05E3 A3                 1611 	inc	dptr
+   05E4 12s00r00           1612 	lcall	__gptrget
+   05E7 FE                 1613 	mov	r6,a
+   05E8 C0 04              1614 	push	ar4
+   05EA C0 03              1615 	push	ar3
+   05EC E5*00              1616 	mov	a,_bp
+   05EE 24 07              1617 	add	a,#0x07
+   05F0 F8                 1618 	mov	r0,a
+   05F1 E6                 1619 	mov	a,@r0
+   05F2 C0 E0              1620 	push	acc
+   05F4 08                 1621 	inc	r0
+   05F5 E6                 1622 	mov	a,@r0
+   05F6 C0 E0              1623 	push	acc
+   05F8 08                 1624 	inc	r0
+   05F9 E6                 1625 	mov	a,@r0
+   05FA C0 E0              1626 	push	acc
+   05FC 74r0D              1627 	mov	a,#00109$
+   05FE C0 E0              1628 	push	acc
+   0600 74s06              1629 	mov	a,#(00109$ >> 8)
+   0602 C0 E0              1630 	push	acc
+   0604 C0 04              1631 	push	ar4
+   0606 C0 03              1632 	push	ar3
+   0608 8D 82              1633 	mov	dpl,r5
+   060A 8E 83              1634 	mov	dph,r6
+   060C 22                 1635 	ret
+   060D                    1636 00109$:
+   060D 15 81              1637 	dec	sp
+   060F 15 81              1638 	dec	sp
+   0611 15 81              1639 	dec	sp
+   0613 D0 03              1640 	pop	ar3
+   0615 D0 04              1641 	pop	ar4
+   0617 02s06rA5           1642 	ljmp	00103$
+   061A                    1643 00102$:
+                           1644 ;	../../core/net/mac/phase.c:164: NETSTACK_RDC.send_list(p->mac_callback, p->mac_callback_ptr, p->buf_list);
+   061A 90s00r07           1645 	mov	dptr,#(_nullrdc_driver + 0x0007)
+   061D E5*00              1646 	mov	a,_bp
+   061F 24 07              1647 	add	a,#0x07
+   0621 F8                 1648 	mov	r0,a
+   0622 E4                 1649 	clr	a
+   0623 93                 1650 	movc	a,@a+dptr
+   0624 F6                 1651 	mov	@r0,a
+   0625 A3                 1652 	inc	dptr
+   0626 E4                 1653 	clr	a
+   0627 93                 1654 	movc	a,@a+dptr
+   0628 08                 1655 	inc	r0
+   0629 F6                 1656 	mov	@r0,a
+   062A A8*00              1657 	mov	r0,_bp
+   062C 08                 1658 	inc	r0
+   062D 74 17              1659 	mov	a,#0x17
+   062F 26                 1660 	add	a,@r0
+   0630 FD                 1661 	mov	r5,a
+   0631 E4                 1662 	clr	a
+   0632 08                 1663 	inc	r0
+   0633 36                 1664 	addc	a,@r0
+   0634 FE                 1665 	mov	r6,a
+   0635 08                 1666 	inc	r0
+   0636 86 07              1667 	mov	ar7,@r0
+   0638 8D 82              1668 	mov	dpl,r5
+   063A 8E 83              1669 	mov	dph,r6
+   063C 8F F0              1670 	mov	b,r7
+   063E E5*00              1671 	mov	a,_bp
+   0640 24 04              1672 	add	a,#0x04
+   0642 F8                 1673 	mov	r0,a
+   0643 12s00r00           1674 	lcall	__gptrget
+   0646 F6                 1675 	mov	@r0,a
+   0647 A3                 1676 	inc	dptr
+   0648 12s00r00           1677 	lcall	__gptrget
+   064B 08                 1678 	inc	r0
+   064C F6                 1679 	mov	@r0,a
+   064D A3                 1680 	inc	dptr
+   064E 12s00r00           1681 	lcall	__gptrget
+   0651 08                 1682 	inc	r0
+   0652 F6                 1683 	mov	@r0,a
+   0653 A8*00              1684 	mov	r0,_bp
+   0655 08                 1685 	inc	r0
+   0656 74 15              1686 	mov	a,#0x15
+   0658 26                 1687 	add	a,@r0
+   0659 FD                 1688 	mov	r5,a
+   065A E4                 1689 	clr	a
+   065B 08                 1690 	inc	r0
+   065C 36                 1691 	addc	a,@r0
+   065D FE                 1692 	mov	r6,a
+   065E 08                 1693 	inc	r0
+   065F 86 07              1694 	mov	ar7,@r0
+   0661 8D 82              1695 	mov	dpl,r5
+   0663 8E 83              1696 	mov	dph,r6
+   0665 8F F0              1697 	mov	b,r7
+   0667 12s00r00           1698 	lcall	__gptrget
+   066A FD                 1699 	mov	r5,a
+   066B A3                 1700 	inc	dptr
+   066C 12s00r00           1701 	lcall	__gptrget
+   066F FE                 1702 	mov	r6,a
+   0670 C0 02              1703 	push	ar2
+   0672 C0 03              1704 	push	ar3
+   0674 C0 04              1705 	push	ar4
+   0676 E5*00              1706 	mov	a,_bp
+   0678 24 04              1707 	add	a,#0x04
+   067A F8                 1708 	mov	r0,a
+   067B E6                 1709 	mov	a,@r0
+   067C C0 E0              1710 	push	acc
+   067E 08                 1711 	inc	r0
+   067F E6                 1712 	mov	a,@r0
+   0680 C0 E0              1713 	push	acc
+   0682 08                 1714 	inc	r0
+   0683 E6                 1715 	mov	a,@r0
+   0684 C0 E0              1716 	push	acc
+   0686 74r9F              1717 	mov	a,#00110$
+   0688 C0 E0              1718 	push	acc
+   068A 74s06              1719 	mov	a,#(00110$ >> 8)
+   068C C0 E0              1720 	push	acc
+   068E E5*00              1721 	mov	a,_bp
+   0690 24 07              1722 	add	a,#0x07
+   0692 F8                 1723 	mov	r0,a
+   0693 E6                 1724 	mov	a,@r0
+   0694 C0 E0              1725 	push	acc
+   0696 08                 1726 	inc	r0
+   0697 E6                 1727 	mov	a,@r0
+   0698 C0 E0              1728 	push	acc
+   069A 8D 82              1729 	mov	dpl,r5
+   069C 8E 83              1730 	mov	dph,r6
+   069E 22                 1731 	ret
+   069F                    1732 00110$:
+   069F E5 81              1733 	mov	a,sp
+   06A1 24 FA              1734 	add	a,#0xfa
+   06A3 F5 81              1735 	mov	sp,a
+   06A5                    1736 00103$:
+                           1737 ;	../../core/net/mac/phase.c:167: memb_free(&queued_packets_memb, p);
+   06A5 A8*00              1738 	mov	r0,_bp
+   06A7 08                 1739 	inc	r0
+   06A8 86 05              1740 	mov	ar5,@r0
+   06AA 08                 1741 	inc	r0
+   06AB 86 06              1742 	mov	ar6,@r0
+   06AD 08                 1743 	inc	r0
+   06AE 86 07              1744 	mov	ar7,@r0
+   06B0 C0 05              1745 	push	ar5
+   06B2 C0 06              1746 	push	ar6
+   06B4 C0 07              1747 	push	ar7
+   06B6 90s00r00           1748 	mov	dptr,#_queued_packets_memb
+   06B9 75 F0 00           1749 	mov	b,#0x00
+   06BC 12s00r00           1750 	lcall	_memb_free
+   06BF 15 81              1751 	dec	sp
+   06C1 15 81              1752 	dec	sp
+   06C3 15 81              1753 	dec	sp
+   06C5 85*00 81           1754 	mov	sp,_bp
+   06C8 D0*00              1755 	pop	_bp
+   06CA 22                 1756 	ret
+                           1757 ;------------------------------------------------------------
+                           1758 ;Allocation info for local variables in function 'phase_wait'
+                           1759 ;------------------------------------------------------------
+                           1760 ;neighbor                  Allocated to stack - _bp -5
+                           1761 ;cycle_time                Allocated to stack - _bp -7
+                           1762 ;guard_time                Allocated to stack - _bp -9
+                           1763 ;mac_callback              Allocated to stack - _bp -11
+                           1764 ;mac_callback_ptr          Allocated to stack - _bp -14
+                           1765 ;buf_list                  Allocated to stack - _bp -17
+                           1766 ;list                      Allocated to registers r5 r6 r7 
+                           1767 ;e                         Allocated to stack - _bp +1
+                           1768 ;wait                      Allocated to registers r4 r5 
+                           1769 ;now                       Allocated to stack - _bp +4
+                           1770 ;expected                  Allocated to registers r6 r7 
+                           1771 ;sync                      Allocated to registers r6 r7 
+                           1772 ;ctimewait                 Allocated to stack - _bp +6
+                           1773 ;p                         Allocated to stack - _bp +8
+                           1774 ;sloc0                     Allocated to stack - _bp +20
+                           1775 ;------------------------------------------------------------
+                           1776 ;	../../core/net/mac/phase.c:171: phase_wait(struct phase_list *list,
+                           1777 ;	-----------------------------------------
+                           1778 ;	 function phase_wait
+                           1779 ;	-----------------------------------------
+   06CB                    1780 _phase_wait:
+   06CB C0*00              1781 	push	_bp
+   06CD E5 81              1782 	mov	a,sp
+   06CF F5*00              1783 	mov	_bp,a
+   06D1 24 0A              1784 	add	a,#0x0A
+   06D3 F5 81              1785 	mov	sp,a
+   06D5 AD 82              1786 	mov	r5,dpl
+   06D7 AE 83              1787 	mov	r6,dph
+   06D9 AF F0              1788 	mov	r7,b
+                           1789 ;	../../core/net/mac/phase.c:183: e = find_neighbor(list, neighbor);
+   06DB E5*00              1790 	mov	a,_bp
+   06DD 24 FB              1791 	add	a,#0xfb
+   06DF F8                 1792 	mov	r0,a
+   06E0 E6                 1793 	mov	a,@r0
+   06E1 C0 E0              1794 	push	acc
+   06E3 08                 1795 	inc	r0
+   06E4 E6                 1796 	mov	a,@r0
+   06E5 C0 E0              1797 	push	acc
+   06E7 08                 1798 	inc	r0
+   06E8 E6                 1799 	mov	a,@r0
+   06E9 C0 E0              1800 	push	acc
+   06EB 8D 82              1801 	mov	dpl,r5
+   06ED 8E 83              1802 	mov	dph,r6
+   06EF 8F F0              1803 	mov	b,r7
+   06F1 12s00r00           1804 	lcall	_find_neighbor
+   06F4 AD 82              1805 	mov	r5,dpl
+   06F6 AE 83              1806 	mov	r6,dph
+   06F8 AF F0              1807 	mov	r7,b
+   06FA 15 81              1808 	dec	sp
+   06FC 15 81              1809 	dec	sp
+   06FE 15 81              1810 	dec	sp
+   0700 A8*00              1811 	mov	r0,_bp
+   0702 08                 1812 	inc	r0
+   0703 A6 05              1813 	mov	@r0,ar5
+   0705 08                 1814 	inc	r0
+   0706 A6 06              1815 	mov	@r0,ar6
+   0708 08                 1816 	inc	r0
+   0709 A6 07              1817 	mov	@r0,ar7
+                           1818 ;	../../core/net/mac/phase.c:184: if(e != NULL) {
+   070B A8*00              1819 	mov	r0,_bp
+   070D 08                 1820 	inc	r0
+   070E E6                 1821 	mov	a,@r0
+   070F 08                 1822 	inc	r0
+   0710 46                 1823 	orl	a,@r0
+   0711 70 03              1824 	jnz	00140$
+   0713 02s09rF0           1825 	ljmp	00119$
+   0716                    1826 00140$:
+                           1827 ;	../../core/net/mac/phase.c:202: now = RTIMER_NOW();
+   0716 AB E2              1828 	mov	r3,_T1CNTL
+   0718 7C 00              1829 	mov	r4,#0x00
+   071A AA E3              1830 	mov	r2,_T1CNTH
+   071C 8A 07              1831 	mov	ar7,r2
+   071E E4                 1832 	clr	a
+   071F FA                 1833 	mov	r2,a
+   0720 2B                 1834 	add	a,r3
+   0721 FB                 1835 	mov	r3,a
+   0722 EF                 1836 	mov	a,r7
+   0723 3C                 1837 	addc	a,r4
+   0724 FC                 1838 	mov	r4,a
+   0725 E5*00              1839 	mov	a,_bp
+   0727 24 04              1840 	add	a,#0x04
+   0729 F8                 1841 	mov	r0,a
+   072A A6 03              1842 	mov	@r0,ar3
+   072C 08                 1843 	inc	r0
+   072D A6 04              1844 	mov	@r0,ar4
+                           1845 ;	../../core/net/mac/phase.c:204: sync = (e == NULL) ? now : e->time;
+   072F A8*00              1846 	mov	r0,_bp
+   0731 08                 1847 	inc	r0
+   0732 E6                 1848 	mov	a,@r0
+   0733 08                 1849 	inc	r0
+   0734 46                 1850 	orl	a,@r0
+   0735 B4 01 00           1851 	cjne	a,#0x01,00141$
+   0738                    1852 00141$:
+   0738 E4                 1853 	clr	a
+   0739 33                 1854 	rlc	a
+   073A FF                 1855 	mov	r7,a
+   073B 60 0C              1856 	jz	00122$
+   073D E5*00              1857 	mov	a,_bp
+   073F 24 04              1858 	add	a,#0x04
+   0741 F8                 1859 	mov	r0,a
+   0742 86 06              1860 	mov	ar6,@r0
+   0744 08                 1861 	inc	r0
+   0745 86 07              1862 	mov	ar7,@r0
+   0747 80 1D              1863 	sjmp	00123$
+   0749                    1864 00122$:
+   0749 A8*00              1865 	mov	r0,_bp
+   074B 08                 1866 	inc	r0
+   074C 74 05              1867 	mov	a,#0x05
+   074E 26                 1868 	add	a,@r0
+   074F FA                 1869 	mov	r2,a
+   0750 E4                 1870 	clr	a
+   0751 08                 1871 	inc	r0
+   0752 36                 1872 	addc	a,@r0
+   0753 FC                 1873 	mov	r4,a
+   0754 08                 1874 	inc	r0
+   0755 86 05              1875 	mov	ar5,@r0
+   0757 8A 82              1876 	mov	dpl,r2
+   0759 8C 83              1877 	mov	dph,r4
+   075B 8D F0              1878 	mov	b,r5
+   075D 12s00r00           1879 	lcall	__gptrget
+   0760 FE                 1880 	mov	r6,a
+   0761 A3                 1881 	inc	dptr
+   0762 12s00r00           1882 	lcall	__gptrget
+   0765 FF                 1883 	mov	r7,a
+   0766                    1884 00123$:
+                           1885 ;	../../core/net/mac/phase.c:218: if(!(cycle_time & (cycle_time - 1))) {
+   0766 E5*00              1886 	mov	a,_bp
+   0768 24 F9              1887 	add	a,#0xf9
+   076A F8                 1888 	mov	r0,a
+   076B E6                 1889 	mov	a,@r0
+   076C 24 FF              1890 	add	a,#0xFF
+   076E FC                 1891 	mov	r4,a
+   076F 08                 1892 	inc	r0
+   0770 E6                 1893 	mov	a,@r0
+   0771 34 FF              1894 	addc	a,#0xFF
+   0773 FD                 1895 	mov	r5,a
+   0774 E5*00              1896 	mov	a,_bp
+   0776 24 F9              1897 	add	a,#0xf9
+   0778 F8                 1898 	mov	r0,a
+   0779 E6                 1899 	mov	a,@r0
+   077A 52 04              1900 	anl	ar4,a
+   077C 08                 1901 	inc	r0
+   077D E6                 1902 	mov	a,@r0
+   077E 52 05              1903 	anl	ar5,a
+   0780 EC                 1904 	mov	a,r4
+   0781 4D                 1905 	orl	a,r5
+   0782 70 23              1906 	jnz	00102$
+                           1907 ;	../../core/net/mac/phase.c:220: wait = (rtimer_clock_t)((sync - now) & (cycle_time - 1));
+   0784 E5*00              1908 	mov	a,_bp
+   0786 24 04              1909 	add	a,#0x04
+   0788 F8                 1910 	mov	r0,a
+   0789 EE                 1911 	mov	a,r6
+   078A C3                 1912 	clr	c
+   078B 96                 1913 	subb	a,@r0
+   078C FC                 1914 	mov	r4,a
+   078D EF                 1915 	mov	a,r7
+   078E 08                 1916 	inc	r0
+   078F 96                 1917 	subb	a,@r0
+   0790 FD                 1918 	mov	r5,a
+   0791 E5*00              1919 	mov	a,_bp
+   0793 24 F9              1920 	add	a,#0xf9
+   0795 F8                 1921 	mov	r0,a
+   0796 E6                 1922 	mov	a,@r0
+   0797 24 FF              1923 	add	a,#0xFF
+   0799 FA                 1924 	mov	r2,a
+   079A 08                 1925 	inc	r0
+   079B E6                 1926 	mov	a,@r0
+   079C 34 FF              1927 	addc	a,#0xFF
+   079E FB                 1928 	mov	r3,a
+   079F EA                 1929 	mov	a,r2
+   07A0 52 04              1930 	anl	ar4,a
+   07A2 EB                 1931 	mov	a,r3
+   07A3 52 05              1932 	anl	ar5,a
+   07A5 80 39              1933 	sjmp	00103$
+   07A7                    1934 00102$:
+                           1935 ;	../../core/net/mac/phase.c:223: wait = cycle_time - (rtimer_clock_t)((now - sync) % cycle_time);
+   07A7 E5*00              1936 	mov	a,_bp
+   07A9 24 04              1937 	add	a,#0x04
+   07AB F8                 1938 	mov	r0,a
+   07AC E6                 1939 	mov	a,@r0
+   07AD C3                 1940 	clr	c
+   07AE 9E                 1941 	subb	a,r6
+   07AF FE                 1942 	mov	r6,a
+   07B0 08                 1943 	inc	r0
+   07B1 E6                 1944 	mov	a,@r0
+   07B2 9F                 1945 	subb	a,r7
+   07B3 FF                 1946 	mov	r7,a
+   07B4 E5*00              1947 	mov	a,_bp
+   07B6 24 F9              1948 	add	a,#0xf9
+   07B8 F8                 1949 	mov	r0,a
+   07B9 E6                 1950 	mov	a,@r0
+   07BA C0 E0              1951 	push	acc
+   07BC 08                 1952 	inc	r0
+   07BD E6                 1953 	mov	a,@r0
+   07BE C0 E0              1954 	push	acc
+   07C0 8E 82              1955 	mov	dpl,r6
+   07C2 8F 83              1956 	mov	dph,r7
+   07C4 12s00r00           1957 	lcall	__moduint
+   07C7 AE 82              1958 	mov	r6,dpl
+   07C9 AF 83              1959 	mov	r7,dph
+   07CB 15 81              1960 	dec	sp
+   07CD 15 81              1961 	dec	sp
+   07CF E5*00              1962 	mov	a,_bp
+   07D1 24 F9              1963 	add	a,#0xf9
+   07D3 F8                 1964 	mov	r0,a
+   07D4 E6                 1965 	mov	a,@r0
+   07D5 C3                 1966 	clr	c
+   07D6 9E                 1967 	subb	a,r6
+   07D7 FE                 1968 	mov	r6,a
+   07D8 08                 1969 	inc	r0
+   07D9 E6                 1970 	mov	a,@r0
+   07DA 9F                 1971 	subb	a,r7
+   07DB FF                 1972 	mov	r7,a
+   07DC 8E 04              1973 	mov	ar4,r6
+   07DE 8F 05              1974 	mov	ar5,r7
+   07E0                    1975 00103$:
+                           1976 ;	../../core/net/mac/phase.c:226: if(wait < guard_time) {
+   07E0 E5*00              1977 	mov	a,_bp
+   07E2 24 F7              1978 	add	a,#0xf7
+   07E4 F8                 1979 	mov	r0,a
+   07E5 C3                 1980 	clr	c
+   07E6 EC                 1981 	mov	a,r4
+   07E7 96                 1982 	subb	a,@r0
+   07E8 ED                 1983 	mov	a,r5
+   07E9 08                 1984 	inc	r0
+   07EA 96                 1985 	subb	a,@r0
+   07EB 50 0C              1986 	jnc	00105$
+                           1987 ;	../../core/net/mac/phase.c:227: wait += cycle_time;
+   07ED E5*00              1988 	mov	a,_bp
+   07EF 24 F9              1989 	add	a,#0xf9
+   07F1 F8                 1990 	mov	r0,a
+   07F2 E6                 1991 	mov	a,@r0
+   07F3 2C                 1992 	add	a,r4
+   07F4 FC                 1993 	mov	r4,a
+   07F5 08                 1994 	inc	r0
+   07F6 E6                 1995 	mov	a,@r0
+   07F7 3D                 1996 	addc	a,r5
+   07F8 FD                 1997 	mov	r5,a
+   07F9                    1998 00105$:
+                           1999 ;	../../core/net/mac/phase.c:230: ctimewait = (CLOCK_SECOND * (wait - guard_time)) / RTIMER_ARCH_SECOND;
+   07F9 E5*00              2000 	mov	a,_bp
+   07FB 24 F7              2001 	add	a,#0xf7
+   07FD F8                 2002 	mov	r0,a
+   07FE EC                 2003 	mov	a,r4
+   07FF C3                 2004 	clr	c
+   0800 96                 2005 	subb	a,@r0
+   0801 FE                 2006 	mov	r6,a
+   0802 ED                 2007 	mov	a,r5
+   0803 08                 2008 	inc	r0
+   0804 96                 2009 	subb	a,@r0
+   0805 54 01              2010 	anl	a,#0x01
+   0807 A2 E0              2011 	mov	c,acc.0
+   0809 CE                 2012 	xch	a,r6
+   080A 13                 2013 	rrc	a
+   080B CE                 2014 	xch	a,r6
+   080C 13                 2015 	rrc	a
+   080D CE                 2016 	xch	a,r6
+   080E FF                 2017 	mov	r7,a
+   080F C0 05              2018 	push	ar5
+   0811 C0 04              2019 	push	ar4
+   0813 74 09              2020 	mov	a,#0x09
+   0815 C0 E0              2021 	push	acc
+   0817 74 3D              2022 	mov	a,#0x3D
+   0819 C0 E0              2023 	push	acc
+   081B 8E 82              2024 	mov	dpl,r6
+   081D 8F 83              2025 	mov	dph,r7
+   081F 12s00r00           2026 	lcall	__divuint
+   0822 AE 82              2027 	mov	r6,dpl
+   0824 AF 83              2028 	mov	r7,dph
+   0826 15 81              2029 	dec	sp
+   0828 15 81              2030 	dec	sp
+   082A D0 04              2031 	pop	ar4
+   082C D0 05              2032 	pop	ar5
+   082E E5*00              2033 	mov	a,_bp
+   0830 24 06              2034 	add	a,#0x06
+   0832 F8                 2035 	mov	r0,a
+   0833 A6 06              2036 	mov	@r0,ar6
+   0835 08                 2037 	inc	r0
+   0836 A6 07              2038 	mov	@r0,ar7
+                           2039 ;	../../core/net/mac/phase.c:232: if(ctimewait > PHASE_DEFER_THRESHOLD) {
+   0838 E5*00              2040 	mov	a,_bp
+   083A 24 06              2041 	add	a,#0x06
+   083C F8                 2042 	mov	r0,a
+   083D C3                 2043 	clr	c
+   083E 74 01              2044 	mov	a,#0x01
+   0840 96                 2045 	subb	a,@r0
+   0841 E4                 2046 	clr	a
+   0842 08                 2047 	inc	r0
+   0843 96                 2048 	subb	a,@r0
+   0844 40 03              2049 	jc	00145$
+   0846 02s09rA5           2050 	ljmp	00112$
+   0849                    2051 00145$:
+                           2052 ;	../../core/net/mac/phase.c:235: p = memb_alloc(&queued_packets_memb);
+   0849 90s00r00           2053 	mov	dptr,#_queued_packets_memb
+   084C 75 F0 00           2054 	mov	b,#0x00
+   084F C0 05              2055 	push	ar5
+   0851 C0 04              2056 	push	ar4
+   0853 12s00r00           2057 	lcall	_memb_alloc
+   0856 AA 82              2058 	mov	r2,dpl
+   0858 AB 83              2059 	mov	r3,dph
+   085A AF F0              2060 	mov	r7,b
+   085C D0 04              2061 	pop	ar4
+   085E D0 05              2062 	pop	ar5
+   0860 E5*00              2063 	mov	a,_bp
+   0862 24 08              2064 	add	a,#0x08
+   0864 F8                 2065 	mov	r0,a
+   0865 A6 02              2066 	mov	@r0,ar2
+   0867 08                 2067 	inc	r0
+   0868 A6 03              2068 	mov	@r0,ar3
+   086A 08                 2069 	inc	r0
+   086B A6 07              2070 	mov	@r0,ar7
+                           2071 ;	../../core/net/mac/phase.c:236: if(p != NULL) {
+   086D E5*00              2072 	mov	a,_bp
+   086F 24 08              2073 	add	a,#0x08
+   0871 F8                 2074 	mov	r0,a
+   0872 E6                 2075 	mov	a,@r0
+   0873 08                 2076 	inc	r0
+   0874 46                 2077 	orl	a,@r0
+   0875 70 03              2078 	jnz	00146$
+   0877 02s09r7B           2079 	ljmp	00109$
+   087A                    2080 00146$:
+                           2081 ;	../../core/net/mac/phase.c:237: if(buf_list == NULL) {
+   087A E5*00              2082 	mov	a,_bp
+   087C 24 EF              2083 	add	a,#0xef
+   087E F8                 2084 	mov	r0,a
+   087F E6                 2085 	mov	a,@r0
+   0880 08                 2086 	inc	r0
+   0881 46                 2087 	orl	a,@r0
+   0882 70 39              2088 	jnz	00107$
+                           2089 ;	../../core/net/mac/phase.c:238: p->q = queuebuf_new_from_packetbuf();
+   0884 E5*00              2090 	mov	a,_bp
+   0886 24 08              2091 	add	a,#0x08
+   0888 F8                 2092 	mov	r0,a
+   0889 74 1A              2093 	mov	a,#0x1A
+   088B 26                 2094 	add	a,@r0
+   088C FD                 2095 	mov	r5,a
+   088D E4                 2096 	clr	a
+   088E 08                 2097 	inc	r0
+   088F 36                 2098 	addc	a,@r0
+   0890 FC                 2099 	mov	r4,a
+   0891 08                 2100 	inc	r0
+   0892 86 02              2101 	mov	ar2,@r0
+   0894 C0 05              2102 	push	ar5
+   0896 C0 04              2103 	push	ar4
+   0898 C0 02              2104 	push	ar2
+   089A 12s00r00           2105 	lcall	_queuebuf_new_from_packetbuf
+   089D AB 82              2106 	mov	r3,dpl
+   089F AE 83              2107 	mov	r6,dph
+   08A1 AF F0              2108 	mov	r7,b
+   08A3 D0 02              2109 	pop	ar2
+   08A5 D0 04              2110 	pop	ar4
+   08A7 D0 05              2111 	pop	ar5
+   08A9 8D 82              2112 	mov	dpl,r5
+   08AB 8C 83              2113 	mov	dph,r4
+   08AD 8A F0              2114 	mov	b,r2
+   08AF EB                 2115 	mov	a,r3
+   08B0 12s00r00           2116 	lcall	__gptrput
+   08B3 A3                 2117 	inc	dptr
+   08B4 EE                 2118 	mov	a,r6
+   08B5 12s00r00           2119 	lcall	__gptrput
+   08B8 A3                 2120 	inc	dptr
+   08B9 EF                 2121 	mov	a,r7
+   08BA 12s00r00           2122 	lcall	__gptrput
+   08BD                    2123 00107$:
+                           2124 ;	../../core/net/mac/phase.c:240: p->mac_callback = mac_callback;
+   08BD E5*00              2125 	mov	a,_bp
+   08BF 24 08              2126 	add	a,#0x08
+   08C1 F8                 2127 	mov	r0,a
+   08C2 74 15              2128 	mov	a,#0x15
+   08C4 26                 2129 	add	a,@r0
+   08C5 FB                 2130 	mov	r3,a
+   08C6 E4                 2131 	clr	a
+   08C7 08                 2132 	inc	r0
+   08C8 36                 2133 	addc	a,@r0
+   08C9 FE                 2134 	mov	r6,a
+   08CA 08                 2135 	inc	r0
+   08CB 86 07              2136 	mov	ar7,@r0
+   08CD 8B 82              2137 	mov	dpl,r3
+   08CF 8E 83              2138 	mov	dph,r6
+   08D1 8F F0              2139 	mov	b,r7
+   08D3 E5*00              2140 	mov	a,_bp
+   08D5 24 F5              2141 	add	a,#0xf5
+   08D7 F8                 2142 	mov	r0,a
+   08D8 E6                 2143 	mov	a,@r0
+   08D9 12s00r00           2144 	lcall	__gptrput
+   08DC A3                 2145 	inc	dptr
+   08DD 08                 2146 	inc	r0
+   08DE E6                 2147 	mov	a,@r0
+   08DF 12s00r00           2148 	lcall	__gptrput
+                           2149 ;	../../core/net/mac/phase.c:241: p->mac_callback_ptr = mac_callback_ptr;
+   08E2 E5*00              2150 	mov	a,_bp
+   08E4 24 08              2151 	add	a,#0x08
+   08E6 F8                 2152 	mov	r0,a
+   08E7 74 17              2153 	mov	a,#0x17
+   08E9 26                 2154 	add	a,@r0
+   08EA FB                 2155 	mov	r3,a
+   08EB E4                 2156 	clr	a
+   08EC 08                 2157 	inc	r0
+   08ED 36                 2158 	addc	a,@r0
+   08EE FE                 2159 	mov	r6,a
+   08EF 08                 2160 	inc	r0
+   08F0 86 07              2161 	mov	ar7,@r0
+   08F2 8B 82              2162 	mov	dpl,r3
+   08F4 8E 83              2163 	mov	dph,r6
+   08F6 8F F0              2164 	mov	b,r7
+   08F8 E5*00              2165 	mov	a,_bp
+   08FA 24 F2              2166 	add	a,#0xf2
+   08FC F8                 2167 	mov	r0,a
+   08FD E6                 2168 	mov	a,@r0
+   08FE 12s00r00           2169 	lcall	__gptrput
+   0901 A3                 2170 	inc	dptr
+   0902 08                 2171 	inc	r0
+   0903 E6                 2172 	mov	a,@r0
+   0904 12s00r00           2173 	lcall	__gptrput
+   0907 A3                 2174 	inc	dptr
+   0908 08                 2175 	inc	r0
+   0909 E6                 2176 	mov	a,@r0
+   090A 12s00r00           2177 	lcall	__gptrput
+                           2178 ;	../../core/net/mac/phase.c:242: p->buf_list = buf_list;
+   090D E5*00              2179 	mov	a,_bp
+   090F 24 08              2180 	add	a,#0x08
+   0911 F8                 2181 	mov	r0,a
+   0912 74 1D              2182 	mov	a,#0x1D
+   0914 26                 2183 	add	a,@r0
+   0915 FB                 2184 	mov	r3,a
+   0916 E4                 2185 	clr	a
+   0917 08                 2186 	inc	r0
+   0918 36                 2187 	addc	a,@r0
+   0919 FE                 2188 	mov	r6,a
+   091A 08                 2189 	inc	r0
+   091B 86 07              2190 	mov	ar7,@r0
+   091D 8B 82              2191 	mov	dpl,r3
+   091F 8E 83              2192 	mov	dph,r6
+   0921 8F F0              2193 	mov	b,r7
+   0923 E5*00              2194 	mov	a,_bp
+   0925 24 EF              2195 	add	a,#0xef
+   0927 F8                 2196 	mov	r0,a
+   0928 E6                 2197 	mov	a,@r0
+   0929 12s00r00           2198 	lcall	__gptrput
+   092C A3                 2199 	inc	dptr
+   092D 08                 2200 	inc	r0
+   092E E6                 2201 	mov	a,@r0
+   092F 12s00r00           2202 	lcall	__gptrput
+   0932 A3                 2203 	inc	dptr
+   0933 08                 2204 	inc	r0
+   0934 E6                 2205 	mov	a,@r0
+   0935 12s00r00           2206 	lcall	__gptrput
+                           2207 ;	../../core/net/mac/phase.c:243: ctimer_set(&p->timer, ctimewait, send_packet, p);
+   0938 E5*00              2208 	mov	a,_bp
+   093A 24 08              2209 	add	a,#0x08
+   093C F8                 2210 	mov	r0,a
+   093D 86 03              2211 	mov	ar3,@r0
+   093F 08                 2212 	inc	r0
+   0940 86 06              2213 	mov	ar6,@r0
+   0942 08                 2214 	inc	r0
+   0943 86 07              2215 	mov	ar7,@r0
+   0945 C0 03              2216 	push	ar3
+   0947 C0 06              2217 	push	ar6
+   0949 C0 07              2218 	push	ar7
+   094B 74r00              2219 	mov	a,#_send_packet
+   094D C0 E0              2220 	push	acc
+   094F 74s05              2221 	mov	a,#(_send_packet >> 8)
+   0951 C0 E0              2222 	push	acc
+   0953 E5*00              2223 	mov	a,_bp
+   0955 24 06              2224 	add	a,#0x06
+   0957 F8                 2225 	mov	r0,a
+   0958 E6                 2226 	mov	a,@r0
+   0959 C0 E0              2227 	push	acc
+   095B 08                 2228 	inc	r0
+   095C E6                 2229 	mov	a,@r0
+   095D C0 E0              2230 	push	acc
+   095F E5*00              2231 	mov	a,_bp
+   0961 24 08              2232 	add	a,#0x08
+   0963 F8                 2233 	mov	r0,a
+   0964 86 82              2234 	mov	dpl,@r0
+   0966 08                 2235 	inc	r0
+   0967 86 83              2236 	mov	dph,@r0
+   0969 08                 2237 	inc	r0
+   096A 86 F0              2238 	mov	b,@r0
+   096C 12s00r00           2239 	lcall	_ctimer_set
+   096F E5 81              2240 	mov	a,sp
+   0971 24 F9              2241 	add	a,#0xf9
+   0973 F5 81              2242 	mov	sp,a
+                           2243 ;	../../core/net/mac/phase.c:244: return PHASE_DEFERRED;
+   0975 75 82 02           2244 	mov	dpl,#0x02
+   0978 02s09rF3           2245 	ljmp	00120$
+   097B                    2246 00109$:
+                           2247 ;	../../core/net/mac/phase.c:246: memb_free(&queued_packets_memb, p);
+   097B E5*00              2248 	mov	a,_bp
+   097D 24 08              2249 	add	a,#0x08
+   097F F8                 2250 	mov	r0,a
+   0980 86 03              2251 	mov	ar3,@r0
+   0982 08                 2252 	inc	r0
+   0983 86 06              2253 	mov	ar6,@r0
+   0985 08                 2254 	inc	r0
+   0986 86 07              2255 	mov	ar7,@r0
+   0988 C0 05              2256 	push	ar5
+   098A C0 04              2257 	push	ar4
+   098C C0 03              2258 	push	ar3
+   098E C0 06              2259 	push	ar6
+   0990 C0 07              2260 	push	ar7
+   0992 90s00r00           2261 	mov	dptr,#_queued_packets_memb
+   0995 75 F0 00           2262 	mov	b,#0x00
+   0998 12s00r00           2263 	lcall	_memb_free
+   099B 15 81              2264 	dec	sp
+   099D 15 81              2265 	dec	sp
+   099F 15 81              2266 	dec	sp
+   09A1 D0 04              2267 	pop	ar4
+   09A3 D0 05              2268 	pop	ar5
+   09A5                    2269 00112$:
+                           2270 ;	../../core/net/mac/phase.c:250: expected = now + wait - guard_time;
+   09A5 E5*00              2271 	mov	a,_bp
+   09A7 24 04              2272 	add	a,#0x04
+   09A9 F8                 2273 	mov	r0,a
+   09AA EC                 2274 	mov	a,r4
+   09AB 26                 2275 	add	a,@r0
+   09AC FC                 2276 	mov	r4,a
+   09AD ED                 2277 	mov	a,r5
+   09AE 08                 2278 	inc	r0
+   09AF 36                 2279 	addc	a,@r0
+   09B0 FD                 2280 	mov	r5,a
+   09B1 E5*00              2281 	mov	a,_bp
+   09B3 24 F7              2282 	add	a,#0xf7
+   09B5 F8                 2283 	mov	r0,a
+   09B6 EC                 2284 	mov	a,r4
+   09B7 C3                 2285 	clr	c
+   09B8 96                 2286 	subb	a,@r0
+   09B9 FC                 2287 	mov	r4,a
+   09BA ED                 2288 	mov	a,r5
+   09BB 08                 2289 	inc	r0
+   09BC 96                 2290 	subb	a,@r0
+   09BD FD                 2291 	mov	r5,a
+   09BE 8C 06              2292 	mov	ar6,r4
+   09C0 8D 07              2293 	mov	ar7,r5
+                           2294 ;	../../core/net/mac/phase.c:251: if(!RTIMER_CLOCK_LT(expected, now)) {
+   09C2 E5*00              2295 	mov	a,_bp
+   09C4 24 04              2296 	add	a,#0x04
+   09C6 F8                 2297 	mov	r0,a
+   09C7 EE                 2298 	mov	a,r6
+   09C8 C3                 2299 	clr	c
+   09C9 96                 2300 	subb	a,@r0
+   09CA FC                 2301 	mov	r4,a
+   09CB EF                 2302 	mov	a,r7
+   09CC 08                 2303 	inc	r0
+   09CD 96                 2304 	subb	a,@r0
+   09CE FD                 2305 	mov	r5,a
+   09CF 20 E7 19           2306 	jb	acc.7,00117$
+                           2307 ;	../../core/net/mac/phase.c:254: while(RTIMER_CLOCK_LT(RTIMER_NOW(), expected));
+   09D2                    2308 00113$:
+   09D2 AC E2              2309 	mov	r4,_T1CNTL
+   09D4 7D 00              2310 	mov	r5,#0x00
+   09D6 AA E3              2311 	mov	r2,_T1CNTH
+   09D8 8A 03              2312 	mov	ar3,r2
+   09DA E4                 2313 	clr	a
+   09DB FA                 2314 	mov	r2,a
+   09DC 2C                 2315 	add	a,r4
+   09DD FC                 2316 	mov	r4,a
+   09DE EB                 2317 	mov	a,r3
+   09DF 3D                 2318 	addc	a,r5
+   09E0 FD                 2319 	mov	r5,a
+   09E1 EC                 2320 	mov	a,r4
+   09E2 C3                 2321 	clr	c
+   09E3 9E                 2322 	subb	a,r6
+   09E4 FC                 2323 	mov	r4,a
+   09E5 ED                 2324 	mov	a,r5
+   09E6 9F                 2325 	subb	a,r7
+   09E7 FD                 2326 	mov	r5,a
+   09E8 20 E7 E7           2327 	jb	acc.7,00113$
+   09EB                    2328 00117$:
+                           2329 ;	../../core/net/mac/phase.c:256: return PHASE_SEND_NOW;
+   09EB 75 82 01           2330 	mov	dpl,#0x01
+   09EE 80 03              2331 	sjmp	00120$
+   09F0                    2332 00119$:
+                           2333 ;	../../core/net/mac/phase.c:258: return PHASE_UNKNOWN;
+   09F0 75 82 00           2334 	mov	dpl,#0x00
+   09F3                    2335 00120$:
+   09F3 85*00 81           2336 	mov	sp,_bp
+   09F6 D0*00              2337 	pop	_bp
+   09F8 22                 2338 	ret
+                           2339 ;------------------------------------------------------------
+                           2340 ;Allocation info for local variables in function 'phase_init'
+                           2341 ;------------------------------------------------------------
+                           2342 ;list                      Allocated to registers r5 r6 r7 
+                           2343 ;------------------------------------------------------------
+                           2344 ;	../../core/net/mac/phase.c:262: phase_init(struct phase_list *list)
+                           2345 ;	-----------------------------------------
+                           2346 ;	 function phase_init
+                           2347 ;	-----------------------------------------
+   09F9                    2348 _phase_init:
+                           2349 ;	../../core/net/mac/phase.c:264: list_init(*list->list);
+   09F9 AD 82              2350 	mov	r5,dpl
+   09FB AE 83              2351 	mov	r6,dph
+   09FD AF F0              2352 	mov	r7,b
+   09FF 12s00r00           2353 	lcall	__gptrget
+   0A02 FA                 2354 	mov	r2,a
+   0A03 A3                 2355 	inc	dptr
+   0A04 12s00r00           2356 	lcall	__gptrget
+   0A07 FB                 2357 	mov	r3,a
+   0A08 A3                 2358 	inc	dptr
+   0A09 12s00r00           2359 	lcall	__gptrget
+   0A0C FC                 2360 	mov	r4,a
+   0A0D 8A 82              2361 	mov	dpl,r2
+   0A0F 8B 83              2362 	mov	dph,r3
+   0A11 8C F0              2363 	mov	b,r4
+   0A13 12s00r00           2364 	lcall	__gptrget
+   0A16 FA                 2365 	mov	r2,a
+   0A17 A3                 2366 	inc	dptr
+   0A18 12s00r00           2367 	lcall	__gptrget
+   0A1B FB                 2368 	mov	r3,a
+   0A1C A3                 2369 	inc	dptr
+   0A1D 12s00r00           2370 	lcall	__gptrget
+   0A20 FC                 2371 	mov	r4,a
+   0A21 8A 82              2372 	mov	dpl,r2
+   0A23 8B 83              2373 	mov	dph,r3
+   0A25 8C F0              2374 	mov	b,r4
+   0A27 C0 07              2375 	push	ar7
+   0A29 C0 06              2376 	push	ar6
+   0A2B C0 05              2377 	push	ar5
+   0A2D 12s00r00           2378 	lcall	_list_init
+   0A30 D0 05              2379 	pop	ar5
+   0A32 D0 06              2380 	pop	ar6
+   0A34 D0 07              2381 	pop	ar7
+                           2382 ;	../../core/net/mac/phase.c:265: memb_init(list->memb);
+   0A36 74 03              2383 	mov	a,#0x03
+   0A38 2D                 2384 	add	a,r5
+   0A39 FD                 2385 	mov	r5,a
+   0A3A E4                 2386 	clr	a
+   0A3B 3E                 2387 	addc	a,r6
+   0A3C FE                 2388 	mov	r6,a
+   0A3D 8D 82              2389 	mov	dpl,r5
+   0A3F 8E 83              2390 	mov	dph,r6
+   0A41 8F F0              2391 	mov	b,r7
+   0A43 12s00r00           2392 	lcall	__gptrget
+   0A46 FD                 2393 	mov	r5,a
+   0A47 A3                 2394 	inc	dptr
+   0A48 12s00r00           2395 	lcall	__gptrget
+   0A4B FE                 2396 	mov	r6,a
+   0A4C A3                 2397 	inc	dptr
+   0A4D 12s00r00           2398 	lcall	__gptrget
+   0A50 FF                 2399 	mov	r7,a
+   0A51 8D 82              2400 	mov	dpl,r5
+   0A53 8E 83              2401 	mov	dph,r6
+   0A55 8F F0              2402 	mov	b,r7
+   0A57 12s00r00           2403 	lcall	_memb_init
+                           2404 ;	../../core/net/mac/phase.c:266: memb_init(&queued_packets_memb);
+   0A5A 90s00r00           2405 	mov	dptr,#_queued_packets_memb
+   0A5D 75 F0 00           2406 	mov	b,#0x00
+   0A60 02s00r00           2407 	ljmp	_memb_init
+                           2408 	.area CSEG    (CODE)
+                           2409 	.area CONST   (CODE)
+                           2410 	.area XINIT   (CODE)
+   0000                    2411 __xinit__queued_packets_memb:
+   0000 20 00              2412 	.byte #0x20,#0x00	; 32
+   0002 08 00              2413 	.byte #0x08,#0x00	; 8
+   0004r00s00 00           2414 	.byte _queued_packets_memb_memb_count,(_queued_packets_memb_memb_count >> 8),#0x00
+   0007r08s00 00           2415 	.byte _queued_packets_memb_memb_mem,(_queued_packets_memb_memb_mem >> 8),#0x00
+                           2416 	.area CABS    (ABS,CODE)

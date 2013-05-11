@@ -1,0 +1,963 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:15 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module unicast
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _broadcast_send
+                             13 	.globl _broadcast_close
+                             14 	.globl _broadcast_open
+                             15 	.globl _channel_set_attributes
+                             16 	.globl _packetbuf_addr
+                             17 	.globl _packetbuf_set_addr
+                             18 	.globl _rimeaddr_cmp
+                             19 	.globl _IRCON2_P2IF
+                             20 	.globl _IRCON2_UTX0IF
+                             21 	.globl _IRCON2_UTX1IF
+                             22 	.globl _IRCON2_P1IF
+                             23 	.globl _IRCON2_WDTIF
+                             24 	.globl _CY
+                             25 	.globl _AC
+                             26 	.globl _F0
+                             27 	.globl _RS1
+                             28 	.globl _RS0
+                             29 	.globl _OV
+                             30 	.globl _F1
+                             31 	.globl _P
+                             32 	.globl _IRCON_DMAIF
+                             33 	.globl _IRCON_T1IF
+                             34 	.globl _IRCON_T2IF
+                             35 	.globl _IRCON_T3IF
+                             36 	.globl _IRCON_T4IF
+                             37 	.globl _IRCON_P0IF
+                             38 	.globl _IRCON_STIF
+                             39 	.globl _IEN1_DMAIE
+                             40 	.globl _IEN1_T1IE
+                             41 	.globl _IEN1_T2IE
+                             42 	.globl _IEN1_T3IE
+                             43 	.globl _IEN1_T4IE
+                             44 	.globl _IEN1_P0IE
+                             45 	.globl _IEN0_RFERRIE
+                             46 	.globl _IEN0_ADCIE
+                             47 	.globl _IEN0_URX0IE
+                             48 	.globl _IEN0_URX1IE
+                             49 	.globl _IEN0_ENCIE
+                             50 	.globl _IEN0_STIE
+                             51 	.globl _IEN0_EA
+                             52 	.globl _EA
+                             53 	.globl _P2_4
+                             54 	.globl _P2_3
+                             55 	.globl _P2_2
+                             56 	.globl _P2_1
+                             57 	.globl _P2_0
+                             58 	.globl _S0CON_ENCIF_0
+                             59 	.globl _S0CON_ENCIF_1
+                             60 	.globl _P1_7
+                             61 	.globl _P1_6
+                             62 	.globl _P1_5
+                             63 	.globl _P1_4
+                             64 	.globl _P1_3
+                             65 	.globl _P1_2
+                             66 	.globl _P1_1
+                             67 	.globl _P1_0
+                             68 	.globl _TCON_IT0
+                             69 	.globl _TCON_RFERRIF
+                             70 	.globl _TCON_IT1
+                             71 	.globl _TCON_URX0IF
+                             72 	.globl _TCON_ADCIF
+                             73 	.globl _TCON_URX1IF
+                             74 	.globl _P0_0
+                             75 	.globl _P0_1
+                             76 	.globl _P0_2
+                             77 	.globl _P0_3
+                             78 	.globl _P0_4
+                             79 	.globl _P0_5
+                             80 	.globl _P0_6
+                             81 	.globl _P0_7
+                             82 	.globl _P2DIR
+                             83 	.globl _P1DIR
+                             84 	.globl _P0DIR
+                             85 	.globl _U1GCR
+                             86 	.globl _U1UCR
+                             87 	.globl _U1BAUD
+                             88 	.globl _U1BUF
+                             89 	.globl _U1CSR
+                             90 	.globl _P2INP
+                             91 	.globl _P1INP
+                             92 	.globl _P2SEL
+                             93 	.globl _P1SEL
+                             94 	.globl _P0SEL
+                             95 	.globl _ADCCFG
+                             96 	.globl _PERCFG
+                             97 	.globl _B
+                             98 	.globl _T4CC1
+                             99 	.globl _T4CCTL1
+                            100 	.globl _T4CC0
+                            101 	.globl _T4CCTL0
+                            102 	.globl _T4CTL
+                            103 	.globl _T4CNT
+                            104 	.globl _RFIF
+                            105 	.globl _IRCON2
+                            106 	.globl _T1CCTL2
+                            107 	.globl _T1CCTL1
+                            108 	.globl _T1CCTL0
+                            109 	.globl _T1CTL
+                            110 	.globl _T1CNTH
+                            111 	.globl _T1CNTL
+                            112 	.globl _RFST
+                            113 	.globl _ACC
+                            114 	.globl _T1CC2H
+                            115 	.globl _T1CC2L
+                            116 	.globl _T1CC1H
+                            117 	.globl _T1CC1L
+                            118 	.globl _T1CC0H
+                            119 	.globl _T1CC0L
+                            120 	.globl _RFD
+                            121 	.globl _TIMIF
+                            122 	.globl _DMAREQ
+                            123 	.globl _DMAARM
+                            124 	.globl _DMA0CFGH
+                            125 	.globl _DMA0CFGL
+                            126 	.globl _DMA1CFGH
+                            127 	.globl _DMA1CFGL
+                            128 	.globl _DMAIRQ
+                            129 	.globl _PSW
+                            130 	.globl _T3CC1
+                            131 	.globl _T3CCTL1
+                            132 	.globl _T3CC0
+                            133 	.globl _T3CCTL0
+                            134 	.globl _T3CTL
+                            135 	.globl _T3CNT
+                            136 	.globl _WDCTL
+                            137 	.globl _T2CON
+                            138 	.globl _MEMCTR
+                            139 	.globl _CLKCON
+                            140 	.globl _U0GCR
+                            141 	.globl _U0UCR
+                            142 	.globl _T2CNF
+                            143 	.globl _U0BAUD
+                            144 	.globl _U0BUF
+                            145 	.globl _IRCON
+                            146 	.globl _SLEEP
+                            147 	.globl _RNDH
+                            148 	.globl _RNDL
+                            149 	.globl _ADCH
+                            150 	.globl _ADCL
+                            151 	.globl _IP1
+                            152 	.globl _IEN1
+                            153 	.globl _RCCTL
+                            154 	.globl _ADCCON3
+                            155 	.globl _ADCCON2
+                            156 	.globl _ADCCON1
+                            157 	.globl _ENCCS
+                            158 	.globl _ENCDO
+                            159 	.globl _ENCDI
+                            160 	.globl _FWDATA
+                            161 	.globl _FCTL
+                            162 	.globl _FADDRH
+                            163 	.globl _FADDRL
+                            164 	.globl _FWT
+                            165 	.globl _IP0
+                            166 	.globl _IEN0
+                            167 	.globl _IE
+                            168 	.globl _T2THD
+                            169 	.globl _T2TLD
+                            170 	.globl _T2CAPHPH
+                            171 	.globl _T2CAPLPL
+                            172 	.globl _T2OF2
+                            173 	.globl _T2OF1
+                            174 	.globl _T2OF0
+                            175 	.globl _P2
+                            176 	.globl _PSBANK
+                            177 	.globl _FMAP
+                            178 	.globl _T2PEROF2
+                            179 	.globl _T2PEROF1
+                            180 	.globl _T2PEROF0
+                            181 	.globl _S1CON
+                            182 	.globl _IEN2
+                            183 	.globl _HSRC
+                            184 	.globl _S0CON
+                            185 	.globl _ST2
+                            186 	.globl _ST1
+                            187 	.globl _ST0
+                            188 	.globl _T2CMP
+                            189 	.globl __XPAGE
+                            190 	.globl _DPS
+                            191 	.globl _RFIM
+                            192 	.globl _P1
+                            193 	.globl _P0INP
+                            194 	.globl _P1IEN
+                            195 	.globl _PICTL
+                            196 	.globl _P2IFG
+                            197 	.globl _P1IFG
+                            198 	.globl _P0IFG
+                            199 	.globl _TCON
+                            200 	.globl _PCON
+                            201 	.globl _U0CSR
+                            202 	.globl _DPH1
+                            203 	.globl _DPL1
+                            204 	.globl _DPH0
+                            205 	.globl _DPL0
+                            206 	.globl _SP
+                            207 	.globl _P0
+                            208 	.globl _ADC_SHADOW
+                            209 	.globl _U1BUF_SHADOW
+                            210 	.globl _RFD_SHADOW
+                            211 	.globl _U0BUF_SHADOW
+                            212 	.globl _RFSTATUS
+                            213 	.globl _CHIPID
+                            214 	.globl _CHVER
+                            215 	.globl _FSMTC1
+                            216 	.globl _RXFIFOCNT
+                            217 	.globl _IOCFG3
+                            218 	.globl _IOCFG2
+                            219 	.globl _IOCFG1
+                            220 	.globl _IOCFG0
+                            221 	.globl _SHORTADDRL
+                            222 	.globl _SHORTADDRH
+                            223 	.globl _PANIDL
+                            224 	.globl _PANIDH
+                            225 	.globl _IEEE_ADDR7
+                            226 	.globl _IEEE_ADDR6
+                            227 	.globl _IEEE_ADDR5
+                            228 	.globl _IEEE_ADDR4
+                            229 	.globl _IEEE_ADDR3
+                            230 	.globl _IEEE_ADDR2
+                            231 	.globl _IEEE_ADDR1
+                            232 	.globl _IEEE_ADDR0
+                            233 	.globl _DACTSTL
+                            234 	.globl _DACTSTH
+                            235 	.globl _ADCTSTL
+                            236 	.globl _ADCTSTH
+                            237 	.globl _FSMSTATE
+                            238 	.globl _AGCCTRLL
+                            239 	.globl _AGCCTRLH
+                            240 	.globl _MANORL
+                            241 	.globl _MANORH
+                            242 	.globl _MANANDL
+                            243 	.globl _MANANDH
+                            244 	.globl _FSMTCL
+                            245 	.globl _FSMTCH
+                            246 	.globl _RFPWR
+                            247 	.globl _CSPT
+                            248 	.globl _CSPCTRL
+                            249 	.globl _CSPZ
+                            250 	.globl _CSPY
+                            251 	.globl _CSPX
+                            252 	.globl _FSCTRLL
+                            253 	.globl _FSCTRLH
+                            254 	.globl _RXCTRL1L
+                            255 	.globl _RXCTRL1H
+                            256 	.globl _RXCTRL0L
+                            257 	.globl _RXCTRL0H
+                            258 	.globl _TXCTRLL
+                            259 	.globl _TXCTRLH
+                            260 	.globl _SYNCWORDL
+                            261 	.globl _SYNCWORDH
+                            262 	.globl _RSSIL
+                            263 	.globl _RSSIH
+                            264 	.globl _MDMCTRL1L
+                            265 	.globl _MDMCTRL1H
+                            266 	.globl _MDMCTRL0L
+                            267 	.globl _MDMCTRL0H
+                            268 	.globl _unicast_open
+                            269 	.globl _unicast_close
+                            270 	.globl _unicast_send
+                            271 ;--------------------------------------------------------
+                            272 ; special function registers
+                            273 ;--------------------------------------------------------
+                            274 	.area RSEG    (ABS,DATA)
+   0000                     275 	.org 0x0000
+                    0080    276 _P0	=	0x0080
+                    0081    277 _SP	=	0x0081
+                    0082    278 _DPL0	=	0x0082
+                    0083    279 _DPH0	=	0x0083
+                    0084    280 _DPL1	=	0x0084
+                    0085    281 _DPH1	=	0x0085
+                    0086    282 _U0CSR	=	0x0086
+                    0087    283 _PCON	=	0x0087
+                    0088    284 _TCON	=	0x0088
+                    0089    285 _P0IFG	=	0x0089
+                    008A    286 _P1IFG	=	0x008a
+                    008B    287 _P2IFG	=	0x008b
+                    008C    288 _PICTL	=	0x008c
+                    008D    289 _P1IEN	=	0x008d
+                    008F    290 _P0INP	=	0x008f
+                    0090    291 _P1	=	0x0090
+                    0091    292 _RFIM	=	0x0091
+                    0092    293 _DPS	=	0x0092
+                    0093    294 __XPAGE	=	0x0093
+                    0094    295 _T2CMP	=	0x0094
+                    0095    296 _ST0	=	0x0095
+                    0096    297 _ST1	=	0x0096
+                    0097    298 _ST2	=	0x0097
+                    0098    299 _S0CON	=	0x0098
+                    0099    300 _HSRC	=	0x0099
+                    009A    301 _IEN2	=	0x009a
+                    009B    302 _S1CON	=	0x009b
+                    009C    303 _T2PEROF0	=	0x009c
+                    009D    304 _T2PEROF1	=	0x009d
+                    009E    305 _T2PEROF2	=	0x009e
+                    009F    306 _FMAP	=	0x009f
+                    009F    307 _PSBANK	=	0x009f
+                    00A0    308 _P2	=	0x00a0
+                    00A1    309 _T2OF0	=	0x00a1
+                    00A2    310 _T2OF1	=	0x00a2
+                    00A3    311 _T2OF2	=	0x00a3
+                    00A4    312 _T2CAPLPL	=	0x00a4
+                    00A5    313 _T2CAPHPH	=	0x00a5
+                    00A6    314 _T2TLD	=	0x00a6
+                    00A7    315 _T2THD	=	0x00a7
+                    00A8    316 _IE	=	0x00a8
+                    00A8    317 _IEN0	=	0x00a8
+                    00A9    318 _IP0	=	0x00a9
+                    00AB    319 _FWT	=	0x00ab
+                    00AC    320 _FADDRL	=	0x00ac
+                    00AD    321 _FADDRH	=	0x00ad
+                    00AE    322 _FCTL	=	0x00ae
+                    00AF    323 _FWDATA	=	0x00af
+                    00B1    324 _ENCDI	=	0x00b1
+                    00B2    325 _ENCDO	=	0x00b2
+                    00B3    326 _ENCCS	=	0x00b3
+                    00B4    327 _ADCCON1	=	0x00b4
+                    00B5    328 _ADCCON2	=	0x00b5
+                    00B6    329 _ADCCON3	=	0x00b6
+                    00B7    330 _RCCTL	=	0x00b7
+                    00B8    331 _IEN1	=	0x00b8
+                    00B9    332 _IP1	=	0x00b9
+                    00BA    333 _ADCL	=	0x00ba
+                    00BB    334 _ADCH	=	0x00bb
+                    00BC    335 _RNDL	=	0x00bc
+                    00BD    336 _RNDH	=	0x00bd
+                    00BE    337 _SLEEP	=	0x00be
+                    00C0    338 _IRCON	=	0x00c0
+                    00C1    339 _U0BUF	=	0x00c1
+                    00C2    340 _U0BAUD	=	0x00c2
+                    00C3    341 _T2CNF	=	0x00c3
+                    00C4    342 _U0UCR	=	0x00c4
+                    00C5    343 _U0GCR	=	0x00c5
+                    00C6    344 _CLKCON	=	0x00c6
+                    00C7    345 _MEMCTR	=	0x00c7
+                    00C8    346 _T2CON	=	0x00c8
+                    00C9    347 _WDCTL	=	0x00c9
+                    00CA    348 _T3CNT	=	0x00ca
+                    00CB    349 _T3CTL	=	0x00cb
+                    00CC    350 _T3CCTL0	=	0x00cc
+                    00CD    351 _T3CC0	=	0x00cd
+                    00CE    352 _T3CCTL1	=	0x00ce
+                    00CF    353 _T3CC1	=	0x00cf
+                    00D0    354 _PSW	=	0x00d0
+                    00D1    355 _DMAIRQ	=	0x00d1
+                    00D2    356 _DMA1CFGL	=	0x00d2
+                    00D3    357 _DMA1CFGH	=	0x00d3
+                    00D4    358 _DMA0CFGL	=	0x00d4
+                    00D5    359 _DMA0CFGH	=	0x00d5
+                    00D6    360 _DMAARM	=	0x00d6
+                    00D7    361 _DMAREQ	=	0x00d7
+                    00D8    362 _TIMIF	=	0x00d8
+                    00D9    363 _RFD	=	0x00d9
+                    00DA    364 _T1CC0L	=	0x00da
+                    00DB    365 _T1CC0H	=	0x00db
+                    00DC    366 _T1CC1L	=	0x00dc
+                    00DD    367 _T1CC1H	=	0x00dd
+                    00DE    368 _T1CC2L	=	0x00de
+                    00DF    369 _T1CC2H	=	0x00df
+                    00E0    370 _ACC	=	0x00e0
+                    00E1    371 _RFST	=	0x00e1
+                    00E2    372 _T1CNTL	=	0x00e2
+                    00E3    373 _T1CNTH	=	0x00e3
+                    00E4    374 _T1CTL	=	0x00e4
+                    00E5    375 _T1CCTL0	=	0x00e5
+                    00E6    376 _T1CCTL1	=	0x00e6
+                    00E7    377 _T1CCTL2	=	0x00e7
+                    00E8    378 _IRCON2	=	0x00e8
+                    00E9    379 _RFIF	=	0x00e9
+                    00EA    380 _T4CNT	=	0x00ea
+                    00EB    381 _T4CTL	=	0x00eb
+                    00EC    382 _T4CCTL0	=	0x00ec
+                    00ED    383 _T4CC0	=	0x00ed
+                    00EE    384 _T4CCTL1	=	0x00ee
+                    00EF    385 _T4CC1	=	0x00ef
+                    00F0    386 _B	=	0x00f0
+                    00F1    387 _PERCFG	=	0x00f1
+                    00F2    388 _ADCCFG	=	0x00f2
+                    00F3    389 _P0SEL	=	0x00f3
+                    00F4    390 _P1SEL	=	0x00f4
+                    00F5    391 _P2SEL	=	0x00f5
+                    00F6    392 _P1INP	=	0x00f6
+                    00F7    393 _P2INP	=	0x00f7
+                    00F8    394 _U1CSR	=	0x00f8
+                    00F9    395 _U1BUF	=	0x00f9
+                    00FA    396 _U1BAUD	=	0x00fa
+                    00FB    397 _U1UCR	=	0x00fb
+                    00FC    398 _U1GCR	=	0x00fc
+                    00FD    399 _P0DIR	=	0x00fd
+                    00FE    400 _P1DIR	=	0x00fe
+                    00FF    401 _P2DIR	=	0x00ff
+                            402 ;--------------------------------------------------------
+                            403 ; special function bits
+                            404 ;--------------------------------------------------------
+                            405 	.area RSEG    (ABS,DATA)
+   0000                     406 	.org 0x0000
+                    0087    407 _P0_7	=	0x0087
+                    0086    408 _P0_6	=	0x0086
+                    0085    409 _P0_5	=	0x0085
+                    0084    410 _P0_4	=	0x0084
+                    0083    411 _P0_3	=	0x0083
+                    0082    412 _P0_2	=	0x0082
+                    0081    413 _P0_1	=	0x0081
+                    0080    414 _P0_0	=	0x0080
+                    008F    415 _TCON_URX1IF	=	0x008f
+                    008D    416 _TCON_ADCIF	=	0x008d
+                    008B    417 _TCON_URX0IF	=	0x008b
+                    008A    418 _TCON_IT1	=	0x008a
+                    0089    419 _TCON_RFERRIF	=	0x0089
+                    0088    420 _TCON_IT0	=	0x0088
+                    0090    421 _P1_0	=	0x0090
+                    0091    422 _P1_1	=	0x0091
+                    0092    423 _P1_2	=	0x0092
+                    0093    424 _P1_3	=	0x0093
+                    0094    425 _P1_4	=	0x0094
+                    0095    426 _P1_5	=	0x0095
+                    0096    427 _P1_6	=	0x0096
+                    0097    428 _P1_7	=	0x0097
+                    0099    429 _S0CON_ENCIF_1	=	0x0099
+                    0098    430 _S0CON_ENCIF_0	=	0x0098
+                    00A0    431 _P2_0	=	0x00a0
+                    00A1    432 _P2_1	=	0x00a1
+                    00A2    433 _P2_2	=	0x00a2
+                    00A3    434 _P2_3	=	0x00a3
+                    00A4    435 _P2_4	=	0x00a4
+                    00AF    436 _EA	=	0x00af
+                    00AF    437 _IEN0_EA	=	0x00af
+                    00AD    438 _IEN0_STIE	=	0x00ad
+                    00AC    439 _IEN0_ENCIE	=	0x00ac
+                    00AB    440 _IEN0_URX1IE	=	0x00ab
+                    00AA    441 _IEN0_URX0IE	=	0x00aa
+                    00A9    442 _IEN0_ADCIE	=	0x00a9
+                    00A8    443 _IEN0_RFERRIE	=	0x00a8
+                    00BD    444 _IEN1_P0IE	=	0x00bd
+                    00BC    445 _IEN1_T4IE	=	0x00bc
+                    00BB    446 _IEN1_T3IE	=	0x00bb
+                    00BA    447 _IEN1_T2IE	=	0x00ba
+                    00B9    448 _IEN1_T1IE	=	0x00b9
+                    00B8    449 _IEN1_DMAIE	=	0x00b8
+                    00C7    450 _IRCON_STIF	=	0x00c7
+                    00C5    451 _IRCON_P0IF	=	0x00c5
+                    00C4    452 _IRCON_T4IF	=	0x00c4
+                    00C3    453 _IRCON_T3IF	=	0x00c3
+                    00C2    454 _IRCON_T2IF	=	0x00c2
+                    00C1    455 _IRCON_T1IF	=	0x00c1
+                    00C0    456 _IRCON_DMAIF	=	0x00c0
+                    00D0    457 _P	=	0x00d0
+                    00D1    458 _F1	=	0x00d1
+                    00D2    459 _OV	=	0x00d2
+                    00D3    460 _RS0	=	0x00d3
+                    00D4    461 _RS1	=	0x00d4
+                    00D5    462 _F0	=	0x00d5
+                    00D6    463 _AC	=	0x00d6
+                    00D7    464 _CY	=	0x00d7
+                    00EC    465 _IRCON2_WDTIF	=	0x00ec
+                    00EB    466 _IRCON2_P1IF	=	0x00eb
+                    00EA    467 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    468 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    469 _IRCON2_P2IF	=	0x00e8
+                            470 ;--------------------------------------------------------
+                            471 ; overlayable register banks
+                            472 ;--------------------------------------------------------
+                            473 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     474 	.ds 8
+                            475 ;--------------------------------------------------------
+                            476 ; internal ram data
+                            477 ;--------------------------------------------------------
+                            478 	.area DSEG    (DATA)
+                            479 ;--------------------------------------------------------
+                            480 ; overlayable items in internal ram 
+                            481 ;--------------------------------------------------------
+                            482 	.area OSEG    (OVR,DATA)
+                            483 ;--------------------------------------------------------
+                            484 ; indirectly addressable internal ram data
+                            485 ;--------------------------------------------------------
+                            486 	.area ISEG    (DATA)
+                            487 ;--------------------------------------------------------
+                            488 ; absolute internal ram data
+                            489 ;--------------------------------------------------------
+                            490 	.area IABS    (ABS,DATA)
+                            491 	.area IABS    (ABS,DATA)
+                            492 ;--------------------------------------------------------
+                            493 ; bit data
+                            494 ;--------------------------------------------------------
+                            495 	.area BSEG    (BIT)
+                            496 ;--------------------------------------------------------
+                            497 ; paged external ram data
+                            498 ;--------------------------------------------------------
+                            499 	.area PSEG    (PAG,XDATA)
+                            500 ;--------------------------------------------------------
+                            501 ; external ram data
+                            502 ;--------------------------------------------------------
+                            503 	.area XSEG    (XDATA)
+                    DF02    504 _MDMCTRL0H	=	0xdf02
+                    DF03    505 _MDMCTRL0L	=	0xdf03
+                    DF04    506 _MDMCTRL1H	=	0xdf04
+                    DF05    507 _MDMCTRL1L	=	0xdf05
+                    DF06    508 _RSSIH	=	0xdf06
+                    DF07    509 _RSSIL	=	0xdf07
+                    DF08    510 _SYNCWORDH	=	0xdf08
+                    DF09    511 _SYNCWORDL	=	0xdf09
+                    DF0A    512 _TXCTRLH	=	0xdf0a
+                    DF0B    513 _TXCTRLL	=	0xdf0b
+                    DF0C    514 _RXCTRL0H	=	0xdf0c
+                    DF0D    515 _RXCTRL0L	=	0xdf0d
+                    DF0E    516 _RXCTRL1H	=	0xdf0e
+                    DF0F    517 _RXCTRL1L	=	0xdf0f
+                    DF10    518 _FSCTRLH	=	0xdf10
+                    DF11    519 _FSCTRLL	=	0xdf11
+                    DF12    520 _CSPX	=	0xdf12
+                    DF13    521 _CSPY	=	0xdf13
+                    DF14    522 _CSPZ	=	0xdf14
+                    DF15    523 _CSPCTRL	=	0xdf15
+                    DF16    524 _CSPT	=	0xdf16
+                    DF17    525 _RFPWR	=	0xdf17
+                    DF20    526 _FSMTCH	=	0xdf20
+                    DF21    527 _FSMTCL	=	0xdf21
+                    DF22    528 _MANANDH	=	0xdf22
+                    DF23    529 _MANANDL	=	0xdf23
+                    DF24    530 _MANORH	=	0xdf24
+                    DF25    531 _MANORL	=	0xdf25
+                    DF26    532 _AGCCTRLH	=	0xdf26
+                    DF27    533 _AGCCTRLL	=	0xdf27
+                    DF39    534 _FSMSTATE	=	0xdf39
+                    DF3A    535 _ADCTSTH	=	0xdf3a
+                    DF3B    536 _ADCTSTL	=	0xdf3b
+                    DF3C    537 _DACTSTH	=	0xdf3c
+                    DF3D    538 _DACTSTL	=	0xdf3d
+                    DF43    539 _IEEE_ADDR0	=	0xdf43
+                    DF44    540 _IEEE_ADDR1	=	0xdf44
+                    DF45    541 _IEEE_ADDR2	=	0xdf45
+                    DF46    542 _IEEE_ADDR3	=	0xdf46
+                    DF47    543 _IEEE_ADDR4	=	0xdf47
+                    DF48    544 _IEEE_ADDR5	=	0xdf48
+                    DF49    545 _IEEE_ADDR6	=	0xdf49
+                    DF4A    546 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    547 _PANIDH	=	0xdf4b
+                    DF4C    548 _PANIDL	=	0xdf4c
+                    DF4D    549 _SHORTADDRH	=	0xdf4d
+                    DF4E    550 _SHORTADDRL	=	0xdf4e
+                    DF4F    551 _IOCFG0	=	0xdf4f
+                    DF50    552 _IOCFG1	=	0xdf50
+                    DF51    553 _IOCFG2	=	0xdf51
+                    DF52    554 _IOCFG3	=	0xdf52
+                    DF53    555 _RXFIFOCNT	=	0xdf53
+                    DF54    556 _FSMTC1	=	0xdf54
+                    DF60    557 _CHVER	=	0xdf60
+                    DF61    558 _CHIPID	=	0xdf61
+                    DF62    559 _RFSTATUS	=	0xdf62
+                    DFC1    560 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    561 _RFD_SHADOW	=	0xdfd9
+                    DFF9    562 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    563 _ADC_SHADOW	=	0xdfba
+                            564 ;--------------------------------------------------------
+                            565 ; absolute external ram data
+                            566 ;--------------------------------------------------------
+                            567 	.area XABS    (ABS,XDATA)
+                            568 ;--------------------------------------------------------
+                            569 ; external initialized ram data
+                            570 ;--------------------------------------------------------
+                            571 	.area XISEG   (XDATA)
+                            572 	.area HOME    (CODE)
+                            573 	.area GSINIT0 (CODE)
+                            574 	.area GSINIT1 (CODE)
+                            575 	.area GSINIT2 (CODE)
+                            576 	.area GSINIT3 (CODE)
+                            577 	.area GSINIT4 (CODE)
+                            578 	.area GSINIT5 (CODE)
+                            579 	.area GSINIT  (CODE)
+                            580 	.area GSFINAL (CODE)
+                            581 	.area CSEG    (CODE)
+                            582 ;--------------------------------------------------------
+                            583 ; global & static initialisations
+                            584 ;--------------------------------------------------------
+                            585 	.area HOME    (CODE)
+                            586 	.area GSINIT  (CODE)
+                            587 	.area GSFINAL (CODE)
+                            588 	.area GSINIT  (CODE)
+                            589 ;--------------------------------------------------------
+                            590 ; Home
+                            591 ;--------------------------------------------------------
+                            592 	.area HOME    (CODE)
+                            593 	.area HOME    (CODE)
+                            594 ;--------------------------------------------------------
+                            595 ; code
+                            596 ;--------------------------------------------------------
+                            597 	.area CSEG    (CODE)
+                            598 ;------------------------------------------------------------
+                            599 ;Allocation info for local variables in function 'recv_from_broadcast'
+                            600 ;------------------------------------------------------------
+                            601 ;from                      Allocated to stack - _bp -5
+                            602 ;broadcast                 Allocated to registers r5 r6 r7 
+                            603 ;c                         Allocated to registers r5 r6 r7 
+                            604 ;------------------------------------------------------------
+                            605 ;	../../core/net/rime/unicast.c:67: recv_from_broadcast(struct broadcast_conn *broadcast, const rimeaddr_t *from)
+                            606 ;	-----------------------------------------
+                            607 ;	 function recv_from_broadcast
+                            608 ;	-----------------------------------------
+   0000                     609 _recv_from_broadcast:
+                    0007    610 	ar7 = 0x07
+                    0006    611 	ar6 = 0x06
+                    0005    612 	ar5 = 0x05
+                    0004    613 	ar4 = 0x04
+                    0003    614 	ar3 = 0x03
+                    0002    615 	ar2 = 0x02
+                    0001    616 	ar1 = 0x01
+                    0000    617 	ar0 = 0x00
+   0000 C0*00               618 	push	_bp
+   0002 85 81*00            619 	mov	_bp,sp
+   0005 AD 82               620 	mov	r5,dpl
+   0007 AE 83               621 	mov	r6,dph
+   0009 AF F0               622 	mov	r7,b
+                            623 ;	../../core/net/rime/unicast.c:69: struct unicast_conn *c = (struct unicast_conn *)broadcast;
+                            624 ;	../../core/net/rime/unicast.c:75: if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), &rimeaddr_node_addr)) {
+   000B 75 82 19            625 	mov	dpl,#0x19
+   000E C0 07               626 	push	ar7
+   0010 C0 06               627 	push	ar6
+   0012 C0 05               628 	push	ar5
+   0014 12s00r00            629 	lcall	_packetbuf_addr
+   0017 AA 82               630 	mov	r2,dpl
+   0019 AB 83               631 	mov	r3,dph
+   001B AC F0               632 	mov	r4,b
+   001D 74r00               633 	mov	a,#_rimeaddr_node_addr
+   001F C0 E0               634 	push	acc
+   0021 74s00               635 	mov	a,#(_rimeaddr_node_addr >> 8)
+   0023 C0 E0               636 	push	acc
+   0025 E4                  637 	clr	a
+   0026 C0 E0               638 	push	acc
+   0028 8A 82               639 	mov	dpl,r2
+   002A 8B 83               640 	mov	dph,r3
+   002C 8C F0               641 	mov	b,r4
+   002E 12s00r00            642 	lcall	_rimeaddr_cmp
+   0031 AB 82               643 	mov	r3,dpl
+   0033 AC 83               644 	mov	r4,dph
+   0035 15 81               645 	dec	sp
+   0037 15 81               646 	dec	sp
+   0039 15 81               647 	dec	sp
+   003B D0 05               648 	pop	ar5
+   003D D0 06               649 	pop	ar6
+   003F D0 07               650 	pop	ar7
+   0041 EB                  651 	mov	a,r3
+   0042 4C                  652 	orl	a,r4
+   0043 60 5D               653 	jz	00103$
+                            654 ;	../../core/net/rime/unicast.c:76: c->u->recv(c, from);
+   0045 74 0F               655 	mov	a,#0x0F
+   0047 2D                  656 	add	a,r5
+   0048 FA                  657 	mov	r2,a
+   0049 E4                  658 	clr	a
+   004A 3E                  659 	addc	a,r6
+   004B FB                  660 	mov	r3,a
+   004C 8F 04               661 	mov	ar4,r7
+   004E 8A 82               662 	mov	dpl,r2
+   0050 8B 83               663 	mov	dph,r3
+   0052 8C F0               664 	mov	b,r4
+   0054 12s00r00            665 	lcall	__gptrget
+   0057 FA                  666 	mov	r2,a
+   0058 A3                  667 	inc	dptr
+   0059 12s00r00            668 	lcall	__gptrget
+   005C FB                  669 	mov	r3,a
+   005D A3                  670 	inc	dptr
+   005E 12s00r00            671 	lcall	__gptrget
+   0061 FC                  672 	mov	r4,a
+   0062 8A 82               673 	mov	dpl,r2
+   0064 8B 83               674 	mov	dph,r3
+   0066 8C F0               675 	mov	b,r4
+   0068 12s00r00            676 	lcall	__gptrget
+   006B FA                  677 	mov	r2,a
+   006C A3                  678 	inc	dptr
+   006D 12s00r00            679 	lcall	__gptrget
+   0070 FB                  680 	mov	r3,a
+   0071 C0 03               681 	push	ar3
+   0073 C0 02               682 	push	ar2
+   0075 E5*00               683 	mov	a,_bp
+   0077 24 FB               684 	add	a,#0xfb
+   0079 F8                  685 	mov	r0,a
+   007A E6                  686 	mov	a,@r0
+   007B C0 E0               687 	push	acc
+   007D 08                  688 	inc	r0
+   007E E6                  689 	mov	a,@r0
+   007F C0 E0               690 	push	acc
+   0081 08                  691 	inc	r0
+   0082 E6                  692 	mov	a,@r0
+   0083 C0 E0               693 	push	acc
+   0085 74r98               694 	mov	a,#00108$
+   0087 C0 E0               695 	push	acc
+   0089 74s00               696 	mov	a,#(00108$ >> 8)
+   008B C0 E0               697 	push	acc
+   008D C0 02               698 	push	ar2
+   008F C0 03               699 	push	ar3
+   0091 8D 82               700 	mov	dpl,r5
+   0093 8E 83               701 	mov	dph,r6
+   0095 8F F0               702 	mov	b,r7
+   0097 22                  703 	ret
+   0098                     704 00108$:
+   0098 15 81               705 	dec	sp
+   009A 15 81               706 	dec	sp
+   009C 15 81               707 	dec	sp
+   009E D0 02               708 	pop	ar2
+   00A0 D0 03               709 	pop	ar3
+   00A2                     710 00103$:
+   00A2 D0*00               711 	pop	_bp
+   00A4 22                  712 	ret
+                            713 ;------------------------------------------------------------
+                            714 ;Allocation info for local variables in function 'sent_by_broadcast'
+                            715 ;------------------------------------------------------------
+                            716 ;status                    Allocated to stack - _bp -4
+                            717 ;num_tx                    Allocated to stack - _bp -6
+                            718 ;broadcast                 Allocated to registers r5 r6 r7 
+                            719 ;c                         Allocated to registers r5 r6 r7 
+                            720 ;------------------------------------------------------------
+                            721 ;	../../core/net/rime/unicast.c:81: sent_by_broadcast(struct broadcast_conn *broadcast, int status, int num_tx)
+                            722 ;	-----------------------------------------
+                            723 ;	 function sent_by_broadcast
+                            724 ;	-----------------------------------------
+   00A5                     725 _sent_by_broadcast:
+   00A5 C0*00               726 	push	_bp
+   00A7 85 81*00            727 	mov	_bp,sp
+   00AA AD 82               728 	mov	r5,dpl
+   00AC AE 83               729 	mov	r6,dph
+   00AE AF F0               730 	mov	r7,b
+                            731 ;	../../core/net/rime/unicast.c:83: struct unicast_conn *c = (struct unicast_conn *)broadcast;
+                            732 ;	../../core/net/rime/unicast.c:90: if(c->u->sent) {
+   00B0 74 0F               733 	mov	a,#0x0F
+   00B2 2D                  734 	add	a,r5
+   00B3 FA                  735 	mov	r2,a
+   00B4 E4                  736 	clr	a
+   00B5 3E                  737 	addc	a,r6
+   00B6 FB                  738 	mov	r3,a
+   00B7 8F 04               739 	mov	ar4,r7
+   00B9 8A 82               740 	mov	dpl,r2
+   00BB 8B 83               741 	mov	dph,r3
+   00BD 8C F0               742 	mov	b,r4
+   00BF 12s00r00            743 	lcall	__gptrget
+   00C2 FA                  744 	mov	r2,a
+   00C3 A3                  745 	inc	dptr
+   00C4 12s00r00            746 	lcall	__gptrget
+   00C7 FB                  747 	mov	r3,a
+   00C8 A3                  748 	inc	dptr
+   00C9 12s00r00            749 	lcall	__gptrget
+   00CC FC                  750 	mov	r4,a
+   00CD 74 02               751 	mov	a,#0x02
+   00CF 2A                  752 	add	a,r2
+   00D0 FA                  753 	mov	r2,a
+   00D1 E4                  754 	clr	a
+   00D2 3B                  755 	addc	a,r3
+   00D3 FB                  756 	mov	r3,a
+   00D4 8A 82               757 	mov	dpl,r2
+   00D6 8B 83               758 	mov	dph,r3
+   00D8 8C F0               759 	mov	b,r4
+   00DA 12s00r00            760 	lcall	__gptrget
+   00DD FB                  761 	mov	r3,a
+   00DE A3                  762 	inc	dptr
+   00DF 12s00r00            763 	lcall	__gptrget
+   00E2 FC                  764 	mov	r4,a
+   00E3 4B                  765 	orl	a,r3
+   00E4 60 39               766 	jz	00103$
+                            767 ;	../../core/net/rime/unicast.c:91: c->u->sent(c, status, num_tx);
+   00E6 C0 04               768 	push	ar4
+   00E8 C0 03               769 	push	ar3
+   00EA E5*00               770 	mov	a,_bp
+   00EC 24 FA               771 	add	a,#0xfa
+   00EE F8                  772 	mov	r0,a
+   00EF E6                  773 	mov	a,@r0
+   00F0 C0 E0               774 	push	acc
+   00F2 08                  775 	inc	r0
+   00F3 E6                  776 	mov	a,@r0
+   00F4 C0 E0               777 	push	acc
+   00F6 E5*00               778 	mov	a,_bp
+   00F8 24 FC               779 	add	a,#0xfc
+   00FA F8                  780 	mov	r0,a
+   00FB E6                  781 	mov	a,@r0
+   00FC C0 E0               782 	push	acc
+   00FE 08                  783 	inc	r0
+   00FF E6                  784 	mov	a,@r0
+   0100 C0 E0               785 	push	acc
+   0102 74r15               786 	mov	a,#00108$
+   0104 C0 E0               787 	push	acc
+   0106 74s01               788 	mov	a,#(00108$ >> 8)
+   0108 C0 E0               789 	push	acc
+   010A C0 03               790 	push	ar3
+   010C C0 04               791 	push	ar4
+   010E 8D 82               792 	mov	dpl,r5
+   0110 8E 83               793 	mov	dph,r6
+   0112 8F F0               794 	mov	b,r7
+   0114 22                  795 	ret
+   0115                     796 00108$:
+   0115 E5 81               797 	mov	a,sp
+   0117 24 FC               798 	add	a,#0xfc
+   0119 F5 81               799 	mov	sp,a
+   011B D0 03               800 	pop	ar3
+   011D D0 04               801 	pop	ar4
+   011F                     802 00103$:
+   011F D0*00               803 	pop	_bp
+   0121 22                  804 	ret
+                            805 ;------------------------------------------------------------
+                            806 ;Allocation info for local variables in function 'unicast_open'
+                            807 ;------------------------------------------------------------
+                            808 ;channel                   Allocated to stack - _bp -4
+                            809 ;u                         Allocated to stack - _bp -7
+                            810 ;c                         Allocated to registers r5 r6 r7 
+                            811 ;------------------------------------------------------------
+                            812 ;	../../core/net/rime/unicast.c:99: unicast_open(struct unicast_conn *c, uint16_t channel,
+                            813 ;	-----------------------------------------
+                            814 ;	 function unicast_open
+                            815 ;	-----------------------------------------
+   0122                     816 _unicast_open:
+   0122 C0*00               817 	push	_bp
+   0124 85 81*00            818 	mov	_bp,sp
+   0127 AD 82               819 	mov	r5,dpl
+   0129 AE 83               820 	mov	r6,dph
+   012B AF F0               821 	mov	r7,b
+                            822 ;	../../core/net/rime/unicast.c:102: broadcast_open(&c->c, channel, &uc);
+   012D C0 07               823 	push	ar7
+   012F C0 06               824 	push	ar6
+   0131 C0 05               825 	push	ar5
+   0133 74r06               826 	mov	a,#_uc
+   0135 C0 E0               827 	push	acc
+   0137 74s00               828 	mov	a,#(_uc >> 8)
+   0139 C0 E0               829 	push	acc
+   013B 74 80               830 	mov	a,#0x80
+   013D C0 E0               831 	push	acc
+   013F E5*00               832 	mov	a,_bp
+   0141 24 FC               833 	add	a,#0xfc
+   0143 F8                  834 	mov	r0,a
+   0144 E6                  835 	mov	a,@r0
+   0145 C0 E0               836 	push	acc
+   0147 08                  837 	inc	r0
+   0148 E6                  838 	mov	a,@r0
+   0149 C0 E0               839 	push	acc
+   014B 8D 82               840 	mov	dpl,r5
+   014D 8E 83               841 	mov	dph,r6
+   014F 8F F0               842 	mov	b,r7
+   0151 12s00r00            843 	lcall	_broadcast_open
+   0154 E5 81               844 	mov	a,sp
+   0156 24 FB               845 	add	a,#0xfb
+   0158 F5 81               846 	mov	sp,a
+   015A D0 05               847 	pop	ar5
+   015C D0 06               848 	pop	ar6
+   015E D0 07               849 	pop	ar7
+                            850 ;	../../core/net/rime/unicast.c:103: c->u = u;
+   0160 74 0F               851 	mov	a,#0x0F
+   0162 2D                  852 	add	a,r5
+   0163 FD                  853 	mov	r5,a
+   0164 E4                  854 	clr	a
+   0165 3E                  855 	addc	a,r6
+   0166 FE                  856 	mov	r6,a
+   0167 8D 82               857 	mov	dpl,r5
+   0169 8E 83               858 	mov	dph,r6
+   016B 8F F0               859 	mov	b,r7
+   016D E5*00               860 	mov	a,_bp
+   016F 24 F9               861 	add	a,#0xf9
+   0171 F8                  862 	mov	r0,a
+   0172 E6                  863 	mov	a,@r0
+   0173 12s00r00            864 	lcall	__gptrput
+   0176 A3                  865 	inc	dptr
+   0177 08                  866 	inc	r0
+   0178 E6                  867 	mov	a,@r0
+   0179 12s00r00            868 	lcall	__gptrput
+   017C A3                  869 	inc	dptr
+   017D 08                  870 	inc	r0
+   017E E6                  871 	mov	a,@r0
+   017F 12s00r00            872 	lcall	__gptrput
+                            873 ;	../../core/net/rime/unicast.c:104: channel_set_attributes(channel, attributes);
+   0182 74r00               874 	mov	a,#_attributes
+   0184 C0 E0               875 	push	acc
+   0186 74s00               876 	mov	a,#(_attributes >> 8)
+   0188 C0 E0               877 	push	acc
+   018A 74 80               878 	mov	a,#0x80
+   018C C0 E0               879 	push	acc
+   018E E5*00               880 	mov	a,_bp
+   0190 24 FC               881 	add	a,#0xfc
+   0192 F8                  882 	mov	r0,a
+   0193 86 82               883 	mov	dpl,@r0
+   0195 08                  884 	inc	r0
+   0196 86 83               885 	mov	dph,@r0
+   0198 12s00r00            886 	lcall	_channel_set_attributes
+   019B 15 81               887 	dec	sp
+   019D 15 81               888 	dec	sp
+   019F 15 81               889 	dec	sp
+   01A1 D0*00               890 	pop	_bp
+   01A3 22                  891 	ret
+                            892 ;------------------------------------------------------------
+                            893 ;Allocation info for local variables in function 'unicast_close'
+                            894 ;------------------------------------------------------------
+                            895 ;c                         Allocated to registers r5 r6 r7 
+                            896 ;------------------------------------------------------------
+                            897 ;	../../core/net/rime/unicast.c:108: unicast_close(struct unicast_conn *c)
+                            898 ;	-----------------------------------------
+                            899 ;	 function unicast_close
+                            900 ;	-----------------------------------------
+   01A4                     901 _unicast_close:
+                            902 ;	../../core/net/rime/unicast.c:110: broadcast_close(&c->c);
+   01A4 02s00r00            903 	ljmp	_broadcast_close
+                            904 ;------------------------------------------------------------
+                            905 ;Allocation info for local variables in function 'unicast_send'
+                            906 ;------------------------------------------------------------
+                            907 ;receiver                  Allocated to stack - _bp -5
+                            908 ;c                         Allocated to registers r5 r6 r7 
+                            909 ;------------------------------------------------------------
+                            910 ;	../../core/net/rime/unicast.c:114: unicast_send(struct unicast_conn *c, const rimeaddr_t *receiver)
+                            911 ;	-----------------------------------------
+                            912 ;	 function unicast_send
+                            913 ;	-----------------------------------------
+   01A7                     914 _unicast_send:
+   01A7 C0*00               915 	push	_bp
+   01A9 85 81*00            916 	mov	_bp,sp
+   01AC AD 82               917 	mov	r5,dpl
+   01AE AE 83               918 	mov	r6,dph
+   01B0 AF F0               919 	mov	r7,b
+                            920 ;	../../core/net/rime/unicast.c:119: packetbuf_set_addr(PACKETBUF_ADDR_RECEIVER, receiver);
+   01B2 C0 07               921 	push	ar7
+   01B4 C0 06               922 	push	ar6
+   01B6 C0 05               923 	push	ar5
+   01B8 E5*00               924 	mov	a,_bp
+   01BA 24 FB               925 	add	a,#0xfb
+   01BC F8                  926 	mov	r0,a
+   01BD E6                  927 	mov	a,@r0
+   01BE C0 E0               928 	push	acc
+   01C0 08                  929 	inc	r0
+   01C1 E6                  930 	mov	a,@r0
+   01C2 C0 E0               931 	push	acc
+   01C4 08                  932 	inc	r0
+   01C5 E6                  933 	mov	a,@r0
+   01C6 C0 E0               934 	push	acc
+   01C8 75 82 19            935 	mov	dpl,#0x19
+   01CB 12s00r00            936 	lcall	_packetbuf_set_addr
+   01CE 15 81               937 	dec	sp
+   01D0 15 81               938 	dec	sp
+   01D2 15 81               939 	dec	sp
+   01D4 D0 05               940 	pop	ar5
+   01D6 D0 06               941 	pop	ar6
+   01D8 D0 07               942 	pop	ar7
+                            943 ;	../../core/net/rime/unicast.c:120: return broadcast_send(&c->c);
+   01DA 8D 82               944 	mov	dpl,r5
+   01DC 8E 83               945 	mov	dph,r6
+   01DE 8F F0               946 	mov	b,r7
+   01E0 12s00r00            947 	lcall	_broadcast_send
+   01E3 D0*00               948 	pop	_bp
+   01E5 22                  949 	ret
+                            950 	.area CSEG    (CODE)
+                            951 	.area CONST   (CODE)
+   0000                     952 _attributes:
+   0000 19                  953 	.db #0x19	; 25
+   0001 10                  954 	.db #0x10	; 16
+   0002 18                  955 	.db #0x18	; 24
+   0003 10                  956 	.db #0x10	; 16
+   0004 00                  957 	.db #0x00	; 0
+   0005 00                  958 	.db #0x00	; 0
+   0006                     959 _uc:
+   0006r00s00               960 	.byte _recv_from_broadcast,(_recv_from_broadcast >> 8)
+   0008rA5s00               961 	.byte _sent_by_broadcast,(_sent_by_broadcast >> 8)
+                            962 	.area XINIT   (CODE)
+                            963 	.area CABS    (ABS,CODE)

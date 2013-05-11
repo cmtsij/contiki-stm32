@@ -1,0 +1,964 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:32 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module clock
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _clock_ISR
+                             13 	.globl _IRCON2_P2IF
+                             14 	.globl _IRCON2_UTX0IF
+                             15 	.globl _IRCON2_UTX1IF
+                             16 	.globl _IRCON2_P1IF
+                             17 	.globl _IRCON2_WDTIF
+                             18 	.globl _CY
+                             19 	.globl _AC
+                             20 	.globl _F0
+                             21 	.globl _RS1
+                             22 	.globl _RS0
+                             23 	.globl _OV
+                             24 	.globl _F1
+                             25 	.globl _P
+                             26 	.globl _IRCON_DMAIF
+                             27 	.globl _IRCON_T1IF
+                             28 	.globl _IRCON_T2IF
+                             29 	.globl _IRCON_T3IF
+                             30 	.globl _IRCON_T4IF
+                             31 	.globl _IRCON_P0IF
+                             32 	.globl _IRCON_STIF
+                             33 	.globl _IEN1_DMAIE
+                             34 	.globl _IEN1_T1IE
+                             35 	.globl _IEN1_T2IE
+                             36 	.globl _IEN1_T3IE
+                             37 	.globl _IEN1_T4IE
+                             38 	.globl _IEN1_P0IE
+                             39 	.globl _IEN0_RFERRIE
+                             40 	.globl _IEN0_ADCIE
+                             41 	.globl _IEN0_URX0IE
+                             42 	.globl _IEN0_URX1IE
+                             43 	.globl _IEN0_ENCIE
+                             44 	.globl _IEN0_STIE
+                             45 	.globl _IEN0_EA
+                             46 	.globl _EA
+                             47 	.globl _P2_4
+                             48 	.globl _P2_3
+                             49 	.globl _P2_2
+                             50 	.globl _P2_1
+                             51 	.globl _P2_0
+                             52 	.globl _S0CON_ENCIF_0
+                             53 	.globl _S0CON_ENCIF_1
+                             54 	.globl _P1_7
+                             55 	.globl _P1_6
+                             56 	.globl _P1_5
+                             57 	.globl _P1_4
+                             58 	.globl _P1_3
+                             59 	.globl _P1_2
+                             60 	.globl _P1_1
+                             61 	.globl _P1_0
+                             62 	.globl _TCON_IT0
+                             63 	.globl _TCON_RFERRIF
+                             64 	.globl _TCON_IT1
+                             65 	.globl _TCON_URX0IF
+                             66 	.globl _TCON_ADCIF
+                             67 	.globl _TCON_URX1IF
+                             68 	.globl _P0_0
+                             69 	.globl _P0_1
+                             70 	.globl _P0_2
+                             71 	.globl _P0_3
+                             72 	.globl _P0_4
+                             73 	.globl _P0_5
+                             74 	.globl _P0_6
+                             75 	.globl _P0_7
+                             76 	.globl _P2DIR
+                             77 	.globl _P1DIR
+                             78 	.globl _P0DIR
+                             79 	.globl _U1GCR
+                             80 	.globl _U1UCR
+                             81 	.globl _U1BAUD
+                             82 	.globl _U1BUF
+                             83 	.globl _U1CSR
+                             84 	.globl _P2INP
+                             85 	.globl _P1INP
+                             86 	.globl _P2SEL
+                             87 	.globl _P1SEL
+                             88 	.globl _P0SEL
+                             89 	.globl _ADCCFG
+                             90 	.globl _PERCFG
+                             91 	.globl _B
+                             92 	.globl _T4CC1
+                             93 	.globl _T4CCTL1
+                             94 	.globl _T4CC0
+                             95 	.globl _T4CCTL0
+                             96 	.globl _T4CTL
+                             97 	.globl _T4CNT
+                             98 	.globl _RFIF
+                             99 	.globl _IRCON2
+                            100 	.globl _T1CCTL2
+                            101 	.globl _T1CCTL1
+                            102 	.globl _T1CCTL0
+                            103 	.globl _T1CTL
+                            104 	.globl _T1CNTH
+                            105 	.globl _T1CNTL
+                            106 	.globl _RFST
+                            107 	.globl _ACC
+                            108 	.globl _T1CC2H
+                            109 	.globl _T1CC2L
+                            110 	.globl _T1CC1H
+                            111 	.globl _T1CC1L
+                            112 	.globl _T1CC0H
+                            113 	.globl _T1CC0L
+                            114 	.globl _RFD
+                            115 	.globl _TIMIF
+                            116 	.globl _DMAREQ
+                            117 	.globl _DMAARM
+                            118 	.globl _DMA0CFGH
+                            119 	.globl _DMA0CFGL
+                            120 	.globl _DMA1CFGH
+                            121 	.globl _DMA1CFGL
+                            122 	.globl _DMAIRQ
+                            123 	.globl _PSW
+                            124 	.globl _T3CC1
+                            125 	.globl _T3CCTL1
+                            126 	.globl _T3CC0
+                            127 	.globl _T3CCTL0
+                            128 	.globl _T3CTL
+                            129 	.globl _T3CNT
+                            130 	.globl _WDCTL
+                            131 	.globl _T2CON
+                            132 	.globl _MEMCTR
+                            133 	.globl _CLKCON
+                            134 	.globl _U0GCR
+                            135 	.globl _U0UCR
+                            136 	.globl _T2CNF
+                            137 	.globl _U0BAUD
+                            138 	.globl _U0BUF
+                            139 	.globl _IRCON
+                            140 	.globl _SLEEP
+                            141 	.globl _RNDH
+                            142 	.globl _RNDL
+                            143 	.globl _ADCH
+                            144 	.globl _ADCL
+                            145 	.globl _IP1
+                            146 	.globl _IEN1
+                            147 	.globl _RCCTL
+                            148 	.globl _ADCCON3
+                            149 	.globl _ADCCON2
+                            150 	.globl _ADCCON1
+                            151 	.globl _ENCCS
+                            152 	.globl _ENCDO
+                            153 	.globl _ENCDI
+                            154 	.globl _FWDATA
+                            155 	.globl _FCTL
+                            156 	.globl _FADDRH
+                            157 	.globl _FADDRL
+                            158 	.globl _FWT
+                            159 	.globl _IP0
+                            160 	.globl _IEN0
+                            161 	.globl _IE
+                            162 	.globl _T2THD
+                            163 	.globl _T2TLD
+                            164 	.globl _T2CAPHPH
+                            165 	.globl _T2CAPLPL
+                            166 	.globl _T2OF2
+                            167 	.globl _T2OF1
+                            168 	.globl _T2OF0
+                            169 	.globl _P2
+                            170 	.globl _PSBANK
+                            171 	.globl _FMAP
+                            172 	.globl _T2PEROF2
+                            173 	.globl _T2PEROF1
+                            174 	.globl _T2PEROF0
+                            175 	.globl _S1CON
+                            176 	.globl _IEN2
+                            177 	.globl _HSRC
+                            178 	.globl _S0CON
+                            179 	.globl _ST2
+                            180 	.globl _ST1
+                            181 	.globl _ST0
+                            182 	.globl _T2CMP
+                            183 	.globl __XPAGE
+                            184 	.globl _DPS
+                            185 	.globl _RFIM
+                            186 	.globl _P1
+                            187 	.globl _P0INP
+                            188 	.globl _P1IEN
+                            189 	.globl _PICTL
+                            190 	.globl _P2IFG
+                            191 	.globl _P1IFG
+                            192 	.globl _P0IFG
+                            193 	.globl _TCON
+                            194 	.globl _PCON
+                            195 	.globl _U0CSR
+                            196 	.globl _DPH1
+                            197 	.globl _DPL1
+                            198 	.globl _DPH0
+                            199 	.globl _DPL0
+                            200 	.globl _SP
+                            201 	.globl _P0
+                            202 	.globl _ADC_SHADOW
+                            203 	.globl _U1BUF_SHADOW
+                            204 	.globl _RFD_SHADOW
+                            205 	.globl _U0BUF_SHADOW
+                            206 	.globl _RFSTATUS
+                            207 	.globl _CHIPID
+                            208 	.globl _CHVER
+                            209 	.globl _FSMTC1
+                            210 	.globl _RXFIFOCNT
+                            211 	.globl _IOCFG3
+                            212 	.globl _IOCFG2
+                            213 	.globl _IOCFG1
+                            214 	.globl _IOCFG0
+                            215 	.globl _SHORTADDRL
+                            216 	.globl _SHORTADDRH
+                            217 	.globl _PANIDL
+                            218 	.globl _PANIDH
+                            219 	.globl _IEEE_ADDR7
+                            220 	.globl _IEEE_ADDR6
+                            221 	.globl _IEEE_ADDR5
+                            222 	.globl _IEEE_ADDR4
+                            223 	.globl _IEEE_ADDR3
+                            224 	.globl _IEEE_ADDR2
+                            225 	.globl _IEEE_ADDR1
+                            226 	.globl _IEEE_ADDR0
+                            227 	.globl _DACTSTL
+                            228 	.globl _DACTSTH
+                            229 	.globl _ADCTSTL
+                            230 	.globl _ADCTSTH
+                            231 	.globl _FSMSTATE
+                            232 	.globl _AGCCTRLL
+                            233 	.globl _AGCCTRLH
+                            234 	.globl _MANORL
+                            235 	.globl _MANORH
+                            236 	.globl _MANANDL
+                            237 	.globl _MANANDH
+                            238 	.globl _FSMTCL
+                            239 	.globl _FSMTCH
+                            240 	.globl _RFPWR
+                            241 	.globl _CSPT
+                            242 	.globl _CSPCTRL
+                            243 	.globl _CSPZ
+                            244 	.globl _CSPY
+                            245 	.globl _CSPX
+                            246 	.globl _FSCTRLL
+                            247 	.globl _FSCTRLH
+                            248 	.globl _RXCTRL1L
+                            249 	.globl _RXCTRL1H
+                            250 	.globl _RXCTRL0L
+                            251 	.globl _RXCTRL0H
+                            252 	.globl _TXCTRLL
+                            253 	.globl _TXCTRLH
+                            254 	.globl _SYNCWORDL
+                            255 	.globl _SYNCWORDH
+                            256 	.globl _RSSIL
+                            257 	.globl _RSSIH
+                            258 	.globl _MDMCTRL1L
+                            259 	.globl _MDMCTRL1H
+                            260 	.globl _MDMCTRL0L
+                            261 	.globl _MDMCTRL0H
+                            262 	.globl _sleep_flag
+                            263 	.globl _clock_delay_usec
+                            264 	.globl _clock_wait
+                            265 	.globl _clock_time
+                            266 	.globl _clock_seconds
+                            267 	.globl _clock_init
+                            268 ;--------------------------------------------------------
+                            269 ; special function registers
+                            270 ;--------------------------------------------------------
+                            271 	.area RSEG    (ABS,DATA)
+   0000                     272 	.org 0x0000
+                    0080    273 _P0	=	0x0080
+                    0081    274 _SP	=	0x0081
+                    0082    275 _DPL0	=	0x0082
+                    0083    276 _DPH0	=	0x0083
+                    0084    277 _DPL1	=	0x0084
+                    0085    278 _DPH1	=	0x0085
+                    0086    279 _U0CSR	=	0x0086
+                    0087    280 _PCON	=	0x0087
+                    0088    281 _TCON	=	0x0088
+                    0089    282 _P0IFG	=	0x0089
+                    008A    283 _P1IFG	=	0x008a
+                    008B    284 _P2IFG	=	0x008b
+                    008C    285 _PICTL	=	0x008c
+                    008D    286 _P1IEN	=	0x008d
+                    008F    287 _P0INP	=	0x008f
+                    0090    288 _P1	=	0x0090
+                    0091    289 _RFIM	=	0x0091
+                    0092    290 _DPS	=	0x0092
+                    0093    291 __XPAGE	=	0x0093
+                    0094    292 _T2CMP	=	0x0094
+                    0095    293 _ST0	=	0x0095
+                    0096    294 _ST1	=	0x0096
+                    0097    295 _ST2	=	0x0097
+                    0098    296 _S0CON	=	0x0098
+                    0099    297 _HSRC	=	0x0099
+                    009A    298 _IEN2	=	0x009a
+                    009B    299 _S1CON	=	0x009b
+                    009C    300 _T2PEROF0	=	0x009c
+                    009D    301 _T2PEROF1	=	0x009d
+                    009E    302 _T2PEROF2	=	0x009e
+                    009F    303 _FMAP	=	0x009f
+                    009F    304 _PSBANK	=	0x009f
+                    00A0    305 _P2	=	0x00a0
+                    00A1    306 _T2OF0	=	0x00a1
+                    00A2    307 _T2OF1	=	0x00a2
+                    00A3    308 _T2OF2	=	0x00a3
+                    00A4    309 _T2CAPLPL	=	0x00a4
+                    00A5    310 _T2CAPHPH	=	0x00a5
+                    00A6    311 _T2TLD	=	0x00a6
+                    00A7    312 _T2THD	=	0x00a7
+                    00A8    313 _IE	=	0x00a8
+                    00A8    314 _IEN0	=	0x00a8
+                    00A9    315 _IP0	=	0x00a9
+                    00AB    316 _FWT	=	0x00ab
+                    00AC    317 _FADDRL	=	0x00ac
+                    00AD    318 _FADDRH	=	0x00ad
+                    00AE    319 _FCTL	=	0x00ae
+                    00AF    320 _FWDATA	=	0x00af
+                    00B1    321 _ENCDI	=	0x00b1
+                    00B2    322 _ENCDO	=	0x00b2
+                    00B3    323 _ENCCS	=	0x00b3
+                    00B4    324 _ADCCON1	=	0x00b4
+                    00B5    325 _ADCCON2	=	0x00b5
+                    00B6    326 _ADCCON3	=	0x00b6
+                    00B7    327 _RCCTL	=	0x00b7
+                    00B8    328 _IEN1	=	0x00b8
+                    00B9    329 _IP1	=	0x00b9
+                    00BA    330 _ADCL	=	0x00ba
+                    00BB    331 _ADCH	=	0x00bb
+                    00BC    332 _RNDL	=	0x00bc
+                    00BD    333 _RNDH	=	0x00bd
+                    00BE    334 _SLEEP	=	0x00be
+                    00C0    335 _IRCON	=	0x00c0
+                    00C1    336 _U0BUF	=	0x00c1
+                    00C2    337 _U0BAUD	=	0x00c2
+                    00C3    338 _T2CNF	=	0x00c3
+                    00C4    339 _U0UCR	=	0x00c4
+                    00C5    340 _U0GCR	=	0x00c5
+                    00C6    341 _CLKCON	=	0x00c6
+                    00C7    342 _MEMCTR	=	0x00c7
+                    00C8    343 _T2CON	=	0x00c8
+                    00C9    344 _WDCTL	=	0x00c9
+                    00CA    345 _T3CNT	=	0x00ca
+                    00CB    346 _T3CTL	=	0x00cb
+                    00CC    347 _T3CCTL0	=	0x00cc
+                    00CD    348 _T3CC0	=	0x00cd
+                    00CE    349 _T3CCTL1	=	0x00ce
+                    00CF    350 _T3CC1	=	0x00cf
+                    00D0    351 _PSW	=	0x00d0
+                    00D1    352 _DMAIRQ	=	0x00d1
+                    00D2    353 _DMA1CFGL	=	0x00d2
+                    00D3    354 _DMA1CFGH	=	0x00d3
+                    00D4    355 _DMA0CFGL	=	0x00d4
+                    00D5    356 _DMA0CFGH	=	0x00d5
+                    00D6    357 _DMAARM	=	0x00d6
+                    00D7    358 _DMAREQ	=	0x00d7
+                    00D8    359 _TIMIF	=	0x00d8
+                    00D9    360 _RFD	=	0x00d9
+                    00DA    361 _T1CC0L	=	0x00da
+                    00DB    362 _T1CC0H	=	0x00db
+                    00DC    363 _T1CC1L	=	0x00dc
+                    00DD    364 _T1CC1H	=	0x00dd
+                    00DE    365 _T1CC2L	=	0x00de
+                    00DF    366 _T1CC2H	=	0x00df
+                    00E0    367 _ACC	=	0x00e0
+                    00E1    368 _RFST	=	0x00e1
+                    00E2    369 _T1CNTL	=	0x00e2
+                    00E3    370 _T1CNTH	=	0x00e3
+                    00E4    371 _T1CTL	=	0x00e4
+                    00E5    372 _T1CCTL0	=	0x00e5
+                    00E6    373 _T1CCTL1	=	0x00e6
+                    00E7    374 _T1CCTL2	=	0x00e7
+                    00E8    375 _IRCON2	=	0x00e8
+                    00E9    376 _RFIF	=	0x00e9
+                    00EA    377 _T4CNT	=	0x00ea
+                    00EB    378 _T4CTL	=	0x00eb
+                    00EC    379 _T4CCTL0	=	0x00ec
+                    00ED    380 _T4CC0	=	0x00ed
+                    00EE    381 _T4CCTL1	=	0x00ee
+                    00EF    382 _T4CC1	=	0x00ef
+                    00F0    383 _B	=	0x00f0
+                    00F1    384 _PERCFG	=	0x00f1
+                    00F2    385 _ADCCFG	=	0x00f2
+                    00F3    386 _P0SEL	=	0x00f3
+                    00F4    387 _P1SEL	=	0x00f4
+                    00F5    388 _P2SEL	=	0x00f5
+                    00F6    389 _P1INP	=	0x00f6
+                    00F7    390 _P2INP	=	0x00f7
+                    00F8    391 _U1CSR	=	0x00f8
+                    00F9    392 _U1BUF	=	0x00f9
+                    00FA    393 _U1BAUD	=	0x00fa
+                    00FB    394 _U1UCR	=	0x00fb
+                    00FC    395 _U1GCR	=	0x00fc
+                    00FD    396 _P0DIR	=	0x00fd
+                    00FE    397 _P1DIR	=	0x00fe
+                    00FF    398 _P2DIR	=	0x00ff
+                            399 ;--------------------------------------------------------
+                            400 ; special function bits
+                            401 ;--------------------------------------------------------
+                            402 	.area RSEG    (ABS,DATA)
+   0000                     403 	.org 0x0000
+                    0087    404 _P0_7	=	0x0087
+                    0086    405 _P0_6	=	0x0086
+                    0085    406 _P0_5	=	0x0085
+                    0084    407 _P0_4	=	0x0084
+                    0083    408 _P0_3	=	0x0083
+                    0082    409 _P0_2	=	0x0082
+                    0081    410 _P0_1	=	0x0081
+                    0080    411 _P0_0	=	0x0080
+                    008F    412 _TCON_URX1IF	=	0x008f
+                    008D    413 _TCON_ADCIF	=	0x008d
+                    008B    414 _TCON_URX0IF	=	0x008b
+                    008A    415 _TCON_IT1	=	0x008a
+                    0089    416 _TCON_RFERRIF	=	0x0089
+                    0088    417 _TCON_IT0	=	0x0088
+                    0090    418 _P1_0	=	0x0090
+                    0091    419 _P1_1	=	0x0091
+                    0092    420 _P1_2	=	0x0092
+                    0093    421 _P1_3	=	0x0093
+                    0094    422 _P1_4	=	0x0094
+                    0095    423 _P1_5	=	0x0095
+                    0096    424 _P1_6	=	0x0096
+                    0097    425 _P1_7	=	0x0097
+                    0099    426 _S0CON_ENCIF_1	=	0x0099
+                    0098    427 _S0CON_ENCIF_0	=	0x0098
+                    00A0    428 _P2_0	=	0x00a0
+                    00A1    429 _P2_1	=	0x00a1
+                    00A2    430 _P2_2	=	0x00a2
+                    00A3    431 _P2_3	=	0x00a3
+                    00A4    432 _P2_4	=	0x00a4
+                    00AF    433 _EA	=	0x00af
+                    00AF    434 _IEN0_EA	=	0x00af
+                    00AD    435 _IEN0_STIE	=	0x00ad
+                    00AC    436 _IEN0_ENCIE	=	0x00ac
+                    00AB    437 _IEN0_URX1IE	=	0x00ab
+                    00AA    438 _IEN0_URX0IE	=	0x00aa
+                    00A9    439 _IEN0_ADCIE	=	0x00a9
+                    00A8    440 _IEN0_RFERRIE	=	0x00a8
+                    00BD    441 _IEN1_P0IE	=	0x00bd
+                    00BC    442 _IEN1_T4IE	=	0x00bc
+                    00BB    443 _IEN1_T3IE	=	0x00bb
+                    00BA    444 _IEN1_T2IE	=	0x00ba
+                    00B9    445 _IEN1_T1IE	=	0x00b9
+                    00B8    446 _IEN1_DMAIE	=	0x00b8
+                    00C7    447 _IRCON_STIF	=	0x00c7
+                    00C5    448 _IRCON_P0IF	=	0x00c5
+                    00C4    449 _IRCON_T4IF	=	0x00c4
+                    00C3    450 _IRCON_T3IF	=	0x00c3
+                    00C2    451 _IRCON_T2IF	=	0x00c2
+                    00C1    452 _IRCON_T1IF	=	0x00c1
+                    00C0    453 _IRCON_DMAIF	=	0x00c0
+                    00D0    454 _P	=	0x00d0
+                    00D1    455 _F1	=	0x00d1
+                    00D2    456 _OV	=	0x00d2
+                    00D3    457 _RS0	=	0x00d3
+                    00D4    458 _RS1	=	0x00d4
+                    00D5    459 _F0	=	0x00d5
+                    00D6    460 _AC	=	0x00d6
+                    00D7    461 _CY	=	0x00d7
+                    00EC    462 _IRCON2_WDTIF	=	0x00ec
+                    00EB    463 _IRCON2_P1IF	=	0x00eb
+                    00EA    464 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    465 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    466 _IRCON2_P2IF	=	0x00e8
+                            467 ;--------------------------------------------------------
+                            468 ; overlayable register banks
+                            469 ;--------------------------------------------------------
+                            470 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     471 	.ds 8
+                            472 ;--------------------------------------------------------
+                            473 ; internal ram data
+                            474 ;--------------------------------------------------------
+                            475 	.area DSEG    (DATA)
+   0000                     476 _count:
+   0000                     477 	.ds 2
+   0002                     478 _seconds:
+   0002                     479 	.ds 2
+                            480 ;--------------------------------------------------------
+                            481 ; overlayable items in internal ram 
+                            482 ;--------------------------------------------------------
+                            483 	.area OSEG    (OVR,DATA)
+                            484 ;--------------------------------------------------------
+                            485 ; indirectly addressable internal ram data
+                            486 ;--------------------------------------------------------
+                            487 	.area ISEG    (DATA)
+                            488 ;--------------------------------------------------------
+                            489 ; absolute internal ram data
+                            490 ;--------------------------------------------------------
+                            491 	.area IABS    (ABS,DATA)
+                            492 	.area IABS    (ABS,DATA)
+                            493 ;--------------------------------------------------------
+                            494 ; bit data
+                            495 ;--------------------------------------------------------
+                            496 	.area BSEG    (BIT)
+   0000                     497 _sleep_flag::
+   0000                     498 	.ds 1
+                            499 ;--------------------------------------------------------
+                            500 ; paged external ram data
+                            501 ;--------------------------------------------------------
+                            502 	.area PSEG    (PAG,XDATA)
+                            503 ;--------------------------------------------------------
+                            504 ; external ram data
+                            505 ;--------------------------------------------------------
+                            506 	.area XSEG    (XDATA)
+                    DF02    507 _MDMCTRL0H	=	0xdf02
+                    DF03    508 _MDMCTRL0L	=	0xdf03
+                    DF04    509 _MDMCTRL1H	=	0xdf04
+                    DF05    510 _MDMCTRL1L	=	0xdf05
+                    DF06    511 _RSSIH	=	0xdf06
+                    DF07    512 _RSSIL	=	0xdf07
+                    DF08    513 _SYNCWORDH	=	0xdf08
+                    DF09    514 _SYNCWORDL	=	0xdf09
+                    DF0A    515 _TXCTRLH	=	0xdf0a
+                    DF0B    516 _TXCTRLL	=	0xdf0b
+                    DF0C    517 _RXCTRL0H	=	0xdf0c
+                    DF0D    518 _RXCTRL0L	=	0xdf0d
+                    DF0E    519 _RXCTRL1H	=	0xdf0e
+                    DF0F    520 _RXCTRL1L	=	0xdf0f
+                    DF10    521 _FSCTRLH	=	0xdf10
+                    DF11    522 _FSCTRLL	=	0xdf11
+                    DF12    523 _CSPX	=	0xdf12
+                    DF13    524 _CSPY	=	0xdf13
+                    DF14    525 _CSPZ	=	0xdf14
+                    DF15    526 _CSPCTRL	=	0xdf15
+                    DF16    527 _CSPT	=	0xdf16
+                    DF17    528 _RFPWR	=	0xdf17
+                    DF20    529 _FSMTCH	=	0xdf20
+                    DF21    530 _FSMTCL	=	0xdf21
+                    DF22    531 _MANANDH	=	0xdf22
+                    DF23    532 _MANANDL	=	0xdf23
+                    DF24    533 _MANORH	=	0xdf24
+                    DF25    534 _MANORL	=	0xdf25
+                    DF26    535 _AGCCTRLH	=	0xdf26
+                    DF27    536 _AGCCTRLL	=	0xdf27
+                    DF39    537 _FSMSTATE	=	0xdf39
+                    DF3A    538 _ADCTSTH	=	0xdf3a
+                    DF3B    539 _ADCTSTL	=	0xdf3b
+                    DF3C    540 _DACTSTH	=	0xdf3c
+                    DF3D    541 _DACTSTL	=	0xdf3d
+                    DF43    542 _IEEE_ADDR0	=	0xdf43
+                    DF44    543 _IEEE_ADDR1	=	0xdf44
+                    DF45    544 _IEEE_ADDR2	=	0xdf45
+                    DF46    545 _IEEE_ADDR3	=	0xdf46
+                    DF47    546 _IEEE_ADDR4	=	0xdf47
+                    DF48    547 _IEEE_ADDR5	=	0xdf48
+                    DF49    548 _IEEE_ADDR6	=	0xdf49
+                    DF4A    549 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    550 _PANIDH	=	0xdf4b
+                    DF4C    551 _PANIDL	=	0xdf4c
+                    DF4D    552 _SHORTADDRH	=	0xdf4d
+                    DF4E    553 _SHORTADDRL	=	0xdf4e
+                    DF4F    554 _IOCFG0	=	0xdf4f
+                    DF50    555 _IOCFG1	=	0xdf50
+                    DF51    556 _IOCFG2	=	0xdf51
+                    DF52    557 _IOCFG3	=	0xdf52
+                    DF53    558 _RXFIFOCNT	=	0xdf53
+                    DF54    559 _FSMTC1	=	0xdf54
+                    DF60    560 _CHVER	=	0xdf60
+                    DF61    561 _CHIPID	=	0xdf61
+                    DF62    562 _RFSTATUS	=	0xdf62
+                    DFC1    563 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    564 _RFD_SHADOW	=	0xdfd9
+                    DFF9    565 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    566 _ADC_SHADOW	=	0xdfba
+   0000                     567 _timer_value:
+   0000                     568 	.ds 4
+                            569 ;--------------------------------------------------------
+                            570 ; absolute external ram data
+                            571 ;--------------------------------------------------------
+                            572 	.area XABS    (ABS,XDATA)
+                            573 ;--------------------------------------------------------
+                            574 ; external initialized ram data
+                            575 ;--------------------------------------------------------
+                            576 	.area XISEG   (XDATA)
+                            577 	.area HOME    (CODE)
+                            578 	.area GSINIT0 (CODE)
+                            579 	.area GSINIT1 (CODE)
+                            580 	.area GSINIT2 (CODE)
+                            581 	.area GSINIT3 (CODE)
+                            582 	.area GSINIT4 (CODE)
+                            583 	.area GSINIT5 (CODE)
+                            584 	.area GSINIT  (CODE)
+                            585 	.area GSFINAL (CODE)
+                            586 	.area CSEG    (CODE)
+                            587 ;--------------------------------------------------------
+                            588 ; global & static initialisations
+                            589 ;--------------------------------------------------------
+                            590 	.area HOME    (CODE)
+                            591 	.area GSINIT  (CODE)
+                            592 	.area GSFINAL (CODE)
+                            593 	.area GSINIT  (CODE)
+                            594 ;	../../cpu/cc2430/dev/clock.c:55: static volatile __data clock_time_t count = 0; /* Uptime in ticks */
+   0000 E4                  595 	clr	a
+   0001 F5*00               596 	mov	_count,a
+   0003 F5*01               597 	mov	(_count + 1),a
+                            598 ;	../../cpu/cc2430/dev/clock.c:56: static volatile __data clock_time_t seconds = 0; /* Uptime in secs */
+   0005 E4                  599 	clr	a
+   0006 F5*02               600 	mov	_seconds,a
+   0008 F5*03               601 	mov	(_seconds + 1),a
+                            602 ;--------------------------------------------------------
+                            603 ; Home
+                            604 ;--------------------------------------------------------
+                            605 	.area HOME    (CODE)
+                            606 	.area HOME    (CODE)
+                            607 ;--------------------------------------------------------
+                            608 ; code
+                            609 ;--------------------------------------------------------
+                            610 	.area CSEG    (CODE)
+                            611 ;------------------------------------------------------------
+                            612 ;Allocation info for local variables in function 'clock_delay_usec'
+                            613 ;------------------------------------------------------------
+                            614 ;len                       Allocated to registers r6 r7 
+                            615 ;------------------------------------------------------------
+                            616 ;	../../cpu/cc2430/dev/clock.c:62: clock_delay_usec(uint16_t len)
+                            617 ;	-----------------------------------------
+                            618 ;	 function clock_delay_usec
+                            619 ;	-----------------------------------------
+   0000                     620 _clock_delay_usec:
+                    0007    621 	ar7 = 0x07
+                    0006    622 	ar6 = 0x06
+                    0005    623 	ar5 = 0x05
+                    0004    624 	ar4 = 0x04
+                    0003    625 	ar3 = 0x03
+                    0002    626 	ar2 = 0x02
+                    0001    627 	ar1 = 0x01
+                    0000    628 	ar0 = 0x00
+   0000 AE 82               629 	mov	r6,dpl
+   0002 AF 83               630 	mov	r7,dph
+                            631 ;	../../cpu/cc2430/dev/clock.c:64: DISABLE_INTERRUPTS();
+   0004 C2 AF               632 	clr	_EA
+                            633 ;	../../cpu/cc2430/dev/clock.c:65: while(len--) {
+   0006                     634 00104$:
+   0006 8E 04               635 	mov	ar4,r6
+   0008 8F 05               636 	mov	ar5,r7
+   000A 1E                  637 	dec	r6
+   000B BE FF 01            638 	cjne	r6,#0xFF,00117$
+   000E 1F                  639 	dec	r7
+   000F                     640 00117$:
+   000F EC                  641 	mov	a,r4
+   0010 4D                  642 	orl	a,r5
+   0011 70 03               643 	jnz	00118$
+   0013 02s00r1D            644 	ljmp	00107$
+   0016                     645 00118$:
+                            646 ;	../../cpu/cc2430/dev/clock.c:66: ASM(nop); ASM(nop);
+                            647 	 
+   0016 00                  648 	 nop 
+                            649 	 
+                            650 	 
+   0017 00                  651 	 nop 
+                            652 	 
+                            653 ;	../../cpu/cc2430/dev/clock.c:67: ASM(nop); ASM(nop);
+                            654 	 
+   0018 00                  655 	 nop 
+                            656 	 
+                            657 	 
+   0019 00                  658 	 nop 
+                            659 	 
+   001A 02s00r06            660 	ljmp	00104$
+                            661 ;	../../cpu/cc2430/dev/clock.c:69: ENABLE_INTERRUPTS();
+   001D                     662 00107$:
+   001D D2 AF               663 	setb	_EA
+   001F 22                  664 	ret
+                            665 ;------------------------------------------------------------
+                            666 ;Allocation info for local variables in function 'clock_wait'
+                            667 ;------------------------------------------------------------
+                            668 ;i                         Allocated to registers r6 r7 
+                            669 ;start                     Allocated to registers r4 r5 
+                            670 ;------------------------------------------------------------
+                            671 ;	../../cpu/cc2430/dev/clock.c:76: clock_wait(clock_time_t i)
+                            672 ;	-----------------------------------------
+                            673 ;	 function clock_wait
+                            674 ;	-----------------------------------------
+   0020                     675 _clock_wait:
+   0020 AE 82               676 	mov	r6,dpl
+   0022 AF 83               677 	mov	r7,dph
+                            678 ;	../../cpu/cc2430/dev/clock.c:80: start = clock_time();
+   0024 C0 07               679 	push	ar7
+   0026 C0 06               680 	push	ar6
+   0028 12s00r59            681 	lcall	_clock_time
+   002B AC 82               682 	mov	r4,dpl
+   002D AD 83               683 	mov	r5,dph
+   002F D0 06               684 	pop	ar6
+   0031 D0 07               685 	pop	ar7
+                            686 ;	../../cpu/cc2430/dev/clock.c:81: while(clock_time() - start < (clock_time_t)i);
+   0033                     687 00101$:
+   0033 C0 07               688 	push	ar7
+   0035 C0 06               689 	push	ar6
+   0037 C0 05               690 	push	ar5
+   0039 C0 04               691 	push	ar4
+   003B 12s00r59            692 	lcall	_clock_time
+   003E AA 82               693 	mov	r2,dpl
+   0040 AB 83               694 	mov	r3,dph
+   0042 D0 04               695 	pop	ar4
+   0044 D0 05               696 	pop	ar5
+   0046 D0 06               697 	pop	ar6
+   0048 D0 07               698 	pop	ar7
+   004A EA                  699 	mov	a,r2
+   004B C3                  700 	clr	c
+   004C 9C                  701 	subb	a,r4
+   004D FA                  702 	mov	r2,a
+   004E EB                  703 	mov	a,r3
+   004F 9D                  704 	subb	a,r5
+   0050 FB                  705 	mov	r3,a
+   0051 C3                  706 	clr	c
+   0052 EA                  707 	mov	a,r2
+   0053 9E                  708 	subb	a,r6
+   0054 EB                  709 	mov	a,r3
+   0055 9F                  710 	subb	a,r7
+   0056 40 DB               711 	jc	00101$
+   0058 22                  712 	ret
+                            713 ;------------------------------------------------------------
+                            714 ;Allocation info for local variables in function 'clock_time'
+                            715 ;------------------------------------------------------------
+                            716 ;	../../cpu/cc2430/dev/clock.c:85: clock_time(void)
+                            717 ;	-----------------------------------------
+                            718 ;	 function clock_time
+                            719 ;	-----------------------------------------
+   0059                     720 _clock_time:
+                            721 ;	../../cpu/cc2430/dev/clock.c:87: return count;
+   0059 85*00 82            722 	mov	dpl,_count
+   005C 85*01 83            723 	mov	dph,(_count + 1)
+   005F 22                  724 	ret
+                            725 ;------------------------------------------------------------
+                            726 ;Allocation info for local variables in function 'clock_seconds'
+                            727 ;------------------------------------------------------------
+                            728 ;	../../cpu/cc2430/dev/clock.c:91: clock_seconds(void)
+                            729 ;	-----------------------------------------
+                            730 ;	 function clock_seconds
+                            731 ;	-----------------------------------------
+   0060                     732 _clock_seconds:
+                            733 ;	../../cpu/cc2430/dev/clock.c:93: return seconds;
+   0060 AC*02               734 	mov	r4,_seconds
+   0062 AD*03               735 	mov	r5,(_seconds + 1)
+   0064 7E 00               736 	mov	r6,#0x00
+   0066 7F 00               737 	mov	r7,#0x00
+   0068 8C 82               738 	mov	dpl,r4
+   006A 8D 83               739 	mov	dph,r5
+   006C 8E F0               740 	mov	b,r6
+   006E EF                  741 	mov	a,r7
+   006F 22                  742 	ret
+                            743 ;------------------------------------------------------------
+                            744 ;Allocation info for local variables in function 'clock_init'
+                            745 ;------------------------------------------------------------
+                            746 ;	../../cpu/cc2430/dev/clock.c:97: clock_init(void)
+                            747 ;	-----------------------------------------
+                            748 ;	 function clock_init
+                            749 ;	-----------------------------------------
+   0070                     750 _clock_init:
+                            751 ;	../../cpu/cc2430/dev/clock.c:99: CLKCON = OSC32K | TICKSPD2 | TICKSPD1; /* tickspeed 500 kHz for timers[1-4] */
+   0070 75 C6 B0            752 	mov	_CLKCON,#0xB0
+                            753 ;	../../cpu/cc2430/dev/clock.c:102: timer_value = ST0;                              /* ST low bits [7:0] */
+   0073 AC 95               754 	mov	r4,_ST0
+   0075 7D 00               755 	mov	r5,#0x00
+   0077 7E 00               756 	mov	r6,#0x00
+   0079 7F 00               757 	mov	r7,#0x00
+                            758 ;	../../cpu/cc2430/dev/clock.c:103: timer_value += ((unsigned long int) ST1) << 8;  /* middle bits [15:8] */
+   007B A8 96               759 	mov	r0,_ST1
+   007D 79 00               760 	mov	r1,#0x00
+   007F 7A 00               761 	mov	r2,#0x00
+   0081 8A 03               762 	mov	ar3,r2
+   0083 89 02               763 	mov	ar2,r1
+   0085 88 01               764 	mov	ar1,r0
+   0087 E4                  765 	clr	a
+   0088 2C                  766 	add	a,r4
+   0089 FC                  767 	mov	r4,a
+   008A E9                  768 	mov	a,r1
+   008B 3D                  769 	addc	a,r5
+   008C FD                  770 	mov	r5,a
+   008D EA                  771 	mov	a,r2
+   008E 3E                  772 	addc	a,r6
+   008F FE                  773 	mov	r6,a
+   0090 EB                  774 	mov	a,r3
+   0091 3F                  775 	addc	a,r7
+   0092 FF                  776 	mov	r7,a
+                            777 ;	../../cpu/cc2430/dev/clock.c:104: timer_value += ((unsigned long int) ST2) << 16; /*   high bits [23:16] */
+   0093 A8 97               778 	mov	r0,_ST2
+   0095 79 00               779 	mov	r1,#0x00
+   0097 89 03               780 	mov	ar3,r1
+   0099 88 02               781 	mov	ar2,r0
+   009B E4                  782 	clr	a
+   009C F9                  783 	mov	r1,a
+   009D 2C                  784 	add	a,r4
+   009E FC                  785 	mov	r4,a
+   009F E9                  786 	mov	a,r1
+   00A0 3D                  787 	addc	a,r5
+   00A1 FD                  788 	mov	r5,a
+   00A2 EA                  789 	mov	a,r2
+   00A3 3E                  790 	addc	a,r6
+   00A4 FE                  791 	mov	r6,a
+   00A5 EB                  792 	mov	a,r3
+   00A6 3F                  793 	addc	a,r7
+   00A7 FF                  794 	mov	r7,a
+                            795 ;	../../cpu/cc2430/dev/clock.c:105: timer_value += TICK_VAL;                        /* Init value 256 */
+   00A8 74 01               796 	mov	a,#0x01
+   00AA 2D                  797 	add	a,r5
+   00AB FD                  798 	mov	r5,a
+   00AC E4                  799 	clr	a
+   00AD 3E                  800 	addc	a,r6
+   00AE FE                  801 	mov	r6,a
+   00AF E4                  802 	clr	a
+   00B0 3F                  803 	addc	a,r7
+   00B1 FF                  804 	mov	r7,a
+   00B2 90s00r00            805 	mov	dptr,#_timer_value
+   00B5 EC                  806 	mov	a,r4
+   00B6 F0                  807 	movx	@dptr,a
+   00B7 A3                  808 	inc	dptr
+   00B8 ED                  809 	mov	a,r5
+   00B9 F0                  810 	movx	@dptr,a
+   00BA A3                  811 	inc	dptr
+   00BB EE                  812 	mov	a,r6
+   00BC F0                  813 	movx	@dptr,a
+   00BD A3                  814 	inc	dptr
+   00BE EF                  815 	mov	a,r7
+   00BF F0                  816 	movx	@dptr,a
+                            817 ;	../../cpu/cc2430/dev/clock.c:106: ST2 = (unsigned char) (timer_value >> 16);
+   00C0 8E 97               818 	mov	_ST2,r6
+                            819 ;	../../cpu/cc2430/dev/clock.c:107: ST1 = (unsigned char) (timer_value >> 8);
+   00C2 8D 96               820 	mov	_ST1,r5
+                            821 ;	../../cpu/cc2430/dev/clock.c:108: ST0 = (unsigned char) timer_value;
+   00C4 8C 95               822 	mov	_ST0,r4
+                            823 ;	../../cpu/cc2430/dev/clock.c:110: IEN0_STIE = 1; /* IEN0.STIE acknowledge Sleep Timer Interrupt */
+   00C6 D2 AD               824 	setb	_IEN0_STIE
+   00C8 22                  825 	ret
+                            826 ;------------------------------------------------------------
+                            827 ;Allocation info for local variables in function 'clock_ISR'
+                            828 ;------------------------------------------------------------
+                            829 ;	../../cpu/cc2430/dev/clock.c:114: clock_ISR(void) __interrupt(ST_VECTOR)
+                            830 ;	-----------------------------------------
+                            831 ;	 function clock_ISR
+                            832 ;	-----------------------------------------
+   00C9                     833 _clock_ISR:
+   00C9 C0 E0               834 	push	acc
+   00CB C0 82               835 	push	dpl
+   00CD C0 83               836 	push	dph
+   00CF C0 07               837 	push	ar7
+   00D1 C0 06               838 	push	ar6
+   00D3 C0 05               839 	push	ar5
+   00D5 C0 04               840 	push	ar4
+   00D7 C0 03               841 	push	ar3
+   00D9 C0 02               842 	push	ar2
+   00DB C0 01               843 	push	ar1
+   00DD C0 00               844 	push	ar0
+   00DF C0 D0               845 	push	psw
+   00E1 75 D0 00            846 	mov	psw,#0x00
+                            847 ;	../../cpu/cc2430/dev/clock.c:116: DISABLE_INTERRUPTS();
+   00E4 C2 AF               848 	clr	_EA
+                            849 ;	../../cpu/cc2430/dev/clock.c:124: SLEEP &= 0xFC;
+   00E6 53 BE FC            850 	anl	_SLEEP,#0xFC
+                            851 ;	../../cpu/cc2430/dev/clock.c:130: timer_value = ST0;
+   00E9 AC 95               852 	mov	r4,_ST0
+   00EB 7D 00               853 	mov	r5,#0x00
+   00ED 7E 00               854 	mov	r6,#0x00
+   00EF 7F 00               855 	mov	r7,#0x00
+                            856 ;	../../cpu/cc2430/dev/clock.c:131: timer_value += ((unsigned long int) ST1) << 8;
+   00F1 A8 96               857 	mov	r0,_ST1
+   00F3 79 00               858 	mov	r1,#0x00
+   00F5 7A 00               859 	mov	r2,#0x00
+   00F7 8A 03               860 	mov	ar3,r2
+   00F9 89 02               861 	mov	ar2,r1
+   00FB 88 01               862 	mov	ar1,r0
+   00FD E4                  863 	clr	a
+   00FE 2C                  864 	add	a,r4
+   00FF FC                  865 	mov	r4,a
+   0100 E9                  866 	mov	a,r1
+   0101 3D                  867 	addc	a,r5
+   0102 FD                  868 	mov	r5,a
+   0103 EA                  869 	mov	a,r2
+   0104 3E                  870 	addc	a,r6
+   0105 FE                  871 	mov	r6,a
+   0106 EB                  872 	mov	a,r3
+   0107 3F                  873 	addc	a,r7
+   0108 FF                  874 	mov	r7,a
+                            875 ;	../../cpu/cc2430/dev/clock.c:132: timer_value += ((unsigned long int) ST2) << 16;
+   0109 A8 97               876 	mov	r0,_ST2
+   010B 79 00               877 	mov	r1,#0x00
+   010D 89 03               878 	mov	ar3,r1
+   010F 88 02               879 	mov	ar2,r0
+   0111 E4                  880 	clr	a
+   0112 F9                  881 	mov	r1,a
+   0113 F8                  882 	mov	r0,a
+   0114 2C                  883 	add	a,r4
+   0115 FC                  884 	mov	r4,a
+   0116 E9                  885 	mov	a,r1
+   0117 3D                  886 	addc	a,r5
+   0118 FD                  887 	mov	r5,a
+   0119 EA                  888 	mov	a,r2
+   011A 3E                  889 	addc	a,r6
+   011B FE                  890 	mov	r6,a
+   011C EB                  891 	mov	a,r3
+   011D 3F                  892 	addc	a,r7
+   011E FF                  893 	mov	r7,a
+                            894 ;	../../cpu/cc2430/dev/clock.c:133: timer_value += TICK_VAL;
+   011F 74 01               895 	mov	a,#0x01
+   0121 2D                  896 	add	a,r5
+   0122 FD                  897 	mov	r5,a
+   0123 E4                  898 	clr	a
+   0124 3E                  899 	addc	a,r6
+   0125 FE                  900 	mov	r6,a
+   0126 E4                  901 	clr	a
+   0127 3F                  902 	addc	a,r7
+   0128 FF                  903 	mov	r7,a
+   0129 90s00r00            904 	mov	dptr,#_timer_value
+   012C EC                  905 	mov	a,r4
+   012D F0                  906 	movx	@dptr,a
+   012E A3                  907 	inc	dptr
+   012F ED                  908 	mov	a,r5
+   0130 F0                  909 	movx	@dptr,a
+   0131 A3                  910 	inc	dptr
+   0132 EE                  911 	mov	a,r6
+   0133 F0                  912 	movx	@dptr,a
+   0134 A3                  913 	inc	dptr
+   0135 EF                  914 	mov	a,r7
+   0136 F0                  915 	movx	@dptr,a
+                            916 ;	../../cpu/cc2430/dev/clock.c:134: ST2 = (unsigned char) (timer_value >> 16);
+   0137 8E 97               917 	mov	_ST2,r6
+                            918 ;	../../cpu/cc2430/dev/clock.c:135: ST1 = (unsigned char) (timer_value >> 8);
+   0139 8D 96               919 	mov	_ST1,r5
+                            920 ;	../../cpu/cc2430/dev/clock.c:136: ST0 = (unsigned char) timer_value;
+   013B 8C 95               921 	mov	_ST0,r4
+                            922 ;	../../cpu/cc2430/dev/clock.c:138: ++count;
+   013D 74 01               923 	mov	a,#0x01
+   013F 25*00               924 	add	a,_count
+   0141 F5*00               925 	mov	_count,a
+   0143 E4                  926 	clr	a
+   0144 35*01               927 	addc	a,(_count + 1)
+   0146 F5*01               928 	mov	(_count + 1),a
+                            929 ;	../../cpu/cc2430/dev/clock.c:148: if(count % CLOCK_CONF_SECOND == 0) {
+   0148 E5*00               930 	mov	a,_count
+   014A 54 7F               931 	anl	a,#0x7F
+   014C 70 0B               932 	jnz	00107$
+                            933 ;	../../cpu/cc2430/dev/clock.c:149: ++seconds;
+   014E 74 01               934 	mov	a,#0x01
+   0150 25*02               935 	add	a,_seconds
+   0152 F5*02               936 	mov	_seconds,a
+   0154 E4                  937 	clr	a
+   0155 35*03               938 	addc	a,(_seconds + 1)
+   0157 F5*03               939 	mov	(_seconds + 1),a
+   0159                     940 00107$:
+                            941 ;	../../cpu/cc2430/dev/clock.c:153: sleep_flag = 1;
+   0159 D2*00               942 	setb	_sleep_flag
+                            943 ;	../../cpu/cc2430/dev/clock.c:161: IRCON_STIF = 0;
+   015B C2 C7               944 	clr	_IRCON_STIF
+                            945 ;	../../cpu/cc2430/dev/clock.c:163: ENABLE_INTERRUPTS();
+   015D D2 AF               946 	setb	_EA
+   015F D0 D0               947 	pop	psw
+   0161 D0 00               948 	pop	ar0
+   0163 D0 01               949 	pop	ar1
+   0165 D0 02               950 	pop	ar2
+   0167 D0 03               951 	pop	ar3
+   0169 D0 04               952 	pop	ar4
+   016B D0 05               953 	pop	ar5
+   016D D0 06               954 	pop	ar6
+   016F D0 07               955 	pop	ar7
+   0171 D0 83               956 	pop	dph
+   0173 D0 82               957 	pop	dpl
+   0175 D0 E0               958 	pop	acc
+   0177 32                  959 	reti
+                            960 ;	eliminated unneeded push/pop b
+                            961 	.area CSEG    (CODE)
+                            962 	.area CONST   (CODE)
+                            963 	.area XINIT   (CODE)
+                            964 	.area CABS    (ABS,CODE)

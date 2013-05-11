@@ -1,0 +1,1563 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:17 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module neighbor_discovery
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _random_rand
+                             13 	.globl _broadcast_send
+                             14 	.globl _broadcast_close
+                             15 	.globl _broadcast_open
+                             16 	.globl _packetbuf_set_datalen
+                             17 	.globl _packetbuf_dataptr
+                             18 	.globl _packetbuf_clear
+                             19 	.globl _ctimer_stop
+                             20 	.globl _ctimer_set
+                             21 	.globl _memcpy
+                             22 	.globl _IRCON2_P2IF
+                             23 	.globl _IRCON2_UTX0IF
+                             24 	.globl _IRCON2_UTX1IF
+                             25 	.globl _IRCON2_P1IF
+                             26 	.globl _IRCON2_WDTIF
+                             27 	.globl _CY
+                             28 	.globl _AC
+                             29 	.globl _F0
+                             30 	.globl _RS1
+                             31 	.globl _RS0
+                             32 	.globl _OV
+                             33 	.globl _F1
+                             34 	.globl _P
+                             35 	.globl _IRCON_DMAIF
+                             36 	.globl _IRCON_T1IF
+                             37 	.globl _IRCON_T2IF
+                             38 	.globl _IRCON_T3IF
+                             39 	.globl _IRCON_T4IF
+                             40 	.globl _IRCON_P0IF
+                             41 	.globl _IRCON_STIF
+                             42 	.globl _IEN1_DMAIE
+                             43 	.globl _IEN1_T1IE
+                             44 	.globl _IEN1_T2IE
+                             45 	.globl _IEN1_T3IE
+                             46 	.globl _IEN1_T4IE
+                             47 	.globl _IEN1_P0IE
+                             48 	.globl _IEN0_RFERRIE
+                             49 	.globl _IEN0_ADCIE
+                             50 	.globl _IEN0_URX0IE
+                             51 	.globl _IEN0_URX1IE
+                             52 	.globl _IEN0_ENCIE
+                             53 	.globl _IEN0_STIE
+                             54 	.globl _IEN0_EA
+                             55 	.globl _EA
+                             56 	.globl _P2_4
+                             57 	.globl _P2_3
+                             58 	.globl _P2_2
+                             59 	.globl _P2_1
+                             60 	.globl _P2_0
+                             61 	.globl _S0CON_ENCIF_0
+                             62 	.globl _S0CON_ENCIF_1
+                             63 	.globl _P1_7
+                             64 	.globl _P1_6
+                             65 	.globl _P1_5
+                             66 	.globl _P1_4
+                             67 	.globl _P1_3
+                             68 	.globl _P1_2
+                             69 	.globl _P1_1
+                             70 	.globl _P1_0
+                             71 	.globl _TCON_IT0
+                             72 	.globl _TCON_RFERRIF
+                             73 	.globl _TCON_IT1
+                             74 	.globl _TCON_URX0IF
+                             75 	.globl _TCON_ADCIF
+                             76 	.globl _TCON_URX1IF
+                             77 	.globl _P0_0
+                             78 	.globl _P0_1
+                             79 	.globl _P0_2
+                             80 	.globl _P0_3
+                             81 	.globl _P0_4
+                             82 	.globl _P0_5
+                             83 	.globl _P0_6
+                             84 	.globl _P0_7
+                             85 	.globl _P2DIR
+                             86 	.globl _P1DIR
+                             87 	.globl _P0DIR
+                             88 	.globl _U1GCR
+                             89 	.globl _U1UCR
+                             90 	.globl _U1BAUD
+                             91 	.globl _U1BUF
+                             92 	.globl _U1CSR
+                             93 	.globl _P2INP
+                             94 	.globl _P1INP
+                             95 	.globl _P2SEL
+                             96 	.globl _P1SEL
+                             97 	.globl _P0SEL
+                             98 	.globl _ADCCFG
+                             99 	.globl _PERCFG
+                            100 	.globl _B
+                            101 	.globl _T4CC1
+                            102 	.globl _T4CCTL1
+                            103 	.globl _T4CC0
+                            104 	.globl _T4CCTL0
+                            105 	.globl _T4CTL
+                            106 	.globl _T4CNT
+                            107 	.globl _RFIF
+                            108 	.globl _IRCON2
+                            109 	.globl _T1CCTL2
+                            110 	.globl _T1CCTL1
+                            111 	.globl _T1CCTL0
+                            112 	.globl _T1CTL
+                            113 	.globl _T1CNTH
+                            114 	.globl _T1CNTL
+                            115 	.globl _RFST
+                            116 	.globl _ACC
+                            117 	.globl _T1CC2H
+                            118 	.globl _T1CC2L
+                            119 	.globl _T1CC1H
+                            120 	.globl _T1CC1L
+                            121 	.globl _T1CC0H
+                            122 	.globl _T1CC0L
+                            123 	.globl _RFD
+                            124 	.globl _TIMIF
+                            125 	.globl _DMAREQ
+                            126 	.globl _DMAARM
+                            127 	.globl _DMA0CFGH
+                            128 	.globl _DMA0CFGL
+                            129 	.globl _DMA1CFGH
+                            130 	.globl _DMA1CFGL
+                            131 	.globl _DMAIRQ
+                            132 	.globl _PSW
+                            133 	.globl _T3CC1
+                            134 	.globl _T3CCTL1
+                            135 	.globl _T3CC0
+                            136 	.globl _T3CCTL0
+                            137 	.globl _T3CTL
+                            138 	.globl _T3CNT
+                            139 	.globl _WDCTL
+                            140 	.globl _T2CON
+                            141 	.globl _MEMCTR
+                            142 	.globl _CLKCON
+                            143 	.globl _U0GCR
+                            144 	.globl _U0UCR
+                            145 	.globl _T2CNF
+                            146 	.globl _U0BAUD
+                            147 	.globl _U0BUF
+                            148 	.globl _IRCON
+                            149 	.globl _SLEEP
+                            150 	.globl _RNDH
+                            151 	.globl _RNDL
+                            152 	.globl _ADCH
+                            153 	.globl _ADCL
+                            154 	.globl _IP1
+                            155 	.globl _IEN1
+                            156 	.globl _RCCTL
+                            157 	.globl _ADCCON3
+                            158 	.globl _ADCCON2
+                            159 	.globl _ADCCON1
+                            160 	.globl _ENCCS
+                            161 	.globl _ENCDO
+                            162 	.globl _ENCDI
+                            163 	.globl _FWDATA
+                            164 	.globl _FCTL
+                            165 	.globl _FADDRH
+                            166 	.globl _FADDRL
+                            167 	.globl _FWT
+                            168 	.globl _IP0
+                            169 	.globl _IEN0
+                            170 	.globl _IE
+                            171 	.globl _T2THD
+                            172 	.globl _T2TLD
+                            173 	.globl _T2CAPHPH
+                            174 	.globl _T2CAPLPL
+                            175 	.globl _T2OF2
+                            176 	.globl _T2OF1
+                            177 	.globl _T2OF0
+                            178 	.globl _P2
+                            179 	.globl _PSBANK
+                            180 	.globl _FMAP
+                            181 	.globl _T2PEROF2
+                            182 	.globl _T2PEROF1
+                            183 	.globl _T2PEROF0
+                            184 	.globl _S1CON
+                            185 	.globl _IEN2
+                            186 	.globl _HSRC
+                            187 	.globl _S0CON
+                            188 	.globl _ST2
+                            189 	.globl _ST1
+                            190 	.globl _ST0
+                            191 	.globl _T2CMP
+                            192 	.globl __XPAGE
+                            193 	.globl _DPS
+                            194 	.globl _RFIM
+                            195 	.globl _P1
+                            196 	.globl _P0INP
+                            197 	.globl _P1IEN
+                            198 	.globl _PICTL
+                            199 	.globl _P2IFG
+                            200 	.globl _P1IFG
+                            201 	.globl _P0IFG
+                            202 	.globl _TCON
+                            203 	.globl _PCON
+                            204 	.globl _U0CSR
+                            205 	.globl _DPH1
+                            206 	.globl _DPL1
+                            207 	.globl _DPH0
+                            208 	.globl _DPL0
+                            209 	.globl _SP
+                            210 	.globl _P0
+                            211 	.globl _ADC_SHADOW
+                            212 	.globl _U1BUF_SHADOW
+                            213 	.globl _RFD_SHADOW
+                            214 	.globl _U0BUF_SHADOW
+                            215 	.globl _RFSTATUS
+                            216 	.globl _CHIPID
+                            217 	.globl _CHVER
+                            218 	.globl _FSMTC1
+                            219 	.globl _RXFIFOCNT
+                            220 	.globl _IOCFG3
+                            221 	.globl _IOCFG2
+                            222 	.globl _IOCFG1
+                            223 	.globl _IOCFG0
+                            224 	.globl _SHORTADDRL
+                            225 	.globl _SHORTADDRH
+                            226 	.globl _PANIDL
+                            227 	.globl _PANIDH
+                            228 	.globl _IEEE_ADDR7
+                            229 	.globl _IEEE_ADDR6
+                            230 	.globl _IEEE_ADDR5
+                            231 	.globl _IEEE_ADDR4
+                            232 	.globl _IEEE_ADDR3
+                            233 	.globl _IEEE_ADDR2
+                            234 	.globl _IEEE_ADDR1
+                            235 	.globl _IEEE_ADDR0
+                            236 	.globl _DACTSTL
+                            237 	.globl _DACTSTH
+                            238 	.globl _ADCTSTL
+                            239 	.globl _ADCTSTH
+                            240 	.globl _FSMSTATE
+                            241 	.globl _AGCCTRLL
+                            242 	.globl _AGCCTRLH
+                            243 	.globl _MANORL
+                            244 	.globl _MANORH
+                            245 	.globl _MANANDL
+                            246 	.globl _MANANDH
+                            247 	.globl _FSMTCL
+                            248 	.globl _FSMTCH
+                            249 	.globl _RFPWR
+                            250 	.globl _CSPT
+                            251 	.globl _CSPCTRL
+                            252 	.globl _CSPZ
+                            253 	.globl _CSPY
+                            254 	.globl _CSPX
+                            255 	.globl _FSCTRLL
+                            256 	.globl _FSCTRLH
+                            257 	.globl _RXCTRL1L
+                            258 	.globl _RXCTRL1H
+                            259 	.globl _RXCTRL0L
+                            260 	.globl _RXCTRL0H
+                            261 	.globl _TXCTRLL
+                            262 	.globl _TXCTRLH
+                            263 	.globl _SYNCWORDL
+                            264 	.globl _SYNCWORDH
+                            265 	.globl _RSSIL
+                            266 	.globl _RSSIH
+                            267 	.globl _MDMCTRL1L
+                            268 	.globl _MDMCTRL1H
+                            269 	.globl _MDMCTRL0L
+                            270 	.globl _MDMCTRL0H
+                            271 	.globl _neighbor_discovery_open
+                            272 	.globl _neighbor_discovery_close
+                            273 	.globl _neighbor_discovery_set_val
+                            274 	.globl _neighbor_discovery_start
+                            275 ;--------------------------------------------------------
+                            276 ; special function registers
+                            277 ;--------------------------------------------------------
+                            278 	.area RSEG    (ABS,DATA)
+   0000                     279 	.org 0x0000
+                    0080    280 _P0	=	0x0080
+                    0081    281 _SP	=	0x0081
+                    0082    282 _DPL0	=	0x0082
+                    0083    283 _DPH0	=	0x0083
+                    0084    284 _DPL1	=	0x0084
+                    0085    285 _DPH1	=	0x0085
+                    0086    286 _U0CSR	=	0x0086
+                    0087    287 _PCON	=	0x0087
+                    0088    288 _TCON	=	0x0088
+                    0089    289 _P0IFG	=	0x0089
+                    008A    290 _P1IFG	=	0x008a
+                    008B    291 _P2IFG	=	0x008b
+                    008C    292 _PICTL	=	0x008c
+                    008D    293 _P1IEN	=	0x008d
+                    008F    294 _P0INP	=	0x008f
+                    0090    295 _P1	=	0x0090
+                    0091    296 _RFIM	=	0x0091
+                    0092    297 _DPS	=	0x0092
+                    0093    298 __XPAGE	=	0x0093
+                    0094    299 _T2CMP	=	0x0094
+                    0095    300 _ST0	=	0x0095
+                    0096    301 _ST1	=	0x0096
+                    0097    302 _ST2	=	0x0097
+                    0098    303 _S0CON	=	0x0098
+                    0099    304 _HSRC	=	0x0099
+                    009A    305 _IEN2	=	0x009a
+                    009B    306 _S1CON	=	0x009b
+                    009C    307 _T2PEROF0	=	0x009c
+                    009D    308 _T2PEROF1	=	0x009d
+                    009E    309 _T2PEROF2	=	0x009e
+                    009F    310 _FMAP	=	0x009f
+                    009F    311 _PSBANK	=	0x009f
+                    00A0    312 _P2	=	0x00a0
+                    00A1    313 _T2OF0	=	0x00a1
+                    00A2    314 _T2OF1	=	0x00a2
+                    00A3    315 _T2OF2	=	0x00a3
+                    00A4    316 _T2CAPLPL	=	0x00a4
+                    00A5    317 _T2CAPHPH	=	0x00a5
+                    00A6    318 _T2TLD	=	0x00a6
+                    00A7    319 _T2THD	=	0x00a7
+                    00A8    320 _IE	=	0x00a8
+                    00A8    321 _IEN0	=	0x00a8
+                    00A9    322 _IP0	=	0x00a9
+                    00AB    323 _FWT	=	0x00ab
+                    00AC    324 _FADDRL	=	0x00ac
+                    00AD    325 _FADDRH	=	0x00ad
+                    00AE    326 _FCTL	=	0x00ae
+                    00AF    327 _FWDATA	=	0x00af
+                    00B1    328 _ENCDI	=	0x00b1
+                    00B2    329 _ENCDO	=	0x00b2
+                    00B3    330 _ENCCS	=	0x00b3
+                    00B4    331 _ADCCON1	=	0x00b4
+                    00B5    332 _ADCCON2	=	0x00b5
+                    00B6    333 _ADCCON3	=	0x00b6
+                    00B7    334 _RCCTL	=	0x00b7
+                    00B8    335 _IEN1	=	0x00b8
+                    00B9    336 _IP1	=	0x00b9
+                    00BA    337 _ADCL	=	0x00ba
+                    00BB    338 _ADCH	=	0x00bb
+                    00BC    339 _RNDL	=	0x00bc
+                    00BD    340 _RNDH	=	0x00bd
+                    00BE    341 _SLEEP	=	0x00be
+                    00C0    342 _IRCON	=	0x00c0
+                    00C1    343 _U0BUF	=	0x00c1
+                    00C2    344 _U0BAUD	=	0x00c2
+                    00C3    345 _T2CNF	=	0x00c3
+                    00C4    346 _U0UCR	=	0x00c4
+                    00C5    347 _U0GCR	=	0x00c5
+                    00C6    348 _CLKCON	=	0x00c6
+                    00C7    349 _MEMCTR	=	0x00c7
+                    00C8    350 _T2CON	=	0x00c8
+                    00C9    351 _WDCTL	=	0x00c9
+                    00CA    352 _T3CNT	=	0x00ca
+                    00CB    353 _T3CTL	=	0x00cb
+                    00CC    354 _T3CCTL0	=	0x00cc
+                    00CD    355 _T3CC0	=	0x00cd
+                    00CE    356 _T3CCTL1	=	0x00ce
+                    00CF    357 _T3CC1	=	0x00cf
+                    00D0    358 _PSW	=	0x00d0
+                    00D1    359 _DMAIRQ	=	0x00d1
+                    00D2    360 _DMA1CFGL	=	0x00d2
+                    00D3    361 _DMA1CFGH	=	0x00d3
+                    00D4    362 _DMA0CFGL	=	0x00d4
+                    00D5    363 _DMA0CFGH	=	0x00d5
+                    00D6    364 _DMAARM	=	0x00d6
+                    00D7    365 _DMAREQ	=	0x00d7
+                    00D8    366 _TIMIF	=	0x00d8
+                    00D9    367 _RFD	=	0x00d9
+                    00DA    368 _T1CC0L	=	0x00da
+                    00DB    369 _T1CC0H	=	0x00db
+                    00DC    370 _T1CC1L	=	0x00dc
+                    00DD    371 _T1CC1H	=	0x00dd
+                    00DE    372 _T1CC2L	=	0x00de
+                    00DF    373 _T1CC2H	=	0x00df
+                    00E0    374 _ACC	=	0x00e0
+                    00E1    375 _RFST	=	0x00e1
+                    00E2    376 _T1CNTL	=	0x00e2
+                    00E3    377 _T1CNTH	=	0x00e3
+                    00E4    378 _T1CTL	=	0x00e4
+                    00E5    379 _T1CCTL0	=	0x00e5
+                    00E6    380 _T1CCTL1	=	0x00e6
+                    00E7    381 _T1CCTL2	=	0x00e7
+                    00E8    382 _IRCON2	=	0x00e8
+                    00E9    383 _RFIF	=	0x00e9
+                    00EA    384 _T4CNT	=	0x00ea
+                    00EB    385 _T4CTL	=	0x00eb
+                    00EC    386 _T4CCTL0	=	0x00ec
+                    00ED    387 _T4CC0	=	0x00ed
+                    00EE    388 _T4CCTL1	=	0x00ee
+                    00EF    389 _T4CC1	=	0x00ef
+                    00F0    390 _B	=	0x00f0
+                    00F1    391 _PERCFG	=	0x00f1
+                    00F2    392 _ADCCFG	=	0x00f2
+                    00F3    393 _P0SEL	=	0x00f3
+                    00F4    394 _P1SEL	=	0x00f4
+                    00F5    395 _P2SEL	=	0x00f5
+                    00F6    396 _P1INP	=	0x00f6
+                    00F7    397 _P2INP	=	0x00f7
+                    00F8    398 _U1CSR	=	0x00f8
+                    00F9    399 _U1BUF	=	0x00f9
+                    00FA    400 _U1BAUD	=	0x00fa
+                    00FB    401 _U1UCR	=	0x00fb
+                    00FC    402 _U1GCR	=	0x00fc
+                    00FD    403 _P0DIR	=	0x00fd
+                    00FE    404 _P1DIR	=	0x00fe
+                    00FF    405 _P2DIR	=	0x00ff
+                            406 ;--------------------------------------------------------
+                            407 ; special function bits
+                            408 ;--------------------------------------------------------
+                            409 	.area RSEG    (ABS,DATA)
+   0000                     410 	.org 0x0000
+                    0087    411 _P0_7	=	0x0087
+                    0086    412 _P0_6	=	0x0086
+                    0085    413 _P0_5	=	0x0085
+                    0084    414 _P0_4	=	0x0084
+                    0083    415 _P0_3	=	0x0083
+                    0082    416 _P0_2	=	0x0082
+                    0081    417 _P0_1	=	0x0081
+                    0080    418 _P0_0	=	0x0080
+                    008F    419 _TCON_URX1IF	=	0x008f
+                    008D    420 _TCON_ADCIF	=	0x008d
+                    008B    421 _TCON_URX0IF	=	0x008b
+                    008A    422 _TCON_IT1	=	0x008a
+                    0089    423 _TCON_RFERRIF	=	0x0089
+                    0088    424 _TCON_IT0	=	0x0088
+                    0090    425 _P1_0	=	0x0090
+                    0091    426 _P1_1	=	0x0091
+                    0092    427 _P1_2	=	0x0092
+                    0093    428 _P1_3	=	0x0093
+                    0094    429 _P1_4	=	0x0094
+                    0095    430 _P1_5	=	0x0095
+                    0096    431 _P1_6	=	0x0096
+                    0097    432 _P1_7	=	0x0097
+                    0099    433 _S0CON_ENCIF_1	=	0x0099
+                    0098    434 _S0CON_ENCIF_0	=	0x0098
+                    00A0    435 _P2_0	=	0x00a0
+                    00A1    436 _P2_1	=	0x00a1
+                    00A2    437 _P2_2	=	0x00a2
+                    00A3    438 _P2_3	=	0x00a3
+                    00A4    439 _P2_4	=	0x00a4
+                    00AF    440 _EA	=	0x00af
+                    00AF    441 _IEN0_EA	=	0x00af
+                    00AD    442 _IEN0_STIE	=	0x00ad
+                    00AC    443 _IEN0_ENCIE	=	0x00ac
+                    00AB    444 _IEN0_URX1IE	=	0x00ab
+                    00AA    445 _IEN0_URX0IE	=	0x00aa
+                    00A9    446 _IEN0_ADCIE	=	0x00a9
+                    00A8    447 _IEN0_RFERRIE	=	0x00a8
+                    00BD    448 _IEN1_P0IE	=	0x00bd
+                    00BC    449 _IEN1_T4IE	=	0x00bc
+                    00BB    450 _IEN1_T3IE	=	0x00bb
+                    00BA    451 _IEN1_T2IE	=	0x00ba
+                    00B9    452 _IEN1_T1IE	=	0x00b9
+                    00B8    453 _IEN1_DMAIE	=	0x00b8
+                    00C7    454 _IRCON_STIF	=	0x00c7
+                    00C5    455 _IRCON_P0IF	=	0x00c5
+                    00C4    456 _IRCON_T4IF	=	0x00c4
+                    00C3    457 _IRCON_T3IF	=	0x00c3
+                    00C2    458 _IRCON_T2IF	=	0x00c2
+                    00C1    459 _IRCON_T1IF	=	0x00c1
+                    00C0    460 _IRCON_DMAIF	=	0x00c0
+                    00D0    461 _P	=	0x00d0
+                    00D1    462 _F1	=	0x00d1
+                    00D2    463 _OV	=	0x00d2
+                    00D3    464 _RS0	=	0x00d3
+                    00D4    465 _RS1	=	0x00d4
+                    00D5    466 _F0	=	0x00d5
+                    00D6    467 _AC	=	0x00d6
+                    00D7    468 _CY	=	0x00d7
+                    00EC    469 _IRCON2_WDTIF	=	0x00ec
+                    00EB    470 _IRCON2_P1IF	=	0x00eb
+                    00EA    471 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    472 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    473 _IRCON2_P2IF	=	0x00e8
+                            474 ;--------------------------------------------------------
+                            475 ; overlayable register banks
+                            476 ;--------------------------------------------------------
+                            477 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     478 	.ds 8
+                            479 ;--------------------------------------------------------
+                            480 ; internal ram data
+                            481 ;--------------------------------------------------------
+                            482 	.area DSEG    (DATA)
+                            483 ;--------------------------------------------------------
+                            484 ; overlayable items in internal ram 
+                            485 ;--------------------------------------------------------
+                            486 	.area OSEG    (OVR,DATA)
+                            487 ;--------------------------------------------------------
+                            488 ; indirectly addressable internal ram data
+                            489 ;--------------------------------------------------------
+                            490 	.area ISEG    (DATA)
+                            491 ;--------------------------------------------------------
+                            492 ; absolute internal ram data
+                            493 ;--------------------------------------------------------
+                            494 	.area IABS    (ABS,DATA)
+                            495 	.area IABS    (ABS,DATA)
+                            496 ;--------------------------------------------------------
+                            497 ; bit data
+                            498 ;--------------------------------------------------------
+                            499 	.area BSEG    (BIT)
+                            500 ;--------------------------------------------------------
+                            501 ; paged external ram data
+                            502 ;--------------------------------------------------------
+                            503 	.area PSEG    (PAG,XDATA)
+                            504 ;--------------------------------------------------------
+                            505 ; external ram data
+                            506 ;--------------------------------------------------------
+                            507 	.area XSEG    (XDATA)
+                    DF02    508 _MDMCTRL0H	=	0xdf02
+                    DF03    509 _MDMCTRL0L	=	0xdf03
+                    DF04    510 _MDMCTRL1H	=	0xdf04
+                    DF05    511 _MDMCTRL1L	=	0xdf05
+                    DF06    512 _RSSIH	=	0xdf06
+                    DF07    513 _RSSIL	=	0xdf07
+                    DF08    514 _SYNCWORDH	=	0xdf08
+                    DF09    515 _SYNCWORDL	=	0xdf09
+                    DF0A    516 _TXCTRLH	=	0xdf0a
+                    DF0B    517 _TXCTRLL	=	0xdf0b
+                    DF0C    518 _RXCTRL0H	=	0xdf0c
+                    DF0D    519 _RXCTRL0L	=	0xdf0d
+                    DF0E    520 _RXCTRL1H	=	0xdf0e
+                    DF0F    521 _RXCTRL1L	=	0xdf0f
+                    DF10    522 _FSCTRLH	=	0xdf10
+                    DF11    523 _FSCTRLL	=	0xdf11
+                    DF12    524 _CSPX	=	0xdf12
+                    DF13    525 _CSPY	=	0xdf13
+                    DF14    526 _CSPZ	=	0xdf14
+                    DF15    527 _CSPCTRL	=	0xdf15
+                    DF16    528 _CSPT	=	0xdf16
+                    DF17    529 _RFPWR	=	0xdf17
+                    DF20    530 _FSMTCH	=	0xdf20
+                    DF21    531 _FSMTCL	=	0xdf21
+                    DF22    532 _MANANDH	=	0xdf22
+                    DF23    533 _MANANDL	=	0xdf23
+                    DF24    534 _MANORH	=	0xdf24
+                    DF25    535 _MANORL	=	0xdf25
+                    DF26    536 _AGCCTRLH	=	0xdf26
+                    DF27    537 _AGCCTRLL	=	0xdf27
+                    DF39    538 _FSMSTATE	=	0xdf39
+                    DF3A    539 _ADCTSTH	=	0xdf3a
+                    DF3B    540 _ADCTSTL	=	0xdf3b
+                    DF3C    541 _DACTSTH	=	0xdf3c
+                    DF3D    542 _DACTSTL	=	0xdf3d
+                    DF43    543 _IEEE_ADDR0	=	0xdf43
+                    DF44    544 _IEEE_ADDR1	=	0xdf44
+                    DF45    545 _IEEE_ADDR2	=	0xdf45
+                    DF46    546 _IEEE_ADDR3	=	0xdf46
+                    DF47    547 _IEEE_ADDR4	=	0xdf47
+                    DF48    548 _IEEE_ADDR5	=	0xdf48
+                    DF49    549 _IEEE_ADDR6	=	0xdf49
+                    DF4A    550 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    551 _PANIDH	=	0xdf4b
+                    DF4C    552 _PANIDL	=	0xdf4c
+                    DF4D    553 _SHORTADDRH	=	0xdf4d
+                    DF4E    554 _SHORTADDRL	=	0xdf4e
+                    DF4F    555 _IOCFG0	=	0xdf4f
+                    DF50    556 _IOCFG1	=	0xdf50
+                    DF51    557 _IOCFG2	=	0xdf51
+                    DF52    558 _IOCFG3	=	0xdf52
+                    DF53    559 _RXFIFOCNT	=	0xdf53
+                    DF54    560 _FSMTC1	=	0xdf54
+                    DF60    561 _CHVER	=	0xdf60
+                    DF61    562 _CHIPID	=	0xdf61
+                    DF62    563 _RFSTATUS	=	0xdf62
+                    DFC1    564 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    565 _RFD_SHADOW	=	0xdfd9
+                    DFF9    566 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    567 _ADC_SHADOW	=	0xdfba
+                            568 ;--------------------------------------------------------
+                            569 ; absolute external ram data
+                            570 ;--------------------------------------------------------
+                            571 	.area XABS    (ABS,XDATA)
+                            572 ;--------------------------------------------------------
+                            573 ; external initialized ram data
+                            574 ;--------------------------------------------------------
+                            575 	.area XISEG   (XDATA)
+                            576 	.area HOME    (CODE)
+                            577 	.area GSINIT0 (CODE)
+                            578 	.area GSINIT1 (CODE)
+                            579 	.area GSINIT2 (CODE)
+                            580 	.area GSINIT3 (CODE)
+                            581 	.area GSINIT4 (CODE)
+                            582 	.area GSINIT5 (CODE)
+                            583 	.area GSINIT  (CODE)
+                            584 	.area GSFINAL (CODE)
+                            585 	.area CSEG    (CODE)
+                            586 ;--------------------------------------------------------
+                            587 ; global & static initialisations
+                            588 ;--------------------------------------------------------
+                            589 	.area HOME    (CODE)
+                            590 	.area GSINIT  (CODE)
+                            591 	.area GSFINAL (CODE)
+                            592 	.area GSINIT  (CODE)
+                            593 ;--------------------------------------------------------
+                            594 ; Home
+                            595 ;--------------------------------------------------------
+                            596 	.area HOME    (CODE)
+                            597 	.area HOME    (CODE)
+                            598 ;--------------------------------------------------------
+                            599 ; code
+                            600 ;--------------------------------------------------------
+                            601 	.area CSEG    (CODE)
+                            602 ;------------------------------------------------------------
+                            603 ;Allocation info for local variables in function 'send_adv'
+                            604 ;------------------------------------------------------------
+                            605 ;ptr                       Allocated to registers r5 r6 r7 
+                            606 ;c                         Allocated to stack - _bp +1
+                            607 ;hdr                       Allocated to registers r2 r3 r4 
+                            608 ;------------------------------------------------------------
+                            609 ;	../../core/net/rime/neighbor-discovery.c:77: send_adv(void *ptr)
+                            610 ;	-----------------------------------------
+                            611 ;	 function send_adv
+                            612 ;	-----------------------------------------
+   0000                     613 _send_adv:
+                    0007    614 	ar7 = 0x07
+                    0006    615 	ar6 = 0x06
+                    0005    616 	ar5 = 0x05
+                    0004    617 	ar4 = 0x04
+                    0003    618 	ar3 = 0x03
+                    0002    619 	ar2 = 0x02
+                    0001    620 	ar1 = 0x01
+                    0000    621 	ar0 = 0x00
+   0000 C0*00               622 	push	_bp
+   0002 85 81*00            623 	mov	_bp,sp
+   0005 05 81               624 	inc	sp
+   0007 05 81               625 	inc	sp
+   0009 05 81               626 	inc	sp
+   000B AD 82               627 	mov	r5,dpl
+   000D AE 83               628 	mov	r6,dph
+   000F AF F0               629 	mov	r7,b
+                            630 ;	../../core/net/rime/neighbor-discovery.c:79: struct neighbor_discovery_conn *c = ptr;
+   0011 A8*00               631 	mov	r0,_bp
+   0013 08                  632 	inc	r0
+   0014 A6 05               633 	mov	@r0,ar5
+   0016 08                  634 	inc	r0
+   0017 A6 06               635 	mov	@r0,ar6
+   0019 08                  636 	inc	r0
+   001A A6 07               637 	mov	@r0,ar7
+                            638 ;	../../core/net/rime/neighbor-discovery.c:82: packetbuf_clear();
+   001C 12s00r00            639 	lcall	_packetbuf_clear
+                            640 ;	../../core/net/rime/neighbor-discovery.c:83: packetbuf_set_datalen(sizeof(struct adv_msg));
+   001F 90 00 02            641 	mov	dptr,#0x0002
+   0022 12s00r00            642 	lcall	_packetbuf_set_datalen
+                            643 ;	../../core/net/rime/neighbor-discovery.c:84: hdr = packetbuf_dataptr();
+   0025 12s00r00            644 	lcall	_packetbuf_dataptr
+   0028 AA 82               645 	mov	r2,dpl
+   002A AB 83               646 	mov	r3,dph
+   002C AC F0               647 	mov	r4,b
+                            648 ;	../../core/net/rime/neighbor-discovery.c:85: hdr->val = c->val;
+   002E A8*00               649 	mov	r0,_bp
+   0030 08                  650 	inc	r0
+   0031 74 44               651 	mov	a,#0x44
+   0033 26                  652 	add	a,@r0
+   0034 FD                  653 	mov	r5,a
+   0035 E4                  654 	clr	a
+   0036 08                  655 	inc	r0
+   0037 36                  656 	addc	a,@r0
+   0038 FE                  657 	mov	r6,a
+   0039 08                  658 	inc	r0
+   003A 86 07               659 	mov	ar7,@r0
+   003C 8D 82               660 	mov	dpl,r5
+   003E 8E 83               661 	mov	dph,r6
+   0040 8F F0               662 	mov	b,r7
+   0042 12s00r00            663 	lcall	__gptrget
+   0045 FD                  664 	mov	r5,a
+   0046 A3                  665 	inc	dptr
+   0047 12s00r00            666 	lcall	__gptrget
+   004A FE                  667 	mov	r6,a
+   004B 8A 82               668 	mov	dpl,r2
+   004D 8B 83               669 	mov	dph,r3
+   004F 8C F0               670 	mov	b,r4
+   0051 ED                  671 	mov	a,r5
+   0052 12s00r00            672 	lcall	__gptrput
+   0055 A3                  673 	inc	dptr
+   0056 EE                  674 	mov	a,r6
+   0057 12s00r00            675 	lcall	__gptrput
+                            676 ;	../../core/net/rime/neighbor-discovery.c:86: broadcast_send(&c->c);
+   005A A8*00               677 	mov	r0,_bp
+   005C 08                  678 	inc	r0
+   005D 86 82               679 	mov	dpl,@r0
+   005F 08                  680 	inc	r0
+   0060 86 83               681 	mov	dph,@r0
+   0062 08                  682 	inc	r0
+   0063 86 F0               683 	mov	b,@r0
+   0065 12s00r00            684 	lcall	_broadcast_send
+                            685 ;	../../core/net/rime/neighbor-discovery.c:87: if(c->u->sent) {
+   0068 A8*00               686 	mov	r0,_bp
+   006A 08                  687 	inc	r0
+   006B 74 0F               688 	mov	a,#0x0F
+   006D 26                  689 	add	a,@r0
+   006E FD                  690 	mov	r5,a
+   006F E4                  691 	clr	a
+   0070 08                  692 	inc	r0
+   0071 36                  693 	addc	a,@r0
+   0072 FE                  694 	mov	r6,a
+   0073 08                  695 	inc	r0
+   0074 86 07               696 	mov	ar7,@r0
+   0076 8D 82               697 	mov	dpl,r5
+   0078 8E 83               698 	mov	dph,r6
+   007A 8F F0               699 	mov	b,r7
+   007C 12s00r00            700 	lcall	__gptrget
+   007F FD                  701 	mov	r5,a
+   0080 A3                  702 	inc	dptr
+   0081 12s00r00            703 	lcall	__gptrget
+   0084 FE                  704 	mov	r6,a
+   0085 A3                  705 	inc	dptr
+   0086 12s00r00            706 	lcall	__gptrget
+   0089 FF                  707 	mov	r7,a
+   008A 74 02               708 	mov	a,#0x02
+   008C 2D                  709 	add	a,r5
+   008D FD                  710 	mov	r5,a
+   008E E4                  711 	clr	a
+   008F 3E                  712 	addc	a,r6
+   0090 FE                  713 	mov	r6,a
+   0091 8D 82               714 	mov	dpl,r5
+   0093 8E 83               715 	mov	dph,r6
+   0095 8F F0               716 	mov	b,r7
+   0097 12s00r00            717 	lcall	__gptrget
+   009A FE                  718 	mov	r6,a
+   009B A3                  719 	inc	dptr
+   009C 12s00r00            720 	lcall	__gptrget
+   009F FF                  721 	mov	r7,a
+   00A0 4E                  722 	orl	a,r6
+   00A1 60 20               723 	jz	00103$
+                            724 ;	../../core/net/rime/neighbor-discovery.c:88: c->u->sent(c);
+   00A3 C0 07               725 	push	ar7
+   00A5 C0 06               726 	push	ar6
+   00A7 74rBF               727 	mov	a,#00108$
+   00A9 C0 E0               728 	push	acc
+   00AB 74s00               729 	mov	a,#(00108$ >> 8)
+   00AD C0 E0               730 	push	acc
+   00AF C0 06               731 	push	ar6
+   00B1 C0 07               732 	push	ar7
+   00B3 A8*00               733 	mov	r0,_bp
+   00B5 08                  734 	inc	r0
+   00B6 86 82               735 	mov	dpl,@r0
+   00B8 08                  736 	inc	r0
+   00B9 86 83               737 	mov	dph,@r0
+   00BB 08                  738 	inc	r0
+   00BC 86 F0               739 	mov	b,@r0
+   00BE 22                  740 	ret
+   00BF                     741 00108$:
+   00BF D0 06               742 	pop	ar6
+   00C1 D0 07               743 	pop	ar7
+   00C3                     744 00103$:
+   00C3 85*00 81            745 	mov	sp,_bp
+   00C6 D0*00               746 	pop	_bp
+   00C8 22                  747 	ret
+                            748 ;------------------------------------------------------------
+                            749 ;Allocation info for local variables in function 'adv_packet_received'
+                            750 ;------------------------------------------------------------
+                            751 ;from                      Allocated to stack - _bp -5
+                            752 ;ibc                       Allocated to registers r5 r6 r7 
+                            753 ;c                         Allocated to stack - _bp +1
+                            754 ;msg                       Allocated to stack - _bp +4
+                            755 ;------------------------------------------------------------
+                            756 ;	../../core/net/rime/neighbor-discovery.c:96: adv_packet_received(struct broadcast_conn *ibc, const rimeaddr_t *from)
+                            757 ;	-----------------------------------------
+                            758 ;	 function adv_packet_received
+                            759 ;	-----------------------------------------
+   00C9                     760 _adv_packet_received:
+   00C9 C0*00               761 	push	_bp
+   00CB E5 81               762 	mov	a,sp
+   00CD F5*00               763 	mov	_bp,a
+   00CF 24 05               764 	add	a,#0x05
+   00D1 F5 81               765 	mov	sp,a
+   00D3 AD 82               766 	mov	r5,dpl
+   00D5 AE 83               767 	mov	r6,dph
+   00D7 AF F0               768 	mov	r7,b
+                            769 ;	../../core/net/rime/neighbor-discovery.c:98: struct neighbor_discovery_conn *c = (struct neighbor_discovery_conn *)ibc;
+   00D9 A8*00               770 	mov	r0,_bp
+   00DB 08                  771 	inc	r0
+   00DC A6 05               772 	mov	@r0,ar5
+   00DE 08                  773 	inc	r0
+   00DF A6 06               774 	mov	@r0,ar6
+   00E1 08                  775 	inc	r0
+   00E2 A6 07               776 	mov	@r0,ar7
+                            777 ;	../../core/net/rime/neighbor-discovery.c:101: memcpy(&msg, packetbuf_dataptr(), sizeof(struct adv_msg));
+   00E4 12s00r00            778 	lcall	_packetbuf_dataptr
+   00E7 AA 82               779 	mov	r2,dpl
+   00E9 AB 83               780 	mov	r3,dph
+   00EB AC F0               781 	mov	r4,b
+   00ED E5*00               782 	mov	a,_bp
+   00EF 24 04               783 	add	a,#0x04
+   00F1 FF                  784 	mov	r7,a
+   00F2 7E 00               785 	mov	r6,#0x00
+   00F4 7D 40               786 	mov	r5,#0x40
+   00F6 74 02               787 	mov	a,#0x02
+   00F8 C0 E0               788 	push	acc
+   00FA E4                  789 	clr	a
+   00FB C0 E0               790 	push	acc
+   00FD C0 02               791 	push	ar2
+   00FF C0 03               792 	push	ar3
+   0101 C0 04               793 	push	ar4
+   0103 8F 82               794 	mov	dpl,r7
+   0105 8E 83               795 	mov	dph,r6
+   0107 8D F0               796 	mov	b,r5
+   0109 12s00r00            797 	lcall	_memcpy
+   010C E5 81               798 	mov	a,sp
+   010E 24 FB               799 	add	a,#0xfb
+   0110 F5 81               800 	mov	sp,a
+                            801 ;	../../core/net/rime/neighbor-discovery.c:113: if(c->u->recv) {
+   0112 A8*00               802 	mov	r0,_bp
+   0114 08                  803 	inc	r0
+   0115 74 0F               804 	mov	a,#0x0F
+   0117 26                  805 	add	a,@r0
+   0118 FD                  806 	mov	r5,a
+   0119 E4                  807 	clr	a
+   011A 08                  808 	inc	r0
+   011B 36                  809 	addc	a,@r0
+   011C FE                  810 	mov	r6,a
+   011D 08                  811 	inc	r0
+   011E 86 07               812 	mov	ar7,@r0
+   0120 8D 82               813 	mov	dpl,r5
+   0122 8E 83               814 	mov	dph,r6
+   0124 8F F0               815 	mov	b,r7
+   0126 12s00r00            816 	lcall	__gptrget
+   0129 FD                  817 	mov	r5,a
+   012A A3                  818 	inc	dptr
+   012B 12s00r00            819 	lcall	__gptrget
+   012E FE                  820 	mov	r6,a
+   012F A3                  821 	inc	dptr
+   0130 12s00r00            822 	lcall	__gptrget
+   0133 FF                  823 	mov	r7,a
+   0134 8D 82               824 	mov	dpl,r5
+   0136 8E 83               825 	mov	dph,r6
+   0138 8F F0               826 	mov	b,r7
+   013A 12s00r00            827 	lcall	__gptrget
+   013D FE                  828 	mov	r6,a
+   013E A3                  829 	inc	dptr
+   013F 12s00r00            830 	lcall	__gptrget
+   0142 FF                  831 	mov	r7,a
+   0143 4E                  832 	orl	a,r6
+   0144 60 44               833 	jz	00103$
+                            834 ;	../../core/net/rime/neighbor-discovery.c:114: c->u->recv(c, from, msg.val);
+   0146 E5*00               835 	mov	a,_bp
+   0148 24 04               836 	add	a,#0x04
+   014A F9                  837 	mov	r1,a
+   014B 87 04               838 	mov	ar4,@r1
+   014D 09                  839 	inc	r1
+   014E 87 05               840 	mov	ar5,@r1
+   0150 C0 07               841 	push	ar7
+   0152 C0 06               842 	push	ar6
+   0154 C0 04               843 	push	ar4
+   0156 C0 05               844 	push	ar5
+   0158 E5*00               845 	mov	a,_bp
+   015A 24 FB               846 	add	a,#0xfb
+   015C F8                  847 	mov	r0,a
+   015D E6                  848 	mov	a,@r0
+   015E C0 E0               849 	push	acc
+   0160 08                  850 	inc	r0
+   0161 E6                  851 	mov	a,@r0
+   0162 C0 E0               852 	push	acc
+   0164 08                  853 	inc	r0
+   0165 E6                  854 	mov	a,@r0
+   0166 C0 E0               855 	push	acc
+   0168 74r80               856 	mov	a,#00108$
+   016A C0 E0               857 	push	acc
+   016C 74s01               858 	mov	a,#(00108$ >> 8)
+   016E C0 E0               859 	push	acc
+   0170 C0 06               860 	push	ar6
+   0172 C0 07               861 	push	ar7
+   0174 A8*00               862 	mov	r0,_bp
+   0176 08                  863 	inc	r0
+   0177 86 82               864 	mov	dpl,@r0
+   0179 08                  865 	inc	r0
+   017A 86 83               866 	mov	dph,@r0
+   017C 08                  867 	inc	r0
+   017D 86 F0               868 	mov	b,@r0
+   017F 22                  869 	ret
+   0180                     870 00108$:
+   0180 E5 81               871 	mov	a,sp
+   0182 24 FB               872 	add	a,#0xfb
+   0184 F5 81               873 	mov	sp,a
+   0186 D0 06               874 	pop	ar6
+   0188 D0 07               875 	pop	ar7
+   018A                     876 00103$:
+   018A 85*00 81            877 	mov	sp,_bp
+   018D D0*00               878 	pop	_bp
+   018F 22                  879 	ret
+                            880 ;------------------------------------------------------------
+                            881 ;Allocation info for local variables in function 'adv_packet_sent'
+                            882 ;------------------------------------------------------------
+                            883 ;status                    Allocated to stack - _bp -4
+                            884 ;num_tx                    Allocated to stack - _bp -6
+                            885 ;bc                        Allocated to registers 
+                            886 ;------------------------------------------------------------
+                            887 ;	../../core/net/rime/neighbor-discovery.c:119: adv_packet_sent(struct broadcast_conn *bc, int status, int num_tx)
+                            888 ;	-----------------------------------------
+                            889 ;	 function adv_packet_sent
+                            890 ;	-----------------------------------------
+   0190                     891 _adv_packet_sent:
+   0190 C0*00               892 	push	_bp
+   0192 85 81*00            893 	mov	_bp,sp
+                            894 ;	../../core/net/rime/neighbor-discovery.c:121: }
+   0195 D0*00               895 	pop	_bp
+   0197 22                  896 	ret
+                            897 ;------------------------------------------------------------
+                            898 ;Allocation info for local variables in function 'set_timers'
+                            899 ;------------------------------------------------------------
+                            900 ;c                         Allocated to stack - _bp +1
+                            901 ;sloc0                     Allocated to stack - _bp +4
+                            902 ;sloc1                     Allocated to stack - _bp +7
+                            903 ;sloc2                     Allocated to stack - _bp +9
+                            904 ;sloc3                     Allocated to stack - _bp +12
+                            905 ;------------------------------------------------------------
+                            906 ;	../../core/net/rime/neighbor-discovery.c:126: set_timers(struct neighbor_discovery_conn *c)
+                            907 ;	-----------------------------------------
+                            908 ;	 function set_timers
+                            909 ;	-----------------------------------------
+   0198                     910 _set_timers:
+   0198 C0*00               911 	push	_bp
+   019A 85 81*00            912 	mov	_bp,sp
+   019D C0 82               913 	push	dpl
+   019F C0 83               914 	push	dph
+   01A1 C0 F0               915 	push	b
+   01A3 E5 81               916 	mov	a,sp
+   01A5 24 08               917 	add	a,#0x08
+   01A7 F5 81               918 	mov	sp,a
+                            919 ;	../../core/net/rime/neighbor-discovery.c:128: ctimer_set(&c->interval_timer, c->current_interval, send_timer, c);
+   01A9 A8*00               920 	mov	r0,_bp
+   01AB 08                  921 	inc	r0
+   01AC 86 07               922 	mov	ar7,@r0
+   01AE 08                  923 	inc	r0
+   01AF 86 03               924 	mov	ar3,@r0
+   01B1 08                  925 	inc	r0
+   01B2 86 02               926 	mov	ar2,@r0
+   01B4 A8*00               927 	mov	r0,_bp
+   01B6 08                  928 	inc	r0
+   01B7 E5*00               929 	mov	a,_bp
+   01B9 24 04               930 	add	a,#0x04
+   01BB F9                  931 	mov	r1,a
+   01BC 74 42               932 	mov	a,#0x42
+   01BE 26                  933 	add	a,@r0
+   01BF F7                  934 	mov	@r1,a
+   01C0 E4                  935 	clr	a
+   01C1 08                  936 	inc	r0
+   01C2 36                  937 	addc	a,@r0
+   01C3 09                  938 	inc	r1
+   01C4 F7                  939 	mov	@r1,a
+   01C5 08                  940 	inc	r0
+   01C6 09                  941 	inc	r1
+   01C7 E6                  942 	mov	a,@r0
+   01C8 F7                  943 	mov	@r1,a
+   01C9 E5*00               944 	mov	a,_bp
+   01CB 24 04               945 	add	a,#0x04
+   01CD F8                  946 	mov	r0,a
+   01CE 86 82               947 	mov	dpl,@r0
+   01D0 08                  948 	inc	r0
+   01D1 86 83               949 	mov	dph,@r0
+   01D3 08                  950 	inc	r0
+   01D4 86 F0               951 	mov	b,@r0
+   01D6 E5*00               952 	mov	a,_bp
+   01D8 24 07               953 	add	a,#0x07
+   01DA F9                  954 	mov	r1,a
+   01DB 12s00r00            955 	lcall	__gptrget
+   01DE F7                  956 	mov	@r1,a
+   01DF A3                  957 	inc	dptr
+   01E0 12s00r00            958 	lcall	__gptrget
+   01E3 09                  959 	inc	r1
+   01E4 F7                  960 	mov	@r1,a
+   01E5 A8*00               961 	mov	r0,_bp
+   01E7 08                  962 	inc	r0
+   01E8 74 27               963 	mov	a,#0x27
+   01EA 26                  964 	add	a,@r0
+   01EB FC                  965 	mov	r4,a
+   01EC E4                  966 	clr	a
+   01ED 08                  967 	inc	r0
+   01EE 36                  968 	addc	a,@r0
+   01EF FD                  969 	mov	r5,a
+   01F0 08                  970 	inc	r0
+   01F1 86 06               971 	mov	ar6,@r0
+   01F3 C0 07               972 	push	ar7
+   01F5 C0 03               973 	push	ar3
+   01F7 C0 02               974 	push	ar2
+   01F9 74rE7               975 	mov	a,#_send_timer
+   01FB C0 E0               976 	push	acc
+   01FD 74s02               977 	mov	a,#(_send_timer >> 8)
+   01FF C0 E0               978 	push	acc
+   0201 E5*00               979 	mov	a,_bp
+   0203 24 07               980 	add	a,#0x07
+   0205 F8                  981 	mov	r0,a
+   0206 E6                  982 	mov	a,@r0
+   0207 C0 E0               983 	push	acc
+   0209 08                  984 	inc	r0
+   020A E6                  985 	mov	a,@r0
+   020B C0 E0               986 	push	acc
+   020D 8C 82               987 	mov	dpl,r4
+   020F 8D 83               988 	mov	dph,r5
+   0211 8E F0               989 	mov	b,r6
+   0213 12s00r00            990 	lcall	_ctimer_set
+   0216 E5 81               991 	mov	a,sp
+   0218 24 F9               992 	add	a,#0xf9
+   021A F5 81               993 	mov	sp,a
+                            994 ;	../../core/net/rime/neighbor-discovery.c:131: send_adv, c);
+   021C A8*00               995 	mov	r0,_bp
+   021E 08                  996 	inc	r0
+   021F 86 05               997 	mov	ar5,@r0
+   0221 08                  998 	inc	r0
+   0222 86 07               999 	mov	ar7,@r0
+   0224 08                 1000 	inc	r0
+   0225 86 04              1001 	mov	ar4,@r0
+                           1002 ;	../../core/net/rime/neighbor-discovery.c:129: ctimer_set(&c->send_timer, c->current_interval / 2 + random_rand() %
+   0227 E5*00              1003 	mov	a,_bp
+   0229 24 04              1004 	add	a,#0x04
+   022B F8                 1005 	mov	r0,a
+   022C 86 82              1006 	mov	dpl,@r0
+   022E 08                 1007 	inc	r0
+   022F 86 83              1008 	mov	dph,@r0
+   0231 08                 1009 	inc	r0
+   0232 86 F0              1010 	mov	b,@r0
+   0234 12s00r00           1011 	lcall	__gptrget
+   0237 FA                 1012 	mov	r2,a
+   0238 A3                 1013 	inc	dptr
+   0239 12s00r00           1014 	lcall	__gptrget
+   023C FB                 1015 	mov	r3,a
+   023D E5*00              1016 	mov	a,_bp
+   023F 24 09              1017 	add	a,#0x09
+   0241 F8                 1018 	mov	r0,a
+   0242 A6 02              1019 	mov	@r0,ar2
+   0244 EB                 1020 	mov	a,r3
+   0245 C3                 1021 	clr	c
+   0246 13                 1022 	rrc	a
+   0247 C6                 1023 	xch	a,@r0
+   0248 13                 1024 	rrc	a
+   0249 C6                 1025 	xch	a,@r0
+   024A 08                 1026 	inc	r0
+   024B F6                 1027 	mov	@r0,a
+   024C C0 07              1028 	push	ar7
+   024E C0 05              1029 	push	ar5
+   0250 C0 04              1030 	push	ar4
+   0252 12s00r00           1031 	lcall	_random_rand
+   0255 C8                 1032 	xch	a,r0
+   0256 E5*00              1033 	mov	a,_bp
+   0258 24 07              1034 	add	a,#0x07
+   025A C8                 1035 	xch	a,r0
+   025B A6 82              1036 	mov	@r0,dpl
+   025D 08                 1037 	inc	r0
+   025E A6 83              1038 	mov	@r0,dph
+                           1039 ;	../../core/net/rime/neighbor-discovery.c:130: (c->current_interval / 2),
+   0260 E5*00              1040 	mov	a,_bp
+   0262 24 04              1041 	add	a,#0x04
+   0264 F8                 1042 	mov	r0,a
+   0265 86 82              1043 	mov	dpl,@r0
+   0267 08                 1044 	inc	r0
+   0268 86 83              1045 	mov	dph,@r0
+   026A 08                 1046 	inc	r0
+   026B 86 F0              1047 	mov	b,@r0
+   026D 12s00r00           1048 	lcall	__gptrget
+   0270 FA                 1049 	mov	r2,a
+   0271 A3                 1050 	inc	dptr
+   0272 12s00r00           1051 	lcall	__gptrget
+   0275 C3                 1052 	clr	c
+   0276 13                 1053 	rrc	a
+   0277 CA                 1054 	xch	a,r2
+   0278 13                 1055 	rrc	a
+   0279 CA                 1056 	xch	a,r2
+   027A FB                 1057 	mov	r3,a
+   027B C0 02              1058 	push	ar2
+   027D C0 03              1059 	push	ar3
+   027F E5*00              1060 	mov	a,_bp
+   0281 24 07              1061 	add	a,#0x07
+   0283 F8                 1062 	mov	r0,a
+   0284 86 82              1063 	mov	dpl,@r0
+   0286 08                 1064 	inc	r0
+   0287 86 83              1065 	mov	dph,@r0
+   0289 12s00r00           1066 	lcall	__moduint
+   028C AA 82              1067 	mov	r2,dpl
+   028E AB 83              1068 	mov	r3,dph
+   0290 15 81              1069 	dec	sp
+   0292 15 81              1070 	dec	sp
+   0294 D0 04              1071 	pop	ar4
+   0296 D0 05              1072 	pop	ar5
+   0298 D0 07              1073 	pop	ar7
+   029A E5*00              1074 	mov	a,_bp
+   029C 24 09              1075 	add	a,#0x09
+   029E F8                 1076 	mov	r0,a
+   029F E5*00              1077 	mov	a,_bp
+   02A1 24 09              1078 	add	a,#0x09
+   02A3 F9                 1079 	mov	r1,a
+   02A4 EA                 1080 	mov	a,r2
+   02A5 26                 1081 	add	a,@r0
+   02A6 F7                 1082 	mov	@r1,a
+   02A7 EB                 1083 	mov	a,r3
+   02A8 08                 1084 	inc	r0
+   02A9 36                 1085 	addc	a,@r0
+   02AA 09                 1086 	inc	r1
+   02AB F7                 1087 	mov	@r1,a
+                           1088 ;	../../core/net/rime/neighbor-discovery.c:129: ctimer_set(&c->send_timer, c->current_interval / 2 + random_rand() %
+   02AC A8*00              1089 	mov	r0,_bp
+   02AE 08                 1090 	inc	r0
+   02AF 74 12              1091 	mov	a,#0x12
+   02B1 26                 1092 	add	a,@r0
+   02B2 FA                 1093 	mov	r2,a
+   02B3 E4                 1094 	clr	a
+   02B4 08                 1095 	inc	r0
+   02B5 36                 1096 	addc	a,@r0
+   02B6 FB                 1097 	mov	r3,a
+   02B7 08                 1098 	inc	r0
+   02B8 86 06              1099 	mov	ar6,@r0
+   02BA C0 05              1100 	push	ar5
+   02BC C0 07              1101 	push	ar7
+   02BE C0 04              1102 	push	ar4
+   02C0 74r00              1103 	mov	a,#_send_adv
+   02C2 C0 E0              1104 	push	acc
+   02C4 74s00              1105 	mov	a,#(_send_adv >> 8)
+   02C6 C0 E0              1106 	push	acc
+   02C8 E5*00              1107 	mov	a,_bp
+   02CA 24 09              1108 	add	a,#0x09
+   02CC F8                 1109 	mov	r0,a
+   02CD E6                 1110 	mov	a,@r0
+   02CE C0 E0              1111 	push	acc
+   02D0 08                 1112 	inc	r0
+   02D1 E6                 1113 	mov	a,@r0
+   02D2 C0 E0              1114 	push	acc
+   02D4 8A 82              1115 	mov	dpl,r2
+   02D6 8B 83              1116 	mov	dph,r3
+   02D8 8E F0              1117 	mov	b,r6
+   02DA 12s00r00           1118 	lcall	_ctimer_set
+   02DD E5 81              1119 	mov	a,sp
+   02DF 24 F9              1120 	add	a,#0xf9
+   02E1 85*00 81           1121 	mov	sp,_bp
+   02E4 D0*00              1122 	pop	_bp
+   02E6 22                 1123 	ret
+                           1124 ;------------------------------------------------------------
+                           1125 ;Allocation info for local variables in function 'send_timer'
+                           1126 ;------------------------------------------------------------
+                           1127 ;ptr                       Allocated to registers r5 r6 r7 
+                           1128 ;c                         Allocated to stack - _bp +1
+                           1129 ;interval                  Allocated to stack - _bp +4
+                           1130 ;------------------------------------------------------------
+                           1131 ;	../../core/net/rime/neighbor-discovery.c:135: send_timer(void *ptr)
+                           1132 ;	-----------------------------------------
+                           1133 ;	 function send_timer
+                           1134 ;	-----------------------------------------
+   02E7                    1135 _send_timer:
+   02E7 C0*00              1136 	push	_bp
+   02E9 E5 81              1137 	mov	a,sp
+   02EB F5*00              1138 	mov	_bp,a
+   02ED 24 05              1139 	add	a,#0x05
+   02EF F5 81              1140 	mov	sp,a
+   02F1 AD 82              1141 	mov	r5,dpl
+   02F3 AE 83              1142 	mov	r6,dph
+   02F5 AF F0              1143 	mov	r7,b
+                           1144 ;	../../core/net/rime/neighbor-discovery.c:137: struct neighbor_discovery_conn *c = ptr;
+   02F7 A8*00              1145 	mov	r0,_bp
+   02F9 08                 1146 	inc	r0
+   02FA A6 05              1147 	mov	@r0,ar5
+   02FC 08                 1148 	inc	r0
+   02FD A6 06              1149 	mov	@r0,ar6
+   02FF 08                 1150 	inc	r0
+   0300 A6 07              1151 	mov	@r0,ar7
+                           1152 ;	../../core/net/rime/neighbor-discovery.c:140: interval = c->current_interval * 2;
+   0302 A8*00              1153 	mov	r0,_bp
+   0304 08                 1154 	inc	r0
+   0305 74 42              1155 	mov	a,#0x42
+   0307 26                 1156 	add	a,@r0
+   0308 FA                 1157 	mov	r2,a
+   0309 E4                 1158 	clr	a
+   030A 08                 1159 	inc	r0
+   030B 36                 1160 	addc	a,@r0
+   030C FB                 1161 	mov	r3,a
+   030D 08                 1162 	inc	r0
+   030E 86 04              1163 	mov	ar4,@r0
+   0310 8A 82              1164 	mov	dpl,r2
+   0312 8B 83              1165 	mov	dph,r3
+   0314 8C F0              1166 	mov	b,r4
+   0316 12s00r00           1167 	lcall	__gptrget
+   0319 FE                 1168 	mov	r6,a
+   031A A3                 1169 	inc	dptr
+   031B 12s00r00           1170 	lcall	__gptrget
+   031E FF                 1171 	mov	r7,a
+   031F E5*00              1172 	mov	a,_bp
+   0321 24 04              1173 	add	a,#0x04
+   0323 F8                 1174 	mov	r0,a
+   0324 A6 06              1175 	mov	@r0,ar6
+   0326 EF                 1176 	mov	a,r7
+   0327 C6                 1177 	xch	a,@r0
+   0328 25 E0              1178 	add	a,acc
+   032A C6                 1179 	xch	a,@r0
+   032B 33                 1180 	rlc	a
+   032C 08                 1181 	inc	r0
+   032D F6                 1182 	mov	@r0,a
+                           1183 ;	../../core/net/rime/neighbor-discovery.c:142: if(interval > c->max_interval) {
+   032E A8*00              1184 	mov	r0,_bp
+   0330 08                 1185 	inc	r0
+   0331 74 40              1186 	mov	a,#0x40
+   0333 26                 1187 	add	a,@r0
+   0334 FD                 1188 	mov	r5,a
+   0335 E4                 1189 	clr	a
+   0336 08                 1190 	inc	r0
+   0337 36                 1191 	addc	a,@r0
+   0338 FE                 1192 	mov	r6,a
+   0339 08                 1193 	inc	r0
+   033A 86 07              1194 	mov	ar7,@r0
+   033C 8D 82              1195 	mov	dpl,r5
+   033E 8E 83              1196 	mov	dph,r6
+   0340 8F F0              1197 	mov	b,r7
+   0342 12s00r00           1198 	lcall	__gptrget
+   0345 FE                 1199 	mov	r6,a
+   0346 A3                 1200 	inc	dptr
+   0347 12s00r00           1201 	lcall	__gptrget
+   034A FF                 1202 	mov	r7,a
+   034B E5*00              1203 	mov	a,_bp
+   034D 24 04              1204 	add	a,#0x04
+   034F F8                 1205 	mov	r0,a
+   0350 C3                 1206 	clr	c
+   0351 EE                 1207 	mov	a,r6
+   0352 96                 1208 	subb	a,@r0
+   0353 EF                 1209 	mov	a,r7
+   0354 08                 1210 	inc	r0
+   0355 96                 1211 	subb	a,@r0
+   0356 50 0A              1212 	jnc	00102$
+                           1213 ;	../../core/net/rime/neighbor-discovery.c:143: interval = c->max_interval;
+   0358 E5*00              1214 	mov	a,_bp
+   035A 24 04              1215 	add	a,#0x04
+   035C F8                 1216 	mov	r0,a
+   035D A6 06              1217 	mov	@r0,ar6
+   035F 08                 1218 	inc	r0
+   0360 A6 07              1219 	mov	@r0,ar7
+   0362                    1220 00102$:
+                           1221 ;	../../core/net/rime/neighbor-discovery.c:146: c->current_interval = interval;
+   0362 8A 82              1222 	mov	dpl,r2
+   0364 8B 83              1223 	mov	dph,r3
+   0366 8C F0              1224 	mov	b,r4
+   0368 E5*00              1225 	mov	a,_bp
+   036A 24 04              1226 	add	a,#0x04
+   036C F8                 1227 	mov	r0,a
+   036D E6                 1228 	mov	a,@r0
+   036E 12s00r00           1229 	lcall	__gptrput
+   0371 A3                 1230 	inc	dptr
+   0372 08                 1231 	inc	r0
+   0373 E6                 1232 	mov	a,@r0
+   0374 12s00r00           1233 	lcall	__gptrput
+                           1234 ;	../../core/net/rime/neighbor-discovery.c:152: set_timers(c);
+   0377 A8*00              1235 	mov	r0,_bp
+   0379 08                 1236 	inc	r0
+   037A 86 82              1237 	mov	dpl,@r0
+   037C 08                 1238 	inc	r0
+   037D 86 83              1239 	mov	dph,@r0
+   037F 08                 1240 	inc	r0
+   0380 86 F0              1241 	mov	b,@r0
+   0382 12s01r98           1242 	lcall	_set_timers
+   0385 85*00 81           1243 	mov	sp,_bp
+   0388 D0*00              1244 	pop	_bp
+   038A 22                 1245 	ret
+                           1246 ;------------------------------------------------------------
+                           1247 ;Allocation info for local variables in function 'neighbor_discovery_open'
+                           1248 ;------------------------------------------------------------
+                           1249 ;channel                   Allocated to stack - _bp -4
+                           1250 ;initial                   Allocated to stack - _bp -6
+                           1251 ;min                       Allocated to stack - _bp -8
+                           1252 ;max                       Allocated to stack - _bp -10
+                           1253 ;cb                        Allocated to stack - _bp -13
+                           1254 ;c                         Allocated to registers r5 r6 r7 
+                           1255 ;------------------------------------------------------------
+                           1256 ;	../../core/net/rime/neighbor-discovery.c:159: neighbor_discovery_open(struct neighbor_discovery_conn *c, uint16_t channel,
+                           1257 ;	-----------------------------------------
+                           1258 ;	 function neighbor_discovery_open
+                           1259 ;	-----------------------------------------
+   038B                    1260 _neighbor_discovery_open:
+   038B C0*00              1261 	push	_bp
+   038D 85 81*00           1262 	mov	_bp,sp
+   0390 AD 82              1263 	mov	r5,dpl
+   0392 AE 83              1264 	mov	r6,dph
+   0394 AF F0              1265 	mov	r7,b
+                           1266 ;	../../core/net/rime/neighbor-discovery.c:168: broadcast_open(&c->c, channel, &broadcast_callbacks);
+   0396 C0 07              1267 	push	ar7
+   0398 C0 06              1268 	push	ar6
+   039A C0 05              1269 	push	ar5
+   039C 74r00              1270 	mov	a,#_broadcast_callbacks
+   039E C0 E0              1271 	push	acc
+   03A0 74s00              1272 	mov	a,#(_broadcast_callbacks >> 8)
+   03A2 C0 E0              1273 	push	acc
+   03A4 74 80              1274 	mov	a,#0x80
+   03A6 C0 E0              1275 	push	acc
+   03A8 E5*00              1276 	mov	a,_bp
+   03AA 24 FC              1277 	add	a,#0xfc
+   03AC F8                 1278 	mov	r0,a
+   03AD E6                 1279 	mov	a,@r0
+   03AE C0 E0              1280 	push	acc
+   03B0 08                 1281 	inc	r0
+   03B1 E6                 1282 	mov	a,@r0
+   03B2 C0 E0              1283 	push	acc
+   03B4 8D 82              1284 	mov	dpl,r5
+   03B6 8E 83              1285 	mov	dph,r6
+   03B8 8F F0              1286 	mov	b,r7
+   03BA 12s00r00           1287 	lcall	_broadcast_open
+   03BD E5 81              1288 	mov	a,sp
+   03BF 24 FB              1289 	add	a,#0xfb
+   03C1 F5 81              1290 	mov	sp,a
+   03C3 D0 05              1291 	pop	ar5
+   03C5 D0 06              1292 	pop	ar6
+   03C7 D0 07              1293 	pop	ar7
+                           1294 ;	../../core/net/rime/neighbor-discovery.c:169: c->u = cb;
+   03C9 74 0F              1295 	mov	a,#0x0F
+   03CB 2D                 1296 	add	a,r5
+   03CC FA                 1297 	mov	r2,a
+   03CD E4                 1298 	clr	a
+   03CE 3E                 1299 	addc	a,r6
+   03CF FB                 1300 	mov	r3,a
+   03D0 8F 04              1301 	mov	ar4,r7
+   03D2 8A 82              1302 	mov	dpl,r2
+   03D4 8B 83              1303 	mov	dph,r3
+   03D6 8C F0              1304 	mov	b,r4
+   03D8 E5*00              1305 	mov	a,_bp
+   03DA 24 F3              1306 	add	a,#0xf3
+   03DC F8                 1307 	mov	r0,a
+   03DD E6                 1308 	mov	a,@r0
+   03DE 12s00r00           1309 	lcall	__gptrput
+   03E1 A3                 1310 	inc	dptr
+   03E2 08                 1311 	inc	r0
+   03E3 E6                 1312 	mov	a,@r0
+   03E4 12s00r00           1313 	lcall	__gptrput
+   03E7 A3                 1314 	inc	dptr
+   03E8 08                 1315 	inc	r0
+   03E9 E6                 1316 	mov	a,@r0
+   03EA 12s00r00           1317 	lcall	__gptrput
+                           1318 ;	../../core/net/rime/neighbor-discovery.c:170: c->initial_interval = initial;
+   03ED 74 3C              1319 	mov	a,#0x3C
+   03EF 2D                 1320 	add	a,r5
+   03F0 FA                 1321 	mov	r2,a
+   03F1 E4                 1322 	clr	a
+   03F2 3E                 1323 	addc	a,r6
+   03F3 FB                 1324 	mov	r3,a
+   03F4 8F 04              1325 	mov	ar4,r7
+   03F6 8A 82              1326 	mov	dpl,r2
+   03F8 8B 83              1327 	mov	dph,r3
+   03FA 8C F0              1328 	mov	b,r4
+   03FC E5*00              1329 	mov	a,_bp
+   03FE 24 FA              1330 	add	a,#0xfa
+   0400 F8                 1331 	mov	r0,a
+   0401 E6                 1332 	mov	a,@r0
+   0402 12s00r00           1333 	lcall	__gptrput
+   0405 A3                 1334 	inc	dptr
+   0406 08                 1335 	inc	r0
+   0407 E6                 1336 	mov	a,@r0
+   0408 12s00r00           1337 	lcall	__gptrput
+                           1338 ;	../../core/net/rime/neighbor-discovery.c:171: c->min_interval = min;
+   040B 74 3E              1339 	mov	a,#0x3E
+   040D 2D                 1340 	add	a,r5
+   040E FA                 1341 	mov	r2,a
+   040F E4                 1342 	clr	a
+   0410 3E                 1343 	addc	a,r6
+   0411 FB                 1344 	mov	r3,a
+   0412 8F 04              1345 	mov	ar4,r7
+   0414 8A 82              1346 	mov	dpl,r2
+   0416 8B 83              1347 	mov	dph,r3
+   0418 8C F0              1348 	mov	b,r4
+   041A E5*00              1349 	mov	a,_bp
+   041C 24 F8              1350 	add	a,#0xf8
+   041E F8                 1351 	mov	r0,a
+   041F E6                 1352 	mov	a,@r0
+   0420 12s00r00           1353 	lcall	__gptrput
+   0423 A3                 1354 	inc	dptr
+   0424 08                 1355 	inc	r0
+   0425 E6                 1356 	mov	a,@r0
+   0426 12s00r00           1357 	lcall	__gptrput
+                           1358 ;	../../core/net/rime/neighbor-discovery.c:172: c->max_interval = max;
+   0429 74 40              1359 	mov	a,#0x40
+   042B 2D                 1360 	add	a,r5
+   042C FD                 1361 	mov	r5,a
+   042D E4                 1362 	clr	a
+   042E 3E                 1363 	addc	a,r6
+   042F FE                 1364 	mov	r6,a
+   0430 8D 82              1365 	mov	dpl,r5
+   0432 8E 83              1366 	mov	dph,r6
+   0434 8F F0              1367 	mov	b,r7
+   0436 E5*00              1368 	mov	a,_bp
+   0438 24 F6              1369 	add	a,#0xf6
+   043A F8                 1370 	mov	r0,a
+   043B E6                 1371 	mov	a,@r0
+   043C 12s00r00           1372 	lcall	__gptrput
+   043F A3                 1373 	inc	dptr
+   0440 08                 1374 	inc	r0
+   0441 E6                 1375 	mov	a,@r0
+   0442 12s00r00           1376 	lcall	__gptrput
+   0445 D0*00              1377 	pop	_bp
+   0447 22                 1378 	ret
+                           1379 ;------------------------------------------------------------
+                           1380 ;Allocation info for local variables in function 'neighbor_discovery_close'
+                           1381 ;------------------------------------------------------------
+                           1382 ;c                         Allocated to registers r5 r6 r7 
+                           1383 ;------------------------------------------------------------
+                           1384 ;	../../core/net/rime/neighbor-discovery.c:176: neighbor_discovery_close(struct neighbor_discovery_conn *c)
+                           1385 ;	-----------------------------------------
+                           1386 ;	 function neighbor_discovery_close
+                           1387 ;	-----------------------------------------
+   0448                    1388 _neighbor_discovery_close:
+                           1389 ;	../../core/net/rime/neighbor-discovery.c:178: broadcast_close(&c->c);
+   0448 AD 82              1390 	mov	r5,dpl
+   044A AE 83              1391 	mov	r6,dph
+   044C AF F0              1392 	mov	r7,b
+   044E C0 07              1393 	push	ar7
+   0450 C0 06              1394 	push	ar6
+   0452 C0 05              1395 	push	ar5
+   0454 12s00r00           1396 	lcall	_broadcast_close
+   0457 D0 05              1397 	pop	ar5
+   0459 D0 06              1398 	pop	ar6
+   045B D0 07              1399 	pop	ar7
+                           1400 ;	../../core/net/rime/neighbor-discovery.c:179: ctimer_stop(&c->send_timer);
+   045D 74 12              1401 	mov	a,#0x12
+   045F 2D                 1402 	add	a,r5
+   0460 FA                 1403 	mov	r2,a
+   0461 E4                 1404 	clr	a
+   0462 3E                 1405 	addc	a,r6
+   0463 FB                 1406 	mov	r3,a
+   0464 8F 04              1407 	mov	ar4,r7
+   0466 8A 82              1408 	mov	dpl,r2
+   0468 8B 83              1409 	mov	dph,r3
+   046A 8C F0              1410 	mov	b,r4
+   046C C0 07              1411 	push	ar7
+   046E C0 06              1412 	push	ar6
+   0470 C0 05              1413 	push	ar5
+   0472 12s00r00           1414 	lcall	_ctimer_stop
+   0475 D0 05              1415 	pop	ar5
+   0477 D0 06              1416 	pop	ar6
+   0479 D0 07              1417 	pop	ar7
+                           1418 ;	../../core/net/rime/neighbor-discovery.c:180: ctimer_stop(&c->interval_timer);
+   047B 74 27              1419 	mov	a,#0x27
+   047D 2D                 1420 	add	a,r5
+   047E FD                 1421 	mov	r5,a
+   047F E4                 1422 	clr	a
+   0480 3E                 1423 	addc	a,r6
+   0481 FE                 1424 	mov	r6,a
+   0482 8D 82              1425 	mov	dpl,r5
+   0484 8E 83              1426 	mov	dph,r6
+   0486 8F F0              1427 	mov	b,r7
+   0488 02s00r00           1428 	ljmp	_ctimer_stop
+                           1429 ;------------------------------------------------------------
+                           1430 ;Allocation info for local variables in function 'neighbor_discovery_set_val'
+                           1431 ;------------------------------------------------------------
+                           1432 ;val                       Allocated to stack - _bp -4
+                           1433 ;c                         Allocated to registers r5 r6 r7 
+                           1434 ;------------------------------------------------------------
+                           1435 ;	../../core/net/rime/neighbor-discovery.c:184: neighbor_discovery_set_val(struct neighbor_discovery_conn *c, uint16_t val)
+                           1436 ;	-----------------------------------------
+                           1437 ;	 function neighbor_discovery_set_val
+                           1438 ;	-----------------------------------------
+   048B                    1439 _neighbor_discovery_set_val:
+   048B C0*00              1440 	push	_bp
+   048D 85 81*00           1441 	mov	_bp,sp
+   0490 AD 82              1442 	mov	r5,dpl
+   0492 AE 83              1443 	mov	r6,dph
+   0494 AF F0              1444 	mov	r7,b
+                           1445 ;	../../core/net/rime/neighbor-discovery.c:186: c->val = val;
+   0496 74 44              1446 	mov	a,#0x44
+   0498 2D                 1447 	add	a,r5
+   0499 FD                 1448 	mov	r5,a
+   049A E4                 1449 	clr	a
+   049B 3E                 1450 	addc	a,r6
+   049C FE                 1451 	mov	r6,a
+   049D 8D 82              1452 	mov	dpl,r5
+   049F 8E 83              1453 	mov	dph,r6
+   04A1 8F F0              1454 	mov	b,r7
+   04A3 E5*00              1455 	mov	a,_bp
+   04A5 24 FC              1456 	add	a,#0xfc
+   04A7 F8                 1457 	mov	r0,a
+   04A8 E6                 1458 	mov	a,@r0
+   04A9 12s00r00           1459 	lcall	__gptrput
+   04AC A3                 1460 	inc	dptr
+   04AD 08                 1461 	inc	r0
+   04AE E6                 1462 	mov	a,@r0
+   04AF 12s00r00           1463 	lcall	__gptrput
+   04B2 D0*00              1464 	pop	_bp
+   04B4 22                 1465 	ret
+                           1466 ;------------------------------------------------------------
+                           1467 ;Allocation info for local variables in function 'neighbor_discovery_start'
+                           1468 ;------------------------------------------------------------
+                           1469 ;val                       Allocated to stack - _bp -4
+                           1470 ;c                         Allocated to stack - _bp +1
+                           1471 ;------------------------------------------------------------
+                           1472 ;	../../core/net/rime/neighbor-discovery.c:190: neighbor_discovery_start(struct neighbor_discovery_conn *c, uint16_t val)
+                           1473 ;	-----------------------------------------
+                           1474 ;	 function neighbor_discovery_start
+                           1475 ;	-----------------------------------------
+   04B5                    1476 _neighbor_discovery_start:
+   04B5 C0*00              1477 	push	_bp
+   04B7 85 81*00           1478 	mov	_bp,sp
+   04BA C0 82              1479 	push	dpl
+   04BC C0 83              1480 	push	dph
+   04BE C0 F0              1481 	push	b
+                           1482 ;	../../core/net/rime/neighbor-discovery.c:192: c->current_interval = c->initial_interval;
+   04C0 A8*00              1483 	mov	r0,_bp
+   04C2 08                 1484 	inc	r0
+   04C3 74 42              1485 	mov	a,#0x42
+   04C5 26                 1486 	add	a,@r0
+   04C6 FA                 1487 	mov	r2,a
+   04C7 E4                 1488 	clr	a
+   04C8 08                 1489 	inc	r0
+   04C9 36                 1490 	addc	a,@r0
+   04CA FB                 1491 	mov	r3,a
+   04CB 08                 1492 	inc	r0
+   04CC 86 04              1493 	mov	ar4,@r0
+   04CE A8*00              1494 	mov	r0,_bp
+   04D0 08                 1495 	inc	r0
+   04D1 74 3C              1496 	mov	a,#0x3C
+   04D3 26                 1497 	add	a,@r0
+   04D4 FD                 1498 	mov	r5,a
+   04D5 E4                 1499 	clr	a
+   04D6 08                 1500 	inc	r0
+   04D7 36                 1501 	addc	a,@r0
+   04D8 FE                 1502 	mov	r6,a
+   04D9 08                 1503 	inc	r0
+   04DA 86 07              1504 	mov	ar7,@r0
+   04DC 8D 82              1505 	mov	dpl,r5
+   04DE 8E 83              1506 	mov	dph,r6
+   04E0 8F F0              1507 	mov	b,r7
+   04E2 12s00r00           1508 	lcall	__gptrget
+   04E5 FD                 1509 	mov	r5,a
+   04E6 A3                 1510 	inc	dptr
+   04E7 12s00r00           1511 	lcall	__gptrget
+   04EA FE                 1512 	mov	r6,a
+   04EB 8A 82              1513 	mov	dpl,r2
+   04ED 8B 83              1514 	mov	dph,r3
+   04EF 8C F0              1515 	mov	b,r4
+   04F1 ED                 1516 	mov	a,r5
+   04F2 12s00r00           1517 	lcall	__gptrput
+   04F5 A3                 1518 	inc	dptr
+   04F6 EE                 1519 	mov	a,r6
+   04F7 12s00r00           1520 	lcall	__gptrput
+                           1521 ;	../../core/net/rime/neighbor-discovery.c:193: c->val = val;
+   04FA A8*00              1522 	mov	r0,_bp
+   04FC 08                 1523 	inc	r0
+   04FD 74 44              1524 	mov	a,#0x44
+   04FF 26                 1525 	add	a,@r0
+   0500 FD                 1526 	mov	r5,a
+   0501 E4                 1527 	clr	a
+   0502 08                 1528 	inc	r0
+   0503 36                 1529 	addc	a,@r0
+   0504 FE                 1530 	mov	r6,a
+   0505 08                 1531 	inc	r0
+   0506 86 07              1532 	mov	ar7,@r0
+   0508 8D 82              1533 	mov	dpl,r5
+   050A 8E 83              1534 	mov	dph,r6
+   050C 8F F0              1535 	mov	b,r7
+   050E E5*00              1536 	mov	a,_bp
+   0510 24 FC              1537 	add	a,#0xfc
+   0512 F8                 1538 	mov	r0,a
+   0513 E6                 1539 	mov	a,@r0
+   0514 12s00r00           1540 	lcall	__gptrput
+   0517 A3                 1541 	inc	dptr
+   0518 08                 1542 	inc	r0
+   0519 E6                 1543 	mov	a,@r0
+   051A 12s00r00           1544 	lcall	__gptrput
+                           1545 ;	../../core/net/rime/neighbor-discovery.c:194: set_timers(c);
+   051D A8*00              1546 	mov	r0,_bp
+   051F 08                 1547 	inc	r0
+   0520 86 82              1548 	mov	dpl,@r0
+   0522 08                 1549 	inc	r0
+   0523 86 83              1550 	mov	dph,@r0
+   0525 08                 1551 	inc	r0
+   0526 86 F0              1552 	mov	b,@r0
+   0528 12s01r98           1553 	lcall	_set_timers
+   052B 85*00 81           1554 	mov	sp,_bp
+   052E D0*00              1555 	pop	_bp
+   0530 22                 1556 	ret
+                           1557 	.area CSEG    (CODE)
+                           1558 	.area CONST   (CODE)
+   0000                    1559 _broadcast_callbacks:
+   0000rC9s00              1560 	.byte _adv_packet_received,(_adv_packet_received >> 8)
+   0002r90s01              1561 	.byte _adv_packet_sent,(_adv_packet_sent >> 8)
+                           1562 	.area XINIT   (CODE)
+                           1563 	.area CABS    (ABS,CODE)

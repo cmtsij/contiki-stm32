@@ -1,0 +1,376 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:24 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module timer
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _clock_time
+                             13 	.globl _timer_set
+                             14 	.globl _timer_reset
+                             15 	.globl _timer_restart
+                             16 	.globl _timer_expired
+                             17 	.globl _timer_remaining
+                             18 ;--------------------------------------------------------
+                             19 ; special function registers
+                             20 ;--------------------------------------------------------
+                             21 	.area RSEG    (ABS,DATA)
+   0000                      22 	.org 0x0000
+                             23 ;--------------------------------------------------------
+                             24 ; special function bits
+                             25 ;--------------------------------------------------------
+                             26 	.area RSEG    (ABS,DATA)
+   0000                      27 	.org 0x0000
+                             28 ;--------------------------------------------------------
+                             29 ; overlayable register banks
+                             30 ;--------------------------------------------------------
+                             31 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                      32 	.ds 8
+                             33 ;--------------------------------------------------------
+                             34 ; internal ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area DSEG    (DATA)
+                             37 ;--------------------------------------------------------
+                             38 ; overlayable items in internal ram 
+                             39 ;--------------------------------------------------------
+                             40 	.area OSEG    (OVR,DATA)
+                             41 ;--------------------------------------------------------
+                             42 ; indirectly addressable internal ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area ISEG    (DATA)
+                             45 ;--------------------------------------------------------
+                             46 ; absolute internal ram data
+                             47 ;--------------------------------------------------------
+                             48 	.area IABS    (ABS,DATA)
+                             49 	.area IABS    (ABS,DATA)
+                             50 ;--------------------------------------------------------
+                             51 ; bit data
+                             52 ;--------------------------------------------------------
+                             53 	.area BSEG    (BIT)
+                             54 ;--------------------------------------------------------
+                             55 ; paged external ram data
+                             56 ;--------------------------------------------------------
+                             57 	.area PSEG    (PAG,XDATA)
+                             58 ;--------------------------------------------------------
+                             59 ; external ram data
+                             60 ;--------------------------------------------------------
+                             61 	.area XSEG    (XDATA)
+                             62 ;--------------------------------------------------------
+                             63 ; absolute external ram data
+                             64 ;--------------------------------------------------------
+                             65 	.area XABS    (ABS,XDATA)
+                             66 ;--------------------------------------------------------
+                             67 ; external initialized ram data
+                             68 ;--------------------------------------------------------
+                             69 	.area XISEG   (XDATA)
+                             70 	.area HOME    (CODE)
+                             71 	.area GSINIT0 (CODE)
+                             72 	.area GSINIT1 (CODE)
+                             73 	.area GSINIT2 (CODE)
+                             74 	.area GSINIT3 (CODE)
+                             75 	.area GSINIT4 (CODE)
+                             76 	.area GSINIT5 (CODE)
+                             77 	.area GSINIT  (CODE)
+                             78 	.area GSFINAL (CODE)
+                             79 	.area CSEG    (CODE)
+                             80 ;--------------------------------------------------------
+                             81 ; global & static initialisations
+                             82 ;--------------------------------------------------------
+                             83 	.area HOME    (CODE)
+                             84 	.area GSINIT  (CODE)
+                             85 	.area GSFINAL (CODE)
+                             86 	.area GSINIT  (CODE)
+                             87 ;--------------------------------------------------------
+                             88 ; Home
+                             89 ;--------------------------------------------------------
+                             90 	.area HOME    (CODE)
+                             91 	.area HOME    (CODE)
+                             92 ;--------------------------------------------------------
+                             93 ; code
+                             94 ;--------------------------------------------------------
+                             95 	.area CSEG    (CODE)
+                             96 ;------------------------------------------------------------
+                             97 ;Allocation info for local variables in function 'timer_set'
+                             98 ;------------------------------------------------------------
+                             99 ;interval                  Allocated to stack - _bp -4
+                            100 ;t                         Allocated to registers r5 r6 r7 
+                            101 ;------------------------------------------------------------
+                            102 ;	../../core/sys/timer.c:65: timer_set(struct timer *t, clock_time_t interval)
+                            103 ;	-----------------------------------------
+                            104 ;	 function timer_set
+                            105 ;	-----------------------------------------
+   0000                     106 _timer_set:
+                    0007    107 	ar7 = 0x07
+                    0006    108 	ar6 = 0x06
+                    0005    109 	ar5 = 0x05
+                    0004    110 	ar4 = 0x04
+                    0003    111 	ar3 = 0x03
+                    0002    112 	ar2 = 0x02
+                    0001    113 	ar1 = 0x01
+                    0000    114 	ar0 = 0x00
+   0000 C0*00               115 	push	_bp
+   0002 85 81*00            116 	mov	_bp,sp
+   0005 AD 82               117 	mov	r5,dpl
+   0007 AE 83               118 	mov	r6,dph
+   0009 AF F0               119 	mov	r7,b
+                            120 ;	../../core/sys/timer.c:67: t->interval = interval;
+   000B 74 02               121 	mov	a,#0x02
+   000D 2D                  122 	add	a,r5
+   000E FA                  123 	mov	r2,a
+   000F E4                  124 	clr	a
+   0010 3E                  125 	addc	a,r6
+   0011 FB                  126 	mov	r3,a
+   0012 8F 04               127 	mov	ar4,r7
+   0014 8A 82               128 	mov	dpl,r2
+   0016 8B 83               129 	mov	dph,r3
+   0018 8C F0               130 	mov	b,r4
+   001A E5*00               131 	mov	a,_bp
+   001C 24 FC               132 	add	a,#0xfc
+   001E F8                  133 	mov	r0,a
+   001F E6                  134 	mov	a,@r0
+   0020 12s00r00            135 	lcall	__gptrput
+   0023 A3                  136 	inc	dptr
+   0024 08                  137 	inc	r0
+   0025 E6                  138 	mov	a,@r0
+   0026 12s00r00            139 	lcall	__gptrput
+                            140 ;	../../core/sys/timer.c:68: t->start = clock_time();
+   0029 C0 07               141 	push	ar7
+   002B C0 06               142 	push	ar6
+   002D C0 05               143 	push	ar5
+   002F 12s00r00            144 	lcall	_clock_time
+   0032 AB 82               145 	mov	r3,dpl
+   0034 AC 83               146 	mov	r4,dph
+   0036 D0 05               147 	pop	ar5
+   0038 D0 06               148 	pop	ar6
+   003A D0 07               149 	pop	ar7
+   003C 8D 82               150 	mov	dpl,r5
+   003E 8E 83               151 	mov	dph,r6
+   0040 8F F0               152 	mov	b,r7
+   0042 EB                  153 	mov	a,r3
+   0043 12s00r00            154 	lcall	__gptrput
+   0046 A3                  155 	inc	dptr
+   0047 EC                  156 	mov	a,r4
+   0048 12s00r00            157 	lcall	__gptrput
+   004B D0*00               158 	pop	_bp
+   004D 22                  159 	ret
+                            160 ;------------------------------------------------------------
+                            161 ;Allocation info for local variables in function 'timer_reset'
+                            162 ;------------------------------------------------------------
+                            163 ;t                         Allocated to registers r5 r6 r7 
+                            164 ;------------------------------------------------------------
+                            165 ;	../../core/sys/timer.c:85: timer_reset(struct timer *t)
+                            166 ;	-----------------------------------------
+                            167 ;	 function timer_reset
+                            168 ;	-----------------------------------------
+   004E                     169 _timer_reset:
+                            170 ;	../../core/sys/timer.c:87: t->start += t->interval;
+   004E AD 82               171 	mov	r5,dpl
+   0050 AE 83               172 	mov	r6,dph
+   0052 AF F0               173 	mov	r7,b
+   0054 12s00r00            174 	lcall	__gptrget
+   0057 FB                  175 	mov	r3,a
+   0058 A3                  176 	inc	dptr
+   0059 12s00r00            177 	lcall	__gptrget
+   005C FC                  178 	mov	r4,a
+   005D 74 02               179 	mov	a,#0x02
+   005F 2D                  180 	add	a,r5
+   0060 F8                  181 	mov	r0,a
+   0061 E4                  182 	clr	a
+   0062 3E                  183 	addc	a,r6
+   0063 F9                  184 	mov	r1,a
+   0064 8F 02               185 	mov	ar2,r7
+   0066 88 82               186 	mov	dpl,r0
+   0068 89 83               187 	mov	dph,r1
+   006A 8A F0               188 	mov	b,r2
+   006C 12s00r00            189 	lcall	__gptrget
+   006F F8                  190 	mov	r0,a
+   0070 A3                  191 	inc	dptr
+   0071 12s00r00            192 	lcall	__gptrget
+   0074 F9                  193 	mov	r1,a
+   0075 E8                  194 	mov	a,r0
+   0076 2B                  195 	add	a,r3
+   0077 FB                  196 	mov	r3,a
+   0078 E9                  197 	mov	a,r1
+   0079 3C                  198 	addc	a,r4
+   007A FC                  199 	mov	r4,a
+   007B 8D 82               200 	mov	dpl,r5
+   007D 8E 83               201 	mov	dph,r6
+   007F 8F F0               202 	mov	b,r7
+   0081 EB                  203 	mov	a,r3
+   0082 12s00r00            204 	lcall	__gptrput
+   0085 A3                  205 	inc	dptr
+   0086 EC                  206 	mov	a,r4
+   0087 02s00r00            207 	ljmp	__gptrput
+                            208 ;------------------------------------------------------------
+                            209 ;Allocation info for local variables in function 'timer_restart'
+                            210 ;------------------------------------------------------------
+                            211 ;t                         Allocated to registers r5 r6 r7 
+                            212 ;------------------------------------------------------------
+                            213 ;	../../core/sys/timer.c:105: timer_restart(struct timer *t)
+                            214 ;	-----------------------------------------
+                            215 ;	 function timer_restart
+                            216 ;	-----------------------------------------
+   008A                     217 _timer_restart:
+   008A AD 82               218 	mov	r5,dpl
+   008C AE 83               219 	mov	r6,dph
+   008E AF F0               220 	mov	r7,b
+                            221 ;	../../core/sys/timer.c:107: t->start = clock_time();
+   0090 C0 07               222 	push	ar7
+   0092 C0 06               223 	push	ar6
+   0094 C0 05               224 	push	ar5
+   0096 12s00r00            225 	lcall	_clock_time
+   0099 AB 82               226 	mov	r3,dpl
+   009B AC 83               227 	mov	r4,dph
+   009D D0 05               228 	pop	ar5
+   009F D0 06               229 	pop	ar6
+   00A1 D0 07               230 	pop	ar7
+   00A3 8D 82               231 	mov	dpl,r5
+   00A5 8E 83               232 	mov	dph,r6
+   00A7 8F F0               233 	mov	b,r7
+   00A9 EB                  234 	mov	a,r3
+   00AA 12s00r00            235 	lcall	__gptrput
+   00AD A3                  236 	inc	dptr
+   00AE EC                  237 	mov	a,r4
+   00AF 02s00r00            238 	ljmp	__gptrput
+                            239 ;------------------------------------------------------------
+                            240 ;Allocation info for local variables in function 'timer_expired'
+                            241 ;------------------------------------------------------------
+                            242 ;t                         Allocated to stack - _bp +1
+                            243 ;diff                      Allocated to registers r3 r4 
+                            244 ;------------------------------------------------------------
+                            245 ;	../../core/sys/timer.c:122: timer_expired(struct timer *t)
+                            246 ;	-----------------------------------------
+                            247 ;	 function timer_expired
+                            248 ;	-----------------------------------------
+   00B2                     249 _timer_expired:
+   00B2 C0*00               250 	push	_bp
+   00B4 85 81*00            251 	mov	_bp,sp
+   00B7 C0 82               252 	push	dpl
+   00B9 C0 83               253 	push	dph
+   00BB C0 F0               254 	push	b
+                            255 ;	../../core/sys/timer.c:126: clock_time_t diff = (clock_time() - t->start) + 1;
+   00BD 12s00r00            256 	lcall	_clock_time
+   00C0 AB 82               257 	mov	r3,dpl
+   00C2 AC 83               258 	mov	r4,dph
+   00C4 A8*00               259 	mov	r0,_bp
+   00C6 08                  260 	inc	r0
+   00C7 86 82               261 	mov	dpl,@r0
+   00C9 08                  262 	inc	r0
+   00CA 86 83               263 	mov	dph,@r0
+   00CC 08                  264 	inc	r0
+   00CD 86 F0               265 	mov	b,@r0
+   00CF 12s00r00            266 	lcall	__gptrget
+   00D2 FA                  267 	mov	r2,a
+   00D3 A3                  268 	inc	dptr
+   00D4 12s00r00            269 	lcall	__gptrget
+   00D7 FF                  270 	mov	r7,a
+   00D8 EB                  271 	mov	a,r3
+   00D9 C3                  272 	clr	c
+   00DA 9A                  273 	subb	a,r2
+   00DB FB                  274 	mov	r3,a
+   00DC EC                  275 	mov	a,r4
+   00DD 9F                  276 	subb	a,r7
+   00DE FC                  277 	mov	r4,a
+   00DF 0B                  278 	inc	r3
+   00E0 BB 00 01            279 	cjne	r3,#0x00,00103$
+   00E3 0C                  280 	inc	r4
+   00E4                     281 00103$:
+                            282 ;	../../core/sys/timer.c:127: return t->interval < diff;
+   00E4 A8*00               283 	mov	r0,_bp
+   00E6 08                  284 	inc	r0
+   00E7 74 02               285 	mov	a,#0x02
+   00E9 26                  286 	add	a,@r0
+   00EA FD                  287 	mov	r5,a
+   00EB E4                  288 	clr	a
+   00EC 08                  289 	inc	r0
+   00ED 36                  290 	addc	a,@r0
+   00EE FE                  291 	mov	r6,a
+   00EF 08                  292 	inc	r0
+   00F0 86 07               293 	mov	ar7,@r0
+   00F2 8D 82               294 	mov	dpl,r5
+   00F4 8E 83               295 	mov	dph,r6
+   00F6 8F F0               296 	mov	b,r7
+   00F8 12s00r00            297 	lcall	__gptrget
+   00FB FD                  298 	mov	r5,a
+   00FC A3                  299 	inc	dptr
+   00FD 12s00r00            300 	lcall	__gptrget
+   0100 FE                  301 	mov	r6,a
+   0101 C3                  302 	clr	c
+   0102 ED                  303 	mov	a,r5
+   0103 9B                  304 	subb	a,r3
+   0104 EE                  305 	mov	a,r6
+   0105 9C                  306 	subb	a,r4
+   0106 E4                  307 	clr	a
+   0107 33                  308 	rlc	a
+   0108 FB                  309 	mov	r3,a
+   0109 33                  310 	rlc	a
+   010A 95 E0               311 	subb	a,acc
+   010C FF                  312 	mov	r7,a
+   010D 8B 82               313 	mov	dpl,r3
+   010F 8F 83               314 	mov	dph,r7
+   0111 85*00 81            315 	mov	sp,_bp
+   0114 D0*00               316 	pop	_bp
+   0116 22                  317 	ret
+                            318 ;------------------------------------------------------------
+                            319 ;Allocation info for local variables in function 'timer_remaining'
+                            320 ;------------------------------------------------------------
+                            321 ;t                         Allocated to registers r5 r6 r7 
+                            322 ;------------------------------------------------------------
+                            323 ;	../../core/sys/timer.c:142: timer_remaining(struct timer *t)
+                            324 ;	-----------------------------------------
+                            325 ;	 function timer_remaining
+                            326 ;	-----------------------------------------
+   0117                     327 _timer_remaining:
+                            328 ;	../../core/sys/timer.c:144: return t->start + t->interval - clock_time();
+   0117 AD 82               329 	mov	r5,dpl
+   0119 AE 83               330 	mov	r6,dph
+   011B AF F0               331 	mov	r7,b
+   011D 12s00r00            332 	lcall	__gptrget
+   0120 FB                  333 	mov	r3,a
+   0121 A3                  334 	inc	dptr
+   0122 12s00r00            335 	lcall	__gptrget
+   0125 FC                  336 	mov	r4,a
+   0126 74 02               337 	mov	a,#0x02
+   0128 2D                  338 	add	a,r5
+   0129 FD                  339 	mov	r5,a
+   012A E4                  340 	clr	a
+   012B 3E                  341 	addc	a,r6
+   012C FE                  342 	mov	r6,a
+   012D 8D 82               343 	mov	dpl,r5
+   012F 8E 83               344 	mov	dph,r6
+   0131 8F F0               345 	mov	b,r7
+   0133 12s00r00            346 	lcall	__gptrget
+   0136 FD                  347 	mov	r5,a
+   0137 A3                  348 	inc	dptr
+   0138 12s00r00            349 	lcall	__gptrget
+   013B FE                  350 	mov	r6,a
+   013C ED                  351 	mov	a,r5
+   013D 2B                  352 	add	a,r3
+   013E FB                  353 	mov	r3,a
+   013F EE                  354 	mov	a,r6
+   0140 3C                  355 	addc	a,r4
+   0141 FC                  356 	mov	r4,a
+   0142 C0 04               357 	push	ar4
+   0144 C0 03               358 	push	ar3
+   0146 12s00r00            359 	lcall	_clock_time
+   0149 AE 82               360 	mov	r6,dpl
+   014B AF 83               361 	mov	r7,dph
+   014D D0 03               362 	pop	ar3
+   014F D0 04               363 	pop	ar4
+   0151 EB                  364 	mov	a,r3
+   0152 C3                  365 	clr	c
+   0153 9E                  366 	subb	a,r6
+   0154 FB                  367 	mov	r3,a
+   0155 EC                  368 	mov	a,r4
+   0156 9F                  369 	subb	a,r7
+   0157 8B 82               370 	mov	dpl,r3
+   0159 F5 83               371 	mov	dph,a
+   015B 22                  372 	ret
+                            373 	.area CSEG    (CODE)
+                            374 	.area CONST   (CODE)
+                            375 	.area XINIT   (CODE)
+                            376 	.area CABS    (ABS,CODE)

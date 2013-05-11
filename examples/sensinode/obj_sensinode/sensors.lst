@@ -1,0 +1,1448 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:31 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module sensors
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _process_poll
+                             13 	.globl _process_alloc_event
+                             14 	.globl _process_post
+                             15 	.globl _strlen
+                             16 	.globl _strncmp
+                             17 	.globl _IRCON2_P2IF
+                             18 	.globl _IRCON2_UTX0IF
+                             19 	.globl _IRCON2_UTX1IF
+                             20 	.globl _IRCON2_P1IF
+                             21 	.globl _IRCON2_WDTIF
+                             22 	.globl _CY
+                             23 	.globl _AC
+                             24 	.globl _F0
+                             25 	.globl _RS1
+                             26 	.globl _RS0
+                             27 	.globl _OV
+                             28 	.globl _F1
+                             29 	.globl _P
+                             30 	.globl _IRCON_DMAIF
+                             31 	.globl _IRCON_T1IF
+                             32 	.globl _IRCON_T2IF
+                             33 	.globl _IRCON_T3IF
+                             34 	.globl _IRCON_T4IF
+                             35 	.globl _IRCON_P0IF
+                             36 	.globl _IRCON_STIF
+                             37 	.globl _IEN1_DMAIE
+                             38 	.globl _IEN1_T1IE
+                             39 	.globl _IEN1_T2IE
+                             40 	.globl _IEN1_T3IE
+                             41 	.globl _IEN1_T4IE
+                             42 	.globl _IEN1_P0IE
+                             43 	.globl _IEN0_RFERRIE
+                             44 	.globl _IEN0_ADCIE
+                             45 	.globl _IEN0_URX0IE
+                             46 	.globl _IEN0_URX1IE
+                             47 	.globl _IEN0_ENCIE
+                             48 	.globl _IEN0_STIE
+                             49 	.globl _IEN0_EA
+                             50 	.globl _EA
+                             51 	.globl _P2_4
+                             52 	.globl _P2_3
+                             53 	.globl _P2_2
+                             54 	.globl _P2_1
+                             55 	.globl _P2_0
+                             56 	.globl _S0CON_ENCIF_0
+                             57 	.globl _S0CON_ENCIF_1
+                             58 	.globl _P1_7
+                             59 	.globl _P1_6
+                             60 	.globl _P1_5
+                             61 	.globl _P1_4
+                             62 	.globl _P1_3
+                             63 	.globl _P1_2
+                             64 	.globl _P1_1
+                             65 	.globl _P1_0
+                             66 	.globl _TCON_IT0
+                             67 	.globl _TCON_RFERRIF
+                             68 	.globl _TCON_IT1
+                             69 	.globl _TCON_URX0IF
+                             70 	.globl _TCON_ADCIF
+                             71 	.globl _TCON_URX1IF
+                             72 	.globl _P0_0
+                             73 	.globl _P0_1
+                             74 	.globl _P0_2
+                             75 	.globl _P0_3
+                             76 	.globl _P0_4
+                             77 	.globl _P0_5
+                             78 	.globl _P0_6
+                             79 	.globl _P0_7
+                             80 	.globl _P2DIR
+                             81 	.globl _P1DIR
+                             82 	.globl _P0DIR
+                             83 	.globl _U1GCR
+                             84 	.globl _U1UCR
+                             85 	.globl _U1BAUD
+                             86 	.globl _U1BUF
+                             87 	.globl _U1CSR
+                             88 	.globl _P2INP
+                             89 	.globl _P1INP
+                             90 	.globl _P2SEL
+                             91 	.globl _P1SEL
+                             92 	.globl _P0SEL
+                             93 	.globl _ADCCFG
+                             94 	.globl _PERCFG
+                             95 	.globl _B
+                             96 	.globl _T4CC1
+                             97 	.globl _T4CCTL1
+                             98 	.globl _T4CC0
+                             99 	.globl _T4CCTL0
+                            100 	.globl _T4CTL
+                            101 	.globl _T4CNT
+                            102 	.globl _RFIF
+                            103 	.globl _IRCON2
+                            104 	.globl _T1CCTL2
+                            105 	.globl _T1CCTL1
+                            106 	.globl _T1CCTL0
+                            107 	.globl _T1CTL
+                            108 	.globl _T1CNTH
+                            109 	.globl _T1CNTL
+                            110 	.globl _RFST
+                            111 	.globl _ACC
+                            112 	.globl _T1CC2H
+                            113 	.globl _T1CC2L
+                            114 	.globl _T1CC1H
+                            115 	.globl _T1CC1L
+                            116 	.globl _T1CC0H
+                            117 	.globl _T1CC0L
+                            118 	.globl _RFD
+                            119 	.globl _TIMIF
+                            120 	.globl _DMAREQ
+                            121 	.globl _DMAARM
+                            122 	.globl _DMA0CFGH
+                            123 	.globl _DMA0CFGL
+                            124 	.globl _DMA1CFGH
+                            125 	.globl _DMA1CFGL
+                            126 	.globl _DMAIRQ
+                            127 	.globl _PSW
+                            128 	.globl _T3CC1
+                            129 	.globl _T3CCTL1
+                            130 	.globl _T3CC0
+                            131 	.globl _T3CCTL0
+                            132 	.globl _T3CTL
+                            133 	.globl _T3CNT
+                            134 	.globl _WDCTL
+                            135 	.globl _T2CON
+                            136 	.globl _MEMCTR
+                            137 	.globl _CLKCON
+                            138 	.globl _U0GCR
+                            139 	.globl _U0UCR
+                            140 	.globl _T2CNF
+                            141 	.globl _U0BAUD
+                            142 	.globl _U0BUF
+                            143 	.globl _IRCON
+                            144 	.globl _SLEEP
+                            145 	.globl _RNDH
+                            146 	.globl _RNDL
+                            147 	.globl _ADCH
+                            148 	.globl _ADCL
+                            149 	.globl _IP1
+                            150 	.globl _IEN1
+                            151 	.globl _RCCTL
+                            152 	.globl _ADCCON3
+                            153 	.globl _ADCCON2
+                            154 	.globl _ADCCON1
+                            155 	.globl _ENCCS
+                            156 	.globl _ENCDO
+                            157 	.globl _ENCDI
+                            158 	.globl _FWDATA
+                            159 	.globl _FCTL
+                            160 	.globl _FADDRH
+                            161 	.globl _FADDRL
+                            162 	.globl _FWT
+                            163 	.globl _IP0
+                            164 	.globl _IEN0
+                            165 	.globl _IE
+                            166 	.globl _T2THD
+                            167 	.globl _T2TLD
+                            168 	.globl _T2CAPHPH
+                            169 	.globl _T2CAPLPL
+                            170 	.globl _T2OF2
+                            171 	.globl _T2OF1
+                            172 	.globl _T2OF0
+                            173 	.globl _P2
+                            174 	.globl _PSBANK
+                            175 	.globl _FMAP
+                            176 	.globl _T2PEROF2
+                            177 	.globl _T2PEROF1
+                            178 	.globl _T2PEROF0
+                            179 	.globl _S1CON
+                            180 	.globl _IEN2
+                            181 	.globl _HSRC
+                            182 	.globl _S0CON
+                            183 	.globl _ST2
+                            184 	.globl _ST1
+                            185 	.globl _ST0
+                            186 	.globl _T2CMP
+                            187 	.globl __XPAGE
+                            188 	.globl _DPS
+                            189 	.globl _RFIM
+                            190 	.globl _P1
+                            191 	.globl _P0INP
+                            192 	.globl _P1IEN
+                            193 	.globl _PICTL
+                            194 	.globl _P2IFG
+                            195 	.globl _P1IFG
+                            196 	.globl _P0IFG
+                            197 	.globl _TCON
+                            198 	.globl _PCON
+                            199 	.globl _U0CSR
+                            200 	.globl _DPH1
+                            201 	.globl _DPL1
+                            202 	.globl _DPH0
+                            203 	.globl _DPL0
+                            204 	.globl _SP
+                            205 	.globl _P0
+                            206 	.globl _sensors_process
+                            207 	.globl _sensors_event
+                            208 	.globl _ADC_SHADOW
+                            209 	.globl _U1BUF_SHADOW
+                            210 	.globl _RFD_SHADOW
+                            211 	.globl _U0BUF_SHADOW
+                            212 	.globl _RFSTATUS
+                            213 	.globl _CHIPID
+                            214 	.globl _CHVER
+                            215 	.globl _FSMTC1
+                            216 	.globl _RXFIFOCNT
+                            217 	.globl _IOCFG3
+                            218 	.globl _IOCFG2
+                            219 	.globl _IOCFG1
+                            220 	.globl _IOCFG0
+                            221 	.globl _SHORTADDRL
+                            222 	.globl _SHORTADDRH
+                            223 	.globl _PANIDL
+                            224 	.globl _PANIDH
+                            225 	.globl _IEEE_ADDR7
+                            226 	.globl _IEEE_ADDR6
+                            227 	.globl _IEEE_ADDR5
+                            228 	.globl _IEEE_ADDR4
+                            229 	.globl _IEEE_ADDR3
+                            230 	.globl _IEEE_ADDR2
+                            231 	.globl _IEEE_ADDR1
+                            232 	.globl _IEEE_ADDR0
+                            233 	.globl _DACTSTL
+                            234 	.globl _DACTSTH
+                            235 	.globl _ADCTSTL
+                            236 	.globl _ADCTSTH
+                            237 	.globl _FSMSTATE
+                            238 	.globl _AGCCTRLL
+                            239 	.globl _AGCCTRLH
+                            240 	.globl _MANORL
+                            241 	.globl _MANORH
+                            242 	.globl _MANANDL
+                            243 	.globl _MANANDH
+                            244 	.globl _FSMTCL
+                            245 	.globl _FSMTCH
+                            246 	.globl _RFPWR
+                            247 	.globl _CSPT
+                            248 	.globl _CSPCTRL
+                            249 	.globl _CSPZ
+                            250 	.globl _CSPY
+                            251 	.globl _CSPX
+                            252 	.globl _FSCTRLL
+                            253 	.globl _FSCTRLH
+                            254 	.globl _RXCTRL1L
+                            255 	.globl _RXCTRL1H
+                            256 	.globl _RXCTRL0L
+                            257 	.globl _RXCTRL0H
+                            258 	.globl _TXCTRLL
+                            259 	.globl _TXCTRLH
+                            260 	.globl _SYNCWORDL
+                            261 	.globl _SYNCWORDH
+                            262 	.globl _RSSIL
+                            263 	.globl _RSSIH
+                            264 	.globl _MDMCTRL1L
+                            265 	.globl _MDMCTRL1H
+                            266 	.globl _MDMCTRL0L
+                            267 	.globl _MDMCTRL0H
+                            268 	.globl _sensors_first
+                            269 	.globl _sensors_next
+                            270 	.globl _sensors_changed
+                            271 	.globl _sensors_find
+                            272 ;--------------------------------------------------------
+                            273 ; special function registers
+                            274 ;--------------------------------------------------------
+                            275 	.area RSEG    (ABS,DATA)
+   0000                     276 	.org 0x0000
+                    0080    277 _P0	=	0x0080
+                    0081    278 _SP	=	0x0081
+                    0082    279 _DPL0	=	0x0082
+                    0083    280 _DPH0	=	0x0083
+                    0084    281 _DPL1	=	0x0084
+                    0085    282 _DPH1	=	0x0085
+                    0086    283 _U0CSR	=	0x0086
+                    0087    284 _PCON	=	0x0087
+                    0088    285 _TCON	=	0x0088
+                    0089    286 _P0IFG	=	0x0089
+                    008A    287 _P1IFG	=	0x008a
+                    008B    288 _P2IFG	=	0x008b
+                    008C    289 _PICTL	=	0x008c
+                    008D    290 _P1IEN	=	0x008d
+                    008F    291 _P0INP	=	0x008f
+                    0090    292 _P1	=	0x0090
+                    0091    293 _RFIM	=	0x0091
+                    0092    294 _DPS	=	0x0092
+                    0093    295 __XPAGE	=	0x0093
+                    0094    296 _T2CMP	=	0x0094
+                    0095    297 _ST0	=	0x0095
+                    0096    298 _ST1	=	0x0096
+                    0097    299 _ST2	=	0x0097
+                    0098    300 _S0CON	=	0x0098
+                    0099    301 _HSRC	=	0x0099
+                    009A    302 _IEN2	=	0x009a
+                    009B    303 _S1CON	=	0x009b
+                    009C    304 _T2PEROF0	=	0x009c
+                    009D    305 _T2PEROF1	=	0x009d
+                    009E    306 _T2PEROF2	=	0x009e
+                    009F    307 _FMAP	=	0x009f
+                    009F    308 _PSBANK	=	0x009f
+                    00A0    309 _P2	=	0x00a0
+                    00A1    310 _T2OF0	=	0x00a1
+                    00A2    311 _T2OF1	=	0x00a2
+                    00A3    312 _T2OF2	=	0x00a3
+                    00A4    313 _T2CAPLPL	=	0x00a4
+                    00A5    314 _T2CAPHPH	=	0x00a5
+                    00A6    315 _T2TLD	=	0x00a6
+                    00A7    316 _T2THD	=	0x00a7
+                    00A8    317 _IE	=	0x00a8
+                    00A8    318 _IEN0	=	0x00a8
+                    00A9    319 _IP0	=	0x00a9
+                    00AB    320 _FWT	=	0x00ab
+                    00AC    321 _FADDRL	=	0x00ac
+                    00AD    322 _FADDRH	=	0x00ad
+                    00AE    323 _FCTL	=	0x00ae
+                    00AF    324 _FWDATA	=	0x00af
+                    00B1    325 _ENCDI	=	0x00b1
+                    00B2    326 _ENCDO	=	0x00b2
+                    00B3    327 _ENCCS	=	0x00b3
+                    00B4    328 _ADCCON1	=	0x00b4
+                    00B5    329 _ADCCON2	=	0x00b5
+                    00B6    330 _ADCCON3	=	0x00b6
+                    00B7    331 _RCCTL	=	0x00b7
+                    00B8    332 _IEN1	=	0x00b8
+                    00B9    333 _IP1	=	0x00b9
+                    00BA    334 _ADCL	=	0x00ba
+                    00BB    335 _ADCH	=	0x00bb
+                    00BC    336 _RNDL	=	0x00bc
+                    00BD    337 _RNDH	=	0x00bd
+                    00BE    338 _SLEEP	=	0x00be
+                    00C0    339 _IRCON	=	0x00c0
+                    00C1    340 _U0BUF	=	0x00c1
+                    00C2    341 _U0BAUD	=	0x00c2
+                    00C3    342 _T2CNF	=	0x00c3
+                    00C4    343 _U0UCR	=	0x00c4
+                    00C5    344 _U0GCR	=	0x00c5
+                    00C6    345 _CLKCON	=	0x00c6
+                    00C7    346 _MEMCTR	=	0x00c7
+                    00C8    347 _T2CON	=	0x00c8
+                    00C9    348 _WDCTL	=	0x00c9
+                    00CA    349 _T3CNT	=	0x00ca
+                    00CB    350 _T3CTL	=	0x00cb
+                    00CC    351 _T3CCTL0	=	0x00cc
+                    00CD    352 _T3CC0	=	0x00cd
+                    00CE    353 _T3CCTL1	=	0x00ce
+                    00CF    354 _T3CC1	=	0x00cf
+                    00D0    355 _PSW	=	0x00d0
+                    00D1    356 _DMAIRQ	=	0x00d1
+                    00D2    357 _DMA1CFGL	=	0x00d2
+                    00D3    358 _DMA1CFGH	=	0x00d3
+                    00D4    359 _DMA0CFGL	=	0x00d4
+                    00D5    360 _DMA0CFGH	=	0x00d5
+                    00D6    361 _DMAARM	=	0x00d6
+                    00D7    362 _DMAREQ	=	0x00d7
+                    00D8    363 _TIMIF	=	0x00d8
+                    00D9    364 _RFD	=	0x00d9
+                    00DA    365 _T1CC0L	=	0x00da
+                    00DB    366 _T1CC0H	=	0x00db
+                    00DC    367 _T1CC1L	=	0x00dc
+                    00DD    368 _T1CC1H	=	0x00dd
+                    00DE    369 _T1CC2L	=	0x00de
+                    00DF    370 _T1CC2H	=	0x00df
+                    00E0    371 _ACC	=	0x00e0
+                    00E1    372 _RFST	=	0x00e1
+                    00E2    373 _T1CNTL	=	0x00e2
+                    00E3    374 _T1CNTH	=	0x00e3
+                    00E4    375 _T1CTL	=	0x00e4
+                    00E5    376 _T1CCTL0	=	0x00e5
+                    00E6    377 _T1CCTL1	=	0x00e6
+                    00E7    378 _T1CCTL2	=	0x00e7
+                    00E8    379 _IRCON2	=	0x00e8
+                    00E9    380 _RFIF	=	0x00e9
+                    00EA    381 _T4CNT	=	0x00ea
+                    00EB    382 _T4CTL	=	0x00eb
+                    00EC    383 _T4CCTL0	=	0x00ec
+                    00ED    384 _T4CC0	=	0x00ed
+                    00EE    385 _T4CCTL1	=	0x00ee
+                    00EF    386 _T4CC1	=	0x00ef
+                    00F0    387 _B	=	0x00f0
+                    00F1    388 _PERCFG	=	0x00f1
+                    00F2    389 _ADCCFG	=	0x00f2
+                    00F3    390 _P0SEL	=	0x00f3
+                    00F4    391 _P1SEL	=	0x00f4
+                    00F5    392 _P2SEL	=	0x00f5
+                    00F6    393 _P1INP	=	0x00f6
+                    00F7    394 _P2INP	=	0x00f7
+                    00F8    395 _U1CSR	=	0x00f8
+                    00F9    396 _U1BUF	=	0x00f9
+                    00FA    397 _U1BAUD	=	0x00fa
+                    00FB    398 _U1UCR	=	0x00fb
+                    00FC    399 _U1GCR	=	0x00fc
+                    00FD    400 _P0DIR	=	0x00fd
+                    00FE    401 _P1DIR	=	0x00fe
+                    00FF    402 _P2DIR	=	0x00ff
+                            403 ;--------------------------------------------------------
+                            404 ; special function bits
+                            405 ;--------------------------------------------------------
+                            406 	.area RSEG    (ABS,DATA)
+   0000                     407 	.org 0x0000
+                    0087    408 _P0_7	=	0x0087
+                    0086    409 _P0_6	=	0x0086
+                    0085    410 _P0_5	=	0x0085
+                    0084    411 _P0_4	=	0x0084
+                    0083    412 _P0_3	=	0x0083
+                    0082    413 _P0_2	=	0x0082
+                    0081    414 _P0_1	=	0x0081
+                    0080    415 _P0_0	=	0x0080
+                    008F    416 _TCON_URX1IF	=	0x008f
+                    008D    417 _TCON_ADCIF	=	0x008d
+                    008B    418 _TCON_URX0IF	=	0x008b
+                    008A    419 _TCON_IT1	=	0x008a
+                    0089    420 _TCON_RFERRIF	=	0x0089
+                    0088    421 _TCON_IT0	=	0x0088
+                    0090    422 _P1_0	=	0x0090
+                    0091    423 _P1_1	=	0x0091
+                    0092    424 _P1_2	=	0x0092
+                    0093    425 _P1_3	=	0x0093
+                    0094    426 _P1_4	=	0x0094
+                    0095    427 _P1_5	=	0x0095
+                    0096    428 _P1_6	=	0x0096
+                    0097    429 _P1_7	=	0x0097
+                    0099    430 _S0CON_ENCIF_1	=	0x0099
+                    0098    431 _S0CON_ENCIF_0	=	0x0098
+                    00A0    432 _P2_0	=	0x00a0
+                    00A1    433 _P2_1	=	0x00a1
+                    00A2    434 _P2_2	=	0x00a2
+                    00A3    435 _P2_3	=	0x00a3
+                    00A4    436 _P2_4	=	0x00a4
+                    00AF    437 _EA	=	0x00af
+                    00AF    438 _IEN0_EA	=	0x00af
+                    00AD    439 _IEN0_STIE	=	0x00ad
+                    00AC    440 _IEN0_ENCIE	=	0x00ac
+                    00AB    441 _IEN0_URX1IE	=	0x00ab
+                    00AA    442 _IEN0_URX0IE	=	0x00aa
+                    00A9    443 _IEN0_ADCIE	=	0x00a9
+                    00A8    444 _IEN0_RFERRIE	=	0x00a8
+                    00BD    445 _IEN1_P0IE	=	0x00bd
+                    00BC    446 _IEN1_T4IE	=	0x00bc
+                    00BB    447 _IEN1_T3IE	=	0x00bb
+                    00BA    448 _IEN1_T2IE	=	0x00ba
+                    00B9    449 _IEN1_T1IE	=	0x00b9
+                    00B8    450 _IEN1_DMAIE	=	0x00b8
+                    00C7    451 _IRCON_STIF	=	0x00c7
+                    00C5    452 _IRCON_P0IF	=	0x00c5
+                    00C4    453 _IRCON_T4IF	=	0x00c4
+                    00C3    454 _IRCON_T3IF	=	0x00c3
+                    00C2    455 _IRCON_T2IF	=	0x00c2
+                    00C1    456 _IRCON_T1IF	=	0x00c1
+                    00C0    457 _IRCON_DMAIF	=	0x00c0
+                    00D0    458 _P	=	0x00d0
+                    00D1    459 _F1	=	0x00d1
+                    00D2    460 _OV	=	0x00d2
+                    00D3    461 _RS0	=	0x00d3
+                    00D4    462 _RS1	=	0x00d4
+                    00D5    463 _F0	=	0x00d5
+                    00D6    464 _AC	=	0x00d6
+                    00D7    465 _CY	=	0x00d7
+                    00EC    466 _IRCON2_WDTIF	=	0x00ec
+                    00EB    467 _IRCON2_P1IF	=	0x00eb
+                    00EA    468 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    469 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    470 _IRCON2_P2IF	=	0x00e8
+                            471 ;--------------------------------------------------------
+                            472 ; overlayable register banks
+                            473 ;--------------------------------------------------------
+                            474 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     475 	.ds 8
+                            476 ;--------------------------------------------------------
+                            477 ; internal ram data
+                            478 ;--------------------------------------------------------
+                            479 	.area DSEG    (DATA)
+                            480 ;--------------------------------------------------------
+                            481 ; overlayable items in internal ram 
+                            482 ;--------------------------------------------------------
+                            483 	.area OSEG    (OVR,DATA)
+                            484 ;--------------------------------------------------------
+                            485 ; indirectly addressable internal ram data
+                            486 ;--------------------------------------------------------
+                            487 	.area ISEG    (DATA)
+                            488 ;--------------------------------------------------------
+                            489 ; absolute internal ram data
+                            490 ;--------------------------------------------------------
+                            491 	.area IABS    (ABS,DATA)
+                            492 	.area IABS    (ABS,DATA)
+                            493 ;--------------------------------------------------------
+                            494 ; bit data
+                            495 ;--------------------------------------------------------
+                            496 	.area BSEG    (BIT)
+                            497 ;--------------------------------------------------------
+                            498 ; paged external ram data
+                            499 ;--------------------------------------------------------
+                            500 	.area PSEG    (PAG,XDATA)
+                            501 ;--------------------------------------------------------
+                            502 ; external ram data
+                            503 ;--------------------------------------------------------
+                            504 	.area XSEG    (XDATA)
+                    DF02    505 _MDMCTRL0H	=	0xdf02
+                    DF03    506 _MDMCTRL0L	=	0xdf03
+                    DF04    507 _MDMCTRL1H	=	0xdf04
+                    DF05    508 _MDMCTRL1L	=	0xdf05
+                    DF06    509 _RSSIH	=	0xdf06
+                    DF07    510 _RSSIL	=	0xdf07
+                    DF08    511 _SYNCWORDH	=	0xdf08
+                    DF09    512 _SYNCWORDL	=	0xdf09
+                    DF0A    513 _TXCTRLH	=	0xdf0a
+                    DF0B    514 _TXCTRLL	=	0xdf0b
+                    DF0C    515 _RXCTRL0H	=	0xdf0c
+                    DF0D    516 _RXCTRL0L	=	0xdf0d
+                    DF0E    517 _RXCTRL1H	=	0xdf0e
+                    DF0F    518 _RXCTRL1L	=	0xdf0f
+                    DF10    519 _FSCTRLH	=	0xdf10
+                    DF11    520 _FSCTRLL	=	0xdf11
+                    DF12    521 _CSPX	=	0xdf12
+                    DF13    522 _CSPY	=	0xdf13
+                    DF14    523 _CSPZ	=	0xdf14
+                    DF15    524 _CSPCTRL	=	0xdf15
+                    DF16    525 _CSPT	=	0xdf16
+                    DF17    526 _RFPWR	=	0xdf17
+                    DF20    527 _FSMTCH	=	0xdf20
+                    DF21    528 _FSMTCL	=	0xdf21
+                    DF22    529 _MANANDH	=	0xdf22
+                    DF23    530 _MANANDL	=	0xdf23
+                    DF24    531 _MANORH	=	0xdf24
+                    DF25    532 _MANORL	=	0xdf25
+                    DF26    533 _AGCCTRLH	=	0xdf26
+                    DF27    534 _AGCCTRLL	=	0xdf27
+                    DF39    535 _FSMSTATE	=	0xdf39
+                    DF3A    536 _ADCTSTH	=	0xdf3a
+                    DF3B    537 _ADCTSTL	=	0xdf3b
+                    DF3C    538 _DACTSTH	=	0xdf3c
+                    DF3D    539 _DACTSTL	=	0xdf3d
+                    DF43    540 _IEEE_ADDR0	=	0xdf43
+                    DF44    541 _IEEE_ADDR1	=	0xdf44
+                    DF45    542 _IEEE_ADDR2	=	0xdf45
+                    DF46    543 _IEEE_ADDR3	=	0xdf46
+                    DF47    544 _IEEE_ADDR4	=	0xdf47
+                    DF48    545 _IEEE_ADDR5	=	0xdf48
+                    DF49    546 _IEEE_ADDR6	=	0xdf49
+                    DF4A    547 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    548 _PANIDH	=	0xdf4b
+                    DF4C    549 _PANIDL	=	0xdf4c
+                    DF4D    550 _SHORTADDRH	=	0xdf4d
+                    DF4E    551 _SHORTADDRL	=	0xdf4e
+                    DF4F    552 _IOCFG0	=	0xdf4f
+                    DF50    553 _IOCFG1	=	0xdf50
+                    DF51    554 _IOCFG2	=	0xdf51
+                    DF52    555 _IOCFG3	=	0xdf52
+                    DF53    556 _RXFIFOCNT	=	0xdf53
+                    DF54    557 _FSMTC1	=	0xdf54
+                    DF60    558 _CHVER	=	0xdf60
+                    DF61    559 _CHIPID	=	0xdf61
+                    DF62    560 _RFSTATUS	=	0xdf62
+                    DFC1    561 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    562 _RFD_SHADOW	=	0xdfd9
+                    DFF9    563 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    564 _ADC_SHADOW	=	0xdfba
+   0000                     565 _sensors_event::
+   0000                     566 	.ds 1
+   0001                     567 _num_sensors:
+   0001                     568 	.ds 1
+   0002                     569 _process_thread_sensors_process_i_1_1:
+   0002                     570 	.ds 2
+   0004                     571 _process_thread_sensors_process_events_1_1:
+   0004                     572 	.ds 2
+                            573 ;--------------------------------------------------------
+                            574 ; absolute external ram data
+                            575 ;--------------------------------------------------------
+                            576 	.area XABS    (ABS,XDATA)
+                            577 ;--------------------------------------------------------
+                            578 ; external initialized ram data
+                            579 ;--------------------------------------------------------
+                            580 	.area XISEG   (XDATA)
+   0000                     581 _sensors_process::
+   0000                     582 	.ds 9
+                            583 	.area HOME    (CODE)
+                            584 	.area GSINIT0 (CODE)
+                            585 	.area GSINIT1 (CODE)
+                            586 	.area GSINIT2 (CODE)
+                            587 	.area GSINIT3 (CODE)
+                            588 	.area GSINIT4 (CODE)
+                            589 	.area GSINIT5 (CODE)
+                            590 	.area GSINIT  (CODE)
+                            591 	.area GSFINAL (CODE)
+                            592 	.area CSEG    (CODE)
+                            593 ;--------------------------------------------------------
+                            594 ; global & static initialisations
+                            595 ;--------------------------------------------------------
+                            596 	.area HOME    (CODE)
+                            597 	.area GSINIT  (CODE)
+                            598 	.area GSFINAL (CODE)
+                            599 	.area GSINIT  (CODE)
+                            600 ;--------------------------------------------------------
+                            601 ; Home
+                            602 ;--------------------------------------------------------
+                            603 	.area HOME    (CODE)
+                            604 	.area HOME    (CODE)
+                            605 ;--------------------------------------------------------
+                            606 ; code
+                            607 ;--------------------------------------------------------
+                            608 	.area CSEG    (CODE)
+                            609 ;------------------------------------------------------------
+                            610 ;Allocation info for local variables in function 'get_sensor_index'
+                            611 ;------------------------------------------------------------
+                            612 ;s                         Allocated to stack - _bp +1
+                            613 ;i                         Allocated to stack - _bp +4
+                            614 ;------------------------------------------------------------
+                            615 ;	../../core/lib/sensors.c:55: get_sensor_index(const struct sensors_sensor *s)
+                            616 ;	-----------------------------------------
+                            617 ;	 function get_sensor_index
+                            618 ;	-----------------------------------------
+   0000                     619 _get_sensor_index:
+                    0007    620 	ar7 = 0x07
+                    0006    621 	ar6 = 0x06
+                    0005    622 	ar5 = 0x05
+                    0004    623 	ar4 = 0x04
+                    0003    624 	ar3 = 0x03
+                    0002    625 	ar2 = 0x02
+                    0001    626 	ar1 = 0x01
+                    0000    627 	ar0 = 0x00
+   0000 C0*00               628 	push	_bp
+   0002 85 81*00            629 	mov	_bp,sp
+   0005 C0 82               630 	push	dpl
+   0007 C0 83               631 	push	dph
+   0009 C0 F0               632 	push	b
+   000B 05 81               633 	inc	sp
+   000D 05 81               634 	inc	sp
+                            635 ;	../../core/lib/sensors.c:58: for(i = 0; i < num_sensors; ++i) {
+   000F E4                  636 	clr	a
+   0010 FB                  637 	mov	r3,a
+   0011 FC                  638 	mov	r4,a
+   0012 E5*00               639 	mov	a,_bp
+   0014 24 04               640 	add	a,#0x04
+   0016 F8                  641 	mov	r0,a
+   0017 E4                  642 	clr	a
+   0018 F6                  643 	mov	@r0,a
+   0019 08                  644 	inc	r0
+   001A F6                  645 	mov	@r0,a
+   001B 7D 00               646 	mov	r5,#0x00
+   001D 7E 00               647 	mov	r6,#0x00
+   001F                     648 00103$:
+   001F C0 03               649 	push	ar3
+   0021 C0 04               650 	push	ar4
+   0023 90s00r01            651 	mov	dptr,#_num_sensors
+   0026 E0                  652 	movx	a,@dptr
+   0027 FC                  653 	mov	r4,a
+   0028 7B 00               654 	mov	r3,#0x00
+   002A E5*00               655 	mov	a,_bp
+   002C 24 04               656 	add	a,#0x04
+   002E F8                  657 	mov	r0,a
+   002F C3                  658 	clr	c
+   0030 E6                  659 	mov	a,@r0
+   0031 9C                  660 	subb	a,r4
+   0032 08                  661 	inc	r0
+   0033 E6                  662 	mov	a,@r0
+   0034 64 80               663 	xrl	a,#0x80
+   0036 8B F0               664 	mov	b,r3
+   0038 63 F0 80            665 	xrl	b,#0x80
+   003B 95 F0               666 	subb	a,b
+   003D D0 04               667 	pop	ar4
+   003F D0 03               668 	pop	ar3
+   0041 50 61               669 	jnc	00106$
+                            670 ;	../../core/lib/sensors.c:59: if(sensors[i] == s) {
+   0043 C0 03               671 	push	ar3
+   0045 C0 04               672 	push	ar4
+   0047 ED                  673 	mov	a,r5
+   0048 24r00               674 	add	a,#_sensors
+   004A F5 82               675 	mov	dpl,a
+   004C EE                  676 	mov	a,r6
+   004D 34s00               677 	addc	a,#(_sensors >> 8)
+   004F F5 83               678 	mov	dph,a
+   0051 E0                  679 	movx	a,@dptr
+   0052 FB                  680 	mov	r3,a
+   0053 A3                  681 	inc	dptr
+   0054 E0                  682 	movx	a,@dptr
+   0055 FC                  683 	mov	r4,a
+   0056 A3                  684 	inc	dptr
+   0057 E0                  685 	movx	a,@dptr
+   0058 FF                  686 	mov	r7,a
+   0059 A8*00               687 	mov	r0,_bp
+   005B 08                  688 	inc	r0
+   005C C0 03               689 	push	ar3
+   005E C0 04               690 	push	ar4
+   0060 C0 07               691 	push	ar7
+   0062 86 82               692 	mov	dpl,@r0
+   0064 08                  693 	inc	r0
+   0065 86 83               694 	mov	dph,@r0
+   0067 08                  695 	inc	r0
+   0068 86 F0               696 	mov	b,@r0
+   006A 12s00r00            697 	lcall	___gptr_cmp
+   006D 15 81               698 	dec	sp
+   006F 15 81               699 	dec	sp
+   0071 15 81               700 	dec	sp
+   0073 60 06               701 	jz	00117$
+   0075 D0 04               702 	pop	ar4
+   0077 D0 03               703 	pop	ar3
+   0079 80 0A               704 	sjmp	00105$
+   007B                     705 00117$:
+   007B D0 04               706 	pop	ar4
+   007D D0 03               707 	pop	ar3
+                            708 ;	../../core/lib/sensors.c:60: return i;
+   007F 8B 82               709 	mov	dpl,r3
+   0081 8C 83               710 	mov	dph,r4
+   0083 80 23               711 	sjmp	00107$
+   0085                     712 00105$:
+                            713 ;	../../core/lib/sensors.c:58: for(i = 0; i < num_sensors; ++i) {
+   0085 74 03               714 	mov	a,#0x03
+   0087 2D                  715 	add	a,r5
+   0088 FD                  716 	mov	r5,a
+   0089 E4                  717 	clr	a
+   008A 3E                  718 	addc	a,r6
+   008B FE                  719 	mov	r6,a
+   008C E5*00               720 	mov	a,_bp
+   008E 24 04               721 	add	a,#0x04
+   0090 F8                  722 	mov	r0,a
+   0091 06                  723 	inc	@r0
+   0092 B6 00 02            724 	cjne	@r0,#0x00,00118$
+   0095 08                  725 	inc	r0
+   0096 06                  726 	inc	@r0
+   0097                     727 00118$:
+   0097 E5*00               728 	mov	a,_bp
+   0099 24 04               729 	add	a,#0x04
+   009B F8                  730 	mov	r0,a
+   009C 86 03               731 	mov	ar3,@r0
+   009E 08                  732 	inc	r0
+   009F 86 04               733 	mov	ar4,@r0
+   00A1 02s00r1F            734 	ljmp	00103$
+   00A4                     735 00106$:
+                            736 ;	../../core/lib/sensors.c:63: return i;
+   00A4 8B 82               737 	mov	dpl,r3
+   00A6 8C 83               738 	mov	dph,r4
+   00A8                     739 00107$:
+   00A8 85*00 81            740 	mov	sp,_bp
+   00AB D0*00               741 	pop	_bp
+   00AD 22                  742 	ret
+                            743 ;------------------------------------------------------------
+                            744 ;Allocation info for local variables in function 'sensors_first'
+                            745 ;------------------------------------------------------------
+                            746 ;	../../core/lib/sensors.c:67: sensors_first(void)
+                            747 ;	-----------------------------------------
+                            748 ;	 function sensors_first
+                            749 ;	-----------------------------------------
+   00AE                     750 _sensors_first:
+                            751 ;	../../core/lib/sensors.c:69: return sensors[0];
+   00AE 90s00r00            752 	mov	dptr,#_sensors
+   00B1 E0                  753 	movx	a,@dptr
+   00B2 FD                  754 	mov	r5,a
+   00B3 A3                  755 	inc	dptr
+   00B4 E0                  756 	movx	a,@dptr
+   00B5 FE                  757 	mov	r6,a
+   00B6 A3                  758 	inc	dptr
+   00B7 E0                  759 	movx	a,@dptr
+   00B8 FF                  760 	mov	r7,a
+   00B9 8D 82               761 	mov	dpl,r5
+   00BB 8E 83               762 	mov	dph,r6
+   00BD 8F F0               763 	mov	b,r7
+   00BF 22                  764 	ret
+                            765 ;------------------------------------------------------------
+                            766 ;Allocation info for local variables in function 'sensors_next'
+                            767 ;------------------------------------------------------------
+                            768 ;s                         Allocated to registers r5 r6 r7 
+                            769 ;------------------------------------------------------------
+                            770 ;	../../core/lib/sensors.c:73: sensors_next(const struct sensors_sensor *s)
+                            771 ;	-----------------------------------------
+                            772 ;	 function sensors_next
+                            773 ;	-----------------------------------------
+   00C0                     774 _sensors_next:
+                            775 ;	../../core/lib/sensors.c:75: return sensors[get_sensor_index(s) + 1];
+   00C0 12s00r00            776 	lcall	_get_sensor_index
+   00C3 E5 82               777 	mov	a,dpl
+   00C5 85 83 F0            778 	mov	b,dph
+   00C8 24 01               779 	add	a,#0x01
+   00CA FE                  780 	mov	r6,a
+   00CB E4                  781 	clr	a
+   00CC 35 F0               782 	addc	a,b
+   00CE FF                  783 	mov	r7,a
+   00CF C0 06               784 	push	ar6
+   00D1 C0 07               785 	push	ar7
+   00D3 90 00 03            786 	mov	dptr,#0x0003
+   00D6 12s00r00            787 	lcall	__mulint
+   00D9 AE 82               788 	mov	r6,dpl
+   00DB AF 83               789 	mov	r7,dph
+   00DD 15 81               790 	dec	sp
+   00DF 15 81               791 	dec	sp
+   00E1 EE                  792 	mov	a,r6
+   00E2 24r00               793 	add	a,#_sensors
+   00E4 F5 82               794 	mov	dpl,a
+   00E6 EF                  795 	mov	a,r7
+   00E7 34s00               796 	addc	a,#(_sensors >> 8)
+   00E9 F5 83               797 	mov	dph,a
+   00EB E0                  798 	movx	a,@dptr
+   00EC FD                  799 	mov	r5,a
+   00ED A3                  800 	inc	dptr
+   00EE E0                  801 	movx	a,@dptr
+   00EF FE                  802 	mov	r6,a
+   00F0 A3                  803 	inc	dptr
+   00F1 E0                  804 	movx	a,@dptr
+   00F2 FF                  805 	mov	r7,a
+   00F3 8D 82               806 	mov	dpl,r5
+   00F5 8E 83               807 	mov	dph,r6
+   00F7 8F F0               808 	mov	b,r7
+   00F9 22                  809 	ret
+                            810 ;------------------------------------------------------------
+                            811 ;Allocation info for local variables in function 'sensors_changed'
+                            812 ;------------------------------------------------------------
+                            813 ;s                         Allocated to registers r5 r6 r7 
+                            814 ;__00010001                Allocated to registers 
+                            815 ;------------------------------------------------------------
+                            816 ;	../../core/lib/sensors.c:79: sensors_changed(const struct sensors_sensor *s)
+                            817 ;	-----------------------------------------
+                            818 ;	 function sensors_changed
+                            819 ;	-----------------------------------------
+   00FA                     820 _sensors_changed:
+                            821 ;	../../core/lib/sensors.c:81: sensors_flags[get_sensor_index(s)] |= FLAG_CHANGED;
+   00FA 12s00r00            822 	lcall	_get_sensor_index
+   00FD AE 82               823 	mov	r6,dpl
+   00FF AF 83               824 	mov	r7,dph
+   0101 EE                  825 	mov	a,r6
+   0102 24r00               826 	add	a,#_sensors_flags
+   0104 FE                  827 	mov	r6,a
+   0105 EF                  828 	mov	a,r7
+   0106 34s00               829 	addc	a,#(_sensors_flags >> 8)
+   0108 FF                  830 	mov	r7,a
+   0109 8E 82               831 	mov	dpl,r6
+   010B 8F 83               832 	mov	dph,r7
+   010D E0                  833 	movx	a,@dptr
+   010E FD                  834 	mov	r5,a
+   010F 43 05 80            835 	orl	ar5,#0x80
+   0112 8E 82               836 	mov	dpl,r6
+   0114 8F 83               837 	mov	dph,r7
+   0116 ED                  838 	mov	a,r5
+   0117 F0                  839 	movx	@dptr,a
+                            840 ;	../../core/lib/sensors.c:82: process_poll(&sensors_process);
+   0118 90s00r00            841 	mov	dptr,#_sensors_process
+   011B 75 F0 00            842 	mov	b,#0x00
+   011E 02s00r00            843 	ljmp	_process_poll
+                            844 ;------------------------------------------------------------
+                            845 ;Allocation info for local variables in function 'sensors_find'
+                            846 ;------------------------------------------------------------
+                            847 ;prefix                    Allocated to stack - _bp +1
+                            848 ;i                         Allocated to registers r2 r4 
+                            849 ;len                       Allocated to stack - _bp +4
+                            850 ;sloc0                     Allocated to stack - _bp +6
+                            851 ;------------------------------------------------------------
+                            852 ;	../../core/lib/sensors.c:86: sensors_find(const char *prefix)
+                            853 ;	-----------------------------------------
+                            854 ;	 function sensors_find
+                            855 ;	-----------------------------------------
+   0121                     856 _sensors_find:
+   0121 C0*00               857 	push	_bp
+   0123 85 81*00            858 	mov	_bp,sp
+   0126 C0 82               859 	push	dpl
+   0128 C0 83               860 	push	dph
+   012A C0 F0               861 	push	b
+   012C E5 81               862 	mov	a,sp
+   012E 24 05               863 	add	a,#0x05
+   0130 F5 81               864 	mov	sp,a
+                            865 ;	../../core/lib/sensors.c:93: len = strlen(prefix);
+   0132 A8*00               866 	mov	r0,_bp
+   0134 08                  867 	inc	r0
+   0135 86 82               868 	mov	dpl,@r0
+   0137 08                  869 	inc	r0
+   0138 86 83               870 	mov	dph,@r0
+   013A 08                  871 	inc	r0
+   013B 86 F0               872 	mov	b,@r0
+   013D 12s00r00            873 	lcall	_strlen
+   0140 C8                  874 	xch	a,r0
+   0141 E5*00               875 	mov	a,_bp
+   0143 24 04               876 	add	a,#0x04
+   0145 C8                  877 	xch	a,r0
+   0146 A6 82               878 	mov	@r0,dpl
+   0148 08                  879 	inc	r0
+   0149 A6 83               880 	mov	@r0,dph
+                            881 ;	../../core/lib/sensors.c:95: for(i = 0; i < num_sensors; ++i) {
+   014B 7A 00               882 	mov	r2,#0x00
+   014D 7C 00               883 	mov	r4,#0x00
+   014F 7B 00               884 	mov	r3,#0x00
+   0151 7F 00               885 	mov	r7,#0x00
+   0153                     886 00103$:
+   0153 90s00r01            887 	mov	dptr,#_num_sensors
+   0156 E0                  888 	movx	a,@dptr
+   0157 FE                  889 	mov	r6,a
+   0158 7D 00               890 	mov	r5,#0x00
+   015A C3                  891 	clr	c
+   015B EA                  892 	mov	a,r2
+   015C 9E                  893 	subb	a,r6
+   015D EC                  894 	mov	a,r4
+   015E 64 80               895 	xrl	a,#0x80
+   0160 8D F0               896 	mov	b,r5
+   0162 63 F0 80            897 	xrl	b,#0x80
+   0165 95 F0               898 	subb	a,b
+   0167 40 03               899 	jc	00115$
+   0169 02s02r0F            900 	ljmp	00106$
+   016C                     901 00115$:
+                            902 ;	../../core/lib/sensors.c:96: if(strncmp(prefix, sensors[i]->type, len) == 0) {
+   016C C0 02               903 	push	ar2
+   016E C0 04               904 	push	ar4
+   0170 EB                  905 	mov	a,r3
+   0171 24r00               906 	add	a,#_sensors
+   0173 F5 82               907 	mov	dpl,a
+   0175 EF                  908 	mov	a,r7
+   0176 34s00               909 	addc	a,#(_sensors >> 8)
+   0178 F5 83               910 	mov	dph,a
+   017A E0                  911 	movx	a,@dptr
+   017B FC                  912 	mov	r4,a
+   017C A3                  913 	inc	dptr
+   017D E0                  914 	movx	a,@dptr
+   017E FD                  915 	mov	r5,a
+   017F A3                  916 	inc	dptr
+   0180 E0                  917 	movx	a,@dptr
+   0181 FE                  918 	mov	r6,a
+   0182 8C 82               919 	mov	dpl,r4
+   0184 8D 83               920 	mov	dph,r5
+   0186 8E F0               921 	mov	b,r6
+   0188 12s00r00            922 	lcall	__gptrget
+   018B FC                  923 	mov	r4,a
+   018C A3                  924 	inc	dptr
+   018D 12s00r00            925 	lcall	__gptrget
+   0190 FD                  926 	mov	r5,a
+   0191 A3                  927 	inc	dptr
+   0192 12s00r00            928 	lcall	__gptrget
+   0195 FE                  929 	mov	r6,a
+   0196 C0 07               930 	push	ar7
+   0198 C0 04               931 	push	ar4
+   019A C0 03               932 	push	ar3
+   019C C0 02               933 	push	ar2
+   019E E5*00               934 	mov	a,_bp
+   01A0 24 04               935 	add	a,#0x04
+   01A2 F8                  936 	mov	r0,a
+   01A3 E6                  937 	mov	a,@r0
+   01A4 C0 E0               938 	push	acc
+   01A6 08                  939 	inc	r0
+   01A7 E6                  940 	mov	a,@r0
+   01A8 C0 E0               941 	push	acc
+   01AA C0 04               942 	push	ar4
+   01AC C0 05               943 	push	ar5
+   01AE C0 06               944 	push	ar6
+   01B0 A8*00               945 	mov	r0,_bp
+   01B2 08                  946 	inc	r0
+   01B3 86 82               947 	mov	dpl,@r0
+   01B5 08                  948 	inc	r0
+   01B6 86 83               949 	mov	dph,@r0
+   01B8 08                  950 	inc	r0
+   01B9 86 F0               951 	mov	b,@r0
+   01BB 12s00r00            952 	lcall	_strncmp
+   01BE AD 82               953 	mov	r5,dpl
+   01C0 AE 83               954 	mov	r6,dph
+   01C2 E5 81               955 	mov	a,sp
+   01C4 24 FB               956 	add	a,#0xfb
+   01C6 F5 81               957 	mov	sp,a
+   01C8 D0 02               958 	pop	ar2
+   01CA D0 03               959 	pop	ar3
+   01CC D0 04               960 	pop	ar4
+   01CE D0 07               961 	pop	ar7
+   01D0 D0 04               962 	pop	ar4
+   01D2 D0 02               963 	pop	ar2
+   01D4 ED                  964 	mov	a,r5
+   01D5 4E                  965 	orl	a,r6
+   01D6 70 28               966 	jnz	00105$
+                            967 ;	../../core/lib/sensors.c:97: return sensors[i];
+   01D8 EB                  968 	mov	a,r3
+   01D9 24r00               969 	add	a,#_sensors
+   01DB F5 82               970 	mov	dpl,a
+   01DD EF                  971 	mov	a,r7
+   01DE 34s00               972 	addc	a,#(_sensors >> 8)
+   01E0 F5 83               973 	mov	dph,a
+   01E2 E5*00               974 	mov	a,_bp
+   01E4 24 06               975 	add	a,#0x06
+   01E6 F8                  976 	mov	r0,a
+   01E7 E0                  977 	movx	a,@dptr
+   01E8 F6                  978 	mov	@r0,a
+   01E9 A3                  979 	inc	dptr
+   01EA E0                  980 	movx	a,@dptr
+   01EB 08                  981 	inc	r0
+   01EC F6                  982 	mov	@r0,a
+   01ED A3                  983 	inc	dptr
+   01EE E0                  984 	movx	a,@dptr
+   01EF 08                  985 	inc	r0
+   01F0 F6                  986 	mov	@r0,a
+   01F1 E5*00               987 	mov	a,_bp
+   01F3 24 06               988 	add	a,#0x06
+   01F5 F8                  989 	mov	r0,a
+   01F6 86 82               990 	mov	dpl,@r0
+   01F8 08                  991 	inc	r0
+   01F9 86 83               992 	mov	dph,@r0
+   01FB 08                  993 	inc	r0
+   01FC 86 F0               994 	mov	b,@r0
+   01FE 80 15               995 	sjmp	00107$
+   0200                     996 00105$:
+                            997 ;	../../core/lib/sensors.c:95: for(i = 0; i < num_sensors; ++i) {
+   0200 74 03               998 	mov	a,#0x03
+   0202 2B                  999 	add	a,r3
+   0203 FB                 1000 	mov	r3,a
+   0204 E4                 1001 	clr	a
+   0205 3F                 1002 	addc	a,r7
+   0206 FF                 1003 	mov	r7,a
+   0207 0A                 1004 	inc	r2
+   0208 BA 00 01           1005 	cjne	r2,#0x00,00117$
+   020B 0C                 1006 	inc	r4
+   020C                    1007 00117$:
+   020C 02s01r53           1008 	ljmp	00103$
+   020F                    1009 00106$:
+                           1010 ;	../../core/lib/sensors.c:100: return NULL;
+   020F 90 00 00           1011 	mov	dptr,#0x0000
+   0212 75 F0 00           1012 	mov	b,#0x00
+   0215                    1013 00107$:
+   0215 85*00 81           1014 	mov	sp,_bp
+   0218 D0*00              1015 	pop	_bp
+   021A 22                 1016 	ret
+                           1017 ;------------------------------------------------------------
+                           1018 ;Allocation info for local variables in function 'process_thread_sensors_process'
+                           1019 ;------------------------------------------------------------
+                           1020 ;ev                        Allocated to stack - _bp -3
+                           1021 ;data                      Allocated to stack - _bp -6
+                           1022 ;process_pt                Allocated to registers r5 r6 r7 
+                           1023 ;PT_YIELD_FLAG             Allocated to registers r4 
+                           1024 ;sloc0                     Allocated to stack - _bp +1
+                           1025 ;i                         Allocated with name '_process_thread_sensors_process_i_1_1'
+                           1026 ;events                    Allocated with name '_process_thread_sensors_process_events_1_1'
+                           1027 ;------------------------------------------------------------
+                           1028 ;	../../core/lib/sensors.c:103: PROCESS_THREAD(sensors_process, ev, data)
+                           1029 ;	-----------------------------------------
+                           1030 ;	 function process_thread_sensors_process
+                           1031 ;	-----------------------------------------
+   021B                    1032 _process_thread_sensors_process:
+   021B C0*00              1033 	push	_bp
+   021D 85 81*00           1034 	mov	_bp,sp
+   0220 05 81              1035 	inc	sp
+   0222 05 81              1036 	inc	sp
+   0224 05 81              1037 	inc	sp
+                           1038 ;	../../core/lib/sensors.c:108: PROCESS_BEGIN();
+   0226 AD 82              1039 	mov	r5,dpl
+   0228 AE 83              1040 	mov	r6,dph
+   022A AF F0              1041 	mov	r7,b
+   022C 7C 01              1042 	mov	r4,#0x01
+   022E 12s00r00           1043 	lcall	__gptrget
+   0231 FA                 1044 	mov	r2,a
+   0232 A3                 1045 	inc	dptr
+   0233 12s00r00           1046 	lcall	__gptrget
+   0236 FB                 1047 	mov	r3,a
+   0237 BA 00 05           1048 	cjne	r2,#0x00,00164$
+   023A BB 00 02           1049 	cjne	r3,#0x00,00164$
+   023D 80 15              1050 	sjmp	00101$
+   023F                    1051 00164$:
+   023F BA 78 06           1052 	cjne	r2,#0x78,00165$
+   0242 BB 00 03           1053 	cjne	r3,#0x00,00165$
+   0245 02s03r54           1054 	ljmp	00102$
+   0248                    1055 00165$:
+   0248 BA 7F 06           1056 	cjne	r2,#0x7F,00166$
+   024B BB 00 03           1057 	cjne	r3,#0x00,00166$
+   024E 02s04r29           1058 	ljmp	00108$
+   0251                    1059 00166$:
+   0251 02s04r8C           1060 	ljmp	00125$
+   0254                    1061 00101$:
+                           1062 ;	../../core/lib/sensors.c:110: sensors_event = process_alloc_event();
+   0254 C0 07              1063 	push	ar7
+   0256 C0 06              1064 	push	ar6
+   0258 C0 05              1065 	push	ar5
+   025A 12s00r00           1066 	lcall	_process_alloc_event
+   025D E5 82              1067 	mov	a,dpl
+   025F D0 05              1068 	pop	ar5
+   0261 D0 06              1069 	pop	ar6
+   0263 D0 07              1070 	pop	ar7
+   0265 90s00r00           1071 	mov	dptr,#_sensors_event
+   0268 F0                 1072 	movx	@dptr,a
+                           1073 ;	../../core/lib/sensors.c:112: for(i = 0; sensors[i] != NULL; ++i) {
+   0269 90s00r02           1074 	mov	dptr,#_process_thread_sensors_process_i_1_1
+   026C E4                 1075 	clr	a
+   026D F0                 1076 	movx	@dptr,a
+   026E A3                 1077 	inc	dptr
+   026F F0                 1078 	movx	@dptr,a
+   0270                    1079 00126$:
+   0270 C0 05              1080 	push	ar5
+   0272 C0 06              1081 	push	ar6
+   0274 C0 07              1082 	push	ar7
+   0276 90s00r02           1083 	mov	dptr,#_process_thread_sensors_process_i_1_1
+   0279 E0                 1084 	movx	a,@dptr
+   027A FA                 1085 	mov	r2,a
+   027B A3                 1086 	inc	dptr
+   027C E0                 1087 	movx	a,@dptr
+   027D FB                 1088 	mov	r3,a
+   027E C0 05              1089 	push	ar5
+   0280 C0 03              1090 	push	ar3
+   0282 C0 02              1091 	push	ar2
+   0284 C0 02              1092 	push	ar2
+   0286 C0 03              1093 	push	ar3
+   0288 90 00 03           1094 	mov	dptr,#0x0003
+   028B 12s00r00           1095 	lcall	__mulint
+   028E AE 82              1096 	mov	r6,dpl
+   0290 AF 83              1097 	mov	r7,dph
+   0292 15 81              1098 	dec	sp
+   0294 15 81              1099 	dec	sp
+   0296 D0 02              1100 	pop	ar2
+   0298 D0 03              1101 	pop	ar3
+   029A D0 05              1102 	pop	ar5
+   029C EE                 1103 	mov	a,r6
+   029D 24r00              1104 	add	a,#_sensors
+   029F F5 82              1105 	mov	dpl,a
+   02A1 EF                 1106 	mov	a,r7
+   02A2 34s00              1107 	addc	a,#(_sensors >> 8)
+   02A4 F5 83              1108 	mov	dph,a
+   02A6 A8*00              1109 	mov	r0,_bp
+   02A8 08                 1110 	inc	r0
+   02A9 E0                 1111 	movx	a,@dptr
+   02AA F6                 1112 	mov	@r0,a
+   02AB A3                 1113 	inc	dptr
+   02AC E0                 1114 	movx	a,@dptr
+   02AD 08                 1115 	inc	r0
+   02AE F6                 1116 	mov	@r0,a
+   02AF A3                 1117 	inc	dptr
+   02B0 E0                 1118 	movx	a,@dptr
+   02B1 08                 1119 	inc	r0
+   02B2 F6                 1120 	mov	@r0,a
+   02B3 A8*00              1121 	mov	r0,_bp
+   02B5 08                 1122 	inc	r0
+   02B6 E4                 1123 	clr	a
+   02B7 C0 E0              1124 	push	acc
+   02B9 E4                 1125 	clr	a
+   02BA C0 E0              1126 	push	acc
+   02BC E4                 1127 	clr	a
+   02BD C0 E0              1128 	push	acc
+   02BF 86 82              1129 	mov	dpl,@r0
+   02C1 08                 1130 	inc	r0
+   02C2 86 83              1131 	mov	dph,@r0
+   02C4 08                 1132 	inc	r0
+   02C5 86 F0              1133 	mov	b,@r0
+   02C7 12s00r00           1134 	lcall	___gptr_cmp
+   02CA 15 81              1135 	dec	sp
+   02CC 15 81              1136 	dec	sp
+   02CE 15 81              1137 	dec	sp
+   02D0 70 08              1138 	jnz	00167$
+   02D2 D0 07              1139 	pop	ar7
+   02D4 D0 06              1140 	pop	ar6
+   02D6 D0 05              1141 	pop	ar5
+   02D8 80 63              1142 	sjmp	00129$
+   02DA                    1143 00167$:
+                           1144 ;	../../core/lib/sensors.c:113: sensors_flags[i] = 0;
+   02DA EA                 1145 	mov	a,r2
+   02DB 24r00              1146 	add	a,#_sensors_flags
+   02DD F5 82              1147 	mov	dpl,a
+   02DF EB                 1148 	mov	a,r3
+   02E0 34s00              1149 	addc	a,#(_sensors_flags >> 8)
+   02E2 F5 83              1150 	mov	dph,a
+   02E4 E4                 1151 	clr	a
+   02E5 F0                 1152 	movx	@dptr,a
+                           1153 ;	../../core/lib/sensors.c:114: sensors[i]->configure(SENSORS_HW_INIT, 0);
+   02E6 A8*00              1154 	mov	r0,_bp
+   02E8 08                 1155 	inc	r0
+   02E9 74 05              1156 	mov	a,#0x05
+   02EB 26                 1157 	add	a,@r0
+   02EC FD                 1158 	mov	r5,a
+   02ED E4                 1159 	clr	a
+   02EE 08                 1160 	inc	r0
+   02EF 36                 1161 	addc	a,@r0
+   02F0 FE                 1162 	mov	r6,a
+   02F1 08                 1163 	inc	r0
+   02F2 86 07              1164 	mov	ar7,@r0
+   02F4 8D 82              1165 	mov	dpl,r5
+   02F6 8E 83              1166 	mov	dph,r6
+   02F8 8F F0              1167 	mov	b,r7
+   02FA 12s00r00           1168 	lcall	__gptrget
+   02FD FD                 1169 	mov	r5,a
+   02FE A3                 1170 	inc	dptr
+   02FF 12s00r00           1171 	lcall	__gptrget
+   0302 FE                 1172 	mov	r6,a
+   0303 C0 07              1173 	push	ar7
+   0305 C0 06              1174 	push	ar6
+   0307 C0 05              1175 	push	ar5
+   0309 E4                 1176 	clr	a
+   030A C0 E0              1177 	push	acc
+   030C C0 E0              1178 	push	acc
+   030E 74r1E              1179 	mov	a,#00168$
+   0310 C0 E0              1180 	push	acc
+   0312 74s03              1181 	mov	a,#(00168$ >> 8)
+   0314 C0 E0              1182 	push	acc
+   0316 C0 05              1183 	push	ar5
+   0318 C0 06              1184 	push	ar6
+   031A 90 00 80           1185 	mov	dptr,#0x0080
+   031D 22                 1186 	ret
+   031E                    1187 00168$:
+   031E 15 81              1188 	dec	sp
+   0320 15 81              1189 	dec	sp
+   0322 D0 05              1190 	pop	ar5
+   0324 D0 06              1191 	pop	ar6
+   0326 D0 07              1192 	pop	ar7
+                           1193 ;	../../core/lib/sensors.c:112: for(i = 0; sensors[i] != NULL; ++i) {
+   0328 90s00r02           1194 	mov	dptr,#_process_thread_sensors_process_i_1_1
+   032B E0                 1195 	movx	a,@dptr
+   032C 24 01              1196 	add	a,#0x01
+   032E F0                 1197 	movx	@dptr,a
+   032F A3                 1198 	inc	dptr
+   0330 E0                 1199 	movx	a,@dptr
+   0331 34 00              1200 	addc	a,#0x00
+   0333 F0                 1201 	movx	@dptr,a
+   0334 D0 07              1202 	pop	ar7
+   0336 D0 06              1203 	pop	ar6
+   0338 D0 05              1204 	pop	ar5
+   033A 02s02r70           1205 	ljmp	00126$
+   033D                    1206 00129$:
+                           1207 ;	../../core/lib/sensors.c:116: num_sensors = i;
+   033D 90s00r01           1208 	mov	dptr,#_num_sensors
+   0340 EA                 1209 	mov	a,r2
+   0341 F0                 1210 	movx	@dptr,a
+                           1211 ;	../../core/lib/sensors.c:118: while(1) {
+   0342                    1212 00123$:
+                           1213 ;	../../core/lib/sensors.c:120: PROCESS_WAIT_EVENT();
+   0342 7C 00              1214 	mov	r4,#0x00
+   0344 8D 82              1215 	mov	dpl,r5
+   0346 8E 83              1216 	mov	dph,r6
+   0348 8F F0              1217 	mov	b,r7
+   034A 74 78              1218 	mov	a,#0x78
+   034C 12s00r00           1219 	lcall	__gptrput
+   034F A3                 1220 	inc	dptr
+   0350 E4                 1221 	clr	a
+   0351 12s00r00           1222 	lcall	__gptrput
+   0354                    1223 00102$:
+   0354 EC                 1224 	mov	a,r4
+   0355 70 06              1225 	jnz	00119$
+   0357 75 82 01           1226 	mov	dpl,#0x01
+   035A 02s04r9E           1227 	ljmp	00134$
+                           1228 ;	../../core/lib/sensors.c:122: do {
+   035D                    1229 00119$:
+                           1230 ;	../../core/lib/sensors.c:123: events = 0;
+   035D 90s00r04           1231 	mov	dptr,#_process_thread_sensors_process_events_1_1
+                           1232 ;	../../core/lib/sensors.c:124: for(i = 0; i < num_sensors; ++i) {
+   0360 E4                 1233 	clr	a
+   0361 F0                 1234 	movx	@dptr,a
+   0362 A3                 1235 	inc	dptr
+   0363 F0                 1236 	movx	@dptr,a
+   0364 90s00r02           1237 	mov	dptr,#_process_thread_sensors_process_i_1_1
+   0367 F0                 1238 	movx	@dptr,a
+   0368 A3                 1239 	inc	dptr
+   0369 E4                 1240 	clr	a
+   036A F0                 1241 	movx	@dptr,a
+   036B                    1242 00130$:
+   036B C0 05              1243 	push	ar5
+   036D C0 06              1244 	push	ar6
+   036F C0 07              1245 	push	ar7
+   0371 90s00r02           1246 	mov	dptr,#_process_thread_sensors_process_i_1_1
+   0374 E0                 1247 	movx	a,@dptr
+   0375 FA                 1248 	mov	r2,a
+   0376 A3                 1249 	inc	dptr
+   0377 E0                 1250 	movx	a,@dptr
+   0378 FB                 1251 	mov	r3,a
+   0379 90s00r01           1252 	mov	dptr,#_num_sensors
+   037C E0                 1253 	movx	a,@dptr
+   037D FF                 1254 	mov	r7,a
+   037E 7E 00              1255 	mov	r6,#0x00
+   0380 C3                 1256 	clr	c
+   0381 EA                 1257 	mov	a,r2
+   0382 9F                 1258 	subb	a,r7
+   0383 EB                 1259 	mov	a,r3
+   0384 64 80              1260 	xrl	a,#0x80
+   0386 8E F0              1261 	mov	b,r6
+   0388 63 F0 80           1262 	xrl	b,#0x80
+   038B 95 F0              1263 	subb	a,b
+   038D D0 07              1264 	pop	ar7
+   038F D0 06              1265 	pop	ar6
+   0391 D0 05              1266 	pop	ar5
+   0393 40 03              1267 	jc	00170$
+   0395 02s04r7B           1268 	ljmp	00120$
+   0398                    1269 00170$:
+                           1270 ;	../../core/lib/sensors.c:125: if(sensors_flags[i] & FLAG_CHANGED) {
+   0398 C0 05              1271 	push	ar5
+   039A C0 06              1272 	push	ar6
+   039C C0 07              1273 	push	ar7
+   039E EA                 1274 	mov	a,r2
+   039F 24r00              1275 	add	a,#_sensors_flags
+   03A1 F5 82              1276 	mov	dpl,a
+   03A3 EB                 1277 	mov	a,r3
+   03A4 34s00              1278 	addc	a,#(_sensors_flags >> 8)
+   03A6 F5 83              1279 	mov	dph,a
+   03A8 E0                 1280 	movx	a,@dptr
+   03A9 D0 07              1281 	pop	ar7
+   03AB D0 06              1282 	pop	ar6
+   03AD D0 05              1283 	pop	ar5
+   03AF 20 E7 03           1284 	jb	acc.7,00171$
+   03B2 02s04r6C           1285 	ljmp	00132$
+   03B5                    1286 00171$:
+                           1287 ;	../../core/lib/sensors.c:126: if(process_post(PROCESS_BROADCAST, sensors_event, (void *)sensors[i]) == PROCESS_ERR_OK) {
+   03B5 C0 05              1288 	push	ar5
+   03B7 C0 06              1289 	push	ar6
+   03B9 C0 07              1290 	push	ar7
+   03BB C0 07              1291 	push	ar7
+   03BD C0 06              1292 	push	ar6
+   03BF C0 05              1293 	push	ar5
+   03C1 C0 02              1294 	push	ar2
+   03C3 C0 03              1295 	push	ar3
+   03C5 90 00 03           1296 	mov	dptr,#0x0003
+   03C8 12s00r00           1297 	lcall	__mulint
+   03CB AA 82              1298 	mov	r2,dpl
+   03CD AB 83              1299 	mov	r3,dph
+   03CF 15 81              1300 	dec	sp
+   03D1 15 81              1301 	dec	sp
+   03D3 D0 05              1302 	pop	ar5
+   03D5 D0 06              1303 	pop	ar6
+   03D7 D0 07              1304 	pop	ar7
+   03D9 EA                 1305 	mov	a,r2
+   03DA 24r00              1306 	add	a,#_sensors
+   03DC F5 82              1307 	mov	dpl,a
+   03DE EB                 1308 	mov	a,r3
+   03DF 34s00              1309 	addc	a,#(_sensors >> 8)
+   03E1 F5 83              1310 	mov	dph,a
+   03E3 E0                 1311 	movx	a,@dptr
+   03E4 FA                 1312 	mov	r2,a
+   03E5 A3                 1313 	inc	dptr
+   03E6 E0                 1314 	movx	a,@dptr
+   03E7 FB                 1315 	mov	r3,a
+   03E8 A3                 1316 	inc	dptr
+   03E9 E0                 1317 	movx	a,@dptr
+   03EA FF                 1318 	mov	r7,a
+   03EB C0 05              1319 	push	ar5
+   03ED C0 02              1320 	push	ar2
+   03EF C0 03              1321 	push	ar3
+   03F1 C0 07              1322 	push	ar7
+   03F3 90s00r00           1323 	mov	dptr,#_sensors_event
+   03F6 E0                 1324 	movx	a,@dptr
+   03F7 C0 E0              1325 	push	acc
+   03F9 90 00 00           1326 	mov	dptr,#0x0000
+   03FC 75 F0 00           1327 	mov	b,#0x00
+   03FF 12s00r00           1328 	lcall	_process_post
+   0402 AE 82              1329 	mov	r6,dpl
+   0404 AF 83              1330 	mov	r7,dph
+   0406 E5 81              1331 	mov	a,sp
+   0408 24 FC              1332 	add	a,#0xfc
+   040A F5 81              1333 	mov	sp,a
+   040C D0 05              1334 	pop	ar5
+   040E EE                 1335 	mov	a,r6
+   040F 4F                 1336 	orl	a,r7
+   0410 D0 07              1337 	pop	ar7
+   0412 D0 06              1338 	pop	ar6
+   0414 D0 05              1339 	pop	ar5
+                           1340 ;	../../core/lib/sensors.c:127: PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event);
+   0416 70 29              1341 	jnz	00116$
+   0418 FC                 1342 	mov	r4,a
+   0419 8D 82              1343 	mov	dpl,r5
+   041B 8E 83              1344 	mov	dph,r6
+   041D 8F F0              1345 	mov	b,r7
+   041F 74 7F              1346 	mov	a,#0x7F
+   0421 12s00r00           1347 	lcall	__gptrput
+   0424 A3                 1348 	inc	dptr
+   0425 E4                 1349 	clr	a
+   0426 12s00r00           1350 	lcall	__gptrput
+   0429                    1351 00108$:
+   0429 EC                 1352 	mov	a,r4
+   042A 60 10              1353 	jz	00109$
+   042C 90s00r00           1354 	mov	dptr,#_sensors_event
+   042F E0                 1355 	movx	a,@dptr
+   0430 FC                 1356 	mov	r4,a
+   0431 E5*00              1357 	mov	a,_bp
+   0433 24 FD              1358 	add	a,#0xfd
+   0435 F8                 1359 	mov	r0,a
+   0436 E6                 1360 	mov	a,@r0
+   0437 B5 04 02           1361 	cjne	a,ar4,00174$
+   043A 80 05              1362 	sjmp	00116$
+   043C                    1363 00174$:
+   043C                    1364 00109$:
+   043C 75 82 01           1365 	mov	dpl,#0x01
+   043F 80 5D              1366 	sjmp	00134$
+   0441                    1367 00116$:
+                           1368 ;	../../core/lib/sensors.c:129: sensors_flags[i] &= ~FLAG_CHANGED;
+   0441 90s00r02           1369 	mov	dptr,#_process_thread_sensors_process_i_1_1
+   0444 E0                 1370 	movx	a,@dptr
+   0445 FB                 1371 	mov	r3,a
+   0446 A3                 1372 	inc	dptr
+   0447 E0                 1373 	movx	a,@dptr
+   0448 FC                 1374 	mov	r4,a
+   0449 EB                 1375 	mov	a,r3
+   044A 24r00              1376 	add	a,#_sensors_flags
+   044C FB                 1377 	mov	r3,a
+   044D EC                 1378 	mov	a,r4
+   044E 34s00              1379 	addc	a,#(_sensors_flags >> 8)
+   0450 FC                 1380 	mov	r4,a
+   0451 8B 82              1381 	mov	dpl,r3
+   0453 8C 83              1382 	mov	dph,r4
+   0455 E0                 1383 	movx	a,@dptr
+   0456 FA                 1384 	mov	r2,a
+   0457 53 02 7F           1385 	anl	ar2,#0x7F
+   045A 8B 82              1386 	mov	dpl,r3
+   045C 8C 83              1387 	mov	dph,r4
+   045E EA                 1388 	mov	a,r2
+   045F F0                 1389 	movx	@dptr,a
+                           1390 ;	../../core/lib/sensors.c:130: events++;
+   0460 90s00r04           1391 	mov	dptr,#_process_thread_sensors_process_events_1_1
+   0463 E0                 1392 	movx	a,@dptr
+   0464 24 01              1393 	add	a,#0x01
+   0466 F0                 1394 	movx	@dptr,a
+   0467 A3                 1395 	inc	dptr
+   0468 E0                 1396 	movx	a,@dptr
+   0469 34 00              1397 	addc	a,#0x00
+   046B F0                 1398 	movx	@dptr,a
+   046C                    1399 00132$:
+                           1400 ;	../../core/lib/sensors.c:124: for(i = 0; i < num_sensors; ++i) {
+   046C 90s00r02           1401 	mov	dptr,#_process_thread_sensors_process_i_1_1
+   046F E0                 1402 	movx	a,@dptr
+   0470 24 01              1403 	add	a,#0x01
+   0472 F0                 1404 	movx	@dptr,a
+   0473 A3                 1405 	inc	dptr
+   0474 E0                 1406 	movx	a,@dptr
+   0475 34 00              1407 	addc	a,#0x00
+   0477 F0                 1408 	movx	@dptr,a
+   0478 02s03r6B           1409 	ljmp	00130$
+   047B                    1410 00120$:
+                           1411 ;	../../core/lib/sensors.c:133: } while(events);
+   047B 90s00r04           1412 	mov	dptr,#_process_thread_sensors_process_events_1_1
+   047E E0                 1413 	movx	a,@dptr
+   047F FB                 1414 	mov	r3,a
+   0480 A3                 1415 	inc	dptr
+   0481 E0                 1416 	movx	a,@dptr
+   0482 FC                 1417 	mov	r4,a
+   0483 4B                 1418 	orl	a,r3
+   0484 60 03              1419 	jz	00175$
+   0486 02s03r5D           1420 	ljmp	00119$
+   0489                    1421 00175$:
+   0489 02s03r42           1422 	ljmp	00123$
+                           1423 ;	../../core/lib/sensors.c:136: PROCESS_END();
+   048C                    1424 00125$:
+   048C 8D 82              1425 	mov	dpl,r5
+   048E 8E 83              1426 	mov	dph,r6
+   0490 8F F0              1427 	mov	b,r7
+   0492 E4                 1428 	clr	a
+   0493 12s00r00           1429 	lcall	__gptrput
+   0496 A3                 1430 	inc	dptr
+   0497 E4                 1431 	clr	a
+   0498 12s00r00           1432 	lcall	__gptrput
+   049B 75 82 03           1433 	mov	dpl,#0x03
+   049E                    1434 00134$:
+   049E 85*00 81           1435 	mov	sp,_bp
+   04A1 D0*00              1436 	pop	_bp
+   04A3 22                 1437 	ret
+                           1438 	.area CSEG    (CODE)
+                           1439 	.area CONST   (CODE)
+                           1440 	.area XINIT   (CODE)
+   0000                    1441 __xinit__sensors_process:
+                           1442 ; generic printIvalPtr
+   0000 00 00 00           1443 	.byte #0x00,#0x00,#0x00
+   0003r1Bs02              1444 	.byte _process_thread_sensors_process,(_process_thread_sensors_process >> 8)
+   0005 00 00              1445 	.byte #0x00,#0x00	; 0
+   0007 00                 1446 	.db #0x00	; 0
+   0008 00                 1447 	.db #0x00	; 0
+                           1448 	.area CABS    (ABS,CODE)

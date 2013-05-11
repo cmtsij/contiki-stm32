@@ -1,0 +1,2727 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:30 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module uip_arp
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _memset
+                             13 	.globl _memcpy
+                             14 	.globl _IRCON2_P2IF
+                             15 	.globl _IRCON2_UTX0IF
+                             16 	.globl _IRCON2_UTX1IF
+                             17 	.globl _IRCON2_P1IF
+                             18 	.globl _IRCON2_WDTIF
+                             19 	.globl _CY
+                             20 	.globl _AC
+                             21 	.globl _F0
+                             22 	.globl _RS1
+                             23 	.globl _RS0
+                             24 	.globl _OV
+                             25 	.globl _F1
+                             26 	.globl _P
+                             27 	.globl _IRCON_DMAIF
+                             28 	.globl _IRCON_T1IF
+                             29 	.globl _IRCON_T2IF
+                             30 	.globl _IRCON_T3IF
+                             31 	.globl _IRCON_T4IF
+                             32 	.globl _IRCON_P0IF
+                             33 	.globl _IRCON_STIF
+                             34 	.globl _IEN1_DMAIE
+                             35 	.globl _IEN1_T1IE
+                             36 	.globl _IEN1_T2IE
+                             37 	.globl _IEN1_T3IE
+                             38 	.globl _IEN1_T4IE
+                             39 	.globl _IEN1_P0IE
+                             40 	.globl _IEN0_RFERRIE
+                             41 	.globl _IEN0_ADCIE
+                             42 	.globl _IEN0_URX0IE
+                             43 	.globl _IEN0_URX1IE
+                             44 	.globl _IEN0_ENCIE
+                             45 	.globl _IEN0_STIE
+                             46 	.globl _IEN0_EA
+                             47 	.globl _EA
+                             48 	.globl _P2_4
+                             49 	.globl _P2_3
+                             50 	.globl _P2_2
+                             51 	.globl _P2_1
+                             52 	.globl _P2_0
+                             53 	.globl _S0CON_ENCIF_0
+                             54 	.globl _S0CON_ENCIF_1
+                             55 	.globl _P1_7
+                             56 	.globl _P1_6
+                             57 	.globl _P1_5
+                             58 	.globl _P1_4
+                             59 	.globl _P1_3
+                             60 	.globl _P1_2
+                             61 	.globl _P1_1
+                             62 	.globl _P1_0
+                             63 	.globl _TCON_IT0
+                             64 	.globl _TCON_RFERRIF
+                             65 	.globl _TCON_IT1
+                             66 	.globl _TCON_URX0IF
+                             67 	.globl _TCON_ADCIF
+                             68 	.globl _TCON_URX1IF
+                             69 	.globl _P0_0
+                             70 	.globl _P0_1
+                             71 	.globl _P0_2
+                             72 	.globl _P0_3
+                             73 	.globl _P0_4
+                             74 	.globl _P0_5
+                             75 	.globl _P0_6
+                             76 	.globl _P0_7
+                             77 	.globl _P2DIR
+                             78 	.globl _P1DIR
+                             79 	.globl _P0DIR
+                             80 	.globl _U1GCR
+                             81 	.globl _U1UCR
+                             82 	.globl _U1BAUD
+                             83 	.globl _U1BUF
+                             84 	.globl _U1CSR
+                             85 	.globl _P2INP
+                             86 	.globl _P1INP
+                             87 	.globl _P2SEL
+                             88 	.globl _P1SEL
+                             89 	.globl _P0SEL
+                             90 	.globl _ADCCFG
+                             91 	.globl _PERCFG
+                             92 	.globl _B
+                             93 	.globl _T4CC1
+                             94 	.globl _T4CCTL1
+                             95 	.globl _T4CC0
+                             96 	.globl _T4CCTL0
+                             97 	.globl _T4CTL
+                             98 	.globl _T4CNT
+                             99 	.globl _RFIF
+                            100 	.globl _IRCON2
+                            101 	.globl _T1CCTL2
+                            102 	.globl _T1CCTL1
+                            103 	.globl _T1CCTL0
+                            104 	.globl _T1CTL
+                            105 	.globl _T1CNTH
+                            106 	.globl _T1CNTL
+                            107 	.globl _RFST
+                            108 	.globl _ACC
+                            109 	.globl _T1CC2H
+                            110 	.globl _T1CC2L
+                            111 	.globl _T1CC1H
+                            112 	.globl _T1CC1L
+                            113 	.globl _T1CC0H
+                            114 	.globl _T1CC0L
+                            115 	.globl _RFD
+                            116 	.globl _TIMIF
+                            117 	.globl _DMAREQ
+                            118 	.globl _DMAARM
+                            119 	.globl _DMA0CFGH
+                            120 	.globl _DMA0CFGL
+                            121 	.globl _DMA1CFGH
+                            122 	.globl _DMA1CFGL
+                            123 	.globl _DMAIRQ
+                            124 	.globl _PSW
+                            125 	.globl _T3CC1
+                            126 	.globl _T3CCTL1
+                            127 	.globl _T3CC0
+                            128 	.globl _T3CCTL0
+                            129 	.globl _T3CTL
+                            130 	.globl _T3CNT
+                            131 	.globl _WDCTL
+                            132 	.globl _T2CON
+                            133 	.globl _MEMCTR
+                            134 	.globl _CLKCON
+                            135 	.globl _U0GCR
+                            136 	.globl _U0UCR
+                            137 	.globl _T2CNF
+                            138 	.globl _U0BAUD
+                            139 	.globl _U0BUF
+                            140 	.globl _IRCON
+                            141 	.globl _SLEEP
+                            142 	.globl _RNDH
+                            143 	.globl _RNDL
+                            144 	.globl _ADCH
+                            145 	.globl _ADCL
+                            146 	.globl _IP1
+                            147 	.globl _IEN1
+                            148 	.globl _RCCTL
+                            149 	.globl _ADCCON3
+                            150 	.globl _ADCCON2
+                            151 	.globl _ADCCON1
+                            152 	.globl _ENCCS
+                            153 	.globl _ENCDO
+                            154 	.globl _ENCDI
+                            155 	.globl _FWDATA
+                            156 	.globl _FCTL
+                            157 	.globl _FADDRH
+                            158 	.globl _FADDRL
+                            159 	.globl _FWT
+                            160 	.globl _IP0
+                            161 	.globl _IEN0
+                            162 	.globl _IE
+                            163 	.globl _T2THD
+                            164 	.globl _T2TLD
+                            165 	.globl _T2CAPHPH
+                            166 	.globl _T2CAPLPL
+                            167 	.globl _T2OF2
+                            168 	.globl _T2OF1
+                            169 	.globl _T2OF0
+                            170 	.globl _P2
+                            171 	.globl _PSBANK
+                            172 	.globl _FMAP
+                            173 	.globl _T2PEROF2
+                            174 	.globl _T2PEROF1
+                            175 	.globl _T2PEROF0
+                            176 	.globl _S1CON
+                            177 	.globl _IEN2
+                            178 	.globl _HSRC
+                            179 	.globl _S0CON
+                            180 	.globl _ST2
+                            181 	.globl _ST1
+                            182 	.globl _ST0
+                            183 	.globl _T2CMP
+                            184 	.globl __XPAGE
+                            185 	.globl _DPS
+                            186 	.globl _RFIM
+                            187 	.globl _P1
+                            188 	.globl _P0INP
+                            189 	.globl _P1IEN
+                            190 	.globl _PICTL
+                            191 	.globl _P2IFG
+                            192 	.globl _P1IFG
+                            193 	.globl _P0IFG
+                            194 	.globl _TCON
+                            195 	.globl _PCON
+                            196 	.globl _U0CSR
+                            197 	.globl _DPH1
+                            198 	.globl _DPL1
+                            199 	.globl _DPH0
+                            200 	.globl _DPL0
+                            201 	.globl _SP
+                            202 	.globl _P0
+                            203 	.globl _ADC_SHADOW
+                            204 	.globl _U1BUF_SHADOW
+                            205 	.globl _RFD_SHADOW
+                            206 	.globl _U0BUF_SHADOW
+                            207 	.globl _RFSTATUS
+                            208 	.globl _CHIPID
+                            209 	.globl _CHVER
+                            210 	.globl _FSMTC1
+                            211 	.globl _RXFIFOCNT
+                            212 	.globl _IOCFG3
+                            213 	.globl _IOCFG2
+                            214 	.globl _IOCFG1
+                            215 	.globl _IOCFG0
+                            216 	.globl _SHORTADDRL
+                            217 	.globl _SHORTADDRH
+                            218 	.globl _PANIDL
+                            219 	.globl _PANIDH
+                            220 	.globl _IEEE_ADDR7
+                            221 	.globl _IEEE_ADDR6
+                            222 	.globl _IEEE_ADDR5
+                            223 	.globl _IEEE_ADDR4
+                            224 	.globl _IEEE_ADDR3
+                            225 	.globl _IEEE_ADDR2
+                            226 	.globl _IEEE_ADDR1
+                            227 	.globl _IEEE_ADDR0
+                            228 	.globl _DACTSTL
+                            229 	.globl _DACTSTH
+                            230 	.globl _ADCTSTL
+                            231 	.globl _ADCTSTH
+                            232 	.globl _FSMSTATE
+                            233 	.globl _AGCCTRLL
+                            234 	.globl _AGCCTRLH
+                            235 	.globl _MANORL
+                            236 	.globl _MANORH
+                            237 	.globl _MANANDL
+                            238 	.globl _MANANDH
+                            239 	.globl _FSMTCL
+                            240 	.globl _FSMTCH
+                            241 	.globl _RFPWR
+                            242 	.globl _CSPT
+                            243 	.globl _CSPCTRL
+                            244 	.globl _CSPZ
+                            245 	.globl _CSPY
+                            246 	.globl _CSPX
+                            247 	.globl _FSCTRLL
+                            248 	.globl _FSCTRLH
+                            249 	.globl _RXCTRL1L
+                            250 	.globl _RXCTRL1H
+                            251 	.globl _RXCTRL0L
+                            252 	.globl _RXCTRL0H
+                            253 	.globl _TXCTRLL
+                            254 	.globl _TXCTRLH
+                            255 	.globl _SYNCWORDL
+                            256 	.globl _SYNCWORDH
+                            257 	.globl _RSSIL
+                            258 	.globl _RSSIH
+                            259 	.globl _MDMCTRL1L
+                            260 	.globl _MDMCTRL1H
+                            261 	.globl _MDMCTRL0L
+                            262 	.globl _MDMCTRL0H
+                            263 	.globl _uip_arp_init
+                            264 	.globl _uip_arp_timer
+                            265 	.globl _uip_arp_arpin
+                            266 	.globl _uip_arp_out
+                            267 ;--------------------------------------------------------
+                            268 ; special function registers
+                            269 ;--------------------------------------------------------
+                            270 	.area RSEG    (ABS,DATA)
+   0000                     271 	.org 0x0000
+                    0080    272 _P0	=	0x0080
+                    0081    273 _SP	=	0x0081
+                    0082    274 _DPL0	=	0x0082
+                    0083    275 _DPH0	=	0x0083
+                    0084    276 _DPL1	=	0x0084
+                    0085    277 _DPH1	=	0x0085
+                    0086    278 _U0CSR	=	0x0086
+                    0087    279 _PCON	=	0x0087
+                    0088    280 _TCON	=	0x0088
+                    0089    281 _P0IFG	=	0x0089
+                    008A    282 _P1IFG	=	0x008a
+                    008B    283 _P2IFG	=	0x008b
+                    008C    284 _PICTL	=	0x008c
+                    008D    285 _P1IEN	=	0x008d
+                    008F    286 _P0INP	=	0x008f
+                    0090    287 _P1	=	0x0090
+                    0091    288 _RFIM	=	0x0091
+                    0092    289 _DPS	=	0x0092
+                    0093    290 __XPAGE	=	0x0093
+                    0094    291 _T2CMP	=	0x0094
+                    0095    292 _ST0	=	0x0095
+                    0096    293 _ST1	=	0x0096
+                    0097    294 _ST2	=	0x0097
+                    0098    295 _S0CON	=	0x0098
+                    0099    296 _HSRC	=	0x0099
+                    009A    297 _IEN2	=	0x009a
+                    009B    298 _S1CON	=	0x009b
+                    009C    299 _T2PEROF0	=	0x009c
+                    009D    300 _T2PEROF1	=	0x009d
+                    009E    301 _T2PEROF2	=	0x009e
+                    009F    302 _FMAP	=	0x009f
+                    009F    303 _PSBANK	=	0x009f
+                    00A0    304 _P2	=	0x00a0
+                    00A1    305 _T2OF0	=	0x00a1
+                    00A2    306 _T2OF1	=	0x00a2
+                    00A3    307 _T2OF2	=	0x00a3
+                    00A4    308 _T2CAPLPL	=	0x00a4
+                    00A5    309 _T2CAPHPH	=	0x00a5
+                    00A6    310 _T2TLD	=	0x00a6
+                    00A7    311 _T2THD	=	0x00a7
+                    00A8    312 _IE	=	0x00a8
+                    00A8    313 _IEN0	=	0x00a8
+                    00A9    314 _IP0	=	0x00a9
+                    00AB    315 _FWT	=	0x00ab
+                    00AC    316 _FADDRL	=	0x00ac
+                    00AD    317 _FADDRH	=	0x00ad
+                    00AE    318 _FCTL	=	0x00ae
+                    00AF    319 _FWDATA	=	0x00af
+                    00B1    320 _ENCDI	=	0x00b1
+                    00B2    321 _ENCDO	=	0x00b2
+                    00B3    322 _ENCCS	=	0x00b3
+                    00B4    323 _ADCCON1	=	0x00b4
+                    00B5    324 _ADCCON2	=	0x00b5
+                    00B6    325 _ADCCON3	=	0x00b6
+                    00B7    326 _RCCTL	=	0x00b7
+                    00B8    327 _IEN1	=	0x00b8
+                    00B9    328 _IP1	=	0x00b9
+                    00BA    329 _ADCL	=	0x00ba
+                    00BB    330 _ADCH	=	0x00bb
+                    00BC    331 _RNDL	=	0x00bc
+                    00BD    332 _RNDH	=	0x00bd
+                    00BE    333 _SLEEP	=	0x00be
+                    00C0    334 _IRCON	=	0x00c0
+                    00C1    335 _U0BUF	=	0x00c1
+                    00C2    336 _U0BAUD	=	0x00c2
+                    00C3    337 _T2CNF	=	0x00c3
+                    00C4    338 _U0UCR	=	0x00c4
+                    00C5    339 _U0GCR	=	0x00c5
+                    00C6    340 _CLKCON	=	0x00c6
+                    00C7    341 _MEMCTR	=	0x00c7
+                    00C8    342 _T2CON	=	0x00c8
+                    00C9    343 _WDCTL	=	0x00c9
+                    00CA    344 _T3CNT	=	0x00ca
+                    00CB    345 _T3CTL	=	0x00cb
+                    00CC    346 _T3CCTL0	=	0x00cc
+                    00CD    347 _T3CC0	=	0x00cd
+                    00CE    348 _T3CCTL1	=	0x00ce
+                    00CF    349 _T3CC1	=	0x00cf
+                    00D0    350 _PSW	=	0x00d0
+                    00D1    351 _DMAIRQ	=	0x00d1
+                    00D2    352 _DMA1CFGL	=	0x00d2
+                    00D3    353 _DMA1CFGH	=	0x00d3
+                    00D4    354 _DMA0CFGL	=	0x00d4
+                    00D5    355 _DMA0CFGH	=	0x00d5
+                    00D6    356 _DMAARM	=	0x00d6
+                    00D7    357 _DMAREQ	=	0x00d7
+                    00D8    358 _TIMIF	=	0x00d8
+                    00D9    359 _RFD	=	0x00d9
+                    00DA    360 _T1CC0L	=	0x00da
+                    00DB    361 _T1CC0H	=	0x00db
+                    00DC    362 _T1CC1L	=	0x00dc
+                    00DD    363 _T1CC1H	=	0x00dd
+                    00DE    364 _T1CC2L	=	0x00de
+                    00DF    365 _T1CC2H	=	0x00df
+                    00E0    366 _ACC	=	0x00e0
+                    00E1    367 _RFST	=	0x00e1
+                    00E2    368 _T1CNTL	=	0x00e2
+                    00E3    369 _T1CNTH	=	0x00e3
+                    00E4    370 _T1CTL	=	0x00e4
+                    00E5    371 _T1CCTL0	=	0x00e5
+                    00E6    372 _T1CCTL1	=	0x00e6
+                    00E7    373 _T1CCTL2	=	0x00e7
+                    00E8    374 _IRCON2	=	0x00e8
+                    00E9    375 _RFIF	=	0x00e9
+                    00EA    376 _T4CNT	=	0x00ea
+                    00EB    377 _T4CTL	=	0x00eb
+                    00EC    378 _T4CCTL0	=	0x00ec
+                    00ED    379 _T4CC0	=	0x00ed
+                    00EE    380 _T4CCTL1	=	0x00ee
+                    00EF    381 _T4CC1	=	0x00ef
+                    00F0    382 _B	=	0x00f0
+                    00F1    383 _PERCFG	=	0x00f1
+                    00F2    384 _ADCCFG	=	0x00f2
+                    00F3    385 _P0SEL	=	0x00f3
+                    00F4    386 _P1SEL	=	0x00f4
+                    00F5    387 _P2SEL	=	0x00f5
+                    00F6    388 _P1INP	=	0x00f6
+                    00F7    389 _P2INP	=	0x00f7
+                    00F8    390 _U1CSR	=	0x00f8
+                    00F9    391 _U1BUF	=	0x00f9
+                    00FA    392 _U1BAUD	=	0x00fa
+                    00FB    393 _U1UCR	=	0x00fb
+                    00FC    394 _U1GCR	=	0x00fc
+                    00FD    395 _P0DIR	=	0x00fd
+                    00FE    396 _P1DIR	=	0x00fe
+                    00FF    397 _P2DIR	=	0x00ff
+                            398 ;--------------------------------------------------------
+                            399 ; special function bits
+                            400 ;--------------------------------------------------------
+                            401 	.area RSEG    (ABS,DATA)
+   0000                     402 	.org 0x0000
+                    0087    403 _P0_7	=	0x0087
+                    0086    404 _P0_6	=	0x0086
+                    0085    405 _P0_5	=	0x0085
+                    0084    406 _P0_4	=	0x0084
+                    0083    407 _P0_3	=	0x0083
+                    0082    408 _P0_2	=	0x0082
+                    0081    409 _P0_1	=	0x0081
+                    0080    410 _P0_0	=	0x0080
+                    008F    411 _TCON_URX1IF	=	0x008f
+                    008D    412 _TCON_ADCIF	=	0x008d
+                    008B    413 _TCON_URX0IF	=	0x008b
+                    008A    414 _TCON_IT1	=	0x008a
+                    0089    415 _TCON_RFERRIF	=	0x0089
+                    0088    416 _TCON_IT0	=	0x0088
+                    0090    417 _P1_0	=	0x0090
+                    0091    418 _P1_1	=	0x0091
+                    0092    419 _P1_2	=	0x0092
+                    0093    420 _P1_3	=	0x0093
+                    0094    421 _P1_4	=	0x0094
+                    0095    422 _P1_5	=	0x0095
+                    0096    423 _P1_6	=	0x0096
+                    0097    424 _P1_7	=	0x0097
+                    0099    425 _S0CON_ENCIF_1	=	0x0099
+                    0098    426 _S0CON_ENCIF_0	=	0x0098
+                    00A0    427 _P2_0	=	0x00a0
+                    00A1    428 _P2_1	=	0x00a1
+                    00A2    429 _P2_2	=	0x00a2
+                    00A3    430 _P2_3	=	0x00a3
+                    00A4    431 _P2_4	=	0x00a4
+                    00AF    432 _EA	=	0x00af
+                    00AF    433 _IEN0_EA	=	0x00af
+                    00AD    434 _IEN0_STIE	=	0x00ad
+                    00AC    435 _IEN0_ENCIE	=	0x00ac
+                    00AB    436 _IEN0_URX1IE	=	0x00ab
+                    00AA    437 _IEN0_URX0IE	=	0x00aa
+                    00A9    438 _IEN0_ADCIE	=	0x00a9
+                    00A8    439 _IEN0_RFERRIE	=	0x00a8
+                    00BD    440 _IEN1_P0IE	=	0x00bd
+                    00BC    441 _IEN1_T4IE	=	0x00bc
+                    00BB    442 _IEN1_T3IE	=	0x00bb
+                    00BA    443 _IEN1_T2IE	=	0x00ba
+                    00B9    444 _IEN1_T1IE	=	0x00b9
+                    00B8    445 _IEN1_DMAIE	=	0x00b8
+                    00C7    446 _IRCON_STIF	=	0x00c7
+                    00C5    447 _IRCON_P0IF	=	0x00c5
+                    00C4    448 _IRCON_T4IF	=	0x00c4
+                    00C3    449 _IRCON_T3IF	=	0x00c3
+                    00C2    450 _IRCON_T2IF	=	0x00c2
+                    00C1    451 _IRCON_T1IF	=	0x00c1
+                    00C0    452 _IRCON_DMAIF	=	0x00c0
+                    00D0    453 _P	=	0x00d0
+                    00D1    454 _F1	=	0x00d1
+                    00D2    455 _OV	=	0x00d2
+                    00D3    456 _RS0	=	0x00d3
+                    00D4    457 _RS1	=	0x00d4
+                    00D5    458 _F0	=	0x00d5
+                    00D6    459 _AC	=	0x00d6
+                    00D7    460 _CY	=	0x00d7
+                    00EC    461 _IRCON2_WDTIF	=	0x00ec
+                    00EB    462 _IRCON2_P1IF	=	0x00eb
+                    00EA    463 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    464 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    465 _IRCON2_P2IF	=	0x00e8
+                            466 ;--------------------------------------------------------
+                            467 ; overlayable register banks
+                            468 ;--------------------------------------------------------
+                            469 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     470 	.ds 8
+                            471 ;--------------------------------------------------------
+                            472 ; internal ram data
+                            473 ;--------------------------------------------------------
+                            474 	.area DSEG    (DATA)
+                            475 ;--------------------------------------------------------
+                            476 ; overlayable items in internal ram 
+                            477 ;--------------------------------------------------------
+                            478 	.area OSEG    (OVR,DATA)
+                            479 ;--------------------------------------------------------
+                            480 ; indirectly addressable internal ram data
+                            481 ;--------------------------------------------------------
+                            482 	.area ISEG    (DATA)
+                            483 ;--------------------------------------------------------
+                            484 ; absolute internal ram data
+                            485 ;--------------------------------------------------------
+                            486 	.area IABS    (ABS,DATA)
+                            487 	.area IABS    (ABS,DATA)
+                            488 ;--------------------------------------------------------
+                            489 ; bit data
+                            490 ;--------------------------------------------------------
+                            491 	.area BSEG    (BIT)
+                            492 ;--------------------------------------------------------
+                            493 ; paged external ram data
+                            494 ;--------------------------------------------------------
+                            495 	.area PSEG    (PAG,XDATA)
+                            496 ;--------------------------------------------------------
+                            497 ; external ram data
+                            498 ;--------------------------------------------------------
+                            499 	.area XSEG    (XDATA)
+                    DF02    500 _MDMCTRL0H	=	0xdf02
+                    DF03    501 _MDMCTRL0L	=	0xdf03
+                    DF04    502 _MDMCTRL1H	=	0xdf04
+                    DF05    503 _MDMCTRL1L	=	0xdf05
+                    DF06    504 _RSSIH	=	0xdf06
+                    DF07    505 _RSSIL	=	0xdf07
+                    DF08    506 _SYNCWORDH	=	0xdf08
+                    DF09    507 _SYNCWORDL	=	0xdf09
+                    DF0A    508 _TXCTRLH	=	0xdf0a
+                    DF0B    509 _TXCTRLL	=	0xdf0b
+                    DF0C    510 _RXCTRL0H	=	0xdf0c
+                    DF0D    511 _RXCTRL0L	=	0xdf0d
+                    DF0E    512 _RXCTRL1H	=	0xdf0e
+                    DF0F    513 _RXCTRL1L	=	0xdf0f
+                    DF10    514 _FSCTRLH	=	0xdf10
+                    DF11    515 _FSCTRLL	=	0xdf11
+                    DF12    516 _CSPX	=	0xdf12
+                    DF13    517 _CSPY	=	0xdf13
+                    DF14    518 _CSPZ	=	0xdf14
+                    DF15    519 _CSPCTRL	=	0xdf15
+                    DF16    520 _CSPT	=	0xdf16
+                    DF17    521 _RFPWR	=	0xdf17
+                    DF20    522 _FSMTCH	=	0xdf20
+                    DF21    523 _FSMTCL	=	0xdf21
+                    DF22    524 _MANANDH	=	0xdf22
+                    DF23    525 _MANANDL	=	0xdf23
+                    DF24    526 _MANORH	=	0xdf24
+                    DF25    527 _MANORL	=	0xdf25
+                    DF26    528 _AGCCTRLH	=	0xdf26
+                    DF27    529 _AGCCTRLL	=	0xdf27
+                    DF39    530 _FSMSTATE	=	0xdf39
+                    DF3A    531 _ADCTSTH	=	0xdf3a
+                    DF3B    532 _ADCTSTL	=	0xdf3b
+                    DF3C    533 _DACTSTH	=	0xdf3c
+                    DF3D    534 _DACTSTL	=	0xdf3d
+                    DF43    535 _IEEE_ADDR0	=	0xdf43
+                    DF44    536 _IEEE_ADDR1	=	0xdf44
+                    DF45    537 _IEEE_ADDR2	=	0xdf45
+                    DF46    538 _IEEE_ADDR3	=	0xdf46
+                    DF47    539 _IEEE_ADDR4	=	0xdf47
+                    DF48    540 _IEEE_ADDR5	=	0xdf48
+                    DF49    541 _IEEE_ADDR6	=	0xdf49
+                    DF4A    542 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    543 _PANIDH	=	0xdf4b
+                    DF4C    544 _PANIDL	=	0xdf4c
+                    DF4D    545 _SHORTADDRH	=	0xdf4d
+                    DF4E    546 _SHORTADDRL	=	0xdf4e
+                    DF4F    547 _IOCFG0	=	0xdf4f
+                    DF50    548 _IOCFG1	=	0xdf50
+                    DF51    549 _IOCFG2	=	0xdf51
+                    DF52    550 _IOCFG3	=	0xdf52
+                    DF53    551 _RXFIFOCNT	=	0xdf53
+                    DF54    552 _FSMTC1	=	0xdf54
+                    DF60    553 _CHVER	=	0xdf60
+                    DF61    554 _CHIPID	=	0xdf61
+                    DF62    555 _RFSTATUS	=	0xdf62
+                    DFC1    556 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    557 _RFD_SHADOW	=	0xdfd9
+                    DFF9    558 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    559 _ADC_SHADOW	=	0xdfba
+   0000                     560 _arp_table:
+   0000                     561 	.ds 88
+   0058                     562 _ipaddr:
+   0058                     563 	.ds 4
+   005C                     564 _i:
+   005C                     565 	.ds 1
+   005D                     566 _c:
+   005D                     567 	.ds 1
+   005E                     568 _arptime:
+   005E                     569 	.ds 1
+   005F                     570 _tmpage:
+   005F                     571 	.ds 1
+                            572 ;--------------------------------------------------------
+                            573 ; absolute external ram data
+                            574 ;--------------------------------------------------------
+                            575 	.area XABS    (ABS,XDATA)
+                            576 ;--------------------------------------------------------
+                            577 ; external initialized ram data
+                            578 ;--------------------------------------------------------
+                            579 	.area XISEG   (XDATA)
+                            580 	.area HOME    (CODE)
+                            581 	.area GSINIT0 (CODE)
+                            582 	.area GSINIT1 (CODE)
+                            583 	.area GSINIT2 (CODE)
+                            584 	.area GSINIT3 (CODE)
+                            585 	.area GSINIT4 (CODE)
+                            586 	.area GSINIT5 (CODE)
+                            587 	.area GSINIT  (CODE)
+                            588 	.area GSFINAL (CODE)
+                            589 	.area CSEG    (CODE)
+                            590 ;--------------------------------------------------------
+                            591 ; global & static initialisations
+                            592 ;--------------------------------------------------------
+                            593 	.area HOME    (CODE)
+                            594 	.area GSINIT  (CODE)
+                            595 	.area GSFINAL (CODE)
+                            596 	.area GSINIT  (CODE)
+                            597 ;--------------------------------------------------------
+                            598 ; Home
+                            599 ;--------------------------------------------------------
+                            600 	.area HOME    (CODE)
+                            601 	.area HOME    (CODE)
+                            602 ;--------------------------------------------------------
+                            603 ; code
+                            604 ;--------------------------------------------------------
+                            605 	.area CSEG    (CODE)
+                            606 ;------------------------------------------------------------
+                            607 ;Allocation info for local variables in function 'uip_arp_init'
+                            608 ;------------------------------------------------------------
+                            609 ;	../../core/net/uip_arp.c:133: uip_arp_init(void)
+                            610 ;	-----------------------------------------
+                            611 ;	 function uip_arp_init
+                            612 ;	-----------------------------------------
+   0000                     613 _uip_arp_init:
+                    0007    614 	ar7 = 0x07
+                    0006    615 	ar6 = 0x06
+                    0005    616 	ar5 = 0x05
+                    0004    617 	ar4 = 0x04
+                    0003    618 	ar3 = 0x03
+                    0002    619 	ar2 = 0x02
+                    0001    620 	ar1 = 0x01
+                    0000    621 	ar0 = 0x00
+                            622 ;	../../core/net/uip_arp.c:135: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   0000 90s00r5C            623 	mov	dptr,#_i
+   0003 E4                  624 	clr	a
+   0004 F0                  625 	movx	@dptr,a
+   0005                     626 00101$:
+   0005 90s00r5C            627 	mov	dptr,#_i
+   0008 E0                  628 	movx	a,@dptr
+   0009 FF                  629 	mov	r7,a
+   000A BF 08 00            630 	cjne	r7,#0x08,00111$
+   000D                     631 00111$:
+   000D 50 30               632 	jnc	00105$
+                            633 ;	../../core/net/uip_arp.c:136: memset(&arp_table[i].ipaddr, 0, 4);
+   000F EF                  634 	mov	a,r7
+   0010 75 F0 0B            635 	mov	b,#0x0B
+   0013 A4                  636 	mul	ab
+   0014 24r00               637 	add	a,#_arp_table
+   0016 FE                  638 	mov	r6,a
+   0017 E4                  639 	clr	a
+   0018 34s00               640 	addc	a,#(_arp_table >> 8)
+   001A FF                  641 	mov	r7,a
+   001B 7D 00               642 	mov	r5,#0x00
+   001D 74 04               643 	mov	a,#0x04
+   001F C0 E0               644 	push	acc
+   0021 E4                  645 	clr	a
+   0022 C0 E0               646 	push	acc
+   0024 E4                  647 	clr	a
+   0025 C0 E0               648 	push	acc
+   0027 8E 82               649 	mov	dpl,r6
+   0029 8F 83               650 	mov	dph,r7
+   002B 8D F0               651 	mov	b,r5
+   002D 12s00r00            652 	lcall	_memset
+   0030 15 81               653 	dec	sp
+   0032 15 81               654 	dec	sp
+   0034 15 81               655 	dec	sp
+                            656 ;	../../core/net/uip_arp.c:135: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   0036 90s00r5C            657 	mov	dptr,#_i
+   0039 E0                  658 	movx	a,@dptr
+   003A 24 01               659 	add	a,#0x01
+   003C F0                  660 	movx	@dptr,a
+   003D 80 C6               661 	sjmp	00101$
+   003F                     662 00105$:
+   003F 22                  663 	ret
+                            664 ;------------------------------------------------------------
+                            665 ;Allocation info for local variables in function 'uip_arp_timer'
+                            666 ;------------------------------------------------------------
+                            667 ;tabptr                    Allocated to stack - _bp +1
+                            668 ;------------------------------------------------------------
+                            669 ;	../../core/net/uip_arp.c:150: uip_arp_timer(void)
+                            670 ;	-----------------------------------------
+                            671 ;	 function uip_arp_timer
+                            672 ;	-----------------------------------------
+   0040                     673 _uip_arp_timer:
+   0040 C0*00               674 	push	_bp
+   0042 85 81*00            675 	mov	_bp,sp
+   0045 05 81               676 	inc	sp
+   0047 05 81               677 	inc	sp
+   0049 05 81               678 	inc	sp
+                            679 ;	../../core/net/uip_arp.c:154: ++arptime;
+   004B 90s00r5E            680 	mov	dptr,#_arptime
+   004E E0                  681 	movx	a,@dptr
+   004F 24 01               682 	add	a,#0x01
+   0051 F0                  683 	movx	@dptr,a
+                            684 ;	../../core/net/uip_arp.c:155: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   0052 90s00r5C            685 	mov	dptr,#_i
+   0055 E4                  686 	clr	a
+   0056 F0                  687 	movx	@dptr,a
+   0057                     688 00105$:
+   0057 90s00r5C            689 	mov	dptr,#_i
+   005A E0                  690 	movx	a,@dptr
+   005B FF                  691 	mov	r7,a
+   005C BF 08 00            692 	cjne	r7,#0x08,00121$
+   005F                     693 00121$:
+   005F 40 03               694 	jc	00122$
+   0061 02s01r36            695 	ljmp	00109$
+   0064                     696 00122$:
+                            697 ;	../../core/net/uip_arp.c:156: tabptr = &arp_table[i];
+   0064 EF                  698 	mov	a,r7
+   0065 75 F0 0B            699 	mov	b,#0x0B
+   0068 A4                  700 	mul	ab
+   0069 24r00               701 	add	a,#_arp_table
+   006B FE                  702 	mov	r6,a
+   006C E4                  703 	clr	a
+   006D 34s00               704 	addc	a,#(_arp_table >> 8)
+   006F FF                  705 	mov	r7,a
+   0070 A8*00               706 	mov	r0,_bp
+   0072 08                  707 	inc	r0
+   0073 A6 06               708 	mov	@r0,ar6
+   0075 08                  709 	inc	r0
+   0076 A6 07               710 	mov	@r0,ar7
+   0078 08                  711 	inc	r0
+   0079 76 00               712 	mov	@r0,#0x00
+                            713 ;	../../core/net/uip_arp.c:157: if(uip_ipaddr_cmp(&tabptr->ipaddr, &uip_all_zeroes_addr) &&
+   007B A8*00               714 	mov	r0,_bp
+   007D 08                  715 	inc	r0
+   007E 86 82               716 	mov	dpl,@r0
+   0080 08                  717 	inc	r0
+   0081 86 83               718 	mov	dph,@r0
+   0083 08                  719 	inc	r0
+   0084 86 F0               720 	mov	b,@r0
+   0086 12s00r00            721 	lcall	__gptrget
+   0089 FB                  722 	mov	r3,a
+   008A A3                  723 	inc	dptr
+   008B 12s00r00            724 	lcall	__gptrget
+   008E FC                  725 	mov	r4,a
+   008F 90s00r00            726 	mov	dptr,#_uip_all_zeroes_addr
+   0092 E4                  727 	clr	a
+   0093 93                  728 	movc	a,@a+dptr
+   0094 FA                  729 	mov	r2,a
+   0095 A3                  730 	inc	dptr
+   0096 E4                  731 	clr	a
+   0097 93                  732 	movc	a,@a+dptr
+   0098 FF                  733 	mov	r7,a
+   0099 EB                  734 	mov	a,r3
+   009A B5 02 06            735 	cjne	a,ar2,00123$
+   009D EC                  736 	mov	a,r4
+   009E B5 07 02            737 	cjne	a,ar7,00123$
+   00A1 80 03               738 	sjmp	00124$
+   00A3                     739 00123$:
+   00A3 02s01r2C            740 	ljmp	00107$
+   00A6                     741 00124$:
+   00A6 A8*00               742 	mov	r0,_bp
+   00A8 08                  743 	inc	r0
+   00A9 74 02               744 	mov	a,#0x02
+   00AB 26                  745 	add	a,@r0
+   00AC FD                  746 	mov	r5,a
+   00AD E4                  747 	clr	a
+   00AE 08                  748 	inc	r0
+   00AF 36                  749 	addc	a,@r0
+   00B0 FE                  750 	mov	r6,a
+   00B1 08                  751 	inc	r0
+   00B2 86 07               752 	mov	ar7,@r0
+   00B4 8D 82               753 	mov	dpl,r5
+   00B6 8E 83               754 	mov	dph,r6
+   00B8 8F F0               755 	mov	b,r7
+   00BA 12s00r00            756 	lcall	__gptrget
+   00BD FD                  757 	mov	r5,a
+   00BE A3                  758 	inc	dptr
+   00BF 12s00r00            759 	lcall	__gptrget
+   00C2 FE                  760 	mov	r6,a
+   00C3 90s00r02            761 	mov	dptr,#(_uip_all_zeroes_addr + 0x0002)
+   00C6 E4                  762 	clr	a
+   00C7 93                  763 	movc	a,@a+dptr
+   00C8 FC                  764 	mov	r4,a
+   00C9 A3                  765 	inc	dptr
+   00CA E4                  766 	clr	a
+   00CB 93                  767 	movc	a,@a+dptr
+   00CC FF                  768 	mov	r7,a
+   00CD ED                  769 	mov	a,r5
+   00CE B5 04 5B            770 	cjne	a,ar4,00107$
+   00D1 EE                  771 	mov	a,r6
+   00D2 B5 07 57            772 	cjne	a,ar7,00107$
+                            773 ;	../../core/net/uip_arp.c:158: arptime - tabptr->time >= UIP_ARP_MAXAGE) {
+   00D5 90s00r5E            774 	mov	dptr,#_arptime
+   00D8 E0                  775 	movx	a,@dptr
+   00D9 FF                  776 	mov	r7,a
+   00DA 7E 00               777 	mov	r6,#0x00
+   00DC A8*00               778 	mov	r0,_bp
+   00DE 08                  779 	inc	r0
+   00DF 74 0A               780 	mov	a,#0x0A
+   00E1 26                  781 	add	a,@r0
+   00E2 FB                  782 	mov	r3,a
+   00E3 E4                  783 	clr	a
+   00E4 08                  784 	inc	r0
+   00E5 36                  785 	addc	a,@r0
+   00E6 FC                  786 	mov	r4,a
+   00E7 08                  787 	inc	r0
+   00E8 86 05               788 	mov	ar5,@r0
+   00EA 8B 82               789 	mov	dpl,r3
+   00EC 8C 83               790 	mov	dph,r4
+   00EE 8D F0               791 	mov	b,r5
+   00F0 12s00r00            792 	lcall	__gptrget
+   00F3 FB                  793 	mov	r3,a
+   00F4 7D 00               794 	mov	r5,#0x00
+   00F6 EF                  795 	mov	a,r7
+   00F7 C3                  796 	clr	c
+   00F8 9B                  797 	subb	a,r3
+   00F9 FF                  798 	mov	r7,a
+   00FA EE                  799 	mov	a,r6
+   00FB 9D                  800 	subb	a,r5
+   00FC FE                  801 	mov	r6,a
+   00FD C3                  802 	clr	c
+   00FE EF                  803 	mov	a,r7
+   00FF 94 78               804 	subb	a,#0x78
+   0101 EE                  805 	mov	a,r6
+   0102 64 80               806 	xrl	a,#0x80
+   0104 94 80               807 	subb	a,#0x80
+   0106 40 24               808 	jc	00107$
+                            809 ;	../../core/net/uip_arp.c:159: memset(&tabptr->ipaddr, 0, 4);
+   0108 A8*00               810 	mov	r0,_bp
+   010A 08                  811 	inc	r0
+   010B 86 05               812 	mov	ar5,@r0
+   010D 08                  813 	inc	r0
+   010E 86 06               814 	mov	ar6,@r0
+   0110 08                  815 	inc	r0
+   0111 86 07               816 	mov	ar7,@r0
+   0113 74 04               817 	mov	a,#0x04
+   0115 C0 E0               818 	push	acc
+   0117 E4                  819 	clr	a
+   0118 C0 E0               820 	push	acc
+   011A E4                  821 	clr	a
+   011B C0 E0               822 	push	acc
+   011D 8D 82               823 	mov	dpl,r5
+   011F 8E 83               824 	mov	dph,r6
+   0121 8F F0               825 	mov	b,r7
+   0123 12s00r00            826 	lcall	_memset
+   0126 15 81               827 	dec	sp
+   0128 15 81               828 	dec	sp
+   012A 15 81               829 	dec	sp
+   012C                     830 00107$:
+                            831 ;	../../core/net/uip_arp.c:155: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   012C 90s00r5C            832 	mov	dptr,#_i
+   012F E0                  833 	movx	a,@dptr
+   0130 24 01               834 	add	a,#0x01
+   0132 F0                  835 	movx	@dptr,a
+   0133 02s00r57            836 	ljmp	00105$
+   0136                     837 00109$:
+   0136 85*00 81            838 	mov	sp,_bp
+   0139 D0*00               839 	pop	_bp
+   013B 22                  840 	ret
+                            841 ;------------------------------------------------------------
+                            842 ;Allocation info for local variables in function 'uip_arp_update'
+                            843 ;------------------------------------------------------------
+                            844 ;ethaddr                   Allocated to stack - _bp -5
+                            845 ;ipaddr                    Allocated to stack - _bp +1
+                            846 ;tabptr                    Allocated to stack - _bp +4
+                            847 ;sloc0                     Allocated to stack - _bp +7
+                            848 ;sloc1                     Allocated to stack - _bp +7
+                            849 ;------------------------------------------------------------
+                            850 ;	../../core/net/uip_arp.c:167: uip_arp_update(uip_ipaddr_t *ipaddr, struct uip_eth_addr *ethaddr)
+                            851 ;	-----------------------------------------
+                            852 ;	 function uip_arp_update
+                            853 ;	-----------------------------------------
+   013C                     854 _uip_arp_update:
+   013C C0*00               855 	push	_bp
+   013E 85 81*00            856 	mov	_bp,sp
+   0141 C0 82               857 	push	dpl
+   0143 C0 83               858 	push	dph
+   0145 C0 F0               859 	push	b
+   0147 E5 81               860 	mov	a,sp
+   0149 24 06               861 	add	a,#0x06
+   014B F5 81               862 	mov	sp,a
+                            863 ;	../../core/net/uip_arp.c:169: register struct arp_entry *tabptr = arp_table;
+   014D E5*00               864 	mov	a,_bp
+   014F 24 04               865 	add	a,#0x04
+   0151 F8                  866 	mov	r0,a
+   0152 76r00               867 	mov	@r0,#_arp_table
+   0154 08                  868 	inc	r0
+   0155 76s00               869 	mov	@r0,#(_arp_table >> 8)
+   0157 08                  870 	inc	r0
+   0158 76 00               871 	mov	@r0,#0x00
+                            872 ;	../../core/net/uip_arp.c:174: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   015A 90s00r5C            873 	mov	dptr,#_i
+   015D E4                  874 	clr	a
+   015E F0                  875 	movx	@dptr,a
+   015F A8*00               876 	mov	r0,_bp
+   0161 08                  877 	inc	r0
+   0162 74 02               878 	mov	a,#0x02
+   0164 26                  879 	add	a,@r0
+   0165 FD                  880 	mov	r5,a
+   0166 E4                  881 	clr	a
+   0167 08                  882 	inc	r0
+   0168 36                  883 	addc	a,@r0
+   0169 FE                  884 	mov	r6,a
+   016A 08                  885 	inc	r0
+   016B 86 07               886 	mov	ar7,@r0
+   016D                     887 00118$:
+   016D 90s00r5C            888 	mov	dptr,#_i
+   0170 E0                  889 	movx	a,@dptr
+   0171 FC                  890 	mov	r4,a
+   0172 BC 08 00            891 	cjne	r4,#0x08,00152$
+   0175                     892 00152$:
+   0175 40 03               893 	jc	00153$
+   0177 02s03r31            894 	ljmp	00121$
+   017A                     895 00153$:
+                            896 ;	../../core/net/uip_arp.c:175: tabptr = &arp_table[i];
+   017A C0 05               897 	push	ar5
+   017C C0 06               898 	push	ar6
+   017E C0 07               899 	push	ar7
+   0180 EC                  900 	mov	a,r4
+   0181 75 F0 0B            901 	mov	b,#0x0B
+   0184 A4                  902 	mul	ab
+   0185 24r00               903 	add	a,#_arp_table
+   0187 FE                  904 	mov	r6,a
+   0188 E4                  905 	clr	a
+   0189 34s00               906 	addc	a,#(_arp_table >> 8)
+   018B FF                  907 	mov	r7,a
+   018C E5*00               908 	mov	a,_bp
+   018E 24 04               909 	add	a,#0x04
+   0190 F8                  910 	mov	r0,a
+   0191 A6 06               911 	mov	@r0,ar6
+   0193 08                  912 	inc	r0
+   0194 A6 07               913 	mov	@r0,ar7
+   0196 08                  914 	inc	r0
+   0197 76 00               915 	mov	@r0,#0x00
+                            916 ;	../../core/net/uip_arp.c:178: if(!uip_ipaddr_cmp(&tabptr->ipaddr, &uip_all_zeroes_addr)) {
+   0199 E5*00               917 	mov	a,_bp
+   019B 24 04               918 	add	a,#0x04
+   019D F8                  919 	mov	r0,a
+   019E 86 82               920 	mov	dpl,@r0
+   01A0 08                  921 	inc	r0
+   01A1 86 83               922 	mov	dph,@r0
+   01A3 08                  923 	inc	r0
+   01A4 86 F0               924 	mov	b,@r0
+   01A6 12s00r00            925 	lcall	__gptrget
+   01A9 FE                  926 	mov	r6,a
+   01AA A3                  927 	inc	dptr
+   01AB 12s00r00            928 	lcall	__gptrget
+   01AE FF                  929 	mov	r7,a
+   01AF 90s00r00            930 	mov	dptr,#_uip_all_zeroes_addr
+   01B2 E4                  931 	clr	a
+   01B3 93                  932 	movc	a,@a+dptr
+   01B4 FC                  933 	mov	r4,a
+   01B5 A3                  934 	inc	dptr
+   01B6 E4                  935 	clr	a
+   01B7 93                  936 	movc	a,@a+dptr
+   01B8 FD                  937 	mov	r5,a
+   01B9 EE                  938 	mov	a,r6
+   01BA B5 04 06            939 	cjne	a,ar4,00154$
+   01BD EF                  940 	mov	a,r7
+   01BE B5 05 02            941 	cjne	a,ar5,00154$
+   01C1 80 08               942 	sjmp	00155$
+   01C3                     943 00154$:
+   01C3 D0 07               944 	pop	ar7
+   01C5 D0 06               945 	pop	ar6
+   01C7 D0 05               946 	pop	ar5
+   01C9 80 4C               947 	sjmp	00104$
+   01CB                     948 00155$:
+   01CB D0 07               949 	pop	ar7
+   01CD D0 06               950 	pop	ar6
+   01CF D0 05               951 	pop	ar5
+   01D1 C0 05               952 	push	ar5
+   01D3 C0 06               953 	push	ar6
+   01D5 C0 07               954 	push	ar7
+   01D7 E5*00               955 	mov	a,_bp
+   01D9 24 04               956 	add	a,#0x04
+   01DB F8                  957 	mov	r0,a
+   01DC 74 02               958 	mov	a,#0x02
+   01DE 26                  959 	add	a,@r0
+   01DF FA                  960 	mov	r2,a
+   01E0 E4                  961 	clr	a
+   01E1 08                  962 	inc	r0
+   01E2 36                  963 	addc	a,@r0
+   01E3 FB                  964 	mov	r3,a
+   01E4 08                  965 	inc	r0
+   01E5 86 04               966 	mov	ar4,@r0
+   01E7 8A 82               967 	mov	dpl,r2
+   01E9 8B 83               968 	mov	dph,r3
+   01EB 8C F0               969 	mov	b,r4
+   01ED 12s00r00            970 	lcall	__gptrget
+   01F0 FA                  971 	mov	r2,a
+   01F1 A3                  972 	inc	dptr
+   01F2 12s00r00            973 	lcall	__gptrget
+   01F5 FB                  974 	mov	r3,a
+   01F6 90s00r02            975 	mov	dptr,#(_uip_all_zeroes_addr + 0x0002)
+   01F9 E4                  976 	clr	a
+   01FA 93                  977 	movc	a,@a+dptr
+   01FB FC                  978 	mov	r4,a
+   01FC A3                  979 	inc	dptr
+   01FD E4                  980 	clr	a
+   01FE 93                  981 	movc	a,@a+dptr
+   01FF FF                  982 	mov	r7,a
+   0200 EA                  983 	mov	a,r2
+   0201 B5 04 0D            984 	cjne	a,ar4,00156$
+   0204 EB                  985 	mov	a,r3
+   0205 B5 07 09            986 	cjne	a,ar7,00156$
+   0208 D0 07               987 	pop	ar7
+   020A D0 06               988 	pop	ar6
+   020C D0 05               989 	pop	ar5
+   020E 02s03r1A            990 	ljmp	00105$
+   0211                     991 00156$:
+   0211 D0 07               992 	pop	ar7
+   0213 D0 06               993 	pop	ar6
+   0215 D0 05               994 	pop	ar5
+   0217                     995 00104$:
+                            996 ;	../../core/net/uip_arp.c:182: if(uip_ipaddr_cmp(ipaddr, &tabptr->ipaddr)) {
+   0217 C0 05               997 	push	ar5
+   0219 C0 06               998 	push	ar6
+   021B C0 07               999 	push	ar7
+   021D A8*00              1000 	mov	r0,_bp
+   021F 08                 1001 	inc	r0
+   0220 86 82              1002 	mov	dpl,@r0
+   0222 08                 1003 	inc	r0
+   0223 86 83              1004 	mov	dph,@r0
+   0225 08                 1005 	inc	r0
+   0226 86 F0              1006 	mov	b,@r0
+   0228 12s00r00           1007 	lcall	__gptrget
+   022B FB                 1008 	mov	r3,a
+   022C A3                 1009 	inc	dptr
+   022D 12s00r00           1010 	lcall	__gptrget
+   0230 FC                 1011 	mov	r4,a
+   0231 E5*00              1012 	mov	a,_bp
+   0233 24 04              1013 	add	a,#0x04
+   0235 F8                 1014 	mov	r0,a
+   0236 86 82              1015 	mov	dpl,@r0
+   0238 08                 1016 	inc	r0
+   0239 86 83              1017 	mov	dph,@r0
+   023B 08                 1018 	inc	r0
+   023C 86 F0              1019 	mov	b,@r0
+   023E 12s00r00           1020 	lcall	__gptrget
+   0241 FA                 1021 	mov	r2,a
+   0242 A3                 1022 	inc	dptr
+   0243 12s00r00           1023 	lcall	__gptrget
+   0246 FF                 1024 	mov	r7,a
+   0247 EB                 1025 	mov	a,r3
+   0248 B5 02 06           1026 	cjne	a,ar2,00157$
+   024B EC                 1027 	mov	a,r4
+   024C B5 07 02           1028 	cjne	a,ar7,00157$
+   024F 80 09              1029 	sjmp	00158$
+   0251                    1030 00157$:
+   0251 D0 07              1031 	pop	ar7
+   0253 D0 06              1032 	pop	ar6
+   0255 D0 05              1033 	pop	ar5
+   0257 02s03r1A           1034 	ljmp	00105$
+   025A                    1035 00158$:
+   025A D0 07              1036 	pop	ar7
+   025C D0 06              1037 	pop	ar6
+   025E D0 05              1038 	pop	ar5
+   0260 E5*00              1039 	mov	a,_bp
+   0262 24 04              1040 	add	a,#0x04
+   0264 F8                 1041 	mov	r0,a
+   0265 E5*00              1042 	mov	a,_bp
+   0267 24 07              1043 	add	a,#0x07
+   0269 F9                 1044 	mov	r1,a
+   026A 74 02              1045 	mov	a,#0x02
+   026C 26                 1046 	add	a,@r0
+   026D F7                 1047 	mov	@r1,a
+   026E E4                 1048 	clr	a
+   026F 08                 1049 	inc	r0
+   0270 36                 1050 	addc	a,@r0
+   0271 09                 1051 	inc	r1
+   0272 F7                 1052 	mov	@r1,a
+   0273 08                 1053 	inc	r0
+   0274 09                 1054 	inc	r1
+   0275 E6                 1055 	mov	a,@r0
+   0276 F7                 1056 	mov	@r1,a
+   0277 8D 82              1057 	mov	dpl,r5
+   0279 8E 83              1058 	mov	dph,r6
+   027B 8F F0              1059 	mov	b,r7
+   027D 12s00r00           1060 	lcall	__gptrget
+   0280 FB                 1061 	mov	r3,a
+   0281 A3                 1062 	inc	dptr
+   0282 12s00r00           1063 	lcall	__gptrget
+   0285 FC                 1064 	mov	r4,a
+   0286 C0 05              1065 	push	ar5
+   0288 C0 06              1066 	push	ar6
+   028A C0 07              1067 	push	ar7
+   028C E5*00              1068 	mov	a,_bp
+   028E 24 07              1069 	add	a,#0x07
+   0290 F8                 1070 	mov	r0,a
+   0291 86 82              1071 	mov	dpl,@r0
+   0293 08                 1072 	inc	r0
+   0294 86 83              1073 	mov	dph,@r0
+   0296 08                 1074 	inc	r0
+   0297 86 F0              1075 	mov	b,@r0
+   0299 12s00r00           1076 	lcall	__gptrget
+   029C FA                 1077 	mov	r2,a
+   029D A3                 1078 	inc	dptr
+   029E 12s00r00           1079 	lcall	__gptrget
+   02A1 FF                 1080 	mov	r7,a
+   02A2 EB                 1081 	mov	a,r3
+   02A3 B5 02 06           1082 	cjne	a,ar2,00159$
+   02A6 EC                 1083 	mov	a,r4
+   02A7 B5 07 02           1084 	cjne	a,ar7,00159$
+   02AA 80 08              1085 	sjmp	00160$
+   02AC                    1086 00159$:
+   02AC D0 07              1087 	pop	ar7
+   02AE D0 06              1088 	pop	ar6
+   02B0 D0 05              1089 	pop	ar5
+   02B2 80 66              1090 	sjmp	00105$
+   02B4                    1091 00160$:
+   02B4 D0 07              1092 	pop	ar7
+   02B6 D0 06              1093 	pop	ar6
+   02B8 D0 05              1094 	pop	ar5
+                           1095 ;	../../core/net/uip_arp.c:185: memcpy(tabptr->ethaddr.addr, ethaddr->addr, 6);
+   02BA E5*00              1096 	mov	a,_bp
+   02BC 24 FB              1097 	add	a,#0xfb
+   02BE F8                 1098 	mov	r0,a
+   02BF 86 02              1099 	mov	ar2,@r0
+   02C1 08                 1100 	inc	r0
+   02C2 86 03              1101 	mov	ar3,@r0
+   02C4 08                 1102 	inc	r0
+   02C5 86 04              1103 	mov	ar4,@r0
+   02C7 8A 07              1104 	mov	ar7,r2
+   02C9 8B 06              1105 	mov	ar6,r3
+   02CB 8C 05              1106 	mov	ar5,r4
+   02CD E5*00              1107 	mov	a,_bp
+   02CF 24 04              1108 	add	a,#0x04
+   02D1 F8                 1109 	mov	r0,a
+   02D2 74 04              1110 	mov	a,#0x04
+   02D4 26                 1111 	add	a,@r0
+   02D5 FA                 1112 	mov	r2,a
+   02D6 E4                 1113 	clr	a
+   02D7 08                 1114 	inc	r0
+   02D8 36                 1115 	addc	a,@r0
+   02D9 FB                 1116 	mov	r3,a
+   02DA 08                 1117 	inc	r0
+   02DB 86 04              1118 	mov	ar4,@r0
+   02DD 74 06              1119 	mov	a,#0x06
+   02DF C0 E0              1120 	push	acc
+   02E1 E4                 1121 	clr	a
+   02E2 C0 E0              1122 	push	acc
+   02E4 C0 07              1123 	push	ar7
+   02E6 C0 06              1124 	push	ar6
+   02E8 C0 05              1125 	push	ar5
+   02EA 8A 82              1126 	mov	dpl,r2
+   02EC 8B 83              1127 	mov	dph,r3
+   02EE 8C F0              1128 	mov	b,r4
+   02F0 12s00r00           1129 	lcall	_memcpy
+   02F3 E5 81              1130 	mov	a,sp
+   02F5 24 FB              1131 	add	a,#0xfb
+   02F7 F5 81              1132 	mov	sp,a
+                           1133 ;	../../core/net/uip_arp.c:186: tabptr->time = arptime;
+   02F9 E5*00              1134 	mov	a,_bp
+   02FB 24 04              1135 	add	a,#0x04
+   02FD F8                 1136 	mov	r0,a
+   02FE 74 0A              1137 	mov	a,#0x0A
+   0300 26                 1138 	add	a,@r0
+   0301 FF                 1139 	mov	r7,a
+   0302 E4                 1140 	clr	a
+   0303 08                 1141 	inc	r0
+   0304 36                 1142 	addc	a,@r0
+   0305 FE                 1143 	mov	r6,a
+   0306 08                 1144 	inc	r0
+   0307 86 05              1145 	mov	ar5,@r0
+   0309 90s00r5E           1146 	mov	dptr,#_arptime
+   030C E0                 1147 	movx	a,@dptr
+   030D FC                 1148 	mov	r4,a
+   030E 8F 82              1149 	mov	dpl,r7
+   0310 8E 83              1150 	mov	dph,r6
+   0312 8D F0              1151 	mov	b,r5
+   0314 12s00r00           1152 	lcall	__gptrput
+                           1153 ;	../../core/net/uip_arp.c:188: return;
+   0317 02s05r06           1154 	ljmp	00126$
+   031A                    1155 00105$:
+                           1156 ;	../../core/net/uip_arp.c:191: tabptr++;
+   031A E5*00              1157 	mov	a,_bp
+   031C 24 04              1158 	add	a,#0x04
+   031E F8                 1159 	mov	r0,a
+   031F 74 0B              1160 	mov	a,#0x0B
+   0321 26                 1161 	add	a,@r0
+   0322 F6                 1162 	mov	@r0,a
+   0323 E4                 1163 	clr	a
+   0324 08                 1164 	inc	r0
+   0325 36                 1165 	addc	a,@r0
+   0326 F6                 1166 	mov	@r0,a
+                           1167 ;	../../core/net/uip_arp.c:174: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   0327 90s00r5C           1168 	mov	dptr,#_i
+   032A E0                 1169 	movx	a,@dptr
+   032B 24 01              1170 	add	a,#0x01
+   032D F0                 1171 	movx	@dptr,a
+   032E 02s01r6D           1172 	ljmp	00118$
+   0331                    1173 00121$:
+                           1174 ;	../../core/net/uip_arp.c:198: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   0331 90s00r5C           1175 	mov	dptr,#_i
+   0334 E4                 1176 	clr	a
+   0335 F0                 1177 	movx	@dptr,a
+   0336                    1178 00110$:
+   0336 90s00r5C           1179 	mov	dptr,#_i
+   0339 E0                 1180 	movx	a,@dptr
+   033A FF                 1181 	mov	r7,a
+   033B BF 08 00           1182 	cjne	r7,#0x08,00161$
+   033E                    1183 00161$:
+   033E 40 03              1184 	jc	00162$
+   0340 02s03rC1           1185 	ljmp	00113$
+   0343                    1186 00162$:
+                           1187 ;	../../core/net/uip_arp.c:199: tabptr = &arp_table[i];
+   0343 EF                 1188 	mov	a,r7
+   0344 75 F0 0B           1189 	mov	b,#0x0B
+   0347 A4                 1190 	mul	ab
+   0348 24r00              1191 	add	a,#_arp_table
+   034A FE                 1192 	mov	r6,a
+   034B E4                 1193 	clr	a
+   034C 34s00              1194 	addc	a,#(_arp_table >> 8)
+   034E FF                 1195 	mov	r7,a
+   034F E5*00              1196 	mov	a,_bp
+   0351 24 04              1197 	add	a,#0x04
+   0353 F8                 1198 	mov	r0,a
+   0354 A6 06              1199 	mov	@r0,ar6
+   0356 08                 1200 	inc	r0
+   0357 A6 07              1201 	mov	@r0,ar7
+   0359 08                 1202 	inc	r0
+   035A 76 00              1203 	mov	@r0,#0x00
+                           1204 ;	../../core/net/uip_arp.c:200: if(uip_ipaddr_cmp(&tabptr->ipaddr, &uip_all_zeroes_addr)) {
+   035C E5*00              1205 	mov	a,_bp
+   035E 24 04              1206 	add	a,#0x04
+   0360 F8                 1207 	mov	r0,a
+   0361 86 82              1208 	mov	dpl,@r0
+   0363 08                 1209 	inc	r0
+   0364 86 83              1210 	mov	dph,@r0
+   0366 08                 1211 	inc	r0
+   0367 86 F0              1212 	mov	b,@r0
+   0369 12s00r00           1213 	lcall	__gptrget
+   036C FE                 1214 	mov	r6,a
+   036D A3                 1215 	inc	dptr
+   036E 12s00r00           1216 	lcall	__gptrget
+   0371 FF                 1217 	mov	r7,a
+   0372 90s00r00           1218 	mov	dptr,#_uip_all_zeroes_addr
+   0375 E4                 1219 	clr	a
+   0376 93                 1220 	movc	a,@a+dptr
+   0377 FC                 1221 	mov	r4,a
+   0378 A3                 1222 	inc	dptr
+   0379 E4                 1223 	clr	a
+   037A 93                 1224 	movc	a,@a+dptr
+   037B FD                 1225 	mov	r5,a
+   037C EE                 1226 	mov	a,r6
+   037D B5 04 37           1227 	cjne	a,ar4,00112$
+   0380 EF                 1228 	mov	a,r7
+   0381 B5 05 33           1229 	cjne	a,ar5,00112$
+   0384 E5*00              1230 	mov	a,_bp
+   0386 24 04              1231 	add	a,#0x04
+   0388 F8                 1232 	mov	r0,a
+   0389 74 02              1233 	mov	a,#0x02
+   038B 26                 1234 	add	a,@r0
+   038C FD                 1235 	mov	r5,a
+   038D E4                 1236 	clr	a
+   038E 08                 1237 	inc	r0
+   038F 36                 1238 	addc	a,@r0
+   0390 FE                 1239 	mov	r6,a
+   0391 08                 1240 	inc	r0
+   0392 86 07              1241 	mov	ar7,@r0
+   0394 8D 82              1242 	mov	dpl,r5
+   0396 8E 83              1243 	mov	dph,r6
+   0398 8F F0              1244 	mov	b,r7
+   039A 12s00r00           1245 	lcall	__gptrget
+   039D FD                 1246 	mov	r5,a
+   039E A3                 1247 	inc	dptr
+   039F 12s00r00           1248 	lcall	__gptrget
+   03A2 FE                 1249 	mov	r6,a
+   03A3 90s00r02           1250 	mov	dptr,#(_uip_all_zeroes_addr + 0x0002)
+   03A6 E4                 1251 	clr	a
+   03A7 93                 1252 	movc	a,@a+dptr
+   03A8 FC                 1253 	mov	r4,a
+   03A9 A3                 1254 	inc	dptr
+   03AA E4                 1255 	clr	a
+   03AB 93                 1256 	movc	a,@a+dptr
+   03AC FF                 1257 	mov	r7,a
+   03AD ED                 1258 	mov	a,r5
+   03AE B5 04 06           1259 	cjne	a,ar4,00165$
+   03B1 EE                 1260 	mov	a,r6
+   03B2 B5 07 02           1261 	cjne	a,ar7,00165$
+   03B5 80 0A              1262 	sjmp	00113$
+   03B7                    1263 00165$:
+                           1264 ;	../../core/net/uip_arp.c:201: break;
+   03B7                    1265 00112$:
+                           1266 ;	../../core/net/uip_arp.c:198: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   03B7 90s00r5C           1267 	mov	dptr,#_i
+   03BA E0                 1268 	movx	a,@dptr
+   03BB 24 01              1269 	add	a,#0x01
+   03BD F0                 1270 	movx	@dptr,a
+   03BE 02s03r36           1271 	ljmp	00110$
+   03C1                    1272 00113$:
+                           1273 ;	../../core/net/uip_arp.c:207: if(i == UIP_ARPTAB_SIZE) {
+   03C1 90s00r5C           1274 	mov	dptr,#_i
+   03C4 E0                 1275 	movx	a,@dptr
+   03C5 FF                 1276 	mov	r7,a
+   03C6 BF 08 02           1277 	cjne	r7,#0x08,00166$
+   03C9 80 03              1278 	sjmp	00167$
+   03CB                    1279 00166$:
+   03CB 02s04r7B           1280 	ljmp	00117$
+   03CE                    1281 00167$:
+                           1282 ;	../../core/net/uip_arp.c:208: tmpage = 0;
+   03CE 90s00r5F           1283 	mov	dptr,#_tmpage
+                           1284 ;	../../core/net/uip_arp.c:209: c = 0;
+                           1285 ;	../../core/net/uip_arp.c:210: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   03D1 E4                 1286 	clr	a
+   03D2 F0                 1287 	movx	@dptr,a
+   03D3 90s00r5D           1288 	mov	dptr,#_c
+   03D6 F0                 1289 	movx	@dptr,a
+   03D7 90s00r5C           1290 	mov	dptr,#_i
+   03DA F0                 1291 	movx	@dptr,a
+   03DB                    1292 00122$:
+   03DB 90s00r5C           1293 	mov	dptr,#_i
+   03DE E0                 1294 	movx	a,@dptr
+   03DF FF                 1295 	mov	r7,a
+   03E0 BF 08 00           1296 	cjne	r7,#0x08,00168$
+   03E3                    1297 00168$:
+   03E3 50 74              1298 	jnc	00125$
+                           1299 ;	../../core/net/uip_arp.c:211: tabptr = &arp_table[i];
+   03E5 EF                 1300 	mov	a,r7
+   03E6 75 F0 0B           1301 	mov	b,#0x0B
+   03E9 A4                 1302 	mul	ab
+   03EA 24r00              1303 	add	a,#_arp_table
+   03EC FD                 1304 	mov	r5,a
+   03ED E4                 1305 	clr	a
+   03EE 34s00              1306 	addc	a,#(_arp_table >> 8)
+   03F0 FE                 1307 	mov	r6,a
+   03F1 E5*00              1308 	mov	a,_bp
+   03F3 24 04              1309 	add	a,#0x04
+   03F5 F8                 1310 	mov	r0,a
+   03F6 A6 05              1311 	mov	@r0,ar5
+   03F8 08                 1312 	inc	r0
+   03F9 A6 06              1313 	mov	@r0,ar6
+   03FB 08                 1314 	inc	r0
+   03FC 76 00              1315 	mov	@r0,#0x00
+                           1316 ;	../../core/net/uip_arp.c:212: if(arptime - tabptr->time > tmpage) {
+   03FE 90s00r5E           1317 	mov	dptr,#_arptime
+   0401 E0                 1318 	movx	a,@dptr
+   0402 FE                 1319 	mov	r6,a
+   0403 FC                 1320 	mov	r4,a
+   0404 7D 00              1321 	mov	r5,#0x00
+   0406 C0 07              1322 	push	ar7
+   0408 E5*00              1323 	mov	a,_bp
+   040A 24 04              1324 	add	a,#0x04
+   040C F8                 1325 	mov	r0,a
+   040D 74 0A              1326 	mov	a,#0x0A
+   040F 26                 1327 	add	a,@r0
+   0410 FA                 1328 	mov	r2,a
+   0411 E4                 1329 	clr	a
+   0412 08                 1330 	inc	r0
+   0413 36                 1331 	addc	a,@r0
+   0414 FB                 1332 	mov	r3,a
+   0415 08                 1333 	inc	r0
+   0416 86 07              1334 	mov	ar7,@r0
+   0418 8A 82              1335 	mov	dpl,r2
+   041A 8B 83              1336 	mov	dph,r3
+   041C 8F F0              1337 	mov	b,r7
+   041E 12s00r00           1338 	lcall	__gptrget
+   0421 FA                 1339 	mov	r2,a
+   0422 FB                 1340 	mov	r3,a
+   0423 7F 00              1341 	mov	r7,#0x00
+   0425 EC                 1342 	mov	a,r4
+   0426 C3                 1343 	clr	c
+   0427 9B                 1344 	subb	a,r3
+   0428 FC                 1345 	mov	r4,a
+   0429 ED                 1346 	mov	a,r5
+   042A 9F                 1347 	subb	a,r7
+   042B FD                 1348 	mov	r5,a
+   042C 90s00r5F           1349 	mov	dptr,#_tmpage
+   042F E0                 1350 	movx	a,@dptr
+   0430 FF                 1351 	mov	r7,a
+   0431 7B 00              1352 	mov	r3,#0x00
+   0433 C3                 1353 	clr	c
+   0434 EF                 1354 	mov	a,r7
+   0435 9C                 1355 	subb	a,r4
+   0436 EB                 1356 	mov	a,r3
+   0437 64 80              1357 	xrl	a,#0x80
+   0439 8D F0              1358 	mov	b,r5
+   043B 63 F0 80           1359 	xrl	b,#0x80
+   043E 95 F0              1360 	subb	a,b
+   0440 D0 07              1361 	pop	ar7
+   0442 50 0C              1362 	jnc	00124$
+                           1363 ;	../../core/net/uip_arp.c:213: tmpage = arptime - tabptr->time;
+   0444 90s00r5F           1364 	mov	dptr,#_tmpage
+   0447 EE                 1365 	mov	a,r6
+   0448 C3                 1366 	clr	c
+   0449 9A                 1367 	subb	a,r2
+   044A F0                 1368 	movx	@dptr,a
+                           1369 ;	../../core/net/uip_arp.c:214: c = i;
+   044B 90s00r5D           1370 	mov	dptr,#_c
+   044E EF                 1371 	mov	a,r7
+   044F F0                 1372 	movx	@dptr,a
+   0450                    1373 00124$:
+                           1374 ;	../../core/net/uip_arp.c:210: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   0450 90s00r5C           1375 	mov	dptr,#_i
+   0453 E0                 1376 	movx	a,@dptr
+   0454 24 01              1377 	add	a,#0x01
+   0456 F0                 1378 	movx	@dptr,a
+   0457 80 82              1379 	sjmp	00122$
+   0459                    1380 00125$:
+                           1381 ;	../../core/net/uip_arp.c:217: i = c;
+   0459 90s00r5D           1382 	mov	dptr,#_c
+   045C E0                 1383 	movx	a,@dptr
+   045D FF                 1384 	mov	r7,a
+   045E 90s00r5C           1385 	mov	dptr,#_i
+   0461 F0                 1386 	movx	@dptr,a
+                           1387 ;	../../core/net/uip_arp.c:218: tabptr = &arp_table[i];
+   0462 EF                 1388 	mov	a,r7
+   0463 75 F0 0B           1389 	mov	b,#0x0B
+   0466 A4                 1390 	mul	ab
+   0467 24r00              1391 	add	a,#_arp_table
+   0469 FE                 1392 	mov	r6,a
+   046A E4                 1393 	clr	a
+   046B 34s00              1394 	addc	a,#(_arp_table >> 8)
+   046D FF                 1395 	mov	r7,a
+   046E E5*00              1396 	mov	a,_bp
+   0470 24 04              1397 	add	a,#0x04
+   0472 F8                 1398 	mov	r0,a
+   0473 A6 06              1399 	mov	@r0,ar6
+   0475 08                 1400 	inc	r0
+   0476 A6 07              1401 	mov	@r0,ar7
+   0478 08                 1402 	inc	r0
+   0479 76 00              1403 	mov	@r0,#0x00
+   047B                    1404 00117$:
+                           1405 ;	../../core/net/uip_arp.c:223: uip_ipaddr_copy(&tabptr->ipaddr, ipaddr);
+   047B A8*00              1406 	mov	r0,_bp
+   047D 08                 1407 	inc	r0
+   047E 86 05              1408 	mov	ar5,@r0
+   0480 08                 1409 	inc	r0
+   0481 86 06              1410 	mov	ar6,@r0
+   0483 08                 1411 	inc	r0
+   0484 86 07              1412 	mov	ar7,@r0
+   0486 E5*00              1413 	mov	a,_bp
+   0488 24 04              1414 	add	a,#0x04
+   048A F8                 1415 	mov	r0,a
+   048B 86 02              1416 	mov	ar2,@r0
+   048D 08                 1417 	inc	r0
+   048E 86 03              1418 	mov	ar3,@r0
+   0490 08                 1419 	inc	r0
+   0491 86 04              1420 	mov	ar4,@r0
+   0493 74 04              1421 	mov	a,#0x04
+   0495 C0 E0              1422 	push	acc
+   0497 E4                 1423 	clr	a
+   0498 C0 E0              1424 	push	acc
+   049A C0 05              1425 	push	ar5
+   049C C0 06              1426 	push	ar6
+   049E C0 07              1427 	push	ar7
+   04A0 8A 82              1428 	mov	dpl,r2
+   04A2 8B 83              1429 	mov	dph,r3
+   04A4 8C F0              1430 	mov	b,r4
+   04A6 12s00r00           1431 	lcall	_memcpy
+   04A9 E5 81              1432 	mov	a,sp
+   04AB 24 FB              1433 	add	a,#0xfb
+   04AD F5 81              1434 	mov	sp,a
+                           1435 ;	../../core/net/uip_arp.c:224: memcpy(tabptr->ethaddr.addr, ethaddr->addr, 6);
+   04AF E5*00              1436 	mov	a,_bp
+   04B1 24 FB              1437 	add	a,#0xfb
+   04B3 F8                 1438 	mov	r0,a
+   04B4 86 05              1439 	mov	ar5,@r0
+   04B6 08                 1440 	inc	r0
+   04B7 86 06              1441 	mov	ar6,@r0
+   04B9 08                 1442 	inc	r0
+   04BA 86 07              1443 	mov	ar7,@r0
+   04BC E5*00              1444 	mov	a,_bp
+   04BE 24 04              1445 	add	a,#0x04
+   04C0 F8                 1446 	mov	r0,a
+   04C1 74 04              1447 	mov	a,#0x04
+   04C3 26                 1448 	add	a,@r0
+   04C4 FA                 1449 	mov	r2,a
+   04C5 E4                 1450 	clr	a
+   04C6 08                 1451 	inc	r0
+   04C7 36                 1452 	addc	a,@r0
+   04C8 FB                 1453 	mov	r3,a
+   04C9 08                 1454 	inc	r0
+   04CA 86 04              1455 	mov	ar4,@r0
+   04CC 74 06              1456 	mov	a,#0x06
+   04CE C0 E0              1457 	push	acc
+   04D0 E4                 1458 	clr	a
+   04D1 C0 E0              1459 	push	acc
+   04D3 C0 05              1460 	push	ar5
+   04D5 C0 06              1461 	push	ar6
+   04D7 C0 07              1462 	push	ar7
+   04D9 8A 82              1463 	mov	dpl,r2
+   04DB 8B 83              1464 	mov	dph,r3
+   04DD 8C F0              1465 	mov	b,r4
+   04DF 12s00r00           1466 	lcall	_memcpy
+   04E2 E5 81              1467 	mov	a,sp
+   04E4 24 FB              1468 	add	a,#0xfb
+   04E6 F5 81              1469 	mov	sp,a
+                           1470 ;	../../core/net/uip_arp.c:225: tabptr->time = arptime;
+   04E8 E5*00              1471 	mov	a,_bp
+   04EA 24 04              1472 	add	a,#0x04
+   04EC F8                 1473 	mov	r0,a
+   04ED 74 0A              1474 	mov	a,#0x0A
+   04EF 26                 1475 	add	a,@r0
+   04F0 FD                 1476 	mov	r5,a
+   04F1 E4                 1477 	clr	a
+   04F2 08                 1478 	inc	r0
+   04F3 36                 1479 	addc	a,@r0
+   04F4 FE                 1480 	mov	r6,a
+   04F5 08                 1481 	inc	r0
+   04F6 86 07              1482 	mov	ar7,@r0
+   04F8 90s00r5E           1483 	mov	dptr,#_arptime
+   04FB E0                 1484 	movx	a,@dptr
+   04FC FC                 1485 	mov	r4,a
+   04FD 8D 82              1486 	mov	dpl,r5
+   04FF 8E 83              1487 	mov	dph,r6
+   0501 8F F0              1488 	mov	b,r7
+   0503 12s00r00           1489 	lcall	__gptrput
+   0506                    1490 00126$:
+   0506 85*00 81           1491 	mov	sp,_bp
+   0509 D0*00              1492 	pop	_bp
+   050B 22                 1493 	ret
+                           1494 ;------------------------------------------------------------
+                           1495 ;Allocation info for local variables in function 'uip_arp_arpin'
+                           1496 ;------------------------------------------------------------
+                           1497 ;	../../core/net/uip_arp.c:286: uip_arp_arpin(void)
+                           1498 ;	-----------------------------------------
+                           1499 ;	 function uip_arp_arpin
+                           1500 ;	-----------------------------------------
+   050C                    1501 _uip_arp_arpin:
+                           1502 ;	../../core/net/uip_arp.c:289: if(uip_len < sizeof(struct arp_hdr)) {
+   050C 90s00r00           1503 	mov	dptr,#_uip_len
+   050F E0                 1504 	movx	a,@dptr
+   0510 FE                 1505 	mov	r6,a
+   0511 A3                 1506 	inc	dptr
+   0512 E0                 1507 	movx	a,@dptr
+   0513 FF                 1508 	mov	r7,a
+   0514 C3                 1509 	clr	c
+   0515 EE                 1510 	mov	a,r6
+   0516 94 2A              1511 	subb	a,#0x2A
+   0518 EF                 1512 	mov	a,r7
+   0519 94 00              1513 	subb	a,#0x00
+   051B 50 08              1514 	jnc	00102$
+                           1515 ;	../../core/net/uip_arp.c:290: uip_len = 0;
+   051D 90s00r00           1516 	mov	dptr,#_uip_len
+   0520 E4                 1517 	clr	a
+   0521 F0                 1518 	movx	@dptr,a
+   0522 A3                 1519 	inc	dptr
+   0523 F0                 1520 	movx	@dptr,a
+                           1521 ;	../../core/net/uip_arp.c:291: return;
+   0524 22                 1522 	ret
+   0525                    1523 00102$:
+                           1524 ;	../../core/net/uip_arp.c:293: uip_len = 0;
+   0525 90s00r00           1525 	mov	dptr,#_uip_len
+   0528 E4                 1526 	clr	a
+   0529 F0                 1527 	movx	@dptr,a
+   052A A3                 1528 	inc	dptr
+   052B F0                 1529 	movx	@dptr,a
+                           1530 ;	../../core/net/uip_arp.c:295: switch(BUF->opcode) {
+   052C 7Er00              1531 	mov	r6,#_uip_aligned_buf
+   052E 7Fs00              1532 	mov	r7,#(_uip_aligned_buf >> 8)
+   0530 74 14              1533 	mov	a,#0x14
+   0532 2E                 1534 	add	a,r6
+   0533 F5 82              1535 	mov	dpl,a
+   0535 E4                 1536 	clr	a
+   0536 3F                 1537 	addc	a,r7
+   0537 F5 83              1538 	mov	dph,a
+   0539 E0                 1539 	movx	a,@dptr
+   053A FE                 1540 	mov	r6,a
+   053B A3                 1541 	inc	dptr
+   053C E0                 1542 	movx	a,@dptr
+   053D FF                 1543 	mov	r7,a
+   053E BE 00 05           1544 	cjne	r6,#0x00,00129$
+   0541 BF 01 02           1545 	cjne	r7,#0x01,00129$
+   0544 80 0C              1546 	sjmp	00103$
+   0546                    1547 00129$:
+   0546 BE 00 06           1548 	cjne	r6,#0x00,00130$
+   0549 BF 02 03           1549 	cjne	r7,#0x02,00130$
+   054C 02s07r27           1550 	ljmp	00107$
+   054F                    1551 00130$:
+   054F 02s07r9A           1552 	ljmp	00111$
+                           1553 ;	../../core/net/uip_arp.c:296: case UIP_HTONS(ARP_REQUEST):
+   0552                    1554 00103$:
+                           1555 ;	../../core/net/uip_arp.c:306: if(uip_ipaddr_cmp(&BUF->dipaddr, &uip_hostaddr)) {
+   0552 7Er00              1556 	mov	r6,#_uip_aligned_buf
+   0554 7Fs00              1557 	mov	r7,#(_uip_aligned_buf >> 8)
+   0556 74 26              1558 	mov	a,#0x26
+   0558 2E                 1559 	add	a,r6
+   0559 F5 82              1560 	mov	dpl,a
+   055B E4                 1561 	clr	a
+   055C 3F                 1562 	addc	a,r7
+   055D F5 83              1563 	mov	dph,a
+   055F E0                 1564 	movx	a,@dptr
+   0560 FE                 1565 	mov	r6,a
+   0561 A3                 1566 	inc	dptr
+   0562 E0                 1567 	movx	a,@dptr
+   0563 FF                 1568 	mov	r7,a
+   0564 90s00r00           1569 	mov	dptr,#_uip_hostaddr
+   0567 E0                 1570 	movx	a,@dptr
+   0568 FC                 1571 	mov	r4,a
+   0569 A3                 1572 	inc	dptr
+   056A E0                 1573 	movx	a,@dptr
+   056B FD                 1574 	mov	r5,a
+   056C EE                 1575 	mov	a,r6
+   056D B5 04 06           1576 	cjne	a,ar4,00131$
+   0570 EF                 1577 	mov	a,r7
+   0571 B5 05 02           1578 	cjne	a,ar5,00131$
+   0574 80 03              1579 	sjmp	00132$
+   0576                    1580 00131$:
+   0576 02s07r9A           1581 	ljmp	00111$
+   0579                    1582 00132$:
+   0579 7Er00              1583 	mov	r6,#_uip_aligned_buf
+   057B 7Fs00              1584 	mov	r7,#(_uip_aligned_buf >> 8)
+   057D 74 28              1585 	mov	a,#0x28
+   057F 2E                 1586 	add	a,r6
+   0580 F5 82              1587 	mov	dpl,a
+   0582 E4                 1588 	clr	a
+   0583 3F                 1589 	addc	a,r7
+   0584 F5 83              1590 	mov	dph,a
+   0586 E0                 1591 	movx	a,@dptr
+   0587 FE                 1592 	mov	r6,a
+   0588 A3                 1593 	inc	dptr
+   0589 E0                 1594 	movx	a,@dptr
+   058A FF                 1595 	mov	r7,a
+   058B 90s00r02           1596 	mov	dptr,#(_uip_hostaddr + 0x0002)
+   058E E0                 1597 	movx	a,@dptr
+   058F FC                 1598 	mov	r4,a
+   0590 A3                 1599 	inc	dptr
+   0591 E0                 1600 	movx	a,@dptr
+   0592 FD                 1601 	mov	r5,a
+   0593 EE                 1602 	mov	a,r6
+   0594 B5 04 06           1603 	cjne	a,ar4,00133$
+   0597 EF                 1604 	mov	a,r7
+   0598 B5 05 02           1605 	cjne	a,ar5,00133$
+   059B 80 03              1606 	sjmp	00134$
+   059D                    1607 00133$:
+   059D 02s07r9A           1608 	ljmp	00111$
+   05A0                    1609 00134$:
+                           1610 ;	../../core/net/uip_arp.c:310: uip_arp_update(&BUF->sipaddr, &BUF->shwaddr);
+   05A0 7Er00              1611 	mov	r6,#_uip_aligned_buf
+   05A2 7Fs00              1612 	mov	r7,#(_uip_aligned_buf >> 8)
+   05A4 74 16              1613 	mov	a,#0x16
+   05A6 2E                 1614 	add	a,r6
+   05A7 FE                 1615 	mov	r6,a
+   05A8 E4                 1616 	clr	a
+   05A9 3F                 1617 	addc	a,r7
+   05AA FF                 1618 	mov	r7,a
+   05AB 7D 00              1619 	mov	r5,#0x00
+   05AD 7Br00              1620 	mov	r3,#_uip_aligned_buf
+   05AF 7Cs00              1621 	mov	r4,#(_uip_aligned_buf >> 8)
+   05B1 74 1C              1622 	mov	a,#0x1C
+   05B3 2B                 1623 	add	a,r3
+   05B4 FB                 1624 	mov	r3,a
+   05B5 E4                 1625 	clr	a
+   05B6 3C                 1626 	addc	a,r4
+   05B7 FC                 1627 	mov	r4,a
+   05B8 7A 00              1628 	mov	r2,#0x00
+   05BA C0 06              1629 	push	ar6
+   05BC C0 07              1630 	push	ar7
+   05BE C0 05              1631 	push	ar5
+   05C0 8B 82              1632 	mov	dpl,r3
+   05C2 8C 83              1633 	mov	dph,r4
+   05C4 8A F0              1634 	mov	b,r2
+   05C6 12s01r3C           1635 	lcall	_uip_arp_update
+   05C9 15 81              1636 	dec	sp
+   05CB 15 81              1637 	dec	sp
+   05CD 15 81              1638 	dec	sp
+                           1639 ;	../../core/net/uip_arp.c:312: BUF->opcode = UIP_HTONS(ARP_REPLY);
+   05CF 7Er00              1640 	mov	r6,#_uip_aligned_buf
+   05D1 7Fs00              1641 	mov	r7,#(_uip_aligned_buf >> 8)
+   05D3 74 14              1642 	mov	a,#0x14
+   05D5 2E                 1643 	add	a,r6
+   05D6 F5 82              1644 	mov	dpl,a
+   05D8 E4                 1645 	clr	a
+   05D9 3F                 1646 	addc	a,r7
+   05DA F5 83              1647 	mov	dph,a
+   05DC E4                 1648 	clr	a
+   05DD F0                 1649 	movx	@dptr,a
+   05DE A3                 1650 	inc	dptr
+   05DF 74 02              1651 	mov	a,#0x02
+   05E1 F0                 1652 	movx	@dptr,a
+                           1653 ;	../../core/net/uip_arp.c:314: memcpy(BUF->dhwaddr.addr, BUF->shwaddr.addr, 6);
+   05E2 7Er00              1654 	mov	r6,#_uip_aligned_buf
+   05E4 7Fs00              1655 	mov	r7,#(_uip_aligned_buf >> 8)
+   05E6 74 16              1656 	mov	a,#0x16
+   05E8 2E                 1657 	add	a,r6
+   05E9 FE                 1658 	mov	r6,a
+   05EA E4                 1659 	clr	a
+   05EB 3F                 1660 	addc	a,r7
+   05EC FF                 1661 	mov	r7,a
+   05ED 7D 00              1662 	mov	r5,#0x00
+   05EF 7Br00              1663 	mov	r3,#_uip_aligned_buf
+   05F1 7Cs00              1664 	mov	r4,#(_uip_aligned_buf >> 8)
+   05F3 74 20              1665 	mov	a,#0x20
+   05F5 2B                 1666 	add	a,r3
+   05F6 FB                 1667 	mov	r3,a
+   05F7 E4                 1668 	clr	a
+   05F8 3C                 1669 	addc	a,r4
+   05F9 FC                 1670 	mov	r4,a
+   05FA 7A 00              1671 	mov	r2,#0x00
+   05FC 74 06              1672 	mov	a,#0x06
+   05FE C0 E0              1673 	push	acc
+   0600 E4                 1674 	clr	a
+   0601 C0 E0              1675 	push	acc
+   0603 C0 06              1676 	push	ar6
+   0605 C0 07              1677 	push	ar7
+   0607 C0 05              1678 	push	ar5
+   0609 8B 82              1679 	mov	dpl,r3
+   060B 8C 83              1680 	mov	dph,r4
+   060D 8A F0              1681 	mov	b,r2
+   060F 12s00r00           1682 	lcall	_memcpy
+   0612 E5 81              1683 	mov	a,sp
+   0614 24 FB              1684 	add	a,#0xfb
+   0616 F5 81              1685 	mov	sp,a
+                           1686 ;	../../core/net/uip_arp.c:315: memcpy(BUF->shwaddr.addr, uip_ethaddr.addr, 6);
+   0618 7Er00              1687 	mov	r6,#_uip_aligned_buf
+   061A 7Fs00              1688 	mov	r7,#(_uip_aligned_buf >> 8)
+   061C 74 16              1689 	mov	a,#0x16
+   061E 2E                 1690 	add	a,r6
+   061F FE                 1691 	mov	r6,a
+   0620 E4                 1692 	clr	a
+   0621 3F                 1693 	addc	a,r7
+   0622 FF                 1694 	mov	r7,a
+   0623 7D 00              1695 	mov	r5,#0x00
+   0625 74 06              1696 	mov	a,#0x06
+   0627 C0 E0              1697 	push	acc
+   0629 E4                 1698 	clr	a
+   062A C0 E0              1699 	push	acc
+   062C 74r00              1700 	mov	a,#_uip_ethaddr
+   062E C0 E0              1701 	push	acc
+   0630 74s00              1702 	mov	a,#(_uip_ethaddr >> 8)
+   0632 C0 E0              1703 	push	acc
+   0634 E4                 1704 	clr	a
+   0635 C0 E0              1705 	push	acc
+   0637 8E 82              1706 	mov	dpl,r6
+   0639 8F 83              1707 	mov	dph,r7
+   063B 8D F0              1708 	mov	b,r5
+   063D 12s00r00           1709 	lcall	_memcpy
+   0640 E5 81              1710 	mov	a,sp
+   0642 24 FB              1711 	add	a,#0xfb
+   0644 F5 81              1712 	mov	sp,a
+                           1713 ;	../../core/net/uip_arp.c:316: memcpy(BUF->ethhdr.src.addr, uip_ethaddr.addr, 6);
+   0646 7Er00              1714 	mov	r6,#_uip_aligned_buf
+   0648 7Fs00              1715 	mov	r7,#(_uip_aligned_buf >> 8)
+   064A 74 06              1716 	mov	a,#0x06
+   064C 2E                 1717 	add	a,r6
+   064D FE                 1718 	mov	r6,a
+   064E E4                 1719 	clr	a
+   064F 3F                 1720 	addc	a,r7
+   0650 FF                 1721 	mov	r7,a
+   0651 7D 00              1722 	mov	r5,#0x00
+   0653 74 06              1723 	mov	a,#0x06
+   0655 C0 E0              1724 	push	acc
+   0657 E4                 1725 	clr	a
+   0658 C0 E0              1726 	push	acc
+   065A 74r00              1727 	mov	a,#_uip_ethaddr
+   065C C0 E0              1728 	push	acc
+   065E 74s00              1729 	mov	a,#(_uip_ethaddr >> 8)
+   0660 C0 E0              1730 	push	acc
+   0662 E4                 1731 	clr	a
+   0663 C0 E0              1732 	push	acc
+   0665 8E 82              1733 	mov	dpl,r6
+   0667 8F 83              1734 	mov	dph,r7
+   0669 8D F0              1735 	mov	b,r5
+   066B 12s00r00           1736 	lcall	_memcpy
+   066E E5 81              1737 	mov	a,sp
+   0670 24 FB              1738 	add	a,#0xfb
+   0672 F5 81              1739 	mov	sp,a
+                           1740 ;	../../core/net/uip_arp.c:317: memcpy(BUF->ethhdr.dest.addr, BUF->dhwaddr.addr, 6);
+   0674 7Er00              1741 	mov	r6,#_uip_aligned_buf
+   0676 7Fs00              1742 	mov	r7,#(_uip_aligned_buf >> 8)
+   0678 74 20              1743 	mov	a,#0x20
+   067A 2E                 1744 	add	a,r6
+   067B FE                 1745 	mov	r6,a
+   067C E4                 1746 	clr	a
+   067D 3F                 1747 	addc	a,r7
+   067E FF                 1748 	mov	r7,a
+   067F 7D 00              1749 	mov	r5,#0x00
+   0681 7Br00              1750 	mov	r3,#_uip_aligned_buf
+   0683 7Cs00              1751 	mov	r4,#(_uip_aligned_buf >> 8)
+   0685 7A 00              1752 	mov	r2,#0x00
+   0687 74 06              1753 	mov	a,#0x06
+   0689 C0 E0              1754 	push	acc
+   068B E4                 1755 	clr	a
+   068C C0 E0              1756 	push	acc
+   068E C0 06              1757 	push	ar6
+   0690 C0 07              1758 	push	ar7
+   0692 C0 05              1759 	push	ar5
+   0694 8B 82              1760 	mov	dpl,r3
+   0696 8C 83              1761 	mov	dph,r4
+   0698 8A F0              1762 	mov	b,r2
+   069A 12s00r00           1763 	lcall	_memcpy
+   069D E5 81              1764 	mov	a,sp
+   069F 24 FB              1765 	add	a,#0xfb
+   06A1 F5 81              1766 	mov	sp,a
+                           1767 ;	../../core/net/uip_arp.c:319: uip_ipaddr_copy(&BUF->dipaddr, &BUF->sipaddr);
+   06A3 7Er00              1768 	mov	r6,#_uip_aligned_buf
+   06A5 7Fs00              1769 	mov	r7,#(_uip_aligned_buf >> 8)
+   06A7 74 1C              1770 	mov	a,#0x1C
+   06A9 2E                 1771 	add	a,r6
+   06AA FE                 1772 	mov	r6,a
+   06AB E4                 1773 	clr	a
+   06AC 3F                 1774 	addc	a,r7
+   06AD FF                 1775 	mov	r7,a
+   06AE 7D 00              1776 	mov	r5,#0x00
+   06B0 7Br00              1777 	mov	r3,#_uip_aligned_buf
+   06B2 7Cs00              1778 	mov	r4,#(_uip_aligned_buf >> 8)
+   06B4 74 26              1779 	mov	a,#0x26
+   06B6 2B                 1780 	add	a,r3
+   06B7 FB                 1781 	mov	r3,a
+   06B8 E4                 1782 	clr	a
+   06B9 3C                 1783 	addc	a,r4
+   06BA FC                 1784 	mov	r4,a
+   06BB 7A 00              1785 	mov	r2,#0x00
+   06BD 74 04              1786 	mov	a,#0x04
+   06BF C0 E0              1787 	push	acc
+   06C1 E4                 1788 	clr	a
+   06C2 C0 E0              1789 	push	acc
+   06C4 C0 06              1790 	push	ar6
+   06C6 C0 07              1791 	push	ar7
+   06C8 C0 05              1792 	push	ar5
+   06CA 8B 82              1793 	mov	dpl,r3
+   06CC 8C 83              1794 	mov	dph,r4
+   06CE 8A F0              1795 	mov	b,r2
+   06D0 12s00r00           1796 	lcall	_memcpy
+   06D3 E5 81              1797 	mov	a,sp
+   06D5 24 FB              1798 	add	a,#0xfb
+   06D7 F5 81              1799 	mov	sp,a
+                           1800 ;	../../core/net/uip_arp.c:320: uip_ipaddr_copy(&BUF->sipaddr, &uip_hostaddr);
+   06D9 7Er00              1801 	mov	r6,#_uip_aligned_buf
+   06DB 7Fs00              1802 	mov	r7,#(_uip_aligned_buf >> 8)
+   06DD 74 1C              1803 	mov	a,#0x1C
+   06DF 2E                 1804 	add	a,r6
+   06E0 FE                 1805 	mov	r6,a
+   06E1 E4                 1806 	clr	a
+   06E2 3F                 1807 	addc	a,r7
+   06E3 FF                 1808 	mov	r7,a
+   06E4 7D 00              1809 	mov	r5,#0x00
+   06E6 74 04              1810 	mov	a,#0x04
+   06E8 C0 E0              1811 	push	acc
+   06EA E4                 1812 	clr	a
+   06EB C0 E0              1813 	push	acc
+   06ED 74r00              1814 	mov	a,#_uip_hostaddr
+   06EF C0 E0              1815 	push	acc
+   06F1 74s00              1816 	mov	a,#(_uip_hostaddr >> 8)
+   06F3 C0 E0              1817 	push	acc
+   06F5 E4                 1818 	clr	a
+   06F6 C0 E0              1819 	push	acc
+   06F8 8E 82              1820 	mov	dpl,r6
+   06FA 8F 83              1821 	mov	dph,r7
+   06FC 8D F0              1822 	mov	b,r5
+   06FE 12s00r00           1823 	lcall	_memcpy
+   0701 E5 81              1824 	mov	a,sp
+   0703 24 FB              1825 	add	a,#0xfb
+   0705 F5 81              1826 	mov	sp,a
+                           1827 ;	../../core/net/uip_arp.c:322: BUF->ethhdr.type = UIP_HTONS(UIP_ETHTYPE_ARP);
+   0707 7Er00              1828 	mov	r6,#_uip_aligned_buf
+   0709 7Fs00              1829 	mov	r7,#(_uip_aligned_buf >> 8)
+   070B 74 0C              1830 	mov	a,#0x0C
+   070D 2E                 1831 	add	a,r6
+   070E F5 82              1832 	mov	dpl,a
+   0710 E4                 1833 	clr	a
+   0711 3F                 1834 	addc	a,r7
+   0712 F5 83              1835 	mov	dph,a
+   0714 74 08              1836 	mov	a,#0x08
+   0716 F0                 1837 	movx	@dptr,a
+   0717 A3                 1838 	inc	dptr
+   0718 74 06              1839 	mov	a,#0x06
+   071A F0                 1840 	movx	@dptr,a
+                           1841 ;	../../core/net/uip_arp.c:323: uip_len = sizeof(struct arp_hdr);
+   071B 90s00r00           1842 	mov	dptr,#_uip_len
+   071E 74 2A              1843 	mov	a,#0x2A
+   0720 F0                 1844 	movx	@dptr,a
+   0721 A3                 1845 	inc	dptr
+   0722 E4                 1846 	clr	a
+   0723 F0                 1847 	movx	@dptr,a
+                           1848 ;	../../core/net/uip_arp.c:325: break;
+   0724 02s07r9A           1849 	ljmp	00111$
+                           1850 ;	../../core/net/uip_arp.c:326: case UIP_HTONS(ARP_REPLY):
+   0727                    1851 00107$:
+                           1852 ;	../../core/net/uip_arp.c:329: if(uip_ipaddr_cmp(&BUF->dipaddr, &uip_hostaddr)) {
+   0727 7Er00              1853 	mov	r6,#_uip_aligned_buf
+   0729 7Fs00              1854 	mov	r7,#(_uip_aligned_buf >> 8)
+   072B 74 26              1855 	mov	a,#0x26
+   072D 2E                 1856 	add	a,r6
+   072E F5 82              1857 	mov	dpl,a
+   0730 E4                 1858 	clr	a
+   0731 3F                 1859 	addc	a,r7
+   0732 F5 83              1860 	mov	dph,a
+   0734 E0                 1861 	movx	a,@dptr
+   0735 FE                 1862 	mov	r6,a
+   0736 A3                 1863 	inc	dptr
+   0737 E0                 1864 	movx	a,@dptr
+   0738 FF                 1865 	mov	r7,a
+   0739 90s00r00           1866 	mov	dptr,#_uip_hostaddr
+   073C E0                 1867 	movx	a,@dptr
+   073D FC                 1868 	mov	r4,a
+   073E A3                 1869 	inc	dptr
+   073F E0                 1870 	movx	a,@dptr
+   0740 FD                 1871 	mov	r5,a
+   0741 EE                 1872 	mov	a,r6
+   0742 B5 04 55           1873 	cjne	a,ar4,00111$
+   0745 EF                 1874 	mov	a,r7
+   0746 B5 05 51           1875 	cjne	a,ar5,00111$
+   0749 7Er00              1876 	mov	r6,#_uip_aligned_buf
+   074B 7Fs00              1877 	mov	r7,#(_uip_aligned_buf >> 8)
+   074D 74 28              1878 	mov	a,#0x28
+   074F 2E                 1879 	add	a,r6
+   0750 F5 82              1880 	mov	dpl,a
+   0752 E4                 1881 	clr	a
+   0753 3F                 1882 	addc	a,r7
+   0754 F5 83              1883 	mov	dph,a
+   0756 E0                 1884 	movx	a,@dptr
+   0757 FE                 1885 	mov	r6,a
+   0758 A3                 1886 	inc	dptr
+   0759 E0                 1887 	movx	a,@dptr
+   075A FF                 1888 	mov	r7,a
+   075B 90s00r02           1889 	mov	dptr,#(_uip_hostaddr + 0x0002)
+   075E E0                 1890 	movx	a,@dptr
+   075F FC                 1891 	mov	r4,a
+   0760 A3                 1892 	inc	dptr
+   0761 E0                 1893 	movx	a,@dptr
+   0762 FD                 1894 	mov	r5,a
+   0763 EE                 1895 	mov	a,r6
+   0764 B5 04 33           1896 	cjne	a,ar4,00111$
+   0767 EF                 1897 	mov	a,r7
+   0768 B5 05 2F           1898 	cjne	a,ar5,00111$
+                           1899 ;	../../core/net/uip_arp.c:330: uip_arp_update(&BUF->sipaddr, &BUF->shwaddr);
+   076B 7Er00              1900 	mov	r6,#_uip_aligned_buf
+   076D 7Fs00              1901 	mov	r7,#(_uip_aligned_buf >> 8)
+   076F 74 16              1902 	mov	a,#0x16
+   0771 2E                 1903 	add	a,r6
+   0772 FE                 1904 	mov	r6,a
+   0773 E4                 1905 	clr	a
+   0774 3F                 1906 	addc	a,r7
+   0775 FF                 1907 	mov	r7,a
+   0776 7D 00              1908 	mov	r5,#0x00
+   0778 7Br00              1909 	mov	r3,#_uip_aligned_buf
+   077A 7Cs00              1910 	mov	r4,#(_uip_aligned_buf >> 8)
+   077C 74 1C              1911 	mov	a,#0x1C
+   077E 2B                 1912 	add	a,r3
+   077F FB                 1913 	mov	r3,a
+   0780 E4                 1914 	clr	a
+   0781 3C                 1915 	addc	a,r4
+   0782 FC                 1916 	mov	r4,a
+   0783 7A 00              1917 	mov	r2,#0x00
+   0785 C0 06              1918 	push	ar6
+   0787 C0 07              1919 	push	ar7
+   0789 C0 05              1920 	push	ar5
+   078B 8B 82              1921 	mov	dpl,r3
+   078D 8C 83              1922 	mov	dph,r4
+   078F 8A F0              1923 	mov	b,r2
+   0791 12s01r3C           1924 	lcall	_uip_arp_update
+   0794 15 81              1925 	dec	sp
+   0796 15 81              1926 	dec	sp
+   0798 15 81              1927 	dec	sp
+                           1928 ;	../../core/net/uip_arp.c:333: }
+   079A                    1929 00111$:
+                           1930 ;	../../core/net/uip_arp.c:335: return;
+   079A 22                 1931 	ret
+                           1932 ;------------------------------------------------------------
+                           1933 ;Allocation info for local variables in function 'uip_arp_out'
+                           1934 ;------------------------------------------------------------
+                           1935 ;tabptr                    Allocated to registers 
+                           1936 ;sloc0                     Allocated to stack - _bp +1
+                           1937 ;------------------------------------------------------------
+                           1938 ;	../../core/net/uip_arp.c:366: uip_arp_out(void)
+                           1939 ;	-----------------------------------------
+                           1940 ;	 function uip_arp_out
+                           1941 ;	-----------------------------------------
+   079B                    1942 _uip_arp_out:
+   079B C0*00              1943 	push	_bp
+   079D 85 81*00           1944 	mov	_bp,sp
+   07A0 05 81              1945 	inc	sp
+   07A2 05 81              1946 	inc	sp
+                           1947 ;	../../core/net/uip_arp.c:368: struct arp_entry *tabptr = arp_table;
+                           1948 ;	../../core/net/uip_arp.c:378: if(uip_ipaddr_cmp(&IPBUF->destipaddr, &uip_broadcast_addr)) {
+   07A4 7Er00              1949 	mov	r6,#_uip_aligned_buf
+   07A6 7Fs00              1950 	mov	r7,#(_uip_aligned_buf >> 8)
+   07A8 74 1E              1951 	mov	a,#0x1E
+   07AA 2E                 1952 	add	a,r6
+   07AB F5 82              1953 	mov	dpl,a
+   07AD E4                 1954 	clr	a
+   07AE 3F                 1955 	addc	a,r7
+   07AF F5 83              1956 	mov	dph,a
+   07B1 E0                 1957 	movx	a,@dptr
+   07B2 FE                 1958 	mov	r6,a
+   07B3 A3                 1959 	inc	dptr
+   07B4 E0                 1960 	movx	a,@dptr
+   07B5 FF                 1961 	mov	r7,a
+   07B6 90s00r00           1962 	mov	dptr,#_uip_broadcast_addr
+   07B9 E4                 1963 	clr	a
+   07BA 93                 1964 	movc	a,@a+dptr
+   07BB FC                 1965 	mov	r4,a
+   07BC A3                 1966 	inc	dptr
+   07BD E4                 1967 	clr	a
+   07BE 93                 1968 	movc	a,@a+dptr
+   07BF FD                 1969 	mov	r5,a
+   07C0 EE                 1970 	mov	a,r6
+   07C1 B5 04 53           1971 	cjne	a,ar4,00118$
+   07C4 EF                 1972 	mov	a,r7
+   07C5 B5 05 4F           1973 	cjne	a,ar5,00118$
+   07C8 7Er00              1974 	mov	r6,#_uip_aligned_buf
+   07CA 7Fs00              1975 	mov	r7,#(_uip_aligned_buf >> 8)
+   07CC 74 20              1976 	mov	a,#0x20
+   07CE 2E                 1977 	add	a,r6
+   07CF F5 82              1978 	mov	dpl,a
+   07D1 E4                 1979 	clr	a
+   07D2 3F                 1980 	addc	a,r7
+   07D3 F5 83              1981 	mov	dph,a
+   07D5 E0                 1982 	movx	a,@dptr
+   07D6 FE                 1983 	mov	r6,a
+   07D7 A3                 1984 	inc	dptr
+   07D8 E0                 1985 	movx	a,@dptr
+   07D9 FF                 1986 	mov	r7,a
+   07DA 90s00r02           1987 	mov	dptr,#(_uip_broadcast_addr + 0x0002)
+   07DD E4                 1988 	clr	a
+   07DE 93                 1989 	movc	a,@a+dptr
+   07DF FC                 1990 	mov	r4,a
+   07E0 A3                 1991 	inc	dptr
+   07E1 E4                 1992 	clr	a
+   07E2 93                 1993 	movc	a,@a+dptr
+   07E3 FD                 1994 	mov	r5,a
+   07E4 EE                 1995 	mov	a,r6
+   07E5 B5 04 2F           1996 	cjne	a,ar4,00118$
+   07E8 EF                 1997 	mov	a,r7
+   07E9 B5 05 2B           1998 	cjne	a,ar5,00118$
+                           1999 ;	../../core/net/uip_arp.c:379: memcpy(IPBUF->ethhdr.dest.addr, broadcast_ethaddr.addr, 6);
+   07EC 7Er00              2000 	mov	r6,#_uip_aligned_buf
+   07EE 7Fs00              2001 	mov	r7,#(_uip_aligned_buf >> 8)
+   07F0 7D 00              2002 	mov	r5,#0x00
+   07F2 74 06              2003 	mov	a,#0x06
+   07F4 C0 E0              2004 	push	acc
+   07F6 E4                 2005 	clr	a
+   07F7 C0 E0              2006 	push	acc
+   07F9 74r00              2007 	mov	a,#_broadcast_ethaddr
+   07FB C0 E0              2008 	push	acc
+   07FD 74s00              2009 	mov	a,#(_broadcast_ethaddr >> 8)
+   07FF C0 E0              2010 	push	acc
+   0801 74 80              2011 	mov	a,#0x80
+   0803 C0 E0              2012 	push	acc
+   0805 8E 82              2013 	mov	dpl,r6
+   0807 8F 83              2014 	mov	dph,r7
+   0809 8D F0              2015 	mov	b,r5
+   080B 12s00r00           2016 	lcall	_memcpy
+   080E E5 81              2017 	mov	a,sp
+   0810 24 FB              2018 	add	a,#0xfb
+   0812 F5 81              2019 	mov	sp,a
+   0814 02s0BrD6           2020 	ljmp	00119$
+   0817                    2021 00118$:
+                           2022 ;	../../core/net/uip_arp.c:380: } else if(IPBUF->destipaddr.u8[0] == 224) {
+   0817 7Er00              2023 	mov	r6,#_uip_aligned_buf
+   0819 7Fs00              2024 	mov	r7,#(_uip_aligned_buf >> 8)
+   081B 74 1E              2025 	mov	a,#0x1E
+   081D 2E                 2026 	add	a,r6
+   081E F5 82              2027 	mov	dpl,a
+   0820 E4                 2028 	clr	a
+   0821 3F                 2029 	addc	a,r7
+   0822 F5 83              2030 	mov	dph,a
+   0824 E0                 2031 	movx	a,@dptr
+   0825 FF                 2032 	mov	r7,a
+   0826 BF E0 02           2033 	cjne	r7,#0xE0,00144$
+   0829 80 03              2034 	sjmp	00145$
+   082B                    2035 00144$:
+   082B 02s08rAA           2036 	ljmp	00115$
+   082E                    2037 00145$:
+                           2038 ;	../../core/net/uip_arp.c:382: IPBUF->ethhdr.dest.addr[0] = 0x01;
+   082E 90s00r00           2039 	mov	dptr,#_uip_aligned_buf
+   0831 74 01              2040 	mov	a,#0x01
+   0833 F0                 2041 	movx	@dptr,a
+                           2042 ;	../../core/net/uip_arp.c:383: IPBUF->ethhdr.dest.addr[1] = 0x00;
+   0834 7Er00              2043 	mov	r6,#_uip_aligned_buf
+   0836 7Fs00              2044 	mov	r7,#(_uip_aligned_buf >> 8)
+   0838 8E 82              2045 	mov	dpl,r6
+   083A 8F 83              2046 	mov	dph,r7
+   083C A3                 2047 	inc	dptr
+   083D E4                 2048 	clr	a
+   083E F0                 2049 	movx	@dptr,a
+                           2050 ;	../../core/net/uip_arp.c:384: IPBUF->ethhdr.dest.addr[2] = 0x5e;
+   083F 7Er00              2051 	mov	r6,#_uip_aligned_buf
+   0841 7Fs00              2052 	mov	r7,#(_uip_aligned_buf >> 8)
+   0843 8E 82              2053 	mov	dpl,r6
+   0845 8F 83              2054 	mov	dph,r7
+   0847 A3                 2055 	inc	dptr
+   0848 A3                 2056 	inc	dptr
+   0849 74 5E              2057 	mov	a,#0x5E
+   084B F0                 2058 	movx	@dptr,a
+                           2059 ;	../../core/net/uip_arp.c:385: IPBUF->ethhdr.dest.addr[3] = IPBUF->destipaddr.u8[1];
+   084C 7Er00              2060 	mov	r6,#_uip_aligned_buf
+   084E 7Fs00              2061 	mov	r7,#(_uip_aligned_buf >> 8)
+   0850 74 03              2062 	mov	a,#0x03
+   0852 2E                 2063 	add	a,r6
+   0853 FE                 2064 	mov	r6,a
+   0854 E4                 2065 	clr	a
+   0855 3F                 2066 	addc	a,r7
+   0856 FF                 2067 	mov	r7,a
+   0857 7Cr00              2068 	mov	r4,#_uip_aligned_buf
+   0859 7Ds00              2069 	mov	r5,#(_uip_aligned_buf >> 8)
+   085B 74 1F              2070 	mov	a,#0x1F
+   085D 2C                 2071 	add	a,r4
+   085E F5 82              2072 	mov	dpl,a
+   0860 E4                 2073 	clr	a
+   0861 3D                 2074 	addc	a,r5
+   0862 F5 83              2075 	mov	dph,a
+   0864 E0                 2076 	movx	a,@dptr
+   0865 8E 82              2077 	mov	dpl,r6
+   0867 8F 83              2078 	mov	dph,r7
+   0869 F0                 2079 	movx	@dptr,a
+                           2080 ;	../../core/net/uip_arp.c:386: IPBUF->ethhdr.dest.addr[4] = IPBUF->destipaddr.u8[2];
+   086A 7Er00              2081 	mov	r6,#_uip_aligned_buf
+   086C 7Fs00              2082 	mov	r7,#(_uip_aligned_buf >> 8)
+   086E 74 04              2083 	mov	a,#0x04
+   0870 2E                 2084 	add	a,r6
+   0871 FE                 2085 	mov	r6,a
+   0872 E4                 2086 	clr	a
+   0873 3F                 2087 	addc	a,r7
+   0874 FF                 2088 	mov	r7,a
+   0875 7Cr00              2089 	mov	r4,#_uip_aligned_buf
+   0877 7Ds00              2090 	mov	r5,#(_uip_aligned_buf >> 8)
+   0879 74 20              2091 	mov	a,#0x20
+   087B 2C                 2092 	add	a,r4
+   087C F5 82              2093 	mov	dpl,a
+   087E E4                 2094 	clr	a
+   087F 3D                 2095 	addc	a,r5
+   0880 F5 83              2096 	mov	dph,a
+   0882 E0                 2097 	movx	a,@dptr
+   0883 8E 82              2098 	mov	dpl,r6
+   0885 8F 83              2099 	mov	dph,r7
+   0887 F0                 2100 	movx	@dptr,a
+                           2101 ;	../../core/net/uip_arp.c:387: IPBUF->ethhdr.dest.addr[5] = IPBUF->destipaddr.u8[3];
+   0888 7Er00              2102 	mov	r6,#_uip_aligned_buf
+   088A 7Fs00              2103 	mov	r7,#(_uip_aligned_buf >> 8)
+   088C 74 05              2104 	mov	a,#0x05
+   088E 2E                 2105 	add	a,r6
+   088F FE                 2106 	mov	r6,a
+   0890 E4                 2107 	clr	a
+   0891 3F                 2108 	addc	a,r7
+   0892 FF                 2109 	mov	r7,a
+   0893 7Cr00              2110 	mov	r4,#_uip_aligned_buf
+   0895 7Ds00              2111 	mov	r5,#(_uip_aligned_buf >> 8)
+   0897 74 21              2112 	mov	a,#0x21
+   0899 2C                 2113 	add	a,r4
+   089A F5 82              2114 	mov	dpl,a
+   089C E4                 2115 	clr	a
+   089D 3D                 2116 	addc	a,r5
+   089E F5 83              2117 	mov	dph,a
+   08A0 E0                 2118 	movx	a,@dptr
+   08A1 FD                 2119 	mov	r5,a
+   08A2 8E 82              2120 	mov	dpl,r6
+   08A4 8F 83              2121 	mov	dph,r7
+   08A6 F0                 2122 	movx	@dptr,a
+   08A7 02s0BrD6           2123 	ljmp	00119$
+   08AA                    2124 00115$:
+                           2125 ;	../../core/net/uip_arp.c:390: if(!uip_ipaddr_maskcmp(&IPBUF->destipaddr, &uip_hostaddr, &uip_netmask)) {
+   08AA 7Er00              2126 	mov	r6,#_uip_aligned_buf
+   08AC 7Fs00              2127 	mov	r7,#(_uip_aligned_buf >> 8)
+   08AE 74 1E              2128 	mov	a,#0x1E
+   08B0 2E                 2129 	add	a,r6
+   08B1 FE                 2130 	mov	r6,a
+   08B2 E4                 2131 	clr	a
+   08B3 3F                 2132 	addc	a,r7
+   08B4 FF                 2133 	mov	r7,a
+   08B5 8E 82              2134 	mov	dpl,r6
+   08B7 8F 83              2135 	mov	dph,r7
+   08B9 E0                 2136 	movx	a,@dptr
+   08BA FE                 2137 	mov	r6,a
+   08BB A3                 2138 	inc	dptr
+   08BC E0                 2139 	movx	a,@dptr
+   08BD FF                 2140 	mov	r7,a
+   08BE 90s00r00           2141 	mov	dptr,#_uip_netmask
+   08C1 E0                 2142 	movx	a,@dptr
+   08C2 FC                 2143 	mov	r4,a
+   08C3 A3                 2144 	inc	dptr
+   08C4 E0                 2145 	movx	a,@dptr
+   08C5 FD                 2146 	mov	r5,a
+   08C6 EC                 2147 	mov	a,r4
+   08C7 52 06              2148 	anl	ar6,a
+   08C9 ED                 2149 	mov	a,r5
+   08CA 52 07              2150 	anl	ar7,a
+   08CC 90s00r00           2151 	mov	dptr,#_uip_hostaddr
+   08CF E0                 2152 	movx	a,@dptr
+   08D0 FC                 2153 	mov	r4,a
+   08D1 A3                 2154 	inc	dptr
+   08D2 E0                 2155 	movx	a,@dptr
+   08D3 FD                 2156 	mov	r5,a
+   08D4 90s00r00           2157 	mov	dptr,#_uip_netmask
+   08D7 E0                 2158 	movx	a,@dptr
+   08D8 FA                 2159 	mov	r2,a
+   08D9 A3                 2160 	inc	dptr
+   08DA E0                 2161 	movx	a,@dptr
+   08DB FB                 2162 	mov	r3,a
+   08DC EA                 2163 	mov	a,r2
+   08DD 52 04              2164 	anl	ar4,a
+   08DF EB                 2165 	mov	a,r3
+   08E0 52 05              2166 	anl	ar5,a
+   08E2 EE                 2167 	mov	a,r6
+   08E3 B5 04 5D           2168 	cjne	a,ar4,00101$
+   08E6 EF                 2169 	mov	a,r7
+   08E7 B5 05 59           2170 	cjne	a,ar5,00101$
+   08EA 7Er00              2171 	mov	r6,#_uip_aligned_buf
+   08EC 7Fs00              2172 	mov	r7,#(_uip_aligned_buf >> 8)
+   08EE 74 1E              2173 	mov	a,#0x1E
+   08F0 2E                 2174 	add	a,r6
+   08F1 FE                 2175 	mov	r6,a
+   08F2 E4                 2176 	clr	a
+   08F3 3F                 2177 	addc	a,r7
+   08F4 FF                 2178 	mov	r7,a
+   08F5 8E 82              2179 	mov	dpl,r6
+   08F7 8F 83              2180 	mov	dph,r7
+   08F9 A3                 2181 	inc	dptr
+   08FA A3                 2182 	inc	dptr
+   08FB E0                 2183 	movx	a,@dptr
+   08FC FE                 2184 	mov	r6,a
+   08FD A3                 2185 	inc	dptr
+   08FE E0                 2186 	movx	a,@dptr
+   08FF FF                 2187 	mov	r7,a
+   0900 7Cr00              2188 	mov	r4,#_uip_netmask
+   0902 7Ds00              2189 	mov	r5,#(_uip_netmask >> 8)
+   0904 8C 82              2190 	mov	dpl,r4
+   0906 8D 83              2191 	mov	dph,r5
+   0908 A3                 2192 	inc	dptr
+   0909 A3                 2193 	inc	dptr
+   090A E0                 2194 	movx	a,@dptr
+   090B FC                 2195 	mov	r4,a
+   090C A3                 2196 	inc	dptr
+   090D E0                 2197 	movx	a,@dptr
+   090E FD                 2198 	mov	r5,a
+   090F EC                 2199 	mov	a,r4
+   0910 52 06              2200 	anl	ar6,a
+   0912 ED                 2201 	mov	a,r5
+   0913 52 07              2202 	anl	ar7,a
+   0915 7Cr00              2203 	mov	r4,#_uip_hostaddr
+   0917 7Ds00              2204 	mov	r5,#(_uip_hostaddr >> 8)
+   0919 8C 82              2205 	mov	dpl,r4
+   091B 8D 83              2206 	mov	dph,r5
+   091D A3                 2207 	inc	dptr
+   091E A3                 2208 	inc	dptr
+   091F E0                 2209 	movx	a,@dptr
+   0920 FC                 2210 	mov	r4,a
+   0921 A3                 2211 	inc	dptr
+   0922 E0                 2212 	movx	a,@dptr
+   0923 FD                 2213 	mov	r5,a
+   0924 7Ar00              2214 	mov	r2,#_uip_netmask
+   0926 7Bs00              2215 	mov	r3,#(_uip_netmask >> 8)
+   0928 8A 82              2216 	mov	dpl,r2
+   092A 8B 83              2217 	mov	dph,r3
+   092C A3                 2218 	inc	dptr
+   092D A3                 2219 	inc	dptr
+   092E E0                 2220 	movx	a,@dptr
+   092F FA                 2221 	mov	r2,a
+   0930 A3                 2222 	inc	dptr
+   0931 E0                 2223 	movx	a,@dptr
+   0932 FB                 2224 	mov	r3,a
+   0933 EA                 2225 	mov	a,r2
+   0934 52 04              2226 	anl	ar4,a
+   0936 EB                 2227 	mov	a,r3
+   0937 52 05              2228 	anl	ar5,a
+   0939 EE                 2229 	mov	a,r6
+   093A B5 04 06           2230 	cjne	a,ar4,00148$
+   093D EF                 2231 	mov	a,r7
+   093E B5 05 02           2232 	cjne	a,ar5,00148$
+   0941 80 23              2233 	sjmp	00102$
+   0943                    2234 00148$:
+   0943                    2235 00101$:
+                           2236 ;	../../core/net/uip_arp.c:394: uip_ipaddr_copy(&ipaddr, &uip_draddr);
+   0943 74 04              2237 	mov	a,#0x04
+   0945 C0 E0              2238 	push	acc
+   0947 E4                 2239 	clr	a
+   0948 C0 E0              2240 	push	acc
+   094A 74r00              2241 	mov	a,#_uip_draddr
+   094C C0 E0              2242 	push	acc
+   094E 74s00              2243 	mov	a,#(_uip_draddr >> 8)
+   0950 C0 E0              2244 	push	acc
+   0952 E4                 2245 	clr	a
+   0953 C0 E0              2246 	push	acc
+   0955 90s00r58           2247 	mov	dptr,#_ipaddr
+   0958 75 F0 00           2248 	mov	b,#0x00
+   095B 12s00r00           2249 	lcall	_memcpy
+   095E E5 81              2250 	mov	a,sp
+   0960 24 FB              2251 	add	a,#0xfb
+   0962 F5 81              2252 	mov	sp,a
+   0964 80 29              2253 	sjmp	00103$
+   0966                    2254 00102$:
+                           2255 ;	../../core/net/uip_arp.c:397: uip_ipaddr_copy(&ipaddr, &IPBUF->destipaddr);
+   0966 7Er00              2256 	mov	r6,#_uip_aligned_buf
+   0968 7Fs00              2257 	mov	r7,#(_uip_aligned_buf >> 8)
+   096A 74 1E              2258 	mov	a,#0x1E
+   096C 2E                 2259 	add	a,r6
+   096D FE                 2260 	mov	r6,a
+   096E E4                 2261 	clr	a
+   096F 3F                 2262 	addc	a,r7
+   0970 FF                 2263 	mov	r7,a
+   0971 7D 00              2264 	mov	r5,#0x00
+   0973 74 04              2265 	mov	a,#0x04
+   0975 C0 E0              2266 	push	acc
+   0977 E4                 2267 	clr	a
+   0978 C0 E0              2268 	push	acc
+   097A C0 06              2269 	push	ar6
+   097C C0 07              2270 	push	ar7
+   097E C0 05              2271 	push	ar5
+   0980 90s00r58           2272 	mov	dptr,#_ipaddr
+   0983 75 F0 00           2273 	mov	b,#0x00
+   0986 12s00r00           2274 	lcall	_memcpy
+   0989 E5 81              2275 	mov	a,sp
+   098B 24 FB              2276 	add	a,#0xfb
+   098D F5 81              2277 	mov	sp,a
+   098F                    2278 00103$:
+                           2279 ;	../../core/net/uip_arp.c:399: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   098F 90s00r5C           2280 	mov	dptr,#_i
+   0992 E4                 2281 	clr	a
+   0993 F0                 2282 	movx	@dptr,a
+   0994 7Dr00              2283 	mov	r5,#_arp_table
+   0996 7Es00              2284 	mov	r6,#(_arp_table >> 8)
+   0998 7F 00              2285 	mov	r7,#0x00
+   099A                    2286 00108$:
+   099A 90s00r5C           2287 	mov	dptr,#_i
+   099D E0                 2288 	movx	a,@dptr
+   099E FC                 2289 	mov	r4,a
+   099F BC 08 00           2290 	cjne	r4,#0x08,00149$
+   09A2                    2291 00149$:
+   09A2 50 78              2292 	jnc	00111$
+                           2293 ;	../../core/net/uip_arp.c:400: if(uip_ipaddr_cmp(&ipaddr, &tabptr->ipaddr)) {
+   09A4 90s00r58           2294 	mov	dptr,#_ipaddr
+   09A7 A8*00              2295 	mov	r0,_bp
+   09A9 08                 2296 	inc	r0
+   09AA E0                 2297 	movx	a,@dptr
+   09AB F6                 2298 	mov	@r0,a
+   09AC A3                 2299 	inc	dptr
+   09AD E0                 2300 	movx	a,@dptr
+   09AE 08                 2301 	inc	r0
+   09AF F6                 2302 	mov	@r0,a
+   09B0 8D 82              2303 	mov	dpl,r5
+   09B2 8E 83              2304 	mov	dph,r6
+   09B4 8F F0              2305 	mov	b,r7
+   09B6 12s00r00           2306 	lcall	__gptrget
+   09B9 FA                 2307 	mov	r2,a
+   09BA A3                 2308 	inc	dptr
+   09BB 12s00r00           2309 	lcall	__gptrget
+   09BE FC                 2310 	mov	r4,a
+   09BF A8*00              2311 	mov	r0,_bp
+   09C1 08                 2312 	inc	r0
+   09C2 E6                 2313 	mov	a,@r0
+   09C3 B5 02 07           2314 	cjne	a,ar2,00151$
+   09C6 08                 2315 	inc	r0
+   09C7 E6                 2316 	mov	a,@r0
+   09C8 B5 04 02           2317 	cjne	a,ar4,00151$
+   09CB 80 02              2318 	sjmp	00152$
+   09CD                    2319 00151$:
+   09CD 80 3C              2320 	sjmp	00106$
+   09CF                    2321 00152$:
+   09CF 74 02              2322 	mov	a,#0x02
+   09D1 2D                 2323 	add	a,r5
+   09D2 FA                 2324 	mov	r2,a
+   09D3 E4                 2325 	clr	a
+   09D4 3E                 2326 	addc	a,r6
+   09D5 FB                 2327 	mov	r3,a
+   09D6 8F 04              2328 	mov	ar4,r7
+   09D8 C0 05              2329 	push	ar5
+   09DA C0 06              2330 	push	ar6
+   09DC C0 07              2331 	push	ar7
+   09DE 90s00r5A           2332 	mov	dptr,#(_ipaddr + 0x0002)
+   09E1 E0                 2333 	movx	a,@dptr
+   09E2 FE                 2334 	mov	r6,a
+   09E3 A3                 2335 	inc	dptr
+   09E4 E0                 2336 	movx	a,@dptr
+   09E5 FF                 2337 	mov	r7,a
+   09E6 8A 82              2338 	mov	dpl,r2
+   09E8 8B 83              2339 	mov	dph,r3
+   09EA 8C F0              2340 	mov	b,r4
+   09EC 12s00r00           2341 	lcall	__gptrget
+   09EF FA                 2342 	mov	r2,a
+   09F0 A3                 2343 	inc	dptr
+   09F1 12s00r00           2344 	lcall	__gptrget
+   09F4 FB                 2345 	mov	r3,a
+   09F5 EE                 2346 	mov	a,r6
+   09F6 B5 02 0C           2347 	cjne	a,ar2,00153$
+   09F9 EF                 2348 	mov	a,r7
+   09FA B5 03 08           2349 	cjne	a,ar3,00153$
+   09FD D0 07              2350 	pop	ar7
+   09FF D0 06              2351 	pop	ar6
+   0A01 D0 05              2352 	pop	ar5
+   0A03 80 17              2353 	sjmp	00111$
+   0A05                    2354 00153$:
+   0A05 D0 07              2355 	pop	ar7
+   0A07 D0 06              2356 	pop	ar6
+   0A09 D0 05              2357 	pop	ar5
+                           2358 ;	../../core/net/uip_arp.c:401: break;
+   0A0B                    2359 00106$:
+                           2360 ;	../../core/net/uip_arp.c:403: tabptr++;
+   0A0B 74 0B              2361 	mov	a,#0x0B
+   0A0D 2D                 2362 	add	a,r5
+   0A0E FD                 2363 	mov	r5,a
+   0A0F E4                 2364 	clr	a
+   0A10 3E                 2365 	addc	a,r6
+   0A11 FE                 2366 	mov	r6,a
+                           2367 ;	../../core/net/uip_arp.c:399: for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
+   0A12 90s00r5C           2368 	mov	dptr,#_i
+   0A15 E0                 2369 	movx	a,@dptr
+   0A16 24 01              2370 	add	a,#0x01
+   0A18 F0                 2371 	movx	@dptr,a
+   0A19 02s09r9A           2372 	ljmp	00108$
+   0A1C                    2373 00111$:
+                           2374 ;	../../core/net/uip_arp.c:406: if(i == UIP_ARPTAB_SIZE) {
+   0A1C 90s00r5C           2375 	mov	dptr,#_i
+   0A1F E0                 2376 	movx	a,@dptr
+   0A20 FC                 2377 	mov	r4,a
+   0A21 BC 08 02           2378 	cjne	r4,#0x08,00154$
+   0A24 80 03              2379 	sjmp	00155$
+   0A26                    2380 00154$:
+   0A26 02s0BrAD           2381 	ljmp	00113$
+   0A29                    2382 00155$:
+                           2383 ;	../../core/net/uip_arp.c:410: memset(BUF->ethhdr.dest.addr, 0xff, 6);
+   0A29 7Br00              2384 	mov	r3,#_uip_aligned_buf
+   0A2B 7Cs00              2385 	mov	r4,#(_uip_aligned_buf >> 8)
+   0A2D 7A 00              2386 	mov	r2,#0x00
+   0A2F 74 06              2387 	mov	a,#0x06
+   0A31 C0 E0              2388 	push	acc
+   0A33 E4                 2389 	clr	a
+   0A34 C0 E0              2390 	push	acc
+   0A36 74 FF              2391 	mov	a,#0xFF
+   0A38 C0 E0              2392 	push	acc
+   0A3A 8B 82              2393 	mov	dpl,r3
+   0A3C 8C 83              2394 	mov	dph,r4
+   0A3E 8A F0              2395 	mov	b,r2
+   0A40 12s00r00           2396 	lcall	_memset
+   0A43 15 81              2397 	dec	sp
+   0A45 15 81              2398 	dec	sp
+   0A47 15 81              2399 	dec	sp
+                           2400 ;	../../core/net/uip_arp.c:411: memset(BUF->dhwaddr.addr, 0x00, 6);
+   0A49 7Br00              2401 	mov	r3,#_uip_aligned_buf
+   0A4B 7Cs00              2402 	mov	r4,#(_uip_aligned_buf >> 8)
+   0A4D 74 20              2403 	mov	a,#0x20
+   0A4F 2B                 2404 	add	a,r3
+   0A50 FB                 2405 	mov	r3,a
+   0A51 E4                 2406 	clr	a
+   0A52 3C                 2407 	addc	a,r4
+   0A53 FC                 2408 	mov	r4,a
+   0A54 7A 00              2409 	mov	r2,#0x00
+   0A56 74 06              2410 	mov	a,#0x06
+   0A58 C0 E0              2411 	push	acc
+   0A5A E4                 2412 	clr	a
+   0A5B C0 E0              2413 	push	acc
+   0A5D E4                 2414 	clr	a
+   0A5E C0 E0              2415 	push	acc
+   0A60 8B 82              2416 	mov	dpl,r3
+   0A62 8C 83              2417 	mov	dph,r4
+   0A64 8A F0              2418 	mov	b,r2
+   0A66 12s00r00           2419 	lcall	_memset
+   0A69 15 81              2420 	dec	sp
+   0A6B 15 81              2421 	dec	sp
+   0A6D 15 81              2422 	dec	sp
+                           2423 ;	../../core/net/uip_arp.c:412: memcpy(BUF->ethhdr.src.addr, uip_ethaddr.addr, 6);
+   0A6F 7Br00              2424 	mov	r3,#_uip_aligned_buf
+   0A71 7Cs00              2425 	mov	r4,#(_uip_aligned_buf >> 8)
+   0A73 74 06              2426 	mov	a,#0x06
+   0A75 2B                 2427 	add	a,r3
+   0A76 FB                 2428 	mov	r3,a
+   0A77 E4                 2429 	clr	a
+   0A78 3C                 2430 	addc	a,r4
+   0A79 FC                 2431 	mov	r4,a
+   0A7A 7A 00              2432 	mov	r2,#0x00
+   0A7C 74 06              2433 	mov	a,#0x06
+   0A7E C0 E0              2434 	push	acc
+   0A80 E4                 2435 	clr	a
+   0A81 C0 E0              2436 	push	acc
+   0A83 74r00              2437 	mov	a,#_uip_ethaddr
+   0A85 C0 E0              2438 	push	acc
+   0A87 74s00              2439 	mov	a,#(_uip_ethaddr >> 8)
+   0A89 C0 E0              2440 	push	acc
+   0A8B E4                 2441 	clr	a
+   0A8C C0 E0              2442 	push	acc
+   0A8E 8B 82              2443 	mov	dpl,r3
+   0A90 8C 83              2444 	mov	dph,r4
+   0A92 8A F0              2445 	mov	b,r2
+   0A94 12s00r00           2446 	lcall	_memcpy
+   0A97 E5 81              2447 	mov	a,sp
+   0A99 24 FB              2448 	add	a,#0xfb
+   0A9B F5 81              2449 	mov	sp,a
+                           2450 ;	../../core/net/uip_arp.c:413: memcpy(BUF->shwaddr.addr, uip_ethaddr.addr, 6);
+   0A9D 7Br00              2451 	mov	r3,#_uip_aligned_buf
+   0A9F 7Cs00              2452 	mov	r4,#(_uip_aligned_buf >> 8)
+   0AA1 74 16              2453 	mov	a,#0x16
+   0AA3 2B                 2454 	add	a,r3
+   0AA4 FB                 2455 	mov	r3,a
+   0AA5 E4                 2456 	clr	a
+   0AA6 3C                 2457 	addc	a,r4
+   0AA7 FC                 2458 	mov	r4,a
+   0AA8 7A 00              2459 	mov	r2,#0x00
+   0AAA 74 06              2460 	mov	a,#0x06
+   0AAC C0 E0              2461 	push	acc
+   0AAE E4                 2462 	clr	a
+   0AAF C0 E0              2463 	push	acc
+   0AB1 74r00              2464 	mov	a,#_uip_ethaddr
+   0AB3 C0 E0              2465 	push	acc
+   0AB5 74s00              2466 	mov	a,#(_uip_ethaddr >> 8)
+   0AB7 C0 E0              2467 	push	acc
+   0AB9 E4                 2468 	clr	a
+   0ABA C0 E0              2469 	push	acc
+   0ABC 8B 82              2470 	mov	dpl,r3
+   0ABE 8C 83              2471 	mov	dph,r4
+   0AC0 8A F0              2472 	mov	b,r2
+   0AC2 12s00r00           2473 	lcall	_memcpy
+   0AC5 E5 81              2474 	mov	a,sp
+   0AC7 24 FB              2475 	add	a,#0xfb
+   0AC9 F5 81              2476 	mov	sp,a
+                           2477 ;	../../core/net/uip_arp.c:415: uip_ipaddr_copy(&BUF->dipaddr, &ipaddr);
+   0ACB 7Br00              2478 	mov	r3,#_uip_aligned_buf
+   0ACD 7Cs00              2479 	mov	r4,#(_uip_aligned_buf >> 8)
+   0ACF 74 26              2480 	mov	a,#0x26
+   0AD1 2B                 2481 	add	a,r3
+   0AD2 FB                 2482 	mov	r3,a
+   0AD3 E4                 2483 	clr	a
+   0AD4 3C                 2484 	addc	a,r4
+   0AD5 FC                 2485 	mov	r4,a
+   0AD6 7A 00              2486 	mov	r2,#0x00
+   0AD8 74 04              2487 	mov	a,#0x04
+   0ADA C0 E0              2488 	push	acc
+   0ADC E4                 2489 	clr	a
+   0ADD C0 E0              2490 	push	acc
+   0ADF 74r58              2491 	mov	a,#_ipaddr
+   0AE1 C0 E0              2492 	push	acc
+   0AE3 74s00              2493 	mov	a,#(_ipaddr >> 8)
+   0AE5 C0 E0              2494 	push	acc
+   0AE7 E4                 2495 	clr	a
+   0AE8 C0 E0              2496 	push	acc
+   0AEA 8B 82              2497 	mov	dpl,r3
+   0AEC 8C 83              2498 	mov	dph,r4
+   0AEE 8A F0              2499 	mov	b,r2
+   0AF0 12s00r00           2500 	lcall	_memcpy
+   0AF3 E5 81              2501 	mov	a,sp
+   0AF5 24 FB              2502 	add	a,#0xfb
+   0AF7 F5 81              2503 	mov	sp,a
+                           2504 ;	../../core/net/uip_arp.c:416: uip_ipaddr_copy(&BUF->sipaddr, &uip_hostaddr);
+   0AF9 7Br00              2505 	mov	r3,#_uip_aligned_buf
+   0AFB 7Cs00              2506 	mov	r4,#(_uip_aligned_buf >> 8)
+   0AFD 74 1C              2507 	mov	a,#0x1C
+   0AFF 2B                 2508 	add	a,r3
+   0B00 FB                 2509 	mov	r3,a
+   0B01 E4                 2510 	clr	a
+   0B02 3C                 2511 	addc	a,r4
+   0B03 FC                 2512 	mov	r4,a
+   0B04 7A 00              2513 	mov	r2,#0x00
+   0B06 74 04              2514 	mov	a,#0x04
+   0B08 C0 E0              2515 	push	acc
+   0B0A E4                 2516 	clr	a
+   0B0B C0 E0              2517 	push	acc
+   0B0D 74r00              2518 	mov	a,#_uip_hostaddr
+   0B0F C0 E0              2519 	push	acc
+   0B11 74s00              2520 	mov	a,#(_uip_hostaddr >> 8)
+   0B13 C0 E0              2521 	push	acc
+   0B15 E4                 2522 	clr	a
+   0B16 C0 E0              2523 	push	acc
+   0B18 8B 82              2524 	mov	dpl,r3
+   0B1A 8C 83              2525 	mov	dph,r4
+   0B1C 8A F0              2526 	mov	b,r2
+   0B1E 12s00r00           2527 	lcall	_memcpy
+   0B21 E5 81              2528 	mov	a,sp
+   0B23 24 FB              2529 	add	a,#0xfb
+   0B25 F5 81              2530 	mov	sp,a
+                           2531 ;	../../core/net/uip_arp.c:417: BUF->opcode = UIP_HTONS(ARP_REQUEST); /* ARP request. */
+   0B27 7Br00              2532 	mov	r3,#_uip_aligned_buf
+   0B29 7Cs00              2533 	mov	r4,#(_uip_aligned_buf >> 8)
+   0B2B 74 14              2534 	mov	a,#0x14
+   0B2D 2B                 2535 	add	a,r3
+   0B2E F5 82              2536 	mov	dpl,a
+   0B30 E4                 2537 	clr	a
+   0B31 3C                 2538 	addc	a,r4
+   0B32 F5 83              2539 	mov	dph,a
+   0B34 E4                 2540 	clr	a
+   0B35 F0                 2541 	movx	@dptr,a
+   0B36 A3                 2542 	inc	dptr
+   0B37 74 01              2543 	mov	a,#0x01
+   0B39 F0                 2544 	movx	@dptr,a
+                           2545 ;	../../core/net/uip_arp.c:418: BUF->hwtype = UIP_HTONS(ARP_HWTYPE_ETH);
+   0B3A 7Br00              2546 	mov	r3,#_uip_aligned_buf
+   0B3C 7Cs00              2547 	mov	r4,#(_uip_aligned_buf >> 8)
+   0B3E 74 0E              2548 	mov	a,#0x0E
+   0B40 2B                 2549 	add	a,r3
+   0B41 F5 82              2550 	mov	dpl,a
+   0B43 E4                 2551 	clr	a
+   0B44 3C                 2552 	addc	a,r4
+   0B45 F5 83              2553 	mov	dph,a
+   0B47 E4                 2554 	clr	a
+   0B48 F0                 2555 	movx	@dptr,a
+   0B49 A3                 2556 	inc	dptr
+   0B4A 74 01              2557 	mov	a,#0x01
+   0B4C F0                 2558 	movx	@dptr,a
+                           2559 ;	../../core/net/uip_arp.c:419: BUF->protocol = UIP_HTONS(UIP_ETHTYPE_IP);
+   0B4D 7Br00              2560 	mov	r3,#_uip_aligned_buf
+   0B4F 7Cs00              2561 	mov	r4,#(_uip_aligned_buf >> 8)
+   0B51 74 10              2562 	mov	a,#0x10
+   0B53 2B                 2563 	add	a,r3
+   0B54 F5 82              2564 	mov	dpl,a
+   0B56 E4                 2565 	clr	a
+   0B57 3C                 2566 	addc	a,r4
+   0B58 F5 83              2567 	mov	dph,a
+   0B5A 74 08              2568 	mov	a,#0x08
+   0B5C F0                 2569 	movx	@dptr,a
+   0B5D A3                 2570 	inc	dptr
+   0B5E E4                 2571 	clr	a
+   0B5F F0                 2572 	movx	@dptr,a
+                           2573 ;	../../core/net/uip_arp.c:420: BUF->hwlen = 6;
+   0B60 7Br00              2574 	mov	r3,#_uip_aligned_buf
+   0B62 7Cs00              2575 	mov	r4,#(_uip_aligned_buf >> 8)
+   0B64 74 12              2576 	mov	a,#0x12
+   0B66 2B                 2577 	add	a,r3
+   0B67 F5 82              2578 	mov	dpl,a
+   0B69 E4                 2579 	clr	a
+   0B6A 3C                 2580 	addc	a,r4
+   0B6B F5 83              2581 	mov	dph,a
+   0B6D 74 06              2582 	mov	a,#0x06
+   0B6F F0                 2583 	movx	@dptr,a
+                           2584 ;	../../core/net/uip_arp.c:421: BUF->protolen = 4;
+   0B70 7Br00              2585 	mov	r3,#_uip_aligned_buf
+   0B72 7Cs00              2586 	mov	r4,#(_uip_aligned_buf >> 8)
+   0B74 74 13              2587 	mov	a,#0x13
+   0B76 2B                 2588 	add	a,r3
+   0B77 F5 82              2589 	mov	dpl,a
+   0B79 E4                 2590 	clr	a
+   0B7A 3C                 2591 	addc	a,r4
+   0B7B F5 83              2592 	mov	dph,a
+   0B7D 74 04              2593 	mov	a,#0x04
+   0B7F F0                 2594 	movx	@dptr,a
+                           2595 ;	../../core/net/uip_arp.c:422: BUF->ethhdr.type = UIP_HTONS(UIP_ETHTYPE_ARP);
+   0B80 7Br00              2596 	mov	r3,#_uip_aligned_buf
+   0B82 7Cs00              2597 	mov	r4,#(_uip_aligned_buf >> 8)
+   0B84 74 0C              2598 	mov	a,#0x0C
+   0B86 2B                 2599 	add	a,r3
+   0B87 F5 82              2600 	mov	dpl,a
+   0B89 E4                 2601 	clr	a
+   0B8A 3C                 2602 	addc	a,r4
+   0B8B F5 83              2603 	mov	dph,a
+   0B8D 74 08              2604 	mov	a,#0x08
+   0B8F F0                 2605 	movx	@dptr,a
+   0B90 A3                 2606 	inc	dptr
+   0B91 74 06              2607 	mov	a,#0x06
+   0B93 F0                 2608 	movx	@dptr,a
+                           2609 ;	../../core/net/uip_arp.c:424: uip_appdata = &uip_buf[UIP_TCPIP_HLEN + UIP_LLH_LEN];
+   0B94 90s00r00           2610 	mov	dptr,#_uip_appdata
+   0B97 74r36              2611 	mov	a,#(_uip_aligned_buf + 0x0036)
+   0B99 F0                 2612 	movx	@dptr,a
+   0B9A A3                 2613 	inc	dptr
+   0B9B 74s00              2614 	mov	a,#((_uip_aligned_buf + 0x0036) >> 8)
+   0B9D F0                 2615 	movx	@dptr,a
+   0B9E A3                 2616 	inc	dptr
+   0B9F E4                 2617 	clr	a
+   0BA0 F0                 2618 	movx	@dptr,a
+                           2619 ;	../../core/net/uip_arp.c:426: uip_len = sizeof(struct arp_hdr);
+   0BA1 90s00r00           2620 	mov	dptr,#_uip_len
+   0BA4 74 2A              2621 	mov	a,#0x2A
+   0BA6 F0                 2622 	movx	@dptr,a
+   0BA7 A3                 2623 	inc	dptr
+   0BA8 E4                 2624 	clr	a
+   0BA9 F0                 2625 	movx	@dptr,a
+                           2626 ;	../../core/net/uip_arp.c:427: return;
+   0BAA 02s0Cr2A           2627 	ljmp	00121$
+   0BAD                    2628 00113$:
+                           2629 ;	../../core/net/uip_arp.c:431: memcpy(IPBUF->ethhdr.dest.addr, tabptr->ethaddr.addr, 6);
+   0BAD 74 04              2630 	mov	a,#0x04
+   0BAF 2D                 2631 	add	a,r5
+   0BB0 FD                 2632 	mov	r5,a
+   0BB1 E4                 2633 	clr	a
+   0BB2 3E                 2634 	addc	a,r6
+   0BB3 FE                 2635 	mov	r6,a
+   0BB4 7Br00              2636 	mov	r3,#_uip_aligned_buf
+   0BB6 7Cs00              2637 	mov	r4,#(_uip_aligned_buf >> 8)
+   0BB8 7A 00              2638 	mov	r2,#0x00
+   0BBA 74 06              2639 	mov	a,#0x06
+   0BBC C0 E0              2640 	push	acc
+   0BBE E4                 2641 	clr	a
+   0BBF C0 E0              2642 	push	acc
+   0BC1 C0 05              2643 	push	ar5
+   0BC3 C0 06              2644 	push	ar6
+   0BC5 C0 07              2645 	push	ar7
+   0BC7 8B 82              2646 	mov	dpl,r3
+   0BC9 8C 83              2647 	mov	dph,r4
+   0BCB 8A F0              2648 	mov	b,r2
+   0BCD 12s00r00           2649 	lcall	_memcpy
+   0BD0 E5 81              2650 	mov	a,sp
+   0BD2 24 FB              2651 	add	a,#0xfb
+   0BD4 F5 81              2652 	mov	sp,a
+   0BD6                    2653 00119$:
+                           2654 ;	../../core/net/uip_arp.c:433: memcpy(IPBUF->ethhdr.src.addr, uip_ethaddr.addr, 6);
+   0BD6 7Er00              2655 	mov	r6,#_uip_aligned_buf
+   0BD8 7Fs00              2656 	mov	r7,#(_uip_aligned_buf >> 8)
+   0BDA 74 06              2657 	mov	a,#0x06
+   0BDC 2E                 2658 	add	a,r6
+   0BDD FE                 2659 	mov	r6,a
+   0BDE E4                 2660 	clr	a
+   0BDF 3F                 2661 	addc	a,r7
+   0BE0 FF                 2662 	mov	r7,a
+   0BE1 7D 00              2663 	mov	r5,#0x00
+   0BE3 74 06              2664 	mov	a,#0x06
+   0BE5 C0 E0              2665 	push	acc
+   0BE7 E4                 2666 	clr	a
+   0BE8 C0 E0              2667 	push	acc
+   0BEA 74r00              2668 	mov	a,#_uip_ethaddr
+   0BEC C0 E0              2669 	push	acc
+   0BEE 74s00              2670 	mov	a,#(_uip_ethaddr >> 8)
+   0BF0 C0 E0              2671 	push	acc
+   0BF2 E4                 2672 	clr	a
+   0BF3 C0 E0              2673 	push	acc
+   0BF5 8E 82              2674 	mov	dpl,r6
+   0BF7 8F 83              2675 	mov	dph,r7
+   0BF9 8D F0              2676 	mov	b,r5
+   0BFB 12s00r00           2677 	lcall	_memcpy
+   0BFE E5 81              2678 	mov	a,sp
+   0C00 24 FB              2679 	add	a,#0xfb
+   0C02 F5 81              2680 	mov	sp,a
+                           2681 ;	../../core/net/uip_arp.c:435: IPBUF->ethhdr.type = UIP_HTONS(UIP_ETHTYPE_IP);
+   0C04 7Er00              2682 	mov	r6,#_uip_aligned_buf
+   0C06 7Fs00              2683 	mov	r7,#(_uip_aligned_buf >> 8)
+   0C08 74 0C              2684 	mov	a,#0x0C
+   0C0A 2E                 2685 	add	a,r6
+   0C0B F5 82              2686 	mov	dpl,a
+   0C0D E4                 2687 	clr	a
+   0C0E 3F                 2688 	addc	a,r7
+   0C0F F5 83              2689 	mov	dph,a
+   0C11 74 08              2690 	mov	a,#0x08
+   0C13 F0                 2691 	movx	@dptr,a
+   0C14 A3                 2692 	inc	dptr
+   0C15 E4                 2693 	clr	a
+   0C16 F0                 2694 	movx	@dptr,a
+                           2695 ;	../../core/net/uip_arp.c:437: uip_len += sizeof(struct uip_eth_hdr);
+   0C17 90s00r00           2696 	mov	dptr,#_uip_len
+   0C1A E0                 2697 	movx	a,@dptr
+   0C1B FE                 2698 	mov	r6,a
+   0C1C A3                 2699 	inc	dptr
+   0C1D E0                 2700 	movx	a,@dptr
+   0C1E FF                 2701 	mov	r7,a
+   0C1F 90s00r00           2702 	mov	dptr,#_uip_len
+   0C22 74 0E              2703 	mov	a,#0x0E
+   0C24 2E                 2704 	add	a,r6
+   0C25 F0                 2705 	movx	@dptr,a
+   0C26 E4                 2706 	clr	a
+   0C27 3F                 2707 	addc	a,r7
+   0C28 A3                 2708 	inc	dptr
+   0C29 F0                 2709 	movx	@dptr,a
+   0C2A                    2710 00121$:
+   0C2A 85*00 81           2711 	mov	sp,_bp
+   0C2D D0*00              2712 	pop	_bp
+   0C2F 22                 2713 	ret
+                           2714 	.area CSEG    (CODE)
+                           2715 	.area CONST   (CODE)
+   0000                    2716 _broadcast_ethaddr:
+   0000 FF                 2717 	.db #0xFF	; 255
+   0001 FF                 2718 	.db #0xFF	; 255
+   0002 FF                 2719 	.db #0xFF	; 255
+   0003 FF                 2720 	.db #0xFF	; 255
+   0004 FF                 2721 	.db #0xFF	; 255
+   0005 FF                 2722 	.db #0xFF	; 255
+   0006                    2723 _broadcast_ipaddr:
+   0006 FF FF              2724 	.byte #0xFF,#0xFF	; 65535
+   0008 FF FF              2725 	.byte #0xFF,#0xFF	; 65535
+                           2726 	.area XINIT   (CODE)
+                           2727 	.area CABS    (ABS,CODE)

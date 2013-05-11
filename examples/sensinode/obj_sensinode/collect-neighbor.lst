@@ -1,0 +1,3061 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:17 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module collect_neighbor
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _collect_link_estimate
+                             13 	.globl _collect_link_estimate_update_rx
+                             14 	.globl _collect_link_estimate_update_tx_fail
+                             15 	.globl _collect_link_estimate_update_tx
+                             16 	.globl _collect_link_estimate_new
+                             17 	.globl _rimeaddr_cmp
+                             18 	.globl _rimeaddr_copy
+                             19 	.globl _list_item_next
+                             20 	.globl _list_length
+                             21 	.globl _list_remove
+                             22 	.globl _list_add
+                             23 	.globl _list_pop
+                             24 	.globl _list_head
+                             25 	.globl _list_init
+                             26 	.globl _memb_free
+                             27 	.globl _memb_alloc
+                             28 	.globl _memb_init
+                             29 	.globl _ctimer_set
+                             30 	.globl _timer_expired
+                             31 	.globl _timer_set
+                             32 	.globl _IRCON2_P2IF
+                             33 	.globl _IRCON2_UTX0IF
+                             34 	.globl _IRCON2_UTX1IF
+                             35 	.globl _IRCON2_P1IF
+                             36 	.globl _IRCON2_WDTIF
+                             37 	.globl _CY
+                             38 	.globl _AC
+                             39 	.globl _F0
+                             40 	.globl _RS1
+                             41 	.globl _RS0
+                             42 	.globl _OV
+                             43 	.globl _F1
+                             44 	.globl _P
+                             45 	.globl _IRCON_DMAIF
+                             46 	.globl _IRCON_T1IF
+                             47 	.globl _IRCON_T2IF
+                             48 	.globl _IRCON_T3IF
+                             49 	.globl _IRCON_T4IF
+                             50 	.globl _IRCON_P0IF
+                             51 	.globl _IRCON_STIF
+                             52 	.globl _IEN1_DMAIE
+                             53 	.globl _IEN1_T1IE
+                             54 	.globl _IEN1_T2IE
+                             55 	.globl _IEN1_T3IE
+                             56 	.globl _IEN1_T4IE
+                             57 	.globl _IEN1_P0IE
+                             58 	.globl _IEN0_RFERRIE
+                             59 	.globl _IEN0_ADCIE
+                             60 	.globl _IEN0_URX0IE
+                             61 	.globl _IEN0_URX1IE
+                             62 	.globl _IEN0_ENCIE
+                             63 	.globl _IEN0_STIE
+                             64 	.globl _IEN0_EA
+                             65 	.globl _EA
+                             66 	.globl _P2_4
+                             67 	.globl _P2_3
+                             68 	.globl _P2_2
+                             69 	.globl _P2_1
+                             70 	.globl _P2_0
+                             71 	.globl _S0CON_ENCIF_0
+                             72 	.globl _S0CON_ENCIF_1
+                             73 	.globl _P1_7
+                             74 	.globl _P1_6
+                             75 	.globl _P1_5
+                             76 	.globl _P1_4
+                             77 	.globl _P1_3
+                             78 	.globl _P1_2
+                             79 	.globl _P1_1
+                             80 	.globl _P1_0
+                             81 	.globl _TCON_IT0
+                             82 	.globl _TCON_RFERRIF
+                             83 	.globl _TCON_IT1
+                             84 	.globl _TCON_URX0IF
+                             85 	.globl _TCON_ADCIF
+                             86 	.globl _TCON_URX1IF
+                             87 	.globl _P0_0
+                             88 	.globl _P0_1
+                             89 	.globl _P0_2
+                             90 	.globl _P0_3
+                             91 	.globl _P0_4
+                             92 	.globl _P0_5
+                             93 	.globl _P0_6
+                             94 	.globl _P0_7
+                             95 	.globl _P2DIR
+                             96 	.globl _P1DIR
+                             97 	.globl _P0DIR
+                             98 	.globl _U1GCR
+                             99 	.globl _U1UCR
+                            100 	.globl _U1BAUD
+                            101 	.globl _U1BUF
+                            102 	.globl _U1CSR
+                            103 	.globl _P2INP
+                            104 	.globl _P1INP
+                            105 	.globl _P2SEL
+                            106 	.globl _P1SEL
+                            107 	.globl _P0SEL
+                            108 	.globl _ADCCFG
+                            109 	.globl _PERCFG
+                            110 	.globl _B
+                            111 	.globl _T4CC1
+                            112 	.globl _T4CCTL1
+                            113 	.globl _T4CC0
+                            114 	.globl _T4CCTL0
+                            115 	.globl _T4CTL
+                            116 	.globl _T4CNT
+                            117 	.globl _RFIF
+                            118 	.globl _IRCON2
+                            119 	.globl _T1CCTL2
+                            120 	.globl _T1CCTL1
+                            121 	.globl _T1CCTL0
+                            122 	.globl _T1CTL
+                            123 	.globl _T1CNTH
+                            124 	.globl _T1CNTL
+                            125 	.globl _RFST
+                            126 	.globl _ACC
+                            127 	.globl _T1CC2H
+                            128 	.globl _T1CC2L
+                            129 	.globl _T1CC1H
+                            130 	.globl _T1CC1L
+                            131 	.globl _T1CC0H
+                            132 	.globl _T1CC0L
+                            133 	.globl _RFD
+                            134 	.globl _TIMIF
+                            135 	.globl _DMAREQ
+                            136 	.globl _DMAARM
+                            137 	.globl _DMA0CFGH
+                            138 	.globl _DMA0CFGL
+                            139 	.globl _DMA1CFGH
+                            140 	.globl _DMA1CFGL
+                            141 	.globl _DMAIRQ
+                            142 	.globl _PSW
+                            143 	.globl _T3CC1
+                            144 	.globl _T3CCTL1
+                            145 	.globl _T3CC0
+                            146 	.globl _T3CCTL0
+                            147 	.globl _T3CTL
+                            148 	.globl _T3CNT
+                            149 	.globl _WDCTL
+                            150 	.globl _T2CON
+                            151 	.globl _MEMCTR
+                            152 	.globl _CLKCON
+                            153 	.globl _U0GCR
+                            154 	.globl _U0UCR
+                            155 	.globl _T2CNF
+                            156 	.globl _U0BAUD
+                            157 	.globl _U0BUF
+                            158 	.globl _IRCON
+                            159 	.globl _SLEEP
+                            160 	.globl _RNDH
+                            161 	.globl _RNDL
+                            162 	.globl _ADCH
+                            163 	.globl _ADCL
+                            164 	.globl _IP1
+                            165 	.globl _IEN1
+                            166 	.globl _RCCTL
+                            167 	.globl _ADCCON3
+                            168 	.globl _ADCCON2
+                            169 	.globl _ADCCON1
+                            170 	.globl _ENCCS
+                            171 	.globl _ENCDO
+                            172 	.globl _ENCDI
+                            173 	.globl _FWDATA
+                            174 	.globl _FCTL
+                            175 	.globl _FADDRH
+                            176 	.globl _FADDRL
+                            177 	.globl _FWT
+                            178 	.globl _IP0
+                            179 	.globl _IEN0
+                            180 	.globl _IE
+                            181 	.globl _T2THD
+                            182 	.globl _T2TLD
+                            183 	.globl _T2CAPHPH
+                            184 	.globl _T2CAPLPL
+                            185 	.globl _T2OF2
+                            186 	.globl _T2OF1
+                            187 	.globl _T2OF0
+                            188 	.globl _P2
+                            189 	.globl _PSBANK
+                            190 	.globl _FMAP
+                            191 	.globl _T2PEROF2
+                            192 	.globl _T2PEROF1
+                            193 	.globl _T2PEROF0
+                            194 	.globl _S1CON
+                            195 	.globl _IEN2
+                            196 	.globl _HSRC
+                            197 	.globl _S0CON
+                            198 	.globl _ST2
+                            199 	.globl _ST1
+                            200 	.globl _ST0
+                            201 	.globl _T2CMP
+                            202 	.globl __XPAGE
+                            203 	.globl _DPS
+                            204 	.globl _RFIM
+                            205 	.globl _P1
+                            206 	.globl _P0INP
+                            207 	.globl _P1IEN
+                            208 	.globl _PICTL
+                            209 	.globl _P2IFG
+                            210 	.globl _P1IFG
+                            211 	.globl _P0IFG
+                            212 	.globl _TCON
+                            213 	.globl _PCON
+                            214 	.globl _U0CSR
+                            215 	.globl _DPH1
+                            216 	.globl _DPL1
+                            217 	.globl _DPH0
+                            218 	.globl _DPL0
+                            219 	.globl _SP
+                            220 	.globl _P0
+                            221 	.globl _ADC_SHADOW
+                            222 	.globl _U1BUF_SHADOW
+                            223 	.globl _RFD_SHADOW
+                            224 	.globl _U0BUF_SHADOW
+                            225 	.globl _RFSTATUS
+                            226 	.globl _CHIPID
+                            227 	.globl _CHVER
+                            228 	.globl _FSMTC1
+                            229 	.globl _RXFIFOCNT
+                            230 	.globl _IOCFG3
+                            231 	.globl _IOCFG2
+                            232 	.globl _IOCFG1
+                            233 	.globl _IOCFG0
+                            234 	.globl _SHORTADDRL
+                            235 	.globl _SHORTADDRH
+                            236 	.globl _PANIDL
+                            237 	.globl _PANIDH
+                            238 	.globl _IEEE_ADDR7
+                            239 	.globl _IEEE_ADDR6
+                            240 	.globl _IEEE_ADDR5
+                            241 	.globl _IEEE_ADDR4
+                            242 	.globl _IEEE_ADDR3
+                            243 	.globl _IEEE_ADDR2
+                            244 	.globl _IEEE_ADDR1
+                            245 	.globl _IEEE_ADDR0
+                            246 	.globl _DACTSTL
+                            247 	.globl _DACTSTH
+                            248 	.globl _ADCTSTL
+                            249 	.globl _ADCTSTH
+                            250 	.globl _FSMSTATE
+                            251 	.globl _AGCCTRLL
+                            252 	.globl _AGCCTRLH
+                            253 	.globl _MANORL
+                            254 	.globl _MANORH
+                            255 	.globl _MANANDL
+                            256 	.globl _MANANDH
+                            257 	.globl _FSMTCL
+                            258 	.globl _FSMTCH
+                            259 	.globl _RFPWR
+                            260 	.globl _CSPT
+                            261 	.globl _CSPCTRL
+                            262 	.globl _CSPZ
+                            263 	.globl _CSPY
+                            264 	.globl _CSPX
+                            265 	.globl _FSCTRLL
+                            266 	.globl _FSCTRLH
+                            267 	.globl _RXCTRL1L
+                            268 	.globl _RXCTRL1H
+                            269 	.globl _RXCTRL0L
+                            270 	.globl _RXCTRL0H
+                            271 	.globl _TXCTRLL
+                            272 	.globl _TXCTRLH
+                            273 	.globl _SYNCWORDL
+                            274 	.globl _SYNCWORDH
+                            275 	.globl _RSSIL
+                            276 	.globl _RSSIH
+                            277 	.globl _MDMCTRL1L
+                            278 	.globl _MDMCTRL1H
+                            279 	.globl _MDMCTRL0L
+                            280 	.globl _MDMCTRL0H
+                            281 	.globl _collect_neighbor_init
+                            282 	.globl _collect_neighbor_list_new
+                            283 	.globl _collect_neighbor_list_find
+                            284 	.globl _collect_neighbor_list_add
+                            285 	.globl _collect_neighbor_list
+                            286 	.globl _collect_neighbor_list_remove
+                            287 	.globl _collect_neighbor_list_best
+                            288 	.globl _collect_neighbor_list_num
+                            289 	.globl _collect_neighbor_list_get
+                            290 	.globl _collect_neighbor_list_purge
+                            291 	.globl _collect_neighbor_update_rtmetric
+                            292 	.globl _collect_neighbor_tx_fail
+                            293 	.globl _collect_neighbor_tx
+                            294 	.globl _collect_neighbor_rx
+                            295 	.globl _collect_neighbor_link_estimate
+                            296 	.globl _collect_neighbor_rtmetric_link_estimate
+                            297 	.globl _collect_neighbor_rtmetric
+                            298 	.globl _collect_neighbor_set_congested
+                            299 	.globl _collect_neighbor_is_congested
+                            300 ;--------------------------------------------------------
+                            301 ; special function registers
+                            302 ;--------------------------------------------------------
+                            303 	.area RSEG    (ABS,DATA)
+   0000                     304 	.org 0x0000
+                    0080    305 _P0	=	0x0080
+                    0081    306 _SP	=	0x0081
+                    0082    307 _DPL0	=	0x0082
+                    0083    308 _DPH0	=	0x0083
+                    0084    309 _DPL1	=	0x0084
+                    0085    310 _DPH1	=	0x0085
+                    0086    311 _U0CSR	=	0x0086
+                    0087    312 _PCON	=	0x0087
+                    0088    313 _TCON	=	0x0088
+                    0089    314 _P0IFG	=	0x0089
+                    008A    315 _P1IFG	=	0x008a
+                    008B    316 _P2IFG	=	0x008b
+                    008C    317 _PICTL	=	0x008c
+                    008D    318 _P1IEN	=	0x008d
+                    008F    319 _P0INP	=	0x008f
+                    0090    320 _P1	=	0x0090
+                    0091    321 _RFIM	=	0x0091
+                    0092    322 _DPS	=	0x0092
+                    0093    323 __XPAGE	=	0x0093
+                    0094    324 _T2CMP	=	0x0094
+                    0095    325 _ST0	=	0x0095
+                    0096    326 _ST1	=	0x0096
+                    0097    327 _ST2	=	0x0097
+                    0098    328 _S0CON	=	0x0098
+                    0099    329 _HSRC	=	0x0099
+                    009A    330 _IEN2	=	0x009a
+                    009B    331 _S1CON	=	0x009b
+                    009C    332 _T2PEROF0	=	0x009c
+                    009D    333 _T2PEROF1	=	0x009d
+                    009E    334 _T2PEROF2	=	0x009e
+                    009F    335 _FMAP	=	0x009f
+                    009F    336 _PSBANK	=	0x009f
+                    00A0    337 _P2	=	0x00a0
+                    00A1    338 _T2OF0	=	0x00a1
+                    00A2    339 _T2OF1	=	0x00a2
+                    00A3    340 _T2OF2	=	0x00a3
+                    00A4    341 _T2CAPLPL	=	0x00a4
+                    00A5    342 _T2CAPHPH	=	0x00a5
+                    00A6    343 _T2TLD	=	0x00a6
+                    00A7    344 _T2THD	=	0x00a7
+                    00A8    345 _IE	=	0x00a8
+                    00A8    346 _IEN0	=	0x00a8
+                    00A9    347 _IP0	=	0x00a9
+                    00AB    348 _FWT	=	0x00ab
+                    00AC    349 _FADDRL	=	0x00ac
+                    00AD    350 _FADDRH	=	0x00ad
+                    00AE    351 _FCTL	=	0x00ae
+                    00AF    352 _FWDATA	=	0x00af
+                    00B1    353 _ENCDI	=	0x00b1
+                    00B2    354 _ENCDO	=	0x00b2
+                    00B3    355 _ENCCS	=	0x00b3
+                    00B4    356 _ADCCON1	=	0x00b4
+                    00B5    357 _ADCCON2	=	0x00b5
+                    00B6    358 _ADCCON3	=	0x00b6
+                    00B7    359 _RCCTL	=	0x00b7
+                    00B8    360 _IEN1	=	0x00b8
+                    00B9    361 _IP1	=	0x00b9
+                    00BA    362 _ADCL	=	0x00ba
+                    00BB    363 _ADCH	=	0x00bb
+                    00BC    364 _RNDL	=	0x00bc
+                    00BD    365 _RNDH	=	0x00bd
+                    00BE    366 _SLEEP	=	0x00be
+                    00C0    367 _IRCON	=	0x00c0
+                    00C1    368 _U0BUF	=	0x00c1
+                    00C2    369 _U0BAUD	=	0x00c2
+                    00C3    370 _T2CNF	=	0x00c3
+                    00C4    371 _U0UCR	=	0x00c4
+                    00C5    372 _U0GCR	=	0x00c5
+                    00C6    373 _CLKCON	=	0x00c6
+                    00C7    374 _MEMCTR	=	0x00c7
+                    00C8    375 _T2CON	=	0x00c8
+                    00C9    376 _WDCTL	=	0x00c9
+                    00CA    377 _T3CNT	=	0x00ca
+                    00CB    378 _T3CTL	=	0x00cb
+                    00CC    379 _T3CCTL0	=	0x00cc
+                    00CD    380 _T3CC0	=	0x00cd
+                    00CE    381 _T3CCTL1	=	0x00ce
+                    00CF    382 _T3CC1	=	0x00cf
+                    00D0    383 _PSW	=	0x00d0
+                    00D1    384 _DMAIRQ	=	0x00d1
+                    00D2    385 _DMA1CFGL	=	0x00d2
+                    00D3    386 _DMA1CFGH	=	0x00d3
+                    00D4    387 _DMA0CFGL	=	0x00d4
+                    00D5    388 _DMA0CFGH	=	0x00d5
+                    00D6    389 _DMAARM	=	0x00d6
+                    00D7    390 _DMAREQ	=	0x00d7
+                    00D8    391 _TIMIF	=	0x00d8
+                    00D9    392 _RFD	=	0x00d9
+                    00DA    393 _T1CC0L	=	0x00da
+                    00DB    394 _T1CC0H	=	0x00db
+                    00DC    395 _T1CC1L	=	0x00dc
+                    00DD    396 _T1CC1H	=	0x00dd
+                    00DE    397 _T1CC2L	=	0x00de
+                    00DF    398 _T1CC2H	=	0x00df
+                    00E0    399 _ACC	=	0x00e0
+                    00E1    400 _RFST	=	0x00e1
+                    00E2    401 _T1CNTL	=	0x00e2
+                    00E3    402 _T1CNTH	=	0x00e3
+                    00E4    403 _T1CTL	=	0x00e4
+                    00E5    404 _T1CCTL0	=	0x00e5
+                    00E6    405 _T1CCTL1	=	0x00e6
+                    00E7    406 _T1CCTL2	=	0x00e7
+                    00E8    407 _IRCON2	=	0x00e8
+                    00E9    408 _RFIF	=	0x00e9
+                    00EA    409 _T4CNT	=	0x00ea
+                    00EB    410 _T4CTL	=	0x00eb
+                    00EC    411 _T4CCTL0	=	0x00ec
+                    00ED    412 _T4CC0	=	0x00ed
+                    00EE    413 _T4CCTL1	=	0x00ee
+                    00EF    414 _T4CC1	=	0x00ef
+                    00F0    415 _B	=	0x00f0
+                    00F1    416 _PERCFG	=	0x00f1
+                    00F2    417 _ADCCFG	=	0x00f2
+                    00F3    418 _P0SEL	=	0x00f3
+                    00F4    419 _P1SEL	=	0x00f4
+                    00F5    420 _P2SEL	=	0x00f5
+                    00F6    421 _P1INP	=	0x00f6
+                    00F7    422 _P2INP	=	0x00f7
+                    00F8    423 _U1CSR	=	0x00f8
+                    00F9    424 _U1BUF	=	0x00f9
+                    00FA    425 _U1BAUD	=	0x00fa
+                    00FB    426 _U1UCR	=	0x00fb
+                    00FC    427 _U1GCR	=	0x00fc
+                    00FD    428 _P0DIR	=	0x00fd
+                    00FE    429 _P1DIR	=	0x00fe
+                    00FF    430 _P2DIR	=	0x00ff
+                            431 ;--------------------------------------------------------
+                            432 ; special function bits
+                            433 ;--------------------------------------------------------
+                            434 	.area RSEG    (ABS,DATA)
+   0000                     435 	.org 0x0000
+                    0087    436 _P0_7	=	0x0087
+                    0086    437 _P0_6	=	0x0086
+                    0085    438 _P0_5	=	0x0085
+                    0084    439 _P0_4	=	0x0084
+                    0083    440 _P0_3	=	0x0083
+                    0082    441 _P0_2	=	0x0082
+                    0081    442 _P0_1	=	0x0081
+                    0080    443 _P0_0	=	0x0080
+                    008F    444 _TCON_URX1IF	=	0x008f
+                    008D    445 _TCON_ADCIF	=	0x008d
+                    008B    446 _TCON_URX0IF	=	0x008b
+                    008A    447 _TCON_IT1	=	0x008a
+                    0089    448 _TCON_RFERRIF	=	0x0089
+                    0088    449 _TCON_IT0	=	0x0088
+                    0090    450 _P1_0	=	0x0090
+                    0091    451 _P1_1	=	0x0091
+                    0092    452 _P1_2	=	0x0092
+                    0093    453 _P1_3	=	0x0093
+                    0094    454 _P1_4	=	0x0094
+                    0095    455 _P1_5	=	0x0095
+                    0096    456 _P1_6	=	0x0096
+                    0097    457 _P1_7	=	0x0097
+                    0099    458 _S0CON_ENCIF_1	=	0x0099
+                    0098    459 _S0CON_ENCIF_0	=	0x0098
+                    00A0    460 _P2_0	=	0x00a0
+                    00A1    461 _P2_1	=	0x00a1
+                    00A2    462 _P2_2	=	0x00a2
+                    00A3    463 _P2_3	=	0x00a3
+                    00A4    464 _P2_4	=	0x00a4
+                    00AF    465 _EA	=	0x00af
+                    00AF    466 _IEN0_EA	=	0x00af
+                    00AD    467 _IEN0_STIE	=	0x00ad
+                    00AC    468 _IEN0_ENCIE	=	0x00ac
+                    00AB    469 _IEN0_URX1IE	=	0x00ab
+                    00AA    470 _IEN0_URX0IE	=	0x00aa
+                    00A9    471 _IEN0_ADCIE	=	0x00a9
+                    00A8    472 _IEN0_RFERRIE	=	0x00a8
+                    00BD    473 _IEN1_P0IE	=	0x00bd
+                    00BC    474 _IEN1_T4IE	=	0x00bc
+                    00BB    475 _IEN1_T3IE	=	0x00bb
+                    00BA    476 _IEN1_T2IE	=	0x00ba
+                    00B9    477 _IEN1_T1IE	=	0x00b9
+                    00B8    478 _IEN1_DMAIE	=	0x00b8
+                    00C7    479 _IRCON_STIF	=	0x00c7
+                    00C5    480 _IRCON_P0IF	=	0x00c5
+                    00C4    481 _IRCON_T4IF	=	0x00c4
+                    00C3    482 _IRCON_T3IF	=	0x00c3
+                    00C2    483 _IRCON_T2IF	=	0x00c2
+                    00C1    484 _IRCON_T1IF	=	0x00c1
+                    00C0    485 _IRCON_DMAIF	=	0x00c0
+                    00D0    486 _P	=	0x00d0
+                    00D1    487 _F1	=	0x00d1
+                    00D2    488 _OV	=	0x00d2
+                    00D3    489 _RS0	=	0x00d3
+                    00D4    490 _RS1	=	0x00d4
+                    00D5    491 _F0	=	0x00d5
+                    00D6    492 _AC	=	0x00d6
+                    00D7    493 _CY	=	0x00d7
+                    00EC    494 _IRCON2_WDTIF	=	0x00ec
+                    00EB    495 _IRCON2_P1IF	=	0x00eb
+                    00EA    496 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    497 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    498 _IRCON2_P2IF	=	0x00e8
+                            499 ;--------------------------------------------------------
+                            500 ; overlayable register banks
+                            501 ;--------------------------------------------------------
+                            502 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     503 	.ds 8
+                            504 ;--------------------------------------------------------
+                            505 ; internal ram data
+                            506 ;--------------------------------------------------------
+                            507 	.area DSEG    (DATA)
+                            508 ;--------------------------------------------------------
+                            509 ; overlayable items in internal ram 
+                            510 ;--------------------------------------------------------
+                            511 	.area OSEG    (OVR,DATA)
+                            512 ;--------------------------------------------------------
+                            513 ; indirectly addressable internal ram data
+                            514 ;--------------------------------------------------------
+                            515 	.area ISEG    (DATA)
+                            516 ;--------------------------------------------------------
+                            517 ; absolute internal ram data
+                            518 ;--------------------------------------------------------
+                            519 	.area IABS    (ABS,DATA)
+                            520 	.area IABS    (ABS,DATA)
+                            521 ;--------------------------------------------------------
+                            522 ; bit data
+                            523 ;--------------------------------------------------------
+                            524 	.area BSEG    (BIT)
+                            525 ;--------------------------------------------------------
+                            526 ; paged external ram data
+                            527 ;--------------------------------------------------------
+                            528 	.area PSEG    (PAG,XDATA)
+                            529 ;--------------------------------------------------------
+                            530 ; external ram data
+                            531 ;--------------------------------------------------------
+                            532 	.area XSEG    (XDATA)
+                    DF02    533 _MDMCTRL0H	=	0xdf02
+                    DF03    534 _MDMCTRL0L	=	0xdf03
+                    DF04    535 _MDMCTRL1H	=	0xdf04
+                    DF05    536 _MDMCTRL1L	=	0xdf05
+                    DF06    537 _RSSIH	=	0xdf06
+                    DF07    538 _RSSIL	=	0xdf07
+                    DF08    539 _SYNCWORDH	=	0xdf08
+                    DF09    540 _SYNCWORDL	=	0xdf09
+                    DF0A    541 _TXCTRLH	=	0xdf0a
+                    DF0B    542 _TXCTRLL	=	0xdf0b
+                    DF0C    543 _RXCTRL0H	=	0xdf0c
+                    DF0D    544 _RXCTRL0L	=	0xdf0d
+                    DF0E    545 _RXCTRL1H	=	0xdf0e
+                    DF0F    546 _RXCTRL1L	=	0xdf0f
+                    DF10    547 _FSCTRLH	=	0xdf10
+                    DF11    548 _FSCTRLL	=	0xdf11
+                    DF12    549 _CSPX	=	0xdf12
+                    DF13    550 _CSPY	=	0xdf13
+                    DF14    551 _CSPZ	=	0xdf14
+                    DF15    552 _CSPCTRL	=	0xdf15
+                    DF16    553 _CSPT	=	0xdf16
+                    DF17    554 _RFPWR	=	0xdf17
+                    DF20    555 _FSMTCH	=	0xdf20
+                    DF21    556 _FSMTCL	=	0xdf21
+                    DF22    557 _MANANDH	=	0xdf22
+                    DF23    558 _MANANDL	=	0xdf23
+                    DF24    559 _MANORH	=	0xdf24
+                    DF25    560 _MANORL	=	0xdf25
+                    DF26    561 _AGCCTRLH	=	0xdf26
+                    DF27    562 _AGCCTRLL	=	0xdf27
+                    DF39    563 _FSMSTATE	=	0xdf39
+                    DF3A    564 _ADCTSTH	=	0xdf3a
+                    DF3B    565 _ADCTSTL	=	0xdf3b
+                    DF3C    566 _DACTSTH	=	0xdf3c
+                    DF3D    567 _DACTSTL	=	0xdf3d
+                    DF43    568 _IEEE_ADDR0	=	0xdf43
+                    DF44    569 _IEEE_ADDR1	=	0xdf44
+                    DF45    570 _IEEE_ADDR2	=	0xdf45
+                    DF46    571 _IEEE_ADDR3	=	0xdf46
+                    DF47    572 _IEEE_ADDR4	=	0xdf47
+                    DF48    573 _IEEE_ADDR5	=	0xdf48
+                    DF49    574 _IEEE_ADDR6	=	0xdf49
+                    DF4A    575 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    576 _PANIDH	=	0xdf4b
+                    DF4C    577 _PANIDL	=	0xdf4c
+                    DF4D    578 _SHORTADDRH	=	0xdf4d
+                    DF4E    579 _SHORTADDRL	=	0xdf4e
+                    DF4F    580 _IOCFG0	=	0xdf4f
+                    DF50    581 _IOCFG1	=	0xdf50
+                    DF51    582 _IOCFG2	=	0xdf51
+                    DF52    583 _IOCFG3	=	0xdf52
+                    DF53    584 _RXFIFOCNT	=	0xdf53
+                    DF54    585 _FSMTC1	=	0xdf54
+                    DF60    586 _CHVER	=	0xdf60
+                    DF61    587 _CHIPID	=	0xdf61
+                    DF62    588 _RFSTATUS	=	0xdf62
+                    DFC1    589 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    590 _RFD_SHADOW	=	0xdfd9
+                    DFF9    591 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    592 _ADC_SHADOW	=	0xdfba
+   0000                     593 _collect_neighbors_mem_memb_count:
+   0000                     594 	.ds 8
+   0008                     595 _collect_neighbors_mem_memb_mem:
+   0008                     596 	.ds 160
+   00A8                     597 _collect_neighbor_init_initialized_1_1:
+   00A8                     598 	.ds 1
+                            599 ;--------------------------------------------------------
+                            600 ; absolute external ram data
+                            601 ;--------------------------------------------------------
+                            602 	.area XABS    (ABS,XDATA)
+                            603 ;--------------------------------------------------------
+                            604 ; external initialized ram data
+                            605 ;--------------------------------------------------------
+                            606 	.area XISEG   (XDATA)
+   0000                     607 _collect_neighbors_mem:
+   0000                     608 	.ds 10
+                            609 	.area HOME    (CODE)
+                            610 	.area GSINIT0 (CODE)
+                            611 	.area GSINIT1 (CODE)
+                            612 	.area GSINIT2 (CODE)
+                            613 	.area GSINIT3 (CODE)
+                            614 	.area GSINIT4 (CODE)
+                            615 	.area GSINIT5 (CODE)
+                            616 	.area GSINIT  (CODE)
+                            617 	.area GSFINAL (CODE)
+                            618 	.area CSEG    (CODE)
+                            619 ;--------------------------------------------------------
+                            620 ; global & static initialisations
+                            621 ;--------------------------------------------------------
+                            622 	.area HOME    (CODE)
+                            623 	.area GSINIT  (CODE)
+                            624 	.area GSFINAL (CODE)
+                            625 	.area GSINIT  (CODE)
+                            626 ;------------------------------------------------------------
+                            627 ;Allocation info for local variables in function 'collect_neighbor_init'
+                            628 ;------------------------------------------------------------
+                            629 ;initialized               Allocated with name '_collect_neighbor_init_initialized_1_1'
+                            630 ;------------------------------------------------------------
+                            631 ;	../../core/net/rime/collect-neighbor.c:113: static uint8_t initialized = 0;
+   0000 90s00rA8            632 	mov	dptr,#_collect_neighbor_init_initialized_1_1
+   0003 E4                  633 	clr	a
+   0004 F0                  634 	movx	@dptr,a
+                            635 ;--------------------------------------------------------
+                            636 ; Home
+                            637 ;--------------------------------------------------------
+                            638 	.area HOME    (CODE)
+                            639 	.area HOME    (CODE)
+                            640 ;--------------------------------------------------------
+                            641 ; code
+                            642 ;--------------------------------------------------------
+                            643 	.area CSEG    (CODE)
+                            644 ;------------------------------------------------------------
+                            645 ;Allocation info for local variables in function 'periodic'
+                            646 ;------------------------------------------------------------
+                            647 ;ptr                       Allocated to registers r5 r6 r7 
+                            648 ;neighbor_list             Allocated to stack - _bp +1
+                            649 ;n                         Allocated to stack - _bp +4
+                            650 ;sloc0                     Allocated to stack - _bp +7
+                            651 ;------------------------------------------------------------
+                            652 ;	../../core/net/rime/collect-neighbor.c:83: periodic(void *ptr)
+                            653 ;	-----------------------------------------
+                            654 ;	 function periodic
+                            655 ;	-----------------------------------------
+   0000                     656 _periodic:
+                    0007    657 	ar7 = 0x07
+                    0006    658 	ar6 = 0x06
+                    0005    659 	ar5 = 0x05
+                    0004    660 	ar4 = 0x04
+                    0003    661 	ar3 = 0x03
+                    0002    662 	ar2 = 0x02
+                    0001    663 	ar1 = 0x01
+                    0000    664 	ar0 = 0x00
+   0000 C0*00               665 	push	_bp
+   0002 E5 81               666 	mov	a,sp
+   0004 F5*00               667 	mov	_bp,a
+   0006 24 09               668 	add	a,#0x09
+   0008 F5 81               669 	mov	sp,a
+   000A AD 82               670 	mov	r5,dpl
+   000C AE 83               671 	mov	r6,dph
+   000E AF F0               672 	mov	r7,b
+                            673 ;	../../core/net/rime/collect-neighbor.c:88: neighbor_list = ptr;
+   0010 A8*00               674 	mov	r0,_bp
+   0012 08                  675 	inc	r0
+   0013 A6 05               676 	mov	@r0,ar5
+   0015 08                  677 	inc	r0
+   0016 A6 06               678 	mov	@r0,ar6
+   0018 08                  679 	inc	r0
+   0019 A6 07               680 	mov	@r0,ar7
+                            681 ;	../../core/net/rime/collect-neighbor.c:91: for(n = list_head(neighbor_list->list); n != NULL; n = list_item_next(n)) {
+   001B A8*00               682 	mov	r0,_bp
+   001D 08                  683 	inc	r0
+   001E 74 03               684 	mov	a,#0x03
+   0020 26                  685 	add	a,@r0
+   0021 FA                  686 	mov	r2,a
+   0022 E4                  687 	clr	a
+   0023 08                  688 	inc	r0
+   0024 36                  689 	addc	a,@r0
+   0025 FB                  690 	mov	r3,a
+   0026 08                  691 	inc	r0
+   0027 86 04               692 	mov	ar4,@r0
+   0029 8A 82               693 	mov	dpl,r2
+   002B 8B 83               694 	mov	dph,r3
+   002D 8C F0               695 	mov	b,r4
+   002F 12s00r00            696 	lcall	__gptrget
+   0032 FD                  697 	mov	r5,a
+   0033 A3                  698 	inc	dptr
+   0034 12s00r00            699 	lcall	__gptrget
+   0037 FE                  700 	mov	r6,a
+   0038 A3                  701 	inc	dptr
+   0039 12s00r00            702 	lcall	__gptrget
+   003C FF                  703 	mov	r7,a
+   003D 8D 82               704 	mov	dpl,r5
+   003F 8E 83               705 	mov	dph,r6
+   0041 8F F0               706 	mov	b,r7
+   0043 C0 04               707 	push	ar4
+   0045 C0 03               708 	push	ar3
+   0047 C0 02               709 	push	ar2
+   0049 12s00r00            710 	lcall	_list_head
+   004C AD 82               711 	mov	r5,dpl
+   004E AE 83               712 	mov	r6,dph
+   0050 AF F0               713 	mov	r7,b
+   0052 D0 02               714 	pop	ar2
+   0054 D0 03               715 	pop	ar3
+   0056 D0 04               716 	pop	ar4
+   0058 E5*00               717 	mov	a,_bp
+   005A 24 04               718 	add	a,#0x04
+   005C F8                  719 	mov	r0,a
+   005D A6 05               720 	mov	@r0,ar5
+   005F 08                  721 	inc	r0
+   0060 A6 06               722 	mov	@r0,ar6
+   0062 08                  723 	inc	r0
+   0063 A6 07               724 	mov	@r0,ar7
+   0065                     725 00105$:
+   0065 E5*00               726 	mov	a,_bp
+   0067 24 04               727 	add	a,#0x04
+   0069 F8                  728 	mov	r0,a
+   006A E4                  729 	clr	a
+   006B C0 E0               730 	push	acc
+   006D E4                  731 	clr	a
+   006E C0 E0               732 	push	acc
+   0070 E4                  733 	clr	a
+   0071 C0 E0               734 	push	acc
+   0073 86 82               735 	mov	dpl,@r0
+   0075 08                  736 	inc	r0
+   0076 86 83               737 	mov	dph,@r0
+   0078 08                  738 	inc	r0
+   0079 86 F0               739 	mov	b,@r0
+   007B 12s00r00            740 	lcall	___gptr_cmp
+   007E 15 81               741 	dec	sp
+   0080 15 81               742 	dec	sp
+   0082 15 81               743 	dec	sp
+   0084 70 03               744 	jnz	00127$
+   0086 02s01r33            745 	ljmp	00108$
+   0089                     746 00127$:
+                            747 ;	../../core/net/rime/collect-neighbor.c:92: n->age++;
+   0089 C0 02               748 	push	ar2
+   008B C0 03               749 	push	ar3
+   008D C0 04               750 	push	ar4
+   008F E5*00               751 	mov	a,_bp
+   0091 24 04               752 	add	a,#0x04
+   0093 F8                  753 	mov	r0,a
+   0094 74 07               754 	mov	a,#0x07
+   0096 26                  755 	add	a,@r0
+   0097 FA                  756 	mov	r2,a
+   0098 E4                  757 	clr	a
+   0099 08                  758 	inc	r0
+   009A 36                  759 	addc	a,@r0
+   009B FB                  760 	mov	r3,a
+   009C 08                  761 	inc	r0
+   009D 86 04               762 	mov	ar4,@r0
+   009F 8A 82               763 	mov	dpl,r2
+   00A1 8B 83               764 	mov	dph,r3
+   00A3 8C F0               765 	mov	b,r4
+   00A5 12s00r00            766 	lcall	__gptrget
+   00A8 FE                  767 	mov	r6,a
+   00A9 A3                  768 	inc	dptr
+   00AA 12s00r00            769 	lcall	__gptrget
+   00AD FF                  770 	mov	r7,a
+   00AE 0E                  771 	inc	r6
+   00AF BE 00 01            772 	cjne	r6,#0x00,00128$
+   00B2 0F                  773 	inc	r7
+   00B3                     774 00128$:
+   00B3 8A 82               775 	mov	dpl,r2
+   00B5 8B 83               776 	mov	dph,r3
+   00B7 8C F0               777 	mov	b,r4
+   00B9 EE                  778 	mov	a,r6
+   00BA 12s00r00            779 	lcall	__gptrput
+   00BD A3                  780 	inc	dptr
+   00BE EF                  781 	mov	a,r7
+   00BF 12s00r00            782 	lcall	__gptrput
+                            783 ;	../../core/net/rime/collect-neighbor.c:93: n->le_age++;
+   00C2 E5*00               784 	mov	a,_bp
+   00C4 24 04               785 	add	a,#0x04
+   00C6 F8                  786 	mov	r0,a
+   00C7 74 09               787 	mov	a,#0x09
+   00C9 26                  788 	add	a,@r0
+   00CA FD                  789 	mov	r5,a
+   00CB E4                  790 	clr	a
+   00CC 08                  791 	inc	r0
+   00CD 36                  792 	addc	a,@r0
+   00CE FE                  793 	mov	r6,a
+   00CF 08                  794 	inc	r0
+   00D0 86 07               795 	mov	ar7,@r0
+   00D2 8D 82               796 	mov	dpl,r5
+   00D4 8E 83               797 	mov	dph,r6
+   00D6 8F F0               798 	mov	b,r7
+   00D8 12s00r00            799 	lcall	__gptrget
+   00DB FB                  800 	mov	r3,a
+   00DC A3                  801 	inc	dptr
+   00DD 12s00r00            802 	lcall	__gptrget
+   00E0 FC                  803 	mov	r4,a
+   00E1 0B                  804 	inc	r3
+   00E2 BB 00 01            805 	cjne	r3,#0x00,00129$
+   00E5 0C                  806 	inc	r4
+   00E6                     807 00129$:
+   00E6 8D 82               808 	mov	dpl,r5
+   00E8 8E 83               809 	mov	dph,r6
+   00EA 8F F0               810 	mov	b,r7
+   00EC EB                  811 	mov	a,r3
+   00ED 12s00r00            812 	lcall	__gptrput
+   00F0 A3                  813 	inc	dptr
+   00F1 EC                  814 	mov	a,r4
+   00F2 12s00r00            815 	lcall	__gptrput
+                            816 ;	../../core/net/rime/collect-neighbor.c:91: for(n = list_head(neighbor_list->list); n != NULL; n = list_item_next(n)) {
+   00F5 E5*00               817 	mov	a,_bp
+   00F7 24 04               818 	add	a,#0x04
+   00F9 F8                  819 	mov	r0,a
+   00FA 86 05               820 	mov	ar5,@r0
+   00FC 08                  821 	inc	r0
+   00FD 86 06               822 	mov	ar6,@r0
+   00FF 08                  823 	inc	r0
+   0100 86 07               824 	mov	ar7,@r0
+   0102 8D 82               825 	mov	dpl,r5
+   0104 8E 83               826 	mov	dph,r6
+   0106 8F F0               827 	mov	b,r7
+   0108 C0 04               828 	push	ar4
+   010A C0 03               829 	push	ar3
+   010C C0 02               830 	push	ar2
+   010E 12s00r00            831 	lcall	_list_item_next
+   0111 AD 82               832 	mov	r5,dpl
+   0113 AE 83               833 	mov	r6,dph
+   0115 AF F0               834 	mov	r7,b
+   0117 D0 02               835 	pop	ar2
+   0119 D0 03               836 	pop	ar3
+   011B D0 04               837 	pop	ar4
+   011D E5*00               838 	mov	a,_bp
+   011F 24 04               839 	add	a,#0x04
+   0121 F8                  840 	mov	r0,a
+   0122 A6 05               841 	mov	@r0,ar5
+   0124 08                  842 	inc	r0
+   0125 A6 06               843 	mov	@r0,ar6
+   0127 08                  844 	inc	r0
+   0128 A6 07               845 	mov	@r0,ar7
+   012A D0 04               846 	pop	ar4
+   012C D0 03               847 	pop	ar3
+   012E D0 02               848 	pop	ar2
+   0130 02s00r65            849 	ljmp	00105$
+   0133                     850 00108$:
+                            851 ;	../../core/net/rime/collect-neighbor.c:95: for(n = list_head(neighbor_list->list); n != NULL; n = list_item_next(n)) {
+   0133 8A 82               852 	mov	dpl,r2
+   0135 8B 83               853 	mov	dph,r3
+   0137 8C F0               854 	mov	b,r4
+   0139 12s00r00            855 	lcall	__gptrget
+   013C FD                  856 	mov	r5,a
+   013D A3                  857 	inc	dptr
+   013E 12s00r00            858 	lcall	__gptrget
+   0141 FE                  859 	mov	r6,a
+   0142 A3                  860 	inc	dptr
+   0143 12s00r00            861 	lcall	__gptrget
+   0146 FF                  862 	mov	r7,a
+   0147 8D 82               863 	mov	dpl,r5
+   0149 8E 83               864 	mov	dph,r6
+   014B 8F F0               865 	mov	b,r7
+   014D C0 04               866 	push	ar4
+   014F C0 03               867 	push	ar3
+   0151 C0 02               868 	push	ar2
+   0153 12s00r00            869 	lcall	_list_head
+   0156 AD 82               870 	mov	r5,dpl
+   0158 AE 83               871 	mov	r6,dph
+   015A AF F0               872 	mov	r7,b
+   015C D0 02               873 	pop	ar2
+   015E D0 03               874 	pop	ar3
+   0160 D0 04               875 	pop	ar4
+   0162 E5*00               876 	mov	a,_bp
+   0164 24 04               877 	add	a,#0x04
+   0166 F8                  878 	mov	r0,a
+   0167 A6 05               879 	mov	@r0,ar5
+   0169 08                  880 	inc	r0
+   016A A6 06               881 	mov	@r0,ar6
+   016C 08                  882 	inc	r0
+   016D A6 07               883 	mov	@r0,ar7
+   016F                     884 00109$:
+   016F E5*00               885 	mov	a,_bp
+   0171 24 04               886 	add	a,#0x04
+   0173 F8                  887 	mov	r0,a
+   0174 E4                  888 	clr	a
+   0175 C0 E0               889 	push	acc
+   0177 E4                  890 	clr	a
+   0178 C0 E0               891 	push	acc
+   017A E4                  892 	clr	a
+   017B C0 E0               893 	push	acc
+   017D 86 82               894 	mov	dpl,@r0
+   017F 08                  895 	inc	r0
+   0180 86 83               896 	mov	dph,@r0
+   0182 08                  897 	inc	r0
+   0183 86 F0               898 	mov	b,@r0
+   0185 12s00r00            899 	lcall	___gptr_cmp
+   0188 15 81               900 	dec	sp
+   018A 15 81               901 	dec	sp
+   018C 15 81               902 	dec	sp
+   018E 70 03               903 	jnz	00130$
+   0190 02s03r2D            904 	ljmp	00112$
+   0193                     905 00130$:
+                            906 ;	../../core/net/rime/collect-neighbor.c:96: if(n->le_age == MAX_LE_AGE) {
+   0193 C0 02               907 	push	ar2
+   0195 C0 03               908 	push	ar3
+   0197 C0 04               909 	push	ar4
+   0199 E5*00               910 	mov	a,_bp
+   019B 24 04               911 	add	a,#0x04
+   019D F8                  912 	mov	r0,a
+   019E 74 09               913 	mov	a,#0x09
+   01A0 26                  914 	add	a,@r0
+   01A1 FD                  915 	mov	r5,a
+   01A2 E4                  916 	clr	a
+   01A3 08                  917 	inc	r0
+   01A4 36                  918 	addc	a,@r0
+   01A5 FE                  919 	mov	r6,a
+   01A6 08                  920 	inc	r0
+   01A7 86 07               921 	mov	ar7,@r0
+   01A9 8D 82               922 	mov	dpl,r5
+   01AB 8E 83               923 	mov	dph,r6
+   01AD 8F F0               924 	mov	b,r7
+   01AF 12s00r00            925 	lcall	__gptrget
+   01B2 FB                  926 	mov	r3,a
+   01B3 A3                  927 	inc	dptr
+   01B4 12s00r00            928 	lcall	__gptrget
+   01B7 FC                  929 	mov	r4,a
+   01B8 BB 0A 05            930 	cjne	r3,#0x0A,00131$
+   01BB BC 00 02            931 	cjne	r4,#0x00,00131$
+   01BE 80 08               932 	sjmp	00132$
+   01C0                     933 00131$:
+   01C0 D0 04               934 	pop	ar4
+   01C2 D0 03               935 	pop	ar3
+   01C4 D0 02               936 	pop	ar2
+   01C6 80 46               937 	sjmp	00102$
+   01C8                     938 00132$:
+                            939 ;	../../core/net/rime/collect-neighbor.c:97: collect_link_estimate_new(&n->le);
+   01C8 E5*00               940 	mov	a,_bp
+   01CA 24 04               941 	add	a,#0x04
+   01CC F8                  942 	mov	r0,a
+   01CD 74 0B               943 	mov	a,#0x0B
+   01CF 26                  944 	add	a,@r0
+   01D0 FA                  945 	mov	r2,a
+   01D1 E4                  946 	clr	a
+   01D2 08                  947 	inc	r0
+   01D3 36                  948 	addc	a,@r0
+   01D4 FB                  949 	mov	r3,a
+   01D5 08                  950 	inc	r0
+   01D6 86 04               951 	mov	ar4,@r0
+   01D8 8A 82               952 	mov	dpl,r2
+   01DA 8B 83               953 	mov	dph,r3
+   01DC 8C F0               954 	mov	b,r4
+   01DE C0 07               955 	push	ar7
+   01E0 C0 06               956 	push	ar6
+   01E2 C0 05               957 	push	ar5
+   01E4 C0 04               958 	push	ar4
+   01E6 C0 03               959 	push	ar3
+   01E8 C0 02               960 	push	ar2
+   01EA 12s00r00            961 	lcall	_collect_link_estimate_new
+   01ED D0 02               962 	pop	ar2
+   01EF D0 03               963 	pop	ar3
+   01F1 D0 04               964 	pop	ar4
+   01F3 D0 05               965 	pop	ar5
+   01F5 D0 06               966 	pop	ar6
+   01F7 D0 07               967 	pop	ar7
+                            968 ;	../../core/net/rime/collect-neighbor.c:98: n->le_age = 0;
+   01F9 8D 82               969 	mov	dpl,r5
+   01FB 8E 83               970 	mov	dph,r6
+   01FD 8F F0               971 	mov	b,r7
+   01FF E4                  972 	clr	a
+   0200 12s00r00            973 	lcall	__gptrput
+   0203 A3                  974 	inc	dptr
+   0204 E4                  975 	clr	a
+   0205 12s00r00            976 	lcall	__gptrput
+                            977 ;	../../core/net/rime/collect-neighbor.c:106: ctimer_set(&neighbor_list->periodic, PERIODIC_INTERVAL,
+   0208 D0 04               978 	pop	ar4
+   020A D0 03               979 	pop	ar3
+   020C D0 02               980 	pop	ar2
+                            981 ;	../../core/net/rime/collect-neighbor.c:98: n->le_age = 0;
+   020E                     982 00102$:
+                            983 ;	../../core/net/rime/collect-neighbor.c:100: if(n->age == MAX_AGE) {
+   020E E5*00               984 	mov	a,_bp
+   0210 24 04               985 	add	a,#0x04
+   0212 F8                  986 	mov	r0,a
+   0213 74 07               987 	mov	a,#0x07
+   0215 26                  988 	add	a,@r0
+   0216 FD                  989 	mov	r5,a
+   0217 E4                  990 	clr	a
+   0218 08                  991 	inc	r0
+   0219 36                  992 	addc	a,@r0
+   021A FE                  993 	mov	r6,a
+   021B 08                  994 	inc	r0
+   021C 86 07               995 	mov	ar7,@r0
+   021E 8D 82               996 	mov	dpl,r5
+   0220 8E 83               997 	mov	dph,r6
+   0222 8F F0               998 	mov	b,r7
+   0224 12s00r00            999 	lcall	__gptrget
+   0227 FD                 1000 	mov	r5,a
+   0228 A3                 1001 	inc	dptr
+   0229 12s00r00           1002 	lcall	__gptrget
+   022C FE                 1003 	mov	r6,a
+   022D BD B4 05           1004 	cjne	r5,#0xB4,00133$
+   0230 BE 00 02           1005 	cjne	r6,#0x00,00133$
+   0233 80 03              1006 	sjmp	00134$
+   0235                    1007 00133$:
+   0235 02s02rF5           1008 	ljmp	00111$
+   0238                    1009 00134$:
+                           1010 ;	../../core/net/rime/collect-neighbor.c:101: memb_free(&collect_neighbors_mem, n);
+   0238 E5*00              1011 	mov	a,_bp
+   023A 24 04              1012 	add	a,#0x04
+   023C F8                 1013 	mov	r0,a
+   023D 86 05              1014 	mov	ar5,@r0
+   023F 08                 1015 	inc	r0
+   0240 86 06              1016 	mov	ar6,@r0
+   0242 08                 1017 	inc	r0
+   0243 86 07              1018 	mov	ar7,@r0
+   0245 C0 04              1019 	push	ar4
+   0247 C0 03              1020 	push	ar3
+   0249 C0 02              1021 	push	ar2
+   024B C0 05              1022 	push	ar5
+   024D C0 06              1023 	push	ar6
+   024F C0 07              1024 	push	ar7
+   0251 90s00r00           1025 	mov	dptr,#_collect_neighbors_mem
+   0254 75 F0 00           1026 	mov	b,#0x00
+   0257 12s00r00           1027 	lcall	_memb_free
+   025A 15 81              1028 	dec	sp
+   025C 15 81              1029 	dec	sp
+   025E 15 81              1030 	dec	sp
+   0260 D0 02              1031 	pop	ar2
+   0262 D0 03              1032 	pop	ar3
+   0264 D0 04              1033 	pop	ar4
+                           1034 ;	../../core/net/rime/collect-neighbor.c:102: list_remove(neighbor_list->list, n);
+   0266 E5*00              1035 	mov	a,_bp
+   0268 24 04              1036 	add	a,#0x04
+   026A F8                 1037 	mov	r0,a
+   026B E5*00              1038 	mov	a,_bp
+   026D 24 07              1039 	add	a,#0x07
+   026F F9                 1040 	mov	r1,a
+   0270 E6                 1041 	mov	a,@r0
+   0271 F7                 1042 	mov	@r1,a
+   0272 08                 1043 	inc	r0
+   0273 09                 1044 	inc	r1
+   0274 E6                 1045 	mov	a,@r0
+   0275 F7                 1046 	mov	@r1,a
+   0276 08                 1047 	inc	r0
+   0277 09                 1048 	inc	r1
+   0278 E6                 1049 	mov	a,@r0
+   0279 F7                 1050 	mov	@r1,a
+   027A 8A 82              1051 	mov	dpl,r2
+   027C 8B 83              1052 	mov	dph,r3
+   027E 8C F0              1053 	mov	b,r4
+   0280 12s00r00           1054 	lcall	__gptrget
+   0283 FD                 1055 	mov	r5,a
+   0284 A3                 1056 	inc	dptr
+   0285 12s00r00           1057 	lcall	__gptrget
+   0288 FE                 1058 	mov	r6,a
+   0289 A3                 1059 	inc	dptr
+   028A 12s00r00           1060 	lcall	__gptrget
+   028D FF                 1061 	mov	r7,a
+   028E C0 04              1062 	push	ar4
+   0290 C0 03              1063 	push	ar3
+   0292 C0 02              1064 	push	ar2
+   0294 E5*00              1065 	mov	a,_bp
+   0296 24 07              1066 	add	a,#0x07
+   0298 F8                 1067 	mov	r0,a
+   0299 E6                 1068 	mov	a,@r0
+   029A C0 E0              1069 	push	acc
+   029C 08                 1070 	inc	r0
+   029D E6                 1071 	mov	a,@r0
+   029E C0 E0              1072 	push	acc
+   02A0 08                 1073 	inc	r0
+   02A1 E6                 1074 	mov	a,@r0
+   02A2 C0 E0              1075 	push	acc
+   02A4 8D 82              1076 	mov	dpl,r5
+   02A6 8E 83              1077 	mov	dph,r6
+   02A8 8F F0              1078 	mov	b,r7
+   02AA 12s00r00           1079 	lcall	_list_remove
+   02AD 15 81              1080 	dec	sp
+   02AF 15 81              1081 	dec	sp
+   02B1 15 81              1082 	dec	sp
+   02B3 D0 02              1083 	pop	ar2
+   02B5 D0 03              1084 	pop	ar3
+   02B7 D0 04              1085 	pop	ar4
+                           1086 ;	../../core/net/rime/collect-neighbor.c:103: n = list_head(neighbor_list->list);
+   02B9 8A 82              1087 	mov	dpl,r2
+   02BB 8B 83              1088 	mov	dph,r3
+   02BD 8C F0              1089 	mov	b,r4
+   02BF 12s00r00           1090 	lcall	__gptrget
+   02C2 FD                 1091 	mov	r5,a
+   02C3 A3                 1092 	inc	dptr
+   02C4 12s00r00           1093 	lcall	__gptrget
+   02C7 FE                 1094 	mov	r6,a
+   02C8 A3                 1095 	inc	dptr
+   02C9 12s00r00           1096 	lcall	__gptrget
+   02CC FF                 1097 	mov	r7,a
+   02CD 8D 82              1098 	mov	dpl,r5
+   02CF 8E 83              1099 	mov	dph,r6
+   02D1 8F F0              1100 	mov	b,r7
+   02D3 C0 04              1101 	push	ar4
+   02D5 C0 03              1102 	push	ar3
+   02D7 C0 02              1103 	push	ar2
+   02D9 12s00r00           1104 	lcall	_list_head
+   02DC AD 82              1105 	mov	r5,dpl
+   02DE AE 83              1106 	mov	r6,dph
+   02E0 AF F0              1107 	mov	r7,b
+   02E2 D0 02              1108 	pop	ar2
+   02E4 D0 03              1109 	pop	ar3
+   02E6 D0 04              1110 	pop	ar4
+   02E8 E5*00              1111 	mov	a,_bp
+   02EA 24 04              1112 	add	a,#0x04
+   02EC F8                 1113 	mov	r0,a
+   02ED A6 05              1114 	mov	@r0,ar5
+   02EF 08                 1115 	inc	r0
+   02F0 A6 06              1116 	mov	@r0,ar6
+   02F2 08                 1117 	inc	r0
+   02F3 A6 07              1118 	mov	@r0,ar7
+   02F5                    1119 00111$:
+                           1120 ;	../../core/net/rime/collect-neighbor.c:95: for(n = list_head(neighbor_list->list); n != NULL; n = list_item_next(n)) {
+   02F5 E5*00              1121 	mov	a,_bp
+   02F7 24 04              1122 	add	a,#0x04
+   02F9 F8                 1123 	mov	r0,a
+   02FA 86 05              1124 	mov	ar5,@r0
+   02FC 08                 1125 	inc	r0
+   02FD 86 06              1126 	mov	ar6,@r0
+   02FF 08                 1127 	inc	r0
+   0300 86 07              1128 	mov	ar7,@r0
+   0302 8D 82              1129 	mov	dpl,r5
+   0304 8E 83              1130 	mov	dph,r6
+   0306 8F F0              1131 	mov	b,r7
+   0308 C0 04              1132 	push	ar4
+   030A C0 03              1133 	push	ar3
+   030C C0 02              1134 	push	ar2
+   030E 12s00r00           1135 	lcall	_list_item_next
+   0311 AD 82              1136 	mov	r5,dpl
+   0313 AE 83              1137 	mov	r6,dph
+   0315 AF F0              1138 	mov	r7,b
+   0317 D0 02              1139 	pop	ar2
+   0319 D0 03              1140 	pop	ar3
+   031B D0 04              1141 	pop	ar4
+   031D E5*00              1142 	mov	a,_bp
+   031F 24 04              1143 	add	a,#0x04
+   0321 F8                 1144 	mov	r0,a
+   0322 A6 05              1145 	mov	@r0,ar5
+   0324 08                 1146 	inc	r0
+   0325 A6 06              1147 	mov	@r0,ar6
+   0327 08                 1148 	inc	r0
+   0328 A6 07              1149 	mov	@r0,ar7
+   032A 02s01r6F           1150 	ljmp	00109$
+   032D                    1151 00112$:
+                           1152 ;	../../core/net/rime/collect-neighbor.c:107: periodic, neighbor_list);
+   032D A8*00              1153 	mov	r0,_bp
+   032F 08                 1154 	inc	r0
+   0330 86 05              1155 	mov	ar5,@r0
+   0332 08                 1156 	inc	r0
+   0333 86 06              1157 	mov	ar6,@r0
+   0335 08                 1158 	inc	r0
+   0336 86 07              1159 	mov	ar7,@r0
+                           1160 ;	../../core/net/rime/collect-neighbor.c:106: ctimer_set(&neighbor_list->periodic, PERIODIC_INTERVAL,
+   0338 A8*00              1161 	mov	r0,_bp
+   033A 08                 1162 	inc	r0
+   033B 74 06              1163 	mov	a,#0x06
+   033D 26                 1164 	add	a,@r0
+   033E FA                 1165 	mov	r2,a
+   033F E4                 1166 	clr	a
+   0340 08                 1167 	inc	r0
+   0341 36                 1168 	addc	a,@r0
+   0342 FB                 1169 	mov	r3,a
+   0343 08                 1170 	inc	r0
+   0344 86 04              1171 	mov	ar4,@r0
+   0346 C0 05              1172 	push	ar5
+   0348 C0 06              1173 	push	ar6
+   034A C0 07              1174 	push	ar7
+   034C 74r00              1175 	mov	a,#_periodic
+   034E C0 E0              1176 	push	acc
+   0350 74s00              1177 	mov	a,#(_periodic >> 8)
+   0352 C0 E0              1178 	push	acc
+   0354 E4                 1179 	clr	a
+   0355 C0 E0              1180 	push	acc
+   0357 74 1E              1181 	mov	a,#0x1E
+   0359 C0 E0              1182 	push	acc
+   035B 8A 82              1183 	mov	dpl,r2
+   035D 8B 83              1184 	mov	dph,r3
+   035F 8C F0              1185 	mov	b,r4
+   0361 12s00r00           1186 	lcall	_ctimer_set
+   0364 E5 81              1187 	mov	a,sp
+   0366 24 F9              1188 	add	a,#0xf9
+   0368 85*00 81           1189 	mov	sp,_bp
+   036B D0*00              1190 	pop	_bp
+   036D 22                 1191 	ret
+                           1192 ;------------------------------------------------------------
+                           1193 ;Allocation info for local variables in function 'collect_neighbor_init'
+                           1194 ;------------------------------------------------------------
+                           1195 ;initialized               Allocated with name '_collect_neighbor_init_initialized_1_1'
+                           1196 ;------------------------------------------------------------
+                           1197 ;	../../core/net/rime/collect-neighbor.c:111: collect_neighbor_init(void)
+                           1198 ;	-----------------------------------------
+                           1199 ;	 function collect_neighbor_init
+                           1200 ;	-----------------------------------------
+   036E                    1201 _collect_neighbor_init:
+                           1202 ;	../../core/net/rime/collect-neighbor.c:114: if(initialized == 0) {
+   036E 90s00rA8           1203 	mov	dptr,#_collect_neighbor_init_initialized_1_1
+   0371 E0                 1204 	movx	a,@dptr
+   0372 FF                 1205 	mov	r7,a
+   0373 70 0F              1206 	jnz	00103$
+                           1207 ;	../../core/net/rime/collect-neighbor.c:115: initialized = 1;
+   0375 90s00rA8           1208 	mov	dptr,#_collect_neighbor_init_initialized_1_1
+   0378 74 01              1209 	mov	a,#0x01
+   037A F0                 1210 	movx	@dptr,a
+                           1211 ;	../../core/net/rime/collect-neighbor.c:116: memb_init(&collect_neighbors_mem);
+   037B 90s00r00           1212 	mov	dptr,#_collect_neighbors_mem
+   037E 75 F0 00           1213 	mov	b,#0x00
+   0381 02s00r00           1214 	ljmp	_memb_init
+   0384                    1215 00103$:
+   0384 22                 1216 	ret
+                           1217 ;------------------------------------------------------------
+                           1218 ;Allocation info for local variables in function 'collect_neighbor_list_new'
+                           1219 ;------------------------------------------------------------
+                           1220 ;neighbors_list            Allocated to registers r5 r6 r7 
+                           1221 ;------------------------------------------------------------
+                           1222 ;	../../core/net/rime/collect-neighbor.c:121: collect_neighbor_list_new(struct collect_neighbor_list *neighbors_list)
+                           1223 ;	-----------------------------------------
+                           1224 ;	 function collect_neighbor_list_new
+                           1225 ;	-----------------------------------------
+   0385                    1226 _collect_neighbor_list_new:
+   0385 AD 82              1227 	mov	r5,dpl
+   0387 AE 83              1228 	mov	r6,dph
+   0389 AF F0              1229 	mov	r7,b
+                           1230 ;	../../core/net/rime/collect-neighbor.c:123: LIST_STRUCT_INIT(neighbors_list, list);
+   038B 74 03              1231 	mov	a,#0x03
+   038D 2D                 1232 	add	a,r5
+   038E FA                 1233 	mov	r2,a
+   038F E4                 1234 	clr	a
+   0390 3E                 1235 	addc	a,r6
+   0391 FB                 1236 	mov	r3,a
+   0392 8F 04              1237 	mov	ar4,r7
+   0394 8A 82              1238 	mov	dpl,r2
+   0396 8B 83              1239 	mov	dph,r3
+   0398 8C F0              1240 	mov	b,r4
+   039A ED                 1241 	mov	a,r5
+   039B 12s00r00           1242 	lcall	__gptrput
+   039E A3                 1243 	inc	dptr
+   039F EE                 1244 	mov	a,r6
+   03A0 12s00r00           1245 	lcall	__gptrput
+   03A3 A3                 1246 	inc	dptr
+   03A4 EF                 1247 	mov	a,r7
+   03A5 12s00r00           1248 	lcall	__gptrput
+   03A8 8D 82              1249 	mov	dpl,r5
+   03AA 8E 83              1250 	mov	dph,r6
+   03AC 8F F0              1251 	mov	b,r7
+   03AE E4                 1252 	clr	a
+   03AF 12s00r00           1253 	lcall	__gptrput
+   03B2 A3                 1254 	inc	dptr
+   03B3 E4                 1255 	clr	a
+   03B4 12s00r00           1256 	lcall	__gptrput
+   03B7 A3                 1257 	inc	dptr
+   03B8 E4                 1258 	clr	a
+   03B9 12s00r00           1259 	lcall	__gptrput
+   03BC 8D 82              1260 	mov	dpl,r5
+   03BE 8E 83              1261 	mov	dph,r6
+   03C0 8F F0              1262 	mov	b,r7
+   03C2 C0 07              1263 	push	ar7
+   03C4 C0 06              1264 	push	ar6
+   03C6 C0 05              1265 	push	ar5
+   03C8 12s00r00           1266 	lcall	_list_init
+   03CB D0 05              1267 	pop	ar5
+   03CD D0 06              1268 	pop	ar6
+   03CF D0 07              1269 	pop	ar7
+                           1270 ;	../../core/net/rime/collect-neighbor.c:124: list_init(neighbors_list->list);
+   03D1 74 03              1271 	mov	a,#0x03
+   03D3 2D                 1272 	add	a,r5
+   03D4 FA                 1273 	mov	r2,a
+   03D5 E4                 1274 	clr	a
+   03D6 3E                 1275 	addc	a,r6
+   03D7 FB                 1276 	mov	r3,a
+   03D8 8F 04              1277 	mov	ar4,r7
+   03DA 8A 82              1278 	mov	dpl,r2
+   03DC 8B 83              1279 	mov	dph,r3
+   03DE 8C F0              1280 	mov	b,r4
+   03E0 12s00r00           1281 	lcall	__gptrget
+   03E3 FA                 1282 	mov	r2,a
+   03E4 A3                 1283 	inc	dptr
+   03E5 12s00r00           1284 	lcall	__gptrget
+   03E8 FB                 1285 	mov	r3,a
+   03E9 A3                 1286 	inc	dptr
+   03EA 12s00r00           1287 	lcall	__gptrget
+   03ED FC                 1288 	mov	r4,a
+   03EE 8A 82              1289 	mov	dpl,r2
+   03F0 8B 83              1290 	mov	dph,r3
+   03F2 8C F0              1291 	mov	b,r4
+   03F4 C0 07              1292 	push	ar7
+   03F6 C0 06              1293 	push	ar6
+   03F8 C0 05              1294 	push	ar5
+   03FA 12s00r00           1295 	lcall	_list_init
+   03FD D0 05              1296 	pop	ar5
+   03FF D0 06              1297 	pop	ar6
+   0401 D0 07              1298 	pop	ar7
+                           1299 ;	../../core/net/rime/collect-neighbor.c:125: ctimer_set(&neighbors_list->periodic, CLOCK_SECOND, periodic, neighbors_list);
+   0403 8D 02              1300 	mov	ar2,r5
+   0405 8E 03              1301 	mov	ar3,r6
+   0407 8F 04              1302 	mov	ar4,r7
+   0409 74 06              1303 	mov	a,#0x06
+   040B 2D                 1304 	add	a,r5
+   040C FD                 1305 	mov	r5,a
+   040D E4                 1306 	clr	a
+   040E 3E                 1307 	addc	a,r6
+   040F FE                 1308 	mov	r6,a
+   0410 C0 02              1309 	push	ar2
+   0412 C0 03              1310 	push	ar3
+   0414 C0 04              1311 	push	ar4
+   0416 74r00              1312 	mov	a,#_periodic
+   0418 C0 E0              1313 	push	acc
+   041A 74s00              1314 	mov	a,#(_periodic >> 8)
+   041C C0 E0              1315 	push	acc
+   041E 74 80              1316 	mov	a,#0x80
+   0420 C0 E0              1317 	push	acc
+   0422 E4                 1318 	clr	a
+   0423 C0 E0              1319 	push	acc
+   0425 8D 82              1320 	mov	dpl,r5
+   0427 8E 83              1321 	mov	dph,r6
+   0429 8F F0              1322 	mov	b,r7
+   042B 12s00r00           1323 	lcall	_ctimer_set
+   042E E5 81              1324 	mov	a,sp
+   0430 24 F9              1325 	add	a,#0xf9
+   0432 F5 81              1326 	mov	sp,a
+   0434 22                 1327 	ret
+                           1328 ;------------------------------------------------------------
+                           1329 ;Allocation info for local variables in function 'collect_neighbor_list_find'
+                           1330 ;------------------------------------------------------------
+                           1331 ;addr                      Allocated to stack - _bp -5
+                           1332 ;neighbors_list            Allocated to registers r5 r6 r7 
+                           1333 ;n                         Allocated to registers r5 r6 r7 
+                           1334 ;------------------------------------------------------------
+                           1335 ;	../../core/net/rime/collect-neighbor.c:129: collect_neighbor_list_find(struct collect_neighbor_list *neighbors_list,
+                           1336 ;	-----------------------------------------
+                           1337 ;	 function collect_neighbor_list_find
+                           1338 ;	-----------------------------------------
+   0435                    1339 _collect_neighbor_list_find:
+   0435 C0*00              1340 	push	_bp
+   0437 85 81*00           1341 	mov	_bp,sp
+   043A AD 82              1342 	mov	r5,dpl
+   043C AE 83              1343 	mov	r6,dph
+   043E AF F0              1344 	mov	r7,b
+                           1345 ;	../../core/net/rime/collect-neighbor.c:133: for(n = list_head(neighbors_list->list); n != NULL; n = list_item_next(n)) {
+   0440 74 03              1346 	mov	a,#0x03
+   0442 2D                 1347 	add	a,r5
+   0443 FD                 1348 	mov	r5,a
+   0444 E4                 1349 	clr	a
+   0445 3E                 1350 	addc	a,r6
+   0446 FE                 1351 	mov	r6,a
+   0447 8D 82              1352 	mov	dpl,r5
+   0449 8E 83              1353 	mov	dph,r6
+   044B 8F F0              1354 	mov	b,r7
+   044D 12s00r00           1355 	lcall	__gptrget
+   0450 FD                 1356 	mov	r5,a
+   0451 A3                 1357 	inc	dptr
+   0452 12s00r00           1358 	lcall	__gptrget
+   0455 FE                 1359 	mov	r6,a
+   0456 A3                 1360 	inc	dptr
+   0457 12s00r00           1361 	lcall	__gptrget
+   045A FF                 1362 	mov	r7,a
+   045B 8D 82              1363 	mov	dpl,r5
+   045D 8E 83              1364 	mov	dph,r6
+   045F 8F F0              1365 	mov	b,r7
+   0461 12s00r00           1366 	lcall	_list_head
+   0464 AD 82              1367 	mov	r5,dpl
+   0466 AE 83              1368 	mov	r6,dph
+   0468 AF F0              1369 	mov	r7,b
+   046A                    1370 00103$:
+   046A E4                 1371 	clr	a
+   046B C0 E0              1372 	push	acc
+   046D E4                 1373 	clr	a
+   046E C0 E0              1374 	push	acc
+   0470 E4                 1375 	clr	a
+   0471 C0 E0              1376 	push	acc
+   0473 8D 82              1377 	mov	dpl,r5
+   0475 8E 83              1378 	mov	dph,r6
+   0477 8F F0              1379 	mov	b,r7
+   0479 12s00r00           1380 	lcall	___gptr_cmp
+   047C 15 81              1381 	dec	sp
+   047E 15 81              1382 	dec	sp
+   0480 15 81              1383 	dec	sp
+   0482 60 61              1384 	jz	00106$
+                           1385 ;	../../core/net/rime/collect-neighbor.c:134: if(rimeaddr_cmp(&n->addr, addr)) {
+   0484 74 03              1386 	mov	a,#0x03
+   0486 2D                 1387 	add	a,r5
+   0487 FA                 1388 	mov	r2,a
+   0488 E4                 1389 	clr	a
+   0489 3E                 1390 	addc	a,r6
+   048A FB                 1391 	mov	r3,a
+   048B 8F 04              1392 	mov	ar4,r7
+   048D C0 07              1393 	push	ar7
+   048F C0 06              1394 	push	ar6
+   0491 C0 05              1395 	push	ar5
+   0493 E5*00              1396 	mov	a,_bp
+   0495 24 FB              1397 	add	a,#0xfb
+   0497 F8                 1398 	mov	r0,a
+   0498 E6                 1399 	mov	a,@r0
+   0499 C0 E0              1400 	push	acc
+   049B 08                 1401 	inc	r0
+   049C E6                 1402 	mov	a,@r0
+   049D C0 E0              1403 	push	acc
+   049F 08                 1404 	inc	r0
+   04A0 E6                 1405 	mov	a,@r0
+   04A1 C0 E0              1406 	push	acc
+   04A3 8A 82              1407 	mov	dpl,r2
+   04A5 8B 83              1408 	mov	dph,r3
+   04A7 8C F0              1409 	mov	b,r4
+   04A9 12s00r00           1410 	lcall	_rimeaddr_cmp
+   04AC AB 82              1411 	mov	r3,dpl
+   04AE AC 83              1412 	mov	r4,dph
+   04B0 15 81              1413 	dec	sp
+   04B2 15 81              1414 	dec	sp
+   04B4 15 81              1415 	dec	sp
+   04B6 D0 05              1416 	pop	ar5
+   04B8 D0 06              1417 	pop	ar6
+   04BA D0 07              1418 	pop	ar7
+   04BC EB                 1419 	mov	a,r3
+   04BD 4C                 1420 	orl	a,r4
+   04BE 60 08              1421 	jz	00105$
+                           1422 ;	../../core/net/rime/collect-neighbor.c:135: return n;
+   04C0 8D 82              1423 	mov	dpl,r5
+   04C2 8E 83              1424 	mov	dph,r6
+   04C4 8F F0              1425 	mov	b,r7
+   04C6 80 23              1426 	sjmp	00107$
+   04C8                    1427 00105$:
+                           1428 ;	../../core/net/rime/collect-neighbor.c:133: for(n = list_head(neighbors_list->list); n != NULL; n = list_item_next(n)) {
+   04C8 8D 02              1429 	mov	ar2,r5
+   04CA 8E 03              1430 	mov	ar3,r6
+   04CC 8F 04              1431 	mov	ar4,r7
+   04CE 8A 82              1432 	mov	dpl,r2
+   04D0 8B 83              1433 	mov	dph,r3
+   04D2 8C F0              1434 	mov	b,r4
+   04D4 12s00r00           1435 	lcall	_list_item_next
+   04D7 AA 82              1436 	mov	r2,dpl
+   04D9 AB 83              1437 	mov	r3,dph
+   04DB AC F0              1438 	mov	r4,b
+   04DD 8A 05              1439 	mov	ar5,r2
+   04DF 8B 06              1440 	mov	ar6,r3
+   04E1 8C 07              1441 	mov	ar7,r4
+   04E3 80 85              1442 	sjmp	00103$
+   04E5                    1443 00106$:
+                           1444 ;	../../core/net/rime/collect-neighbor.c:138: return NULL;
+   04E5 90 00 00           1445 	mov	dptr,#0x0000
+   04E8 75 F0 00           1446 	mov	b,#0x00
+   04EB                    1447 00107$:
+   04EB D0*00              1448 	pop	_bp
+   04ED 22                 1449 	ret
+                           1450 ;------------------------------------------------------------
+                           1451 ;Allocation info for local variables in function 'collect_neighbor_list_add'
+                           1452 ;------------------------------------------------------------
+                           1453 ;addr                      Allocated to stack - _bp -5
+                           1454 ;nrtmetric                 Allocated to stack - _bp -7
+                           1455 ;neighbors_list            Allocated to registers r5 r6 r7 
+                           1456 ;n                         Allocated to stack - _bp +1
+                           1457 ;worst_rtmetric            Allocated to registers r3 r4 
+                           1458 ;worst_neighbor            Allocated to stack - _bp +4
+                           1459 ;sloc0                     Allocated to stack - _bp +7
+                           1460 ;------------------------------------------------------------
+                           1461 ;	../../core/net/rime/collect-neighbor.c:142: collect_neighbor_list_add(struct collect_neighbor_list *neighbors_list,
+                           1462 ;	-----------------------------------------
+                           1463 ;	 function collect_neighbor_list_add
+                           1464 ;	-----------------------------------------
+   04EE                    1465 _collect_neighbor_list_add:
+   04EE C0*00              1466 	push	_bp
+   04F0 E5 81              1467 	mov	a,sp
+   04F2 F5*00              1468 	mov	_bp,a
+   04F4 24 09              1469 	add	a,#0x09
+   04F6 F5 81              1470 	mov	sp,a
+   04F8 AD 82              1471 	mov	r5,dpl
+   04FA AE 83              1472 	mov	r6,dph
+   04FC AF F0              1473 	mov	r7,b
+                           1474 ;	../../core/net/rime/collect-neighbor.c:147: if(addr == NULL) {
+   04FE E5*00              1475 	mov	a,_bp
+   0500 24 FB              1476 	add	a,#0xfb
+   0502 F8                 1477 	mov	r0,a
+   0503 E6                 1478 	mov	a,@r0
+   0504 08                 1479 	inc	r0
+   0505 46                 1480 	orl	a,@r0
+   0506 70 06              1481 	jnz	00102$
+                           1482 ;	../../core/net/rime/collect-neighbor.c:149: return 0;
+   0508 90 00 00           1483 	mov	dptr,#0x0000
+   050B 02s08r06           1484 	ljmp	00125$
+   050E                    1485 00102$:
+                           1486 ;	../../core/net/rime/collect-neighbor.c:155: for(n = list_head(neighbors_list->list); n != NULL; n = list_item_next(n)) {
+   050E 74 03              1487 	mov	a,#0x03
+   0510 2D                 1488 	add	a,r5
+   0511 FD                 1489 	mov	r5,a
+   0512 E4                 1490 	clr	a
+   0513 3E                 1491 	addc	a,r6
+   0514 FE                 1492 	mov	r6,a
+   0515 8D 82              1493 	mov	dpl,r5
+   0517 8E 83              1494 	mov	dph,r6
+   0519 8F F0              1495 	mov	b,r7
+   051B 12s00r00           1496 	lcall	__gptrget
+   051E FA                 1497 	mov	r2,a
+   051F A3                 1498 	inc	dptr
+   0520 12s00r00           1499 	lcall	__gptrget
+   0523 FB                 1500 	mov	r3,a
+   0524 A3                 1501 	inc	dptr
+   0525 12s00r00           1502 	lcall	__gptrget
+   0528 FC                 1503 	mov	r4,a
+   0529 8A 82              1504 	mov	dpl,r2
+   052B 8B 83              1505 	mov	dph,r3
+   052D 8C F0              1506 	mov	b,r4
+   052F C0 07              1507 	push	ar7
+   0531 C0 06              1508 	push	ar6
+   0533 C0 05              1509 	push	ar5
+   0535 12s00r00           1510 	lcall	_list_head
+   0538 AA 82              1511 	mov	r2,dpl
+   053A AB 83              1512 	mov	r3,dph
+   053C AC F0              1513 	mov	r4,b
+   053E D0 05              1514 	pop	ar5
+   0540 D0 06              1515 	pop	ar6
+   0542 D0 07              1516 	pop	ar7
+   0544 A8*00              1517 	mov	r0,_bp
+   0546 08                 1518 	inc	r0
+   0547 A6 02              1519 	mov	@r0,ar2
+   0549 08                 1520 	inc	r0
+   054A A6 03              1521 	mov	@r0,ar3
+   054C 08                 1522 	inc	r0
+   054D A6 04              1523 	mov	@r0,ar4
+   054F                    1524 00105$:
+   054F A8*00              1525 	mov	r0,_bp
+   0551 08                 1526 	inc	r0
+   0552 E6                 1527 	mov	a,@r0
+   0553 08                 1528 	inc	r0
+   0554 46                 1529 	orl	a,@r0
+   0555 60 79              1530 	jz	00108$
+                           1531 ;	../../core/net/rime/collect-neighbor.c:156: if(rimeaddr_cmp(&n->addr, addr)) {
+   0557 C0 05              1532 	push	ar5
+   0559 C0 06              1533 	push	ar6
+   055B C0 07              1534 	push	ar7
+   055D A8*00              1535 	mov	r0,_bp
+   055F 08                 1536 	inc	r0
+   0560 74 03              1537 	mov	a,#0x03
+   0562 26                 1538 	add	a,@r0
+   0563 FD                 1539 	mov	r5,a
+   0564 E4                 1540 	clr	a
+   0565 08                 1541 	inc	r0
+   0566 36                 1542 	addc	a,@r0
+   0567 FE                 1543 	mov	r6,a
+   0568 08                 1544 	inc	r0
+   0569 86 07              1545 	mov	ar7,@r0
+   056B C0 05              1546 	push	ar5
+   056D E5*00              1547 	mov	a,_bp
+   056F 24 FB              1548 	add	a,#0xfb
+   0571 F8                 1549 	mov	r0,a
+   0572 E6                 1550 	mov	a,@r0
+   0573 C0 E0              1551 	push	acc
+   0575 08                 1552 	inc	r0
+   0576 E6                 1553 	mov	a,@r0
+   0577 C0 E0              1554 	push	acc
+   0579 08                 1555 	inc	r0
+   057A E6                 1556 	mov	a,@r0
+   057B C0 E0              1557 	push	acc
+   057D 8D 82              1558 	mov	dpl,r5
+   057F 8E 83              1559 	mov	dph,r6
+   0581 8F F0              1560 	mov	b,r7
+   0583 12s00r00           1561 	lcall	_rimeaddr_cmp
+   0586 AE 82              1562 	mov	r6,dpl
+   0588 AF 83              1563 	mov	r7,dph
+   058A 15 81              1564 	dec	sp
+   058C 15 81              1565 	dec	sp
+   058E 15 81              1566 	dec	sp
+   0590 D0 05              1567 	pop	ar5
+   0592 EE                 1568 	mov	a,r6
+   0593 4F                 1569 	orl	a,r7
+   0594 D0 07              1570 	pop	ar7
+   0596 D0 06              1571 	pop	ar6
+   0598 D0 05              1572 	pop	ar5
+   059A 70 34              1573 	jnz	00108$
+                           1574 ;	../../core/net/rime/collect-neighbor.c:155: for(n = list_head(neighbors_list->list); n != NULL; n = list_item_next(n)) {
+   059C C0 05              1575 	push	ar5
+   059E C0 06              1576 	push	ar6
+   05A0 C0 07              1577 	push	ar7
+   05A2 A8*00              1578 	mov	r0,_bp
+   05A4 08                 1579 	inc	r0
+   05A5 86 05              1580 	mov	ar5,@r0
+   05A7 08                 1581 	inc	r0
+   05A8 86 06              1582 	mov	ar6,@r0
+   05AA 08                 1583 	inc	r0
+   05AB 86 07              1584 	mov	ar7,@r0
+   05AD 8D 82              1585 	mov	dpl,r5
+   05AF 8E 83              1586 	mov	dph,r6
+   05B1 8F F0              1587 	mov	b,r7
+   05B3 12s00r00           1588 	lcall	_list_item_next
+   05B6 AD 82              1589 	mov	r5,dpl
+   05B8 AE 83              1590 	mov	r6,dph
+   05BA AF F0              1591 	mov	r7,b
+   05BC A8*00              1592 	mov	r0,_bp
+   05BE 08                 1593 	inc	r0
+   05BF A6 05              1594 	mov	@r0,ar5
+   05C1 08                 1595 	inc	r0
+   05C2 A6 06              1596 	mov	@r0,ar6
+   05C4 08                 1597 	inc	r0
+   05C5 A6 07              1598 	mov	@r0,ar7
+   05C7 D0 07              1599 	pop	ar7
+   05C9 D0 06              1600 	pop	ar6
+   05CB D0 05              1601 	pop	ar5
+   05CD 02s05r4F           1602 	ljmp	00105$
+   05D0                    1603 00108$:
+                           1604 ;	../../core/net/rime/collect-neighbor.c:165: if(n == NULL) {
+   05D0 A8*00              1605 	mov	r0,_bp
+   05D2 08                 1606 	inc	r0
+   05D3 E6                 1607 	mov	a,@r0
+   05D4 08                 1608 	inc	r0
+   05D5 46                 1609 	orl	a,@r0
+   05D6 60 03              1610 	jz	00154$
+   05D8 02s06r5A           1611 	ljmp	00112$
+   05DB                    1612 00154$:
+                           1613 ;	../../core/net/rime/collect-neighbor.c:168: n = memb_alloc(&collect_neighbors_mem);
+   05DB C0 05              1614 	push	ar5
+   05DD C0 06              1615 	push	ar6
+   05DF C0 07              1616 	push	ar7
+   05E1 90s00r00           1617 	mov	dptr,#_collect_neighbors_mem
+   05E4 75 F0 00           1618 	mov	b,#0x00
+   05E7 12s00r00           1619 	lcall	_memb_alloc
+   05EA AD 82              1620 	mov	r5,dpl
+   05EC AE 83              1621 	mov	r6,dph
+   05EE AF F0              1622 	mov	r7,b
+   05F0 A8*00              1623 	mov	r0,_bp
+   05F2 08                 1624 	inc	r0
+   05F3 A6 05              1625 	mov	@r0,ar5
+   05F5 08                 1626 	inc	r0
+   05F6 A6 06              1627 	mov	@r0,ar6
+   05F8 08                 1628 	inc	r0
+   05F9 A6 07              1629 	mov	@r0,ar7
+                           1630 ;	../../core/net/rime/collect-neighbor.c:169: if(n != NULL) {
+   05FB D0 07              1631 	pop	ar7
+   05FD D0 06              1632 	pop	ar6
+   05FF D0 05              1633 	pop	ar5
+   0601 A8*00              1634 	mov	r0,_bp
+   0603 08                 1635 	inc	r0
+   0604 E6                 1636 	mov	a,@r0
+   0605 08                 1637 	inc	r0
+   0606 46                 1638 	orl	a,@r0
+   0607 60 51              1639 	jz	00112$
+                           1640 ;	../../core/net/rime/collect-neighbor.c:170: list_add(neighbors_list->list, n);
+   0609 A8*00              1641 	mov	r0,_bp
+   060B 08                 1642 	inc	r0
+   060C E5*00              1643 	mov	a,_bp
+   060E 24 07              1644 	add	a,#0x07
+   0610 F9                 1645 	mov	r1,a
+   0611 E6                 1646 	mov	a,@r0
+   0612 F7                 1647 	mov	@r1,a
+   0613 08                 1648 	inc	r0
+   0614 09                 1649 	inc	r1
+   0615 E6                 1650 	mov	a,@r0
+   0616 F7                 1651 	mov	@r1,a
+   0617 08                 1652 	inc	r0
+   0618 09                 1653 	inc	r1
+   0619 E6                 1654 	mov	a,@r0
+   061A F7                 1655 	mov	@r1,a
+   061B 8D 82              1656 	mov	dpl,r5
+   061D 8E 83              1657 	mov	dph,r6
+   061F 8F F0              1658 	mov	b,r7
+   0621 12s00r00           1659 	lcall	__gptrget
+   0624 FA                 1660 	mov	r2,a
+   0625 A3                 1661 	inc	dptr
+   0626 12s00r00           1662 	lcall	__gptrget
+   0629 FB                 1663 	mov	r3,a
+   062A A3                 1664 	inc	dptr
+   062B 12s00r00           1665 	lcall	__gptrget
+   062E FC                 1666 	mov	r4,a
+   062F C0 07              1667 	push	ar7
+   0631 C0 06              1668 	push	ar6
+   0633 C0 05              1669 	push	ar5
+   0635 E5*00              1670 	mov	a,_bp
+   0637 24 07              1671 	add	a,#0x07
+   0639 F8                 1672 	mov	r0,a
+   063A E6                 1673 	mov	a,@r0
+   063B C0 E0              1674 	push	acc
+   063D 08                 1675 	inc	r0
+   063E E6                 1676 	mov	a,@r0
+   063F C0 E0              1677 	push	acc
+   0641 08                 1678 	inc	r0
+   0642 E6                 1679 	mov	a,@r0
+   0643 C0 E0              1680 	push	acc
+   0645 8A 82              1681 	mov	dpl,r2
+   0647 8B 83              1682 	mov	dph,r3
+   0649 8C F0              1683 	mov	b,r4
+   064B 12s00r00           1684 	lcall	_list_add
+   064E 15 81              1685 	dec	sp
+   0650 15 81              1686 	dec	sp
+   0652 15 81              1687 	dec	sp
+   0654 D0 05              1688 	pop	ar5
+   0656 D0 06              1689 	pop	ar6
+   0658 D0 07              1690 	pop	ar7
+   065A                    1691 00112$:
+                           1692 ;	../../core/net/rime/collect-neighbor.c:178: if(n == NULL) {
+   065A A8*00              1693 	mov	r0,_bp
+   065C 08                 1694 	inc	r0
+   065D E6                 1695 	mov	a,@r0
+   065E 08                 1696 	inc	r0
+   065F 46                 1697 	orl	a,@r0
+   0660 60 03              1698 	jz	00156$
+   0662 02s07r52           1699 	ljmp	00118$
+   0665                    1700 00156$:
+                           1701 ;	../../core/net/rime/collect-neighbor.c:187: worst_rtmetric = 0;
+                           1702 ;	../../core/net/rime/collect-neighbor.c:188: worst_neighbor = NULL;
+   0665 E4                 1703 	clr	a
+   0666 FB                 1704 	mov	r3,a
+   0667 FC                 1705 	mov	r4,a
+   0668 E5*00              1706 	mov	a,_bp
+   066A 24 04              1707 	add	a,#0x04
+   066C F8                 1708 	mov	r0,a
+   066D E4                 1709 	clr	a
+   066E F6                 1710 	mov	@r0,a
+   066F 08                 1711 	inc	r0
+   0670 F6                 1712 	mov	@r0,a
+   0671 08                 1713 	inc	r0
+   0672 76 00              1714 	mov	@r0,#0x00
+                           1715 ;	../../core/net/rime/collect-neighbor.c:190: for(n = list_head(neighbors_list->list);
+   0674 8D 82              1716 	mov	dpl,r5
+   0676 8E 83              1717 	mov	dph,r6
+   0678 8F F0              1718 	mov	b,r7
+   067A 12s00r00           1719 	lcall	__gptrget
+   067D FD                 1720 	mov	r5,a
+   067E A3                 1721 	inc	dptr
+   067F 12s00r00           1722 	lcall	__gptrget
+   0682 FE                 1723 	mov	r6,a
+   0683 A3                 1724 	inc	dptr
+   0684 12s00r00           1725 	lcall	__gptrget
+   0687 FF                 1726 	mov	r7,a
+   0688 8D 82              1727 	mov	dpl,r5
+   068A 8E 83              1728 	mov	dph,r6
+   068C 8F F0              1729 	mov	b,r7
+   068E C0 04              1730 	push	ar4
+   0690 C0 03              1731 	push	ar3
+   0692 12s00r00           1732 	lcall	_list_head
+   0695 AD 82              1733 	mov	r5,dpl
+   0697 AE 83              1734 	mov	r6,dph
+   0699 AF F0              1735 	mov	r7,b
+   069B D0 03              1736 	pop	ar3
+   069D D0 04              1737 	pop	ar4
+   069F A8*00              1738 	mov	r0,_bp
+   06A1 08                 1739 	inc	r0
+   06A2 A6 05              1740 	mov	@r0,ar5
+   06A4 08                 1741 	inc	r0
+   06A5 A6 06              1742 	mov	@r0,ar6
+   06A7 08                 1743 	inc	r0
+   06A8 A6 07              1744 	mov	@r0,ar7
+   06AA                    1745 00121$:
+                           1746 ;	../../core/net/rime/collect-neighbor.c:191: n != NULL; n = list_item_next(n)) {
+   06AA A8*00              1747 	mov	r0,_bp
+   06AC 08                 1748 	inc	r0
+   06AD E4                 1749 	clr	a
+   06AE C0 E0              1750 	push	acc
+   06B0 E4                 1751 	clr	a
+   06B1 C0 E0              1752 	push	acc
+   06B3 E4                 1753 	clr	a
+   06B4 C0 E0              1754 	push	acc
+   06B6 86 82              1755 	mov	dpl,@r0
+   06B8 08                 1756 	inc	r0
+   06B9 86 83              1757 	mov	dph,@r0
+   06BB 08                 1758 	inc	r0
+   06BC 86 F0              1759 	mov	b,@r0
+   06BE 12s00r00           1760 	lcall	___gptr_cmp
+   06C1 15 81              1761 	dec	sp
+   06C3 15 81              1762 	dec	sp
+   06C5 15 81              1763 	dec	sp
+   06C7 60 6A              1764 	jz	00124$
+                           1765 ;	../../core/net/rime/collect-neighbor.c:192: if(n->rtmetric > worst_rtmetric) {
+   06C9 A8*00              1766 	mov	r0,_bp
+   06CB 08                 1767 	inc	r0
+   06CC 74 05              1768 	mov	a,#0x05
+   06CE 26                 1769 	add	a,@r0
+   06CF FD                 1770 	mov	r5,a
+   06D0 E4                 1771 	clr	a
+   06D1 08                 1772 	inc	r0
+   06D2 36                 1773 	addc	a,@r0
+   06D3 FE                 1774 	mov	r6,a
+   06D4 08                 1775 	inc	r0
+   06D5 86 07              1776 	mov	ar7,@r0
+   06D7 8D 82              1777 	mov	dpl,r5
+   06D9 8E 83              1778 	mov	dph,r6
+   06DB 8F F0              1779 	mov	b,r7
+   06DD 12s00r00           1780 	lcall	__gptrget
+   06E0 FE                 1781 	mov	r6,a
+   06E1 A3                 1782 	inc	dptr
+   06E2 12s00r00           1783 	lcall	__gptrget
+   06E5 FF                 1784 	mov	r7,a
+   06E6 C3                 1785 	clr	c
+   06E7 EB                 1786 	mov	a,r3
+   06E8 9E                 1787 	subb	a,r6
+   06E9 EC                 1788 	mov	a,r4
+   06EA 9F                 1789 	subb	a,r7
+   06EB 50 16              1790 	jnc	00123$
+                           1791 ;	../../core/net/rime/collect-neighbor.c:193: worst_neighbor = n;
+   06ED A8*00              1792 	mov	r0,_bp
+   06EF 08                 1793 	inc	r0
+   06F0 E5*00              1794 	mov	a,_bp
+   06F2 24 04              1795 	add	a,#0x04
+   06F4 F9                 1796 	mov	r1,a
+   06F5 E6                 1797 	mov	a,@r0
+   06F6 F7                 1798 	mov	@r1,a
+   06F7 08                 1799 	inc	r0
+   06F8 09                 1800 	inc	r1
+   06F9 E6                 1801 	mov	a,@r0
+   06FA F7                 1802 	mov	@r1,a
+   06FB 08                 1803 	inc	r0
+   06FC 09                 1804 	inc	r1
+   06FD E6                 1805 	mov	a,@r0
+   06FE F7                 1806 	mov	@r1,a
+                           1807 ;	../../core/net/rime/collect-neighbor.c:194: worst_rtmetric = n->rtmetric;
+   06FF 8E 03              1808 	mov	ar3,r6
+   0701 8F 04              1809 	mov	ar4,r7
+   0703                    1810 00123$:
+                           1811 ;	../../core/net/rime/collect-neighbor.c:191: n != NULL; n = list_item_next(n)) {
+   0703 A8*00              1812 	mov	r0,_bp
+   0705 08                 1813 	inc	r0
+   0706 86 02              1814 	mov	ar2,@r0
+   0708 08                 1815 	inc	r0
+   0709 86 06              1816 	mov	ar6,@r0
+   070B 08                 1817 	inc	r0
+   070C 86 07              1818 	mov	ar7,@r0
+   070E 8A 82              1819 	mov	dpl,r2
+   0710 8E 83              1820 	mov	dph,r6
+   0712 8F F0              1821 	mov	b,r7
+   0714 C0 04              1822 	push	ar4
+   0716 C0 03              1823 	push	ar3
+   0718 12s00r00           1824 	lcall	_list_item_next
+   071B AD 82              1825 	mov	r5,dpl
+   071D AE 83              1826 	mov	r6,dph
+   071F AF F0              1827 	mov	r7,b
+   0721 D0 03              1828 	pop	ar3
+   0723 D0 04              1829 	pop	ar4
+   0725 A8*00              1830 	mov	r0,_bp
+   0727 08                 1831 	inc	r0
+   0728 A6 05              1832 	mov	@r0,ar5
+   072A 08                 1833 	inc	r0
+   072B A6 06              1834 	mov	@r0,ar6
+   072D 08                 1835 	inc	r0
+   072E A6 07              1836 	mov	@r0,ar7
+   0730 02s06rAA           1837 	ljmp	00121$
+   0733                    1838 00124$:
+                           1839 ;	../../core/net/rime/collect-neighbor.c:200: if(nrtmetric < worst_rtmetric) {
+   0733 E5*00              1840 	mov	a,_bp
+   0735 24 F9              1841 	add	a,#0xf9
+   0737 F8                 1842 	mov	r0,a
+   0738 C3                 1843 	clr	c
+   0739 E6                 1844 	mov	a,@r0
+   073A 9B                 1845 	subb	a,r3
+   073B 08                 1846 	inc	r0
+   073C E6                 1847 	mov	a,@r0
+   073D 9C                 1848 	subb	a,r4
+   073E 50 12              1849 	jnc	00118$
+                           1850 ;	../../core/net/rime/collect-neighbor.c:201: n = worst_neighbor;
+   0740 E5*00              1851 	mov	a,_bp
+   0742 24 04              1852 	add	a,#0x04
+   0744 F8                 1853 	mov	r0,a
+   0745 A9*00              1854 	mov	r1,_bp
+   0747 09                 1855 	inc	r1
+   0748 E6                 1856 	mov	a,@r0
+   0749 F7                 1857 	mov	@r1,a
+   074A 08                 1858 	inc	r0
+   074B 09                 1859 	inc	r1
+   074C E6                 1860 	mov	a,@r0
+   074D F7                 1861 	mov	@r1,a
+   074E 08                 1862 	inc	r0
+   074F 09                 1863 	inc	r1
+   0750 E6                 1864 	mov	a,@r0
+   0751 F7                 1865 	mov	@r1,a
+                           1866 ;	../../core/net/rime/collect-neighbor.c:203: if(n != NULL) {
+   0752                    1867 00118$:
+                           1868 ;	../../core/net/rime/collect-neighbor.c:209: if(n != NULL) {
+   0752 A8*00              1869 	mov	r0,_bp
+   0754 08                 1870 	inc	r0
+   0755 E6                 1871 	mov	a,@r0
+   0756 08                 1872 	inc	r0
+   0757 46                 1873 	orl	a,@r0
+   0758 70 03              1874 	jnz	00160$
+   075A 02s08r03           1875 	ljmp	00120$
+   075D                    1876 00160$:
+                           1877 ;	../../core/net/rime/collect-neighbor.c:210: n->age = 0;
+   075D A8*00              1878 	mov	r0,_bp
+   075F 08                 1879 	inc	r0
+   0760 74 07              1880 	mov	a,#0x07
+   0762 26                 1881 	add	a,@r0
+   0763 FD                 1882 	mov	r5,a
+   0764 E4                 1883 	clr	a
+   0765 08                 1884 	inc	r0
+   0766 36                 1885 	addc	a,@r0
+   0767 FE                 1886 	mov	r6,a
+   0768 08                 1887 	inc	r0
+   0769 86 07              1888 	mov	ar7,@r0
+   076B 8D 82              1889 	mov	dpl,r5
+   076D 8E 83              1890 	mov	dph,r6
+   076F 8F F0              1891 	mov	b,r7
+   0771 E4                 1892 	clr	a
+   0772 12s00r00           1893 	lcall	__gptrput
+   0775 A3                 1894 	inc	dptr
+   0776 E4                 1895 	clr	a
+   0777 12s00r00           1896 	lcall	__gptrput
+                           1897 ;	../../core/net/rime/collect-neighbor.c:211: rimeaddr_copy(&n->addr, addr);
+   077A A8*00              1898 	mov	r0,_bp
+   077C 08                 1899 	inc	r0
+   077D 74 03              1900 	mov	a,#0x03
+   077F 26                 1901 	add	a,@r0
+   0780 FD                 1902 	mov	r5,a
+   0781 E4                 1903 	clr	a
+   0782 08                 1904 	inc	r0
+   0783 36                 1905 	addc	a,@r0
+   0784 FE                 1906 	mov	r6,a
+   0785 08                 1907 	inc	r0
+   0786 86 07              1908 	mov	ar7,@r0
+   0788 E5*00              1909 	mov	a,_bp
+   078A 24 FB              1910 	add	a,#0xfb
+   078C F8                 1911 	mov	r0,a
+   078D E6                 1912 	mov	a,@r0
+   078E C0 E0              1913 	push	acc
+   0790 08                 1914 	inc	r0
+   0791 E6                 1915 	mov	a,@r0
+   0792 C0 E0              1916 	push	acc
+   0794 08                 1917 	inc	r0
+   0795 E6                 1918 	mov	a,@r0
+   0796 C0 E0              1919 	push	acc
+   0798 8D 82              1920 	mov	dpl,r5
+   079A 8E 83              1921 	mov	dph,r6
+   079C 8F F0              1922 	mov	b,r7
+   079E 12s00r00           1923 	lcall	_rimeaddr_copy
+   07A1 15 81              1924 	dec	sp
+   07A3 15 81              1925 	dec	sp
+   07A5 15 81              1926 	dec	sp
+                           1927 ;	../../core/net/rime/collect-neighbor.c:212: n->rtmetric = nrtmetric;
+   07A7 A8*00              1928 	mov	r0,_bp
+   07A9 08                 1929 	inc	r0
+   07AA 74 05              1930 	mov	a,#0x05
+   07AC 26                 1931 	add	a,@r0
+   07AD FD                 1932 	mov	r5,a
+   07AE E4                 1933 	clr	a
+   07AF 08                 1934 	inc	r0
+   07B0 36                 1935 	addc	a,@r0
+   07B1 FE                 1936 	mov	r6,a
+   07B2 08                 1937 	inc	r0
+   07B3 86 07              1938 	mov	ar7,@r0
+   07B5 8D 82              1939 	mov	dpl,r5
+   07B7 8E 83              1940 	mov	dph,r6
+   07B9 8F F0              1941 	mov	b,r7
+   07BB E5*00              1942 	mov	a,_bp
+   07BD 24 F9              1943 	add	a,#0xf9
+   07BF F8                 1944 	mov	r0,a
+   07C0 E6                 1945 	mov	a,@r0
+   07C1 12s00r00           1946 	lcall	__gptrput
+   07C4 A3                 1947 	inc	dptr
+   07C5 08                 1948 	inc	r0
+   07C6 E6                 1949 	mov	a,@r0
+   07C7 12s00r00           1950 	lcall	__gptrput
+                           1951 ;	../../core/net/rime/collect-neighbor.c:213: collect_link_estimate_new(&n->le);
+   07CA A8*00              1952 	mov	r0,_bp
+   07CC 08                 1953 	inc	r0
+   07CD 74 0B              1954 	mov	a,#0x0B
+   07CF 26                 1955 	add	a,@r0
+   07D0 FD                 1956 	mov	r5,a
+   07D1 E4                 1957 	clr	a
+   07D2 08                 1958 	inc	r0
+   07D3 36                 1959 	addc	a,@r0
+   07D4 FE                 1960 	mov	r6,a
+   07D5 08                 1961 	inc	r0
+   07D6 86 07              1962 	mov	ar7,@r0
+   07D8 8D 82              1963 	mov	dpl,r5
+   07DA 8E 83              1964 	mov	dph,r6
+   07DC 8F F0              1965 	mov	b,r7
+   07DE 12s00r00           1966 	lcall	_collect_link_estimate_new
+                           1967 ;	../../core/net/rime/collect-neighbor.c:214: n->le_age = 0;
+   07E1 A8*00              1968 	mov	r0,_bp
+   07E3 08                 1969 	inc	r0
+   07E4 74 09              1970 	mov	a,#0x09
+   07E6 26                 1971 	add	a,@r0
+   07E7 FD                 1972 	mov	r5,a
+   07E8 E4                 1973 	clr	a
+   07E9 08                 1974 	inc	r0
+   07EA 36                 1975 	addc	a,@r0
+   07EB FE                 1976 	mov	r6,a
+   07EC 08                 1977 	inc	r0
+   07ED 86 07              1978 	mov	ar7,@r0
+   07EF 8D 82              1979 	mov	dpl,r5
+   07F1 8E 83              1980 	mov	dph,r6
+   07F3 8F F0              1981 	mov	b,r7
+   07F5 E4                 1982 	clr	a
+   07F6 12s00r00           1983 	lcall	__gptrput
+   07F9 A3                 1984 	inc	dptr
+   07FA E4                 1985 	clr	a
+   07FB 12s00r00           1986 	lcall	__gptrput
+                           1987 ;	../../core/net/rime/collect-neighbor.c:215: return 1;
+   07FE 90 00 01           1988 	mov	dptr,#0x0001
+   0801 80 03              1989 	sjmp	00125$
+   0803                    1990 00120$:
+                           1991 ;	../../core/net/rime/collect-neighbor.c:217: return 0;
+   0803 90 00 00           1992 	mov	dptr,#0x0000
+   0806                    1993 00125$:
+   0806 85*00 81           1994 	mov	sp,_bp
+   0809 D0*00              1995 	pop	_bp
+   080B 22                 1996 	ret
+                           1997 ;------------------------------------------------------------
+                           1998 ;Allocation info for local variables in function 'collect_neighbor_list'
+                           1999 ;------------------------------------------------------------
+                           2000 ;neighbors_list            Allocated to registers r5 r6 r7 
+                           2001 ;------------------------------------------------------------
+                           2002 ;	../../core/net/rime/collect-neighbor.c:221: collect_neighbor_list(struct collect_neighbor_list *neighbors_list)
+                           2003 ;	-----------------------------------------
+                           2004 ;	 function collect_neighbor_list
+                           2005 ;	-----------------------------------------
+   080C                    2006 _collect_neighbor_list:
+   080C AD 82              2007 	mov	r5,dpl
+   080E AE 83              2008 	mov	r6,dph
+   0810 AF F0              2009 	mov	r7,b
+                           2010 ;	../../core/net/rime/collect-neighbor.c:223: return neighbors_list->list;
+   0812 74 03              2011 	mov	a,#0x03
+   0814 2D                 2012 	add	a,r5
+   0815 FD                 2013 	mov	r5,a
+   0816 E4                 2014 	clr	a
+   0817 3E                 2015 	addc	a,r6
+   0818 FE                 2016 	mov	r6,a
+   0819 8D 82              2017 	mov	dpl,r5
+   081B 8E 83              2018 	mov	dph,r6
+   081D 8F F0              2019 	mov	b,r7
+   081F 12s00r00           2020 	lcall	__gptrget
+   0822 FD                 2021 	mov	r5,a
+   0823 A3                 2022 	inc	dptr
+   0824 12s00r00           2023 	lcall	__gptrget
+   0827 FE                 2024 	mov	r6,a
+   0828 A3                 2025 	inc	dptr
+   0829 12s00r00           2026 	lcall	__gptrget
+   082C FF                 2027 	mov	r7,a
+   082D 8D 82              2028 	mov	dpl,r5
+   082F 8E 83              2029 	mov	dph,r6
+   0831 8F F0              2030 	mov	b,r7
+   0833 22                 2031 	ret
+                           2032 ;------------------------------------------------------------
+                           2033 ;Allocation info for local variables in function 'collect_neighbor_list_remove'
+                           2034 ;------------------------------------------------------------
+                           2035 ;addr                      Allocated to stack - _bp -5
+                           2036 ;neighbors_list            Allocated to stack - _bp +1
+                           2037 ;n                         Allocated to stack - _bp +4
+                           2038 ;------------------------------------------------------------
+                           2039 ;	../../core/net/rime/collect-neighbor.c:227: collect_neighbor_list_remove(struct collect_neighbor_list *neighbors_list,
+                           2040 ;	-----------------------------------------
+                           2041 ;	 function collect_neighbor_list_remove
+                           2042 ;	-----------------------------------------
+   0834                    2043 _collect_neighbor_list_remove:
+   0834 C0*00              2044 	push	_bp
+   0836 85 81*00           2045 	mov	_bp,sp
+   0839 C0 82              2046 	push	dpl
+   083B C0 83              2047 	push	dph
+   083D C0 F0              2048 	push	b
+   083F 05 81              2049 	inc	sp
+   0841 05 81              2050 	inc	sp
+   0843 05 81              2051 	inc	sp
+                           2052 ;	../../core/net/rime/collect-neighbor.c:230: struct collect_neighbor *n = collect_neighbor_list_find(neighbors_list, addr);
+   0845 E5*00              2053 	mov	a,_bp
+   0847 24 FB              2054 	add	a,#0xfb
+   0849 F8                 2055 	mov	r0,a
+   084A E6                 2056 	mov	a,@r0
+   084B C0 E0              2057 	push	acc
+   084D 08                 2058 	inc	r0
+   084E E6                 2059 	mov	a,@r0
+   084F C0 E0              2060 	push	acc
+   0851 08                 2061 	inc	r0
+   0852 E6                 2062 	mov	a,@r0
+   0853 C0 E0              2063 	push	acc
+   0855 A8*00              2064 	mov	r0,_bp
+   0857 08                 2065 	inc	r0
+   0858 86 82              2066 	mov	dpl,@r0
+   085A 08                 2067 	inc	r0
+   085B 86 83              2068 	mov	dph,@r0
+   085D 08                 2069 	inc	r0
+   085E 86 F0              2070 	mov	b,@r0
+   0860 12s04r35           2071 	lcall	_collect_neighbor_list_find
+   0863 AA 82              2072 	mov	r2,dpl
+   0865 AB 83              2073 	mov	r3,dph
+   0867 AC F0              2074 	mov	r4,b
+   0869 15 81              2075 	dec	sp
+   086B 15 81              2076 	dec	sp
+   086D 15 81              2077 	dec	sp
+   086F E5*00              2078 	mov	a,_bp
+   0871 24 04              2079 	add	a,#0x04
+   0873 F8                 2080 	mov	r0,a
+   0874 A6 02              2081 	mov	@r0,ar2
+   0876 08                 2082 	inc	r0
+   0877 A6 03              2083 	mov	@r0,ar3
+   0879 08                 2084 	inc	r0
+   087A A6 04              2085 	mov	@r0,ar4
+                           2086 ;	../../core/net/rime/collect-neighbor.c:232: if(n != NULL) {
+   087C E5*00              2087 	mov	a,_bp
+   087E 24 04              2088 	add	a,#0x04
+   0880 F8                 2089 	mov	r0,a
+   0881 E6                 2090 	mov	a,@r0
+   0882 08                 2091 	inc	r0
+   0883 46                 2092 	orl	a,@r0
+   0884 60 66              2093 	jz	00103$
+                           2094 ;	../../core/net/rime/collect-neighbor.c:233: list_remove(neighbors_list->list, n);
+   0886 E5*00              2095 	mov	a,_bp
+   0888 24 04              2096 	add	a,#0x04
+   088A F8                 2097 	mov	r0,a
+   088B 86 05              2098 	mov	ar5,@r0
+   088D 08                 2099 	inc	r0
+   088E 86 06              2100 	mov	ar6,@r0
+   0890 08                 2101 	inc	r0
+   0891 86 07              2102 	mov	ar7,@r0
+   0893 A8*00              2103 	mov	r0,_bp
+   0895 08                 2104 	inc	r0
+   0896 74 03              2105 	mov	a,#0x03
+   0898 26                 2106 	add	a,@r0
+   0899 FA                 2107 	mov	r2,a
+   089A E4                 2108 	clr	a
+   089B 08                 2109 	inc	r0
+   089C 36                 2110 	addc	a,@r0
+   089D FB                 2111 	mov	r3,a
+   089E 08                 2112 	inc	r0
+   089F 86 04              2113 	mov	ar4,@r0
+   08A1 8A 82              2114 	mov	dpl,r2
+   08A3 8B 83              2115 	mov	dph,r3
+   08A5 8C F0              2116 	mov	b,r4
+   08A7 12s00r00           2117 	lcall	__gptrget
+   08AA FA                 2118 	mov	r2,a
+   08AB A3                 2119 	inc	dptr
+   08AC 12s00r00           2120 	lcall	__gptrget
+   08AF FB                 2121 	mov	r3,a
+   08B0 A3                 2122 	inc	dptr
+   08B1 12s00r00           2123 	lcall	__gptrget
+   08B4 FC                 2124 	mov	r4,a
+   08B5 C0 05              2125 	push	ar5
+   08B7 C0 06              2126 	push	ar6
+   08B9 C0 07              2127 	push	ar7
+   08BB 8A 82              2128 	mov	dpl,r2
+   08BD 8B 83              2129 	mov	dph,r3
+   08BF 8C F0              2130 	mov	b,r4
+   08C1 12s00r00           2131 	lcall	_list_remove
+   08C4 15 81              2132 	dec	sp
+   08C6 15 81              2133 	dec	sp
+   08C8 15 81              2134 	dec	sp
+                           2135 ;	../../core/net/rime/collect-neighbor.c:234: memb_free(&collect_neighbors_mem, n);
+   08CA E5*00              2136 	mov	a,_bp
+   08CC 24 04              2137 	add	a,#0x04
+   08CE F8                 2138 	mov	r0,a
+   08CF 86 02              2139 	mov	ar2,@r0
+   08D1 08                 2140 	inc	r0
+   08D2 86 03              2141 	mov	ar3,@r0
+   08D4 08                 2142 	inc	r0
+   08D5 86 04              2143 	mov	ar4,@r0
+   08D7 C0 02              2144 	push	ar2
+   08D9 C0 03              2145 	push	ar3
+   08DB C0 04              2146 	push	ar4
+   08DD 90s00r00           2147 	mov	dptr,#_collect_neighbors_mem
+   08E0 75 F0 00           2148 	mov	b,#0x00
+   08E3 12s00r00           2149 	lcall	_memb_free
+   08E6 15 81              2150 	dec	sp
+   08E8 15 81              2151 	dec	sp
+   08EA 15 81              2152 	dec	sp
+   08EC                    2153 00103$:
+   08EC 85*00 81           2154 	mov	sp,_bp
+   08EF D0*00              2155 	pop	_bp
+   08F1 22                 2156 	ret
+                           2157 ;------------------------------------------------------------
+                           2158 ;Allocation info for local variables in function 'collect_neighbor_list_best'
+                           2159 ;------------------------------------------------------------
+                           2160 ;neighbors_list            Allocated to registers r5 r6 r7 
+                           2161 ;found                     Allocated to registers 
+                           2162 ;n                         Allocated to stack - _bp +1
+                           2163 ;best                      Allocated to stack - _bp +4
+                           2164 ;rtmetric                  Allocated to registers r3 r4 
+                           2165 ;------------------------------------------------------------
+                           2166 ;	../../core/net/rime/collect-neighbor.c:239: collect_neighbor_list_best(struct collect_neighbor_list *neighbors_list)
+                           2167 ;	-----------------------------------------
+                           2168 ;	 function collect_neighbor_list_best
+                           2169 ;	-----------------------------------------
+   08F2                    2170 _collect_neighbor_list_best:
+   08F2 C0*00              2171 	push	_bp
+   08F4 E5 81              2172 	mov	a,sp
+   08F6 F5*00              2173 	mov	_bp,a
+   08F8 24 06              2174 	add	a,#0x06
+   08FA F5 81              2175 	mov	sp,a
+   08FC AD 82              2176 	mov	r5,dpl
+   08FE AE 83              2177 	mov	r6,dph
+   0900 AF F0              2178 	mov	r7,b
+                           2179 ;	../../core/net/rime/collect-neighbor.c:245: rtmetric = RTMETRIC_MAX;
+   0902 7B FF              2180 	mov	r3,#0xFF
+   0904 7C 01              2181 	mov	r4,#0x01
+                           2182 ;	../../core/net/rime/collect-neighbor.c:246: best = NULL;
+   0906 E5*00              2183 	mov	a,_bp
+   0908 24 04              2184 	add	a,#0x04
+   090A F8                 2185 	mov	r0,a
+   090B E4                 2186 	clr	a
+   090C F6                 2187 	mov	@r0,a
+   090D 08                 2188 	inc	r0
+   090E F6                 2189 	mov	@r0,a
+   090F 08                 2190 	inc	r0
+   0910 76 00              2191 	mov	@r0,#0x00
+                           2192 ;	../../core/net/rime/collect-neighbor.c:253: for(n = list_head(neighbors_list->list); n != NULL; n = list_item_next(n)) {
+   0912 74 03              2193 	mov	a,#0x03
+   0914 2D                 2194 	add	a,r5
+   0915 FD                 2195 	mov	r5,a
+   0916 E4                 2196 	clr	a
+   0917 3E                 2197 	addc	a,r6
+   0918 FE                 2198 	mov	r6,a
+   0919 8D 82              2199 	mov	dpl,r5
+   091B 8E 83              2200 	mov	dph,r6
+   091D 8F F0              2201 	mov	b,r7
+   091F 12s00r00           2202 	lcall	__gptrget
+   0922 FD                 2203 	mov	r5,a
+   0923 A3                 2204 	inc	dptr
+   0924 12s00r00           2205 	lcall	__gptrget
+   0927 FE                 2206 	mov	r6,a
+   0928 A3                 2207 	inc	dptr
+   0929 12s00r00           2208 	lcall	__gptrget
+   092C FF                 2209 	mov	r7,a
+   092D 8D 82              2210 	mov	dpl,r5
+   092F 8E 83              2211 	mov	dph,r6
+   0931 8F F0              2212 	mov	b,r7
+   0933 C0 04              2213 	push	ar4
+   0935 C0 03              2214 	push	ar3
+   0937 12s00r00           2215 	lcall	_list_head
+   093A AD 82              2216 	mov	r5,dpl
+   093C AE 83              2217 	mov	r6,dph
+   093E AF F0              2218 	mov	r7,b
+   0940 D0 03              2219 	pop	ar3
+   0942 D0 04              2220 	pop	ar4
+   0944 A8*00              2221 	mov	r0,_bp
+   0946 08                 2222 	inc	r0
+   0947 A6 05              2223 	mov	@r0,ar5
+   0949 08                 2224 	inc	r0
+   094A A6 06              2225 	mov	@r0,ar6
+   094C 08                 2226 	inc	r0
+   094D A6 07              2227 	mov	@r0,ar7
+   094F                    2228 00103$:
+   094F A8*00              2229 	mov	r0,_bp
+   0951 08                 2230 	inc	r0
+   0952 E4                 2231 	clr	a
+   0953 C0 E0              2232 	push	acc
+   0955 E4                 2233 	clr	a
+   0956 C0 E0              2234 	push	acc
+   0958 E4                 2235 	clr	a
+   0959 C0 E0              2236 	push	acc
+   095B 86 82              2237 	mov	dpl,@r0
+   095D 08                 2238 	inc	r0
+   095E 86 83              2239 	mov	dph,@r0
+   0960 08                 2240 	inc	r0
+   0961 86 F0              2241 	mov	b,@r0
+   0963 12s00r00           2242 	lcall	___gptr_cmp
+   0966 15 81              2243 	dec	sp
+   0968 15 81              2244 	dec	sp
+   096A 15 81              2245 	dec	sp
+   096C 60 79              2246 	jz	00106$
+                           2247 ;	../../core/net/rime/collect-neighbor.c:258: if(collect_neighbor_rtmetric_link_estimate(n) < rtmetric) {
+   096E A8*00              2248 	mov	r0,_bp
+   0970 08                 2249 	inc	r0
+   0971 86 82              2250 	mov	dpl,@r0
+   0973 08                 2251 	inc	r0
+   0974 86 83              2252 	mov	dph,@r0
+   0976 08                 2253 	inc	r0
+   0977 86 F0              2254 	mov	b,@r0
+   0979 C0 04              2255 	push	ar4
+   097B C0 03              2256 	push	ar3
+   097D 12s0Dr04           2257 	lcall	_collect_neighbor_rtmetric_link_estimate
+   0980 AA 82              2258 	mov	r2,dpl
+   0982 AF 83              2259 	mov	r7,dph
+   0984 D0 03              2260 	pop	ar3
+   0986 D0 04              2261 	pop	ar4
+   0988 C3                 2262 	clr	c
+   0989 EA                 2263 	mov	a,r2
+   098A 9B                 2264 	subb	a,r3
+   098B EF                 2265 	mov	a,r7
+   098C 9C                 2266 	subb	a,r4
+   098D 50 28              2267 	jnc	00105$
+                           2268 ;	../../core/net/rime/collect-neighbor.c:259: rtmetric = collect_neighbor_rtmetric_link_estimate(n);
+   098F A8*00              2269 	mov	r0,_bp
+   0991 08                 2270 	inc	r0
+   0992 86 82              2271 	mov	dpl,@r0
+   0994 08                 2272 	inc	r0
+   0995 86 83              2273 	mov	dph,@r0
+   0997 08                 2274 	inc	r0
+   0998 86 F0              2275 	mov	b,@r0
+   099A 12s0Dr04           2276 	lcall	_collect_neighbor_rtmetric_link_estimate
+   099D AE 82              2277 	mov	r6,dpl
+   099F AF 83              2278 	mov	r7,dph
+   09A1 8E 03              2279 	mov	ar3,r6
+   09A3 8F 04              2280 	mov	ar4,r7
+                           2281 ;	../../core/net/rime/collect-neighbor.c:260: best = n;
+   09A5 A8*00              2282 	mov	r0,_bp
+   09A7 08                 2283 	inc	r0
+   09A8 E5*00              2284 	mov	a,_bp
+   09AA 24 04              2285 	add	a,#0x04
+   09AC F9                 2286 	mov	r1,a
+   09AD E6                 2287 	mov	a,@r0
+   09AE F7                 2288 	mov	@r1,a
+   09AF 08                 2289 	inc	r0
+   09B0 09                 2290 	inc	r1
+   09B1 E6                 2291 	mov	a,@r0
+   09B2 F7                 2292 	mov	@r1,a
+   09B3 08                 2293 	inc	r0
+   09B4 09                 2294 	inc	r1
+   09B5 E6                 2295 	mov	a,@r0
+   09B6 F7                 2296 	mov	@r1,a
+   09B7                    2297 00105$:
+                           2298 ;	../../core/net/rime/collect-neighbor.c:253: for(n = list_head(neighbors_list->list); n != NULL; n = list_item_next(n)) {
+   09B7 A8*00              2299 	mov	r0,_bp
+   09B9 08                 2300 	inc	r0
+   09BA 86 05              2301 	mov	ar5,@r0
+   09BC 08                 2302 	inc	r0
+   09BD 86 06              2303 	mov	ar6,@r0
+   09BF 08                 2304 	inc	r0
+   09C0 86 07              2305 	mov	ar7,@r0
+   09C2 8D 82              2306 	mov	dpl,r5
+   09C4 8E 83              2307 	mov	dph,r6
+   09C6 8F F0              2308 	mov	b,r7
+   09C8 C0 04              2309 	push	ar4
+   09CA C0 03              2310 	push	ar3
+   09CC 12s00r00           2311 	lcall	_list_item_next
+   09CF AD 82              2312 	mov	r5,dpl
+   09D1 AE 83              2313 	mov	r6,dph
+   09D3 AF F0              2314 	mov	r7,b
+   09D5 D0 03              2315 	pop	ar3
+   09D7 D0 04              2316 	pop	ar4
+   09D9 A8*00              2317 	mov	r0,_bp
+   09DB 08                 2318 	inc	r0
+   09DC A6 05              2319 	mov	@r0,ar5
+   09DE 08                 2320 	inc	r0
+   09DF A6 06              2321 	mov	@r0,ar6
+   09E1 08                 2322 	inc	r0
+   09E2 A6 07              2323 	mov	@r0,ar7
+   09E4 02s09r4F           2324 	ljmp	00103$
+   09E7                    2325 00106$:
+                           2326 ;	../../core/net/rime/collect-neighbor.c:265: return best;
+   09E7 E5*00              2327 	mov	a,_bp
+   09E9 24 04              2328 	add	a,#0x04
+   09EB F8                 2329 	mov	r0,a
+   09EC 86 82              2330 	mov	dpl,@r0
+   09EE 08                 2331 	inc	r0
+   09EF 86 83              2332 	mov	dph,@r0
+   09F1 08                 2333 	inc	r0
+   09F2 86 F0              2334 	mov	b,@r0
+   09F4 85*00 81           2335 	mov	sp,_bp
+   09F7 D0*00              2336 	pop	_bp
+   09F9 22                 2337 	ret
+                           2338 ;------------------------------------------------------------
+                           2339 ;Allocation info for local variables in function 'collect_neighbor_list_num'
+                           2340 ;------------------------------------------------------------
+                           2341 ;neighbors_list            Allocated to registers r5 r6 r7 
+                           2342 ;------------------------------------------------------------
+                           2343 ;	../../core/net/rime/collect-neighbor.c:269: collect_neighbor_list_num(struct collect_neighbor_list *neighbors_list)
+                           2344 ;	-----------------------------------------
+                           2345 ;	 function collect_neighbor_list_num
+                           2346 ;	-----------------------------------------
+   09FA                    2347 _collect_neighbor_list_num:
+   09FA AD 82              2348 	mov	r5,dpl
+   09FC AE 83              2349 	mov	r6,dph
+   09FE AF F0              2350 	mov	r7,b
+                           2351 ;	../../core/net/rime/collect-neighbor.c:272: return list_length(neighbors_list->list);
+   0A00 74 03              2352 	mov	a,#0x03
+   0A02 2D                 2353 	add	a,r5
+   0A03 FD                 2354 	mov	r5,a
+   0A04 E4                 2355 	clr	a
+   0A05 3E                 2356 	addc	a,r6
+   0A06 FE                 2357 	mov	r6,a
+   0A07 8D 82              2358 	mov	dpl,r5
+   0A09 8E 83              2359 	mov	dph,r6
+   0A0B 8F F0              2360 	mov	b,r7
+   0A0D 12s00r00           2361 	lcall	__gptrget
+   0A10 FD                 2362 	mov	r5,a
+   0A11 A3                 2363 	inc	dptr
+   0A12 12s00r00           2364 	lcall	__gptrget
+   0A15 FE                 2365 	mov	r6,a
+   0A16 A3                 2366 	inc	dptr
+   0A17 12s00r00           2367 	lcall	__gptrget
+   0A1A FF                 2368 	mov	r7,a
+   0A1B 8D 82              2369 	mov	dpl,r5
+   0A1D 8E 83              2370 	mov	dph,r6
+   0A1F 8F F0              2371 	mov	b,r7
+   0A21 02s00r00           2372 	ljmp	_list_length
+                           2373 ;------------------------------------------------------------
+                           2374 ;Allocation info for local variables in function 'collect_neighbor_list_get'
+                           2375 ;------------------------------------------------------------
+                           2376 ;num                       Allocated to stack - _bp -4
+                           2377 ;neighbors_list            Allocated to registers r5 r6 r7 
+                           2378 ;i                         Allocated to stack - _bp +1
+                           2379 ;n                         Allocated to registers r5 r6 r7 
+                           2380 ;------------------------------------------------------------
+                           2381 ;	../../core/net/rime/collect-neighbor.c:276: collect_neighbor_list_get(struct collect_neighbor_list *neighbors_list, int num)
+                           2382 ;	-----------------------------------------
+                           2383 ;	 function collect_neighbor_list_get
+                           2384 ;	-----------------------------------------
+   0A24                    2385 _collect_neighbor_list_get:
+   0A24 C0*00              2386 	push	_bp
+   0A26 85 81*00           2387 	mov	_bp,sp
+   0A29 05 81              2388 	inc	sp
+   0A2B 05 81              2389 	inc	sp
+   0A2D AD 82              2390 	mov	r5,dpl
+   0A2F AE 83              2391 	mov	r6,dph
+   0A31 AF F0              2392 	mov	r7,b
+                           2393 ;	../../core/net/rime/collect-neighbor.c:284: for(n = list_head(neighbors_list->list); n != NULL; n = list_item_next(n)) {
+   0A33 74 03              2394 	mov	a,#0x03
+   0A35 2D                 2395 	add	a,r5
+   0A36 FD                 2396 	mov	r5,a
+   0A37 E4                 2397 	clr	a
+   0A38 3E                 2398 	addc	a,r6
+   0A39 FE                 2399 	mov	r6,a
+   0A3A 8D 82              2400 	mov	dpl,r5
+   0A3C 8E 83              2401 	mov	dph,r6
+   0A3E 8F F0              2402 	mov	b,r7
+   0A40 12s00r00           2403 	lcall	__gptrget
+   0A43 FD                 2404 	mov	r5,a
+   0A44 A3                 2405 	inc	dptr
+   0A45 12s00r00           2406 	lcall	__gptrget
+   0A48 FE                 2407 	mov	r6,a
+   0A49 A3                 2408 	inc	dptr
+   0A4A 12s00r00           2409 	lcall	__gptrget
+   0A4D FF                 2410 	mov	r7,a
+   0A4E 8D 82              2411 	mov	dpl,r5
+   0A50 8E 83              2412 	mov	dph,r6
+   0A52 8F F0              2413 	mov	b,r7
+   0A54 12s00r00           2414 	lcall	_list_head
+   0A57 AD 82              2415 	mov	r5,dpl
+   0A59 AE 83              2416 	mov	r6,dph
+   0A5B AF F0              2417 	mov	r7,b
+   0A5D A8*00              2418 	mov	r0,_bp
+   0A5F 08                 2419 	inc	r0
+   0A60 E4                 2420 	clr	a
+   0A61 F6                 2421 	mov	@r0,a
+   0A62 08                 2422 	inc	r0
+   0A63 F6                 2423 	mov	@r0,a
+   0A64                    2424 00103$:
+   0A64 E4                 2425 	clr	a
+   0A65 C0 E0              2426 	push	acc
+   0A67 E4                 2427 	clr	a
+   0A68 C0 E0              2428 	push	acc
+   0A6A E4                 2429 	clr	a
+   0A6B C0 E0              2430 	push	acc
+   0A6D 8D 82              2431 	mov	dpl,r5
+   0A6F 8E 83              2432 	mov	dph,r6
+   0A71 8F F0              2433 	mov	b,r7
+   0A73 12s00r00           2434 	lcall	___gptr_cmp
+   0A76 15 81              2435 	dec	sp
+   0A78 15 81              2436 	dec	sp
+   0A7A 15 81              2437 	dec	sp
+   0A7C 60 48              2438 	jz	00106$
+                           2439 ;	../../core/net/rime/collect-neighbor.c:285: if(i == num) {
+   0A7E A8*00              2440 	mov	r0,_bp
+   0A80 08                 2441 	inc	r0
+   0A81 E5*00              2442 	mov	a,_bp
+   0A83 24 FC              2443 	add	a,#0xfc
+   0A85 F9                 2444 	mov	r1,a
+   0A86 86 F0              2445 	mov	b,@r0
+   0A88 E7                 2446 	mov	a,@r1
+   0A89 B5 F0 0A           2447 	cjne	a,b,00116$
+   0A8C 08                 2448 	inc	r0
+   0A8D 86 F0              2449 	mov	b,@r0
+   0A8F 09                 2450 	inc	r1
+   0A90 E7                 2451 	mov	a,@r1
+   0A91 B5 F0 02           2452 	cjne	a,b,00116$
+   0A94 80 02              2453 	sjmp	00117$
+   0A96                    2454 00116$:
+   0A96 80 08              2455 	sjmp	00102$
+   0A98                    2456 00117$:
+                           2457 ;	../../core/net/rime/collect-neighbor.c:288: return n;
+   0A98 8D 82              2458 	mov	dpl,r5
+   0A9A 8E 83              2459 	mov	dph,r6
+   0A9C 8F F0              2460 	mov	b,r7
+   0A9E 80 2C              2461 	sjmp	00107$
+   0AA0                    2462 00102$:
+                           2463 ;	../../core/net/rime/collect-neighbor.c:290: i++;
+   0AA0 A8*00              2464 	mov	r0,_bp
+   0AA2 08                 2465 	inc	r0
+   0AA3 06                 2466 	inc	@r0
+   0AA4 B6 00 02           2467 	cjne	@r0,#0x00,00118$
+   0AA7 08                 2468 	inc	r0
+   0AA8 06                 2469 	inc	@r0
+   0AA9                    2470 00118$:
+                           2471 ;	../../core/net/rime/collect-neighbor.c:284: for(n = list_head(neighbors_list->list); n != NULL; n = list_item_next(n)) {
+   0AA9 8D 02              2472 	mov	ar2,r5
+   0AAB 8E 03              2473 	mov	ar3,r6
+   0AAD 8F 04              2474 	mov	ar4,r7
+   0AAF 8A 82              2475 	mov	dpl,r2
+   0AB1 8B 83              2476 	mov	dph,r3
+   0AB3 8C F0              2477 	mov	b,r4
+   0AB5 12s00r00           2478 	lcall	_list_item_next
+   0AB8 AA 82              2479 	mov	r2,dpl
+   0ABA AB 83              2480 	mov	r3,dph
+   0ABC AC F0              2481 	mov	r4,b
+   0ABE 8A 05              2482 	mov	ar5,r2
+   0AC0 8B 06              2483 	mov	ar6,r3
+   0AC2 8C 07              2484 	mov	ar7,r4
+   0AC4 80 9E              2485 	sjmp	00103$
+   0AC6                    2486 00106$:
+                           2487 ;	../../core/net/rime/collect-neighbor.c:292: return NULL;
+   0AC6 90 00 00           2488 	mov	dptr,#0x0000
+   0AC9 75 F0 00           2489 	mov	b,#0x00
+   0ACC                    2490 00107$:
+   0ACC 85*00 81           2491 	mov	sp,_bp
+   0ACF D0*00              2492 	pop	_bp
+   0AD1 22                 2493 	ret
+                           2494 ;------------------------------------------------------------
+                           2495 ;Allocation info for local variables in function 'collect_neighbor_list_purge'
+                           2496 ;------------------------------------------------------------
+                           2497 ;neighbors_list            Allocated to registers r5 r6 r7 
+                           2498 ;------------------------------------------------------------
+                           2499 ;	../../core/net/rime/collect-neighbor.c:296: collect_neighbor_list_purge(struct collect_neighbor_list *neighbors_list)
+                           2500 ;	-----------------------------------------
+                           2501 ;	 function collect_neighbor_list_purge
+                           2502 ;	-----------------------------------------
+   0AD2                    2503 _collect_neighbor_list_purge:
+   0AD2 AD 82              2504 	mov	r5,dpl
+   0AD4 AE 83              2505 	mov	r6,dph
+   0AD6 AF F0              2506 	mov	r7,b
+                           2507 ;	../../core/net/rime/collect-neighbor.c:298: while(list_head(neighbors_list->list) != NULL) {
+   0AD8 74 03              2508 	mov	a,#0x03
+   0ADA 2D                 2509 	add	a,r5
+   0ADB FD                 2510 	mov	r5,a
+   0ADC E4                 2511 	clr	a
+   0ADD 3E                 2512 	addc	a,r6
+   0ADE FE                 2513 	mov	r6,a
+   0ADF                    2514 00101$:
+   0ADF 8D 82              2515 	mov	dpl,r5
+   0AE1 8E 83              2516 	mov	dph,r6
+   0AE3 8F F0              2517 	mov	b,r7
+   0AE5 12s00r00           2518 	lcall	__gptrget
+   0AE8 FA                 2519 	mov	r2,a
+   0AE9 A3                 2520 	inc	dptr
+   0AEA 12s00r00           2521 	lcall	__gptrget
+   0AED FB                 2522 	mov	r3,a
+   0AEE A3                 2523 	inc	dptr
+   0AEF 12s00r00           2524 	lcall	__gptrget
+   0AF2 FC                 2525 	mov	r4,a
+   0AF3 8A 82              2526 	mov	dpl,r2
+   0AF5 8B 83              2527 	mov	dph,r3
+   0AF7 8C F0              2528 	mov	b,r4
+   0AF9 C0 07              2529 	push	ar7
+   0AFB C0 06              2530 	push	ar6
+   0AFD C0 05              2531 	push	ar5
+   0AFF 12s00r00           2532 	lcall	_list_head
+   0B02 AA 82              2533 	mov	r2,dpl
+   0B04 AB 83              2534 	mov	r3,dph
+   0B06 AC F0              2535 	mov	r4,b
+   0B08 D0 05              2536 	pop	ar5
+   0B0A D0 06              2537 	pop	ar6
+   0B0C D0 07              2538 	pop	ar7
+   0B0E EA                 2539 	mov	a,r2
+   0B0F 4B                 2540 	orl	a,r3
+   0B10 60 46              2541 	jz	00104$
+                           2542 ;	../../core/net/rime/collect-neighbor.c:299: memb_free(&collect_neighbors_mem, list_pop(neighbors_list->list));
+   0B12 8D 82              2543 	mov	dpl,r5
+   0B14 8E 83              2544 	mov	dph,r6
+   0B16 8F F0              2545 	mov	b,r7
+   0B18 12s00r00           2546 	lcall	__gptrget
+   0B1B FA                 2547 	mov	r2,a
+   0B1C A3                 2548 	inc	dptr
+   0B1D 12s00r00           2549 	lcall	__gptrget
+   0B20 FB                 2550 	mov	r3,a
+   0B21 A3                 2551 	inc	dptr
+   0B22 12s00r00           2552 	lcall	__gptrget
+   0B25 FC                 2553 	mov	r4,a
+   0B26 8A 82              2554 	mov	dpl,r2
+   0B28 8B 83              2555 	mov	dph,r3
+   0B2A 8C F0              2556 	mov	b,r4
+   0B2C C0 07              2557 	push	ar7
+   0B2E C0 06              2558 	push	ar6
+   0B30 C0 05              2559 	push	ar5
+   0B32 12s00r00           2560 	lcall	_list_pop
+   0B35 AA 82              2561 	mov	r2,dpl
+   0B37 AB 83              2562 	mov	r3,dph
+   0B39 AC F0              2563 	mov	r4,b
+   0B3B C0 02              2564 	push	ar2
+   0B3D C0 03              2565 	push	ar3
+   0B3F C0 04              2566 	push	ar4
+   0B41 90s00r00           2567 	mov	dptr,#_collect_neighbors_mem
+   0B44 75 F0 00           2568 	mov	b,#0x00
+   0B47 12s00r00           2569 	lcall	_memb_free
+   0B4A 15 81              2570 	dec	sp
+   0B4C 15 81              2571 	dec	sp
+   0B4E 15 81              2572 	dec	sp
+   0B50 D0 05              2573 	pop	ar5
+   0B52 D0 06              2574 	pop	ar6
+   0B54 D0 07              2575 	pop	ar7
+   0B56 80 87              2576 	sjmp	00101$
+   0B58                    2577 00104$:
+   0B58 22                 2578 	ret
+                           2579 ;------------------------------------------------------------
+                           2580 ;Allocation info for local variables in function 'collect_neighbor_update_rtmetric'
+                           2581 ;------------------------------------------------------------
+                           2582 ;rtmetric                  Allocated to stack - _bp -4
+                           2583 ;n                         Allocated to registers r5 r6 r7 
+                           2584 ;------------------------------------------------------------
+                           2585 ;	../../core/net/rime/collect-neighbor.c:304: collect_neighbor_update_rtmetric(struct collect_neighbor *n, uint16_t rtmetric)
+                           2586 ;	-----------------------------------------
+                           2587 ;	 function collect_neighbor_update_rtmetric
+                           2588 ;	-----------------------------------------
+   0B59                    2589 _collect_neighbor_update_rtmetric:
+   0B59 C0*00              2590 	push	_bp
+   0B5B 85 81*00           2591 	mov	_bp,sp
+   0B5E AD 82              2592 	mov	r5,dpl
+   0B60 AE 83              2593 	mov	r6,dph
+   0B62 AF F0              2594 	mov	r7,b
+                           2595 ;	../../core/net/rime/collect-neighbor.c:306: if(n != NULL) {
+   0B64 ED                 2596 	mov	a,r5
+   0B65 4E                 2597 	orl	a,r6
+   0B66 60 34              2598 	jz	00103$
+                           2599 ;	../../core/net/rime/collect-neighbor.c:310: n->rtmetric = rtmetric;
+   0B68 74 05              2600 	mov	a,#0x05
+   0B6A 2D                 2601 	add	a,r5
+   0B6B FA                 2602 	mov	r2,a
+   0B6C E4                 2603 	clr	a
+   0B6D 3E                 2604 	addc	a,r6
+   0B6E FB                 2605 	mov	r3,a
+   0B6F 8F 04              2606 	mov	ar4,r7
+   0B71 8A 82              2607 	mov	dpl,r2
+   0B73 8B 83              2608 	mov	dph,r3
+   0B75 8C F0              2609 	mov	b,r4
+   0B77 E5*00              2610 	mov	a,_bp
+   0B79 24 FC              2611 	add	a,#0xfc
+   0B7B F8                 2612 	mov	r0,a
+   0B7C E6                 2613 	mov	a,@r0
+   0B7D 12s00r00           2614 	lcall	__gptrput
+   0B80 A3                 2615 	inc	dptr
+   0B81 08                 2616 	inc	r0
+   0B82 E6                 2617 	mov	a,@r0
+   0B83 12s00r00           2618 	lcall	__gptrput
+                           2619 ;	../../core/net/rime/collect-neighbor.c:311: n->age = 0;
+   0B86 74 07              2620 	mov	a,#0x07
+   0B88 2D                 2621 	add	a,r5
+   0B89 FD                 2622 	mov	r5,a
+   0B8A E4                 2623 	clr	a
+   0B8B 3E                 2624 	addc	a,r6
+   0B8C FE                 2625 	mov	r6,a
+   0B8D 8D 82              2626 	mov	dpl,r5
+   0B8F 8E 83              2627 	mov	dph,r6
+   0B91 8F F0              2628 	mov	b,r7
+   0B93 E4                 2629 	clr	a
+   0B94 12s00r00           2630 	lcall	__gptrput
+   0B97 A3                 2631 	inc	dptr
+   0B98 E4                 2632 	clr	a
+   0B99 12s00r00           2633 	lcall	__gptrput
+   0B9C                    2634 00103$:
+   0B9C D0*00              2635 	pop	_bp
+   0B9E 22                 2636 	ret
+                           2637 ;------------------------------------------------------------
+                           2638 ;Allocation info for local variables in function 'collect_neighbor_tx_fail'
+                           2639 ;------------------------------------------------------------
+                           2640 ;num_tx                    Allocated to stack - _bp -4
+                           2641 ;n                         Allocated to stack - _bp +1
+                           2642 ;------------------------------------------------------------
+                           2643 ;	../../core/net/rime/collect-neighbor.c:316: collect_neighbor_tx_fail(struct collect_neighbor *n, uint16_t num_tx)
+                           2644 ;	-----------------------------------------
+                           2645 ;	 function collect_neighbor_tx_fail
+                           2646 ;	-----------------------------------------
+   0B9F                    2647 _collect_neighbor_tx_fail:
+   0B9F C0*00              2648 	push	_bp
+   0BA1 85 81*00           2649 	mov	_bp,sp
+   0BA4 C0 82              2650 	push	dpl
+   0BA6 C0 83              2651 	push	dph
+   0BA8 C0 F0              2652 	push	b
+                           2653 ;	../../core/net/rime/collect-neighbor.c:318: collect_link_estimate_update_tx_fail(&n->le, num_tx);
+   0BAA E5*00              2654 	mov	a,_bp
+   0BAC 24 FC              2655 	add	a,#0xfc
+   0BAE F8                 2656 	mov	r0,a
+   0BAF 86 04              2657 	mov	ar4,@r0
+   0BB1 A8*00              2658 	mov	r0,_bp
+   0BB3 08                 2659 	inc	r0
+   0BB4 74 0B              2660 	mov	a,#0x0B
+   0BB6 26                 2661 	add	a,@r0
+   0BB7 FA                 2662 	mov	r2,a
+   0BB8 E4                 2663 	clr	a
+   0BB9 08                 2664 	inc	r0
+   0BBA 36                 2665 	addc	a,@r0
+   0BBB FB                 2666 	mov	r3,a
+   0BBC 08                 2667 	inc	r0
+   0BBD 86 07              2668 	mov	ar7,@r0
+   0BBF C0 04              2669 	push	ar4
+   0BC1 8A 82              2670 	mov	dpl,r2
+   0BC3 8B 83              2671 	mov	dph,r3
+   0BC5 8F F0              2672 	mov	b,r7
+   0BC7 12s00r00           2673 	lcall	_collect_link_estimate_update_tx_fail
+   0BCA 15 81              2674 	dec	sp
+                           2675 ;	../../core/net/rime/collect-neighbor.c:319: n->le_age = 0;
+   0BCC A8*00              2676 	mov	r0,_bp
+   0BCE 08                 2677 	inc	r0
+   0BCF 74 09              2678 	mov	a,#0x09
+   0BD1 26                 2679 	add	a,@r0
+   0BD2 FD                 2680 	mov	r5,a
+   0BD3 E4                 2681 	clr	a
+   0BD4 08                 2682 	inc	r0
+   0BD5 36                 2683 	addc	a,@r0
+   0BD6 FE                 2684 	mov	r6,a
+   0BD7 08                 2685 	inc	r0
+   0BD8 86 07              2686 	mov	ar7,@r0
+   0BDA 8D 82              2687 	mov	dpl,r5
+   0BDC 8E 83              2688 	mov	dph,r6
+   0BDE 8F F0              2689 	mov	b,r7
+   0BE0 E4                 2690 	clr	a
+   0BE1 12s00r00           2691 	lcall	__gptrput
+   0BE4 A3                 2692 	inc	dptr
+   0BE5 E4                 2693 	clr	a
+   0BE6 12s00r00           2694 	lcall	__gptrput
+                           2695 ;	../../core/net/rime/collect-neighbor.c:320: n->age = 0;
+   0BE9 A8*00              2696 	mov	r0,_bp
+   0BEB 08                 2697 	inc	r0
+   0BEC 74 07              2698 	mov	a,#0x07
+   0BEE 26                 2699 	add	a,@r0
+   0BEF FD                 2700 	mov	r5,a
+   0BF0 E4                 2701 	clr	a
+   0BF1 08                 2702 	inc	r0
+   0BF2 36                 2703 	addc	a,@r0
+   0BF3 FE                 2704 	mov	r6,a
+   0BF4 08                 2705 	inc	r0
+   0BF5 86 07              2706 	mov	ar7,@r0
+   0BF7 8D 82              2707 	mov	dpl,r5
+   0BF9 8E 83              2708 	mov	dph,r6
+   0BFB 8F F0              2709 	mov	b,r7
+   0BFD E4                 2710 	clr	a
+   0BFE 12s00r00           2711 	lcall	__gptrput
+   0C01 A3                 2712 	inc	dptr
+   0C02 E4                 2713 	clr	a
+   0C03 12s00r00           2714 	lcall	__gptrput
+   0C06 85*00 81           2715 	mov	sp,_bp
+   0C09 D0*00              2716 	pop	_bp
+   0C0B 22                 2717 	ret
+                           2718 ;------------------------------------------------------------
+                           2719 ;Allocation info for local variables in function 'collect_neighbor_tx'
+                           2720 ;------------------------------------------------------------
+                           2721 ;num_tx                    Allocated to stack - _bp -4
+                           2722 ;n                         Allocated to stack - _bp +1
+                           2723 ;------------------------------------------------------------
+                           2724 ;	../../core/net/rime/collect-neighbor.c:324: collect_neighbor_tx(struct collect_neighbor *n, uint16_t num_tx)
+                           2725 ;	-----------------------------------------
+                           2726 ;	 function collect_neighbor_tx
+                           2727 ;	-----------------------------------------
+   0C0C                    2728 _collect_neighbor_tx:
+   0C0C C0*00              2729 	push	_bp
+   0C0E 85 81*00           2730 	mov	_bp,sp
+   0C11 C0 82              2731 	push	dpl
+   0C13 C0 83              2732 	push	dph
+   0C15 C0 F0              2733 	push	b
+                           2734 ;	../../core/net/rime/collect-neighbor.c:326: collect_link_estimate_update_tx(&n->le, num_tx);
+   0C17 E5*00              2735 	mov	a,_bp
+   0C19 24 FC              2736 	add	a,#0xfc
+   0C1B F8                 2737 	mov	r0,a
+   0C1C 86 04              2738 	mov	ar4,@r0
+   0C1E A8*00              2739 	mov	r0,_bp
+   0C20 08                 2740 	inc	r0
+   0C21 74 0B              2741 	mov	a,#0x0B
+   0C23 26                 2742 	add	a,@r0
+   0C24 FA                 2743 	mov	r2,a
+   0C25 E4                 2744 	clr	a
+   0C26 08                 2745 	inc	r0
+   0C27 36                 2746 	addc	a,@r0
+   0C28 FB                 2747 	mov	r3,a
+   0C29 08                 2748 	inc	r0
+   0C2A 86 07              2749 	mov	ar7,@r0
+   0C2C C0 04              2750 	push	ar4
+   0C2E 8A 82              2751 	mov	dpl,r2
+   0C30 8B 83              2752 	mov	dph,r3
+   0C32 8F F0              2753 	mov	b,r7
+   0C34 12s00r00           2754 	lcall	_collect_link_estimate_update_tx
+   0C37 15 81              2755 	dec	sp
+                           2756 ;	../../core/net/rime/collect-neighbor.c:327: n->le_age = 0;
+   0C39 A8*00              2757 	mov	r0,_bp
+   0C3B 08                 2758 	inc	r0
+   0C3C 74 09              2759 	mov	a,#0x09
+   0C3E 26                 2760 	add	a,@r0
+   0C3F FD                 2761 	mov	r5,a
+   0C40 E4                 2762 	clr	a
+   0C41 08                 2763 	inc	r0
+   0C42 36                 2764 	addc	a,@r0
+   0C43 FE                 2765 	mov	r6,a
+   0C44 08                 2766 	inc	r0
+   0C45 86 07              2767 	mov	ar7,@r0
+   0C47 8D 82              2768 	mov	dpl,r5
+   0C49 8E 83              2769 	mov	dph,r6
+   0C4B 8F F0              2770 	mov	b,r7
+   0C4D E4                 2771 	clr	a
+   0C4E 12s00r00           2772 	lcall	__gptrput
+   0C51 A3                 2773 	inc	dptr
+   0C52 E4                 2774 	clr	a
+   0C53 12s00r00           2775 	lcall	__gptrput
+                           2776 ;	../../core/net/rime/collect-neighbor.c:328: n->age = 0;
+   0C56 A8*00              2777 	mov	r0,_bp
+   0C58 08                 2778 	inc	r0
+   0C59 74 07              2779 	mov	a,#0x07
+   0C5B 26                 2780 	add	a,@r0
+   0C5C FD                 2781 	mov	r5,a
+   0C5D E4                 2782 	clr	a
+   0C5E 08                 2783 	inc	r0
+   0C5F 36                 2784 	addc	a,@r0
+   0C60 FE                 2785 	mov	r6,a
+   0C61 08                 2786 	inc	r0
+   0C62 86 07              2787 	mov	ar7,@r0
+   0C64 8D 82              2788 	mov	dpl,r5
+   0C66 8E 83              2789 	mov	dph,r6
+   0C68 8F F0              2790 	mov	b,r7
+   0C6A E4                 2791 	clr	a
+   0C6B 12s00r00           2792 	lcall	__gptrput
+   0C6E A3                 2793 	inc	dptr
+   0C6F E4                 2794 	clr	a
+   0C70 12s00r00           2795 	lcall	__gptrput
+   0C73 85*00 81           2796 	mov	sp,_bp
+   0C76 D0*00              2797 	pop	_bp
+   0C78 22                 2798 	ret
+                           2799 ;------------------------------------------------------------
+                           2800 ;Allocation info for local variables in function 'collect_neighbor_rx'
+                           2801 ;------------------------------------------------------------
+                           2802 ;n                         Allocated to registers r5 r6 r7 
+                           2803 ;------------------------------------------------------------
+                           2804 ;	../../core/net/rime/collect-neighbor.c:332: collect_neighbor_rx(struct collect_neighbor *n)
+                           2805 ;	-----------------------------------------
+                           2806 ;	 function collect_neighbor_rx
+                           2807 ;	-----------------------------------------
+   0C79                    2808 _collect_neighbor_rx:
+   0C79 AD 82              2809 	mov	r5,dpl
+   0C7B AE 83              2810 	mov	r6,dph
+   0C7D AF F0              2811 	mov	r7,b
+                           2812 ;	../../core/net/rime/collect-neighbor.c:334: collect_link_estimate_update_rx(&n->le);
+   0C7F 74 0B              2813 	mov	a,#0x0B
+   0C81 2D                 2814 	add	a,r5
+   0C82 FA                 2815 	mov	r2,a
+   0C83 E4                 2816 	clr	a
+   0C84 3E                 2817 	addc	a,r6
+   0C85 FB                 2818 	mov	r3,a
+   0C86 8F 04              2819 	mov	ar4,r7
+   0C88 8A 82              2820 	mov	dpl,r2
+   0C8A 8B 83              2821 	mov	dph,r3
+   0C8C 8C F0              2822 	mov	b,r4
+   0C8E C0 07              2823 	push	ar7
+   0C90 C0 06              2824 	push	ar6
+   0C92 C0 05              2825 	push	ar5
+   0C94 12s00r00           2826 	lcall	_collect_link_estimate_update_rx
+   0C97 D0 05              2827 	pop	ar5
+   0C99 D0 06              2828 	pop	ar6
+   0C9B D0 07              2829 	pop	ar7
+                           2830 ;	../../core/net/rime/collect-neighbor.c:335: n->age = 0;
+   0C9D 74 07              2831 	mov	a,#0x07
+   0C9F 2D                 2832 	add	a,r5
+   0CA0 FD                 2833 	mov	r5,a
+   0CA1 E4                 2834 	clr	a
+   0CA2 3E                 2835 	addc	a,r6
+   0CA3 FE                 2836 	mov	r6,a
+   0CA4 8D 82              2837 	mov	dpl,r5
+   0CA6 8E 83              2838 	mov	dph,r6
+   0CA8 8F F0              2839 	mov	b,r7
+   0CAA E4                 2840 	clr	a
+   0CAB 12s00r00           2841 	lcall	__gptrput
+   0CAE A3                 2842 	inc	dptr
+   0CAF E4                 2843 	clr	a
+   0CB0 02s00r00           2844 	ljmp	__gptrput
+                           2845 ;------------------------------------------------------------
+                           2846 ;Allocation info for local variables in function 'collect_neighbor_link_estimate'
+                           2847 ;------------------------------------------------------------
+                           2848 ;n                         Allocated to registers r5 r6 r7 
+                           2849 ;------------------------------------------------------------
+                           2850 ;	../../core/net/rime/collect-neighbor.c:339: collect_neighbor_link_estimate(struct collect_neighbor *n)
+                           2851 ;	-----------------------------------------
+                           2852 ;	 function collect_neighbor_link_estimate
+                           2853 ;	-----------------------------------------
+   0CB3                    2854 _collect_neighbor_link_estimate:
+                           2855 ;	../../core/net/rime/collect-neighbor.c:341: if(collect_neighbor_is_congested(n)) {
+   0CB3 AD 82              2856 	mov	r5,dpl
+   0CB5 AE 83              2857 	mov	r6,dph
+   0CB7 AF F0              2858 	mov	r7,b
+   0CB9 C0 07              2859 	push	ar7
+   0CBB C0 06              2860 	push	ar6
+   0CBD C0 05              2861 	push	ar5
+   0CBF 12s0Dr8A           2862 	lcall	_collect_neighbor_is_congested
+   0CC2 E5 82              2863 	mov	a,dpl
+   0CC4 85 83 F0           2864 	mov	b,dph
+   0CC7 D0 05              2865 	pop	ar5
+   0CC9 D0 06              2866 	pop	ar6
+   0CCB D0 07              2867 	pop	ar7
+   0CCD 45 F0              2868 	orl	a,b
+   0CCF 60 23              2869 	jz	00102$
+                           2870 ;	../../core/net/rime/collect-neighbor.c:346: return collect_link_estimate(&n->le) + CONGESTION_PENALTY;
+   0CD1 74 0B              2871 	mov	a,#0x0B
+   0CD3 2D                 2872 	add	a,r5
+   0CD4 FA                 2873 	mov	r2,a
+   0CD5 E4                 2874 	clr	a
+   0CD6 3E                 2875 	addc	a,r6
+   0CD7 FB                 2876 	mov	r3,a
+   0CD8 8F 04              2877 	mov	ar4,r7
+   0CDA 8A 82              2878 	mov	dpl,r2
+   0CDC 8B 83              2879 	mov	dph,r3
+   0CDE 8C F0              2880 	mov	b,r4
+   0CE0 12s00r00           2881 	lcall	_collect_link_estimate
+   0CE3 E5 82              2882 	mov	a,dpl
+   0CE5 85 83 F0           2883 	mov	b,dph
+   0CE8 24 40              2884 	add	a,#0x40
+   0CEA FB                 2885 	mov	r3,a
+   0CEB E4                 2886 	clr	a
+   0CEC 35 F0              2887 	addc	a,b
+   0CEE FC                 2888 	mov	r4,a
+   0CEF 8B 82              2889 	mov	dpl,r3
+   0CF1 8C 83              2890 	mov	dph,r4
+   0CF3 22                 2891 	ret
+   0CF4                    2892 00102$:
+                           2893 ;	../../core/net/rime/collect-neighbor.c:348: return collect_link_estimate(&n->le);
+   0CF4 74 0B              2894 	mov	a,#0x0B
+   0CF6 2D                 2895 	add	a,r5
+   0CF7 FD                 2896 	mov	r5,a
+   0CF8 E4                 2897 	clr	a
+   0CF9 3E                 2898 	addc	a,r6
+   0CFA FE                 2899 	mov	r6,a
+   0CFB 8D 82              2900 	mov	dpl,r5
+   0CFD 8E 83              2901 	mov	dph,r6
+   0CFF 8F F0              2902 	mov	b,r7
+   0D01 02s00r00           2903 	ljmp	_collect_link_estimate
+                           2904 ;------------------------------------------------------------
+                           2905 ;Allocation info for local variables in function 'collect_neighbor_rtmetric_link_estimate'
+                           2906 ;------------------------------------------------------------
+                           2907 ;n                         Allocated to registers r5 r6 r7 
+                           2908 ;------------------------------------------------------------
+                           2909 ;	../../core/net/rime/collect-neighbor.c:353: collect_neighbor_rtmetric_link_estimate(struct collect_neighbor *n)
+                           2910 ;	-----------------------------------------
+                           2911 ;	 function collect_neighbor_rtmetric_link_estimate
+                           2912 ;	-----------------------------------------
+   0D04                    2913 _collect_neighbor_rtmetric_link_estimate:
+   0D04 AD 82              2914 	mov	r5,dpl
+   0D06 AE 83              2915 	mov	r6,dph
+   0D08 AF F0              2916 	mov	r7,b
+                           2917 ;	../../core/net/rime/collect-neighbor.c:355: return n->rtmetric + collect_link_estimate(&n->le);
+   0D0A 74 05              2918 	mov	a,#0x05
+   0D0C 2D                 2919 	add	a,r5
+   0D0D FA                 2920 	mov	r2,a
+   0D0E E4                 2921 	clr	a
+   0D0F 3E                 2922 	addc	a,r6
+   0D10 FB                 2923 	mov	r3,a
+   0D11 8F 04              2924 	mov	ar4,r7
+   0D13 8A 82              2925 	mov	dpl,r2
+   0D15 8B 83              2926 	mov	dph,r3
+   0D17 8C F0              2927 	mov	b,r4
+   0D19 12s00r00           2928 	lcall	__gptrget
+   0D1C FA                 2929 	mov	r2,a
+   0D1D A3                 2930 	inc	dptr
+   0D1E 12s00r00           2931 	lcall	__gptrget
+   0D21 FB                 2932 	mov	r3,a
+   0D22 74 0B              2933 	mov	a,#0x0B
+   0D24 2D                 2934 	add	a,r5
+   0D25 FD                 2935 	mov	r5,a
+   0D26 E4                 2936 	clr	a
+   0D27 3E                 2937 	addc	a,r6
+   0D28 FE                 2938 	mov	r6,a
+   0D29 8D 82              2939 	mov	dpl,r5
+   0D2B 8E 83              2940 	mov	dph,r6
+   0D2D 8F F0              2941 	mov	b,r7
+   0D2F C0 03              2942 	push	ar3
+   0D31 C0 02              2943 	push	ar2
+   0D33 12s00r00           2944 	lcall	_collect_link_estimate
+   0D36 AE 82              2945 	mov	r6,dpl
+   0D38 AF 83              2946 	mov	r7,dph
+   0D3A D0 02              2947 	pop	ar2
+   0D3C D0 03              2948 	pop	ar3
+   0D3E EE                 2949 	mov	a,r6
+   0D3F 2A                 2950 	add	a,r2
+   0D40 FA                 2951 	mov	r2,a
+   0D41 EF                 2952 	mov	a,r7
+   0D42 3B                 2953 	addc	a,r3
+   0D43 8A 82              2954 	mov	dpl,r2
+   0D45 F5 83              2955 	mov	dph,a
+   0D47 22                 2956 	ret
+                           2957 ;------------------------------------------------------------
+                           2958 ;Allocation info for local variables in function 'collect_neighbor_rtmetric'
+                           2959 ;------------------------------------------------------------
+                           2960 ;n                         Allocated to registers r5 r6 r7 
+                           2961 ;------------------------------------------------------------
+                           2962 ;	../../core/net/rime/collect-neighbor.c:359: collect_neighbor_rtmetric(struct collect_neighbor *n)
+                           2963 ;	-----------------------------------------
+                           2964 ;	 function collect_neighbor_rtmetric
+                           2965 ;	-----------------------------------------
+   0D48                    2966 _collect_neighbor_rtmetric:
+   0D48 AD 82              2967 	mov	r5,dpl
+   0D4A AE 83              2968 	mov	r6,dph
+   0D4C AF F0              2969 	mov	r7,b
+                           2970 ;	../../core/net/rime/collect-neighbor.c:361: return n->rtmetric;
+   0D4E 74 05              2971 	mov	a,#0x05
+   0D50 2D                 2972 	add	a,r5
+   0D51 FD                 2973 	mov	r5,a
+   0D52 E4                 2974 	clr	a
+   0D53 3E                 2975 	addc	a,r6
+   0D54 FE                 2976 	mov	r6,a
+   0D55 8D 82              2977 	mov	dpl,r5
+   0D57 8E 83              2978 	mov	dph,r6
+   0D59 8F F0              2979 	mov	b,r7
+   0D5B 12s00r00           2980 	lcall	__gptrget
+   0D5E FD                 2981 	mov	r5,a
+   0D5F A3                 2982 	inc	dptr
+   0D60 12s00r00           2983 	lcall	__gptrget
+   0D63 8D 82              2984 	mov	dpl,r5
+   0D65 F5 83              2985 	mov	dph,a
+   0D67 22                 2986 	ret
+                           2987 ;------------------------------------------------------------
+                           2988 ;Allocation info for local variables in function 'collect_neighbor_set_congested'
+                           2989 ;------------------------------------------------------------
+                           2990 ;n                         Allocated to registers r5 r6 r7 
+                           2991 ;------------------------------------------------------------
+                           2992 ;	../../core/net/rime/collect-neighbor.c:365: collect_neighbor_set_congested(struct collect_neighbor *n)
+                           2993 ;	-----------------------------------------
+                           2994 ;	 function collect_neighbor_set_congested
+                           2995 ;	-----------------------------------------
+   0D68                    2996 _collect_neighbor_set_congested:
+   0D68 AD 82              2997 	mov	r5,dpl
+   0D6A AE 83              2998 	mov	r6,dph
+   0D6C AF F0              2999 	mov	r7,b
+                           3000 ;	../../core/net/rime/collect-neighbor.c:367: timer_set(&n->congested_timer, EXPECTED_CONGESTION_DURATION);
+   0D6E 74 10              3001 	mov	a,#0x10
+   0D70 2D                 3002 	add	a,r5
+   0D71 FD                 3003 	mov	r5,a
+   0D72 E4                 3004 	clr	a
+   0D73 3E                 3005 	addc	a,r6
+   0D74 FE                 3006 	mov	r6,a
+   0D75 E4                 3007 	clr	a
+   0D76 C0 E0              3008 	push	acc
+   0D78 74 78              3009 	mov	a,#0x78
+   0D7A C0 E0              3010 	push	acc
+   0D7C 8D 82              3011 	mov	dpl,r5
+   0D7E 8E 83              3012 	mov	dph,r6
+   0D80 8F F0              3013 	mov	b,r7
+   0D82 12s00r00           3014 	lcall	_timer_set
+   0D85 15 81              3015 	dec	sp
+   0D87 15 81              3016 	dec	sp
+   0D89 22                 3017 	ret
+                           3018 ;------------------------------------------------------------
+                           3019 ;Allocation info for local variables in function 'collect_neighbor_is_congested'
+                           3020 ;------------------------------------------------------------
+                           3021 ;n                         Allocated to registers r5 r6 r7 
+                           3022 ;------------------------------------------------------------
+                           3023 ;	../../core/net/rime/collect-neighbor.c:371: collect_neighbor_is_congested(struct collect_neighbor *n)
+                           3024 ;	-----------------------------------------
+                           3025 ;	 function collect_neighbor_is_congested
+                           3026 ;	-----------------------------------------
+   0D8A                    3027 _collect_neighbor_is_congested:
+   0D8A AD 82              3028 	mov	r5,dpl
+   0D8C AE 83              3029 	mov	r6,dph
+   0D8E AF F0              3030 	mov	r7,b
+                           3031 ;	../../core/net/rime/collect-neighbor.c:373: if(timer_expired(&n->congested_timer)) {
+   0D90 74 10              3032 	mov	a,#0x10
+   0D92 2D                 3033 	add	a,r5
+   0D93 FD                 3034 	mov	r5,a
+   0D94 E4                 3035 	clr	a
+   0D95 3E                 3036 	addc	a,r6
+   0D96 FE                 3037 	mov	r6,a
+   0D97 8D 82              3038 	mov	dpl,r5
+   0D99 8E 83              3039 	mov	dph,r6
+   0D9B 8F F0              3040 	mov	b,r7
+   0D9D 12s00r00           3041 	lcall	_timer_expired
+   0DA0 E5 82              3042 	mov	a,dpl
+   0DA2 85 83 F0           3043 	mov	b,dph
+   0DA5 45 F0              3044 	orl	a,b
+   0DA7 60 04              3045 	jz	00102$
+                           3046 ;	../../core/net/rime/collect-neighbor.c:374: return 0;
+   0DA9 90 00 00           3047 	mov	dptr,#0x0000
+   0DAC 22                 3048 	ret
+   0DAD                    3049 00102$:
+                           3050 ;	../../core/net/rime/collect-neighbor.c:376: return 1;
+   0DAD 90 00 01           3051 	mov	dptr,#0x0001
+   0DB0 22                 3052 	ret
+                           3053 	.area CSEG    (CODE)
+                           3054 	.area CONST   (CODE)
+                           3055 	.area XINIT   (CODE)
+   0000                    3056 __xinit__collect_neighbors_mem:
+   0000 14 00              3057 	.byte #0x14,#0x00	; 20
+   0002 08 00              3058 	.byte #0x08,#0x00	; 8
+   0004r00s00 00           3059 	.byte _collect_neighbors_mem_memb_count,(_collect_neighbors_mem_memb_count >> 8),#0x00
+   0007r08s00 00           3060 	.byte _collect_neighbors_mem_memb_mem,(_collect_neighbors_mem_memb_mem >> 8),#0x00
+                           3061 	.area CABS    (ABS,CODE)

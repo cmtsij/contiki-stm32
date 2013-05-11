@@ -1,0 +1,1085 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:16 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module netflood
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _netflood_cancel
+                             13 	.globl _ipolite_cancel
+                             14 	.globl _ipolite_send
+                             15 	.globl _ipolite_close
+                             16 	.globl _ipolite_open
+                             17 	.globl _queuebuf_free
+                             18 	.globl _queuebuf_to_packetbuf
+                             19 	.globl _queuebuf_new_from_packetbuf
+                             20 	.globl _packetbuf_hdrreduce
+                             21 	.globl _packetbuf_hdralloc
+                             22 	.globl _packetbuf_hdrptr
+                             23 	.globl _packetbuf_dataptr
+                             24 	.globl _rimeaddr_cmp
+                             25 	.globl _rimeaddr_copy
+                             26 	.globl _memcpy
+                             27 	.globl _netflood_open
+                             28 	.globl _netflood_close
+                             29 	.globl _netflood_send
+                             30 ;--------------------------------------------------------
+                             31 ; special function registers
+                             32 ;--------------------------------------------------------
+                             33 	.area RSEG    (ABS,DATA)
+   0000                      34 	.org 0x0000
+                             35 ;--------------------------------------------------------
+                             36 ; special function bits
+                             37 ;--------------------------------------------------------
+                             38 	.area RSEG    (ABS,DATA)
+   0000                      39 	.org 0x0000
+                             40 ;--------------------------------------------------------
+                             41 ; overlayable register banks
+                             42 ;--------------------------------------------------------
+                             43 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                      44 	.ds 8
+                             45 ;--------------------------------------------------------
+                             46 ; internal ram data
+                             47 ;--------------------------------------------------------
+                             48 	.area DSEG    (DATA)
+                             49 ;--------------------------------------------------------
+                             50 ; overlayable items in internal ram 
+                             51 ;--------------------------------------------------------
+                             52 	.area OSEG    (OVR,DATA)
+                             53 ;--------------------------------------------------------
+                             54 ; indirectly addressable internal ram data
+                             55 ;--------------------------------------------------------
+                             56 	.area ISEG    (DATA)
+                             57 ;--------------------------------------------------------
+                             58 ; absolute internal ram data
+                             59 ;--------------------------------------------------------
+                             60 	.area IABS    (ABS,DATA)
+                             61 	.area IABS    (ABS,DATA)
+                             62 ;--------------------------------------------------------
+                             63 ; bit data
+                             64 ;--------------------------------------------------------
+                             65 	.area BSEG    (BIT)
+                             66 ;--------------------------------------------------------
+                             67 ; paged external ram data
+                             68 ;--------------------------------------------------------
+                             69 	.area PSEG    (PAG,XDATA)
+                             70 ;--------------------------------------------------------
+                             71 ; external ram data
+                             72 ;--------------------------------------------------------
+                             73 	.area XSEG    (XDATA)
+                             74 ;--------------------------------------------------------
+                             75 ; absolute external ram data
+                             76 ;--------------------------------------------------------
+                             77 	.area XABS    (ABS,XDATA)
+                             78 ;--------------------------------------------------------
+                             79 ; external initialized ram data
+                             80 ;--------------------------------------------------------
+                             81 	.area XISEG   (XDATA)
+                             82 	.area HOME    (CODE)
+                             83 	.area GSINIT0 (CODE)
+                             84 	.area GSINIT1 (CODE)
+                             85 	.area GSINIT2 (CODE)
+                             86 	.area GSINIT3 (CODE)
+                             87 	.area GSINIT4 (CODE)
+                             88 	.area GSINIT5 (CODE)
+                             89 	.area GSINIT  (CODE)
+                             90 	.area GSFINAL (CODE)
+                             91 	.area CSEG    (CODE)
+                             92 ;--------------------------------------------------------
+                             93 ; global & static initialisations
+                             94 ;--------------------------------------------------------
+                             95 	.area HOME    (CODE)
+                             96 	.area GSINIT  (CODE)
+                             97 	.area GSFINAL (CODE)
+                             98 	.area GSINIT  (CODE)
+                             99 ;--------------------------------------------------------
+                            100 ; Home
+                            101 ;--------------------------------------------------------
+                            102 	.area HOME    (CODE)
+                            103 	.area HOME    (CODE)
+                            104 ;--------------------------------------------------------
+                            105 ; code
+                            106 ;--------------------------------------------------------
+                            107 	.area CSEG    (CODE)
+                            108 ;------------------------------------------------------------
+                            109 ;Allocation info for local variables in function 'send'
+                            110 ;------------------------------------------------------------
+                            111 ;c                         Allocated to registers r5 r6 r7 
+                            112 ;------------------------------------------------------------
+                            113 ;	../../core/net/rime/netflood.c:68: send(struct netflood_conn *c)
+                            114 ;	-----------------------------------------
+                            115 ;	 function send
+                            116 ;	-----------------------------------------
+   0000                     117 _send:
+                    0007    118 	ar7 = 0x07
+                    0006    119 	ar6 = 0x06
+                    0005    120 	ar5 = 0x05
+                    0004    121 	ar4 = 0x04
+                    0003    122 	ar3 = 0x03
+                    0002    123 	ar2 = 0x02
+                    0001    124 	ar1 = 0x01
+                    0000    125 	ar0 = 0x00
+   0000 AD 82               126 	mov	r5,dpl
+   0002 AE 83               127 	mov	r6,dph
+   0004 AF F0               128 	mov	r7,b
+                            129 ;	../../core/net/rime/netflood.c:72: return ipolite_send(&c->c, c->queue_time, 4);
+   0006 74 30               130 	mov	a,#0x30
+   0008 2D                  131 	add	a,r5
+   0009 FA                  132 	mov	r2,a
+   000A E4                  133 	clr	a
+   000B 3E                  134 	addc	a,r6
+   000C FB                  135 	mov	r3,a
+   000D 8F 04               136 	mov	ar4,r7
+   000F 8A 82               137 	mov	dpl,r2
+   0011 8B 83               138 	mov	dph,r3
+   0013 8C F0               139 	mov	b,r4
+   0015 12s00r00            140 	lcall	__gptrget
+   0018 FA                  141 	mov	r2,a
+   0019 A3                  142 	inc	dptr
+   001A 12s00r00            143 	lcall	__gptrget
+   001D FB                  144 	mov	r3,a
+   001E 74 04               145 	mov	a,#0x04
+   0020 C0 E0               146 	push	acc
+   0022 C0 02               147 	push	ar2
+   0024 C0 03               148 	push	ar3
+   0026 8D 82               149 	mov	dpl,r5
+   0028 8E 83               150 	mov	dph,r6
+   002A 8F F0               151 	mov	b,r7
+   002C 12s00r00            152 	lcall	_ipolite_send
+   002F AE 82               153 	mov	r6,dpl
+   0031 AF 83               154 	mov	r7,dph
+   0033 15 81               155 	dec	sp
+   0035 15 81               156 	dec	sp
+   0037 15 81               157 	dec	sp
+   0039 8E 82               158 	mov	dpl,r6
+   003B 8F 83               159 	mov	dph,r7
+   003D 22                  160 	ret
+                            161 ;------------------------------------------------------------
+                            162 ;Allocation info for local variables in function 'recv_from_ipolite'
+                            163 ;------------------------------------------------------------
+                            164 ;from                      Allocated to stack - _bp -5
+                            165 ;ipolite                   Allocated to registers r5 r6 r7 
+                            166 ;c                         Allocated to stack - _bp +1
+                            167 ;hdr                       Allocated to stack - _bp +4
+                            168 ;hops                      Allocated to stack - _bp +10
+                            169 ;queuebuf                  Allocated to stack - _bp +11
+                            170 ;------------------------------------------------------------
+                            171 ;	../../core/net/rime/netflood.c:76: recv_from_ipolite(struct ipolite_conn *ipolite, const rimeaddr_t *from)
+                            172 ;	-----------------------------------------
+                            173 ;	 function recv_from_ipolite
+                            174 ;	-----------------------------------------
+   003E                     175 _recv_from_ipolite:
+   003E C0*00               176 	push	_bp
+   0040 E5 81               177 	mov	a,sp
+   0042 F5*00               178 	mov	_bp,a
+   0044 24 0D               179 	add	a,#0x0D
+   0046 F5 81               180 	mov	sp,a
+   0048 AD 82               181 	mov	r5,dpl
+   004A AE 83               182 	mov	r6,dph
+   004C AF F0               183 	mov	r7,b
+                            184 ;	../../core/net/rime/netflood.c:78: struct netflood_conn *c = (struct netflood_conn *)ipolite;
+   004E A8*00               185 	mov	r0,_bp
+   0050 08                  186 	inc	r0
+   0051 A6 05               187 	mov	@r0,ar5
+   0053 08                  188 	inc	r0
+   0054 A6 06               189 	mov	@r0,ar6
+   0056 08                  190 	inc	r0
+   0057 A6 07               191 	mov	@r0,ar7
+                            192 ;	../../core/net/rime/netflood.c:83: memcpy(&hdr, packetbuf_dataptr(), sizeof(struct netflood_hdr));
+   0059 12s00r00            193 	lcall	_packetbuf_dataptr
+   005C AA 82               194 	mov	r2,dpl
+   005E AB 83               195 	mov	r3,dph
+   0060 AC F0               196 	mov	r4,b
+   0062 E5*00               197 	mov	a,_bp
+   0064 24 04               198 	add	a,#0x04
+   0066 FF                  199 	mov	r7,a
+   0067 7E 00               200 	mov	r6,#0x00
+   0069 7D 40               201 	mov	r5,#0x40
+   006B 74 06               202 	mov	a,#0x06
+   006D C0 E0               203 	push	acc
+   006F E4                  204 	clr	a
+   0070 C0 E0               205 	push	acc
+   0072 C0 02               206 	push	ar2
+   0074 C0 03               207 	push	ar3
+   0076 C0 04               208 	push	ar4
+   0078 8F 82               209 	mov	dpl,r7
+   007A 8E 83               210 	mov	dph,r6
+   007C 8D F0               211 	mov	b,r5
+   007E 12s00r00            212 	lcall	_memcpy
+   0081 E5 81               213 	mov	a,sp
+   0083 24 FB               214 	add	a,#0xfb
+   0085 F5 81               215 	mov	sp,a
+                            216 ;	../../core/net/rime/netflood.c:84: hops = hdr.hops;
+   0087 E5*00               217 	mov	a,_bp
+   0089 24 04               218 	add	a,#0x04
+   008B 24 04               219 	add	a,#0x04
+   008D F9                  220 	mov	r1,a
+   008E 87 06               221 	mov	ar6,@r1
+   0090 09                  222 	inc	r1
+   0091 87 07               223 	mov	ar7,@r1
+   0093 E5*00               224 	mov	a,_bp
+   0095 24 0A               225 	add	a,#0x0a
+   0097 F8                  226 	mov	r0,a
+   0098 A6 06               227 	mov	@r0,ar6
+                            228 ;	../../core/net/rime/netflood.c:87: queuebuf = queuebuf_new_from_packetbuf();
+   009A 12s00r00            229 	lcall	_queuebuf_new_from_packetbuf
+   009D AC 82               230 	mov	r4,dpl
+   009F AD 83               231 	mov	r5,dph
+   00A1 AF F0               232 	mov	r7,b
+   00A3 E5*00               233 	mov	a,_bp
+   00A5 24 0B               234 	add	a,#0x0b
+   00A7 F8                  235 	mov	r0,a
+   00A8 A6 04               236 	mov	@r0,ar4
+   00AA 08                  237 	inc	r0
+   00AB A6 05               238 	mov	@r0,ar5
+   00AD 08                  239 	inc	r0
+   00AE A6 07               240 	mov	@r0,ar7
+                            241 ;	../../core/net/rime/netflood.c:89: packetbuf_hdrreduce(sizeof(struct netflood_hdr));
+   00B0 90 00 06            242 	mov	dptr,#0x0006
+   00B3 12s00r00            243 	lcall	_packetbuf_hdrreduce
+                            244 ;	../../core/net/rime/netflood.c:90: if(c->u->recv != NULL) {
+   00B6 A8*00               245 	mov	r0,_bp
+   00B8 08                  246 	inc	r0
+   00B9 74 2D               247 	mov	a,#0x2D
+   00BB 26                  248 	add	a,@r0
+   00BC FA                  249 	mov	r2,a
+   00BD E4                  250 	clr	a
+   00BE 08                  251 	inc	r0
+   00BF 36                  252 	addc	a,@r0
+   00C0 FB                  253 	mov	r3,a
+   00C1 08                  254 	inc	r0
+   00C2 86 06               255 	mov	ar6,@r0
+   00C4 8A 82               256 	mov	dpl,r2
+   00C6 8B 83               257 	mov	dph,r3
+   00C8 8E F0               258 	mov	b,r6
+   00CA 12s00r00            259 	lcall	__gptrget
+   00CD FC                  260 	mov	r4,a
+   00CE A3                  261 	inc	dptr
+   00CF 12s00r00            262 	lcall	__gptrget
+   00D2 FD                  263 	mov	r5,a
+   00D3 A3                  264 	inc	dptr
+   00D4 12s00r00            265 	lcall	__gptrget
+   00D7 FF                  266 	mov	r7,a
+   00D8 8C 82               267 	mov	dpl,r4
+   00DA 8D 83               268 	mov	dph,r5
+   00DC 8F F0               269 	mov	b,r7
+   00DE 12s00r00            270 	lcall	__gptrget
+   00E1 FC                  271 	mov	r4,a
+   00E2 A3                  272 	inc	dptr
+   00E3 12s00r00            273 	lcall	__gptrget
+   00E6 FD                  274 	mov	r5,a
+   00E7 4C                  275 	orl	a,r4
+   00E8 70 03               276 	jnz	00128$
+   00EA 02s03r11            277 	ljmp	00111$
+   00ED                     278 00128$:
+                            279 ;	../../core/net/rime/netflood.c:91: if(!(rimeaddr_cmp(&hdr.originator, &c->last_originator) &&
+   00ED C0 02               280 	push	ar2
+   00EF C0 03               281 	push	ar3
+   00F1 C0 06               282 	push	ar6
+   00F3 A8*00               283 	mov	r0,_bp
+   00F5 08                  284 	inc	r0
+   00F6 74 32               285 	mov	a,#0x32
+   00F8 26                  286 	add	a,@r0
+   00F9 FC                  287 	mov	r4,a
+   00FA E4                  288 	clr	a
+   00FB 08                  289 	inc	r0
+   00FC 36                  290 	addc	a,@r0
+   00FD FD                  291 	mov	r5,a
+   00FE 08                  292 	inc	r0
+   00FF 86 07               293 	mov	ar7,@r0
+   0101 E5*00               294 	mov	a,_bp
+   0103 24 04               295 	add	a,#0x04
+   0105 24 02               296 	add	a,#0x02
+   0107 FE                  297 	mov	r6,a
+   0108 7B 00               298 	mov	r3,#0x00
+   010A 7A 40               299 	mov	r2,#0x40
+   010C C0 03               300 	push	ar3
+   010E C0 02               301 	push	ar2
+   0110 C0 04               302 	push	ar4
+   0112 C0 05               303 	push	ar5
+   0114 C0 07               304 	push	ar7
+   0116 8E 82               305 	mov	dpl,r6
+   0118 8B 83               306 	mov	dph,r3
+   011A 8A F0               307 	mov	b,r2
+   011C 12s00r00            308 	lcall	_rimeaddr_cmp
+   011F AE 82               309 	mov	r6,dpl
+   0121 AF 83               310 	mov	r7,dph
+   0123 15 81               311 	dec	sp
+   0125 15 81               312 	dec	sp
+   0127 15 81               313 	dec	sp
+   0129 D0 02               314 	pop	ar2
+   012B D0 03               315 	pop	ar3
+   012D EE                  316 	mov	a,r6
+   012E 4F                  317 	orl	a,r7
+   012F D0 06               318 	pop	ar6
+   0131 D0 03               319 	pop	ar3
+   0133 D0 02               320 	pop	ar2
+   0135 60 3A               321 	jz	00107$
+                            322 ;	../../core/net/rime/netflood.c:92: hdr.originator_seqno <= c->last_originator_seqno)) {
+   0137 C0 02               323 	push	ar2
+   0139 C0 03               324 	push	ar3
+   013B C0 06               325 	push	ar6
+   013D E5*00               326 	mov	a,_bp
+   013F 24 04               327 	add	a,#0x04
+   0141 F9                  328 	mov	r1,a
+   0142 87 05               329 	mov	ar5,@r1
+   0144 09                  330 	inc	r1
+   0145 87 07               331 	mov	ar7,@r1
+   0147 A8*00               332 	mov	r0,_bp
+   0149 08                  333 	inc	r0
+   014A 74 34               334 	mov	a,#0x34
+   014C 26                  335 	add	a,@r0
+   014D FB                  336 	mov	r3,a
+   014E E4                  337 	clr	a
+   014F 08                  338 	inc	r0
+   0150 36                  339 	addc	a,@r0
+   0151 FC                  340 	mov	r4,a
+   0152 08                  341 	inc	r0
+   0153 86 06               342 	mov	ar6,@r0
+   0155 8B 82               343 	mov	dpl,r3
+   0157 8C 83               344 	mov	dph,r4
+   0159 8E F0               345 	mov	b,r6
+   015B 12s00r00            346 	lcall	__gptrget
+   015E FB                  347 	mov	r3,a
+   015F 7E 00               348 	mov	r6,#0x00
+   0161 C3                  349 	clr	c
+   0162 EB                  350 	mov	a,r3
+   0163 9D                  351 	subb	a,r5
+   0164 EE                  352 	mov	a,r6
+   0165 9F                  353 	subb	a,r7
+   0166 D0 06               354 	pop	ar6
+   0168 D0 03               355 	pop	ar3
+   016A D0 02               356 	pop	ar2
+   016C 40 03               357 	jc	00130$
+   016E 02s03r11            358 	ljmp	00111$
+   0171                     359 00130$:
+   0171                     360 00107$:
+                            361 ;	../../core/net/rime/netflood.c:94: if(c->u->recv(c, from, &hdr.originator, hdr.originator_seqno,
+   0171 8A 82               362 	mov	dpl,r2
+   0173 8B 83               363 	mov	dph,r3
+   0175 8E F0               364 	mov	b,r6
+   0177 12s00r00            365 	lcall	__gptrget
+   017A FA                  366 	mov	r2,a
+   017B A3                  367 	inc	dptr
+   017C 12s00r00            368 	lcall	__gptrget
+   017F FB                  369 	mov	r3,a
+   0180 A3                  370 	inc	dptr
+   0181 12s00r00            371 	lcall	__gptrget
+   0184 FE                  372 	mov	r6,a
+   0185 8A 82               373 	mov	dpl,r2
+   0187 8B 83               374 	mov	dph,r3
+   0189 8E F0               375 	mov	b,r6
+   018B 12s00r00            376 	lcall	__gptrget
+   018E FA                  377 	mov	r2,a
+   018F A3                  378 	inc	dptr
+   0190 12s00r00            379 	lcall	__gptrget
+   0193 FB                  380 	mov	r3,a
+   0194 E5*00               381 	mov	a,_bp
+   0196 24 04               382 	add	a,#0x04
+   0198 F9                  383 	mov	r1,a
+   0199 87 06               384 	mov	ar6,@r1
+   019B 09                  385 	inc	r1
+   019C 87 07               386 	mov	ar7,@r1
+   019E E5*00               387 	mov	a,_bp
+   01A0 24 04               388 	add	a,#0x04
+   01A2 24 02               389 	add	a,#0x02
+   01A4 FF                  390 	mov	r7,a
+   01A5 7D 00               391 	mov	r5,#0x00
+   01A7 7C 40               392 	mov	r4,#0x40
+   01A9 E5*00               393 	mov	a,_bp
+   01AB 24 0A               394 	add	a,#0x0a
+   01AD F8                  395 	mov	r0,a
+   01AE E6                  396 	mov	a,@r0
+   01AF C0 E0               397 	push	acc
+   01B1 C0 06               398 	push	ar6
+   01B3 C0 07               399 	push	ar7
+   01B5 C0 05               400 	push	ar5
+   01B7 C0 04               401 	push	ar4
+   01B9 E5*00               402 	mov	a,_bp
+   01BB 24 FB               403 	add	a,#0xfb
+   01BD F8                  404 	mov	r0,a
+   01BE E6                  405 	mov	a,@r0
+   01BF C0 E0               406 	push	acc
+   01C1 08                  407 	inc	r0
+   01C2 E6                  408 	mov	a,@r0
+   01C3 C0 E0               409 	push	acc
+   01C5 08                  410 	inc	r0
+   01C6 E6                  411 	mov	a,@r0
+   01C7 C0 E0               412 	push	acc
+   01C9 74rE1               413 	mov	a,#00131$
+   01CB C0 E0               414 	push	acc
+   01CD 74s01               415 	mov	a,#(00131$ >> 8)
+   01CF C0 E0               416 	push	acc
+   01D1 C0 02               417 	push	ar2
+   01D3 C0 03               418 	push	ar3
+   01D5 A8*00               419 	mov	r0,_bp
+   01D7 08                  420 	inc	r0
+   01D8 86 82               421 	mov	dpl,@r0
+   01DA 08                  422 	inc	r0
+   01DB 86 83               423 	mov	dph,@r0
+   01DD 08                  424 	inc	r0
+   01DE 86 F0               425 	mov	b,@r0
+   01E0 22                  426 	ret
+   01E1                     427 00131$:
+   01E1 AA 82               428 	mov	r2,dpl
+   01E3 AB 83               429 	mov	r3,dph
+   01E5 E5 81               430 	mov	a,sp
+   01E7 24 F8               431 	add	a,#0xf8
+   01E9 F5 81               432 	mov	sp,a
+   01EB EA                  433 	mov	a,r2
+   01EC 4B                  434 	orl	a,r3
+   01ED 70 03               435 	jnz	00132$
+   01EF 02s03r11            436 	ljmp	00111$
+   01F2                     437 00132$:
+                            438 ;	../../core/net/rime/netflood.c:97: if(queuebuf != NULL) {
+   01F2 E5*00               439 	mov	a,_bp
+   01F4 24 0B               440 	add	a,#0x0b
+   01F6 F8                  441 	mov	r0,a
+   01F7 E6                  442 	mov	a,@r0
+   01F8 08                  443 	inc	r0
+   01F9 46                  444 	orl	a,@r0
+   01FA 70 03               445 	jnz	00133$
+   01FC 02s03r11            446 	ljmp	00111$
+   01FF                     447 00133$:
+                            448 ;	../../core/net/rime/netflood.c:98: queuebuf_to_packetbuf(queuebuf);
+   01FF E5*00               449 	mov	a,_bp
+   0201 24 0B               450 	add	a,#0x0b
+   0203 F8                  451 	mov	r0,a
+   0204 86 82               452 	mov	dpl,@r0
+   0206 08                  453 	inc	r0
+   0207 86 83               454 	mov	dph,@r0
+   0209 08                  455 	inc	r0
+   020A 86 F0               456 	mov	b,@r0
+   020C 12s00r00            457 	lcall	_queuebuf_to_packetbuf
+                            458 ;	../../core/net/rime/netflood.c:99: queuebuf_free(queuebuf);
+   020F E5*00               459 	mov	a,_bp
+   0211 24 0B               460 	add	a,#0x0b
+   0213 F8                  461 	mov	r0,a
+   0214 86 82               462 	mov	dpl,@r0
+   0216 08                  463 	inc	r0
+   0217 86 83               464 	mov	dph,@r0
+   0219 08                  465 	inc	r0
+   021A 86 F0               466 	mov	b,@r0
+   021C 12s00r00            467 	lcall	_queuebuf_free
+                            468 ;	../../core/net/rime/netflood.c:100: queuebuf = NULL;
+   021F E5*00               469 	mov	a,_bp
+   0221 24 0B               470 	add	a,#0x0b
+   0223 F8                  471 	mov	r0,a
+   0224 E4                  472 	clr	a
+   0225 F6                  473 	mov	@r0,a
+   0226 08                  474 	inc	r0
+   0227 F6                  475 	mov	@r0,a
+   0228 08                  476 	inc	r0
+   0229 76 00               477 	mov	@r0,#0x00
+                            478 ;	../../core/net/rime/netflood.c:101: memcpy(&hdr, packetbuf_dataptr(), sizeof(struct netflood_hdr));
+   022B 12s00r00            479 	lcall	_packetbuf_dataptr
+   022E AD 82               480 	mov	r5,dpl
+   0230 AE 83               481 	mov	r6,dph
+   0232 AF F0               482 	mov	r7,b
+   0234 E5*00               483 	mov	a,_bp
+   0236 24 04               484 	add	a,#0x04
+   0238 FC                  485 	mov	r4,a
+   0239 7B 00               486 	mov	r3,#0x00
+   023B 7A 40               487 	mov	r2,#0x40
+   023D 74 06               488 	mov	a,#0x06
+   023F C0 E0               489 	push	acc
+   0241 E4                  490 	clr	a
+   0242 C0 E0               491 	push	acc
+   0244 C0 05               492 	push	ar5
+   0246 C0 06               493 	push	ar6
+   0248 C0 07               494 	push	ar7
+   024A 8C 82               495 	mov	dpl,r4
+   024C 8B 83               496 	mov	dph,r3
+   024E 8A F0               497 	mov	b,r2
+   0250 12s00r00            498 	lcall	_memcpy
+   0253 E5 81               499 	mov	a,sp
+   0255 24 FB               500 	add	a,#0xfb
+   0257 F5 81               501 	mov	sp,a
+                            502 ;	../../core/net/rime/netflood.c:104: if(hops < HOPS_MAX) {
+   0259 E5*00               503 	mov	a,_bp
+   025B 24 0A               504 	add	a,#0x0a
+   025D F8                  505 	mov	r0,a
+   025E B6 10 00            506 	cjne	@r0,#0x10,00134$
+   0261                     507 00134$:
+   0261 40 03               508 	jc	00135$
+   0263 02s03r11            509 	ljmp	00111$
+   0266                     510 00135$:
+                            511 ;	../../core/net/rime/netflood.c:112: hdr.hops++;
+   0266 E5*00               512 	mov	a,_bp
+   0268 24 04               513 	add	a,#0x04
+   026A FF                  514 	mov	r7,a
+   026B 24 04               515 	add	a,#0x04
+   026D F9                  516 	mov	r1,a
+   026E 87 05               517 	mov	ar5,@r1
+   0270 09                  518 	inc	r1
+   0271 87 06               519 	mov	ar6,@r1
+   0273 19                  520 	dec	r1
+   0274 0D                  521 	inc	r5
+   0275 BD 00 01            522 	cjne	r5,#0x00,00136$
+   0278 0E                  523 	inc	r6
+   0279                     524 00136$:
+   0279 A7 05               525 	mov	@r1,ar5
+   027B 09                  526 	inc	r1
+   027C A7 06               527 	mov	@r1,ar6
+                            528 ;	../../core/net/rime/netflood.c:113: memcpy(packetbuf_dataptr(), &hdr, sizeof(struct netflood_hdr));
+   027E 7E 00               529 	mov	r6,#0x00
+   0280 7D 40               530 	mov	r5,#0x40
+   0282 C0 07               531 	push	ar7
+   0284 C0 06               532 	push	ar6
+   0286 C0 05               533 	push	ar5
+   0288 12s00r00            534 	lcall	_packetbuf_dataptr
+   028B AA 82               535 	mov	r2,dpl
+   028D AB 83               536 	mov	r3,dph
+   028F AC F0               537 	mov	r4,b
+   0291 D0 05               538 	pop	ar5
+   0293 D0 06               539 	pop	ar6
+   0295 D0 07               540 	pop	ar7
+   0297 74 06               541 	mov	a,#0x06
+   0299 C0 E0               542 	push	acc
+   029B E4                  543 	clr	a
+   029C C0 E0               544 	push	acc
+   029E C0 07               545 	push	ar7
+   02A0 C0 06               546 	push	ar6
+   02A2 C0 05               547 	push	ar5
+   02A4 8A 82               548 	mov	dpl,r2
+   02A6 8B 83               549 	mov	dph,r3
+   02A8 8C F0               550 	mov	b,r4
+   02AA 12s00r00            551 	lcall	_memcpy
+   02AD E5 81               552 	mov	a,sp
+   02AF 24 FB               553 	add	a,#0xfb
+   02B1 F5 81               554 	mov	sp,a
+                            555 ;	../../core/net/rime/netflood.c:114: send(c);
+   02B3 A8*00               556 	mov	r0,_bp
+   02B5 08                  557 	inc	r0
+   02B6 86 82               558 	mov	dpl,@r0
+   02B8 08                  559 	inc	r0
+   02B9 86 83               560 	mov	dph,@r0
+   02BB 08                  561 	inc	r0
+   02BC 86 F0               562 	mov	b,@r0
+   02BE 12s00r00            563 	lcall	_send
+                            564 ;	../../core/net/rime/netflood.c:115: rimeaddr_copy(&c->last_originator, &hdr.originator);
+   02C1 E5*00               565 	mov	a,_bp
+   02C3 24 04               566 	add	a,#0x04
+   02C5 24 02               567 	add	a,#0x02
+   02C7 FF                  568 	mov	r7,a
+   02C8 7E 00               569 	mov	r6,#0x00
+   02CA 7D 40               570 	mov	r5,#0x40
+   02CC A8*00               571 	mov	r0,_bp
+   02CE 08                  572 	inc	r0
+   02CF 74 32               573 	mov	a,#0x32
+   02D1 26                  574 	add	a,@r0
+   02D2 FA                  575 	mov	r2,a
+   02D3 E4                  576 	clr	a
+   02D4 08                  577 	inc	r0
+   02D5 36                  578 	addc	a,@r0
+   02D6 FB                  579 	mov	r3,a
+   02D7 08                  580 	inc	r0
+   02D8 86 04               581 	mov	ar4,@r0
+   02DA C0 07               582 	push	ar7
+   02DC C0 06               583 	push	ar6
+   02DE C0 05               584 	push	ar5
+   02E0 8A 82               585 	mov	dpl,r2
+   02E2 8B 83               586 	mov	dph,r3
+   02E4 8C F0               587 	mov	b,r4
+   02E6 12s00r00            588 	lcall	_rimeaddr_copy
+   02E9 15 81               589 	dec	sp
+   02EB 15 81               590 	dec	sp
+   02ED 15 81               591 	dec	sp
+                            592 ;	../../core/net/rime/netflood.c:116: c->last_originator_seqno = hdr.originator_seqno;
+   02EF A8*00               593 	mov	r0,_bp
+   02F1 08                  594 	inc	r0
+   02F2 74 34               595 	mov	a,#0x34
+   02F4 26                  596 	add	a,@r0
+   02F5 FD                  597 	mov	r5,a
+   02F6 E4                  598 	clr	a
+   02F7 08                  599 	inc	r0
+   02F8 36                  600 	addc	a,@r0
+   02F9 FE                  601 	mov	r6,a
+   02FA 08                  602 	inc	r0
+   02FB 86 07               603 	mov	ar7,@r0
+   02FD E5*00               604 	mov	a,_bp
+   02FF 24 04               605 	add	a,#0x04
+   0301 F9                  606 	mov	r1,a
+   0302 87 03               607 	mov	ar3,@r1
+   0304 09                  608 	inc	r1
+   0305 87 04               609 	mov	ar4,@r1
+   0307 8D 82               610 	mov	dpl,r5
+   0309 8E 83               611 	mov	dph,r6
+   030B 8F F0               612 	mov	b,r7
+   030D EB                  613 	mov	a,r3
+   030E 12s00r00            614 	lcall	__gptrput
+   0311                     615 00111$:
+                            616 ;	../../core/net/rime/netflood.c:122: if(queuebuf != NULL) {
+   0311 E5*00               617 	mov	a,_bp
+   0313 24 0B               618 	add	a,#0x0b
+   0315 F8                  619 	mov	r0,a
+   0316 E6                  620 	mov	a,@r0
+   0317 08                  621 	inc	r0
+   0318 46                  622 	orl	a,@r0
+   0319 60 10               623 	jz	00114$
+                            624 ;	../../core/net/rime/netflood.c:123: queuebuf_free(queuebuf);
+   031B E5*00               625 	mov	a,_bp
+   031D 24 0B               626 	add	a,#0x0b
+   031F F8                  627 	mov	r0,a
+   0320 86 82               628 	mov	dpl,@r0
+   0322 08                  629 	inc	r0
+   0323 86 83               630 	mov	dph,@r0
+   0325 08                  631 	inc	r0
+   0326 86 F0               632 	mov	b,@r0
+   0328 12s00r00            633 	lcall	_queuebuf_free
+   032B                     634 00114$:
+   032B 85*00 81            635 	mov	sp,_bp
+   032E D0*00               636 	pop	_bp
+   0330 22                  637 	ret
+                            638 ;------------------------------------------------------------
+                            639 ;Allocation info for local variables in function 'sent'
+                            640 ;------------------------------------------------------------
+                            641 ;ipolite                   Allocated to registers r5 r6 r7 
+                            642 ;c                         Allocated to registers r5 r6 r7 
+                            643 ;------------------------------------------------------------
+                            644 ;	../../core/net/rime/netflood.c:128: sent(struct ipolite_conn *ipolite)
+                            645 ;	-----------------------------------------
+                            646 ;	 function sent
+                            647 ;	-----------------------------------------
+   0331                     648 _sent:
+   0331 AD 82               649 	mov	r5,dpl
+   0333 AE 83               650 	mov	r6,dph
+   0335 AF F0               651 	mov	r7,b
+                            652 ;	../../core/net/rime/netflood.c:130: struct netflood_conn *c = (struct netflood_conn *)ipolite;
+                            653 ;	../../core/net/rime/netflood.c:131: if(c->u->sent != NULL) {
+   0337 74 2D               654 	mov	a,#0x2D
+   0339 2D                  655 	add	a,r5
+   033A FA                  656 	mov	r2,a
+   033B E4                  657 	clr	a
+   033C 3E                  658 	addc	a,r6
+   033D FB                  659 	mov	r3,a
+   033E 8F 04               660 	mov	ar4,r7
+   0340 8A 82               661 	mov	dpl,r2
+   0342 8B 83               662 	mov	dph,r3
+   0344 8C F0               663 	mov	b,r4
+   0346 12s00r00            664 	lcall	__gptrget
+   0349 FA                  665 	mov	r2,a
+   034A A3                  666 	inc	dptr
+   034B 12s00r00            667 	lcall	__gptrget
+   034E FB                  668 	mov	r3,a
+   034F A3                  669 	inc	dptr
+   0350 12s00r00            670 	lcall	__gptrget
+   0353 FC                  671 	mov	r4,a
+   0354 74 02               672 	mov	a,#0x02
+   0356 2A                  673 	add	a,r2
+   0357 FA                  674 	mov	r2,a
+   0358 E4                  675 	clr	a
+   0359 3B                  676 	addc	a,r3
+   035A FB                  677 	mov	r3,a
+   035B 8A 82               678 	mov	dpl,r2
+   035D 8B 83               679 	mov	dph,r3
+   035F 8C F0               680 	mov	b,r4
+   0361 12s00r00            681 	lcall	__gptrget
+   0364 FB                  682 	mov	r3,a
+   0365 A3                  683 	inc	dptr
+   0366 12s00r00            684 	lcall	__gptrget
+   0369 FC                  685 	mov	r4,a
+   036A 4B                  686 	orl	a,r3
+   036B 60 1B               687 	jz	00103$
+                            688 ;	../../core/net/rime/netflood.c:132: c->u->sent(c);
+   036D C0 04               689 	push	ar4
+   036F C0 03               690 	push	ar3
+   0371 74r84               691 	mov	a,#00108$
+   0373 C0 E0               692 	push	acc
+   0375 74s03               693 	mov	a,#(00108$ >> 8)
+   0377 C0 E0               694 	push	acc
+   0379 C0 03               695 	push	ar3
+   037B C0 04               696 	push	ar4
+   037D 8D 82               697 	mov	dpl,r5
+   037F 8E 83               698 	mov	dph,r6
+   0381 8F F0               699 	mov	b,r7
+   0383 22                  700 	ret
+   0384                     701 00108$:
+   0384 D0 03               702 	pop	ar3
+   0386 D0 04               703 	pop	ar4
+   0388                     704 00103$:
+   0388 22                  705 	ret
+                            706 ;------------------------------------------------------------
+                            707 ;Allocation info for local variables in function 'dropped'
+                            708 ;------------------------------------------------------------
+                            709 ;ipolite                   Allocated to registers r5 r6 r7 
+                            710 ;c                         Allocated to registers r5 r6 r7 
+                            711 ;------------------------------------------------------------
+                            712 ;	../../core/net/rime/netflood.c:137: dropped(struct ipolite_conn *ipolite)
+                            713 ;	-----------------------------------------
+                            714 ;	 function dropped
+                            715 ;	-----------------------------------------
+   0389                     716 _dropped:
+   0389 AD 82               717 	mov	r5,dpl
+   038B AE 83               718 	mov	r6,dph
+   038D AF F0               719 	mov	r7,b
+                            720 ;	../../core/net/rime/netflood.c:139: struct netflood_conn *c = (struct netflood_conn *)ipolite;
+                            721 ;	../../core/net/rime/netflood.c:140: if(c->u->dropped != NULL) {
+   038F 74 2D               722 	mov	a,#0x2D
+   0391 2D                  723 	add	a,r5
+   0392 FA                  724 	mov	r2,a
+   0393 E4                  725 	clr	a
+   0394 3E                  726 	addc	a,r6
+   0395 FB                  727 	mov	r3,a
+   0396 8F 04               728 	mov	ar4,r7
+   0398 8A 82               729 	mov	dpl,r2
+   039A 8B 83               730 	mov	dph,r3
+   039C 8C F0               731 	mov	b,r4
+   039E 12s00r00            732 	lcall	__gptrget
+   03A1 FA                  733 	mov	r2,a
+   03A2 A3                  734 	inc	dptr
+   03A3 12s00r00            735 	lcall	__gptrget
+   03A6 FB                  736 	mov	r3,a
+   03A7 A3                  737 	inc	dptr
+   03A8 12s00r00            738 	lcall	__gptrget
+   03AB FC                  739 	mov	r4,a
+   03AC 74 04               740 	mov	a,#0x04
+   03AE 2A                  741 	add	a,r2
+   03AF FA                  742 	mov	r2,a
+   03B0 E4                  743 	clr	a
+   03B1 3B                  744 	addc	a,r3
+   03B2 FB                  745 	mov	r3,a
+   03B3 8A 82               746 	mov	dpl,r2
+   03B5 8B 83               747 	mov	dph,r3
+   03B7 8C F0               748 	mov	b,r4
+   03B9 12s00r00            749 	lcall	__gptrget
+   03BC FB                  750 	mov	r3,a
+   03BD A3                  751 	inc	dptr
+   03BE 12s00r00            752 	lcall	__gptrget
+   03C1 FC                  753 	mov	r4,a
+   03C2 4B                  754 	orl	a,r3
+   03C3 60 1B               755 	jz	00103$
+                            756 ;	../../core/net/rime/netflood.c:141: c->u->dropped(c);
+   03C5 C0 04               757 	push	ar4
+   03C7 C0 03               758 	push	ar3
+   03C9 74rDC               759 	mov	a,#00108$
+   03CB C0 E0               760 	push	acc
+   03CD 74s03               761 	mov	a,#(00108$ >> 8)
+   03CF C0 E0               762 	push	acc
+   03D1 C0 03               763 	push	ar3
+   03D3 C0 04               764 	push	ar4
+   03D5 8D 82               765 	mov	dpl,r5
+   03D7 8E 83               766 	mov	dph,r6
+   03D9 8F F0               767 	mov	b,r7
+   03DB 22                  768 	ret
+   03DC                     769 00108$:
+   03DC D0 03               770 	pop	ar3
+   03DE D0 04               771 	pop	ar4
+   03E0                     772 00103$:
+   03E0 22                  773 	ret
+                            774 ;------------------------------------------------------------
+                            775 ;Allocation info for local variables in function 'netflood_open'
+                            776 ;------------------------------------------------------------
+                            777 ;queue_time                Allocated to stack - _bp -4
+                            778 ;channel                   Allocated to stack - _bp -6
+                            779 ;u                         Allocated to stack - _bp -9
+                            780 ;c                         Allocated to registers r5 r6 r7 
+                            781 ;------------------------------------------------------------
+                            782 ;	../../core/net/rime/netflood.c:148: netflood_open(struct netflood_conn *c, clock_time_t queue_time,
+                            783 ;	-----------------------------------------
+                            784 ;	 function netflood_open
+                            785 ;	-----------------------------------------
+   03E1                     786 _netflood_open:
+   03E1 C0*00               787 	push	_bp
+   03E3 85 81*00            788 	mov	_bp,sp
+   03E6 AD 82               789 	mov	r5,dpl
+   03E8 AE 83               790 	mov	r6,dph
+   03EA AF F0               791 	mov	r7,b
+                            792 ;	../../core/net/rime/netflood.c:151: ipolite_open(&c->c, channel, 1, &netflood);
+   03EC C0 07               793 	push	ar7
+   03EE C0 06               794 	push	ar6
+   03F0 C0 05               795 	push	ar5
+   03F2 74r00               796 	mov	a,#_netflood
+   03F4 C0 E0               797 	push	acc
+   03F6 74s00               798 	mov	a,#(_netflood >> 8)
+   03F8 C0 E0               799 	push	acc
+   03FA 74 80               800 	mov	a,#0x80
+   03FC C0 E0               801 	push	acc
+   03FE 74 01               802 	mov	a,#0x01
+   0400 C0 E0               803 	push	acc
+   0402 E5*00               804 	mov	a,_bp
+   0404 24 FA               805 	add	a,#0xfa
+   0406 F8                  806 	mov	r0,a
+   0407 E6                  807 	mov	a,@r0
+   0408 C0 E0               808 	push	acc
+   040A 08                  809 	inc	r0
+   040B E6                  810 	mov	a,@r0
+   040C C0 E0               811 	push	acc
+   040E 8D 82               812 	mov	dpl,r5
+   0410 8E 83               813 	mov	dph,r6
+   0412 8F F0               814 	mov	b,r7
+   0414 12s00r00            815 	lcall	_ipolite_open
+   0417 E5 81               816 	mov	a,sp
+   0419 24 FA               817 	add	a,#0xfa
+   041B F5 81               818 	mov	sp,a
+   041D D0 05               819 	pop	ar5
+   041F D0 06               820 	pop	ar6
+   0421 D0 07               821 	pop	ar7
+                            822 ;	../../core/net/rime/netflood.c:152: c->u = u;
+   0423 74 2D               823 	mov	a,#0x2D
+   0425 2D                  824 	add	a,r5
+   0426 FA                  825 	mov	r2,a
+   0427 E4                  826 	clr	a
+   0428 3E                  827 	addc	a,r6
+   0429 FB                  828 	mov	r3,a
+   042A 8F 04               829 	mov	ar4,r7
+   042C 8A 82               830 	mov	dpl,r2
+   042E 8B 83               831 	mov	dph,r3
+   0430 8C F0               832 	mov	b,r4
+   0432 E5*00               833 	mov	a,_bp
+   0434 24 F7               834 	add	a,#0xf7
+   0436 F8                  835 	mov	r0,a
+   0437 E6                  836 	mov	a,@r0
+   0438 12s00r00            837 	lcall	__gptrput
+   043B A3                  838 	inc	dptr
+   043C 08                  839 	inc	r0
+   043D E6                  840 	mov	a,@r0
+   043E 12s00r00            841 	lcall	__gptrput
+   0441 A3                  842 	inc	dptr
+   0442 08                  843 	inc	r0
+   0443 E6                  844 	mov	a,@r0
+   0444 12s00r00            845 	lcall	__gptrput
+                            846 ;	../../core/net/rime/netflood.c:153: c->queue_time = queue_time;
+   0447 74 30               847 	mov	a,#0x30
+   0449 2D                  848 	add	a,r5
+   044A FD                  849 	mov	r5,a
+   044B E4                  850 	clr	a
+   044C 3E                  851 	addc	a,r6
+   044D FE                  852 	mov	r6,a
+   044E 8D 82               853 	mov	dpl,r5
+   0450 8E 83               854 	mov	dph,r6
+   0452 8F F0               855 	mov	b,r7
+   0454 E5*00               856 	mov	a,_bp
+   0456 24 FC               857 	add	a,#0xfc
+   0458 F8                  858 	mov	r0,a
+   0459 E6                  859 	mov	a,@r0
+   045A 12s00r00            860 	lcall	__gptrput
+   045D A3                  861 	inc	dptr
+   045E 08                  862 	inc	r0
+   045F E6                  863 	mov	a,@r0
+   0460 12s00r00            864 	lcall	__gptrput
+   0463 D0*00               865 	pop	_bp
+   0465 22                  866 	ret
+                            867 ;------------------------------------------------------------
+                            868 ;Allocation info for local variables in function 'netflood_close'
+                            869 ;------------------------------------------------------------
+                            870 ;c                         Allocated to registers r5 r6 r7 
+                            871 ;------------------------------------------------------------
+                            872 ;	../../core/net/rime/netflood.c:157: netflood_close(struct netflood_conn *c)
+                            873 ;	-----------------------------------------
+                            874 ;	 function netflood_close
+                            875 ;	-----------------------------------------
+   0466                     876 _netflood_close:
+                            877 ;	../../core/net/rime/netflood.c:159: ipolite_close(&c->c);
+   0466 02s00r00            878 	ljmp	_ipolite_close
+                            879 ;------------------------------------------------------------
+                            880 ;Allocation info for local variables in function 'netflood_send'
+                            881 ;------------------------------------------------------------
+                            882 ;seqno                     Allocated to stack - _bp -3
+                            883 ;c                         Allocated to stack - _bp +1
+                            884 ;hdr                       Allocated to stack - _bp +4
+                            885 ;------------------------------------------------------------
+                            886 ;	../../core/net/rime/netflood.c:163: netflood_send(struct netflood_conn *c, uint8_t seqno)
+                            887 ;	-----------------------------------------
+                            888 ;	 function netflood_send
+                            889 ;	-----------------------------------------
+   0469                     890 _netflood_send:
+   0469 C0*00               891 	push	_bp
+   046B 85 81*00            892 	mov	_bp,sp
+   046E C0 82               893 	push	dpl
+   0470 C0 83               894 	push	dph
+   0472 C0 F0               895 	push	b
+   0474 05 81               896 	inc	sp
+   0476 05 81               897 	inc	sp
+   0478 05 81               898 	inc	sp
+                            899 ;	../../core/net/rime/netflood.c:165: if(packetbuf_hdralloc(sizeof(struct netflood_hdr))) {
+   047A 90 00 06            900 	mov	dptr,#0x0006
+   047D 12s00r00            901 	lcall	_packetbuf_hdralloc
+   0480 E5 82               902 	mov	a,dpl
+   0482 85 83 F0            903 	mov	b,dph
+   0485 45 F0               904 	orl	a,b
+   0487 70 03               905 	jnz	00107$
+   0489 02s05r7C            906 	ljmp	00102$
+   048C                     907 00107$:
+                            908 ;	../../core/net/rime/netflood.c:166: struct netflood_hdr *hdr = packetbuf_hdrptr();
+   048C 12s00r00            909 	lcall	_packetbuf_hdrptr
+   048F AA 82               910 	mov	r2,dpl
+   0491 AB 83               911 	mov	r3,dph
+   0493 AC F0               912 	mov	r4,b
+   0495 E5*00               913 	mov	a,_bp
+   0497 24 04               914 	add	a,#0x04
+   0499 F8                  915 	mov	r0,a
+   049A A6 02               916 	mov	@r0,ar2
+   049C 08                  917 	inc	r0
+   049D A6 03               918 	mov	@r0,ar3
+   049F 08                  919 	inc	r0
+   04A0 A6 04               920 	mov	@r0,ar4
+                            921 ;	../../core/net/rime/netflood.c:167: rimeaddr_copy(&hdr->originator, &rimeaddr_node_addr);
+   04A2 E5*00               922 	mov	a,_bp
+   04A4 24 04               923 	add	a,#0x04
+   04A6 F8                  924 	mov	r0,a
+   04A7 74 02               925 	mov	a,#0x02
+   04A9 26                  926 	add	a,@r0
+   04AA FD                  927 	mov	r5,a
+   04AB E4                  928 	clr	a
+   04AC 08                  929 	inc	r0
+   04AD 36                  930 	addc	a,@r0
+   04AE FE                  931 	mov	r6,a
+   04AF 08                  932 	inc	r0
+   04B0 86 07               933 	mov	ar7,@r0
+   04B2 74r00               934 	mov	a,#_rimeaddr_node_addr
+   04B4 C0 E0               935 	push	acc
+   04B6 74s00               936 	mov	a,#(_rimeaddr_node_addr >> 8)
+   04B8 C0 E0               937 	push	acc
+   04BA E4                  938 	clr	a
+   04BB C0 E0               939 	push	acc
+   04BD 8D 82               940 	mov	dpl,r5
+   04BF 8E 83               941 	mov	dph,r6
+   04C1 8F F0               942 	mov	b,r7
+   04C3 12s00r00            943 	lcall	_rimeaddr_copy
+   04C6 15 81               944 	dec	sp
+   04C8 15 81               945 	dec	sp
+   04CA 15 81               946 	dec	sp
+                            947 ;	../../core/net/rime/netflood.c:168: rimeaddr_copy(&c->last_originator, &hdr->originator);
+   04CC E5*00               948 	mov	a,_bp
+   04CE 24 04               949 	add	a,#0x04
+   04D0 F8                  950 	mov	r0,a
+   04D1 74 02               951 	mov	a,#0x02
+   04D3 26                  952 	add	a,@r0
+   04D4 FD                  953 	mov	r5,a
+   04D5 E4                  954 	clr	a
+   04D6 08                  955 	inc	r0
+   04D7 36                  956 	addc	a,@r0
+   04D8 FE                  957 	mov	r6,a
+   04D9 08                  958 	inc	r0
+   04DA 86 07               959 	mov	ar7,@r0
+   04DC A8*00               960 	mov	r0,_bp
+   04DE 08                  961 	inc	r0
+   04DF 74 32               962 	mov	a,#0x32
+   04E1 26                  963 	add	a,@r0
+   04E2 FA                  964 	mov	r2,a
+   04E3 E4                  965 	clr	a
+   04E4 08                  966 	inc	r0
+   04E5 36                  967 	addc	a,@r0
+   04E6 FB                  968 	mov	r3,a
+   04E7 08                  969 	inc	r0
+   04E8 86 04               970 	mov	ar4,@r0
+   04EA C0 05               971 	push	ar5
+   04EC C0 06               972 	push	ar6
+   04EE C0 07               973 	push	ar7
+   04F0 8A 82               974 	mov	dpl,r2
+   04F2 8B 83               975 	mov	dph,r3
+   04F4 8C F0               976 	mov	b,r4
+   04F6 12s00r00            977 	lcall	_rimeaddr_copy
+   04F9 15 81               978 	dec	sp
+   04FB 15 81               979 	dec	sp
+   04FD 15 81               980 	dec	sp
+                            981 ;	../../core/net/rime/netflood.c:169: c->last_originator_seqno = hdr->originator_seqno = seqno;
+   04FF A8*00               982 	mov	r0,_bp
+   0501 08                  983 	inc	r0
+   0502 74 34               984 	mov	a,#0x34
+   0504 26                  985 	add	a,@r0
+   0505 FD                  986 	mov	r5,a
+   0506 E4                  987 	clr	a
+   0507 08                  988 	inc	r0
+   0508 36                  989 	addc	a,@r0
+   0509 FE                  990 	mov	r6,a
+   050A 08                  991 	inc	r0
+   050B 86 07               992 	mov	ar7,@r0
+   050D E5*00               993 	mov	a,_bp
+   050F 24 FD               994 	add	a,#0xfd
+   0511 F8                  995 	mov	r0,a
+   0512 86 03               996 	mov	ar3,@r0
+   0514 7C 00               997 	mov	r4,#0x00
+   0516 E5*00               998 	mov	a,_bp
+   0518 24 04               999 	add	a,#0x04
+   051A F8                 1000 	mov	r0,a
+   051B 86 82              1001 	mov	dpl,@r0
+   051D 08                 1002 	inc	r0
+   051E 86 83              1003 	mov	dph,@r0
+   0520 08                 1004 	inc	r0
+   0521 86 F0              1005 	mov	b,@r0
+   0523 EB                 1006 	mov	a,r3
+   0524 12s00r00           1007 	lcall	__gptrput
+   0527 A3                 1008 	inc	dptr
+   0528 EC                 1009 	mov	a,r4
+   0529 12s00r00           1010 	lcall	__gptrput
+   052C 8D 82              1011 	mov	dpl,r5
+   052E 8E 83              1012 	mov	dph,r6
+   0530 8F F0              1013 	mov	b,r7
+   0532 EB                 1014 	mov	a,r3
+   0533 12s00r00           1015 	lcall	__gptrput
+                           1016 ;	../../core/net/rime/netflood.c:170: hdr->hops = 0;
+   0536 E5*00              1017 	mov	a,_bp
+   0538 24 04              1018 	add	a,#0x04
+   053A F8                 1019 	mov	r0,a
+   053B 74 04              1020 	mov	a,#0x04
+   053D 26                 1021 	add	a,@r0
+   053E FD                 1022 	mov	r5,a
+   053F E4                 1023 	clr	a
+   0540 08                 1024 	inc	r0
+   0541 36                 1025 	addc	a,@r0
+   0542 FE                 1026 	mov	r6,a
+   0543 08                 1027 	inc	r0
+   0544 86 07              1028 	mov	ar7,@r0
+   0546 8D 82              1029 	mov	dpl,r5
+   0548 8E 83              1030 	mov	dph,r6
+   054A 8F F0              1031 	mov	b,r7
+   054C E4                 1032 	clr	a
+   054D 12s00r00           1033 	lcall	__gptrput
+   0550 A3                 1034 	inc	dptr
+   0551 E4                 1035 	clr	a
+   0552 12s00r00           1036 	lcall	__gptrput
+                           1037 ;	../../core/net/rime/netflood.c:174: return ipolite_send(&c->c, 0, 4);
+   0555 74 04              1038 	mov	a,#0x04
+   0557 C0 E0              1039 	push	acc
+   0559 E4                 1040 	clr	a
+   055A C0 E0              1041 	push	acc
+   055C C0 E0              1042 	push	acc
+   055E A8*00              1043 	mov	r0,_bp
+   0560 08                 1044 	inc	r0
+   0561 86 82              1045 	mov	dpl,@r0
+   0563 08                 1046 	inc	r0
+   0564 86 83              1047 	mov	dph,@r0
+   0566 08                 1048 	inc	r0
+   0567 86 F0              1049 	mov	b,@r0
+   0569 12s00r00           1050 	lcall	_ipolite_send
+   056C AE 82              1051 	mov	r6,dpl
+   056E AF 83              1052 	mov	r7,dph
+   0570 15 81              1053 	dec	sp
+   0572 15 81              1054 	dec	sp
+   0574 15 81              1055 	dec	sp
+   0576 8E 82              1056 	mov	dpl,r6
+   0578 8F 83              1057 	mov	dph,r7
+   057A 80 03              1058 	sjmp	00103$
+   057C                    1059 00102$:
+                           1060 ;	../../core/net/rime/netflood.c:176: return 0;
+   057C 90 00 00           1061 	mov	dptr,#0x0000
+   057F                    1062 00103$:
+   057F 85*00 81           1063 	mov	sp,_bp
+   0582 D0*00              1064 	pop	_bp
+   0584 22                 1065 	ret
+                           1066 ;------------------------------------------------------------
+                           1067 ;Allocation info for local variables in function 'netflood_cancel'
+                           1068 ;------------------------------------------------------------
+                           1069 ;c                         Allocated to registers r5 r6 r7 
+                           1070 ;------------------------------------------------------------
+                           1071 ;	../../core/net/rime/netflood.c:180: netflood_cancel(struct netflood_conn *c)
+                           1072 ;	-----------------------------------------
+                           1073 ;	 function netflood_cancel
+                           1074 ;	-----------------------------------------
+   0585                    1075 _netflood_cancel:
+                           1076 ;	../../core/net/rime/netflood.c:182: ipolite_cancel(&c->c);
+   0585 02s00r00           1077 	ljmp	_ipolite_cancel
+                           1078 	.area CSEG    (CODE)
+                           1079 	.area CONST   (CODE)
+   0000                    1080 _netflood:
+   0000r3Es00              1081 	.byte _recv_from_ipolite,(_recv_from_ipolite >> 8)
+   0002r31s03              1082 	.byte _sent,(_sent >> 8)
+   0004r89s03              1083 	.byte _dropped,(_dropped >> 8)
+                           1084 	.area XINIT   (CODE)
+                           1085 	.area CABS    (ABS,CODE)

@@ -1,0 +1,2757 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:29 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module resolv
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _tcpip_poll_udp
+                             13 	.globl _udp_new
+                             14 	.globl _uip_htons
+                             15 	.globl _uip_send
+                             16 	.globl _etimer_set
+                             17 	.globl _process_alloc_event
+                             18 	.globl _process_post
+                             19 	.globl _memset
+                             20 	.globl _strcmp
+                             21 	.globl _strncpy
+                             22 	.globl _memcpy
+                             23 	.globl _IRCON2_P2IF
+                             24 	.globl _IRCON2_UTX0IF
+                             25 	.globl _IRCON2_UTX1IF
+                             26 	.globl _IRCON2_P1IF
+                             27 	.globl _IRCON2_WDTIF
+                             28 	.globl _CY
+                             29 	.globl _AC
+                             30 	.globl _F0
+                             31 	.globl _RS1
+                             32 	.globl _RS0
+                             33 	.globl _OV
+                             34 	.globl _F1
+                             35 	.globl _P
+                             36 	.globl _IRCON_DMAIF
+                             37 	.globl _IRCON_T1IF
+                             38 	.globl _IRCON_T2IF
+                             39 	.globl _IRCON_T3IF
+                             40 	.globl _IRCON_T4IF
+                             41 	.globl _IRCON_P0IF
+                             42 	.globl _IRCON_STIF
+                             43 	.globl _IEN1_DMAIE
+                             44 	.globl _IEN1_T1IE
+                             45 	.globl _IEN1_T2IE
+                             46 	.globl _IEN1_T3IE
+                             47 	.globl _IEN1_T4IE
+                             48 	.globl _IEN1_P0IE
+                             49 	.globl _IEN0_RFERRIE
+                             50 	.globl _IEN0_ADCIE
+                             51 	.globl _IEN0_URX0IE
+                             52 	.globl _IEN0_URX1IE
+                             53 	.globl _IEN0_ENCIE
+                             54 	.globl _IEN0_STIE
+                             55 	.globl _IEN0_EA
+                             56 	.globl _EA
+                             57 	.globl _P2_4
+                             58 	.globl _P2_3
+                             59 	.globl _P2_2
+                             60 	.globl _P2_1
+                             61 	.globl _P2_0
+                             62 	.globl _S0CON_ENCIF_0
+                             63 	.globl _S0CON_ENCIF_1
+                             64 	.globl _P1_7
+                             65 	.globl _P1_6
+                             66 	.globl _P1_5
+                             67 	.globl _P1_4
+                             68 	.globl _P1_3
+                             69 	.globl _P1_2
+                             70 	.globl _P1_1
+                             71 	.globl _P1_0
+                             72 	.globl _TCON_IT0
+                             73 	.globl _TCON_RFERRIF
+                             74 	.globl _TCON_IT1
+                             75 	.globl _TCON_URX0IF
+                             76 	.globl _TCON_ADCIF
+                             77 	.globl _TCON_URX1IF
+                             78 	.globl _P0_0
+                             79 	.globl _P0_1
+                             80 	.globl _P0_2
+                             81 	.globl _P0_3
+                             82 	.globl _P0_4
+                             83 	.globl _P0_5
+                             84 	.globl _P0_6
+                             85 	.globl _P0_7
+                             86 	.globl _P2DIR
+                             87 	.globl _P1DIR
+                             88 	.globl _P0DIR
+                             89 	.globl _U1GCR
+                             90 	.globl _U1UCR
+                             91 	.globl _U1BAUD
+                             92 	.globl _U1BUF
+                             93 	.globl _U1CSR
+                             94 	.globl _P2INP
+                             95 	.globl _P1INP
+                             96 	.globl _P2SEL
+                             97 	.globl _P1SEL
+                             98 	.globl _P0SEL
+                             99 	.globl _ADCCFG
+                            100 	.globl _PERCFG
+                            101 	.globl _B
+                            102 	.globl _T4CC1
+                            103 	.globl _T4CCTL1
+                            104 	.globl _T4CC0
+                            105 	.globl _T4CCTL0
+                            106 	.globl _T4CTL
+                            107 	.globl _T4CNT
+                            108 	.globl _RFIF
+                            109 	.globl _IRCON2
+                            110 	.globl _T1CCTL2
+                            111 	.globl _T1CCTL1
+                            112 	.globl _T1CCTL0
+                            113 	.globl _T1CTL
+                            114 	.globl _T1CNTH
+                            115 	.globl _T1CNTL
+                            116 	.globl _RFST
+                            117 	.globl _ACC
+                            118 	.globl _T1CC2H
+                            119 	.globl _T1CC2L
+                            120 	.globl _T1CC1H
+                            121 	.globl _T1CC1L
+                            122 	.globl _T1CC0H
+                            123 	.globl _T1CC0L
+                            124 	.globl _RFD
+                            125 	.globl _TIMIF
+                            126 	.globl _DMAREQ
+                            127 	.globl _DMAARM
+                            128 	.globl _DMA0CFGH
+                            129 	.globl _DMA0CFGL
+                            130 	.globl _DMA1CFGH
+                            131 	.globl _DMA1CFGL
+                            132 	.globl _DMAIRQ
+                            133 	.globl _PSW
+                            134 	.globl _T3CC1
+                            135 	.globl _T3CCTL1
+                            136 	.globl _T3CC0
+                            137 	.globl _T3CCTL0
+                            138 	.globl _T3CTL
+                            139 	.globl _T3CNT
+                            140 	.globl _WDCTL
+                            141 	.globl _T2CON
+                            142 	.globl _MEMCTR
+                            143 	.globl _CLKCON
+                            144 	.globl _U0GCR
+                            145 	.globl _U0UCR
+                            146 	.globl _T2CNF
+                            147 	.globl _U0BAUD
+                            148 	.globl _U0BUF
+                            149 	.globl _IRCON
+                            150 	.globl _SLEEP
+                            151 	.globl _RNDH
+                            152 	.globl _RNDL
+                            153 	.globl _ADCH
+                            154 	.globl _ADCL
+                            155 	.globl _IP1
+                            156 	.globl _IEN1
+                            157 	.globl _RCCTL
+                            158 	.globl _ADCCON3
+                            159 	.globl _ADCCON2
+                            160 	.globl _ADCCON1
+                            161 	.globl _ENCCS
+                            162 	.globl _ENCDO
+                            163 	.globl _ENCDI
+                            164 	.globl _FWDATA
+                            165 	.globl _FCTL
+                            166 	.globl _FADDRH
+                            167 	.globl _FADDRL
+                            168 	.globl _FWT
+                            169 	.globl _IP0
+                            170 	.globl _IEN0
+                            171 	.globl _IE
+                            172 	.globl _T2THD
+                            173 	.globl _T2TLD
+                            174 	.globl _T2CAPHPH
+                            175 	.globl _T2CAPLPL
+                            176 	.globl _T2OF2
+                            177 	.globl _T2OF1
+                            178 	.globl _T2OF0
+                            179 	.globl _P2
+                            180 	.globl _PSBANK
+                            181 	.globl _FMAP
+                            182 	.globl _T2PEROF2
+                            183 	.globl _T2PEROF1
+                            184 	.globl _T2PEROF0
+                            185 	.globl _S1CON
+                            186 	.globl _IEN2
+                            187 	.globl _HSRC
+                            188 	.globl _S0CON
+                            189 	.globl _ST2
+                            190 	.globl _ST1
+                            191 	.globl _ST0
+                            192 	.globl _T2CMP
+                            193 	.globl __XPAGE
+                            194 	.globl _DPS
+                            195 	.globl _RFIM
+                            196 	.globl _P1
+                            197 	.globl _P0INP
+                            198 	.globl _P1IEN
+                            199 	.globl _PICTL
+                            200 	.globl _P2IFG
+                            201 	.globl _P1IFG
+                            202 	.globl _P0IFG
+                            203 	.globl _TCON
+                            204 	.globl _PCON
+                            205 	.globl _U0CSR
+                            206 	.globl _DPH1
+                            207 	.globl _DPL1
+                            208 	.globl _DPH0
+                            209 	.globl _DPL0
+                            210 	.globl _SP
+                            211 	.globl _P0
+                            212 	.globl _resolv_process
+                            213 	.globl _resolv_event_found
+                            214 	.globl _ADC_SHADOW
+                            215 	.globl _U1BUF_SHADOW
+                            216 	.globl _RFD_SHADOW
+                            217 	.globl _U0BUF_SHADOW
+                            218 	.globl _RFSTATUS
+                            219 	.globl _CHIPID
+                            220 	.globl _CHVER
+                            221 	.globl _FSMTC1
+                            222 	.globl _RXFIFOCNT
+                            223 	.globl _IOCFG3
+                            224 	.globl _IOCFG2
+                            225 	.globl _IOCFG1
+                            226 	.globl _IOCFG0
+                            227 	.globl _SHORTADDRL
+                            228 	.globl _SHORTADDRH
+                            229 	.globl _PANIDL
+                            230 	.globl _PANIDH
+                            231 	.globl _IEEE_ADDR7
+                            232 	.globl _IEEE_ADDR6
+                            233 	.globl _IEEE_ADDR5
+                            234 	.globl _IEEE_ADDR4
+                            235 	.globl _IEEE_ADDR3
+                            236 	.globl _IEEE_ADDR2
+                            237 	.globl _IEEE_ADDR1
+                            238 	.globl _IEEE_ADDR0
+                            239 	.globl _DACTSTL
+                            240 	.globl _DACTSTH
+                            241 	.globl _ADCTSTL
+                            242 	.globl _ADCTSTH
+                            243 	.globl _FSMSTATE
+                            244 	.globl _AGCCTRLL
+                            245 	.globl _AGCCTRLH
+                            246 	.globl _MANORL
+                            247 	.globl _MANORH
+                            248 	.globl _MANANDL
+                            249 	.globl _MANANDH
+                            250 	.globl _FSMTCL
+                            251 	.globl _FSMTCH
+                            252 	.globl _RFPWR
+                            253 	.globl _CSPT
+                            254 	.globl _CSPCTRL
+                            255 	.globl _CSPZ
+                            256 	.globl _CSPY
+                            257 	.globl _CSPX
+                            258 	.globl _FSCTRLL
+                            259 	.globl _FSCTRLH
+                            260 	.globl _RXCTRL1L
+                            261 	.globl _RXCTRL1H
+                            262 	.globl _RXCTRL0L
+                            263 	.globl _RXCTRL0H
+                            264 	.globl _TXCTRLL
+                            265 	.globl _TXCTRLH
+                            266 	.globl _SYNCWORDL
+                            267 	.globl _SYNCWORDH
+                            268 	.globl _RSSIL
+                            269 	.globl _RSSIH
+                            270 	.globl _MDMCTRL1L
+                            271 	.globl _MDMCTRL1H
+                            272 	.globl _MDMCTRL0L
+                            273 	.globl _MDMCTRL0H
+                            274 	.globl _resolv_query
+                            275 	.globl _resolv_lookup
+                            276 	.globl _resolv_getserver
+                            277 	.globl _resolv_conf
+                            278 ;--------------------------------------------------------
+                            279 ; special function registers
+                            280 ;--------------------------------------------------------
+                            281 	.area RSEG    (ABS,DATA)
+   0000                     282 	.org 0x0000
+                    0080    283 _P0	=	0x0080
+                    0081    284 _SP	=	0x0081
+                    0082    285 _DPL0	=	0x0082
+                    0083    286 _DPH0	=	0x0083
+                    0084    287 _DPL1	=	0x0084
+                    0085    288 _DPH1	=	0x0085
+                    0086    289 _U0CSR	=	0x0086
+                    0087    290 _PCON	=	0x0087
+                    0088    291 _TCON	=	0x0088
+                    0089    292 _P0IFG	=	0x0089
+                    008A    293 _P1IFG	=	0x008a
+                    008B    294 _P2IFG	=	0x008b
+                    008C    295 _PICTL	=	0x008c
+                    008D    296 _P1IEN	=	0x008d
+                    008F    297 _P0INP	=	0x008f
+                    0090    298 _P1	=	0x0090
+                    0091    299 _RFIM	=	0x0091
+                    0092    300 _DPS	=	0x0092
+                    0093    301 __XPAGE	=	0x0093
+                    0094    302 _T2CMP	=	0x0094
+                    0095    303 _ST0	=	0x0095
+                    0096    304 _ST1	=	0x0096
+                    0097    305 _ST2	=	0x0097
+                    0098    306 _S0CON	=	0x0098
+                    0099    307 _HSRC	=	0x0099
+                    009A    308 _IEN2	=	0x009a
+                    009B    309 _S1CON	=	0x009b
+                    009C    310 _T2PEROF0	=	0x009c
+                    009D    311 _T2PEROF1	=	0x009d
+                    009E    312 _T2PEROF2	=	0x009e
+                    009F    313 _FMAP	=	0x009f
+                    009F    314 _PSBANK	=	0x009f
+                    00A0    315 _P2	=	0x00a0
+                    00A1    316 _T2OF0	=	0x00a1
+                    00A2    317 _T2OF1	=	0x00a2
+                    00A3    318 _T2OF2	=	0x00a3
+                    00A4    319 _T2CAPLPL	=	0x00a4
+                    00A5    320 _T2CAPHPH	=	0x00a5
+                    00A6    321 _T2TLD	=	0x00a6
+                    00A7    322 _T2THD	=	0x00a7
+                    00A8    323 _IE	=	0x00a8
+                    00A8    324 _IEN0	=	0x00a8
+                    00A9    325 _IP0	=	0x00a9
+                    00AB    326 _FWT	=	0x00ab
+                    00AC    327 _FADDRL	=	0x00ac
+                    00AD    328 _FADDRH	=	0x00ad
+                    00AE    329 _FCTL	=	0x00ae
+                    00AF    330 _FWDATA	=	0x00af
+                    00B1    331 _ENCDI	=	0x00b1
+                    00B2    332 _ENCDO	=	0x00b2
+                    00B3    333 _ENCCS	=	0x00b3
+                    00B4    334 _ADCCON1	=	0x00b4
+                    00B5    335 _ADCCON2	=	0x00b5
+                    00B6    336 _ADCCON3	=	0x00b6
+                    00B7    337 _RCCTL	=	0x00b7
+                    00B8    338 _IEN1	=	0x00b8
+                    00B9    339 _IP1	=	0x00b9
+                    00BA    340 _ADCL	=	0x00ba
+                    00BB    341 _ADCH	=	0x00bb
+                    00BC    342 _RNDL	=	0x00bc
+                    00BD    343 _RNDH	=	0x00bd
+                    00BE    344 _SLEEP	=	0x00be
+                    00C0    345 _IRCON	=	0x00c0
+                    00C1    346 _U0BUF	=	0x00c1
+                    00C2    347 _U0BAUD	=	0x00c2
+                    00C3    348 _T2CNF	=	0x00c3
+                    00C4    349 _U0UCR	=	0x00c4
+                    00C5    350 _U0GCR	=	0x00c5
+                    00C6    351 _CLKCON	=	0x00c6
+                    00C7    352 _MEMCTR	=	0x00c7
+                    00C8    353 _T2CON	=	0x00c8
+                    00C9    354 _WDCTL	=	0x00c9
+                    00CA    355 _T3CNT	=	0x00ca
+                    00CB    356 _T3CTL	=	0x00cb
+                    00CC    357 _T3CCTL0	=	0x00cc
+                    00CD    358 _T3CC0	=	0x00cd
+                    00CE    359 _T3CCTL1	=	0x00ce
+                    00CF    360 _T3CC1	=	0x00cf
+                    00D0    361 _PSW	=	0x00d0
+                    00D1    362 _DMAIRQ	=	0x00d1
+                    00D2    363 _DMA1CFGL	=	0x00d2
+                    00D3    364 _DMA1CFGH	=	0x00d3
+                    00D4    365 _DMA0CFGL	=	0x00d4
+                    00D5    366 _DMA0CFGH	=	0x00d5
+                    00D6    367 _DMAARM	=	0x00d6
+                    00D7    368 _DMAREQ	=	0x00d7
+                    00D8    369 _TIMIF	=	0x00d8
+                    00D9    370 _RFD	=	0x00d9
+                    00DA    371 _T1CC0L	=	0x00da
+                    00DB    372 _T1CC0H	=	0x00db
+                    00DC    373 _T1CC1L	=	0x00dc
+                    00DD    374 _T1CC1H	=	0x00dd
+                    00DE    375 _T1CC2L	=	0x00de
+                    00DF    376 _T1CC2H	=	0x00df
+                    00E0    377 _ACC	=	0x00e0
+                    00E1    378 _RFST	=	0x00e1
+                    00E2    379 _T1CNTL	=	0x00e2
+                    00E3    380 _T1CNTH	=	0x00e3
+                    00E4    381 _T1CTL	=	0x00e4
+                    00E5    382 _T1CCTL0	=	0x00e5
+                    00E6    383 _T1CCTL1	=	0x00e6
+                    00E7    384 _T1CCTL2	=	0x00e7
+                    00E8    385 _IRCON2	=	0x00e8
+                    00E9    386 _RFIF	=	0x00e9
+                    00EA    387 _T4CNT	=	0x00ea
+                    00EB    388 _T4CTL	=	0x00eb
+                    00EC    389 _T4CCTL0	=	0x00ec
+                    00ED    390 _T4CC0	=	0x00ed
+                    00EE    391 _T4CCTL1	=	0x00ee
+                    00EF    392 _T4CC1	=	0x00ef
+                    00F0    393 _B	=	0x00f0
+                    00F1    394 _PERCFG	=	0x00f1
+                    00F2    395 _ADCCFG	=	0x00f2
+                    00F3    396 _P0SEL	=	0x00f3
+                    00F4    397 _P1SEL	=	0x00f4
+                    00F5    398 _P2SEL	=	0x00f5
+                    00F6    399 _P1INP	=	0x00f6
+                    00F7    400 _P2INP	=	0x00f7
+                    00F8    401 _U1CSR	=	0x00f8
+                    00F9    402 _U1BUF	=	0x00f9
+                    00FA    403 _U1BAUD	=	0x00fa
+                    00FB    404 _U1UCR	=	0x00fb
+                    00FC    405 _U1GCR	=	0x00fc
+                    00FD    406 _P0DIR	=	0x00fd
+                    00FE    407 _P1DIR	=	0x00fe
+                    00FF    408 _P2DIR	=	0x00ff
+                            409 ;--------------------------------------------------------
+                            410 ; special function bits
+                            411 ;--------------------------------------------------------
+                            412 	.area RSEG    (ABS,DATA)
+   0000                     413 	.org 0x0000
+                    0087    414 _P0_7	=	0x0087
+                    0086    415 _P0_6	=	0x0086
+                    0085    416 _P0_5	=	0x0085
+                    0084    417 _P0_4	=	0x0084
+                    0083    418 _P0_3	=	0x0083
+                    0082    419 _P0_2	=	0x0082
+                    0081    420 _P0_1	=	0x0081
+                    0080    421 _P0_0	=	0x0080
+                    008F    422 _TCON_URX1IF	=	0x008f
+                    008D    423 _TCON_ADCIF	=	0x008d
+                    008B    424 _TCON_URX0IF	=	0x008b
+                    008A    425 _TCON_IT1	=	0x008a
+                    0089    426 _TCON_RFERRIF	=	0x0089
+                    0088    427 _TCON_IT0	=	0x0088
+                    0090    428 _P1_0	=	0x0090
+                    0091    429 _P1_1	=	0x0091
+                    0092    430 _P1_2	=	0x0092
+                    0093    431 _P1_3	=	0x0093
+                    0094    432 _P1_4	=	0x0094
+                    0095    433 _P1_5	=	0x0095
+                    0096    434 _P1_6	=	0x0096
+                    0097    435 _P1_7	=	0x0097
+                    0099    436 _S0CON_ENCIF_1	=	0x0099
+                    0098    437 _S0CON_ENCIF_0	=	0x0098
+                    00A0    438 _P2_0	=	0x00a0
+                    00A1    439 _P2_1	=	0x00a1
+                    00A2    440 _P2_2	=	0x00a2
+                    00A3    441 _P2_3	=	0x00a3
+                    00A4    442 _P2_4	=	0x00a4
+                    00AF    443 _EA	=	0x00af
+                    00AF    444 _IEN0_EA	=	0x00af
+                    00AD    445 _IEN0_STIE	=	0x00ad
+                    00AC    446 _IEN0_ENCIE	=	0x00ac
+                    00AB    447 _IEN0_URX1IE	=	0x00ab
+                    00AA    448 _IEN0_URX0IE	=	0x00aa
+                    00A9    449 _IEN0_ADCIE	=	0x00a9
+                    00A8    450 _IEN0_RFERRIE	=	0x00a8
+                    00BD    451 _IEN1_P0IE	=	0x00bd
+                    00BC    452 _IEN1_T4IE	=	0x00bc
+                    00BB    453 _IEN1_T3IE	=	0x00bb
+                    00BA    454 _IEN1_T2IE	=	0x00ba
+                    00B9    455 _IEN1_T1IE	=	0x00b9
+                    00B8    456 _IEN1_DMAIE	=	0x00b8
+                    00C7    457 _IRCON_STIF	=	0x00c7
+                    00C5    458 _IRCON_P0IF	=	0x00c5
+                    00C4    459 _IRCON_T4IF	=	0x00c4
+                    00C3    460 _IRCON_T3IF	=	0x00c3
+                    00C2    461 _IRCON_T2IF	=	0x00c2
+                    00C1    462 _IRCON_T1IF	=	0x00c1
+                    00C0    463 _IRCON_DMAIF	=	0x00c0
+                    00D0    464 _P	=	0x00d0
+                    00D1    465 _F1	=	0x00d1
+                    00D2    466 _OV	=	0x00d2
+                    00D3    467 _RS0	=	0x00d3
+                    00D4    468 _RS1	=	0x00d4
+                    00D5    469 _F0	=	0x00d5
+                    00D6    470 _AC	=	0x00d6
+                    00D7    471 _CY	=	0x00d7
+                    00EC    472 _IRCON2_WDTIF	=	0x00ec
+                    00EB    473 _IRCON2_P1IF	=	0x00eb
+                    00EA    474 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    475 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    476 _IRCON2_P2IF	=	0x00e8
+                            477 ;--------------------------------------------------------
+                            478 ; overlayable register banks
+                            479 ;--------------------------------------------------------
+                            480 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     481 	.ds 8
+                            482 ;--------------------------------------------------------
+                            483 ; internal ram data
+                            484 ;--------------------------------------------------------
+                            485 	.area DSEG    (DATA)
+                            486 ;--------------------------------------------------------
+                            487 ; overlayable items in internal ram 
+                            488 ;--------------------------------------------------------
+                            489 	.area OSEG    (OVR,DATA)
+                            490 ;--------------------------------------------------------
+                            491 ; indirectly addressable internal ram data
+                            492 ;--------------------------------------------------------
+                            493 	.area ISEG    (DATA)
+                            494 ;--------------------------------------------------------
+                            495 ; absolute internal ram data
+                            496 ;--------------------------------------------------------
+                            497 	.area IABS    (ABS,DATA)
+                            498 	.area IABS    (ABS,DATA)
+                            499 ;--------------------------------------------------------
+                            500 ; bit data
+                            501 ;--------------------------------------------------------
+                            502 	.area BSEG    (BIT)
+                            503 ;--------------------------------------------------------
+                            504 ; paged external ram data
+                            505 ;--------------------------------------------------------
+                            506 	.area PSEG    (PAG,XDATA)
+                            507 ;--------------------------------------------------------
+                            508 ; external ram data
+                            509 ;--------------------------------------------------------
+                            510 	.area XSEG    (XDATA)
+                    DF02    511 _MDMCTRL0H	=	0xdf02
+                    DF03    512 _MDMCTRL0L	=	0xdf03
+                    DF04    513 _MDMCTRL1H	=	0xdf04
+                    DF05    514 _MDMCTRL1L	=	0xdf05
+                    DF06    515 _RSSIH	=	0xdf06
+                    DF07    516 _RSSIL	=	0xdf07
+                    DF08    517 _SYNCWORDH	=	0xdf08
+                    DF09    518 _SYNCWORDL	=	0xdf09
+                    DF0A    519 _TXCTRLH	=	0xdf0a
+                    DF0B    520 _TXCTRLL	=	0xdf0b
+                    DF0C    521 _RXCTRL0H	=	0xdf0c
+                    DF0D    522 _RXCTRL0L	=	0xdf0d
+                    DF0E    523 _RXCTRL1H	=	0xdf0e
+                    DF0F    524 _RXCTRL1L	=	0xdf0f
+                    DF10    525 _FSCTRLH	=	0xdf10
+                    DF11    526 _FSCTRLL	=	0xdf11
+                    DF12    527 _CSPX	=	0xdf12
+                    DF13    528 _CSPY	=	0xdf13
+                    DF14    529 _CSPZ	=	0xdf14
+                    DF15    530 _CSPCTRL	=	0xdf15
+                    DF16    531 _CSPT	=	0xdf16
+                    DF17    532 _RFPWR	=	0xdf17
+                    DF20    533 _FSMTCH	=	0xdf20
+                    DF21    534 _FSMTCL	=	0xdf21
+                    DF22    535 _MANANDH	=	0xdf22
+                    DF23    536 _MANANDL	=	0xdf23
+                    DF24    537 _MANORH	=	0xdf24
+                    DF25    538 _MANORL	=	0xdf25
+                    DF26    539 _AGCCTRLH	=	0xdf26
+                    DF27    540 _AGCCTRLL	=	0xdf27
+                    DF39    541 _FSMSTATE	=	0xdf39
+                    DF3A    542 _ADCTSTH	=	0xdf3a
+                    DF3B    543 _ADCTSTL	=	0xdf3b
+                    DF3C    544 _DACTSTH	=	0xdf3c
+                    DF3D    545 _DACTSTL	=	0xdf3d
+                    DF43    546 _IEEE_ADDR0	=	0xdf43
+                    DF44    547 _IEEE_ADDR1	=	0xdf44
+                    DF45    548 _IEEE_ADDR2	=	0xdf45
+                    DF46    549 _IEEE_ADDR3	=	0xdf46
+                    DF47    550 _IEEE_ADDR4	=	0xdf47
+                    DF48    551 _IEEE_ADDR5	=	0xdf48
+                    DF49    552 _IEEE_ADDR6	=	0xdf49
+                    DF4A    553 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    554 _PANIDH	=	0xdf4b
+                    DF4C    555 _PANIDL	=	0xdf4c
+                    DF4D    556 _SHORTADDRH	=	0xdf4d
+                    DF4E    557 _SHORTADDRL	=	0xdf4e
+                    DF4F    558 _IOCFG0	=	0xdf4f
+                    DF50    559 _IOCFG1	=	0xdf50
+                    DF51    560 _IOCFG2	=	0xdf51
+                    DF52    561 _IOCFG3	=	0xdf52
+                    DF53    562 _RXFIFOCNT	=	0xdf53
+                    DF54    563 _FSMTC1	=	0xdf54
+                    DF60    564 _CHVER	=	0xdf60
+                    DF61    565 _CHIPID	=	0xdf61
+                    DF62    566 _RFSTATUS	=	0xdf62
+                    DFC1    567 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    568 _RFD_SHADOW	=	0xdfd9
+                    DFF9    569 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    570 _ADC_SHADOW	=	0xdfba
+   0000                     571 _names:
+   0000                     572 	.ds 164
+   00A4                     573 _seqno:
+   00A4                     574 	.ds 1
+   00A5                     575 _retry:
+   00A5                     576 	.ds 10
+   00AF                     577 _resolv_event_found::
+   00AF                     578 	.ds 1
+   00B0                     579 _check_entries_endquery_4_11:
+   00B0                     580 	.ds 5
+   00B5                     581 _newdata_nquestions_1_1:
+   00B5                     582 	.ds 1
+   00B6                     583 _newdata_nanswers_1_1:
+   00B6                     584 	.ds 1
+   00B7                     585 _newdata_i_1_1:
+   00B7                     586 	.ds 1
+   00B8                     587 _resolv_query_i_1_1:
+   00B8                     588 	.ds 1
+   00B9                     589 _resolv_query_lseq_1_1:
+   00B9                     590 	.ds 1
+   00BA                     591 _resolv_query_lseqi_1_1:
+   00BA                     592 	.ds 1
+   00BB                     593 _resolv_lookup_i_1_1:
+   00BB                     594 	.ds 1
+   00BC                     595 _resolv_conf_server_1_1:
+   00BC                     596 	.ds 4
+                            597 ;--------------------------------------------------------
+                            598 ; absolute external ram data
+                            599 ;--------------------------------------------------------
+                            600 	.area XABS    (ABS,XDATA)
+                            601 ;--------------------------------------------------------
+                            602 ; external initialized ram data
+                            603 ;--------------------------------------------------------
+                            604 	.area XISEG   (XDATA)
+   0000                     605 _resolv_conn:
+   0000                     606 	.ds 3
+   0003                     607 _resolv_process::
+   0003                     608 	.ds 9
+                            609 	.area HOME    (CODE)
+                            610 	.area GSINIT0 (CODE)
+                            611 	.area GSINIT1 (CODE)
+                            612 	.area GSINIT2 (CODE)
+                            613 	.area GSINIT3 (CODE)
+                            614 	.area GSINIT4 (CODE)
+                            615 	.area GSINIT5 (CODE)
+                            616 	.area GSINIT  (CODE)
+                            617 	.area GSFINAL (CODE)
+                            618 	.area CSEG    (CODE)
+                            619 ;--------------------------------------------------------
+                            620 ; global & static initialisations
+                            621 ;--------------------------------------------------------
+                            622 	.area HOME    (CODE)
+                            623 	.area GSINIT  (CODE)
+                            624 	.area GSFINAL (CODE)
+                            625 	.area GSINIT  (CODE)
+                            626 ;------------------------------------------------------------
+                            627 ;Allocation info for local variables in function 'check_entries'
+                            628 ;------------------------------------------------------------
+                            629 ;hdr                       Allocated to stack - _bp +1
+                            630 ;query                     Allocated to registers r7 r6 r5 
+                            631 ;nptr                      Allocated to stack - _bp +4
+                            632 ;nameptr                   Allocated to stack - _bp +7
+                            633 ;i                         Allocated to registers r7 
+                            634 ;n                         Allocated to registers r3 
+                            635 ;namemapptr                Allocated to stack - _bp +10
+                            636 ;sloc0                     Allocated to stack - _bp +13
+                            637 ;sloc1                     Allocated to stack - _bp +16
+                            638 ;sloc2                     Allocated to stack - _bp +19
+                            639 ;endquery                  Allocated with name '_check_entries_endquery_4_11'
+                            640 ;------------------------------------------------------------
+                            641 ;	../../core/net/resolv.c:259: static unsigned char endquery[] =
+   0000 90s00rB0            642 	mov	dptr,#_check_entries_endquery_4_11
+   0003 E4                  643 	clr	a
+   0004 F0                  644 	movx	@dptr,a
+   0005 90s00rB1            645 	mov	dptr,#(_check_entries_endquery_4_11 + 0x0001)
+   0008 F0                  646 	movx	@dptr,a
+   0009 90s00rB2            647 	mov	dptr,#(_check_entries_endquery_4_11 + 0x0002)
+   000C 74 01               648 	mov	a,#0x01
+   000E F0                  649 	movx	@dptr,a
+   000F 90s00rB3            650 	mov	dptr,#(_check_entries_endquery_4_11 + 0x0003)
+   0012 E4                  651 	clr	a
+   0013 F0                  652 	movx	@dptr,a
+   0014 90s00rB4            653 	mov	dptr,#(_check_entries_endquery_4_11 + 0x0004)
+   0017 74 01               654 	mov	a,#0x01
+   0019 F0                  655 	movx	@dptr,a
+                            656 ;--------------------------------------------------------
+                            657 ; Home
+                            658 ;--------------------------------------------------------
+                            659 	.area HOME    (CODE)
+                            660 	.area HOME    (CODE)
+                            661 ;--------------------------------------------------------
+                            662 ; code
+                            663 ;--------------------------------------------------------
+                            664 	.area CSEG    (CODE)
+                            665 ;------------------------------------------------------------
+                            666 ;Allocation info for local variables in function 'parse_name'
+                            667 ;------------------------------------------------------------
+                            668 ;query                     Allocated to registers r5 r6 r7 
+                            669 ;n                         Allocated to registers 
+                            670 ;------------------------------------------------------------
+                            671 ;	../../core/net/resolv.c:182: parse_name(unsigned char *query)
+                            672 ;	-----------------------------------------
+                            673 ;	 function parse_name
+                            674 ;	-----------------------------------------
+   0000                     675 _parse_name:
+                    0007    676 	ar7 = 0x07
+                    0006    677 	ar6 = 0x06
+                    0005    678 	ar5 = 0x05
+                    0004    679 	ar4 = 0x04
+                    0003    680 	ar3 = 0x03
+                    0002    681 	ar2 = 0x02
+                    0001    682 	ar1 = 0x01
+                    0000    683 	ar0 = 0x00
+   0000 AD 82               684 	mov	r5,dpl
+   0002 AE 83               685 	mov	r6,dph
+   0004 AF F0               686 	mov	r7,b
+                            687 ;	../../core/net/resolv.c:186: do {
+   0006                     688 00104$:
+                            689 ;	../../core/net/resolv.c:187: n = *query++;
+   0006 8D 82               690 	mov	dpl,r5
+   0008 8E 83               691 	mov	dph,r6
+   000A 8F F0               692 	mov	b,r7
+   000C 12s00r00            693 	lcall	__gptrget
+   000F FC                  694 	mov	r4,a
+   0010 A3                  695 	inc	dptr
+   0011 AD 82               696 	mov	r5,dpl
+   0013 AE 83               697 	mov	r6,dph
+                            698 ;	../../core/net/resolv.c:189: while(n > 0) {
+   0015 8D 01               699 	mov	ar1,r5
+   0017 8E 02               700 	mov	ar2,r6
+   0019 8F 03               701 	mov	ar3,r7
+   001B                     702 00101$:
+   001B EC                  703 	mov	a,r4
+   001C 60 08               704 	jz	00113$
+                            705 ;	../../core/net/resolv.c:191: ++query;
+   001E 09                  706 	inc	r1
+   001F B9 00 01            707 	cjne	r1,#0x00,00119$
+   0022 0A                  708 	inc	r2
+   0023                     709 00119$:
+                            710 ;	../../core/net/resolv.c:192: --n;
+   0023 1C                  711 	dec	r4
+   0024 80 F5               712 	sjmp	00101$
+   0026                     713 00113$:
+   0026 89 05               714 	mov	ar5,r1
+   0028 8A 06               715 	mov	ar6,r2
+   002A 8B 07               716 	mov	ar7,r3
+                            717 ;	../../core/net/resolv.c:195: } while(*query != 0);
+   002C 89 82               718 	mov	dpl,r1
+   002E 8A 83               719 	mov	dph,r2
+   0030 8B F0               720 	mov	b,r3
+   0032 12s00r00            721 	lcall	__gptrget
+   0035 70 CF               722 	jnz	00104$
+                            723 ;	../../core/net/resolv.c:197: return query + 1;
+   0037 09                  724 	inc	r1
+   0038 B9 00 01            725 	cjne	r1,#0x00,00121$
+   003B 0A                  726 	inc	r2
+   003C                     727 00121$:
+   003C 89 82               728 	mov	dpl,r1
+   003E 8A 83               729 	mov	dph,r2
+   0040 8B F0               730 	mov	b,r3
+   0042 22                  731 	ret
+                            732 ;------------------------------------------------------------
+                            733 ;Allocation info for local variables in function 'check_entries'
+                            734 ;------------------------------------------------------------
+                            735 ;hdr                       Allocated to stack - _bp +1
+                            736 ;query                     Allocated to registers r7 r6 r5 
+                            737 ;nptr                      Allocated to stack - _bp +4
+                            738 ;nameptr                   Allocated to stack - _bp +7
+                            739 ;i                         Allocated to registers r7 
+                            740 ;n                         Allocated to registers r3 
+                            741 ;namemapptr                Allocated to stack - _bp +10
+                            742 ;sloc0                     Allocated to stack - _bp +13
+                            743 ;sloc1                     Allocated to stack - _bp +16
+                            744 ;sloc2                     Allocated to stack - _bp +19
+                            745 ;endquery                  Allocated with name '_check_entries_endquery_4_11'
+                            746 ;------------------------------------------------------------
+                            747 ;	../../core/net/resolv.c:206: check_entries(void)
+                            748 ;	-----------------------------------------
+                            749 ;	 function check_entries
+                            750 ;	-----------------------------------------
+   0043                     751 _check_entries:
+   0043 C0*00               752 	push	_bp
+   0045 E5 81               753 	mov	a,sp
+   0047 F5*00               754 	mov	_bp,a
+   0049 24 15               755 	add	a,#0x15
+   004B F5 81               756 	mov	sp,a
+                            757 ;	../../core/net/resolv.c:214: for(i = 0; i < RESOLV_ENTRIES; ++i) {
+   004D 7F 00               758 	mov	r7,#0x00
+   004F 7E 00               759 	mov	r6,#0x00
+   0051                     760 00115$:
+   0051 BE 04 00            761 	cjne	r6,#0x04,00149$
+   0054                     762 00149$:
+   0054 40 03               763 	jc	00150$
+   0056 02s03rEA            764 	ljmp	00124$
+   0059                     765 00150$:
+                            766 ;	../../core/net/resolv.c:215: namemapptr = &names[i];
+   0059 EE                  767 	mov	a,r6
+   005A 75 F0 29            768 	mov	b,#0x29
+   005D A4                  769 	mul	ab
+   005E 24r00               770 	add	a,#_names
+   0060 FC                  771 	mov	r4,a
+   0061 E4                  772 	clr	a
+   0062 34s00               773 	addc	a,#(_names >> 8)
+   0064 FD                  774 	mov	r5,a
+   0065 E5*00               775 	mov	a,_bp
+   0067 24 0A               776 	add	a,#0x0a
+   0069 F8                  777 	mov	r0,a
+   006A A6 04               778 	mov	@r0,ar4
+   006C 08                  779 	inc	r0
+   006D A6 05               780 	mov	@r0,ar5
+   006F 08                  781 	inc	r0
+   0070 76 00               782 	mov	@r0,#0x00
+                            783 ;	../../core/net/resolv.c:216: if(namemapptr->state == STATE_NEW ||
+   0072 E5*00               784 	mov	a,_bp
+   0074 24 0A               785 	add	a,#0x0a
+   0076 F8                  786 	mov	r0,a
+   0077 86 82               787 	mov	dpl,@r0
+   0079 08                  788 	inc	r0
+   007A 86 83               789 	mov	dph,@r0
+   007C 08                  790 	inc	r0
+   007D 86 F0               791 	mov	b,@r0
+   007F 12s00r00            792 	lcall	__gptrget
+   0082 FA                  793 	mov	r2,a
+   0083 BA 01 02            794 	cjne	r2,#0x01,00151$
+   0086 80 08               795 	sjmp	00112$
+   0088                     796 00151$:
+                            797 ;	../../core/net/resolv.c:217: namemapptr->state == STATE_ASKING) {
+   0088 BA 02 02            798 	cjne	r2,#0x02,00152$
+   008B 80 03               799 	sjmp	00153$
+   008D                     800 00152$:
+   008D 02s03rE4            801 	ljmp	00117$
+   0090                     802 00153$:
+   0090                     803 00112$:
+                            804 ;	../../core/net/resolv.c:218: etimer_set(&retry, CLOCK_SECOND);
+   0090 C0 07               805 	push	ar7
+   0092 C0 06               806 	push	ar6
+   0094 74 80               807 	mov	a,#0x80
+   0096 C0 E0               808 	push	acc
+   0098 E4                  809 	clr	a
+   0099 C0 E0               810 	push	acc
+   009B 90s00rA5            811 	mov	dptr,#_retry
+   009E 75 F0 00            812 	mov	b,#0x00
+   00A1 12s00r00            813 	lcall	_etimer_set
+   00A4 15 81               814 	dec	sp
+   00A6 15 81               815 	dec	sp
+   00A8 D0 06               816 	pop	ar6
+   00AA D0 07               817 	pop	ar7
+                            818 ;	../../core/net/resolv.c:219: if(namemapptr->state == STATE_ASKING) {
+   00AC E5*00               819 	mov	a,_bp
+   00AE 24 0A               820 	add	a,#0x0a
+   00B0 F8                  821 	mov	r0,a
+   00B1 86 82               822 	mov	dpl,@r0
+   00B3 08                  823 	inc	r0
+   00B4 86 83               824 	mov	dph,@r0
+   00B6 08                  825 	inc	r0
+   00B7 86 F0               826 	mov	b,@r0
+   00B9 12s00r00            827 	lcall	__gptrget
+   00BC FA                  828 	mov	r2,a
+   00BD BA 02 02            829 	cjne	r2,#0x02,00154$
+   00C0 80 03               830 	sjmp	00155$
+   00C2                     831 00154$:
+   00C2 02s01r8C            832 	ljmp	00107$
+   00C5                     833 00155$:
+                            834 ;	../../core/net/resolv.c:220: if(--namemapptr->tmr == 0) {
+   00C5 E5*00               835 	mov	a,_bp
+   00C7 24 0A               836 	add	a,#0x0a
+   00C9 F8                  837 	mov	r0,a
+   00CA E5*00               838 	mov	a,_bp
+   00CC 24 0D               839 	add	a,#0x0d
+   00CE F9                  840 	mov	r1,a
+   00CF 74 01               841 	mov	a,#0x01
+   00D1 26                  842 	add	a,@r0
+   00D2 F7                  843 	mov	@r1,a
+   00D3 E4                  844 	clr	a
+   00D4 08                  845 	inc	r0
+   00D5 36                  846 	addc	a,@r0
+   00D6 09                  847 	inc	r1
+   00D7 F7                  848 	mov	@r1,a
+   00D8 08                  849 	inc	r0
+   00D9 09                  850 	inc	r1
+   00DA E6                  851 	mov	a,@r0
+   00DB F7                  852 	mov	@r1,a
+   00DC E5*00               853 	mov	a,_bp
+   00DE 24 0D               854 	add	a,#0x0d
+   00E0 F8                  855 	mov	r0,a
+   00E1 86 82               856 	mov	dpl,@r0
+   00E3 08                  857 	inc	r0
+   00E4 86 83               858 	mov	dph,@r0
+   00E6 08                  859 	inc	r0
+   00E7 86 F0               860 	mov	b,@r0
+   00E9 12s00r00            861 	lcall	__gptrget
+   00EC FA                  862 	mov	r2,a
+   00ED 1A                  863 	dec	r2
+   00EE E5*00               864 	mov	a,_bp
+   00F0 24 0D               865 	add	a,#0x0d
+   00F2 F8                  866 	mov	r0,a
+   00F3 86 82               867 	mov	dpl,@r0
+   00F5 08                  868 	inc	r0
+   00F6 86 83               869 	mov	dph,@r0
+   00F8 08                  870 	inc	r0
+   00F9 86 F0               871 	mov	b,@r0
+   00FB EA                  872 	mov	a,r2
+   00FC 12s00r00            873 	lcall	__gptrput
+   00FF 60 03               874 	jz	00156$
+   0101 02s03rE4            875 	ljmp	00117$
+   0104                     876 00156$:
+                            877 ;	../../core/net/resolv.c:221: if(++namemapptr->retries == MAX_RETRIES) {
+   0104 E5*00               878 	mov	a,_bp
+   0106 24 0A               879 	add	a,#0x0a
+   0108 F8                  880 	mov	r0,a
+   0109 74 02               881 	mov	a,#0x02
+   010B 26                  882 	add	a,@r0
+   010C FD                  883 	mov	r5,a
+   010D E4                  884 	clr	a
+   010E 08                  885 	inc	r0
+   010F 36                  886 	addc	a,@r0
+   0110 FC                  887 	mov	r4,a
+   0111 08                  888 	inc	r0
+   0112 86 03               889 	mov	ar3,@r0
+   0114 8D 82               890 	mov	dpl,r5
+   0116 8C 83               891 	mov	dph,r4
+   0118 8B F0               892 	mov	b,r3
+   011A 12s00r00            893 	lcall	__gptrget
+   011D FA                  894 	mov	r2,a
+   011E 0A                  895 	inc	r2
+   011F 8D 82               896 	mov	dpl,r5
+   0121 8C 83               897 	mov	dph,r4
+   0123 8B F0               898 	mov	b,r3
+   0125 EA                  899 	mov	a,r2
+   0126 12s00r00            900 	lcall	__gptrput
+   0129 BA 08 43            901 	cjne	r2,#0x08,00102$
+                            902 ;	../../core/net/resolv.c:222: namemapptr->state = STATE_ERROR;
+   012C C0 06               903 	push	ar6
+   012E E5*00               904 	mov	a,_bp
+   0130 24 0A               905 	add	a,#0x0a
+   0132 F8                  906 	mov	r0,a
+   0133 86 82               907 	mov	dpl,@r0
+   0135 08                  908 	inc	r0
+   0136 86 83               909 	mov	dph,@r0
+   0138 08                  910 	inc	r0
+   0139 86 F0               911 	mov	b,@r0
+   013B 74 04               912 	mov	a,#0x04
+   013D 12s00r00            913 	lcall	__gptrput
+                            914 ;	../../core/net/resolv.c:223: resolv_found(namemapptr->name, NULL);
+   0140 E5*00               915 	mov	a,_bp
+   0142 24 0A               916 	add	a,#0x0a
+   0144 F8                  917 	mov	r0,a
+   0145 74 05               918 	mov	a,#0x05
+   0147 26                  919 	add	a,@r0
+   0148 FA                  920 	mov	r2,a
+   0149 E4                  921 	clr	a
+   014A 08                  922 	inc	r0
+   014B 36                  923 	addc	a,@r0
+   014C FD                  924 	mov	r5,a
+   014D 08                  925 	inc	r0
+   014E 86 06               926 	mov	ar6,@r0
+   0150 C0 06               927 	push	ar6
+   0152 E4                  928 	clr	a
+   0153 C0 E0               929 	push	acc
+   0155 C0 E0               930 	push	acc
+   0157 C0 E0               931 	push	acc
+   0159 8A 82               932 	mov	dpl,r2
+   015B 8D 83               933 	mov	dph,r5
+   015D 8E F0               934 	mov	b,r6
+   015F 12s0Br53            935 	lcall	_resolv_found
+   0162 15 81               936 	dec	sp
+   0164 15 81               937 	dec	sp
+   0166 15 81               938 	dec	sp
+   0168 D0 06               939 	pop	ar6
+                            940 ;	../../core/net/resolv.c:224: continue;
+   016A D0 06               941 	pop	ar6
+   016C 02s03rE4            942 	ljmp	00117$
+   016F                     943 00102$:
+                            944 ;	../../core/net/resolv.c:226: namemapptr->tmr = namemapptr->retries;
+   016F 8D 82               945 	mov	dpl,r5
+   0171 8C 83               946 	mov	dph,r4
+   0173 8B F0               947 	mov	b,r3
+   0175 12s00r00            948 	lcall	__gptrget
+   0178 FD                  949 	mov	r5,a
+   0179 E5*00               950 	mov	a,_bp
+   017B 24 0D               951 	add	a,#0x0d
+   017D F8                  952 	mov	r0,a
+   017E 86 82               953 	mov	dpl,@r0
+   0180 08                  954 	inc	r0
+   0181 86 83               955 	mov	dph,@r0
+   0183 08                  956 	inc	r0
+   0184 86 F0               957 	mov	b,@r0
+   0186 ED                  958 	mov	a,r5
+   0187 12s00r00            959 	lcall	__gptrput
+                            960 ;	../../core/net/resolv.c:231: continue;
+   018A 80 47               961 	sjmp	00108$
+   018C                     962 00107$:
+                            963 ;	../../core/net/resolv.c:234: namemapptr->state = STATE_ASKING;
+   018C E5*00               964 	mov	a,_bp
+   018E 24 0A               965 	add	a,#0x0a
+   0190 F8                  966 	mov	r0,a
+   0191 86 82               967 	mov	dpl,@r0
+   0193 08                  968 	inc	r0
+   0194 86 83               969 	mov	dph,@r0
+   0196 08                  970 	inc	r0
+   0197 86 F0               971 	mov	b,@r0
+   0199 74 02               972 	mov	a,#0x02
+   019B 12s00r00            973 	lcall	__gptrput
+                            974 ;	../../core/net/resolv.c:235: namemapptr->tmr = 1;
+   019E E5*00               975 	mov	a,_bp
+   01A0 24 0A               976 	add	a,#0x0a
+   01A2 F8                  977 	mov	r0,a
+   01A3 74 01               978 	mov	a,#0x01
+   01A5 26                  979 	add	a,@r0
+   01A6 FB                  980 	mov	r3,a
+   01A7 E4                  981 	clr	a
+   01A8 08                  982 	inc	r0
+   01A9 36                  983 	addc	a,@r0
+   01AA FC                  984 	mov	r4,a
+   01AB 08                  985 	inc	r0
+   01AC 86 05               986 	mov	ar5,@r0
+   01AE 8B 82               987 	mov	dpl,r3
+   01B0 8C 83               988 	mov	dph,r4
+   01B2 8D F0               989 	mov	b,r5
+   01B4 74 01               990 	mov	a,#0x01
+   01B6 12s00r00            991 	lcall	__gptrput
+                            992 ;	../../core/net/resolv.c:236: namemapptr->retries = 0;
+   01B9 E5*00               993 	mov	a,_bp
+   01BB 24 0A               994 	add	a,#0x0a
+   01BD F8                  995 	mov	r0,a
+   01BE 74 02               996 	mov	a,#0x02
+   01C0 26                  997 	add	a,@r0
+   01C1 FB                  998 	mov	r3,a
+   01C2 E4                  999 	clr	a
+   01C3 08                 1000 	inc	r0
+   01C4 36                 1001 	addc	a,@r0
+   01C5 FC                 1002 	mov	r4,a
+   01C6 08                 1003 	inc	r0
+   01C7 86 05              1004 	mov	ar5,@r0
+   01C9 8B 82              1005 	mov	dpl,r3
+   01CB 8C 83              1006 	mov	dph,r4
+   01CD 8D F0              1007 	mov	b,r5
+   01CF E4                 1008 	clr	a
+   01D0 12s00r00           1009 	lcall	__gptrput
+   01D3                    1010 00108$:
+                           1011 ;	../../core/net/resolv.c:238: hdr = (struct dns_hdr *)uip_appdata;
+   01D3 90s00r00           1012 	mov	dptr,#_uip_appdata
+   01D6 E0                 1013 	movx	a,@dptr
+   01D7 FB                 1014 	mov	r3,a
+   01D8 A3                 1015 	inc	dptr
+   01D9 E0                 1016 	movx	a,@dptr
+   01DA FC                 1017 	mov	r4,a
+   01DB A3                 1018 	inc	dptr
+   01DC E0                 1019 	movx	a,@dptr
+   01DD FD                 1020 	mov	r5,a
+   01DE A8*00              1021 	mov	r0,_bp
+   01E0 08                 1022 	inc	r0
+   01E1 A6 03              1023 	mov	@r0,ar3
+   01E3 08                 1024 	inc	r0
+   01E4 A6 04              1025 	mov	@r0,ar4
+   01E6 08                 1026 	inc	r0
+   01E7 A6 05              1027 	mov	@r0,ar5
+                           1028 ;	../../core/net/resolv.c:239: memset(hdr, 0, sizeof(struct dns_hdr));
+   01E9 A8*00              1029 	mov	r0,_bp
+   01EB 08                 1030 	inc	r0
+   01EC 86 02              1031 	mov	ar2,@r0
+   01EE 08                 1032 	inc	r0
+   01EF 86 04              1033 	mov	ar4,@r0
+   01F1 08                 1034 	inc	r0
+   01F2 86 05              1035 	mov	ar5,@r0
+   01F4 C0 07              1036 	push	ar7
+   01F6 74 0C              1037 	mov	a,#0x0C
+   01F8 C0 E0              1038 	push	acc
+   01FA E4                 1039 	clr	a
+   01FB C0 E0              1040 	push	acc
+   01FD E4                 1041 	clr	a
+   01FE C0 E0              1042 	push	acc
+   0200 8A 82              1043 	mov	dpl,r2
+   0202 8C 83              1044 	mov	dph,r4
+   0204 8D F0              1045 	mov	b,r5
+   0206 12s00r00           1046 	lcall	_memset
+   0209 15 81              1047 	dec	sp
+   020B 15 81              1048 	dec	sp
+   020D 15 81              1049 	dec	sp
+   020F D0 07              1050 	pop	ar7
+                           1051 ;	../../core/net/resolv.c:240: hdr->id = uip_htons(i);
+   0211 8F 04              1052 	mov	ar4,r7
+   0213 7D 00              1053 	mov	r5,#0x00
+   0215 8C 82              1054 	mov	dpl,r4
+   0217 8D 83              1055 	mov	dph,r5
+   0219 12s00r00           1056 	lcall	_uip_htons
+   021C AC 82              1057 	mov	r4,dpl
+   021E AD 83              1058 	mov	r5,dph
+   0220 A8*00              1059 	mov	r0,_bp
+   0222 08                 1060 	inc	r0
+   0223 86 82              1061 	mov	dpl,@r0
+   0225 08                 1062 	inc	r0
+   0226 86 83              1063 	mov	dph,@r0
+   0228 08                 1064 	inc	r0
+   0229 86 F0              1065 	mov	b,@r0
+   022B EC                 1066 	mov	a,r4
+   022C 12s00r00           1067 	lcall	__gptrput
+   022F A3                 1068 	inc	dptr
+   0230 ED                 1069 	mov	a,r5
+   0231 12s00r00           1070 	lcall	__gptrput
+                           1071 ;	../../core/net/resolv.c:241: hdr->flags1 = DNS_FLAG1_RD;
+   0234 A8*00              1072 	mov	r0,_bp
+   0236 08                 1073 	inc	r0
+   0237 74 02              1074 	mov	a,#0x02
+   0239 26                 1075 	add	a,@r0
+   023A FB                 1076 	mov	r3,a
+   023B E4                 1077 	clr	a
+   023C 08                 1078 	inc	r0
+   023D 36                 1079 	addc	a,@r0
+   023E FC                 1080 	mov	r4,a
+   023F 08                 1081 	inc	r0
+   0240 86 05              1082 	mov	ar5,@r0
+   0242 8B 82              1083 	mov	dpl,r3
+   0244 8C 83              1084 	mov	dph,r4
+   0246 8D F0              1085 	mov	b,r5
+   0248 74 01              1086 	mov	a,#0x01
+   024A 12s00r00           1087 	lcall	__gptrput
+                           1088 ;	../../core/net/resolv.c:242: hdr->numquestions = UIP_HTONS(1);
+   024D A8*00              1089 	mov	r0,_bp
+   024F 08                 1090 	inc	r0
+   0250 74 04              1091 	mov	a,#0x04
+   0252 26                 1092 	add	a,@r0
+   0253 FB                 1093 	mov	r3,a
+   0254 E4                 1094 	clr	a
+   0255 08                 1095 	inc	r0
+   0256 36                 1096 	addc	a,@r0
+   0257 FC                 1097 	mov	r4,a
+   0258 08                 1098 	inc	r0
+   0259 86 05              1099 	mov	ar5,@r0
+   025B 8B 82              1100 	mov	dpl,r3
+   025D 8C 83              1101 	mov	dph,r4
+   025F 8D F0              1102 	mov	b,r5
+   0261 E4                 1103 	clr	a
+   0262 12s00r00           1104 	lcall	__gptrput
+   0265 A3                 1105 	inc	dptr
+   0266 74 01              1106 	mov	a,#0x01
+   0268 12s00r00           1107 	lcall	__gptrput
+                           1108 ;	../../core/net/resolv.c:243: query = (char *)uip_appdata + 12;
+   026B 90s00r00           1109 	mov	dptr,#_uip_appdata
+   026E E0                 1110 	movx	a,@dptr
+   026F FB                 1111 	mov	r3,a
+   0270 A3                 1112 	inc	dptr
+   0271 E0                 1113 	movx	a,@dptr
+   0272 FC                 1114 	mov	r4,a
+   0273 A3                 1115 	inc	dptr
+   0274 E0                 1116 	movx	a,@dptr
+   0275 FD                 1117 	mov	r5,a
+   0276 74 0C              1118 	mov	a,#0x0C
+   0278 2B                 1119 	add	a,r3
+   0279 FF                 1120 	mov	r7,a
+   027A E4                 1121 	clr	a
+   027B 3C                 1122 	addc	a,r4
+   027C FE                 1123 	mov	r6,a
+                           1124 ;	../../core/net/resolv.c:244: nameptr = namemapptr->name;
+   027D E5*00              1125 	mov	a,_bp
+   027F 24 0A              1126 	add	a,#0x0a
+   0281 F8                 1127 	mov	r0,a
+   0282 E5*00              1128 	mov	a,_bp
+   0284 24 07              1129 	add	a,#0x07
+   0286 F9                 1130 	mov	r1,a
+   0287 74 05              1131 	mov	a,#0x05
+   0289 26                 1132 	add	a,@r0
+   028A F7                 1133 	mov	@r1,a
+   028B E4                 1134 	clr	a
+   028C 08                 1135 	inc	r0
+   028D 36                 1136 	addc	a,@r0
+   028E 09                 1137 	inc	r1
+   028F F7                 1138 	mov	@r1,a
+   0290 08                 1139 	inc	r0
+   0291 09                 1140 	inc	r1
+   0292 E6                 1141 	mov	a,@r0
+   0293 F7                 1142 	mov	@r1,a
+                           1143 ;	../../core/net/resolv.c:245: --nameptr;
+   0294 E5*00              1144 	mov	a,_bp
+   0296 24 07              1145 	add	a,#0x07
+   0298 F8                 1146 	mov	r0,a
+   0299 16                 1147 	dec	@r0
+   029A B6 FF 02           1148 	cjne	@r0,#0xFF,00159$
+   029D 08                 1149 	inc	r0
+   029E 16                 1150 	dec	@r0
+   029F                    1151 00159$:
+                           1152 ;	../../core/net/resolv.c:247: do {
+   029F                    1153 00109$:
+                           1154 ;	../../core/net/resolv.c:248: ++nameptr;
+   029F E5*00              1155 	mov	a,_bp
+   02A1 24 07              1156 	add	a,#0x07
+   02A3 F8                 1157 	mov	r0,a
+   02A4 06                 1158 	inc	@r0
+   02A5 B6 00 02           1159 	cjne	@r0,#0x00,00160$
+   02A8 08                 1160 	inc	r0
+   02A9 06                 1161 	inc	@r0
+   02AA                    1162 00160$:
+                           1163 ;	../../core/net/resolv.c:249: nptr = query;
+   02AA E5*00              1164 	mov	a,_bp
+   02AC 24 04              1165 	add	a,#0x04
+   02AE F8                 1166 	mov	r0,a
+   02AF A6 07              1167 	mov	@r0,ar7
+   02B1 08                 1168 	inc	r0
+   02B2 A6 06              1169 	mov	@r0,ar6
+   02B4 08                 1170 	inc	r0
+   02B5 A6 05              1171 	mov	@r0,ar5
+                           1172 ;	../../core/net/resolv.c:250: ++query;
+   02B7 0F                 1173 	inc	r7
+   02B8 BF 00 01           1174 	cjne	r7,#0x00,00161$
+   02BB 0E                 1175 	inc	r6
+   02BC                    1176 00161$:
+                           1177 ;	../../core/net/resolv.c:251: for(n = 0; *nameptr != '.' && *nameptr != 0; ++nameptr) {
+   02BC E5*00              1178 	mov	a,_bp
+   02BE 24 13              1179 	add	a,#0x13
+   02C0 F8                 1180 	mov	r0,a
+   02C1 A6 07              1181 	mov	@r0,ar7
+   02C3 08                 1182 	inc	r0
+   02C4 A6 06              1183 	mov	@r0,ar6
+   02C6 08                 1184 	inc	r0
+   02C7 A6 05              1185 	mov	@r0,ar5
+   02C9 7B 00              1186 	mov	r3,#0x00
+   02CB E5*00              1187 	mov	a,_bp
+   02CD 24 07              1188 	add	a,#0x07
+   02CF F8                 1189 	mov	r0,a
+   02D0 E5*00              1190 	mov	a,_bp
+   02D2 24 10              1191 	add	a,#0x10
+   02D4 F9                 1192 	mov	r1,a
+   02D5 E6                 1193 	mov	a,@r0
+   02D6 F7                 1194 	mov	@r1,a
+   02D7 08                 1195 	inc	r0
+   02D8 09                 1196 	inc	r1
+   02D9 E6                 1197 	mov	a,@r0
+   02DA F7                 1198 	mov	@r1,a
+   02DB 08                 1199 	inc	r0
+   02DC 09                 1200 	inc	r1
+   02DD E6                 1201 	mov	a,@r0
+   02DE F7                 1202 	mov	@r1,a
+   02DF                    1203 00120$:
+   02DF E5*00              1204 	mov	a,_bp
+   02E1 24 10              1205 	add	a,#0x10
+   02E3 F8                 1206 	mov	r0,a
+   02E4 86 82              1207 	mov	dpl,@r0
+   02E6 08                 1208 	inc	r0
+   02E7 86 83              1209 	mov	dph,@r0
+   02E9 08                 1210 	inc	r0
+   02EA 86 F0              1211 	mov	b,@r0
+   02EC 12s00r00           1212 	lcall	__gptrget
+   02EF FF                 1213 	mov	r7,a
+   02F0 BF 2E 02           1214 	cjne	r7,#0x2E,00162$
+   02F3 80 2C              1215 	sjmp	00137$
+   02F5                    1216 00162$:
+   02F5 BF 00 02           1217 	cjne	r7,#0x00,00163$
+   02F8 80 27              1218 	sjmp	00137$
+   02FA                    1219 00163$:
+                           1220 ;	../../core/net/resolv.c:252: *query = *nameptr;
+   02FA E5*00              1221 	mov	a,_bp
+   02FC 24 13              1222 	add	a,#0x13
+   02FE F8                 1223 	mov	r0,a
+   02FF 86 82              1224 	mov	dpl,@r0
+   0301 08                 1225 	inc	r0
+   0302 86 83              1226 	mov	dph,@r0
+   0304 08                 1227 	inc	r0
+   0305 86 F0              1228 	mov	b,@r0
+   0307 EF                 1229 	mov	a,r7
+   0308 12s00r00           1230 	lcall	__gptrput
+   030B A3                 1231 	inc	dptr
+   030C 18                 1232 	dec	r0
+   030D 18                 1233 	dec	r0
+   030E A6 82              1234 	mov	@r0,dpl
+   0310 08                 1235 	inc	r0
+   0311 A6 83              1236 	mov	@r0,dph
+                           1237 ;	../../core/net/resolv.c:253: ++query;
+                           1238 ;	../../core/net/resolv.c:254: ++n;
+   0313 0B                 1239 	inc	r3
+                           1240 ;	../../core/net/resolv.c:251: for(n = 0; *nameptr != '.' && *nameptr != 0; ++nameptr) {
+   0314 E5*00              1241 	mov	a,_bp
+   0316 24 10              1242 	add	a,#0x10
+   0318 F8                 1243 	mov	r0,a
+   0319 06                 1244 	inc	@r0
+   031A B6 00 02           1245 	cjne	@r0,#0x00,00164$
+   031D 08                 1246 	inc	r0
+   031E 06                 1247 	inc	@r0
+   031F                    1248 00164$:
+   031F 80 BE              1249 	sjmp	00120$
+   0321                    1250 00137$:
+   0321 E5*00              1251 	mov	a,_bp
+   0323 24 13              1252 	add	a,#0x13
+   0325 F8                 1253 	mov	r0,a
+   0326 86 07              1254 	mov	ar7,@r0
+   0328 08                 1255 	inc	r0
+   0329 86 06              1256 	mov	ar6,@r0
+   032B 08                 1257 	inc	r0
+   032C 86 05              1258 	mov	ar5,@r0
+   032E E5*00              1259 	mov	a,_bp
+   0330 24 10              1260 	add	a,#0x10
+   0332 F8                 1261 	mov	r0,a
+   0333 E5*00              1262 	mov	a,_bp
+   0335 24 07              1263 	add	a,#0x07
+   0337 F9                 1264 	mov	r1,a
+   0338 E6                 1265 	mov	a,@r0
+   0339 F7                 1266 	mov	@r1,a
+   033A 08                 1267 	inc	r0
+   033B 09                 1268 	inc	r1
+   033C E6                 1269 	mov	a,@r0
+   033D F7                 1270 	mov	@r1,a
+   033E 08                 1271 	inc	r0
+   033F 09                 1272 	inc	r1
+   0340 E6                 1273 	mov	a,@r0
+   0341 F7                 1274 	mov	@r1,a
+                           1275 ;	../../core/net/resolv.c:256: *nptr = n;
+   0342 E5*00              1276 	mov	a,_bp
+   0344 24 04              1277 	add	a,#0x04
+   0346 F8                 1278 	mov	r0,a
+   0347 86 82              1279 	mov	dpl,@r0
+   0349 08                 1280 	inc	r0
+   034A 86 83              1281 	mov	dph,@r0
+   034C 08                 1282 	inc	r0
+   034D 86 F0              1283 	mov	b,@r0
+   034F EB                 1284 	mov	a,r3
+   0350 12s00r00           1285 	lcall	__gptrput
+                           1286 ;	../../core/net/resolv.c:257: } while(*nameptr != 0);
+   0353 E5*00              1287 	mov	a,_bp
+   0355 24 10              1288 	add	a,#0x10
+   0357 F8                 1289 	mov	r0,a
+   0358 86 82              1290 	mov	dpl,@r0
+   035A 08                 1291 	inc	r0
+   035B 86 83              1292 	mov	dph,@r0
+   035D 08                 1293 	inc	r0
+   035E 86 F0              1294 	mov	b,@r0
+   0360 12s00r00           1295 	lcall	__gptrget
+   0363 60 03              1296 	jz	00165$
+   0365 02s02r9F           1297 	ljmp	00109$
+   0368                    1298 00165$:
+                           1299 ;	../../core/net/resolv.c:261: memcpy(query, endquery, 5);
+   0368 8F 03              1300 	mov	ar3,r7
+   036A 8E 04              1301 	mov	ar4,r6
+   036C 74 05              1302 	mov	a,#0x05
+   036E C0 E0              1303 	push	acc
+   0370 E4                 1304 	clr	a
+   0371 C0 E0              1305 	push	acc
+   0373 74rB0              1306 	mov	a,#_check_entries_endquery_4_11
+   0375 C0 E0              1307 	push	acc
+   0377 74s00              1308 	mov	a,#(_check_entries_endquery_4_11 >> 8)
+   0379 C0 E0              1309 	push	acc
+   037B E4                 1310 	clr	a
+   037C C0 E0              1311 	push	acc
+   037E 8B 82              1312 	mov	dpl,r3
+   0380 8C 83              1313 	mov	dph,r4
+   0382 8D F0              1314 	mov	b,r5
+   0384 12s00r00           1315 	lcall	_memcpy
+   0387 E5 81              1316 	mov	a,sp
+   0389 24 FB              1317 	add	a,#0xfb
+   038B F5 81              1318 	mov	sp,a
+                           1319 ;	../../core/net/resolv.c:263: uip_udp_send((unsigned char)(query + 5 - (char *)uip_appdata));
+   038D E5*00              1320 	mov	a,_bp
+   038F 24 13              1321 	add	a,#0x13
+   0391 F8                 1322 	mov	r0,a
+   0392 74 05              1323 	mov	a,#0x05
+   0394 26                 1324 	add	a,@r0
+   0395 FF                 1325 	mov	r7,a
+   0396 E4                 1326 	clr	a
+   0397 08                 1327 	inc	r0
+   0398 36                 1328 	addc	a,@r0
+   0399 FE                 1329 	mov	r6,a
+   039A 08                 1330 	inc	r0
+   039B 86 02              1331 	mov	ar2,@r0
+   039D 90s00r00           1332 	mov	dptr,#_uip_appdata
+   03A0 E5*00              1333 	mov	a,_bp
+   03A2 24 10              1334 	add	a,#0x10
+   03A4 F8                 1335 	mov	r0,a
+   03A5 E0                 1336 	movx	a,@dptr
+   03A6 F6                 1337 	mov	@r0,a
+   03A7 A3                 1338 	inc	dptr
+   03A8 E0                 1339 	movx	a,@dptr
+   03A9 08                 1340 	inc	r0
+   03AA F6                 1341 	mov	@r0,a
+   03AB A3                 1342 	inc	dptr
+   03AC E0                 1343 	movx	a,@dptr
+   03AD 08                 1344 	inc	r0
+   03AE F6                 1345 	mov	@r0,a
+   03AF E5*00              1346 	mov	a,_bp
+   03B1 24 10              1347 	add	a,#0x10
+   03B3 F8                 1348 	mov	r0,a
+   03B4 86 03              1349 	mov	ar3,@r0
+   03B6 08                 1350 	inc	r0
+   03B7 86 04              1351 	mov	ar4,@r0
+   03B9 08                 1352 	inc	r0
+   03BA 86 05              1353 	mov	ar5,@r0
+   03BC EF                 1354 	mov	a,r7
+   03BD C3                 1355 	clr	c
+   03BE 9B                 1356 	subb	a,r3
+   03BF FB                 1357 	mov	r3,a
+   03C0 EE                 1358 	mov	a,r6
+   03C1 9C                 1359 	subb	a,r4
+   03C2 7F 00              1360 	mov	r7,#0x00
+   03C4 E5*00              1361 	mov	a,_bp
+   03C6 24 10              1362 	add	a,#0x10
+   03C8 F8                 1363 	mov	r0,a
+   03C9 86 02              1364 	mov	ar2,@r0
+   03CB 08                 1365 	inc	r0
+   03CC 86 04              1366 	mov	ar4,@r0
+   03CE 08                 1367 	inc	r0
+   03CF 86 05              1368 	mov	ar5,@r0
+   03D1 C0 03              1369 	push	ar3
+   03D3 C0 07              1370 	push	ar7
+   03D5 8A 82              1371 	mov	dpl,r2
+   03D7 8C 83              1372 	mov	dph,r4
+   03D9 8D F0              1373 	mov	b,r5
+   03DB 12s00r00           1374 	lcall	_uip_send
+   03DE 15 81              1375 	dec	sp
+   03E0 15 81              1376 	dec	sp
+                           1377 ;	../../core/net/resolv.c:264: break;
+   03E2 80 06              1378 	sjmp	00124$
+   03E4                    1379 00117$:
+                           1380 ;	../../core/net/resolv.c:214: for(i = 0; i < RESOLV_ENTRIES; ++i) {
+   03E4 0E                 1381 	inc	r6
+   03E5 8E 07              1382 	mov	ar7,r6
+   03E7 02s00r51           1383 	ljmp	00115$
+   03EA                    1384 00124$:
+   03EA 85*00 81           1385 	mov	sp,_bp
+   03ED D0*00              1386 	pop	_bp
+   03EF 22                 1387 	ret
+                           1388 ;------------------------------------------------------------
+                           1389 ;Allocation info for local variables in function 'newdata'
+                           1390 ;------------------------------------------------------------
+                           1391 ;nameptr                   Allocated to registers r3 r5 r6 
+                           1392 ;ans                       Allocated to registers r2 r4 r7 
+                           1393 ;hdr                       Allocated to stack - _bp +1
+                           1394 ;namemapptr                Allocated to stack - _bp +4
+                           1395 ;sloc0                     Allocated to stack - _bp +13
+                           1396 ;sloc1                     Allocated to stack - _bp +7
+                           1397 ;sloc2                     Allocated to stack - _bp +10
+                           1398 ;nquestions                Allocated with name '_newdata_nquestions_1_1'
+                           1399 ;nanswers                  Allocated with name '_newdata_nanswers_1_1'
+                           1400 ;i                         Allocated with name '_newdata_i_1_1'
+                           1401 ;------------------------------------------------------------
+                           1402 ;	../../core/net/resolv.c:274: newdata(void)
+                           1403 ;	-----------------------------------------
+                           1404 ;	 function newdata
+                           1405 ;	-----------------------------------------
+   03F0                    1406 _newdata:
+   03F0 C0*00              1407 	push	_bp
+   03F2 E5 81              1408 	mov	a,sp
+   03F4 F5*00              1409 	mov	_bp,a
+   03F6 24 0C              1410 	add	a,#0x0C
+   03F8 F5 81              1411 	mov	sp,a
+                           1412 ;	../../core/net/resolv.c:283: hdr = (struct dns_hdr *)uip_appdata;
+   03FA 90s00r00           1413 	mov	dptr,#_uip_appdata
+   03FD E0                 1414 	movx	a,@dptr
+   03FE FD                 1415 	mov	r5,a
+   03FF A3                 1416 	inc	dptr
+   0400 E0                 1417 	movx	a,@dptr
+   0401 FE                 1418 	mov	r6,a
+   0402 A3                 1419 	inc	dptr
+   0403 E0                 1420 	movx	a,@dptr
+   0404 FF                 1421 	mov	r7,a
+   0405 A8*00              1422 	mov	r0,_bp
+   0407 08                 1423 	inc	r0
+   0408 A6 05              1424 	mov	@r0,ar5
+   040A 08                 1425 	inc	r0
+   040B A6 06              1426 	mov	@r0,ar6
+   040D 08                 1427 	inc	r0
+   040E A6 07              1428 	mov	@r0,ar7
+                           1429 ;	../../core/net/resolv.c:296: i = (uint8_t)uip_htons(hdr->id);
+   0410 A8*00              1430 	mov	r0,_bp
+   0412 08                 1431 	inc	r0
+   0413 86 82              1432 	mov	dpl,@r0
+   0415 08                 1433 	inc	r0
+   0416 86 83              1434 	mov	dph,@r0
+   0418 08                 1435 	inc	r0
+   0419 86 F0              1436 	mov	b,@r0
+   041B 12s00r00           1437 	lcall	__gptrget
+   041E FB                 1438 	mov	r3,a
+   041F A3                 1439 	inc	dptr
+   0420 12s00r00           1440 	lcall	__gptrget
+   0423 FC                 1441 	mov	r4,a
+   0424 8B 82              1442 	mov	dpl,r3
+   0426 8C 83              1443 	mov	dph,r4
+   0428 12s00r00           1444 	lcall	_uip_htons
+   042B AB 82              1445 	mov	r3,dpl
+   042D 90s00rB7           1446 	mov	dptr,#_newdata_i_1_1
+   0430 EB                 1447 	mov	a,r3
+   0431 F0                 1448 	movx	@dptr,a
+                           1449 ;	../../core/net/resolv.c:297: namemapptr = &names[i];
+   0432 EB                 1450 	mov	a,r3
+   0433 75 F0 29           1451 	mov	b,#0x29
+   0436 A4                 1452 	mul	ab
+   0437 24r00              1453 	add	a,#_names
+   0439 FA                 1454 	mov	r2,a
+   043A E4                 1455 	clr	a
+   043B 34s00              1456 	addc	a,#(_names >> 8)
+   043D FC                 1457 	mov	r4,a
+   043E E5*00              1458 	mov	a,_bp
+   0440 24 04              1459 	add	a,#0x04
+   0442 F8                 1460 	mov	r0,a
+   0443 A6 02              1461 	mov	@r0,ar2
+   0445 08                 1462 	inc	r0
+   0446 A6 04              1463 	mov	@r0,ar4
+   0448 08                 1464 	inc	r0
+   0449 76 00              1465 	mov	@r0,#0x00
+                           1466 ;	../../core/net/resolv.c:298: if(i < RESOLV_ENTRIES &&
+   044B BB 04 00           1467 	cjne	r3,#0x04,00145$
+   044E                    1468 00145$:
+   044E 40 03              1469 	jc	00146$
+   0450 02s07r21           1470 	ljmp	00121$
+   0453                    1471 00146$:
+                           1472 ;	../../core/net/resolv.c:299: namemapptr->state == STATE_ASKING) {
+   0453 E5*00              1473 	mov	a,_bp
+   0455 24 04              1474 	add	a,#0x04
+   0457 F8                 1475 	mov	r0,a
+   0458 86 82              1476 	mov	dpl,@r0
+   045A 08                 1477 	inc	r0
+   045B 86 83              1478 	mov	dph,@r0
+   045D 08                 1479 	inc	r0
+   045E 86 F0              1480 	mov	b,@r0
+   0460 12s00r00           1481 	lcall	__gptrget
+   0463 FE                 1482 	mov	r6,a
+   0464 BE 02 02           1483 	cjne	r6,#0x02,00147$
+   0467 80 03              1484 	sjmp	00148$
+   0469                    1485 00147$:
+   0469 02s07r21           1486 	ljmp	00121$
+   046C                    1487 00148$:
+                           1488 ;	../../core/net/resolv.c:302: namemapptr->state = STATE_DONE;
+   046C E5*00              1489 	mov	a,_bp
+   046E 24 04              1490 	add	a,#0x04
+   0470 F8                 1491 	mov	r0,a
+   0471 86 82              1492 	mov	dpl,@r0
+   0473 08                 1493 	inc	r0
+   0474 86 83              1494 	mov	dph,@r0
+   0476 08                 1495 	inc	r0
+   0477 86 F0              1496 	mov	b,@r0
+   0479 74 03              1497 	mov	a,#0x03
+   047B 12s00r00           1498 	lcall	__gptrput
+                           1499 ;	../../core/net/resolv.c:303: namemapptr->err = hdr->flags2 & DNS_FLAG2_ERR_MASK;
+   047E E5*00              1500 	mov	a,_bp
+   0480 24 04              1501 	add	a,#0x04
+   0482 F8                 1502 	mov	r0,a
+   0483 74 04              1503 	mov	a,#0x04
+   0485 26                 1504 	add	a,@r0
+   0486 FB                 1505 	mov	r3,a
+   0487 E4                 1506 	clr	a
+   0488 08                 1507 	inc	r0
+   0489 36                 1508 	addc	a,@r0
+   048A FD                 1509 	mov	r5,a
+   048B 08                 1510 	inc	r0
+   048C 86 06              1511 	mov	ar6,@r0
+   048E A8*00              1512 	mov	r0,_bp
+   0490 08                 1513 	inc	r0
+   0491 74 03              1514 	mov	a,#0x03
+   0493 26                 1515 	add	a,@r0
+   0494 FA                 1516 	mov	r2,a
+   0495 E4                 1517 	clr	a
+   0496 08                 1518 	inc	r0
+   0497 36                 1519 	addc	a,@r0
+   0498 FC                 1520 	mov	r4,a
+   0499 08                 1521 	inc	r0
+   049A 86 07              1522 	mov	ar7,@r0
+   049C 8A 82              1523 	mov	dpl,r2
+   049E 8C 83              1524 	mov	dph,r4
+   04A0 8F F0              1525 	mov	b,r7
+   04A2 12s00r00           1526 	lcall	__gptrget
+   04A5 FA                 1527 	mov	r2,a
+   04A6 53 02 0F           1528 	anl	ar2,#0x0F
+   04A9 8B 82              1529 	mov	dpl,r3
+   04AB 8D 83              1530 	mov	dph,r5
+   04AD 8E F0              1531 	mov	b,r6
+                           1532 ;	../../core/net/resolv.c:306: if(namemapptr->err != 0) {
+   04AF EA                 1533 	mov	a,r2
+   04B0 12s00r00           1534 	lcall	__gptrput
+   04B3 60 3B              1535 	jz	00102$
+                           1536 ;	../../core/net/resolv.c:307: namemapptr->state = STATE_ERROR;
+   04B5 E5*00              1537 	mov	a,_bp
+   04B7 24 04              1538 	add	a,#0x04
+   04B9 F8                 1539 	mov	r0,a
+   04BA 86 82              1540 	mov	dpl,@r0
+   04BC 08                 1541 	inc	r0
+   04BD 86 83              1542 	mov	dph,@r0
+   04BF 08                 1543 	inc	r0
+   04C0 86 F0              1544 	mov	b,@r0
+   04C2 74 04              1545 	mov	a,#0x04
+   04C4 12s00r00           1546 	lcall	__gptrput
+                           1547 ;	../../core/net/resolv.c:308: resolv_found(namemapptr->name, NULL);
+   04C7 E5*00              1548 	mov	a,_bp
+   04C9 24 04              1549 	add	a,#0x04
+   04CB F8                 1550 	mov	r0,a
+   04CC 74 05              1551 	mov	a,#0x05
+   04CE 26                 1552 	add	a,@r0
+   04CF FB                 1553 	mov	r3,a
+   04D0 E4                 1554 	clr	a
+   04D1 08                 1555 	inc	r0
+   04D2 36                 1556 	addc	a,@r0
+   04D3 FD                 1557 	mov	r5,a
+   04D4 08                 1558 	inc	r0
+   04D5 86 06              1559 	mov	ar6,@r0
+   04D7 E4                 1560 	clr	a
+   04D8 C0 E0              1561 	push	acc
+   04DA C0 E0              1562 	push	acc
+   04DC C0 E0              1563 	push	acc
+   04DE 8B 82              1564 	mov	dpl,r3
+   04E0 8D 83              1565 	mov	dph,r5
+   04E2 8E F0              1566 	mov	b,r6
+   04E4 12s0Br53           1567 	lcall	_resolv_found
+   04E7 15 81              1568 	dec	sp
+   04E9 15 81              1569 	dec	sp
+   04EB 15 81              1570 	dec	sp
+                           1571 ;	../../core/net/resolv.c:309: return;
+   04ED 02s07r21           1572 	ljmp	00121$
+   04F0                    1573 00102$:
+                           1574 ;	../../core/net/resolv.c:314: nquestions = (uint8_t)uip_htons(hdr->numquestions);
+   04F0 A8*00              1575 	mov	r0,_bp
+   04F2 08                 1576 	inc	r0
+   04F3 74 04              1577 	mov	a,#0x04
+   04F5 26                 1578 	add	a,@r0
+   04F6 FB                 1579 	mov	r3,a
+   04F7 E4                 1580 	clr	a
+   04F8 08                 1581 	inc	r0
+   04F9 36                 1582 	addc	a,@r0
+   04FA FD                 1583 	mov	r5,a
+   04FB 08                 1584 	inc	r0
+   04FC 86 06              1585 	mov	ar6,@r0
+   04FE 8B 82              1586 	mov	dpl,r3
+   0500 8D 83              1587 	mov	dph,r5
+   0502 8E F0              1588 	mov	b,r6
+   0504 12s00r00           1589 	lcall	__gptrget
+   0507 FB                 1590 	mov	r3,a
+   0508 A3                 1591 	inc	dptr
+   0509 12s00r00           1592 	lcall	__gptrget
+   050C FD                 1593 	mov	r5,a
+   050D 8B 82              1594 	mov	dpl,r3
+   050F 8D 83              1595 	mov	dph,r5
+   0511 12s00r00           1596 	lcall	_uip_htons
+   0514 AD 82              1597 	mov	r5,dpl
+   0516 90s00rB5           1598 	mov	dptr,#_newdata_nquestions_1_1
+   0519 ED                 1599 	mov	a,r5
+   051A F0                 1600 	movx	@dptr,a
+                           1601 ;	../../core/net/resolv.c:315: nanswers = (uint8_t)uip_htons(hdr->numanswers);
+   051B A8*00              1602 	mov	r0,_bp
+   051D 08                 1603 	inc	r0
+   051E 74 06              1604 	mov	a,#0x06
+   0520 26                 1605 	add	a,@r0
+   0521 FB                 1606 	mov	r3,a
+   0522 E4                 1607 	clr	a
+   0523 08                 1608 	inc	r0
+   0524 36                 1609 	addc	a,@r0
+   0525 FD                 1610 	mov	r5,a
+   0526 08                 1611 	inc	r0
+   0527 86 06              1612 	mov	ar6,@r0
+   0529 8B 82              1613 	mov	dpl,r3
+   052B 8D 83              1614 	mov	dph,r5
+   052D 8E F0              1615 	mov	b,r6
+   052F 12s00r00           1616 	lcall	__gptrget
+   0532 FB                 1617 	mov	r3,a
+   0533 A3                 1618 	inc	dptr
+   0534 12s00r00           1619 	lcall	__gptrget
+   0537 FD                 1620 	mov	r5,a
+   0538 8B 82              1621 	mov	dpl,r3
+   053A 8D 83              1622 	mov	dph,r5
+   053C 12s00r00           1623 	lcall	_uip_htons
+   053F AD 82              1624 	mov	r5,dpl
+   0541 90s00rB6           1625 	mov	dptr,#_newdata_nanswers_1_1
+   0544 ED                 1626 	mov	a,r5
+   0545 F0                 1627 	movx	@dptr,a
+                           1628 ;	../../core/net/resolv.c:320: nameptr = parse_name((uint8_t *)uip_appdata + 12) + 4;
+   0546 90s00r00           1629 	mov	dptr,#_uip_appdata
+   0549 E0                 1630 	movx	a,@dptr
+   054A FB                 1631 	mov	r3,a
+   054B A3                 1632 	inc	dptr
+   054C E0                 1633 	movx	a,@dptr
+   054D FD                 1634 	mov	r5,a
+   054E A3                 1635 	inc	dptr
+   054F E0                 1636 	movx	a,@dptr
+   0550 FE                 1637 	mov	r6,a
+   0551 74 0C              1638 	mov	a,#0x0C
+   0553 2B                 1639 	add	a,r3
+   0554 FB                 1640 	mov	r3,a
+   0555 E4                 1641 	clr	a
+   0556 3D                 1642 	addc	a,r5
+   0557 FD                 1643 	mov	r5,a
+   0558 8B 82              1644 	mov	dpl,r3
+   055A 8D 83              1645 	mov	dph,r5
+   055C 8E F0              1646 	mov	b,r6
+   055E 12s00r00           1647 	lcall	_parse_name
+   0561 AB 82              1648 	mov	r3,dpl
+   0563 AD 83              1649 	mov	r5,dph
+   0565 AE F0              1650 	mov	r6,b
+   0567 74 04              1651 	mov	a,#0x04
+   0569 2B                 1652 	add	a,r3
+   056A FB                 1653 	mov	r3,a
+   056B E4                 1654 	clr	a
+   056C 3D                 1655 	addc	a,r5
+   056D FD                 1656 	mov	r5,a
+                           1657 ;	../../core/net/resolv.c:322: while(nanswers > 0) {
+   056E                    1658 00111$:
+   056E 90s00rB6           1659 	mov	dptr,#_newdata_nanswers_1_1
+   0571 E0                 1660 	movx	a,@dptr
+   0572 FF                 1661 	mov	r7,a
+   0573 70 03              1662 	jnz	00150$
+   0575 02s07r21           1663 	ljmp	00121$
+   0578                    1664 00150$:
+                           1665 ;	../../core/net/resolv.c:325: if(*nameptr & 0xc0) {
+   0578 8B 82              1666 	mov	dpl,r3
+   057A 8D 83              1667 	mov	dph,r5
+   057C 8E F0              1668 	mov	b,r6
+   057E 12s00r00           1669 	lcall	__gptrget
+   0581 FF                 1670 	mov	r7,a
+   0582 54 C0              1671 	anl	a,#0xC0
+   0584 60 09              1672 	jz	00104$
+                           1673 ;	../../core/net/resolv.c:327: nameptr +=2;
+   0586 74 02              1674 	mov	a,#0x02
+   0588 2B                 1675 	add	a,r3
+   0589 FB                 1676 	mov	r3,a
+   058A E4                 1677 	clr	a
+   058B 3D                 1678 	addc	a,r5
+   058C FD                 1679 	mov	r5,a
+   058D 80 15              1680 	sjmp	00105$
+   058F                    1681 00104$:
+                           1682 ;	../../core/net/resolv.c:331: nameptr = parse_name((uint8_t *)nameptr);
+   058F 8B 82              1683 	mov	dpl,r3
+   0591 8D 83              1684 	mov	dph,r5
+   0593 8E F0              1685 	mov	b,r6
+   0595 12s00r00           1686 	lcall	_parse_name
+   0598 AA 82              1687 	mov	r2,dpl
+   059A AC 83              1688 	mov	r4,dph
+   059C AF F0              1689 	mov	r7,b
+   059E 8A 03              1690 	mov	ar3,r2
+   05A0 8C 05              1691 	mov	ar5,r4
+   05A2 8F 06              1692 	mov	ar6,r7
+   05A4                    1693 00105$:
+                           1694 ;	../../core/net/resolv.c:334: ans = (struct dns_answer *)nameptr;
+   05A4 8B 02              1695 	mov	ar2,r3
+   05A6 8D 04              1696 	mov	ar4,r5
+   05A8 8E 07              1697 	mov	ar7,r6
+                           1698 ;	../../core/net/resolv.c:341: if(ans->type == UIP_HTONS(1) &&
+   05AA C0 03              1699 	push	ar3
+   05AC C0 05              1700 	push	ar5
+   05AE C0 06              1701 	push	ar6
+   05B0 8A 82              1702 	mov	dpl,r2
+   05B2 8C 83              1703 	mov	dph,r4
+   05B4 8F F0              1704 	mov	b,r7
+   05B6 12s00r00           1705 	lcall	__gptrget
+   05B9 FD                 1706 	mov	r5,a
+   05BA A3                 1707 	inc	dptr
+   05BB 12s00r00           1708 	lcall	__gptrget
+   05BE FE                 1709 	mov	r6,a
+   05BF BD 00 05           1710 	cjne	r5,#0x00,00152$
+   05C2 BE 01 02           1711 	cjne	r6,#0x01,00152$
+   05C5 80 09              1712 	sjmp	00153$
+   05C7                    1713 00152$:
+   05C7 D0 06              1714 	pop	ar6
+   05C9 D0 05              1715 	pop	ar5
+   05CB D0 03              1716 	pop	ar3
+   05CD 02s06rCF           1717 	ljmp	00107$
+   05D0                    1718 00153$:
+                           1719 ;	../../core/net/resolv.c:342: ans->class == UIP_HTONS(1) &&
+   05D0 74 02              1720 	mov	a,#0x02
+   05D2 2A                 1721 	add	a,r2
+   05D3 FB                 1722 	mov	r3,a
+   05D4 E4                 1723 	clr	a
+   05D5 3C                 1724 	addc	a,r4
+   05D6 FD                 1725 	mov	r5,a
+   05D7 8F 06              1726 	mov	ar6,r7
+   05D9 8B 82              1727 	mov	dpl,r3
+   05DB 8D 83              1728 	mov	dph,r5
+   05DD 8E F0              1729 	mov	b,r6
+   05DF 12s00r00           1730 	lcall	__gptrget
+   05E2 FB                 1731 	mov	r3,a
+   05E3 A3                 1732 	inc	dptr
+   05E4 12s00r00           1733 	lcall	__gptrget
+   05E7 FD                 1734 	mov	r5,a
+   05E8 BB 00 05           1735 	cjne	r3,#0x00,00154$
+   05EB BD 01 02           1736 	cjne	r5,#0x01,00154$
+   05EE 80 09              1737 	sjmp	00155$
+   05F0                    1738 00154$:
+   05F0 D0 06              1739 	pop	ar6
+   05F2 D0 05              1740 	pop	ar5
+   05F4 D0 03              1741 	pop	ar3
+   05F6 02s06rCF           1742 	ljmp	00107$
+   05F9                    1743 00155$:
+                           1744 ;	../../core/net/resolv.c:343: ans->len == UIP_HTONS(4)) {
+   05F9 74 08              1745 	mov	a,#0x08
+   05FB 2A                 1746 	add	a,r2
+   05FC FB                 1747 	mov	r3,a
+   05FD E4                 1748 	clr	a
+   05FE 3C                 1749 	addc	a,r4
+   05FF FD                 1750 	mov	r5,a
+   0600 8F 06              1751 	mov	ar6,r7
+   0602 8B 82              1752 	mov	dpl,r3
+   0604 8D 83              1753 	mov	dph,r5
+   0606 8E F0              1754 	mov	b,r6
+   0608 12s00r00           1755 	lcall	__gptrget
+   060B FB                 1756 	mov	r3,a
+   060C A3                 1757 	inc	dptr
+   060D 12s00r00           1758 	lcall	__gptrget
+   0610 FD                 1759 	mov	r5,a
+   0611 BB 00 05           1760 	cjne	r3,#0x00,00156$
+   0614 BD 04 02           1761 	cjne	r5,#0x04,00156$
+   0617 80 09              1762 	sjmp	00157$
+   0619                    1763 00156$:
+   0619 D0 06              1764 	pop	ar6
+   061B D0 05              1765 	pop	ar5
+   061D D0 03              1766 	pop	ar3
+   061F 02s06rCF           1767 	ljmp	00107$
+   0622                    1768 00157$:
+   0622 D0 06              1769 	pop	ar6
+   0624 D0 05              1770 	pop	ar5
+   0626 D0 03              1771 	pop	ar3
+                           1772 ;	../../core/net/resolv.c:351: for(i = 0; i < 4; i++) {
+   0628 90s00rB7           1773 	mov	dptr,#_newdata_i_1_1
+   062B E4                 1774 	clr	a
+   062C F0                 1775 	movx	@dptr,a
+   062D E5*00              1776 	mov	a,_bp
+   062F 24 07              1777 	add	a,#0x07
+   0631 F8                 1778 	mov	r0,a
+   0632 74 0A              1779 	mov	a,#0x0A
+   0634 2A                 1780 	add	a,r2
+   0635 F6                 1781 	mov	@r0,a
+   0636 E4                 1782 	clr	a
+   0637 3C                 1783 	addc	a,r4
+   0638 08                 1784 	inc	r0
+   0639 F6                 1785 	mov	@r0,a
+   063A 08                 1786 	inc	r0
+   063B A6 07              1787 	mov	@r0,ar7
+   063D                    1788 00117$:
+   063D 90s00rB7           1789 	mov	dptr,#_newdata_i_1_1
+   0640 E0                 1790 	movx	a,@dptr
+   0641 FE                 1791 	mov	r6,a
+   0642 BE 04 00           1792 	cjne	r6,#0x04,00158$
+   0645                    1793 00158$:
+   0645 50 51              1794 	jnc	00120$
+                           1795 ;	../../core/net/resolv.c:352: namemapptr->ipaddr.u8[i] = ans->ipaddr[i];
+   0647 E5*00              1796 	mov	a,_bp
+   0649 24 04              1797 	add	a,#0x04
+   064B F8                 1798 	mov	r0,a
+   064C 74 25              1799 	mov	a,#0x25
+   064E 26                 1800 	add	a,@r0
+   064F FA                 1801 	mov	r2,a
+   0650 E4                 1802 	clr	a
+   0651 08                 1803 	inc	r0
+   0652 36                 1804 	addc	a,@r0
+   0653 FC                 1805 	mov	r4,a
+   0654 08                 1806 	inc	r0
+   0655 86 07              1807 	mov	ar7,@r0
+   0657 E5*00              1808 	mov	a,_bp
+   0659 24 0A              1809 	add	a,#0x0a
+   065B F8                 1810 	mov	r0,a
+   065C EE                 1811 	mov	a,r6
+   065D 2A                 1812 	add	a,r2
+   065E F6                 1813 	mov	@r0,a
+   065F E4                 1814 	clr	a
+   0660 3C                 1815 	addc	a,r4
+   0661 08                 1816 	inc	r0
+   0662 F6                 1817 	mov	@r0,a
+   0663 08                 1818 	inc	r0
+   0664 A6 07              1819 	mov	@r0,ar7
+   0666 E5*00              1820 	mov	a,_bp
+   0668 24 07              1821 	add	a,#0x07
+   066A F8                 1822 	mov	r0,a
+   066B EE                 1823 	mov	a,r6
+   066C 26                 1824 	add	a,@r0
+   066D FA                 1825 	mov	r2,a
+   066E E4                 1826 	clr	a
+   066F 08                 1827 	inc	r0
+   0670 36                 1828 	addc	a,@r0
+   0671 FC                 1829 	mov	r4,a
+   0672 08                 1830 	inc	r0
+   0673 86 07              1831 	mov	ar7,@r0
+   0675 8A 82              1832 	mov	dpl,r2
+   0677 8C 83              1833 	mov	dph,r4
+   0679 8F F0              1834 	mov	b,r7
+   067B 12s00r00           1835 	lcall	__gptrget
+   067E FA                 1836 	mov	r2,a
+   067F E5*00              1837 	mov	a,_bp
+   0681 24 0A              1838 	add	a,#0x0a
+   0683 F8                 1839 	mov	r0,a
+   0684 86 82              1840 	mov	dpl,@r0
+   0686 08                 1841 	inc	r0
+   0687 86 83              1842 	mov	dph,@r0
+   0689 08                 1843 	inc	r0
+   068A 86 F0              1844 	mov	b,@r0
+   068C EA                 1845 	mov	a,r2
+   068D 12s00r00           1846 	lcall	__gptrput
+                           1847 ;	../../core/net/resolv.c:351: for(i = 0; i < 4; i++) {
+   0690 90s00rB7           1848 	mov	dptr,#_newdata_i_1_1
+   0693 EE                 1849 	mov	a,r6
+   0694 04                 1850 	inc	a
+   0695 F0                 1851 	movx	@dptr,a
+   0696 80 A5              1852 	sjmp	00117$
+   0698                    1853 00120$:
+                           1854 ;	../../core/net/resolv.c:355: resolv_found(namemapptr->name, &namemapptr->ipaddr);
+   0698 E5*00              1855 	mov	a,_bp
+   069A 24 04              1856 	add	a,#0x04
+   069C F8                 1857 	mov	r0,a
+   069D 74 25              1858 	mov	a,#0x25
+   069F 26                 1859 	add	a,@r0
+   06A0 FE                 1860 	mov	r6,a
+   06A1 E4                 1861 	clr	a
+   06A2 08                 1862 	inc	r0
+   06A3 36                 1863 	addc	a,@r0
+   06A4 FD                 1864 	mov	r5,a
+   06A5 08                 1865 	inc	r0
+   06A6 86 03              1866 	mov	ar3,@r0
+   06A8 E5*00              1867 	mov	a,_bp
+   06AA 24 04              1868 	add	a,#0x04
+   06AC F8                 1869 	mov	r0,a
+   06AD 74 05              1870 	mov	a,#0x05
+   06AF 26                 1871 	add	a,@r0
+   06B0 FA                 1872 	mov	r2,a
+   06B1 E4                 1873 	clr	a
+   06B2 08                 1874 	inc	r0
+   06B3 36                 1875 	addc	a,@r0
+   06B4 FC                 1876 	mov	r4,a
+   06B5 08                 1877 	inc	r0
+   06B6 86 07              1878 	mov	ar7,@r0
+   06B8 C0 06              1879 	push	ar6
+   06BA C0 05              1880 	push	ar5
+   06BC C0 03              1881 	push	ar3
+   06BE 8A 82              1882 	mov	dpl,r2
+   06C0 8C 83              1883 	mov	dph,r4
+   06C2 8F F0              1884 	mov	b,r7
+   06C4 12s0Br53           1885 	lcall	_resolv_found
+   06C7 15 81              1886 	dec	sp
+   06C9 15 81              1887 	dec	sp
+   06CB 15 81              1888 	dec	sp
+                           1889 ;	../../core/net/resolv.c:356: return;
+   06CD 80 52              1890 	sjmp	00121$
+   06CF                    1891 00107$:
+                           1892 ;	../../core/net/resolv.c:358: nameptr = nameptr + 10 + uip_htons(ans->len);
+   06CF E5*00              1893 	mov	a,_bp
+   06D1 24 0A              1894 	add	a,#0x0a
+   06D3 F8                 1895 	mov	r0,a
+   06D4 74 0A              1896 	mov	a,#0x0A
+   06D6 2B                 1897 	add	a,r3
+   06D7 F6                 1898 	mov	@r0,a
+   06D8 E4                 1899 	clr	a
+   06D9 3D                 1900 	addc	a,r5
+   06DA 08                 1901 	inc	r0
+   06DB F6                 1902 	mov	@r0,a
+   06DC 08                 1903 	inc	r0
+   06DD A6 06              1904 	mov	@r0,ar6
+   06DF 74 08              1905 	mov	a,#0x08
+   06E1 2A                 1906 	add	a,r2
+   06E2 FA                 1907 	mov	r2,a
+   06E3 E4                 1908 	clr	a
+   06E4 3C                 1909 	addc	a,r4
+   06E5 FC                 1910 	mov	r4,a
+   06E6 8A 82              1911 	mov	dpl,r2
+   06E8 8C 83              1912 	mov	dph,r4
+   06EA 8F F0              1913 	mov	b,r7
+   06EC 12s00r00           1914 	lcall	__gptrget
+   06EF FA                 1915 	mov	r2,a
+   06F0 A3                 1916 	inc	dptr
+   06F1 12s00r00           1917 	lcall	__gptrget
+   06F4 FC                 1918 	mov	r4,a
+   06F5 8A 82              1919 	mov	dpl,r2
+   06F7 8C 83              1920 	mov	dph,r4
+   06F9 12s00r00           1921 	lcall	_uip_htons
+   06FC AC 82              1922 	mov	r4,dpl
+   06FE AF 83              1923 	mov	r7,dph
+   0700 E5*00              1924 	mov	a,_bp
+   0702 24 0A              1925 	add	a,#0x0a
+   0704 F8                 1926 	mov	r0,a
+   0705 EC                 1927 	mov	a,r4
+   0706 26                 1928 	add	a,@r0
+   0707 FC                 1929 	mov	r4,a
+   0708 EF                 1930 	mov	a,r7
+   0709 08                 1931 	inc	r0
+   070A 36                 1932 	addc	a,@r0
+   070B FF                 1933 	mov	r7,a
+   070C 08                 1934 	inc	r0
+   070D 86 02              1935 	mov	ar2,@r0
+   070F 8C 03              1936 	mov	ar3,r4
+   0711 8F 05              1937 	mov	ar5,r7
+   0713 8A 06              1938 	mov	ar6,r2
+                           1939 ;	../../core/net/resolv.c:360: --nanswers;
+   0715 90s00rB6           1940 	mov	dptr,#_newdata_nanswers_1_1
+   0718 E0                 1941 	movx	a,@dptr
+   0719 14                 1942 	dec	a
+   071A 90s00rB6           1943 	mov	dptr,#_newdata_nanswers_1_1
+   071D F0                 1944 	movx	@dptr,a
+   071E 02s05r6E           1945 	ljmp	00111$
+   0721                    1946 00121$:
+   0721 85*00 81           1947 	mov	sp,_bp
+   0724 D0*00              1948 	pop	_bp
+   0726 22                 1949 	ret
+                           1950 ;------------------------------------------------------------
+                           1951 ;Allocation info for local variables in function 'process_thread_resolv_process'
+                           1952 ;------------------------------------------------------------
+                           1953 ;ev                        Allocated to stack - _bp -3
+                           1954 ;data                      Allocated to stack - _bp -6
+                           1955 ;process_pt                Allocated to registers r5 r6 r7 
+                           1956 ;i                         Allocated to stack - _bp +1
+                           1957 ;PT_YIELD_FLAG             Allocated to registers r4 
+                           1958 ;------------------------------------------------------------
+                           1959 ;	../../core/net/resolv.c:369: PROCESS_THREAD(resolv_process, ev, data)
+                           1960 ;	-----------------------------------------
+                           1961 ;	 function process_thread_resolv_process
+                           1962 ;	-----------------------------------------
+   0727                    1963 _process_thread_resolv_process:
+   0727 C0*00              1964 	push	_bp
+   0729 85 81*00           1965 	mov	_bp,sp
+   072C 05 81              1966 	inc	sp
+   072E 05 81              1967 	inc	sp
+                           1968 ;	../../core/net/resolv.c:373: PROCESS_BEGIN();
+   0730 AD 82              1969 	mov	r5,dpl
+   0732 AE 83              1970 	mov	r6,dph
+   0734 AF F0              1971 	mov	r7,b
+   0736 7C 01              1972 	mov	r4,#0x01
+   0738 12s00r00           1973 	lcall	__gptrget
+   073B FA                 1974 	mov	r2,a
+   073C A3                 1975 	inc	dptr
+   073D 12s00r00           1976 	lcall	__gptrget
+   0740 FB                 1977 	mov	r3,a
+   0741 BA 00 05           1978 	cjne	r2,#0x00,00165$
+   0744 BB 00 02           1979 	cjne	r3,#0x00,00165$
+   0747 80 0B              1980 	sjmp	00139$
+   0749                    1981 00165$:
+   0749 BA 7F 05           1982 	cjne	r2,#0x7F,00166$
+   074C BB 01 02           1983 	cjne	r3,#0x01,00166$
+   074F 80 6C              1984 	sjmp	00102$
+   0751                    1985 00166$:
+   0751 02s08rDE           1986 	ljmp	00129$
+                           1987 ;	../../core/net/resolv.c:375: for(i = 0; i < RESOLV_ENTRIES; ++i) {
+   0754                    1988 00139$:
+   0754 A8*00              1989 	mov	r0,_bp
+   0756 08                 1990 	inc	r0
+   0757 E4                 1991 	clr	a
+   0758 F6                 1992 	mov	@r0,a
+   0759 08                 1993 	inc	r0
+   075A F6                 1994 	mov	@r0,a
+   075B 7A 00              1995 	mov	r2,#0x00
+   075D 7B 00              1996 	mov	r3,#0x00
+   075F                    1997 00130$:
+   075F A8*00              1998 	mov	r0,_bp
+   0761 08                 1999 	inc	r0
+   0762 C3                 2000 	clr	c
+   0763 E6                 2001 	mov	a,@r0
+   0764 94 04              2002 	subb	a,#0x04
+   0766 08                 2003 	inc	r0
+   0767 E6                 2004 	mov	a,@r0
+   0768 64 80              2005 	xrl	a,#0x80
+   076A 94 80              2006 	subb	a,#0x80
+   076C 50 1E              2007 	jnc	00133$
+                           2008 ;	../../core/net/resolv.c:376: names[i].state = STATE_UNUSED;
+   076E EA                 2009 	mov	a,r2
+   076F 24r00              2010 	add	a,#_names
+   0771 F5 82              2011 	mov	dpl,a
+   0773 EB                 2012 	mov	a,r3
+   0774 34s00              2013 	addc	a,#(_names >> 8)
+   0776 F5 83              2014 	mov	dph,a
+   0778 E4                 2015 	clr	a
+   0779 F0                 2016 	movx	@dptr,a
+                           2017 ;	../../core/net/resolv.c:375: for(i = 0; i < RESOLV_ENTRIES; ++i) {
+   077A 74 29              2018 	mov	a,#0x29
+   077C 2A                 2019 	add	a,r2
+   077D FA                 2020 	mov	r2,a
+   077E E4                 2021 	clr	a
+   077F 3B                 2022 	addc	a,r3
+   0780 FB                 2023 	mov	r3,a
+   0781 A8*00              2024 	mov	r0,_bp
+   0783 08                 2025 	inc	r0
+   0784 06                 2026 	inc	@r0
+   0785 B6 00 02           2027 	cjne	@r0,#0x00,00168$
+   0788 08                 2028 	inc	r0
+   0789 06                 2029 	inc	@r0
+   078A                    2030 00168$:
+   078A 80 D3              2031 	sjmp	00130$
+   078C                    2032 00133$:
+                           2033 ;	../../core/net/resolv.c:378: resolv_conn = NULL;
+   078C 90s00r00           2034 	mov	dptr,#_resolv_conn
+   078F E4                 2035 	clr	a
+   0790 F0                 2036 	movx	@dptr,a
+   0791 A3                 2037 	inc	dptr
+   0792 F0                 2038 	movx	@dptr,a
+   0793 A3                 2039 	inc	dptr
+   0794 F0                 2040 	movx	@dptr,a
+                           2041 ;	../../core/net/resolv.c:379: resolv_event_found = process_alloc_event();
+   0795 C0 07              2042 	push	ar7
+   0797 C0 06              2043 	push	ar6
+   0799 C0 05              2044 	push	ar5
+   079B 12s00r00           2045 	lcall	_process_alloc_event
+   079E E5 82              2046 	mov	a,dpl
+   07A0 D0 05              2047 	pop	ar5
+   07A2 D0 06              2048 	pop	ar6
+   07A4 D0 07              2049 	pop	ar7
+   07A6 90s00rAF           2050 	mov	dptr,#_resolv_event_found
+   07A9 F0                 2051 	movx	@dptr,a
+                           2052 ;	../../core/net/resolv.c:382: while(1) {
+   07AA                    2053 00127$:
+                           2054 ;	../../core/net/resolv.c:383: PROCESS_WAIT_EVENT();
+   07AA 7C 00              2055 	mov	r4,#0x00
+   07AC 8D 82              2056 	mov	dpl,r5
+   07AE 8E 83              2057 	mov	dph,r6
+   07B0 8F F0              2058 	mov	b,r7
+   07B2 74 7F              2059 	mov	a,#0x7F
+   07B4 12s00r00           2060 	lcall	__gptrput
+   07B7 A3                 2061 	inc	dptr
+   07B8 74 01              2062 	mov	a,#0x01
+   07BA 12s00r00           2063 	lcall	__gptrput
+   07BD                    2064 00102$:
+   07BD EC                 2065 	mov	a,r4
+   07BE 70 06              2066 	jnz	00106$
+   07C0 75 82 01           2067 	mov	dpl,#0x01
+   07C3 02s08rF0           2068 	ljmp	00134$
+   07C6                    2069 00106$:
+                           2070 ;	../../core/net/resolv.c:385: if(ev == PROCESS_EVENT_TIMER) {
+   07C6 E5*00              2071 	mov	a,_bp
+   07C8 24 FD              2072 	add	a,#0xfd
+   07CA F8                 2073 	mov	r0,a
+   07CB B6 88 26           2074 	cjne	@r0,#0x88,00124$
+                           2075 ;	../../core/net/resolv.c:386: if(resolv_conn != NULL) {
+   07CE 90s00r00           2076 	mov	dptr,#_resolv_conn
+   07D1 E0                 2077 	movx	a,@dptr
+   07D2 FA                 2078 	mov	r2,a
+   07D3 A3                 2079 	inc	dptr
+   07D4 E0                 2080 	movx	a,@dptr
+   07D5 FB                 2081 	mov	r3,a
+   07D6 A3                 2082 	inc	dptr
+   07D7 E0                 2083 	movx	a,@dptr
+   07D8 FC                 2084 	mov	r4,a
+   07D9 EA                 2085 	mov	a,r2
+   07DA 4B                 2086 	orl	a,r3
+   07DB 60 CD              2087 	jz	00127$
+                           2088 ;	../../core/net/resolv.c:387: tcpip_poll_udp(resolv_conn);
+   07DD 8A 82              2089 	mov	dpl,r2
+   07DF 8B 83              2090 	mov	dph,r3
+   07E1 8C F0              2091 	mov	b,r4
+   07E3 C0 07              2092 	push	ar7
+   07E5 C0 06              2093 	push	ar6
+   07E7 C0 05              2094 	push	ar5
+   07E9 12s00r00           2095 	lcall	_tcpip_poll_udp
+   07EC D0 05              2096 	pop	ar5
+   07EE D0 06              2097 	pop	ar6
+   07F0 D0 07              2098 	pop	ar7
+   07F2 80 B6              2099 	sjmp	00127$
+   07F4                    2100 00124$:
+                           2101 ;	../../core/net/resolv.c:390: } else if(ev == EVENT_NEW_SERVER) {
+   07F4 E5*00              2102 	mov	a,_bp
+   07F6 24 FD              2103 	add	a,#0xfd
+   07F8 F8                 2104 	mov	r0,a
+   07F9 E6                 2105 	mov	a,@r0
+   07FA 70 6F              2106 	jnz	00121$
+                           2107 ;	../../core/net/resolv.c:391: if(resolv_conn != NULL) {
+   07FC 90s00r00           2108 	mov	dptr,#_resolv_conn
+   07FF E0                 2109 	movx	a,@dptr
+   0800 FA                 2110 	mov	r2,a
+   0801 A3                 2111 	inc	dptr
+   0802 E0                 2112 	movx	a,@dptr
+   0803 FB                 2113 	mov	r3,a
+   0804 A3                 2114 	inc	dptr
+   0805 E0                 2115 	movx	a,@dptr
+   0806 FC                 2116 	mov	r4,a
+   0807 EA                 2117 	mov	a,r2
+   0808 4B                 2118 	orl	a,r3
+   0809 60 16              2119 	jz	00111$
+                           2120 ;	../../core/net/resolv.c:392: uip_udp_remove(resolv_conn);
+   080B 74 04              2121 	mov	a,#0x04
+   080D 2A                 2122 	add	a,r2
+   080E FA                 2123 	mov	r2,a
+   080F E4                 2124 	clr	a
+   0810 3B                 2125 	addc	a,r3
+   0811 FB                 2126 	mov	r3,a
+   0812 8A 82              2127 	mov	dpl,r2
+   0814 8B 83              2128 	mov	dph,r3
+   0816 8C F0              2129 	mov	b,r4
+   0818 E4                 2130 	clr	a
+   0819 12s00r00           2131 	lcall	__gptrput
+   081C A3                 2132 	inc	dptr
+   081D E4                 2133 	clr	a
+   081E 12s00r00           2134 	lcall	__gptrput
+   0821                    2135 00111$:
+                           2136 ;	../../core/net/resolv.c:394: resolv_conn = udp_new((uip_ipaddr_t *)data, UIP_HTONS(53), NULL);
+   0821 E5*00              2137 	mov	a,_bp
+   0823 24 FA              2138 	add	a,#0xfa
+   0825 F8                 2139 	mov	r0,a
+   0826 86 02              2140 	mov	ar2,@r0
+   0828 08                 2141 	inc	r0
+   0829 86 03              2142 	mov	ar3,@r0
+   082B 08                 2143 	inc	r0
+   082C 86 04              2144 	mov	ar4,@r0
+   082E C0 07              2145 	push	ar7
+   0830 C0 06              2146 	push	ar6
+   0832 C0 05              2147 	push	ar5
+   0834 E4                 2148 	clr	a
+   0835 C0 E0              2149 	push	acc
+   0837 C0 E0              2150 	push	acc
+   0839 C0 E0              2151 	push	acc
+   083B E4                 2152 	clr	a
+   083C C0 E0              2153 	push	acc
+   083E 74 35              2154 	mov	a,#0x35
+   0840 C0 E0              2155 	push	acc
+   0842 8A 82              2156 	mov	dpl,r2
+   0844 8B 83              2157 	mov	dph,r3
+   0846 8C F0              2158 	mov	b,r4
+   0848 12s00r00           2159 	lcall	_udp_new
+   084B AA 82              2160 	mov	r2,dpl
+   084D AB 83              2161 	mov	r3,dph
+   084F AC F0              2162 	mov	r4,b
+   0851 E5 81              2163 	mov	a,sp
+   0853 24 FB              2164 	add	a,#0xfb
+   0855 F5 81              2165 	mov	sp,a
+   0857 D0 05              2166 	pop	ar5
+   0859 D0 06              2167 	pop	ar6
+   085B D0 07              2168 	pop	ar7
+   085D 90s00r00           2169 	mov	dptr,#_resolv_conn
+   0860 EA                 2170 	mov	a,r2
+   0861 F0                 2171 	movx	@dptr,a
+   0862 A3                 2172 	inc	dptr
+   0863 EB                 2173 	mov	a,r3
+   0864 F0                 2174 	movx	@dptr,a
+   0865 A3                 2175 	inc	dptr
+   0866 EC                 2176 	mov	a,r4
+   0867 F0                 2177 	movx	@dptr,a
+   0868 02s07rAA           2178 	ljmp	00127$
+   086B                    2179 00121$:
+                           2180 ;	../../core/net/resolv.c:396: } else if(ev == tcpip_event) {
+   086B 90s00r00           2181 	mov	dptr,#_tcpip_event
+   086E E0                 2182 	movx	a,@dptr
+   086F FC                 2183 	mov	r4,a
+   0870 E5*00              2184 	mov	a,_bp
+   0872 24 FD              2185 	add	a,#0xfd
+   0874 F8                 2186 	mov	r0,a
+   0875 E6                 2187 	mov	a,@r0
+   0876 B5 04 02           2188 	cjne	a,ar4,00175$
+   0879 80 03              2189 	sjmp	00176$
+   087B                    2190 00175$:
+   087B 02s07rAA           2191 	ljmp	00127$
+   087E                    2192 00176$:
+                           2193 ;	../../core/net/resolv.c:397: if(uip_udp_conn->rport == UIP_HTONS(53)) {
+   087E 90s00r00           2194 	mov	dptr,#_uip_udp_conn
+   0881 E0                 2195 	movx	a,@dptr
+   0882 FA                 2196 	mov	r2,a
+   0883 A3                 2197 	inc	dptr
+   0884 E0                 2198 	movx	a,@dptr
+   0885 FB                 2199 	mov	r3,a
+   0886 A3                 2200 	inc	dptr
+   0887 E0                 2201 	movx	a,@dptr
+   0888 FC                 2202 	mov	r4,a
+   0889 74 06              2203 	mov	a,#0x06
+   088B 2A                 2204 	add	a,r2
+   088C FA                 2205 	mov	r2,a
+   088D E4                 2206 	clr	a
+   088E 3B                 2207 	addc	a,r3
+   088F FB                 2208 	mov	r3,a
+   0890 8A 82              2209 	mov	dpl,r2
+   0892 8B 83              2210 	mov	dph,r3
+   0894 8C F0              2211 	mov	b,r4
+   0896 12s00r00           2212 	lcall	__gptrget
+   0899 FA                 2213 	mov	r2,a
+   089A A3                 2214 	inc	dptr
+   089B 12s00r00           2215 	lcall	__gptrget
+   089E FB                 2216 	mov	r3,a
+   089F BA 00 05           2217 	cjne	r2,#0x00,00177$
+   08A2 BB 35 02           2218 	cjne	r3,#0x35,00177$
+   08A5 80 03              2219 	sjmp	00178$
+   08A7                    2220 00177$:
+   08A7 02s07rAA           2221 	ljmp	00127$
+   08AA                    2222 00178$:
+                           2223 ;	../../core/net/resolv.c:398: if(uip_poll()) {
+   08AA 90s00r00           2224 	mov	dptr,#_uip_flags
+   08AD E0                 2225 	movx	a,@dptr
+   08AE FC                 2226 	mov	r4,a
+   08AF 30 E3 0F           2227 	jnb	acc.3,00113$
+                           2228 ;	../../core/net/resolv.c:399: check_entries();
+   08B2 C0 07              2229 	push	ar7
+   08B4 C0 06              2230 	push	ar6
+   08B6 C0 05              2231 	push	ar5
+   08B8 12s00r43           2232 	lcall	_check_entries
+   08BB D0 05              2233 	pop	ar5
+   08BD D0 06              2234 	pop	ar6
+   08BF D0 07              2235 	pop	ar7
+   08C1                    2236 00113$:
+                           2237 ;	../../core/net/resolv.c:401: if(uip_newdata()) {
+   08C1 90s00r00           2238 	mov	dptr,#_uip_flags
+   08C4 E0                 2239 	movx	a,@dptr
+   08C5 FC                 2240 	mov	r4,a
+   08C6 20 E1 03           2241 	jb	acc.1,00180$
+   08C9 02s07rAA           2242 	ljmp	00127$
+   08CC                    2243 00180$:
+                           2244 ;	../../core/net/resolv.c:402: newdata();
+   08CC C0 07              2245 	push	ar7
+   08CE C0 06              2246 	push	ar6
+   08D0 C0 05              2247 	push	ar5
+   08D2 12s03rF0           2248 	lcall	_newdata
+   08D5 D0 05              2249 	pop	ar5
+   08D7 D0 06              2250 	pop	ar6
+   08D9 D0 07              2251 	pop	ar7
+   08DB 02s07rAA           2252 	ljmp	00127$
+                           2253 ;	../../core/net/resolv.c:408: PROCESS_END();
+   08DE                    2254 00129$:
+   08DE 8D 82              2255 	mov	dpl,r5
+   08E0 8E 83              2256 	mov	dph,r6
+   08E2 8F F0              2257 	mov	b,r7
+   08E4 E4                 2258 	clr	a
+   08E5 12s00r00           2259 	lcall	__gptrput
+   08E8 A3                 2260 	inc	dptr
+   08E9 E4                 2261 	clr	a
+   08EA 12s00r00           2262 	lcall	__gptrput
+   08ED 75 82 03           2263 	mov	dpl,#0x03
+   08F0                    2264 00134$:
+   08F0 85*00 81           2265 	mov	sp,_bp
+   08F3 D0*00              2266 	pop	_bp
+   08F5 22                 2267 	ret
+                           2268 ;------------------------------------------------------------
+                           2269 ;Allocation info for local variables in function 'resolv_query'
+                           2270 ;------------------------------------------------------------
+                           2271 ;name                      Allocated to stack - _bp +1
+                           2272 ;nameptr                   Allocated to stack - _bp +4
+                           2273 ;sloc0                     Allocated to stack - _bp +7
+                           2274 ;i                         Allocated with name '_resolv_query_i_1_1'
+                           2275 ;lseq                      Allocated with name '_resolv_query_lseq_1_1'
+                           2276 ;lseqi                     Allocated with name '_resolv_query_lseqi_1_1'
+                           2277 ;------------------------------------------------------------
+                           2278 ;	../../core/net/resolv.c:418: resolv_query(const char *name)
+                           2279 ;	-----------------------------------------
+                           2280 ;	 function resolv_query
+                           2281 ;	-----------------------------------------
+   08F6                    2282 _resolv_query:
+   08F6 C0*00              2283 	push	_bp
+   08F8 85 81*00           2284 	mov	_bp,sp
+   08FB C0 82              2285 	push	dpl
+   08FD C0 83              2286 	push	dph
+   08FF C0 F0              2287 	push	b
+   0901 05 81              2288 	inc	sp
+   0903 05 81              2289 	inc	sp
+   0905 05 81              2290 	inc	sp
+                           2291 ;	../../core/net/resolv.c:424: lseq = lseqi = 0;
+   0907 90s00rBA           2292 	mov	dptr,#_resolv_query_lseqi_1_1
+   090A E4                 2293 	clr	a
+   090B F0                 2294 	movx	@dptr,a
+   090C 90s00rB9           2295 	mov	dptr,#_resolv_query_lseq_1_1
+   090F F0                 2296 	movx	@dptr,a
+                           2297 ;	../../core/net/resolv.c:425: nameptr = 0;                //compiler warning if not initialized
+   0910 E5*00              2298 	mov	a,_bp
+   0912 24 04              2299 	add	a,#0x04
+   0914 F8                 2300 	mov	r0,a
+   0915 E4                 2301 	clr	a
+   0916 F6                 2302 	mov	@r0,a
+   0917 08                 2303 	inc	r0
+   0918 F6                 2304 	mov	@r0,a
+   0919 08                 2305 	inc	r0
+   091A 76 00              2306 	mov	@r0,#0x00
+                           2307 ;	../../core/net/resolv.c:427: for(i = 0; i < RESOLV_ENTRIES; ++i) {
+   091C 90s00rB8           2308 	mov	dptr,#_resolv_query_i_1_1
+   091F E4                 2309 	clr	a
+   0920 F0                 2310 	movx	@dptr,a
+   0921                    2311 00105$:
+   0921 90s00rB8           2312 	mov	dptr,#_resolv_query_i_1_1
+   0924 E0                 2313 	movx	a,@dptr
+   0925 FF                 2314 	mov	r7,a
+   0926 BF 04 00           2315 	cjne	r7,#0x04,00127$
+   0929                    2316 00127$:
+   0929 40 03              2317 	jc	00128$
+   092B 02s09rB5           2318 	ljmp	00108$
+   092E                    2319 00128$:
+                           2320 ;	../../core/net/resolv.c:428: nameptr = &names[i];
+   092E EF                 2321 	mov	a,r7
+   092F 75 F0 29           2322 	mov	b,#0x29
+   0932 A4                 2323 	mul	ab
+   0933 24r00              2324 	add	a,#_names
+   0935 FD                 2325 	mov	r5,a
+   0936 E4                 2326 	clr	a
+   0937 34s00              2327 	addc	a,#(_names >> 8)
+   0939 FE                 2328 	mov	r6,a
+   093A E5*00              2329 	mov	a,_bp
+   093C 24 04              2330 	add	a,#0x04
+   093E F8                 2331 	mov	r0,a
+   093F A6 05              2332 	mov	@r0,ar5
+   0941 08                 2333 	inc	r0
+   0942 A6 06              2334 	mov	@r0,ar6
+   0944 08                 2335 	inc	r0
+   0945 76 00              2336 	mov	@r0,#0x00
+                           2337 ;	../../core/net/resolv.c:429: if(nameptr->state == STATE_UNUSED) {
+   0947 E5*00              2338 	mov	a,_bp
+   0949 24 04              2339 	add	a,#0x04
+   094B F8                 2340 	mov	r0,a
+   094C 86 82              2341 	mov	dpl,@r0
+   094E 08                 2342 	inc	r0
+   094F 86 83              2343 	mov	dph,@r0
+   0951 08                 2344 	inc	r0
+   0952 86 F0              2345 	mov	b,@r0
+   0954 12s00r00           2346 	lcall	__gptrget
+   0957 60 5C              2347 	jz	00108$
+                           2348 ;	../../core/net/resolv.c:432: if(seqno - nameptr->seqno > lseq) {
+   0959 C0 07              2349 	push	ar7
+   095B 90s00rA4           2350 	mov	dptr,#_seqno
+   095E E0                 2351 	movx	a,@dptr
+   095F FE                 2352 	mov	r6,a
+   0960 FD                 2353 	mov	r5,a
+   0961 7F 00              2354 	mov	r7,#0x00
+   0963 E5*00              2355 	mov	a,_bp
+   0965 24 04              2356 	add	a,#0x04
+   0967 F8                 2357 	mov	r0,a
+   0968 74 03              2358 	mov	a,#0x03
+   096A 26                 2359 	add	a,@r0
+   096B FA                 2360 	mov	r2,a
+   096C E4                 2361 	clr	a
+   096D 08                 2362 	inc	r0
+   096E 36                 2363 	addc	a,@r0
+   096F FB                 2364 	mov	r3,a
+   0970 08                 2365 	inc	r0
+   0971 86 04              2366 	mov	ar4,@r0
+   0973 8A 82              2367 	mov	dpl,r2
+   0975 8B 83              2368 	mov	dph,r3
+   0977 8C F0              2369 	mov	b,r4
+   0979 12s00r00           2370 	lcall	__gptrget
+   097C FA                 2371 	mov	r2,a
+   097D FB                 2372 	mov	r3,a
+   097E 7C 00              2373 	mov	r4,#0x00
+   0980 ED                 2374 	mov	a,r5
+   0981 C3                 2375 	clr	c
+   0982 9B                 2376 	subb	a,r3
+   0983 FD                 2377 	mov	r5,a
+   0984 EF                 2378 	mov	a,r7
+   0985 9C                 2379 	subb	a,r4
+   0986 FF                 2380 	mov	r7,a
+   0987 90s00rB9           2381 	mov	dptr,#_resolv_query_lseq_1_1
+   098A E0                 2382 	movx	a,@dptr
+   098B FC                 2383 	mov	r4,a
+   098C 7B 00              2384 	mov	r3,#0x00
+   098E C3                 2385 	clr	c
+   098F EC                 2386 	mov	a,r4
+   0990 9D                 2387 	subb	a,r5
+   0991 EB                 2388 	mov	a,r3
+   0992 64 80              2389 	xrl	a,#0x80
+   0994 8F F0              2390 	mov	b,r7
+   0996 63 F0 80           2391 	xrl	b,#0x80
+   0999 95 F0              2392 	subb	a,b
+   099B D0 07              2393 	pop	ar7
+   099D 50 0C              2394 	jnc	00107$
+                           2395 ;	../../core/net/resolv.c:433: lseq = seqno - nameptr->seqno;
+   099F 90s00rB9           2396 	mov	dptr,#_resolv_query_lseq_1_1
+   09A2 EE                 2397 	mov	a,r6
+   09A3 C3                 2398 	clr	c
+   09A4 9A                 2399 	subb	a,r2
+   09A5 F0                 2400 	movx	@dptr,a
+                           2401 ;	../../core/net/resolv.c:434: lseqi = i;
+   09A6 90s00rBA           2402 	mov	dptr,#_resolv_query_lseqi_1_1
+   09A9 EF                 2403 	mov	a,r7
+   09AA F0                 2404 	movx	@dptr,a
+   09AB                    2405 00107$:
+                           2406 ;	../../core/net/resolv.c:427: for(i = 0; i < RESOLV_ENTRIES; ++i) {
+   09AB 90s00rB8           2407 	mov	dptr,#_resolv_query_i_1_1
+   09AE E0                 2408 	movx	a,@dptr
+   09AF 24 01              2409 	add	a,#0x01
+   09B1 F0                 2410 	movx	@dptr,a
+   09B2 02s09r21           2411 	ljmp	00105$
+   09B5                    2412 00108$:
+                           2413 ;	../../core/net/resolv.c:438: if(i == RESOLV_ENTRIES) {
+   09B5 90s00rB8           2414 	mov	dptr,#_resolv_query_i_1_1
+   09B8 E0                 2415 	movx	a,@dptr
+   09B9 FF                 2416 	mov	r7,a
+   09BA BF 04 22           2417 	cjne	r7,#0x04,00110$
+                           2418 ;	../../core/net/resolv.c:439: i = lseqi;
+   09BD 90s00rBA           2419 	mov	dptr,#_resolv_query_lseqi_1_1
+   09C0 E0                 2420 	movx	a,@dptr
+   09C1 FF                 2421 	mov	r7,a
+   09C2 90s00rB8           2422 	mov	dptr,#_resolv_query_i_1_1
+   09C5 F0                 2423 	movx	@dptr,a
+                           2424 ;	../../core/net/resolv.c:440: nameptr = &names[i];
+   09C6 EF                 2425 	mov	a,r7
+   09C7 75 F0 29           2426 	mov	b,#0x29
+   09CA A4                 2427 	mul	ab
+   09CB 24r00              2428 	add	a,#_names
+   09CD FE                 2429 	mov	r6,a
+   09CE E4                 2430 	clr	a
+   09CF 34s00              2431 	addc	a,#(_names >> 8)
+   09D1 FF                 2432 	mov	r7,a
+   09D2 E5*00              2433 	mov	a,_bp
+   09D4 24 04              2434 	add	a,#0x04
+   09D6 F8                 2435 	mov	r0,a
+   09D7 A6 06              2436 	mov	@r0,ar6
+   09D9 08                 2437 	inc	r0
+   09DA A6 07              2438 	mov	@r0,ar7
+   09DC 08                 2439 	inc	r0
+   09DD 76 00              2440 	mov	@r0,#0x00
+   09DF                    2441 00110$:
+                           2442 ;	../../core/net/resolv.c:443: strncpy(nameptr->name, name, sizeof(nameptr->name));
+   09DF E5*00              2443 	mov	a,_bp
+   09E1 24 04              2444 	add	a,#0x04
+   09E3 F8                 2445 	mov	r0,a
+   09E4 74 05              2446 	mov	a,#0x05
+   09E6 26                 2447 	add	a,@r0
+   09E7 FD                 2448 	mov	r5,a
+   09E8 E4                 2449 	clr	a
+   09E9 08                 2450 	inc	r0
+   09EA 36                 2451 	addc	a,@r0
+   09EB FE                 2452 	mov	r6,a
+   09EC 08                 2453 	inc	r0
+   09ED 86 07              2454 	mov	ar7,@r0
+   09EF 74 20              2455 	mov	a,#0x20
+   09F1 C0 E0              2456 	push	acc
+   09F3 E4                 2457 	clr	a
+   09F4 C0 E0              2458 	push	acc
+   09F6 A8*00              2459 	mov	r0,_bp
+   09F8 08                 2460 	inc	r0
+   09F9 E6                 2461 	mov	a,@r0
+   09FA C0 E0              2462 	push	acc
+   09FC 08                 2463 	inc	r0
+   09FD E6                 2464 	mov	a,@r0
+   09FE C0 E0              2465 	push	acc
+   0A00 08                 2466 	inc	r0
+   0A01 E6                 2467 	mov	a,@r0
+   0A02 C0 E0              2468 	push	acc
+   0A04 8D 82              2469 	mov	dpl,r5
+   0A06 8E 83              2470 	mov	dph,r6
+   0A08 8F F0              2471 	mov	b,r7
+   0A0A 12s00r00           2472 	lcall	_strncpy
+   0A0D E5 81              2473 	mov	a,sp
+   0A0F 24 FB              2474 	add	a,#0xfb
+   0A11 F5 81              2475 	mov	sp,a
+                           2476 ;	../../core/net/resolv.c:444: nameptr->state = STATE_NEW;
+   0A13 E5*00              2477 	mov	a,_bp
+   0A15 24 04              2478 	add	a,#0x04
+   0A17 F8                 2479 	mov	r0,a
+   0A18 86 82              2480 	mov	dpl,@r0
+   0A1A 08                 2481 	inc	r0
+   0A1B 86 83              2482 	mov	dph,@r0
+   0A1D 08                 2483 	inc	r0
+   0A1E 86 F0              2484 	mov	b,@r0
+   0A20 74 01              2485 	mov	a,#0x01
+   0A22 12s00r00           2486 	lcall	__gptrput
+                           2487 ;	../../core/net/resolv.c:445: nameptr->seqno = seqno;
+   0A25 E5*00              2488 	mov	a,_bp
+   0A27 24 04              2489 	add	a,#0x04
+   0A29 F8                 2490 	mov	r0,a
+   0A2A 74 03              2491 	mov	a,#0x03
+   0A2C 26                 2492 	add	a,@r0
+   0A2D FD                 2493 	mov	r5,a
+   0A2E E4                 2494 	clr	a
+   0A2F 08                 2495 	inc	r0
+   0A30 36                 2496 	addc	a,@r0
+   0A31 FE                 2497 	mov	r6,a
+   0A32 08                 2498 	inc	r0
+   0A33 86 07              2499 	mov	ar7,@r0
+   0A35 90s00rA4           2500 	mov	dptr,#_seqno
+   0A38 E0                 2501 	movx	a,@dptr
+   0A39 FC                 2502 	mov	r4,a
+   0A3A 8D 82              2503 	mov	dpl,r5
+   0A3C 8E 83              2504 	mov	dph,r6
+   0A3E 8F F0              2505 	mov	b,r7
+   0A40 12s00r00           2506 	lcall	__gptrput
+                           2507 ;	../../core/net/resolv.c:446: ++seqno;
+   0A43 90s00rA4           2508 	mov	dptr,#_seqno
+   0A46 EC                 2509 	mov	a,r4
+   0A47 04                 2510 	inc	a
+   0A48 F0                 2511 	movx	@dptr,a
+                           2512 ;	../../core/net/resolv.c:448: if(resolv_conn != NULL) {
+   0A49 90s00r00           2513 	mov	dptr,#_resolv_conn
+   0A4C E0                 2514 	movx	a,@dptr
+   0A4D FD                 2515 	mov	r5,a
+   0A4E A3                 2516 	inc	dptr
+   0A4F E0                 2517 	movx	a,@dptr
+   0A50 FE                 2518 	mov	r6,a
+   0A51 A3                 2519 	inc	dptr
+   0A52 E0                 2520 	movx	a,@dptr
+   0A53 FF                 2521 	mov	r7,a
+   0A54 ED                 2522 	mov	a,r5
+   0A55 4E                 2523 	orl	a,r6
+   0A56 60 09              2524 	jz	00113$
+                           2525 ;	../../core/net/resolv.c:449: tcpip_poll_udp(resolv_conn);
+   0A58 8D 82              2526 	mov	dpl,r5
+   0A5A 8E 83              2527 	mov	dph,r6
+   0A5C 8F F0              2528 	mov	b,r7
+   0A5E 12s00r00           2529 	lcall	_tcpip_poll_udp
+   0A61                    2530 00113$:
+   0A61 85*00 81           2531 	mov	sp,_bp
+   0A64 D0*00              2532 	pop	_bp
+   0A66 22                 2533 	ret
+                           2534 ;------------------------------------------------------------
+                           2535 ;Allocation info for local variables in function 'resolv_lookup'
+                           2536 ;------------------------------------------------------------
+                           2537 ;name                      Allocated to stack - _bp +1
+                           2538 ;nameptr                   Allocated to registers r3 r2 r4 
+                           2539 ;i                         Allocated with name '_resolv_lookup_i_1_1'
+                           2540 ;------------------------------------------------------------
+                           2541 ;	../../core/net/resolv.c:467: resolv_lookup(const char *name)
+                           2542 ;	-----------------------------------------
+                           2543 ;	 function resolv_lookup
+                           2544 ;	-----------------------------------------
+   0A67                    2545 _resolv_lookup:
+   0A67 C0*00              2546 	push	_bp
+   0A69 85 81*00           2547 	mov	_bp,sp
+   0A6C C0 82              2548 	push	dpl
+   0A6E C0 83              2549 	push	dph
+   0A70 C0 F0              2550 	push	b
+                           2551 ;	../../core/net/resolv.c:474: for(i = 0; i < RESOLV_ENTRIES; ++i) {
+   0A72 90s00rBB           2552 	mov	dptr,#_resolv_lookup_i_1_1
+   0A75 E4                 2553 	clr	a
+   0A76 F0                 2554 	movx	@dptr,a
+   0A77                    2555 00104$:
+   0A77 90s00rBB           2556 	mov	dptr,#_resolv_lookup_i_1_1
+   0A7A E0                 2557 	movx	a,@dptr
+   0A7B FC                 2558 	mov	r4,a
+   0A7C BC 04 00           2559 	cjne	r4,#0x04,00118$
+   0A7F                    2560 00118$:
+   0A7F 50 6A              2561 	jnc	00107$
+                           2562 ;	../../core/net/resolv.c:475: nameptr = &names[i];
+   0A81 EC                 2563 	mov	a,r4
+   0A82 75 F0 29           2564 	mov	b,#0x29
+   0A85 A4                 2565 	mul	ab
+   0A86 24r00              2566 	add	a,#_names
+   0A88 FB                 2567 	mov	r3,a
+   0A89 E4                 2568 	clr	a
+   0A8A 34s00              2569 	addc	a,#(_names >> 8)
+   0A8C FA                 2570 	mov	r2,a
+   0A8D 7C 00              2571 	mov	r4,#0x00
+                           2572 ;	../../core/net/resolv.c:476: if(nameptr->state == STATE_DONE &&
+   0A8F 8B 82              2573 	mov	dpl,r3
+   0A91 8A 83              2574 	mov	dph,r2
+   0A93 8C F0              2575 	mov	b,r4
+   0A95 12s00r00           2576 	lcall	__gptrget
+   0A98 FF                 2577 	mov	r7,a
+   0A99 BF 03 46           2578 	cjne	r7,#0x03,00106$
+                           2579 ;	../../core/net/resolv.c:477: strcmp(name, nameptr->name) == 0) {
+   0A9C 74 05              2580 	mov	a,#0x05
+   0A9E 2B                 2581 	add	a,r3
+   0A9F FD                 2582 	mov	r5,a
+   0AA0 E4                 2583 	clr	a
+   0AA1 3A                 2584 	addc	a,r2
+   0AA2 FE                 2585 	mov	r6,a
+   0AA3 8C 07              2586 	mov	ar7,r4
+   0AA5 C0 04              2587 	push	ar4
+   0AA7 C0 03              2588 	push	ar3
+   0AA9 C0 02              2589 	push	ar2
+   0AAB C0 05              2590 	push	ar5
+   0AAD C0 06              2591 	push	ar6
+   0AAF C0 07              2592 	push	ar7
+   0AB1 A8*00              2593 	mov	r0,_bp
+   0AB3 08                 2594 	inc	r0
+   0AB4 86 82              2595 	mov	dpl,@r0
+   0AB6 08                 2596 	inc	r0
+   0AB7 86 83              2597 	mov	dph,@r0
+   0AB9 08                 2598 	inc	r0
+   0ABA 86 F0              2599 	mov	b,@r0
+   0ABC 12s00r00           2600 	lcall	_strcmp
+   0ABF AE 82              2601 	mov	r6,dpl
+   0AC1 AF 83              2602 	mov	r7,dph
+   0AC3 15 81              2603 	dec	sp
+   0AC5 15 81              2604 	dec	sp
+   0AC7 15 81              2605 	dec	sp
+   0AC9 D0 02              2606 	pop	ar2
+   0ACB D0 03              2607 	pop	ar3
+   0ACD D0 04              2608 	pop	ar4
+   0ACF EE                 2609 	mov	a,r6
+   0AD0 4F                 2610 	orl	a,r7
+   0AD1 70 0F              2611 	jnz	00106$
+                           2612 ;	../../core/net/resolv.c:478: return &nameptr->ipaddr;
+   0AD3 74 25              2613 	mov	a,#0x25
+   0AD5 2B                 2614 	add	a,r3
+   0AD6 FB                 2615 	mov	r3,a
+   0AD7 E4                 2616 	clr	a
+   0AD8 3A                 2617 	addc	a,r2
+   0AD9 FA                 2618 	mov	r2,a
+   0ADA 8B 82              2619 	mov	dpl,r3
+   0ADC 8A 83              2620 	mov	dph,r2
+   0ADE 8C F0              2621 	mov	b,r4
+   0AE0 80 0F              2622 	sjmp	00108$
+   0AE2                    2623 00106$:
+                           2624 ;	../../core/net/resolv.c:474: for(i = 0; i < RESOLV_ENTRIES; ++i) {
+   0AE2 90s00rBB           2625 	mov	dptr,#_resolv_lookup_i_1_1
+   0AE5 E0                 2626 	movx	a,@dptr
+   0AE6 24 01              2627 	add	a,#0x01
+   0AE8 F0                 2628 	movx	@dptr,a
+   0AE9 80 8C              2629 	sjmp	00104$
+   0AEB                    2630 00107$:
+                           2631 ;	../../core/net/resolv.c:481: return NULL;
+   0AEB 90 00 00           2632 	mov	dptr,#0x0000
+   0AEE 75 F0 00           2633 	mov	b,#0x00
+   0AF1                    2634 00108$:
+   0AF1 85*00 81           2635 	mov	sp,_bp
+   0AF4 D0*00              2636 	pop	_bp
+   0AF6 22                 2637 	ret
+                           2638 ;------------------------------------------------------------
+                           2639 ;Allocation info for local variables in function 'resolv_getserver'
+                           2640 ;------------------------------------------------------------
+                           2641 ;	../../core/net/resolv.c:493: resolv_getserver(void)
+                           2642 ;	-----------------------------------------
+                           2643 ;	 function resolv_getserver
+                           2644 ;	-----------------------------------------
+   0AF7                    2645 _resolv_getserver:
+                           2646 ;	../../core/net/resolv.c:495: if(resolv_conn == NULL) {
+   0AF7 90s00r00           2647 	mov	dptr,#_resolv_conn
+   0AFA E0                 2648 	movx	a,@dptr
+   0AFB FD                 2649 	mov	r5,a
+   0AFC A3                 2650 	inc	dptr
+   0AFD E0                 2651 	movx	a,@dptr
+   0AFE FE                 2652 	mov	r6,a
+   0AFF A3                 2653 	inc	dptr
+   0B00 E0                 2654 	movx	a,@dptr
+   0B01 FF                 2655 	mov	r7,a
+   0B02 ED                 2656 	mov	a,r5
+   0B03 4E                 2657 	orl	a,r6
+                           2658 ;	../../core/net/resolv.c:496: return NULL;
+   0B04 70 06              2659 	jnz	00102$
+   0B06 90 00 00           2660 	mov	dptr,#0x0000
+   0B09 F5 F0              2661 	mov	b,a
+   0B0B 22                 2662 	ret
+   0B0C                    2663 00102$:
+                           2664 ;	../../core/net/resolv.c:498: return &resolv_conn->ripaddr;
+   0B0C 8D 82              2665 	mov	dpl,r5
+   0B0E 8E 83              2666 	mov	dph,r6
+   0B10 8F F0              2667 	mov	b,r7
+   0B12 22                 2668 	ret
+                           2669 ;------------------------------------------------------------
+                           2670 ;Allocation info for local variables in function 'resolv_conf'
+                           2671 ;------------------------------------------------------------
+                           2672 ;dnsserver                 Allocated to registers r5 r6 r7 
+                           2673 ;server                    Allocated with name '_resolv_conf_server_1_1'
+                           2674 ;------------------------------------------------------------
+                           2675 ;	../../core/net/resolv.c:509: resolv_conf(const uip_ipaddr_t *dnsserver)
+                           2676 ;	-----------------------------------------
+                           2677 ;	 function resolv_conf
+                           2678 ;	-----------------------------------------
+   0B13                    2679 _resolv_conf:
+   0B13 AD 82              2680 	mov	r5,dpl
+   0B15 AE 83              2681 	mov	r6,dph
+   0B17 AF F0              2682 	mov	r7,b
+                           2683 ;	../../core/net/resolv.c:512: uip_ipaddr_copy(&server, dnsserver);
+   0B19 74 04              2684 	mov	a,#0x04
+   0B1B C0 E0              2685 	push	acc
+   0B1D E4                 2686 	clr	a
+   0B1E C0 E0              2687 	push	acc
+   0B20 C0 05              2688 	push	ar5
+   0B22 C0 06              2689 	push	ar6
+   0B24 C0 07              2690 	push	ar7
+   0B26 90s00rBC           2691 	mov	dptr,#_resolv_conf_server_1_1
+   0B29 75 F0 00           2692 	mov	b,#0x00
+   0B2C 12s00r00           2693 	lcall	_memcpy
+   0B2F E5 81              2694 	mov	a,sp
+   0B31 24 FB              2695 	add	a,#0xfb
+   0B33 F5 81              2696 	mov	sp,a
+                           2697 ;	../../core/net/resolv.c:513: process_post(&resolv_process, EVENT_NEW_SERVER, &server);
+   0B35 74rBC              2698 	mov	a,#_resolv_conf_server_1_1
+   0B37 C0 E0              2699 	push	acc
+   0B39 74s00              2700 	mov	a,#(_resolv_conf_server_1_1 >> 8)
+   0B3B C0 E0              2701 	push	acc
+   0B3D E4                 2702 	clr	a
+   0B3E C0 E0              2703 	push	acc
+   0B40 E4                 2704 	clr	a
+   0B41 C0 E0              2705 	push	acc
+   0B43 90s00r03           2706 	mov	dptr,#_resolv_process
+   0B46 75 F0 00           2707 	mov	b,#0x00
+   0B49 12s00r00           2708 	lcall	_process_post
+   0B4C E5 81              2709 	mov	a,sp
+   0B4E 24 FC              2710 	add	a,#0xfc
+   0B50 F5 81              2711 	mov	sp,a
+   0B52 22                 2712 	ret
+                           2713 ;------------------------------------------------------------
+                           2714 ;Allocation info for local variables in function 'resolv_found'
+                           2715 ;------------------------------------------------------------
+                           2716 ;ipaddr                    Allocated to stack - _bp -5
+                           2717 ;name                      Allocated to registers r5 r6 r7 
+                           2718 ;------------------------------------------------------------
+                           2719 ;	../../core/net/resolv.c:528: resolv_found(char *name, uip_ipaddr_t *ipaddr)
+                           2720 ;	-----------------------------------------
+                           2721 ;	 function resolv_found
+                           2722 ;	-----------------------------------------
+   0B53                    2723 _resolv_found:
+   0B53 C0*00              2724 	push	_bp
+   0B55 85 81*00           2725 	mov	_bp,sp
+   0B58 AD 82              2726 	mov	r5,dpl
+   0B5A AE 83              2727 	mov	r6,dph
+   0B5C AF F0              2728 	mov	r7,b
+                           2729 ;	../../core/net/resolv.c:530: process_post(PROCESS_BROADCAST, resolv_event_found, name);
+   0B5E C0 05              2730 	push	ar5
+   0B60 C0 06              2731 	push	ar6
+   0B62 C0 07              2732 	push	ar7
+   0B64 90s00rAF           2733 	mov	dptr,#_resolv_event_found
+   0B67 E0                 2734 	movx	a,@dptr
+   0B68 C0 E0              2735 	push	acc
+   0B6A 90 00 00           2736 	mov	dptr,#0x0000
+   0B6D 75 F0 00           2737 	mov	b,#0x00
+   0B70 12s00r00           2738 	lcall	_process_post
+   0B73 E5 81              2739 	mov	a,sp
+   0B75 24 FC              2740 	add	a,#0xfc
+   0B77 F5 81              2741 	mov	sp,a
+   0B79 D0*00              2742 	pop	_bp
+   0B7B 22                 2743 	ret
+                           2744 	.area CSEG    (CODE)
+                           2745 	.area CONST   (CODE)
+                           2746 	.area XINIT   (CODE)
+   0000                    2747 __xinit__resolv_conn:
+                           2748 ; generic printIvalPtr
+   0000 00 00 00           2749 	.byte #0x00,#0x00,#0x00
+   0003                    2750 __xinit__resolv_process:
+                           2751 ; generic printIvalPtr
+   0003 00 00 00           2752 	.byte #0x00,#0x00,#0x00
+   0006r27s07              2753 	.byte _process_thread_resolv_process,(_process_thread_resolv_process >> 8)
+   0008 00 00              2754 	.byte #0x00,#0x00	; 0
+   000A 00                 2755 	.db #0x00	; 0
+   000B 00                 2756 	.db #0x00	; 0
+                           2757 	.area CABS    (ABS,CODE)

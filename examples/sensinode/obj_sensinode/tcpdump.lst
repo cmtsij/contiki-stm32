@@ -1,0 +1,2649 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:30 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module tcpdump
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _tcpdump_format
+                             13 	.globl _uip_htons
+                             14 	.globl _strlen
+                             15 	.globl _strcpy
+                             16 	.globl _IRCON2_P2IF
+                             17 	.globl _IRCON2_UTX0IF
+                             18 	.globl _IRCON2_UTX1IF
+                             19 	.globl _IRCON2_P1IF
+                             20 	.globl _IRCON2_WDTIF
+                             21 	.globl _CY
+                             22 	.globl _AC
+                             23 	.globl _F0
+                             24 	.globl _RS1
+                             25 	.globl _RS0
+                             26 	.globl _OV
+                             27 	.globl _F1
+                             28 	.globl _P
+                             29 	.globl _IRCON_DMAIF
+                             30 	.globl _IRCON_T1IF
+                             31 	.globl _IRCON_T2IF
+                             32 	.globl _IRCON_T3IF
+                             33 	.globl _IRCON_T4IF
+                             34 	.globl _IRCON_P0IF
+                             35 	.globl _IRCON_STIF
+                             36 	.globl _IEN1_DMAIE
+                             37 	.globl _IEN1_T1IE
+                             38 	.globl _IEN1_T2IE
+                             39 	.globl _IEN1_T3IE
+                             40 	.globl _IEN1_T4IE
+                             41 	.globl _IEN1_P0IE
+                             42 	.globl _IEN0_RFERRIE
+                             43 	.globl _IEN0_ADCIE
+                             44 	.globl _IEN0_URX0IE
+                             45 	.globl _IEN0_URX1IE
+                             46 	.globl _IEN0_ENCIE
+                             47 	.globl _IEN0_STIE
+                             48 	.globl _IEN0_EA
+                             49 	.globl _EA
+                             50 	.globl _P2_4
+                             51 	.globl _P2_3
+                             52 	.globl _P2_2
+                             53 	.globl _P2_1
+                             54 	.globl _P2_0
+                             55 	.globl _S0CON_ENCIF_0
+                             56 	.globl _S0CON_ENCIF_1
+                             57 	.globl _P1_7
+                             58 	.globl _P1_6
+                             59 	.globl _P1_5
+                             60 	.globl _P1_4
+                             61 	.globl _P1_3
+                             62 	.globl _P1_2
+                             63 	.globl _P1_1
+                             64 	.globl _P1_0
+                             65 	.globl _TCON_IT0
+                             66 	.globl _TCON_RFERRIF
+                             67 	.globl _TCON_IT1
+                             68 	.globl _TCON_URX0IF
+                             69 	.globl _TCON_ADCIF
+                             70 	.globl _TCON_URX1IF
+                             71 	.globl _P0_0
+                             72 	.globl _P0_1
+                             73 	.globl _P0_2
+                             74 	.globl _P0_3
+                             75 	.globl _P0_4
+                             76 	.globl _P0_5
+                             77 	.globl _P0_6
+                             78 	.globl _P0_7
+                             79 	.globl _P2DIR
+                             80 	.globl _P1DIR
+                             81 	.globl _P0DIR
+                             82 	.globl _U1GCR
+                             83 	.globl _U1UCR
+                             84 	.globl _U1BAUD
+                             85 	.globl _U1BUF
+                             86 	.globl _U1CSR
+                             87 	.globl _P2INP
+                             88 	.globl _P1INP
+                             89 	.globl _P2SEL
+                             90 	.globl _P1SEL
+                             91 	.globl _P0SEL
+                             92 	.globl _ADCCFG
+                             93 	.globl _PERCFG
+                             94 	.globl _B
+                             95 	.globl _T4CC1
+                             96 	.globl _T4CCTL1
+                             97 	.globl _T4CC0
+                             98 	.globl _T4CCTL0
+                             99 	.globl _T4CTL
+                            100 	.globl _T4CNT
+                            101 	.globl _RFIF
+                            102 	.globl _IRCON2
+                            103 	.globl _T1CCTL2
+                            104 	.globl _T1CCTL1
+                            105 	.globl _T1CCTL0
+                            106 	.globl _T1CTL
+                            107 	.globl _T1CNTH
+                            108 	.globl _T1CNTL
+                            109 	.globl _RFST
+                            110 	.globl _ACC
+                            111 	.globl _T1CC2H
+                            112 	.globl _T1CC2L
+                            113 	.globl _T1CC1H
+                            114 	.globl _T1CC1L
+                            115 	.globl _T1CC0H
+                            116 	.globl _T1CC0L
+                            117 	.globl _RFD
+                            118 	.globl _TIMIF
+                            119 	.globl _DMAREQ
+                            120 	.globl _DMAARM
+                            121 	.globl _DMA0CFGH
+                            122 	.globl _DMA0CFGL
+                            123 	.globl _DMA1CFGH
+                            124 	.globl _DMA1CFGL
+                            125 	.globl _DMAIRQ
+                            126 	.globl _PSW
+                            127 	.globl _T3CC1
+                            128 	.globl _T3CCTL1
+                            129 	.globl _T3CC0
+                            130 	.globl _T3CCTL0
+                            131 	.globl _T3CTL
+                            132 	.globl _T3CNT
+                            133 	.globl _WDCTL
+                            134 	.globl _T2CON
+                            135 	.globl _MEMCTR
+                            136 	.globl _CLKCON
+                            137 	.globl _U0GCR
+                            138 	.globl _U0UCR
+                            139 	.globl _T2CNF
+                            140 	.globl _U0BAUD
+                            141 	.globl _U0BUF
+                            142 	.globl _IRCON
+                            143 	.globl _SLEEP
+                            144 	.globl _RNDH
+                            145 	.globl _RNDL
+                            146 	.globl _ADCH
+                            147 	.globl _ADCL
+                            148 	.globl _IP1
+                            149 	.globl _IEN1
+                            150 	.globl _RCCTL
+                            151 	.globl _ADCCON3
+                            152 	.globl _ADCCON2
+                            153 	.globl _ADCCON1
+                            154 	.globl _ENCCS
+                            155 	.globl _ENCDO
+                            156 	.globl _ENCDI
+                            157 	.globl _FWDATA
+                            158 	.globl _FCTL
+                            159 	.globl _FADDRH
+                            160 	.globl _FADDRL
+                            161 	.globl _FWT
+                            162 	.globl _IP0
+                            163 	.globl _IEN0
+                            164 	.globl _IE
+                            165 	.globl _T2THD
+                            166 	.globl _T2TLD
+                            167 	.globl _T2CAPHPH
+                            168 	.globl _T2CAPLPL
+                            169 	.globl _T2OF2
+                            170 	.globl _T2OF1
+                            171 	.globl _T2OF0
+                            172 	.globl _P2
+                            173 	.globl _PSBANK
+                            174 	.globl _FMAP
+                            175 	.globl _T2PEROF2
+                            176 	.globl _T2PEROF1
+                            177 	.globl _T2PEROF0
+                            178 	.globl _S1CON
+                            179 	.globl _IEN2
+                            180 	.globl _HSRC
+                            181 	.globl _S0CON
+                            182 	.globl _ST2
+                            183 	.globl _ST1
+                            184 	.globl _ST0
+                            185 	.globl _T2CMP
+                            186 	.globl __XPAGE
+                            187 	.globl _DPS
+                            188 	.globl _RFIM
+                            189 	.globl _P1
+                            190 	.globl _P0INP
+                            191 	.globl _P1IEN
+                            192 	.globl _PICTL
+                            193 	.globl _P2IFG
+                            194 	.globl _P1IFG
+                            195 	.globl _P0IFG
+                            196 	.globl _TCON
+                            197 	.globl _PCON
+                            198 	.globl _U0CSR
+                            199 	.globl _DPH1
+                            200 	.globl _DPL1
+                            201 	.globl _DPH0
+                            202 	.globl _DPL0
+                            203 	.globl _SP
+                            204 	.globl _P0
+                            205 	.globl _ADC_SHADOW
+                            206 	.globl _U1BUF_SHADOW
+                            207 	.globl _RFD_SHADOW
+                            208 	.globl _U0BUF_SHADOW
+                            209 	.globl _RFSTATUS
+                            210 	.globl _CHIPID
+                            211 	.globl _CHVER
+                            212 	.globl _FSMTC1
+                            213 	.globl _RXFIFOCNT
+                            214 	.globl _IOCFG3
+                            215 	.globl _IOCFG2
+                            216 	.globl _IOCFG1
+                            217 	.globl _IOCFG0
+                            218 	.globl _SHORTADDRL
+                            219 	.globl _SHORTADDRH
+                            220 	.globl _PANIDL
+                            221 	.globl _PANIDH
+                            222 	.globl _IEEE_ADDR7
+                            223 	.globl _IEEE_ADDR6
+                            224 	.globl _IEEE_ADDR5
+                            225 	.globl _IEEE_ADDR4
+                            226 	.globl _IEEE_ADDR3
+                            227 	.globl _IEEE_ADDR2
+                            228 	.globl _IEEE_ADDR1
+                            229 	.globl _IEEE_ADDR0
+                            230 	.globl _DACTSTL
+                            231 	.globl _DACTSTH
+                            232 	.globl _ADCTSTL
+                            233 	.globl _ADCTSTH
+                            234 	.globl _FSMSTATE
+                            235 	.globl _AGCCTRLL
+                            236 	.globl _AGCCTRLH
+                            237 	.globl _MANORL
+                            238 	.globl _MANORH
+                            239 	.globl _MANANDL
+                            240 	.globl _MANANDH
+                            241 	.globl _FSMTCL
+                            242 	.globl _FSMTCH
+                            243 	.globl _RFPWR
+                            244 	.globl _CSPT
+                            245 	.globl _CSPCTRL
+                            246 	.globl _CSPZ
+                            247 	.globl _CSPY
+                            248 	.globl _CSPX
+                            249 	.globl _FSCTRLL
+                            250 	.globl _FSCTRLH
+                            251 	.globl _RXCTRL1L
+                            252 	.globl _RXCTRL1H
+                            253 	.globl _RXCTRL0L
+                            254 	.globl _RXCTRL0H
+                            255 	.globl _TXCTRLL
+                            256 	.globl _TXCTRLH
+                            257 	.globl _SYNCWORDL
+                            258 	.globl _SYNCWORDH
+                            259 	.globl _RSSIL
+                            260 	.globl _RSSIH
+                            261 	.globl _MDMCTRL1L
+                            262 	.globl _MDMCTRL1H
+                            263 	.globl _MDMCTRL0L
+                            264 	.globl _MDMCTRL0H
+                            265 ;--------------------------------------------------------
+                            266 ; special function registers
+                            267 ;--------------------------------------------------------
+                            268 	.area RSEG    (ABS,DATA)
+   0000                     269 	.org 0x0000
+                    0080    270 _P0	=	0x0080
+                    0081    271 _SP	=	0x0081
+                    0082    272 _DPL0	=	0x0082
+                    0083    273 _DPH0	=	0x0083
+                    0084    274 _DPL1	=	0x0084
+                    0085    275 _DPH1	=	0x0085
+                    0086    276 _U0CSR	=	0x0086
+                    0087    277 _PCON	=	0x0087
+                    0088    278 _TCON	=	0x0088
+                    0089    279 _P0IFG	=	0x0089
+                    008A    280 _P1IFG	=	0x008a
+                    008B    281 _P2IFG	=	0x008b
+                    008C    282 _PICTL	=	0x008c
+                    008D    283 _P1IEN	=	0x008d
+                    008F    284 _P0INP	=	0x008f
+                    0090    285 _P1	=	0x0090
+                    0091    286 _RFIM	=	0x0091
+                    0092    287 _DPS	=	0x0092
+                    0093    288 __XPAGE	=	0x0093
+                    0094    289 _T2CMP	=	0x0094
+                    0095    290 _ST0	=	0x0095
+                    0096    291 _ST1	=	0x0096
+                    0097    292 _ST2	=	0x0097
+                    0098    293 _S0CON	=	0x0098
+                    0099    294 _HSRC	=	0x0099
+                    009A    295 _IEN2	=	0x009a
+                    009B    296 _S1CON	=	0x009b
+                    009C    297 _T2PEROF0	=	0x009c
+                    009D    298 _T2PEROF1	=	0x009d
+                    009E    299 _T2PEROF2	=	0x009e
+                    009F    300 _FMAP	=	0x009f
+                    009F    301 _PSBANK	=	0x009f
+                    00A0    302 _P2	=	0x00a0
+                    00A1    303 _T2OF0	=	0x00a1
+                    00A2    304 _T2OF1	=	0x00a2
+                    00A3    305 _T2OF2	=	0x00a3
+                    00A4    306 _T2CAPLPL	=	0x00a4
+                    00A5    307 _T2CAPHPH	=	0x00a5
+                    00A6    308 _T2TLD	=	0x00a6
+                    00A7    309 _T2THD	=	0x00a7
+                    00A8    310 _IE	=	0x00a8
+                    00A8    311 _IEN0	=	0x00a8
+                    00A9    312 _IP0	=	0x00a9
+                    00AB    313 _FWT	=	0x00ab
+                    00AC    314 _FADDRL	=	0x00ac
+                    00AD    315 _FADDRH	=	0x00ad
+                    00AE    316 _FCTL	=	0x00ae
+                    00AF    317 _FWDATA	=	0x00af
+                    00B1    318 _ENCDI	=	0x00b1
+                    00B2    319 _ENCDO	=	0x00b2
+                    00B3    320 _ENCCS	=	0x00b3
+                    00B4    321 _ADCCON1	=	0x00b4
+                    00B5    322 _ADCCON2	=	0x00b5
+                    00B6    323 _ADCCON3	=	0x00b6
+                    00B7    324 _RCCTL	=	0x00b7
+                    00B8    325 _IEN1	=	0x00b8
+                    00B9    326 _IP1	=	0x00b9
+                    00BA    327 _ADCL	=	0x00ba
+                    00BB    328 _ADCH	=	0x00bb
+                    00BC    329 _RNDL	=	0x00bc
+                    00BD    330 _RNDH	=	0x00bd
+                    00BE    331 _SLEEP	=	0x00be
+                    00C0    332 _IRCON	=	0x00c0
+                    00C1    333 _U0BUF	=	0x00c1
+                    00C2    334 _U0BAUD	=	0x00c2
+                    00C3    335 _T2CNF	=	0x00c3
+                    00C4    336 _U0UCR	=	0x00c4
+                    00C5    337 _U0GCR	=	0x00c5
+                    00C6    338 _CLKCON	=	0x00c6
+                    00C7    339 _MEMCTR	=	0x00c7
+                    00C8    340 _T2CON	=	0x00c8
+                    00C9    341 _WDCTL	=	0x00c9
+                    00CA    342 _T3CNT	=	0x00ca
+                    00CB    343 _T3CTL	=	0x00cb
+                    00CC    344 _T3CCTL0	=	0x00cc
+                    00CD    345 _T3CC0	=	0x00cd
+                    00CE    346 _T3CCTL1	=	0x00ce
+                    00CF    347 _T3CC1	=	0x00cf
+                    00D0    348 _PSW	=	0x00d0
+                    00D1    349 _DMAIRQ	=	0x00d1
+                    00D2    350 _DMA1CFGL	=	0x00d2
+                    00D3    351 _DMA1CFGH	=	0x00d3
+                    00D4    352 _DMA0CFGL	=	0x00d4
+                    00D5    353 _DMA0CFGH	=	0x00d5
+                    00D6    354 _DMAARM	=	0x00d6
+                    00D7    355 _DMAREQ	=	0x00d7
+                    00D8    356 _TIMIF	=	0x00d8
+                    00D9    357 _RFD	=	0x00d9
+                    00DA    358 _T1CC0L	=	0x00da
+                    00DB    359 _T1CC0H	=	0x00db
+                    00DC    360 _T1CC1L	=	0x00dc
+                    00DD    361 _T1CC1H	=	0x00dd
+                    00DE    362 _T1CC2L	=	0x00de
+                    00DF    363 _T1CC2H	=	0x00df
+                    00E0    364 _ACC	=	0x00e0
+                    00E1    365 _RFST	=	0x00e1
+                    00E2    366 _T1CNTL	=	0x00e2
+                    00E3    367 _T1CNTH	=	0x00e3
+                    00E4    368 _T1CTL	=	0x00e4
+                    00E5    369 _T1CCTL0	=	0x00e5
+                    00E6    370 _T1CCTL1	=	0x00e6
+                    00E7    371 _T1CCTL2	=	0x00e7
+                    00E8    372 _IRCON2	=	0x00e8
+                    00E9    373 _RFIF	=	0x00e9
+                    00EA    374 _T4CNT	=	0x00ea
+                    00EB    375 _T4CTL	=	0x00eb
+                    00EC    376 _T4CCTL0	=	0x00ec
+                    00ED    377 _T4CC0	=	0x00ed
+                    00EE    378 _T4CCTL1	=	0x00ee
+                    00EF    379 _T4CC1	=	0x00ef
+                    00F0    380 _B	=	0x00f0
+                    00F1    381 _PERCFG	=	0x00f1
+                    00F2    382 _ADCCFG	=	0x00f2
+                    00F3    383 _P0SEL	=	0x00f3
+                    00F4    384 _P1SEL	=	0x00f4
+                    00F5    385 _P2SEL	=	0x00f5
+                    00F6    386 _P1INP	=	0x00f6
+                    00F7    387 _P2INP	=	0x00f7
+                    00F8    388 _U1CSR	=	0x00f8
+                    00F9    389 _U1BUF	=	0x00f9
+                    00FA    390 _U1BAUD	=	0x00fa
+                    00FB    391 _U1UCR	=	0x00fb
+                    00FC    392 _U1GCR	=	0x00fc
+                    00FD    393 _P0DIR	=	0x00fd
+                    00FE    394 _P1DIR	=	0x00fe
+                    00FF    395 _P2DIR	=	0x00ff
+                            396 ;--------------------------------------------------------
+                            397 ; special function bits
+                            398 ;--------------------------------------------------------
+                            399 	.area RSEG    (ABS,DATA)
+   0000                     400 	.org 0x0000
+                    0087    401 _P0_7	=	0x0087
+                    0086    402 _P0_6	=	0x0086
+                    0085    403 _P0_5	=	0x0085
+                    0084    404 _P0_4	=	0x0084
+                    0083    405 _P0_3	=	0x0083
+                    0082    406 _P0_2	=	0x0082
+                    0081    407 _P0_1	=	0x0081
+                    0080    408 _P0_0	=	0x0080
+                    008F    409 _TCON_URX1IF	=	0x008f
+                    008D    410 _TCON_ADCIF	=	0x008d
+                    008B    411 _TCON_URX0IF	=	0x008b
+                    008A    412 _TCON_IT1	=	0x008a
+                    0089    413 _TCON_RFERRIF	=	0x0089
+                    0088    414 _TCON_IT0	=	0x0088
+                    0090    415 _P1_0	=	0x0090
+                    0091    416 _P1_1	=	0x0091
+                    0092    417 _P1_2	=	0x0092
+                    0093    418 _P1_3	=	0x0093
+                    0094    419 _P1_4	=	0x0094
+                    0095    420 _P1_5	=	0x0095
+                    0096    421 _P1_6	=	0x0096
+                    0097    422 _P1_7	=	0x0097
+                    0099    423 _S0CON_ENCIF_1	=	0x0099
+                    0098    424 _S0CON_ENCIF_0	=	0x0098
+                    00A0    425 _P2_0	=	0x00a0
+                    00A1    426 _P2_1	=	0x00a1
+                    00A2    427 _P2_2	=	0x00a2
+                    00A3    428 _P2_3	=	0x00a3
+                    00A4    429 _P2_4	=	0x00a4
+                    00AF    430 _EA	=	0x00af
+                    00AF    431 _IEN0_EA	=	0x00af
+                    00AD    432 _IEN0_STIE	=	0x00ad
+                    00AC    433 _IEN0_ENCIE	=	0x00ac
+                    00AB    434 _IEN0_URX1IE	=	0x00ab
+                    00AA    435 _IEN0_URX0IE	=	0x00aa
+                    00A9    436 _IEN0_ADCIE	=	0x00a9
+                    00A8    437 _IEN0_RFERRIE	=	0x00a8
+                    00BD    438 _IEN1_P0IE	=	0x00bd
+                    00BC    439 _IEN1_T4IE	=	0x00bc
+                    00BB    440 _IEN1_T3IE	=	0x00bb
+                    00BA    441 _IEN1_T2IE	=	0x00ba
+                    00B9    442 _IEN1_T1IE	=	0x00b9
+                    00B8    443 _IEN1_DMAIE	=	0x00b8
+                    00C7    444 _IRCON_STIF	=	0x00c7
+                    00C5    445 _IRCON_P0IF	=	0x00c5
+                    00C4    446 _IRCON_T4IF	=	0x00c4
+                    00C3    447 _IRCON_T3IF	=	0x00c3
+                    00C2    448 _IRCON_T2IF	=	0x00c2
+                    00C1    449 _IRCON_T1IF	=	0x00c1
+                    00C0    450 _IRCON_DMAIF	=	0x00c0
+                    00D0    451 _P	=	0x00d0
+                    00D1    452 _F1	=	0x00d1
+                    00D2    453 _OV	=	0x00d2
+                    00D3    454 _RS0	=	0x00d3
+                    00D4    455 _RS1	=	0x00d4
+                    00D5    456 _F0	=	0x00d5
+                    00D6    457 _AC	=	0x00d6
+                    00D7    458 _CY	=	0x00d7
+                    00EC    459 _IRCON2_WDTIF	=	0x00ec
+                    00EB    460 _IRCON2_P1IF	=	0x00eb
+                    00EA    461 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    462 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    463 _IRCON2_P2IF	=	0x00e8
+                            464 ;--------------------------------------------------------
+                            465 ; overlayable register banks
+                            466 ;--------------------------------------------------------
+                            467 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     468 	.ds 8
+                            469 ;--------------------------------------------------------
+                            470 ; internal ram data
+                            471 ;--------------------------------------------------------
+                            472 	.area DSEG    (DATA)
+                            473 ;--------------------------------------------------------
+                            474 ; overlayable items in internal ram 
+                            475 ;--------------------------------------------------------
+                            476 	.area OSEG    (OVR,DATA)
+                            477 ;--------------------------------------------------------
+                            478 ; indirectly addressable internal ram data
+                            479 ;--------------------------------------------------------
+                            480 	.area ISEG    (DATA)
+                            481 ;--------------------------------------------------------
+                            482 ; absolute internal ram data
+                            483 ;--------------------------------------------------------
+                            484 	.area IABS    (ABS,DATA)
+                            485 	.area IABS    (ABS,DATA)
+                            486 ;--------------------------------------------------------
+                            487 ; bit data
+                            488 ;--------------------------------------------------------
+                            489 	.area BSEG    (BIT)
+                            490 ;--------------------------------------------------------
+                            491 ; paged external ram data
+                            492 ;--------------------------------------------------------
+                            493 	.area PSEG    (PAG,XDATA)
+                            494 ;--------------------------------------------------------
+                            495 ; external ram data
+                            496 ;--------------------------------------------------------
+                            497 	.area XSEG    (XDATA)
+                    DF02    498 _MDMCTRL0H	=	0xdf02
+                    DF03    499 _MDMCTRL0L	=	0xdf03
+                    DF04    500 _MDMCTRL1H	=	0xdf04
+                    DF05    501 _MDMCTRL1L	=	0xdf05
+                    DF06    502 _RSSIH	=	0xdf06
+                    DF07    503 _RSSIL	=	0xdf07
+                    DF08    504 _SYNCWORDH	=	0xdf08
+                    DF09    505 _SYNCWORDL	=	0xdf09
+                    DF0A    506 _TXCTRLH	=	0xdf0a
+                    DF0B    507 _TXCTRLL	=	0xdf0b
+                    DF0C    508 _RXCTRL0H	=	0xdf0c
+                    DF0D    509 _RXCTRL0L	=	0xdf0d
+                    DF0E    510 _RXCTRL1H	=	0xdf0e
+                    DF0F    511 _RXCTRL1L	=	0xdf0f
+                    DF10    512 _FSCTRLH	=	0xdf10
+                    DF11    513 _FSCTRLL	=	0xdf11
+                    DF12    514 _CSPX	=	0xdf12
+                    DF13    515 _CSPY	=	0xdf13
+                    DF14    516 _CSPZ	=	0xdf14
+                    DF15    517 _CSPCTRL	=	0xdf15
+                    DF16    518 _CSPT	=	0xdf16
+                    DF17    519 _RFPWR	=	0xdf17
+                    DF20    520 _FSMTCH	=	0xdf20
+                    DF21    521 _FSMTCL	=	0xdf21
+                    DF22    522 _MANANDH	=	0xdf22
+                    DF23    523 _MANANDL	=	0xdf23
+                    DF24    524 _MANORH	=	0xdf24
+                    DF25    525 _MANORL	=	0xdf25
+                    DF26    526 _AGCCTRLH	=	0xdf26
+                    DF27    527 _AGCCTRLL	=	0xdf27
+                    DF39    528 _FSMSTATE	=	0xdf39
+                    DF3A    529 _ADCTSTH	=	0xdf3a
+                    DF3B    530 _ADCTSTL	=	0xdf3b
+                    DF3C    531 _DACTSTH	=	0xdf3c
+                    DF3D    532 _DACTSTL	=	0xdf3d
+                    DF43    533 _IEEE_ADDR0	=	0xdf43
+                    DF44    534 _IEEE_ADDR1	=	0xdf44
+                    DF45    535 _IEEE_ADDR2	=	0xdf45
+                    DF46    536 _IEEE_ADDR3	=	0xdf46
+                    DF47    537 _IEEE_ADDR4	=	0xdf47
+                    DF48    538 _IEEE_ADDR5	=	0xdf48
+                    DF49    539 _IEEE_ADDR6	=	0xdf49
+                    DF4A    540 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    541 _PANIDH	=	0xdf4b
+                    DF4C    542 _PANIDL	=	0xdf4c
+                    DF4D    543 _SHORTADDRH	=	0xdf4d
+                    DF4E    544 _SHORTADDRL	=	0xdf4e
+                    DF4F    545 _IOCFG0	=	0xdf4f
+                    DF50    546 _IOCFG1	=	0xdf50
+                    DF51    547 _IOCFG2	=	0xdf51
+                    DF52    548 _IOCFG3	=	0xdf52
+                    DF53    549 _RXFIFOCNT	=	0xdf53
+                    DF54    550 _FSMTC1	=	0xdf54
+                    DF60    551 _CHVER	=	0xdf60
+                    DF61    552 _CHIPID	=	0xdf61
+                    DF62    553 _RFSTATUS	=	0xdf62
+                    DFC1    554 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    555 _RFD_SHADOW	=	0xdfd9
+                    DFF9    556 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    557 _ADC_SHADOW	=	0xdfba
+                            558 ;--------------------------------------------------------
+                            559 ; absolute external ram data
+                            560 ;--------------------------------------------------------
+                            561 	.area XABS    (ABS,XDATA)
+                            562 ;--------------------------------------------------------
+                            563 ; external initialized ram data
+                            564 ;--------------------------------------------------------
+                            565 	.area XISEG   (XDATA)
+                            566 	.area HOME    (CODE)
+                            567 	.area GSINIT0 (CODE)
+                            568 	.area GSINIT1 (CODE)
+                            569 	.area GSINIT2 (CODE)
+                            570 	.area GSINIT3 (CODE)
+                            571 	.area GSINIT4 (CODE)
+                            572 	.area GSINIT5 (CODE)
+                            573 	.area GSINIT  (CODE)
+                            574 	.area GSFINAL (CODE)
+                            575 	.area CSEG    (CODE)
+                            576 ;--------------------------------------------------------
+                            577 ; global & static initialisations
+                            578 ;--------------------------------------------------------
+                            579 	.area HOME    (CODE)
+                            580 	.area GSINIT  (CODE)
+                            581 	.area GSFINAL (CODE)
+                            582 	.area GSINIT  (CODE)
+                            583 ;--------------------------------------------------------
+                            584 ; Home
+                            585 ;--------------------------------------------------------
+                            586 	.area HOME    (CODE)
+                            587 	.area HOME    (CODE)
+                            588 ;--------------------------------------------------------
+                            589 ; code
+                            590 ;--------------------------------------------------------
+                            591 	.area CSEG    (CODE)
+                            592 ;------------------------------------------------------------
+                            593 ;Allocation info for local variables in function 'tcpflags'
+                            594 ;------------------------------------------------------------
+                            595 ;flagsstr                  Allocated to stack - _bp -5
+                            596 ;flags                     Allocated to registers r7 
+                            597 ;------------------------------------------------------------
+                            598 ;	../../core/net/tcpdump.c:139: tcpflags(unsigned char flags, char *flagsstr)
+                            599 ;	-----------------------------------------
+                            600 ;	 function tcpflags
+                            601 ;	-----------------------------------------
+   0000                     602 _tcpflags:
+                    0007    603 	ar7 = 0x07
+                    0006    604 	ar6 = 0x06
+                    0005    605 	ar5 = 0x05
+                    0004    606 	ar4 = 0x04
+                    0003    607 	ar3 = 0x03
+                    0002    608 	ar2 = 0x02
+                    0001    609 	ar1 = 0x01
+                    0000    610 	ar0 = 0x00
+   0000 C0*00               611 	push	_bp
+   0002 85 81*00            612 	mov	_bp,sp
+                            613 ;	../../core/net/tcpdump.c:141: if(flags & TCP_FIN) {
+   0005 E5 82               614 	mov	a,dpl
+   0007 FF                  615 	mov	r7,a
+   0008 30 E0 18            616 	jnb	acc.0,00102$
+                            617 ;	../../core/net/tcpdump.c:142: *flagsstr++ = 'F';
+   000B E5*00               618 	mov	a,_bp
+   000D 24 FB               619 	add	a,#0xfb
+   000F F8                  620 	mov	r0,a
+   0010 86 04               621 	mov	ar4,@r0
+   0012 08                  622 	inc	r0
+   0013 86 05               623 	mov	ar5,@r0
+   0015 08                  624 	inc	r0
+   0016 86 06               625 	mov	ar6,@r0
+   0018 8C 82               626 	mov	dpl,r4
+   001A 8D 83               627 	mov	dph,r5
+   001C 8E F0               628 	mov	b,r6
+   001E 74 46               629 	mov	a,#0x46
+   0020 12s00r00            630 	lcall	__gptrput
+   0023                     631 00102$:
+                            632 ;	../../core/net/tcpdump.c:144: if(flags & TCP_SYN) {
+   0023 EF                  633 	mov	a,r7
+   0024 30 E1 18            634 	jnb	acc.1,00104$
+                            635 ;	../../core/net/tcpdump.c:145: *flagsstr++ = 'S';
+   0027 E5*00               636 	mov	a,_bp
+   0029 24 FB               637 	add	a,#0xfb
+   002B F8                  638 	mov	r0,a
+   002C 86 04               639 	mov	ar4,@r0
+   002E 08                  640 	inc	r0
+   002F 86 05               641 	mov	ar5,@r0
+   0031 08                  642 	inc	r0
+   0032 86 06               643 	mov	ar6,@r0
+   0034 8C 82               644 	mov	dpl,r4
+   0036 8D 83               645 	mov	dph,r5
+   0038 8E F0               646 	mov	b,r6
+   003A 74 53               647 	mov	a,#0x53
+   003C 12s00r00            648 	lcall	__gptrput
+   003F                     649 00104$:
+                            650 ;	../../core/net/tcpdump.c:147: if(flags & TCP_RST) {
+   003F EF                  651 	mov	a,r7
+   0040 30 E2 18            652 	jnb	acc.2,00106$
+                            653 ;	../../core/net/tcpdump.c:148: *flagsstr++ = 'R';
+   0043 E5*00               654 	mov	a,_bp
+   0045 24 FB               655 	add	a,#0xfb
+   0047 F8                  656 	mov	r0,a
+   0048 86 04               657 	mov	ar4,@r0
+   004A 08                  658 	inc	r0
+   004B 86 05               659 	mov	ar5,@r0
+   004D 08                  660 	inc	r0
+   004E 86 06               661 	mov	ar6,@r0
+   0050 8C 82               662 	mov	dpl,r4
+   0052 8D 83               663 	mov	dph,r5
+   0054 8E F0               664 	mov	b,r6
+   0056 74 52               665 	mov	a,#0x52
+   0058 12s00r00            666 	lcall	__gptrput
+   005B                     667 00106$:
+                            668 ;	../../core/net/tcpdump.c:150: if(flags & TCP_ACK) {
+   005B EF                  669 	mov	a,r7
+   005C 30 E4 18            670 	jnb	acc.4,00108$
+                            671 ;	../../core/net/tcpdump.c:151: *flagsstr++ = 'A';
+   005F E5*00               672 	mov	a,_bp
+   0061 24 FB               673 	add	a,#0xfb
+   0063 F8                  674 	mov	r0,a
+   0064 86 04               675 	mov	ar4,@r0
+   0066 08                  676 	inc	r0
+   0067 86 05               677 	mov	ar5,@r0
+   0069 08                  678 	inc	r0
+   006A 86 06               679 	mov	ar6,@r0
+   006C 8C 82               680 	mov	dpl,r4
+   006E 8D 83               681 	mov	dph,r5
+   0070 8E F0               682 	mov	b,r6
+   0072 74 41               683 	mov	a,#0x41
+   0074 12s00r00            684 	lcall	__gptrput
+   0077                     685 00108$:
+                            686 ;	../../core/net/tcpdump.c:153: if(flags & TCP_URG) {
+   0077 EF                  687 	mov	a,r7
+   0078 30 E5 18            688 	jnb	acc.5,00110$
+                            689 ;	../../core/net/tcpdump.c:154: *flagsstr++ = 'U';
+   007B E5*00               690 	mov	a,_bp
+   007D 24 FB               691 	add	a,#0xfb
+   007F F8                  692 	mov	r0,a
+   0080 86 05               693 	mov	ar5,@r0
+   0082 08                  694 	inc	r0
+   0083 86 06               695 	mov	ar6,@r0
+   0085 08                  696 	inc	r0
+   0086 86 07               697 	mov	ar7,@r0
+   0088 8D 82               698 	mov	dpl,r5
+   008A 8E 83               699 	mov	dph,r6
+   008C 8F F0               700 	mov	b,r7
+   008E 74 55               701 	mov	a,#0x55
+   0090 12s00r00            702 	lcall	__gptrput
+   0093                     703 00110$:
+                            704 ;	../../core/net/tcpdump.c:157: *flagsstr = 0;
+   0093 E5*00               705 	mov	a,_bp
+   0095 24 FB               706 	add	a,#0xfb
+   0097 F8                  707 	mov	r0,a
+   0098 86 05               708 	mov	ar5,@r0
+   009A 08                  709 	inc	r0
+   009B 86 06               710 	mov	ar6,@r0
+   009D 08                  711 	inc	r0
+   009E 86 07               712 	mov	ar7,@r0
+   00A0 8D 82               713 	mov	dpl,r5
+   00A2 8E 83               714 	mov	dph,r6
+   00A4 8F F0               715 	mov	b,r7
+   00A6 E4                  716 	clr	a
+   00A7 12s00r00            717 	lcall	__gptrput
+   00AA D0*00               718 	pop	_bp
+   00AC 22                  719 	ret
+                            720 ;------------------------------------------------------------
+                            721 ;Allocation info for local variables in function 'n'
+                            722 ;------------------------------------------------------------
+                            723 ;ptr                       Allocated to stack - _bp -5
+                            724 ;num                       Allocated to stack - _bp +1
+                            725 ;d                         Allocated to registers r3 r4 
+                            726 ;a                         Allocated to registers r6 
+                            727 ;f                         Allocated to stack - _bp +3
+                            728 ;------------------------------------------------------------
+                            729 ;	../../core/net/tcpdump.c:161: n(uint16_t num, char *ptr)
+                            730 ;	-----------------------------------------
+                            731 ;	 function n
+                            732 ;	-----------------------------------------
+   00AD                     733 _n:
+   00AD C0*00               734 	push	_bp
+   00AF 85 81*00            735 	mov	_bp,sp
+   00B2 C0 82               736 	push	dpl
+   00B4 C0 83               737 	push	dph
+   00B6 05 81               738 	inc	sp
+                            739 ;	../../core/net/tcpdump.c:166: if(num == 0) {
+   00B8 A8*00               740 	mov	r0,_bp
+   00BA 08                  741 	inc	r0
+   00BB E6                  742 	mov	a,@r0
+   00BC 08                  743 	inc	r0
+   00BD 46                  744 	orl	a,@r0
+   00BE 70 26               745 	jnz	00105$
+                            746 ;	../../core/net/tcpdump.c:167: *ptr = '0';
+   00C0 E5*00               747 	mov	a,_bp
+   00C2 24 FB               748 	add	a,#0xfb
+   00C4 F8                  749 	mov	r0,a
+   00C5 86 03               750 	mov	ar3,@r0
+   00C7 08                  751 	inc	r0
+   00C8 86 04               752 	mov	ar4,@r0
+   00CA 08                  753 	inc	r0
+   00CB 86 05               754 	mov	ar5,@r0
+   00CD 8B 82               755 	mov	dpl,r3
+   00CF 8C 83               756 	mov	dph,r4
+   00D1 8D F0               757 	mov	b,r5
+   00D3 74 30               758 	mov	a,#0x30
+   00D5 12s00r00            759 	lcall	__gptrput
+                            760 ;	../../core/net/tcpdump.c:168: return ptr + 1;
+   00D8 0B                  761 	inc	r3
+   00D9 BB 00 01            762 	cjne	r3,#0x00,00123$
+   00DC 0C                  763 	inc	r4
+   00DD                     764 00123$:
+   00DD 8B 82               765 	mov	dpl,r3
+   00DF 8C 83               766 	mov	dph,r4
+   00E1 8D F0               767 	mov	b,r5
+   00E3 02s01rB6            768 	ljmp	00111$
+   00E6                     769 00105$:
+                            770 ;	../../core/net/tcpdump.c:170: f = 0;
+   00E6 E5*00               771 	mov	a,_bp
+   00E8 24 03               772 	add	a,#0x03
+   00EA F8                  773 	mov	r0,a
+   00EB 76 00               774 	mov	@r0,#0x00
+                            775 ;	../../core/net/tcpdump.c:171: for(d = 10000; d >= 1; d /= 10) {
+   00ED 7B 10               776 	mov	r3,#0x10
+   00EF 7C 27               777 	mov	r4,#0x27
+   00F1 E5*00               778 	mov	a,_bp
+   00F3 24 FB               779 	add	a,#0xfb
+   00F5 F8                  780 	mov	r0,a
+   00F6 86 02               781 	mov	ar2,@r0
+   00F8 08                  782 	inc	r0
+   00F9 86 05               783 	mov	ar5,@r0
+   00FB 08                  784 	inc	r0
+   00FC 86 07               785 	mov	ar7,@r0
+   00FE                     786 00107$:
+   00FE C3                  787 	clr	c
+   00FF EB                  788 	mov	a,r3
+   0100 94 01               789 	subb	a,#0x01
+   0102 EC                  790 	mov	a,r4
+   0103 94 00               791 	subb	a,#0x00
+   0105 50 03               792 	jnc	00124$
+   0107 02s01rB0            793 	ljmp	00106$
+   010A                     794 00124$:
+                            795 ;	../../core/net/tcpdump.c:172: a = (num / d) % 10;
+   010A C0 02               796 	push	ar2
+   010C C0 05               797 	push	ar5
+   010E C0 07               798 	push	ar7
+   0110 C0 05               799 	push	ar5
+   0112 C0 04               800 	push	ar4
+   0114 C0 03               801 	push	ar3
+   0116 C0 02               802 	push	ar2
+   0118 C0 03               803 	push	ar3
+   011A C0 04               804 	push	ar4
+   011C A8*00               805 	mov	r0,_bp
+   011E 08                  806 	inc	r0
+   011F 86 82               807 	mov	dpl,@r0
+   0121 08                  808 	inc	r0
+   0122 86 83               809 	mov	dph,@r0
+   0124 12s00r00            810 	lcall	__divuint
+   0127 AE 82               811 	mov	r6,dpl
+   0129 AF 83               812 	mov	r7,dph
+   012B 15 81               813 	dec	sp
+   012D 15 81               814 	dec	sp
+   012F 74 0A               815 	mov	a,#0x0A
+   0131 C0 E0               816 	push	acc
+   0133 E4                  817 	clr	a
+   0134 C0 E0               818 	push	acc
+   0136 8E 82               819 	mov	dpl,r6
+   0138 8F 83               820 	mov	dph,r7
+   013A 12s00r00            821 	lcall	__moduint
+   013D AE 82               822 	mov	r6,dpl
+   013F AF 83               823 	mov	r7,dph
+   0141 15 81               824 	dec	sp
+   0143 15 81               825 	dec	sp
+   0145 D0 02               826 	pop	ar2
+   0147 D0 03               827 	pop	ar3
+   0149 D0 04               828 	pop	ar4
+   014B D0 05               829 	pop	ar5
+                            830 ;	../../core/net/tcpdump.c:173: if(f == 1 || a > 0) {
+   014D E5*00               831 	mov	a,_bp
+   014F 24 03               832 	add	a,#0x03
+   0151 F8                  833 	mov	r0,a
+   0152 B6 01 08            834 	cjne	@r0,#0x01,00125$
+   0155 D0 07               835 	pop	ar7
+   0157 D0 05               836 	pop	ar5
+   0159 D0 02               837 	pop	ar2
+   015B 80 09               838 	sjmp	00101$
+   015D                     839 00125$:
+   015D D0 07               840 	pop	ar7
+   015F D0 05               841 	pop	ar5
+   0161 D0 02               842 	pop	ar2
+   0163 EE                  843 	mov	a,r6
+   0164 60 19               844 	jz	00109$
+   0166                     845 00101$:
+                            846 ;	../../core/net/tcpdump.c:174: *ptr = a + '0';
+   0166 74 30               847 	mov	a,#0x30
+   0168 2E                  848 	add	a,r6
+   0169 FE                  849 	mov	r6,a
+   016A 8A 82               850 	mov	dpl,r2
+   016C 8D 83               851 	mov	dph,r5
+   016E 8F F0               852 	mov	b,r7
+   0170 12s00r00            853 	lcall	__gptrput
+   0173 A3                  854 	inc	dptr
+   0174 AA 82               855 	mov	r2,dpl
+   0176 AD 83               856 	mov	r5,dph
+                            857 ;	../../core/net/tcpdump.c:175: ++ptr;
+                            858 ;	../../core/net/tcpdump.c:176: f = 1;
+   0178 E5*00               859 	mov	a,_bp
+   017A 24 03               860 	add	a,#0x03
+   017C F8                  861 	mov	r0,a
+   017D 76 01               862 	mov	@r0,#0x01
+   017F                     863 00109$:
+                            864 ;	../../core/net/tcpdump.c:171: for(d = 10000; d >= 1; d /= 10) {
+   017F C0 02               865 	push	ar2
+   0181 C0 05               866 	push	ar5
+   0183 C0 07               867 	push	ar7
+   0185 C0 05               868 	push	ar5
+   0187 C0 02               869 	push	ar2
+   0189 74 0A               870 	mov	a,#0x0A
+   018B C0 E0               871 	push	acc
+   018D E4                  872 	clr	a
+   018E C0 E0               873 	push	acc
+   0190 8B 82               874 	mov	dpl,r3
+   0192 8C 83               875 	mov	dph,r4
+   0194 12s00r00            876 	lcall	__divuint
+   0197 AE 82               877 	mov	r6,dpl
+   0199 AF 83               878 	mov	r7,dph
+   019B 15 81               879 	dec	sp
+   019D 15 81               880 	dec	sp
+   019F D0 02               881 	pop	ar2
+   01A1 D0 05               882 	pop	ar5
+   01A3 8E 03               883 	mov	ar3,r6
+   01A5 8F 04               884 	mov	ar4,r7
+   01A7 D0 07               885 	pop	ar7
+   01A9 D0 05               886 	pop	ar5
+   01AB D0 02               887 	pop	ar2
+   01AD 02s00rFE            888 	ljmp	00107$
+   01B0                     889 00106$:
+                            890 ;	../../core/net/tcpdump.c:180: return ptr;
+   01B0 8A 82               891 	mov	dpl,r2
+   01B2 8D 83               892 	mov	dph,r5
+   01B4 8F F0               893 	mov	b,r7
+   01B6                     894 00111$:
+   01B6 85*00 81            895 	mov	sp,_bp
+   01B9 D0*00               896 	pop	_bp
+   01BB 22                  897 	ret
+                            898 ;------------------------------------------------------------
+                            899 ;Allocation info for local variables in function 'd'
+                            900 ;------------------------------------------------------------
+                            901 ;ptr                       Allocated to registers r5 r6 r7 
+                            902 ;------------------------------------------------------------
+                            903 ;	../../core/net/tcpdump.c:184: d(char *ptr)
+                            904 ;	-----------------------------------------
+                            905 ;	 function d
+                            906 ;	-----------------------------------------
+   01BC                     907 _d:
+                            908 ;	../../core/net/tcpdump.c:186: *ptr = '.';
+   01BC AD 82               909 	mov	r5,dpl
+   01BE AE 83               910 	mov	r6,dph
+   01C0 AF F0               911 	mov	r7,b
+   01C2 74 2E               912 	mov	a,#0x2E
+   01C4 12s00r00            913 	lcall	__gptrput
+                            914 ;	../../core/net/tcpdump.c:187: return ptr + 1;
+   01C7 0D                  915 	inc	r5
+   01C8 BD 00 01            916 	cjne	r5,#0x00,00103$
+   01CB 0E                  917 	inc	r6
+   01CC                     918 00103$:
+   01CC 8D 82               919 	mov	dpl,r5
+   01CE 8E 83               920 	mov	dph,r6
+   01D0 8F F0               921 	mov	b,r7
+   01D2 22                  922 	ret
+                            923 ;------------------------------------------------------------
+                            924 ;Allocation info for local variables in function 's'
+                            925 ;------------------------------------------------------------
+                            926 ;ptr                       Allocated to stack - _bp -5
+                            927 ;str                       Allocated to registers r5 r6 r7 
+                            928 ;------------------------------------------------------------
+                            929 ;	../../core/net/tcpdump.c:191: s(char *str, char *ptr)
+                            930 ;	-----------------------------------------
+                            931 ;	 function s
+                            932 ;	-----------------------------------------
+   01D3                     933 _s:
+   01D3 C0*00               934 	push	_bp
+   01D5 85 81*00            935 	mov	_bp,sp
+   01D8 AD 82               936 	mov	r5,dpl
+   01DA AE 83               937 	mov	r6,dph
+   01DC AF F0               938 	mov	r7,b
+                            939 ;	../../core/net/tcpdump.c:193: strcpy(ptr, str);
+   01DE C0 07               940 	push	ar7
+   01E0 C0 06               941 	push	ar6
+   01E2 C0 05               942 	push	ar5
+   01E4 C0 05               943 	push	ar5
+   01E6 C0 06               944 	push	ar6
+   01E8 C0 07               945 	push	ar7
+   01EA E5*00               946 	mov	a,_bp
+   01EC 24 FB               947 	add	a,#0xfb
+   01EE F8                  948 	mov	r0,a
+   01EF 86 82               949 	mov	dpl,@r0
+   01F1 08                  950 	inc	r0
+   01F2 86 83               951 	mov	dph,@r0
+   01F4 08                  952 	inc	r0
+   01F5 86 F0               953 	mov	b,@r0
+   01F7 12s00r00            954 	lcall	_strcpy
+   01FA 15 81               955 	dec	sp
+   01FC 15 81               956 	dec	sp
+   01FE 15 81               957 	dec	sp
+   0200 D0 05               958 	pop	ar5
+   0202 D0 06               959 	pop	ar6
+   0204 D0 07               960 	pop	ar7
+                            961 ;	../../core/net/tcpdump.c:194: return ptr + strlen(str);
+   0206 8D 82               962 	mov	dpl,r5
+   0208 8E 83               963 	mov	dph,r6
+   020A 8F F0               964 	mov	b,r7
+   020C 12s00r00            965 	lcall	_strlen
+   020F AE 82               966 	mov	r6,dpl
+   0211 AF 83               967 	mov	r7,dph
+   0213 E5*00               968 	mov	a,_bp
+   0215 24 FB               969 	add	a,#0xfb
+   0217 F8                  970 	mov	r0,a
+   0218 EE                  971 	mov	a,r6
+   0219 26                  972 	add	a,@r0
+   021A FE                  973 	mov	r6,a
+   021B EF                  974 	mov	a,r7
+   021C 08                  975 	inc	r0
+   021D 36                  976 	addc	a,@r0
+   021E FF                  977 	mov	r7,a
+   021F 08                  978 	inc	r0
+   0220 86 05               979 	mov	ar5,@r0
+   0222 8E 82               980 	mov	dpl,r6
+   0224 8F 83               981 	mov	dph,r7
+   0226 8D F0               982 	mov	b,r5
+   0228 D0*00               983 	pop	_bp
+   022A 22                  984 	ret
+                            985 ;------------------------------------------------------------
+                            986 ;Allocation info for local variables in function 'tcpdump_format'
+                            987 ;------------------------------------------------------------
+                            988 ;packetlen                 Allocated to stack - _bp -4
+                            989 ;buf                       Allocated to stack - _bp -7
+                            990 ;buflen                    Allocated to stack - _bp -9
+                            991 ;packet                    Allocated to stack - _bp +1
+                            992 ;flags                     Allocated to stack - _bp +4
+                            993 ;sloc0                     Allocated to stack - _bp +12
+                            994 ;------------------------------------------------------------
+                            995 ;	../../core/net/tcpdump.c:198: tcpdump_format(uint8_t *packet, uint16_t packetlen,
+                            996 ;	-----------------------------------------
+                            997 ;	 function tcpdump_format
+                            998 ;	-----------------------------------------
+   022B                     999 _tcpdump_format:
+   022B C0*00              1000 	push	_bp
+   022D 85 81*00           1001 	mov	_bp,sp
+   0230 C0 82              1002 	push	dpl
+   0232 C0 83              1003 	push	dph
+   0234 C0 F0              1004 	push	b
+   0236 E5 81              1005 	mov	a,sp
+   0238 24 0B              1006 	add	a,#0x0B
+   023A F5 81              1007 	mov	sp,a
+                           1008 ;	../../core/net/tcpdump.c:202: if(IPBUF->proto == UIP_PROTO_ICMP) {
+   023C A8*00              1009 	mov	r0,_bp
+   023E 08                 1010 	inc	r0
+   023F 86 02              1011 	mov	ar2,@r0
+   0241 08                 1012 	inc	r0
+   0242 86 03              1013 	mov	ar3,@r0
+   0244 08                 1014 	inc	r0
+   0245 86 04              1015 	mov	ar4,@r0
+   0247 74 09              1016 	mov	a,#0x09
+   0249 2A                 1017 	add	a,r2
+   024A F9                 1018 	mov	r1,a
+   024B 87 04              1019 	mov	ar4,@r1
+   024D BC 01 02           1020 	cjne	r4,#0x01,00127$
+   0250 80 03              1021 	sjmp	00128$
+   0252                    1022 00127$:
+   0252 02s06r9F           1023 	ljmp	00113$
+   0255                    1024 00128$:
+                           1025 ;	../../core/net/tcpdump.c:203: if(ICMPBUF->type == ICMP_ECHO) {
+   0255 A8*00              1026 	mov	r0,_bp
+   0257 08                 1027 	inc	r0
+   0258 86 02              1028 	mov	ar2,@r0
+   025A 08                 1029 	inc	r0
+   025B 86 03              1030 	mov	ar3,@r0
+   025D 08                 1031 	inc	r0
+   025E 86 04              1032 	mov	ar4,@r0
+   0260 74 14              1033 	mov	a,#0x14
+   0262 2A                 1034 	add	a,r2
+   0263 F9                 1035 	mov	r1,a
+   0264 87 04              1036 	mov	ar4,@r1
+   0266 BC 08 02           1037 	cjne	r4,#0x08,00129$
+   0269 80 03              1038 	sjmp	00130$
+   026B                    1039 00129$:
+   026B 02s04r7C           1040 	ljmp	00104$
+   026E                    1041 00130$:
+                           1042 ;	../../core/net/tcpdump.c:213: n(IPBUF->srcipaddr[0],
+   026E A8*00              1043 	mov	r0,_bp
+   0270 08                 1044 	inc	r0
+   0271 86 02              1045 	mov	ar2,@r0
+   0273 08                 1046 	inc	r0
+   0274 86 03              1047 	mov	ar3,@r0
+   0276 08                 1048 	inc	r0
+   0277 86 04              1049 	mov	ar4,@r0
+   0279 74 0C              1050 	mov	a,#0x0C
+   027B 2A                 1051 	add	a,r2
+   027C F9                 1052 	mov	r1,a
+   027D 87 04              1053 	mov	ar4,@r1
+   027F 7B 00              1054 	mov	r3,#0x00
+   0281 E5*00              1055 	mov	a,_bp
+   0283 24 F9              1056 	add	a,#0xf9
+   0285 F8                 1057 	mov	r0,a
+   0286 E6                 1058 	mov	a,@r0
+   0287 C0 E0              1059 	push	acc
+   0289 08                 1060 	inc	r0
+   028A E6                 1061 	mov	a,@r0
+   028B C0 E0              1062 	push	acc
+   028D 08                 1063 	inc	r0
+   028E E6                 1064 	mov	a,@r0
+   028F C0 E0              1065 	push	acc
+   0291 8C 82              1066 	mov	dpl,r4
+   0293 8B 83              1067 	mov	dph,r3
+   0295 12s00rAD           1068 	lcall	_n
+   0298 AA 82              1069 	mov	r2,dpl
+   029A AB 83              1070 	mov	r3,dph
+   029C AC F0              1071 	mov	r4,b
+   029E 15 81              1072 	dec	sp
+   02A0 15 81              1073 	dec	sp
+   02A2 15 81              1074 	dec	sp
+   02A4 8A 82              1075 	mov	dpl,r2
+   02A6 8B 83              1076 	mov	dph,r3
+   02A8 8C F0              1077 	mov	b,r4
+   02AA 12s01rBC           1078 	lcall	_d
+   02AD AA 82              1079 	mov	r2,dpl
+   02AF AB 83              1080 	mov	r3,dph
+   02B1 AC F0              1081 	mov	r4,b
+                           1082 ;	../../core/net/tcpdump.c:212: n(IPBUF->srcipaddr[1], d(
+   02B3 A8*00              1083 	mov	r0,_bp
+   02B5 08                 1084 	inc	r0
+   02B6 86 05              1085 	mov	ar5,@r0
+   02B8 08                 1086 	inc	r0
+   02B9 86 06              1087 	mov	ar6,@r0
+   02BB 08                 1088 	inc	r0
+   02BC 86 07              1089 	mov	ar7,@r0
+   02BE 74 0D              1090 	mov	a,#0x0D
+   02C0 2D                 1091 	add	a,r5
+   02C1 F9                 1092 	mov	r1,a
+   02C2 87 07              1093 	mov	ar7,@r1
+   02C4 7E 00              1094 	mov	r6,#0x00
+   02C6 C0 02              1095 	push	ar2
+   02C8 C0 03              1096 	push	ar3
+   02CA C0 04              1097 	push	ar4
+   02CC 8F 82              1098 	mov	dpl,r7
+   02CE 8E 83              1099 	mov	dph,r6
+   02D0 12s00rAD           1100 	lcall	_n
+   02D3 AD 82              1101 	mov	r5,dpl
+   02D5 AE 83              1102 	mov	r6,dph
+   02D7 AF F0              1103 	mov	r7,b
+   02D9 15 81              1104 	dec	sp
+   02DB 15 81              1105 	dec	sp
+   02DD 15 81              1106 	dec	sp
+   02DF 8D 82              1107 	mov	dpl,r5
+   02E1 8E 83              1108 	mov	dph,r6
+   02E3 8F F0              1109 	mov	b,r7
+   02E5 12s01rBC           1110 	lcall	_d
+   02E8 AD 82              1111 	mov	r5,dpl
+   02EA AE 83              1112 	mov	r6,dph
+   02EC AF F0              1113 	mov	r7,b
+                           1114 ;	../../core/net/tcpdump.c:211: n(IPBUF->srcipaddr[2], d(
+   02EE A8*00              1115 	mov	r0,_bp
+   02F0 08                 1116 	inc	r0
+   02F1 86 02              1117 	mov	ar2,@r0
+   02F3 08                 1118 	inc	r0
+   02F4 86 03              1119 	mov	ar3,@r0
+   02F6 08                 1120 	inc	r0
+   02F7 86 04              1121 	mov	ar4,@r0
+   02F9 74 0E              1122 	mov	a,#0x0E
+   02FB 2A                 1123 	add	a,r2
+   02FC F9                 1124 	mov	r1,a
+   02FD 87 04              1125 	mov	ar4,@r1
+   02FF 7B 00              1126 	mov	r3,#0x00
+   0301 C0 05              1127 	push	ar5
+   0303 C0 06              1128 	push	ar6
+   0305 C0 07              1129 	push	ar7
+   0307 8C 82              1130 	mov	dpl,r4
+   0309 8B 83              1131 	mov	dph,r3
+   030B 12s00rAD           1132 	lcall	_n
+   030E AD 82              1133 	mov	r5,dpl
+   0310 AE 83              1134 	mov	r6,dph
+   0312 AF F0              1135 	mov	r7,b
+   0314 15 81              1136 	dec	sp
+   0316 15 81              1137 	dec	sp
+   0318 15 81              1138 	dec	sp
+   031A 8D 82              1139 	mov	dpl,r5
+   031C 8E 83              1140 	mov	dph,r6
+   031E 8F F0              1141 	mov	b,r7
+   0320 12s01rBC           1142 	lcall	_d
+   0323 AD 82              1143 	mov	r5,dpl
+   0325 AE 83              1144 	mov	r6,dph
+   0327 AF F0              1145 	mov	r7,b
+                           1146 ;	../../core/net/tcpdump.c:210: n(IPBUF->srcipaddr[3], d(
+   0329 A8*00              1147 	mov	r0,_bp
+   032B 08                 1148 	inc	r0
+   032C 86 02              1149 	mov	ar2,@r0
+   032E 08                 1150 	inc	r0
+   032F 86 03              1151 	mov	ar3,@r0
+   0331 08                 1152 	inc	r0
+   0332 86 04              1153 	mov	ar4,@r0
+   0334 74 0F              1154 	mov	a,#0x0F
+   0336 2A                 1155 	add	a,r2
+   0337 F9                 1156 	mov	r1,a
+   0338 87 04              1157 	mov	ar4,@r1
+   033A 7B 00              1158 	mov	r3,#0x00
+   033C C0 05              1159 	push	ar5
+   033E C0 06              1160 	push	ar6
+   0340 C0 07              1161 	push	ar7
+   0342 8C 82              1162 	mov	dpl,r4
+   0344 8B 83              1163 	mov	dph,r3
+   0346 12s00rAD           1164 	lcall	_n
+   0349 AD 82              1165 	mov	r5,dpl
+   034B AE 83              1166 	mov	r6,dph
+   034D AF F0              1167 	mov	r7,b
+   034F 15 81              1168 	dec	sp
+   0351 15 81              1169 	dec	sp
+   0353 15 81              1170 	dec	sp
+                           1171 ;	../../core/net/tcpdump.c:209: s(" ",
+   0355 C0 05              1172 	push	ar5
+   0357 C0 06              1173 	push	ar6
+   0359 C0 07              1174 	push	ar7
+   035B 90s00r06           1175 	mov	dptr,#__str_1
+   035E 75 F0 80           1176 	mov	b,#0x80
+   0361 12s01rD3           1177 	lcall	_s
+   0364 AD 82              1178 	mov	r5,dpl
+   0366 AE 83              1179 	mov	r6,dph
+   0368 AF F0              1180 	mov	r7,b
+   036A 15 81              1181 	dec	sp
+   036C 15 81              1182 	dec	sp
+   036E 15 81              1183 	dec	sp
+                           1184 ;	../../core/net/tcpdump.c:208: n(IPBUF->destipaddr[0],
+   0370 A8*00              1185 	mov	r0,_bp
+   0372 08                 1186 	inc	r0
+   0373 86 02              1187 	mov	ar2,@r0
+   0375 08                 1188 	inc	r0
+   0376 86 03              1189 	mov	ar3,@r0
+   0378 08                 1190 	inc	r0
+   0379 86 04              1191 	mov	ar4,@r0
+   037B 74 10              1192 	mov	a,#0x10
+   037D 2A                 1193 	add	a,r2
+   037E F9                 1194 	mov	r1,a
+   037F 87 04              1195 	mov	ar4,@r1
+   0381 7B 00              1196 	mov	r3,#0x00
+   0383 C0 05              1197 	push	ar5
+   0385 C0 06              1198 	push	ar6
+   0387 C0 07              1199 	push	ar7
+   0389 8C 82              1200 	mov	dpl,r4
+   038B 8B 83              1201 	mov	dph,r3
+   038D 12s00rAD           1202 	lcall	_n
+   0390 AD 82              1203 	mov	r5,dpl
+   0392 AE 83              1204 	mov	r6,dph
+   0394 AF F0              1205 	mov	r7,b
+   0396 15 81              1206 	dec	sp
+   0398 15 81              1207 	dec	sp
+   039A 15 81              1208 	dec	sp
+   039C 8D 82              1209 	mov	dpl,r5
+   039E 8E 83              1210 	mov	dph,r6
+   03A0 8F F0              1211 	mov	b,r7
+   03A2 12s01rBC           1212 	lcall	_d
+   03A5 AD 82              1213 	mov	r5,dpl
+   03A7 AE 83              1214 	mov	r6,dph
+   03A9 AF F0              1215 	mov	r7,b
+                           1216 ;	../../core/net/tcpdump.c:207: n(IPBUF->destipaddr[1], d(
+   03AB A8*00              1217 	mov	r0,_bp
+   03AD 08                 1218 	inc	r0
+   03AE 86 02              1219 	mov	ar2,@r0
+   03B0 08                 1220 	inc	r0
+   03B1 86 03              1221 	mov	ar3,@r0
+   03B3 08                 1222 	inc	r0
+   03B4 86 04              1223 	mov	ar4,@r0
+   03B6 74 11              1224 	mov	a,#0x11
+   03B8 2A                 1225 	add	a,r2
+   03B9 F9                 1226 	mov	r1,a
+   03BA 87 04              1227 	mov	ar4,@r1
+   03BC 7B 00              1228 	mov	r3,#0x00
+   03BE C0 05              1229 	push	ar5
+   03C0 C0 06              1230 	push	ar6
+   03C2 C0 07              1231 	push	ar7
+   03C4 8C 82              1232 	mov	dpl,r4
+   03C6 8B 83              1233 	mov	dph,r3
+   03C8 12s00rAD           1234 	lcall	_n
+   03CB AD 82              1235 	mov	r5,dpl
+   03CD AE 83              1236 	mov	r6,dph
+   03CF AF F0              1237 	mov	r7,b
+   03D1 15 81              1238 	dec	sp
+   03D3 15 81              1239 	dec	sp
+   03D5 15 81              1240 	dec	sp
+   03D7 8D 82              1241 	mov	dpl,r5
+   03D9 8E 83              1242 	mov	dph,r6
+   03DB 8F F0              1243 	mov	b,r7
+   03DD 12s01rBC           1244 	lcall	_d
+   03E0 AD 82              1245 	mov	r5,dpl
+   03E2 AE 83              1246 	mov	r6,dph
+   03E4 AF F0              1247 	mov	r7,b
+                           1248 ;	../../core/net/tcpdump.c:206: n(IPBUF->destipaddr[2], d(
+   03E6 A8*00              1249 	mov	r0,_bp
+   03E8 08                 1250 	inc	r0
+   03E9 86 02              1251 	mov	ar2,@r0
+   03EB 08                 1252 	inc	r0
+   03EC 86 03              1253 	mov	ar3,@r0
+   03EE 08                 1254 	inc	r0
+   03EF 86 04              1255 	mov	ar4,@r0
+   03F1 74 12              1256 	mov	a,#0x12
+   03F3 2A                 1257 	add	a,r2
+   03F4 F9                 1258 	mov	r1,a
+   03F5 87 04              1259 	mov	ar4,@r1
+   03F7 7B 00              1260 	mov	r3,#0x00
+   03F9 C0 05              1261 	push	ar5
+   03FB C0 06              1262 	push	ar6
+   03FD C0 07              1263 	push	ar7
+   03FF 8C 82              1264 	mov	dpl,r4
+   0401 8B 83              1265 	mov	dph,r3
+   0403 12s00rAD           1266 	lcall	_n
+   0406 AD 82              1267 	mov	r5,dpl
+   0408 AE 83              1268 	mov	r6,dph
+   040A AF F0              1269 	mov	r7,b
+   040C 15 81              1270 	dec	sp
+   040E 15 81              1271 	dec	sp
+   0410 15 81              1272 	dec	sp
+   0412 8D 82              1273 	mov	dpl,r5
+   0414 8E 83              1274 	mov	dph,r6
+   0416 8F F0              1275 	mov	b,r7
+   0418 12s01rBC           1276 	lcall	_d
+   041B AD 82              1277 	mov	r5,dpl
+   041D AE 83              1278 	mov	r6,dph
+   041F AF F0              1279 	mov	r7,b
+                           1280 ;	../../core/net/tcpdump.c:205: n(IPBUF->destipaddr[3], d(
+   0421 A8*00              1281 	mov	r0,_bp
+   0423 08                 1282 	inc	r0
+   0424 86 02              1283 	mov	ar2,@r0
+   0426 08                 1284 	inc	r0
+   0427 86 03              1285 	mov	ar3,@r0
+   0429 08                 1286 	inc	r0
+   042A 86 04              1287 	mov	ar4,@r0
+   042C 74 13              1288 	mov	a,#0x13
+   042E 2A                 1289 	add	a,r2
+   042F F9                 1290 	mov	r1,a
+   0430 87 04              1291 	mov	ar4,@r1
+   0432 7B 00              1292 	mov	r3,#0x00
+   0434 C0 05              1293 	push	ar5
+   0436 C0 06              1294 	push	ar6
+   0438 C0 07              1295 	push	ar7
+   043A 8C 82              1296 	mov	dpl,r4
+   043C 8B 83              1297 	mov	dph,r3
+   043E 12s00rAD           1298 	lcall	_n
+   0441 AD 82              1299 	mov	r5,dpl
+   0443 AE 83              1300 	mov	r6,dph
+   0445 AF F0              1301 	mov	r7,b
+   0447 15 81              1302 	dec	sp
+   0449 15 81              1303 	dec	sp
+   044B 15 81              1304 	dec	sp
+                           1305 ;	../../core/net/tcpdump.c:204: return s(" ping",
+   044D C0 05              1306 	push	ar5
+   044F C0 06              1307 	push	ar6
+   0451 C0 07              1308 	push	ar7
+   0453 90s00r00           1309 	mov	dptr,#__str_0
+   0456 75 F0 80           1310 	mov	b,#0x80
+   0459 12s01rD3           1311 	lcall	_s
+   045C AD 82              1312 	mov	r5,dpl
+   045E AE 83              1313 	mov	r6,dph
+   0460 AF F0              1314 	mov	r7,b
+   0462 15 81              1315 	dec	sp
+   0464 15 81              1316 	dec	sp
+   0466 15 81              1317 	dec	sp
+   0468 E5*00              1318 	mov	a,_bp
+   046A 24 F9              1319 	add	a,#0xf9
+   046C F8                 1320 	mov	r0,a
+   046D ED                 1321 	mov	a,r5
+   046E C3                 1322 	clr	c
+   046F 96                 1323 	subb	a,@r0
+   0470 FD                 1324 	mov	r5,a
+   0471 EE                 1325 	mov	a,r6
+   0472 08                 1326 	inc	r0
+   0473 96                 1327 	subb	a,@r0
+   0474 FE                 1328 	mov	r6,a
+   0475 8D 82              1329 	mov	dpl,r5
+   0477 8E 83              1330 	mov	dph,r6
+   0479 02s0Dr48           1331 	ljmp	00115$
+   047C                    1332 00104$:
+                           1333 ;	../../core/net/tcpdump.c:221: } else if(ICMPBUF->type == ICMP_ECHO_REPLY) {
+   047C A8*00              1334 	mov	r0,_bp
+   047E 08                 1335 	inc	r0
+   047F 86 05              1336 	mov	ar5,@r0
+   0481 08                 1337 	inc	r0
+   0482 86 06              1338 	mov	ar6,@r0
+   0484 08                 1339 	inc	r0
+   0485 86 07              1340 	mov	ar7,@r0
+   0487 74 14              1341 	mov	a,#0x14
+   0489 2D                 1342 	add	a,r5
+   048A F9                 1343 	mov	r1,a
+   048B E7                 1344 	mov	a,@r1
+   048C 60 03              1345 	jz	00131$
+   048E 02s0Dr45           1346 	ljmp	00114$
+   0491                    1347 00131$:
+                           1348 ;	../../core/net/tcpdump.c:231: n(IPBUF->srcipaddr[0],
+   0491 A8*00              1349 	mov	r0,_bp
+   0493 08                 1350 	inc	r0
+   0494 86 05              1351 	mov	ar5,@r0
+   0496 08                 1352 	inc	r0
+   0497 86 06              1353 	mov	ar6,@r0
+   0499 08                 1354 	inc	r0
+   049A 86 07              1355 	mov	ar7,@r0
+   049C 74 0C              1356 	mov	a,#0x0C
+   049E 2D                 1357 	add	a,r5
+   049F F9                 1358 	mov	r1,a
+   04A0 87 07              1359 	mov	ar7,@r1
+   04A2 7E 00              1360 	mov	r6,#0x00
+   04A4 E5*00              1361 	mov	a,_bp
+   04A6 24 F9              1362 	add	a,#0xf9
+   04A8 F8                 1363 	mov	r0,a
+   04A9 E6                 1364 	mov	a,@r0
+   04AA C0 E0              1365 	push	acc
+   04AC 08                 1366 	inc	r0
+   04AD E6                 1367 	mov	a,@r0
+   04AE C0 E0              1368 	push	acc
+   04B0 08                 1369 	inc	r0
+   04B1 E6                 1370 	mov	a,@r0
+   04B2 C0 E0              1371 	push	acc
+   04B4 8F 82              1372 	mov	dpl,r7
+   04B6 8E 83              1373 	mov	dph,r6
+   04B8 12s00rAD           1374 	lcall	_n
+   04BB AD 82              1375 	mov	r5,dpl
+   04BD AE 83              1376 	mov	r6,dph
+   04BF AF F0              1377 	mov	r7,b
+   04C1 15 81              1378 	dec	sp
+   04C3 15 81              1379 	dec	sp
+   04C5 15 81              1380 	dec	sp
+   04C7 8D 82              1381 	mov	dpl,r5
+   04C9 8E 83              1382 	mov	dph,r6
+   04CB 8F F0              1383 	mov	b,r7
+   04CD 12s01rBC           1384 	lcall	_d
+   04D0 AD 82              1385 	mov	r5,dpl
+   04D2 AE 83              1386 	mov	r6,dph
+   04D4 AF F0              1387 	mov	r7,b
+                           1388 ;	../../core/net/tcpdump.c:230: n(IPBUF->srcipaddr[1], d(
+   04D6 A8*00              1389 	mov	r0,_bp
+   04D8 08                 1390 	inc	r0
+   04D9 86 02              1391 	mov	ar2,@r0
+   04DB 08                 1392 	inc	r0
+   04DC 86 03              1393 	mov	ar3,@r0
+   04DE 08                 1394 	inc	r0
+   04DF 86 04              1395 	mov	ar4,@r0
+   04E1 74 0D              1396 	mov	a,#0x0D
+   04E3 2A                 1397 	add	a,r2
+   04E4 F9                 1398 	mov	r1,a
+   04E5 87 04              1399 	mov	ar4,@r1
+   04E7 7B 00              1400 	mov	r3,#0x00
+   04E9 C0 05              1401 	push	ar5
+   04EB C0 06              1402 	push	ar6
+   04ED C0 07              1403 	push	ar7
+   04EF 8C 82              1404 	mov	dpl,r4
+   04F1 8B 83              1405 	mov	dph,r3
+   04F3 12s00rAD           1406 	lcall	_n
+   04F6 AD 82              1407 	mov	r5,dpl
+   04F8 AE 83              1408 	mov	r6,dph
+   04FA AF F0              1409 	mov	r7,b
+   04FC 15 81              1410 	dec	sp
+   04FE 15 81              1411 	dec	sp
+   0500 15 81              1412 	dec	sp
+   0502 8D 82              1413 	mov	dpl,r5
+   0504 8E 83              1414 	mov	dph,r6
+   0506 8F F0              1415 	mov	b,r7
+   0508 12s01rBC           1416 	lcall	_d
+   050B AD 82              1417 	mov	r5,dpl
+   050D AE 83              1418 	mov	r6,dph
+   050F AF F0              1419 	mov	r7,b
+                           1420 ;	../../core/net/tcpdump.c:229: n(IPBUF->srcipaddr[2], d(
+   0511 A8*00              1421 	mov	r0,_bp
+   0513 08                 1422 	inc	r0
+   0514 86 02              1423 	mov	ar2,@r0
+   0516 08                 1424 	inc	r0
+   0517 86 03              1425 	mov	ar3,@r0
+   0519 08                 1426 	inc	r0
+   051A 86 04              1427 	mov	ar4,@r0
+   051C 74 0E              1428 	mov	a,#0x0E
+   051E 2A                 1429 	add	a,r2
+   051F F9                 1430 	mov	r1,a
+   0520 87 04              1431 	mov	ar4,@r1
+   0522 7B 00              1432 	mov	r3,#0x00
+   0524 C0 05              1433 	push	ar5
+   0526 C0 06              1434 	push	ar6
+   0528 C0 07              1435 	push	ar7
+   052A 8C 82              1436 	mov	dpl,r4
+   052C 8B 83              1437 	mov	dph,r3
+   052E 12s00rAD           1438 	lcall	_n
+   0531 AD 82              1439 	mov	r5,dpl
+   0533 AE 83              1440 	mov	r6,dph
+   0535 AF F0              1441 	mov	r7,b
+   0537 15 81              1442 	dec	sp
+   0539 15 81              1443 	dec	sp
+   053B 15 81              1444 	dec	sp
+   053D 8D 82              1445 	mov	dpl,r5
+   053F 8E 83              1446 	mov	dph,r6
+   0541 8F F0              1447 	mov	b,r7
+   0543 12s01rBC           1448 	lcall	_d
+   0546 AD 82              1449 	mov	r5,dpl
+   0548 AE 83              1450 	mov	r6,dph
+   054A AF F0              1451 	mov	r7,b
+                           1452 ;	../../core/net/tcpdump.c:228: n(IPBUF->srcipaddr[3], d(
+   054C A8*00              1453 	mov	r0,_bp
+   054E 08                 1454 	inc	r0
+   054F 86 02              1455 	mov	ar2,@r0
+   0551 08                 1456 	inc	r0
+   0552 86 03              1457 	mov	ar3,@r0
+   0554 08                 1458 	inc	r0
+   0555 86 04              1459 	mov	ar4,@r0
+   0557 74 0F              1460 	mov	a,#0x0F
+   0559 2A                 1461 	add	a,r2
+   055A F9                 1462 	mov	r1,a
+   055B 87 04              1463 	mov	ar4,@r1
+   055D 7B 00              1464 	mov	r3,#0x00
+   055F C0 05              1465 	push	ar5
+   0561 C0 06              1466 	push	ar6
+   0563 C0 07              1467 	push	ar7
+   0565 8C 82              1468 	mov	dpl,r4
+   0567 8B 83              1469 	mov	dph,r3
+   0569 12s00rAD           1470 	lcall	_n
+   056C AD 82              1471 	mov	r5,dpl
+   056E AE 83              1472 	mov	r6,dph
+   0570 AF F0              1473 	mov	r7,b
+   0572 15 81              1474 	dec	sp
+   0574 15 81              1475 	dec	sp
+   0576 15 81              1476 	dec	sp
+                           1477 ;	../../core/net/tcpdump.c:227: s(" ",
+   0578 C0 05              1478 	push	ar5
+   057A C0 06              1479 	push	ar6
+   057C C0 07              1480 	push	ar7
+   057E 90s00r06           1481 	mov	dptr,#__str_1
+   0581 75 F0 80           1482 	mov	b,#0x80
+   0584 12s01rD3           1483 	lcall	_s
+   0587 AD 82              1484 	mov	r5,dpl
+   0589 AE 83              1485 	mov	r6,dph
+   058B AF F0              1486 	mov	r7,b
+   058D 15 81              1487 	dec	sp
+   058F 15 81              1488 	dec	sp
+   0591 15 81              1489 	dec	sp
+                           1490 ;	../../core/net/tcpdump.c:226: n(IPBUF->destipaddr[0],
+   0593 A8*00              1491 	mov	r0,_bp
+   0595 08                 1492 	inc	r0
+   0596 86 02              1493 	mov	ar2,@r0
+   0598 08                 1494 	inc	r0
+   0599 86 03              1495 	mov	ar3,@r0
+   059B 08                 1496 	inc	r0
+   059C 86 04              1497 	mov	ar4,@r0
+   059E 74 10              1498 	mov	a,#0x10
+   05A0 2A                 1499 	add	a,r2
+   05A1 F9                 1500 	mov	r1,a
+   05A2 87 04              1501 	mov	ar4,@r1
+   05A4 7B 00              1502 	mov	r3,#0x00
+   05A6 C0 05              1503 	push	ar5
+   05A8 C0 06              1504 	push	ar6
+   05AA C0 07              1505 	push	ar7
+   05AC 8C 82              1506 	mov	dpl,r4
+   05AE 8B 83              1507 	mov	dph,r3
+   05B0 12s00rAD           1508 	lcall	_n
+   05B3 AD 82              1509 	mov	r5,dpl
+   05B5 AE 83              1510 	mov	r6,dph
+   05B7 AF F0              1511 	mov	r7,b
+   05B9 15 81              1512 	dec	sp
+   05BB 15 81              1513 	dec	sp
+   05BD 15 81              1514 	dec	sp
+   05BF 8D 82              1515 	mov	dpl,r5
+   05C1 8E 83              1516 	mov	dph,r6
+   05C3 8F F0              1517 	mov	b,r7
+   05C5 12s01rBC           1518 	lcall	_d
+   05C8 AD 82              1519 	mov	r5,dpl
+   05CA AE 83              1520 	mov	r6,dph
+   05CC AF F0              1521 	mov	r7,b
+                           1522 ;	../../core/net/tcpdump.c:225: n(IPBUF->destipaddr[1], d(
+   05CE A8*00              1523 	mov	r0,_bp
+   05D0 08                 1524 	inc	r0
+   05D1 86 02              1525 	mov	ar2,@r0
+   05D3 08                 1526 	inc	r0
+   05D4 86 03              1527 	mov	ar3,@r0
+   05D6 08                 1528 	inc	r0
+   05D7 86 04              1529 	mov	ar4,@r0
+   05D9 74 11              1530 	mov	a,#0x11
+   05DB 2A                 1531 	add	a,r2
+   05DC F9                 1532 	mov	r1,a
+   05DD 87 04              1533 	mov	ar4,@r1
+   05DF 7B 00              1534 	mov	r3,#0x00
+   05E1 C0 05              1535 	push	ar5
+   05E3 C0 06              1536 	push	ar6
+   05E5 C0 07              1537 	push	ar7
+   05E7 8C 82              1538 	mov	dpl,r4
+   05E9 8B 83              1539 	mov	dph,r3
+   05EB 12s00rAD           1540 	lcall	_n
+   05EE AD 82              1541 	mov	r5,dpl
+   05F0 AE 83              1542 	mov	r6,dph
+   05F2 AF F0              1543 	mov	r7,b
+   05F4 15 81              1544 	dec	sp
+   05F6 15 81              1545 	dec	sp
+   05F8 15 81              1546 	dec	sp
+   05FA 8D 82              1547 	mov	dpl,r5
+   05FC 8E 83              1548 	mov	dph,r6
+   05FE 8F F0              1549 	mov	b,r7
+   0600 12s01rBC           1550 	lcall	_d
+   0603 AD 82              1551 	mov	r5,dpl
+   0605 AE 83              1552 	mov	r6,dph
+   0607 AF F0              1553 	mov	r7,b
+                           1554 ;	../../core/net/tcpdump.c:224: n(IPBUF->destipaddr[2], d(
+   0609 A8*00              1555 	mov	r0,_bp
+   060B 08                 1556 	inc	r0
+   060C 86 02              1557 	mov	ar2,@r0
+   060E 08                 1558 	inc	r0
+   060F 86 03              1559 	mov	ar3,@r0
+   0611 08                 1560 	inc	r0
+   0612 86 04              1561 	mov	ar4,@r0
+   0614 74 12              1562 	mov	a,#0x12
+   0616 2A                 1563 	add	a,r2
+   0617 F9                 1564 	mov	r1,a
+   0618 87 04              1565 	mov	ar4,@r1
+   061A 7B 00              1566 	mov	r3,#0x00
+   061C C0 05              1567 	push	ar5
+   061E C0 06              1568 	push	ar6
+   0620 C0 07              1569 	push	ar7
+   0622 8C 82              1570 	mov	dpl,r4
+   0624 8B 83              1571 	mov	dph,r3
+   0626 12s00rAD           1572 	lcall	_n
+   0629 AD 82              1573 	mov	r5,dpl
+   062B AE 83              1574 	mov	r6,dph
+   062D AF F0              1575 	mov	r7,b
+   062F 15 81              1576 	dec	sp
+   0631 15 81              1577 	dec	sp
+   0633 15 81              1578 	dec	sp
+   0635 8D 82              1579 	mov	dpl,r5
+   0637 8E 83              1580 	mov	dph,r6
+   0639 8F F0              1581 	mov	b,r7
+   063B 12s01rBC           1582 	lcall	_d
+   063E AD 82              1583 	mov	r5,dpl
+   0640 AE 83              1584 	mov	r6,dph
+   0642 AF F0              1585 	mov	r7,b
+                           1586 ;	../../core/net/tcpdump.c:223: n(IPBUF->destipaddr[3], d(
+   0644 A8*00              1587 	mov	r0,_bp
+   0646 08                 1588 	inc	r0
+   0647 86 02              1589 	mov	ar2,@r0
+   0649 08                 1590 	inc	r0
+   064A 86 03              1591 	mov	ar3,@r0
+   064C 08                 1592 	inc	r0
+   064D 86 04              1593 	mov	ar4,@r0
+   064F 74 13              1594 	mov	a,#0x13
+   0651 2A                 1595 	add	a,r2
+   0652 F9                 1596 	mov	r1,a
+   0653 87 04              1597 	mov	ar4,@r1
+   0655 7B 00              1598 	mov	r3,#0x00
+   0657 C0 05              1599 	push	ar5
+   0659 C0 06              1600 	push	ar6
+   065B C0 07              1601 	push	ar7
+   065D 8C 82              1602 	mov	dpl,r4
+   065F 8B 83              1603 	mov	dph,r3
+   0661 12s00rAD           1604 	lcall	_n
+   0664 AD 82              1605 	mov	r5,dpl
+   0666 AE 83              1606 	mov	r6,dph
+   0668 AF F0              1607 	mov	r7,b
+   066A 15 81              1608 	dec	sp
+   066C 15 81              1609 	dec	sp
+   066E 15 81              1610 	dec	sp
+                           1611 ;	../../core/net/tcpdump.c:222: return s(" pong",
+   0670 C0 05              1612 	push	ar5
+   0672 C0 06              1613 	push	ar6
+   0674 C0 07              1614 	push	ar7
+   0676 90s00r08           1615 	mov	dptr,#__str_2
+   0679 75 F0 80           1616 	mov	b,#0x80
+   067C 12s01rD3           1617 	lcall	_s
+   067F AD 82              1618 	mov	r5,dpl
+   0681 AE 83              1619 	mov	r6,dph
+   0683 AF F0              1620 	mov	r7,b
+   0685 15 81              1621 	dec	sp
+   0687 15 81              1622 	dec	sp
+   0689 15 81              1623 	dec	sp
+   068B E5*00              1624 	mov	a,_bp
+   068D 24 F9              1625 	add	a,#0xf9
+   068F F8                 1626 	mov	r0,a
+   0690 ED                 1627 	mov	a,r5
+   0691 C3                 1628 	clr	c
+   0692 96                 1629 	subb	a,@r0
+   0693 FD                 1630 	mov	r5,a
+   0694 EE                 1631 	mov	a,r6
+   0695 08                 1632 	inc	r0
+   0696 96                 1633 	subb	a,@r0
+   0697 FE                 1634 	mov	r6,a
+   0698 8D 82              1635 	mov	dpl,r5
+   069A 8E 83              1636 	mov	dph,r6
+   069C 02s0Dr48           1637 	ljmp	00115$
+   069F                    1638 00113$:
+                           1639 ;	../../core/net/tcpdump.c:239: } else if(IPBUF->proto == UIP_PROTO_UDP) {
+   069F A8*00              1640 	mov	r0,_bp
+   06A1 08                 1641 	inc	r0
+   06A2 86 05              1642 	mov	ar5,@r0
+   06A4 08                 1643 	inc	r0
+   06A5 86 06              1644 	mov	ar6,@r0
+   06A7 08                 1645 	inc	r0
+   06A8 86 07              1646 	mov	ar7,@r0
+   06AA 74 09              1647 	mov	a,#0x09
+   06AC 2D                 1648 	add	a,r5
+   06AD F9                 1649 	mov	r1,a
+   06AE 87 07              1650 	mov	ar7,@r1
+   06B0 BF 11 02           1651 	cjne	r7,#0x11,00132$
+   06B3 80 03              1652 	sjmp	00133$
+   06B5                    1653 00132$:
+   06B5 02s09r6C           1654 	ljmp	00110$
+   06B8                    1655 00133$:
+                           1656 ;	../../core/net/tcpdump.c:251: n(IPBUF->srcipaddr[0],
+   06B8 A8*00              1657 	mov	r0,_bp
+   06BA 08                 1658 	inc	r0
+   06BB 86 05              1659 	mov	ar5,@r0
+   06BD 08                 1660 	inc	r0
+   06BE 86 06              1661 	mov	ar6,@r0
+   06C0 08                 1662 	inc	r0
+   06C1 86 07              1663 	mov	ar7,@r0
+   06C3 74 0C              1664 	mov	a,#0x0C
+   06C5 2D                 1665 	add	a,r5
+   06C6 F9                 1666 	mov	r1,a
+   06C7 87 07              1667 	mov	ar7,@r1
+   06C9 7E 00              1668 	mov	r6,#0x00
+   06CB E5*00              1669 	mov	a,_bp
+   06CD 24 F9              1670 	add	a,#0xf9
+   06CF F8                 1671 	mov	r0,a
+   06D0 E6                 1672 	mov	a,@r0
+   06D1 C0 E0              1673 	push	acc
+   06D3 08                 1674 	inc	r0
+   06D4 E6                 1675 	mov	a,@r0
+   06D5 C0 E0              1676 	push	acc
+   06D7 08                 1677 	inc	r0
+   06D8 E6                 1678 	mov	a,@r0
+   06D9 C0 E0              1679 	push	acc
+   06DB 8F 82              1680 	mov	dpl,r7
+   06DD 8E 83              1681 	mov	dph,r6
+   06DF 12s00rAD           1682 	lcall	_n
+   06E2 AD 82              1683 	mov	r5,dpl
+   06E4 AE 83              1684 	mov	r6,dph
+   06E6 AF F0              1685 	mov	r7,b
+   06E8 15 81              1686 	dec	sp
+   06EA 15 81              1687 	dec	sp
+   06EC 15 81              1688 	dec	sp
+   06EE 8D 82              1689 	mov	dpl,r5
+   06F0 8E 83              1690 	mov	dph,r6
+   06F2 8F F0              1691 	mov	b,r7
+   06F4 12s01rBC           1692 	lcall	_d
+   06F7 AD 82              1693 	mov	r5,dpl
+   06F9 AE 83              1694 	mov	r6,dph
+   06FB AF F0              1695 	mov	r7,b
+                           1696 ;	../../core/net/tcpdump.c:250: n(IPBUF->srcipaddr[1], d(
+   06FD A8*00              1697 	mov	r0,_bp
+   06FF 08                 1698 	inc	r0
+   0700 86 02              1699 	mov	ar2,@r0
+   0702 08                 1700 	inc	r0
+   0703 86 03              1701 	mov	ar3,@r0
+   0705 08                 1702 	inc	r0
+   0706 86 04              1703 	mov	ar4,@r0
+   0708 74 0D              1704 	mov	a,#0x0D
+   070A 2A                 1705 	add	a,r2
+   070B F9                 1706 	mov	r1,a
+   070C 87 04              1707 	mov	ar4,@r1
+   070E 7B 00              1708 	mov	r3,#0x00
+   0710 C0 05              1709 	push	ar5
+   0712 C0 06              1710 	push	ar6
+   0714 C0 07              1711 	push	ar7
+   0716 8C 82              1712 	mov	dpl,r4
+   0718 8B 83              1713 	mov	dph,r3
+   071A 12s00rAD           1714 	lcall	_n
+   071D AD 82              1715 	mov	r5,dpl
+   071F AE 83              1716 	mov	r6,dph
+   0721 AF F0              1717 	mov	r7,b
+   0723 15 81              1718 	dec	sp
+   0725 15 81              1719 	dec	sp
+   0727 15 81              1720 	dec	sp
+   0729 8D 82              1721 	mov	dpl,r5
+   072B 8E 83              1722 	mov	dph,r6
+   072D 8F F0              1723 	mov	b,r7
+   072F 12s01rBC           1724 	lcall	_d
+   0732 AD 82              1725 	mov	r5,dpl
+   0734 AE 83              1726 	mov	r6,dph
+   0736 AF F0              1727 	mov	r7,b
+                           1728 ;	../../core/net/tcpdump.c:249: n(IPBUF->srcipaddr[2], d(
+   0738 A8*00              1729 	mov	r0,_bp
+   073A 08                 1730 	inc	r0
+   073B 86 02              1731 	mov	ar2,@r0
+   073D 08                 1732 	inc	r0
+   073E 86 03              1733 	mov	ar3,@r0
+   0740 08                 1734 	inc	r0
+   0741 86 04              1735 	mov	ar4,@r0
+   0743 74 0E              1736 	mov	a,#0x0E
+   0745 2A                 1737 	add	a,r2
+   0746 F9                 1738 	mov	r1,a
+   0747 87 04              1739 	mov	ar4,@r1
+   0749 7B 00              1740 	mov	r3,#0x00
+   074B C0 05              1741 	push	ar5
+   074D C0 06              1742 	push	ar6
+   074F C0 07              1743 	push	ar7
+   0751 8C 82              1744 	mov	dpl,r4
+   0753 8B 83              1745 	mov	dph,r3
+   0755 12s00rAD           1746 	lcall	_n
+   0758 AD 82              1747 	mov	r5,dpl
+   075A AE 83              1748 	mov	r6,dph
+   075C AF F0              1749 	mov	r7,b
+   075E 15 81              1750 	dec	sp
+   0760 15 81              1751 	dec	sp
+   0762 15 81              1752 	dec	sp
+   0764 8D 82              1753 	mov	dpl,r5
+   0766 8E 83              1754 	mov	dph,r6
+   0768 8F F0              1755 	mov	b,r7
+   076A 12s01rBC           1756 	lcall	_d
+   076D AD 82              1757 	mov	r5,dpl
+   076F AE 83              1758 	mov	r6,dph
+   0771 AF F0              1759 	mov	r7,b
+                           1760 ;	../../core/net/tcpdump.c:248: n(IPBUF->srcipaddr[3], d(
+   0773 A8*00              1761 	mov	r0,_bp
+   0775 08                 1762 	inc	r0
+   0776 86 02              1763 	mov	ar2,@r0
+   0778 08                 1764 	inc	r0
+   0779 86 03              1765 	mov	ar3,@r0
+   077B 08                 1766 	inc	r0
+   077C 86 04              1767 	mov	ar4,@r0
+   077E 74 0F              1768 	mov	a,#0x0F
+   0780 2A                 1769 	add	a,r2
+   0781 F9                 1770 	mov	r1,a
+   0782 87 04              1771 	mov	ar4,@r1
+   0784 7B 00              1772 	mov	r3,#0x00
+   0786 C0 05              1773 	push	ar5
+   0788 C0 06              1774 	push	ar6
+   078A C0 07              1775 	push	ar7
+   078C 8C 82              1776 	mov	dpl,r4
+   078E 8B 83              1777 	mov	dph,r3
+   0790 12s00rAD           1778 	lcall	_n
+   0793 AD 82              1779 	mov	r5,dpl
+   0795 AE 83              1780 	mov	r6,dph
+   0797 AF F0              1781 	mov	r7,b
+   0799 15 81              1782 	dec	sp
+   079B 15 81              1783 	dec	sp
+   079D 15 81              1784 	dec	sp
+   079F 8D 82              1785 	mov	dpl,r5
+   07A1 8E 83              1786 	mov	dph,r6
+   07A3 8F F0              1787 	mov	b,r7
+   07A5 12s01rBC           1788 	lcall	_d
+   07A8 AD 82              1789 	mov	r5,dpl
+   07AA AE 83              1790 	mov	r6,dph
+   07AC AF F0              1791 	mov	r7,b
+                           1792 ;	../../core/net/tcpdump.c:247: n(uip_htons(UDPBUF->srcport), d(
+   07AE A8*00              1793 	mov	r0,_bp
+   07B0 08                 1794 	inc	r0
+   07B1 86 02              1795 	mov	ar2,@r0
+   07B3 08                 1796 	inc	r0
+   07B4 86 03              1797 	mov	ar3,@r0
+   07B6 08                 1798 	inc	r0
+   07B7 86 04              1799 	mov	ar4,@r0
+   07B9 74 14              1800 	mov	a,#0x14
+   07BB 2A                 1801 	add	a,r2
+   07BC F9                 1802 	mov	r1,a
+   07BD 87 03              1803 	mov	ar3,@r1
+   07BF 09                 1804 	inc	r1
+   07C0 87 04              1805 	mov	ar4,@r1
+   07C2 8B 82              1806 	mov	dpl,r3
+   07C4 8C 83              1807 	mov	dph,r4
+   07C6 C0 07              1808 	push	ar7
+   07C8 C0 06              1809 	push	ar6
+   07CA C0 05              1810 	push	ar5
+   07CC 12s00r00           1811 	lcall	_uip_htons
+   07CF AB 82              1812 	mov	r3,dpl
+   07D1 AC 83              1813 	mov	r4,dph
+   07D3 D0 05              1814 	pop	ar5
+   07D5 D0 06              1815 	pop	ar6
+   07D7 D0 07              1816 	pop	ar7
+   07D9 C0 05              1817 	push	ar5
+   07DB C0 06              1818 	push	ar6
+   07DD C0 07              1819 	push	ar7
+   07DF 8B 82              1820 	mov	dpl,r3
+   07E1 8C 83              1821 	mov	dph,r4
+   07E3 12s00rAD           1822 	lcall	_n
+   07E6 AD 82              1823 	mov	r5,dpl
+   07E8 AE 83              1824 	mov	r6,dph
+   07EA AF F0              1825 	mov	r7,b
+   07EC 15 81              1826 	dec	sp
+   07EE 15 81              1827 	dec	sp
+   07F0 15 81              1828 	dec	sp
+                           1829 ;	../../core/net/tcpdump.c:246: s(" ",
+   07F2 C0 05              1830 	push	ar5
+   07F4 C0 06              1831 	push	ar6
+   07F6 C0 07              1832 	push	ar7
+   07F8 90s00r06           1833 	mov	dptr,#__str_1
+   07FB 75 F0 80           1834 	mov	b,#0x80
+   07FE 12s01rD3           1835 	lcall	_s
+   0801 AD 82              1836 	mov	r5,dpl
+   0803 AE 83              1837 	mov	r6,dph
+   0805 AF F0              1838 	mov	r7,b
+   0807 15 81              1839 	dec	sp
+   0809 15 81              1840 	dec	sp
+   080B 15 81              1841 	dec	sp
+                           1842 ;	../../core/net/tcpdump.c:245: n(IPBUF->destipaddr[0],
+   080D A8*00              1843 	mov	r0,_bp
+   080F 08                 1844 	inc	r0
+   0810 86 02              1845 	mov	ar2,@r0
+   0812 08                 1846 	inc	r0
+   0813 86 03              1847 	mov	ar3,@r0
+   0815 08                 1848 	inc	r0
+   0816 86 04              1849 	mov	ar4,@r0
+   0818 74 10              1850 	mov	a,#0x10
+   081A 2A                 1851 	add	a,r2
+   081B F9                 1852 	mov	r1,a
+   081C 87 04              1853 	mov	ar4,@r1
+   081E 7B 00              1854 	mov	r3,#0x00
+   0820 C0 05              1855 	push	ar5
+   0822 C0 06              1856 	push	ar6
+   0824 C0 07              1857 	push	ar7
+   0826 8C 82              1858 	mov	dpl,r4
+   0828 8B 83              1859 	mov	dph,r3
+   082A 12s00rAD           1860 	lcall	_n
+   082D AD 82              1861 	mov	r5,dpl
+   082F AE 83              1862 	mov	r6,dph
+   0831 AF F0              1863 	mov	r7,b
+   0833 15 81              1864 	dec	sp
+   0835 15 81              1865 	dec	sp
+   0837 15 81              1866 	dec	sp
+   0839 8D 82              1867 	mov	dpl,r5
+   083B 8E 83              1868 	mov	dph,r6
+   083D 8F F0              1869 	mov	b,r7
+   083F 12s01rBC           1870 	lcall	_d
+   0842 AD 82              1871 	mov	r5,dpl
+   0844 AE 83              1872 	mov	r6,dph
+   0846 AF F0              1873 	mov	r7,b
+                           1874 ;	../../core/net/tcpdump.c:244: n(IPBUF->destipaddr[1], d(
+   0848 A8*00              1875 	mov	r0,_bp
+   084A 08                 1876 	inc	r0
+   084B 86 02              1877 	mov	ar2,@r0
+   084D 08                 1878 	inc	r0
+   084E 86 03              1879 	mov	ar3,@r0
+   0850 08                 1880 	inc	r0
+   0851 86 04              1881 	mov	ar4,@r0
+   0853 74 11              1882 	mov	a,#0x11
+   0855 2A                 1883 	add	a,r2
+   0856 F9                 1884 	mov	r1,a
+   0857 87 04              1885 	mov	ar4,@r1
+   0859 7B 00              1886 	mov	r3,#0x00
+   085B C0 05              1887 	push	ar5
+   085D C0 06              1888 	push	ar6
+   085F C0 07              1889 	push	ar7
+   0861 8C 82              1890 	mov	dpl,r4
+   0863 8B 83              1891 	mov	dph,r3
+   0865 12s00rAD           1892 	lcall	_n
+   0868 AD 82              1893 	mov	r5,dpl
+   086A AE 83              1894 	mov	r6,dph
+   086C AF F0              1895 	mov	r7,b
+   086E 15 81              1896 	dec	sp
+   0870 15 81              1897 	dec	sp
+   0872 15 81              1898 	dec	sp
+   0874 8D 82              1899 	mov	dpl,r5
+   0876 8E 83              1900 	mov	dph,r6
+   0878 8F F0              1901 	mov	b,r7
+   087A 12s01rBC           1902 	lcall	_d
+   087D AD 82              1903 	mov	r5,dpl
+   087F AE 83              1904 	mov	r6,dph
+   0881 AF F0              1905 	mov	r7,b
+                           1906 ;	../../core/net/tcpdump.c:243: n(IPBUF->destipaddr[2], d(
+   0883 A8*00              1907 	mov	r0,_bp
+   0885 08                 1908 	inc	r0
+   0886 86 02              1909 	mov	ar2,@r0
+   0888 08                 1910 	inc	r0
+   0889 86 03              1911 	mov	ar3,@r0
+   088B 08                 1912 	inc	r0
+   088C 86 04              1913 	mov	ar4,@r0
+   088E 74 12              1914 	mov	a,#0x12
+   0890 2A                 1915 	add	a,r2
+   0891 F9                 1916 	mov	r1,a
+   0892 87 04              1917 	mov	ar4,@r1
+   0894 7B 00              1918 	mov	r3,#0x00
+   0896 C0 05              1919 	push	ar5
+   0898 C0 06              1920 	push	ar6
+   089A C0 07              1921 	push	ar7
+   089C 8C 82              1922 	mov	dpl,r4
+   089E 8B 83              1923 	mov	dph,r3
+   08A0 12s00rAD           1924 	lcall	_n
+   08A3 AD 82              1925 	mov	r5,dpl
+   08A5 AE 83              1926 	mov	r6,dph
+   08A7 AF F0              1927 	mov	r7,b
+   08A9 15 81              1928 	dec	sp
+   08AB 15 81              1929 	dec	sp
+   08AD 15 81              1930 	dec	sp
+   08AF 8D 82              1931 	mov	dpl,r5
+   08B1 8E 83              1932 	mov	dph,r6
+   08B3 8F F0              1933 	mov	b,r7
+   08B5 12s01rBC           1934 	lcall	_d
+   08B8 AD 82              1935 	mov	r5,dpl
+   08BA AE 83              1936 	mov	r6,dph
+   08BC AF F0              1937 	mov	r7,b
+                           1938 ;	../../core/net/tcpdump.c:242: n(IPBUF->destipaddr[3], d(
+   08BE A8*00              1939 	mov	r0,_bp
+   08C0 08                 1940 	inc	r0
+   08C1 86 02              1941 	mov	ar2,@r0
+   08C3 08                 1942 	inc	r0
+   08C4 86 03              1943 	mov	ar3,@r0
+   08C6 08                 1944 	inc	r0
+   08C7 86 04              1945 	mov	ar4,@r0
+   08C9 74 13              1946 	mov	a,#0x13
+   08CB 2A                 1947 	add	a,r2
+   08CC F9                 1948 	mov	r1,a
+   08CD 87 04              1949 	mov	ar4,@r1
+   08CF 7B 00              1950 	mov	r3,#0x00
+   08D1 C0 05              1951 	push	ar5
+   08D3 C0 06              1952 	push	ar6
+   08D5 C0 07              1953 	push	ar7
+   08D7 8C 82              1954 	mov	dpl,r4
+   08D9 8B 83              1955 	mov	dph,r3
+   08DB 12s00rAD           1956 	lcall	_n
+   08DE AD 82              1957 	mov	r5,dpl
+   08E0 AE 83              1958 	mov	r6,dph
+   08E2 AF F0              1959 	mov	r7,b
+   08E4 15 81              1960 	dec	sp
+   08E6 15 81              1961 	dec	sp
+   08E8 15 81              1962 	dec	sp
+   08EA 8D 82              1963 	mov	dpl,r5
+   08EC 8E 83              1964 	mov	dph,r6
+   08EE 8F F0              1965 	mov	b,r7
+   08F0 12s01rBC           1966 	lcall	_d
+   08F3 AD 82              1967 	mov	r5,dpl
+   08F5 AE 83              1968 	mov	r6,dph
+   08F7 AF F0              1969 	mov	r7,b
+                           1970 ;	../../core/net/tcpdump.c:241: n(uip_htons(UDPBUF->destport), d(
+   08F9 A8*00              1971 	mov	r0,_bp
+   08FB 08                 1972 	inc	r0
+   08FC 86 02              1973 	mov	ar2,@r0
+   08FE 08                 1974 	inc	r0
+   08FF 86 03              1975 	mov	ar3,@r0
+   0901 08                 1976 	inc	r0
+   0902 86 04              1977 	mov	ar4,@r0
+   0904 74 16              1978 	mov	a,#0x16
+   0906 2A                 1979 	add	a,r2
+   0907 F9                 1980 	mov	r1,a
+   0908 87 03              1981 	mov	ar3,@r1
+   090A 09                 1982 	inc	r1
+   090B 87 04              1983 	mov	ar4,@r1
+   090D 8B 82              1984 	mov	dpl,r3
+   090F 8C 83              1985 	mov	dph,r4
+   0911 C0 07              1986 	push	ar7
+   0913 C0 06              1987 	push	ar6
+   0915 C0 05              1988 	push	ar5
+   0917 12s00r00           1989 	lcall	_uip_htons
+   091A AB 82              1990 	mov	r3,dpl
+   091C AC 83              1991 	mov	r4,dph
+   091E D0 05              1992 	pop	ar5
+   0920 D0 06              1993 	pop	ar6
+   0922 D0 07              1994 	pop	ar7
+   0924 C0 05              1995 	push	ar5
+   0926 C0 06              1996 	push	ar6
+   0928 C0 07              1997 	push	ar7
+   092A 8B 82              1998 	mov	dpl,r3
+   092C 8C 83              1999 	mov	dph,r4
+   092E 12s00rAD           2000 	lcall	_n
+   0931 AD 82              2001 	mov	r5,dpl
+   0933 AE 83              2002 	mov	r6,dph
+   0935 AF F0              2003 	mov	r7,b
+   0937 15 81              2004 	dec	sp
+   0939 15 81              2005 	dec	sp
+   093B 15 81              2006 	dec	sp
+                           2007 ;	../../core/net/tcpdump.c:240: return s(" UDP",
+   093D C0 05              2008 	push	ar5
+   093F C0 06              2009 	push	ar6
+   0941 C0 07              2010 	push	ar7
+   0943 90s00r0E           2011 	mov	dptr,#__str_3
+   0946 75 F0 80           2012 	mov	b,#0x80
+   0949 12s01rD3           2013 	lcall	_s
+   094C AD 82              2014 	mov	r5,dpl
+   094E AE 83              2015 	mov	r6,dph
+   0950 AF F0              2016 	mov	r7,b
+   0952 15 81              2017 	dec	sp
+   0954 15 81              2018 	dec	sp
+   0956 15 81              2019 	dec	sp
+   0958 E5*00              2020 	mov	a,_bp
+   095A 24 F9              2021 	add	a,#0xf9
+   095C F8                 2022 	mov	r0,a
+   095D ED                 2023 	mov	a,r5
+   095E C3                 2024 	clr	c
+   095F 96                 2025 	subb	a,@r0
+   0960 FD                 2026 	mov	r5,a
+   0961 EE                 2027 	mov	a,r6
+   0962 08                 2028 	inc	r0
+   0963 96                 2029 	subb	a,@r0
+   0964 FE                 2030 	mov	r6,a
+   0965 8D 82              2031 	mov	dpl,r5
+   0967 8E 83              2032 	mov	dph,r6
+   0969 02s0Dr48           2033 	ljmp	00115$
+   096C                    2034 00110$:
+                           2035 ;	../../core/net/tcpdump.c:260: } else if(IPBUF->proto == UIP_PROTO_TCP) {
+   096C A8*00              2036 	mov	r0,_bp
+   096E 08                 2037 	inc	r0
+   096F 86 05              2038 	mov	ar5,@r0
+   0971 08                 2039 	inc	r0
+   0972 86 06              2040 	mov	ar6,@r0
+   0974 08                 2041 	inc	r0
+   0975 86 07              2042 	mov	ar7,@r0
+   0977 74 09              2043 	mov	a,#0x09
+   0979 2D                 2044 	add	a,r5
+   097A F9                 2045 	mov	r1,a
+   097B 87 07              2046 	mov	ar7,@r1
+   097D BF 06 02           2047 	cjne	r7,#0x06,00134$
+   0980 80 03              2048 	sjmp	00135$
+   0982                    2049 00134$:
+   0982 02s0Dr23           2050 	ljmp	00107$
+   0985                    2051 00135$:
+                           2052 ;	../../core/net/tcpdump.c:261: tcpflags(TCPBUF->flags, flags);
+   0985 E5*00              2053 	mov	a,_bp
+   0987 24 04              2054 	add	a,#0x04
+   0989 FF                 2055 	mov	r7,a
+   098A E5*00              2056 	mov	a,_bp
+   098C 24 0C              2057 	add	a,#0x0c
+   098E F8                 2058 	mov	r0,a
+   098F A6 07              2059 	mov	@r0,ar7
+   0991 08                 2060 	inc	r0
+   0992 76 00              2061 	mov	@r0,#0x00
+   0994 08                 2062 	inc	r0
+   0995 76 40              2063 	mov	@r0,#0x40
+   0997 A8*00              2064 	mov	r0,_bp
+   0999 08                 2065 	inc	r0
+   099A 86 02              2066 	mov	ar2,@r0
+   099C 08                 2067 	inc	r0
+   099D 86 03              2068 	mov	ar3,@r0
+   099F 08                 2069 	inc	r0
+   09A0 86 06              2070 	mov	ar6,@r0
+   09A2 74 21              2071 	mov	a,#0x21
+   09A4 2A                 2072 	add	a,r2
+   09A5 F9                 2073 	mov	r1,a
+   09A6 87 06              2074 	mov	ar6,@r1
+   09A8 C0 07              2075 	push	ar7
+   09AA E5*00              2076 	mov	a,_bp
+   09AC 24 0C              2077 	add	a,#0x0c
+   09AE F8                 2078 	mov	r0,a
+   09AF E6                 2079 	mov	a,@r0
+   09B0 C0 E0              2080 	push	acc
+   09B2 08                 2081 	inc	r0
+   09B3 E6                 2082 	mov	a,@r0
+   09B4 C0 E0              2083 	push	acc
+   09B6 08                 2084 	inc	r0
+   09B7 E6                 2085 	mov	a,@r0
+   09B8 C0 E0              2086 	push	acc
+   09BA 8E 82              2087 	mov	dpl,r6
+   09BC 12s00r00           2088 	lcall	_tcpflags
+   09BF 15 81              2089 	dec	sp
+   09C1 15 81              2090 	dec	sp
+   09C3 15 81              2091 	dec	sp
+                           2092 ;	../../core/net/tcpdump.c:274: n(IPBUF->srcipaddr[0],
+   09C5 A8*00              2093 	mov	r0,_bp
+   09C7 08                 2094 	inc	r0
+   09C8 86 04              2095 	mov	ar4,@r0
+   09CA 08                 2096 	inc	r0
+   09CB 86 05              2097 	mov	ar5,@r0
+   09CD 08                 2098 	inc	r0
+   09CE 86 06              2099 	mov	ar6,@r0
+   09D0 74 0C              2100 	mov	a,#0x0C
+   09D2 2C                 2101 	add	a,r4
+   09D3 F9                 2102 	mov	r1,a
+   09D4 87 06              2103 	mov	ar6,@r1
+   09D6 7D 00              2104 	mov	r5,#0x00
+   09D8 E5*00              2105 	mov	a,_bp
+   09DA 24 F9              2106 	add	a,#0xf9
+   09DC F8                 2107 	mov	r0,a
+   09DD E6                 2108 	mov	a,@r0
+   09DE C0 E0              2109 	push	acc
+   09E0 08                 2110 	inc	r0
+   09E1 E6                 2111 	mov	a,@r0
+   09E2 C0 E0              2112 	push	acc
+   09E4 08                 2113 	inc	r0
+   09E5 E6                 2114 	mov	a,@r0
+   09E6 C0 E0              2115 	push	acc
+   09E8 8E 82              2116 	mov	dpl,r6
+   09EA 8D 83              2117 	mov	dph,r5
+   09EC 12s00rAD           2118 	lcall	_n
+   09EF AC 82              2119 	mov	r4,dpl
+   09F1 AD 83              2120 	mov	r5,dph
+   09F3 AE F0              2121 	mov	r6,b
+   09F5 15 81              2122 	dec	sp
+   09F7 15 81              2123 	dec	sp
+   09F9 15 81              2124 	dec	sp
+   09FB 8C 82              2125 	mov	dpl,r4
+   09FD 8D 83              2126 	mov	dph,r5
+   09FF 8E F0              2127 	mov	b,r6
+   0A01 12s01rBC           2128 	lcall	_d
+   0A04 C8                 2129 	xch	a,r0
+   0A05 E5*00              2130 	mov	a,_bp
+   0A07 24 0C              2131 	add	a,#0x0c
+   0A09 C8                 2132 	xch	a,r0
+   0A0A A6 82              2133 	mov	@r0,dpl
+   0A0C 08                 2134 	inc	r0
+   0A0D A6 83              2135 	mov	@r0,dph
+   0A0F 08                 2136 	inc	r0
+   0A10 A6 F0              2137 	mov	@r0,b
+                           2138 ;	../../core/net/tcpdump.c:273: n(IPBUF->srcipaddr[1], d(
+   0A12 A8*00              2139 	mov	r0,_bp
+   0A14 08                 2140 	inc	r0
+   0A15 86 02              2141 	mov	ar2,@r0
+   0A17 08                 2142 	inc	r0
+   0A18 86 03              2143 	mov	ar3,@r0
+   0A1A 08                 2144 	inc	r0
+   0A1B 86 06              2145 	mov	ar6,@r0
+   0A1D 74 0D              2146 	mov	a,#0x0D
+   0A1F 2A                 2147 	add	a,r2
+   0A20 F9                 2148 	mov	r1,a
+   0A21 87 06              2149 	mov	ar6,@r1
+   0A23 7D 00              2150 	mov	r5,#0x00
+   0A25 E5*00              2151 	mov	a,_bp
+   0A27 24 0C              2152 	add	a,#0x0c
+   0A29 F8                 2153 	mov	r0,a
+   0A2A E6                 2154 	mov	a,@r0
+   0A2B C0 E0              2155 	push	acc
+   0A2D 08                 2156 	inc	r0
+   0A2E E6                 2157 	mov	a,@r0
+   0A2F C0 E0              2158 	push	acc
+   0A31 08                 2159 	inc	r0
+   0A32 E6                 2160 	mov	a,@r0
+   0A33 C0 E0              2161 	push	acc
+   0A35 8E 82              2162 	mov	dpl,r6
+   0A37 8D 83              2163 	mov	dph,r5
+   0A39 12s00rAD           2164 	lcall	_n
+   0A3C AC 82              2165 	mov	r4,dpl
+   0A3E AD 83              2166 	mov	r5,dph
+   0A40 AE F0              2167 	mov	r6,b
+   0A42 15 81              2168 	dec	sp
+   0A44 15 81              2169 	dec	sp
+   0A46 15 81              2170 	dec	sp
+   0A48 8C 82              2171 	mov	dpl,r4
+   0A4A 8D 83              2172 	mov	dph,r5
+   0A4C 8E F0              2173 	mov	b,r6
+   0A4E 12s01rBC           2174 	lcall	_d
+   0A51 C8                 2175 	xch	a,r0
+   0A52 E5*00              2176 	mov	a,_bp
+   0A54 24 0C              2177 	add	a,#0x0c
+   0A56 C8                 2178 	xch	a,r0
+   0A57 A6 82              2179 	mov	@r0,dpl
+   0A59 08                 2180 	inc	r0
+   0A5A A6 83              2181 	mov	@r0,dph
+   0A5C 08                 2182 	inc	r0
+   0A5D A6 F0              2183 	mov	@r0,b
+                           2184 ;	../../core/net/tcpdump.c:272: n(IPBUF->srcipaddr[2], d(
+   0A5F A8*00              2185 	mov	r0,_bp
+   0A61 08                 2186 	inc	r0
+   0A62 86 02              2187 	mov	ar2,@r0
+   0A64 08                 2188 	inc	r0
+   0A65 86 03              2189 	mov	ar3,@r0
+   0A67 08                 2190 	inc	r0
+   0A68 86 06              2191 	mov	ar6,@r0
+   0A6A 74 0E              2192 	mov	a,#0x0E
+   0A6C 2A                 2193 	add	a,r2
+   0A6D F9                 2194 	mov	r1,a
+   0A6E 87 06              2195 	mov	ar6,@r1
+   0A70 7D 00              2196 	mov	r5,#0x00
+   0A72 E5*00              2197 	mov	a,_bp
+   0A74 24 0C              2198 	add	a,#0x0c
+   0A76 F8                 2199 	mov	r0,a
+   0A77 E6                 2200 	mov	a,@r0
+   0A78 C0 E0              2201 	push	acc
+   0A7A 08                 2202 	inc	r0
+   0A7B E6                 2203 	mov	a,@r0
+   0A7C C0 E0              2204 	push	acc
+   0A7E 08                 2205 	inc	r0
+   0A7F E6                 2206 	mov	a,@r0
+   0A80 C0 E0              2207 	push	acc
+   0A82 8E 82              2208 	mov	dpl,r6
+   0A84 8D 83              2209 	mov	dph,r5
+   0A86 12s00rAD           2210 	lcall	_n
+   0A89 AC 82              2211 	mov	r4,dpl
+   0A8B AD 83              2212 	mov	r5,dph
+   0A8D AE F0              2213 	mov	r6,b
+   0A8F 15 81              2214 	dec	sp
+   0A91 15 81              2215 	dec	sp
+   0A93 15 81              2216 	dec	sp
+   0A95 8C 82              2217 	mov	dpl,r4
+   0A97 8D 83              2218 	mov	dph,r5
+   0A99 8E F0              2219 	mov	b,r6
+   0A9B 12s01rBC           2220 	lcall	_d
+   0A9E C8                 2221 	xch	a,r0
+   0A9F E5*00              2222 	mov	a,_bp
+   0AA1 24 0C              2223 	add	a,#0x0c
+   0AA3 C8                 2224 	xch	a,r0
+   0AA4 A6 82              2225 	mov	@r0,dpl
+   0AA6 08                 2226 	inc	r0
+   0AA7 A6 83              2227 	mov	@r0,dph
+   0AA9 08                 2228 	inc	r0
+   0AAA A6 F0              2229 	mov	@r0,b
+                           2230 ;	../../core/net/tcpdump.c:271: n(IPBUF->srcipaddr[3], d(
+   0AAC A8*00              2231 	mov	r0,_bp
+   0AAE 08                 2232 	inc	r0
+   0AAF 86 02              2233 	mov	ar2,@r0
+   0AB1 08                 2234 	inc	r0
+   0AB2 86 03              2235 	mov	ar3,@r0
+   0AB4 08                 2236 	inc	r0
+   0AB5 86 06              2237 	mov	ar6,@r0
+   0AB7 74 0F              2238 	mov	a,#0x0F
+   0AB9 2A                 2239 	add	a,r2
+   0ABA F9                 2240 	mov	r1,a
+   0ABB 87 06              2241 	mov	ar6,@r1
+   0ABD 7D 00              2242 	mov	r5,#0x00
+   0ABF E5*00              2243 	mov	a,_bp
+   0AC1 24 0C              2244 	add	a,#0x0c
+   0AC3 F8                 2245 	mov	r0,a
+   0AC4 E6                 2246 	mov	a,@r0
+   0AC5 C0 E0              2247 	push	acc
+   0AC7 08                 2248 	inc	r0
+   0AC8 E6                 2249 	mov	a,@r0
+   0AC9 C0 E0              2250 	push	acc
+   0ACB 08                 2251 	inc	r0
+   0ACC E6                 2252 	mov	a,@r0
+   0ACD C0 E0              2253 	push	acc
+   0ACF 8E 82              2254 	mov	dpl,r6
+   0AD1 8D 83              2255 	mov	dph,r5
+   0AD3 12s00rAD           2256 	lcall	_n
+   0AD6 AC 82              2257 	mov	r4,dpl
+   0AD8 AD 83              2258 	mov	r5,dph
+   0ADA AE F0              2259 	mov	r6,b
+   0ADC 15 81              2260 	dec	sp
+   0ADE 15 81              2261 	dec	sp
+   0AE0 15 81              2262 	dec	sp
+   0AE2 8C 82              2263 	mov	dpl,r4
+   0AE4 8D 83              2264 	mov	dph,r5
+   0AE6 8E F0              2265 	mov	b,r6
+   0AE8 12s01rBC           2266 	lcall	_d
+   0AEB C8                 2267 	xch	a,r0
+   0AEC E5*00              2268 	mov	a,_bp
+   0AEE 24 0C              2269 	add	a,#0x0c
+   0AF0 C8                 2270 	xch	a,r0
+   0AF1 A6 82              2271 	mov	@r0,dpl
+   0AF3 08                 2272 	inc	r0
+   0AF4 A6 83              2273 	mov	@r0,dph
+   0AF6 08                 2274 	inc	r0
+   0AF7 A6 F0              2275 	mov	@r0,b
+                           2276 ;	../../core/net/tcpdump.c:270: n(uip_htons(TCPBUF->srcport), d(
+   0AF9 A8*00              2277 	mov	r0,_bp
+   0AFB 08                 2278 	inc	r0
+   0AFC 86 02              2279 	mov	ar2,@r0
+   0AFE 08                 2280 	inc	r0
+   0AFF 86 03              2281 	mov	ar3,@r0
+   0B01 08                 2282 	inc	r0
+   0B02 86 06              2283 	mov	ar6,@r0
+   0B04 74 14              2284 	mov	a,#0x14
+   0B06 2A                 2285 	add	a,r2
+   0B07 F9                 2286 	mov	r1,a
+   0B08 87 05              2287 	mov	ar5,@r1
+   0B0A 09                 2288 	inc	r1
+   0B0B 87 06              2289 	mov	ar6,@r1
+   0B0D 8D 82              2290 	mov	dpl,r5
+   0B0F 8E 83              2291 	mov	dph,r6
+   0B11 12s00r00           2292 	lcall	_uip_htons
+   0B14 AD 82              2293 	mov	r5,dpl
+   0B16 AE 83              2294 	mov	r6,dph
+   0B18 E5*00              2295 	mov	a,_bp
+   0B1A 24 0C              2296 	add	a,#0x0c
+   0B1C F8                 2297 	mov	r0,a
+   0B1D E6                 2298 	mov	a,@r0
+   0B1E C0 E0              2299 	push	acc
+   0B20 08                 2300 	inc	r0
+   0B21 E6                 2301 	mov	a,@r0
+   0B22 C0 E0              2302 	push	acc
+   0B24 08                 2303 	inc	r0
+   0B25 E6                 2304 	mov	a,@r0
+   0B26 C0 E0              2305 	push	acc
+   0B28 8D 82              2306 	mov	dpl,r5
+   0B2A 8E 83              2307 	mov	dph,r6
+   0B2C 12s00rAD           2308 	lcall	_n
+   0B2F AC 82              2309 	mov	r4,dpl
+   0B31 AD 83              2310 	mov	r5,dph
+   0B33 AE F0              2311 	mov	r6,b
+   0B35 15 81              2312 	dec	sp
+   0B37 15 81              2313 	dec	sp
+   0B39 15 81              2314 	dec	sp
+                           2315 ;	../../core/net/tcpdump.c:269: s(" ",
+   0B3B C0 04              2316 	push	ar4
+   0B3D C0 05              2317 	push	ar5
+   0B3F C0 06              2318 	push	ar6
+   0B41 90s00r06           2319 	mov	dptr,#__str_1
+   0B44 75 F0 80           2320 	mov	b,#0x80
+   0B47 12s01rD3           2321 	lcall	_s
+   0B4A C8                 2322 	xch	a,r0
+   0B4B E5*00              2323 	mov	a,_bp
+   0B4D 24 0C              2324 	add	a,#0x0c
+   0B4F C8                 2325 	xch	a,r0
+   0B50 A6 82              2326 	mov	@r0,dpl
+   0B52 08                 2327 	inc	r0
+   0B53 A6 83              2328 	mov	@r0,dph
+   0B55 08                 2329 	inc	r0
+   0B56 A6 F0              2330 	mov	@r0,b
+   0B58 15 81              2331 	dec	sp
+   0B5A 15 81              2332 	dec	sp
+   0B5C 15 81              2333 	dec	sp
+                           2334 ;	../../core/net/tcpdump.c:268: n(IPBUF->destipaddr[0],
+   0B5E A8*00              2335 	mov	r0,_bp
+   0B60 08                 2336 	inc	r0
+   0B61 86 02              2337 	mov	ar2,@r0
+   0B63 08                 2338 	inc	r0
+   0B64 86 03              2339 	mov	ar3,@r0
+   0B66 08                 2340 	inc	r0
+   0B67 86 06              2341 	mov	ar6,@r0
+   0B69 74 10              2342 	mov	a,#0x10
+   0B6B 2A                 2343 	add	a,r2
+   0B6C F9                 2344 	mov	r1,a
+   0B6D 87 06              2345 	mov	ar6,@r1
+   0B6F 7D 00              2346 	mov	r5,#0x00
+   0B71 E5*00              2347 	mov	a,_bp
+   0B73 24 0C              2348 	add	a,#0x0c
+   0B75 F8                 2349 	mov	r0,a
+   0B76 E6                 2350 	mov	a,@r0
+   0B77 C0 E0              2351 	push	acc
+   0B79 08                 2352 	inc	r0
+   0B7A E6                 2353 	mov	a,@r0
+   0B7B C0 E0              2354 	push	acc
+   0B7D 08                 2355 	inc	r0
+   0B7E E6                 2356 	mov	a,@r0
+   0B7F C0 E0              2357 	push	acc
+   0B81 8E 82              2358 	mov	dpl,r6
+   0B83 8D 83              2359 	mov	dph,r5
+   0B85 12s00rAD           2360 	lcall	_n
+   0B88 AC 82              2361 	mov	r4,dpl
+   0B8A AD 83              2362 	mov	r5,dph
+   0B8C AE F0              2363 	mov	r6,b
+   0B8E 15 81              2364 	dec	sp
+   0B90 15 81              2365 	dec	sp
+   0B92 15 81              2366 	dec	sp
+   0B94 8C 82              2367 	mov	dpl,r4
+   0B96 8D 83              2368 	mov	dph,r5
+   0B98 8E F0              2369 	mov	b,r6
+   0B9A 12s01rBC           2370 	lcall	_d
+   0B9D C8                 2371 	xch	a,r0
+   0B9E E5*00              2372 	mov	a,_bp
+   0BA0 24 0C              2373 	add	a,#0x0c
+   0BA2 C8                 2374 	xch	a,r0
+   0BA3 A6 82              2375 	mov	@r0,dpl
+   0BA5 08                 2376 	inc	r0
+   0BA6 A6 83              2377 	mov	@r0,dph
+   0BA8 08                 2378 	inc	r0
+   0BA9 A6 F0              2379 	mov	@r0,b
+                           2380 ;	../../core/net/tcpdump.c:267: n(IPBUF->destipaddr[1], d(
+   0BAB A8*00              2381 	mov	r0,_bp
+   0BAD 08                 2382 	inc	r0
+   0BAE 86 02              2383 	mov	ar2,@r0
+   0BB0 08                 2384 	inc	r0
+   0BB1 86 03              2385 	mov	ar3,@r0
+   0BB3 08                 2386 	inc	r0
+   0BB4 86 06              2387 	mov	ar6,@r0
+   0BB6 74 11              2388 	mov	a,#0x11
+   0BB8 2A                 2389 	add	a,r2
+   0BB9 F9                 2390 	mov	r1,a
+   0BBA 87 06              2391 	mov	ar6,@r1
+   0BBC 7D 00              2392 	mov	r5,#0x00
+   0BBE E5*00              2393 	mov	a,_bp
+   0BC0 24 0C              2394 	add	a,#0x0c
+   0BC2 F8                 2395 	mov	r0,a
+   0BC3 E6                 2396 	mov	a,@r0
+   0BC4 C0 E0              2397 	push	acc
+   0BC6 08                 2398 	inc	r0
+   0BC7 E6                 2399 	mov	a,@r0
+   0BC8 C0 E0              2400 	push	acc
+   0BCA 08                 2401 	inc	r0
+   0BCB E6                 2402 	mov	a,@r0
+   0BCC C0 E0              2403 	push	acc
+   0BCE 8E 82              2404 	mov	dpl,r6
+   0BD0 8D 83              2405 	mov	dph,r5
+   0BD2 12s00rAD           2406 	lcall	_n
+   0BD5 AC 82              2407 	mov	r4,dpl
+   0BD7 AD 83              2408 	mov	r5,dph
+   0BD9 AE F0              2409 	mov	r6,b
+   0BDB 15 81              2410 	dec	sp
+   0BDD 15 81              2411 	dec	sp
+   0BDF 15 81              2412 	dec	sp
+   0BE1 8C 82              2413 	mov	dpl,r4
+   0BE3 8D 83              2414 	mov	dph,r5
+   0BE5 8E F0              2415 	mov	b,r6
+   0BE7 12s01rBC           2416 	lcall	_d
+   0BEA C8                 2417 	xch	a,r0
+   0BEB E5*00              2418 	mov	a,_bp
+   0BED 24 0C              2419 	add	a,#0x0c
+   0BEF C8                 2420 	xch	a,r0
+   0BF0 A6 82              2421 	mov	@r0,dpl
+   0BF2 08                 2422 	inc	r0
+   0BF3 A6 83              2423 	mov	@r0,dph
+   0BF5 08                 2424 	inc	r0
+   0BF6 A6 F0              2425 	mov	@r0,b
+                           2426 ;	../../core/net/tcpdump.c:266: n(IPBUF->destipaddr[2], d(
+   0BF8 A8*00              2427 	mov	r0,_bp
+   0BFA 08                 2428 	inc	r0
+   0BFB 86 02              2429 	mov	ar2,@r0
+   0BFD 08                 2430 	inc	r0
+   0BFE 86 03              2431 	mov	ar3,@r0
+   0C00 08                 2432 	inc	r0
+   0C01 86 06              2433 	mov	ar6,@r0
+   0C03 74 12              2434 	mov	a,#0x12
+   0C05 2A                 2435 	add	a,r2
+   0C06 F9                 2436 	mov	r1,a
+   0C07 87 06              2437 	mov	ar6,@r1
+   0C09 7D 00              2438 	mov	r5,#0x00
+   0C0B E5*00              2439 	mov	a,_bp
+   0C0D 24 0C              2440 	add	a,#0x0c
+   0C0F F8                 2441 	mov	r0,a
+   0C10 E6                 2442 	mov	a,@r0
+   0C11 C0 E0              2443 	push	acc
+   0C13 08                 2444 	inc	r0
+   0C14 E6                 2445 	mov	a,@r0
+   0C15 C0 E0              2446 	push	acc
+   0C17 08                 2447 	inc	r0
+   0C18 E6                 2448 	mov	a,@r0
+   0C19 C0 E0              2449 	push	acc
+   0C1B 8E 82              2450 	mov	dpl,r6
+   0C1D 8D 83              2451 	mov	dph,r5
+   0C1F 12s00rAD           2452 	lcall	_n
+   0C22 AC 82              2453 	mov	r4,dpl
+   0C24 AD 83              2454 	mov	r5,dph
+   0C26 AE F0              2455 	mov	r6,b
+   0C28 15 81              2456 	dec	sp
+   0C2A 15 81              2457 	dec	sp
+   0C2C 15 81              2458 	dec	sp
+   0C2E 8C 82              2459 	mov	dpl,r4
+   0C30 8D 83              2460 	mov	dph,r5
+   0C32 8E F0              2461 	mov	b,r6
+   0C34 12s01rBC           2462 	lcall	_d
+   0C37 C8                 2463 	xch	a,r0
+   0C38 E5*00              2464 	mov	a,_bp
+   0C3A 24 0C              2465 	add	a,#0x0c
+   0C3C C8                 2466 	xch	a,r0
+   0C3D A6 82              2467 	mov	@r0,dpl
+   0C3F 08                 2468 	inc	r0
+   0C40 A6 83              2469 	mov	@r0,dph
+   0C42 08                 2470 	inc	r0
+   0C43 A6 F0              2471 	mov	@r0,b
+                           2472 ;	../../core/net/tcpdump.c:265: n(IPBUF->destipaddr[3], d(
+   0C45 A8*00              2473 	mov	r0,_bp
+   0C47 08                 2474 	inc	r0
+   0C48 86 02              2475 	mov	ar2,@r0
+   0C4A 08                 2476 	inc	r0
+   0C4B 86 03              2477 	mov	ar3,@r0
+   0C4D 08                 2478 	inc	r0
+   0C4E 86 06              2479 	mov	ar6,@r0
+   0C50 74 13              2480 	mov	a,#0x13
+   0C52 2A                 2481 	add	a,r2
+   0C53 F9                 2482 	mov	r1,a
+   0C54 87 06              2483 	mov	ar6,@r1
+   0C56 7D 00              2484 	mov	r5,#0x00
+   0C58 E5*00              2485 	mov	a,_bp
+   0C5A 24 0C              2486 	add	a,#0x0c
+   0C5C F8                 2487 	mov	r0,a
+   0C5D E6                 2488 	mov	a,@r0
+   0C5E C0 E0              2489 	push	acc
+   0C60 08                 2490 	inc	r0
+   0C61 E6                 2491 	mov	a,@r0
+   0C62 C0 E0              2492 	push	acc
+   0C64 08                 2493 	inc	r0
+   0C65 E6                 2494 	mov	a,@r0
+   0C66 C0 E0              2495 	push	acc
+   0C68 8E 82              2496 	mov	dpl,r6
+   0C6A 8D 83              2497 	mov	dph,r5
+   0C6C 12s00rAD           2498 	lcall	_n
+   0C6F AC 82              2499 	mov	r4,dpl
+   0C71 AD 83              2500 	mov	r5,dph
+   0C73 AE F0              2501 	mov	r6,b
+   0C75 15 81              2502 	dec	sp
+   0C77 15 81              2503 	dec	sp
+   0C79 15 81              2504 	dec	sp
+   0C7B 8C 82              2505 	mov	dpl,r4
+   0C7D 8D 83              2506 	mov	dph,r5
+   0C7F 8E F0              2507 	mov	b,r6
+   0C81 12s01rBC           2508 	lcall	_d
+   0C84 C8                 2509 	xch	a,r0
+   0C85 E5*00              2510 	mov	a,_bp
+   0C87 24 0C              2511 	add	a,#0x0c
+   0C89 C8                 2512 	xch	a,r0
+   0C8A A6 82              2513 	mov	@r0,dpl
+   0C8C 08                 2514 	inc	r0
+   0C8D A6 83              2515 	mov	@r0,dph
+   0C8F 08                 2516 	inc	r0
+   0C90 A6 F0              2517 	mov	@r0,b
+                           2518 ;	../../core/net/tcpdump.c:264: n(uip_htons(TCPBUF->destport), d(
+   0C92 A8*00              2519 	mov	r0,_bp
+   0C94 08                 2520 	inc	r0
+   0C95 86 02              2521 	mov	ar2,@r0
+   0C97 08                 2522 	inc	r0
+   0C98 86 03              2523 	mov	ar3,@r0
+   0C9A 08                 2524 	inc	r0
+   0C9B 86 06              2525 	mov	ar6,@r0
+   0C9D 74 16              2526 	mov	a,#0x16
+   0C9F 2A                 2527 	add	a,r2
+   0CA0 F9                 2528 	mov	r1,a
+   0CA1 87 05              2529 	mov	ar5,@r1
+   0CA3 09                 2530 	inc	r1
+   0CA4 87 06              2531 	mov	ar6,@r1
+   0CA6 8D 82              2532 	mov	dpl,r5
+   0CA8 8E 83              2533 	mov	dph,r6
+   0CAA 12s00r00           2534 	lcall	_uip_htons
+   0CAD AD 82              2535 	mov	r5,dpl
+   0CAF AE 83              2536 	mov	r6,dph
+   0CB1 E5*00              2537 	mov	a,_bp
+   0CB3 24 0C              2538 	add	a,#0x0c
+   0CB5 F8                 2539 	mov	r0,a
+   0CB6 E6                 2540 	mov	a,@r0
+   0CB7 C0 E0              2541 	push	acc
+   0CB9 08                 2542 	inc	r0
+   0CBA E6                 2543 	mov	a,@r0
+   0CBB C0 E0              2544 	push	acc
+   0CBD 08                 2545 	inc	r0
+   0CBE E6                 2546 	mov	a,@r0
+   0CBF C0 E0              2547 	push	acc
+   0CC1 8D 82              2548 	mov	dpl,r5
+   0CC3 8E 83              2549 	mov	dph,r6
+   0CC5 12s00rAD           2550 	lcall	_n
+   0CC8 AC 82              2551 	mov	r4,dpl
+   0CCA AD 83              2552 	mov	r5,dph
+   0CCC AE F0              2553 	mov	r6,b
+   0CCE 15 81              2554 	dec	sp
+   0CD0 15 81              2555 	dec	sp
+   0CD2 15 81              2556 	dec	sp
+                           2557 ;	../../core/net/tcpdump.c:263: s(" ",
+   0CD4 C0 04              2558 	push	ar4
+   0CD6 C0 05              2559 	push	ar5
+   0CD8 C0 06              2560 	push	ar6
+   0CDA 90s00r06           2561 	mov	dptr,#__str_1
+   0CDD 75 F0 80           2562 	mov	b,#0x80
+   0CE0 12s01rD3           2563 	lcall	_s
+   0CE3 AC 82              2564 	mov	r4,dpl
+   0CE5 AD 83              2565 	mov	r5,dph
+   0CE7 AE F0              2566 	mov	r6,b
+   0CE9 15 81              2567 	dec	sp
+   0CEB 15 81              2568 	dec	sp
+   0CED 15 81              2569 	dec	sp
+   0CEF D0 07              2570 	pop	ar7
+                           2571 ;	../../core/net/tcpdump.c:262: return s(flags,
+   0CF1 7B 00              2572 	mov	r3,#0x00
+   0CF3 7A 40              2573 	mov	r2,#0x40
+   0CF5 C0 04              2574 	push	ar4
+   0CF7 C0 05              2575 	push	ar5
+   0CF9 C0 06              2576 	push	ar6
+   0CFB 8F 82              2577 	mov	dpl,r7
+   0CFD 8B 83              2578 	mov	dph,r3
+   0CFF 8A F0              2579 	mov	b,r2
+   0D01 12s01rD3           2580 	lcall	_s
+   0D04 AD 82              2581 	mov	r5,dpl
+   0D06 AE 83              2582 	mov	r6,dph
+   0D08 AF F0              2583 	mov	r7,b
+   0D0A 15 81              2584 	dec	sp
+   0D0C 15 81              2585 	dec	sp
+   0D0E 15 81              2586 	dec	sp
+   0D10 E5*00              2587 	mov	a,_bp
+   0D12 24 F9              2588 	add	a,#0xf9
+   0D14 F8                 2589 	mov	r0,a
+   0D15 ED                 2590 	mov	a,r5
+   0D16 C3                 2591 	clr	c
+   0D17 96                 2592 	subb	a,@r0
+   0D18 FD                 2593 	mov	r5,a
+   0D19 EE                 2594 	mov	a,r6
+   0D1A 08                 2595 	inc	r0
+   0D1B 96                 2596 	subb	a,@r0
+   0D1C FE                 2597 	mov	r6,a
+   0D1D 8D 82              2598 	mov	dpl,r5
+   0D1F 8E 83              2599 	mov	dph,r6
+   0D21 80 25              2600 	sjmp	00115$
+   0D23                    2601 00107$:
+                           2602 ;	../../core/net/tcpdump.c:285: strcpy(buf, "Unrecognized protocol");
+   0D23 74r13              2603 	mov	a,#__str_4
+   0D25 C0 E0              2604 	push	acc
+   0D27 74s00              2605 	mov	a,#(__str_4 >> 8)
+   0D29 C0 E0              2606 	push	acc
+   0D2B 74 80              2607 	mov	a,#0x80
+   0D2D C0 E0              2608 	push	acc
+   0D2F E5*00              2609 	mov	a,_bp
+   0D31 24 F9              2610 	add	a,#0xf9
+   0D33 F8                 2611 	mov	r0,a
+   0D34 86 82              2612 	mov	dpl,@r0
+   0D36 08                 2613 	inc	r0
+   0D37 86 83              2614 	mov	dph,@r0
+   0D39 08                 2615 	inc	r0
+   0D3A 86 F0              2616 	mov	b,@r0
+   0D3C 12s00r00           2617 	lcall	_strcpy
+   0D3F 15 81              2618 	dec	sp
+   0D41 15 81              2619 	dec	sp
+   0D43 15 81              2620 	dec	sp
+   0D45                    2621 00114$:
+                           2622 ;	../../core/net/tcpdump.c:288: return 0;
+   0D45 90 00 00           2623 	mov	dptr,#0x0000
+   0D48                    2624 00115$:
+   0D48 85*00 81           2625 	mov	sp,_bp
+   0D4B D0*00              2626 	pop	_bp
+   0D4D 22                 2627 	ret
+                           2628 	.area CSEG    (CODE)
+                           2629 	.area CONST   (CODE)
+   0000                    2630 __str_0:
+   0000 20 70 69 6E 67     2631 	.ascii " ping"
+   0005 00                 2632 	.db 0x00
+   0006                    2633 __str_1:
+   0006 20                 2634 	.ascii " "
+   0007 00                 2635 	.db 0x00
+   0008                    2636 __str_2:
+   0008 20 70 6F 6E 67     2637 	.ascii " pong"
+   000D 00                 2638 	.db 0x00
+   000E                    2639 __str_3:
+   000E 20 55 44 50        2640 	.ascii " UDP"
+   0012 00                 2641 	.db 0x00
+   0013                    2642 __str_4:
+   0013 55 6E 72 65 63 6F  2643 	.ascii "Unrecognized protocol"
+        67 6E 69 7A 65 64
+        20 70 72 6F 74 6F
+        63 6F 6C
+   0028 00                 2644 	.db 0x00
+                           2645 	.area XINIT   (CODE)
+                           2646 	.area CABS    (ABS,CODE)

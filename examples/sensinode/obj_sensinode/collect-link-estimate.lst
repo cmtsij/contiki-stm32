@@ -1,0 +1,524 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:18 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module collect_link_estimate
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _collect_link_estimate_new
+                             13 	.globl _collect_link_estimate_update_tx
+                             14 	.globl _collect_link_estimate_update_tx_fail
+                             15 	.globl _collect_link_estimate_update_rx
+                             16 	.globl _collect_link_estimate
+                             17 	.globl _collect_link_estimate_num_estimates
+                             18 ;--------------------------------------------------------
+                             19 ; special function registers
+                             20 ;--------------------------------------------------------
+                             21 	.area RSEG    (ABS,DATA)
+   0000                      22 	.org 0x0000
+                             23 ;--------------------------------------------------------
+                             24 ; special function bits
+                             25 ;--------------------------------------------------------
+                             26 	.area RSEG    (ABS,DATA)
+   0000                      27 	.org 0x0000
+                             28 ;--------------------------------------------------------
+                             29 ; overlayable register banks
+                             30 ;--------------------------------------------------------
+                             31 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                      32 	.ds 8
+                             33 ;--------------------------------------------------------
+                             34 ; internal ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area DSEG    (DATA)
+                             37 ;--------------------------------------------------------
+                             38 ; overlayable items in internal ram 
+                             39 ;--------------------------------------------------------
+                             40 	.area OSEG    (OVR,DATA)
+                             41 ;--------------------------------------------------------
+                             42 ; indirectly addressable internal ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area ISEG    (DATA)
+                             45 ;--------------------------------------------------------
+                             46 ; absolute internal ram data
+                             47 ;--------------------------------------------------------
+                             48 	.area IABS    (ABS,DATA)
+                             49 	.area IABS    (ABS,DATA)
+                             50 ;--------------------------------------------------------
+                             51 ; bit data
+                             52 ;--------------------------------------------------------
+                             53 	.area BSEG    (BIT)
+                             54 ;--------------------------------------------------------
+                             55 ; paged external ram data
+                             56 ;--------------------------------------------------------
+                             57 	.area PSEG    (PAG,XDATA)
+                             58 ;--------------------------------------------------------
+                             59 ; external ram data
+                             60 ;--------------------------------------------------------
+                             61 	.area XSEG    (XDATA)
+                             62 ;--------------------------------------------------------
+                             63 ; absolute external ram data
+                             64 ;--------------------------------------------------------
+                             65 	.area XABS    (ABS,XDATA)
+                             66 ;--------------------------------------------------------
+                             67 ; external initialized ram data
+                             68 ;--------------------------------------------------------
+                             69 	.area XISEG   (XDATA)
+                             70 	.area HOME    (CODE)
+                             71 	.area GSINIT0 (CODE)
+                             72 	.area GSINIT1 (CODE)
+                             73 	.area GSINIT2 (CODE)
+                             74 	.area GSINIT3 (CODE)
+                             75 	.area GSINIT4 (CODE)
+                             76 	.area GSINIT5 (CODE)
+                             77 	.area GSINIT  (CODE)
+                             78 	.area GSFINAL (CODE)
+                             79 	.area CSEG    (CODE)
+                             80 ;--------------------------------------------------------
+                             81 ; global & static initialisations
+                             82 ;--------------------------------------------------------
+                             83 	.area HOME    (CODE)
+                             84 	.area GSINIT  (CODE)
+                             85 	.area GSFINAL (CODE)
+                             86 	.area GSINIT  (CODE)
+                             87 ;--------------------------------------------------------
+                             88 ; Home
+                             89 ;--------------------------------------------------------
+                             90 	.area HOME    (CODE)
+                             91 	.area HOME    (CODE)
+                             92 ;--------------------------------------------------------
+                             93 ; code
+                             94 ;--------------------------------------------------------
+                             95 	.area CSEG    (CODE)
+                             96 ;------------------------------------------------------------
+                             97 ;Allocation info for local variables in function 'collect_link_estimate_new'
+                             98 ;------------------------------------------------------------
+                             99 ;le                        Allocated to registers r5 r6 r7 
+                            100 ;------------------------------------------------------------
+                            101 ;	../../core/net/rime/collect-link-estimate.c:64: collect_link_estimate_new(struct collect_link_estimate *le)
+                            102 ;	-----------------------------------------
+                            103 ;	 function collect_link_estimate_new
+                            104 ;	-----------------------------------------
+   0000                     105 _collect_link_estimate_new:
+                    0007    106 	ar7 = 0x07
+                    0006    107 	ar6 = 0x06
+                    0005    108 	ar5 = 0x05
+                    0004    109 	ar4 = 0x04
+                    0003    110 	ar3 = 0x03
+                    0002    111 	ar2 = 0x02
+                    0001    112 	ar1 = 0x01
+                    0000    113 	ar0 = 0x00
+   0000 AD 82               114 	mov	r5,dpl
+   0002 AE 83               115 	mov	r6,dph
+   0004 AF F0               116 	mov	r7,b
+                            117 ;	../../core/net/rime/collect-link-estimate.c:66: le->num_estimates = 0;
+   0006 74 04               118 	mov	a,#0x04
+   0008 2D                  119 	add	a,r5
+   0009 FA                  120 	mov	r2,a
+   000A E4                  121 	clr	a
+   000B 3E                  122 	addc	a,r6
+   000C FB                  123 	mov	r3,a
+   000D 8F 04               124 	mov	ar4,r7
+   000F 8A 82               125 	mov	dpl,r2
+   0011 8B 83               126 	mov	dph,r3
+   0013 8C F0               127 	mov	b,r4
+   0015 E4                  128 	clr	a
+   0016 12s00r00            129 	lcall	__gptrput
+                            130 ;	../../core/net/rime/collect-link-estimate.c:67: le->etx_accumulator = COLLECT_LINK_ESTIMATE_UNIT;
+   0019 8D 82               131 	mov	dpl,r5
+   001B 8E 83               132 	mov	dph,r6
+   001D 8F F0               133 	mov	b,r7
+   001F 74 08               134 	mov	a,#0x08
+   0021 12s00r00            135 	lcall	__gptrput
+   0024 A3                  136 	inc	dptr
+   0025 E4                  137 	clr	a
+   0026 12s00r00            138 	lcall	__gptrput
+   0029 A3                  139 	inc	dptr
+   002A E4                  140 	clr	a
+   002B 12s00r00            141 	lcall	__gptrput
+   002E A3                  142 	inc	dptr
+   002F E4                  143 	clr	a
+   0030 02s00r00            144 	ljmp	__gptrput
+                            145 ;------------------------------------------------------------
+                            146 ;Allocation info for local variables in function 'collect_link_estimate_update_tx'
+                            147 ;------------------------------------------------------------
+                            148 ;tx                        Allocated to stack - _bp -3
+                            149 ;le                        Allocated to stack - _bp +1
+                            150 ;sloc0                     Allocated to stack - _bp +4
+                            151 ;sloc1                     Allocated to stack - _bp +4
+                            152 ;------------------------------------------------------------
+                            153 ;	../../core/net/rime/collect-link-estimate.c:71: collect_link_estimate_update_tx(struct collect_link_estimate *le, uint8_t tx)
+                            154 ;	-----------------------------------------
+                            155 ;	 function collect_link_estimate_update_tx
+                            156 ;	-----------------------------------------
+   0033                     157 _collect_link_estimate_update_tx:
+   0033 C0*00               158 	push	_bp
+   0035 85 81*00            159 	mov	_bp,sp
+   0038 C0 82               160 	push	dpl
+   003A C0 83               161 	push	dph
+   003C C0 F0               162 	push	b
+   003E E5 81               163 	mov	a,sp
+   0040 24 04               164 	add	a,#0x04
+   0042 F5 81               165 	mov	sp,a
+                            166 ;	../../core/net/rime/collect-link-estimate.c:73: if(tx == 0) {
+   0044 E5*00               167 	mov	a,_bp
+   0046 24 FD               168 	add	a,#0xfd
+   0048 F8                  169 	mov	r0,a
+   0049 E6                  170 	mov	a,@r0
+   004A 70 03               171 	jnz	00102$
+                            172 ;	../../core/net/rime/collect-link-estimate.c:75: return;
+   004C 02s01r8C            173 	ljmp	00109$
+   004F                     174 00102$:
+                            175 ;	../../core/net/rime/collect-link-estimate.c:77: if(le != NULL) {
+   004F A8*00               176 	mov	r0,_bp
+   0051 08                  177 	inc	r0
+   0052 E6                  178 	mov	a,@r0
+   0053 08                  179 	inc	r0
+   0054 46                  180 	orl	a,@r0
+   0055 70 03               181 	jnz	00120$
+   0057 02s01r8C            182 	ljmp	00109$
+   005A                     183 00120$:
+                            184 ;	../../core/net/rime/collect-link-estimate.c:78: if(le->num_estimates == 0) {
+   005A A8*00               185 	mov	r0,_bp
+   005C 08                  186 	inc	r0
+   005D 74 04               187 	mov	a,#0x04
+   005F 26                  188 	add	a,@r0
+   0060 FA                  189 	mov	r2,a
+   0061 E4                  190 	clr	a
+   0062 08                  191 	inc	r0
+   0063 36                  192 	addc	a,@r0
+   0064 FB                  193 	mov	r3,a
+   0065 08                  194 	inc	r0
+   0066 86 04               195 	mov	ar4,@r0
+   0068 8A 82               196 	mov	dpl,r2
+   006A 8B 83               197 	mov	dph,r3
+   006C 8C F0               198 	mov	b,r4
+   006E 12s00r00            199 	lcall	__gptrget
+   0071 FE                  200 	mov	r6,a
+   0072 70 3E               201 	jnz	00104$
+                            202 ;	../../core/net/rime/collect-link-estimate.c:79: le->etx_accumulator = tx * COLLECT_LINK_ESTIMATE_UNIT;
+   0074 C0 02               203 	push	ar2
+   0076 C0 03               204 	push	ar3
+   0078 C0 04               205 	push	ar4
+   007A E5*00               206 	mov	a,_bp
+   007C 24 FD               207 	add	a,#0xfd
+   007E F8                  208 	mov	r0,a
+   007F E6                  209 	mov	a,@r0
+   0080 75 F0 08            210 	mov	b,#0x08
+   0083 A4                  211 	mul	ab
+   0084 FB                  212 	mov	r3,a
+   0085 AC F0               213 	mov	r4,b
+   0087 EC                  214 	mov	a,r4
+   0088 FA                  215 	mov	r2,a
+   0089 33                  216 	rlc	a
+   008A 95 E0               217 	subb	a,acc
+   008C FC                  218 	mov	r4,a
+   008D FF                  219 	mov	r7,a
+   008E A8*00               220 	mov	r0,_bp
+   0090 08                  221 	inc	r0
+   0091 86 82               222 	mov	dpl,@r0
+   0093 08                  223 	inc	r0
+   0094 86 83               224 	mov	dph,@r0
+   0096 08                  225 	inc	r0
+   0097 86 F0               226 	mov	b,@r0
+   0099 EB                  227 	mov	a,r3
+   009A 12s00r00            228 	lcall	__gptrput
+   009D A3                  229 	inc	dptr
+   009E EA                  230 	mov	a,r2
+   009F 12s00r00            231 	lcall	__gptrput
+   00A2 A3                  232 	inc	dptr
+   00A3 EC                  233 	mov	a,r4
+   00A4 12s00r00            234 	lcall	__gptrput
+   00A7 A3                  235 	inc	dptr
+   00A8 EF                  236 	mov	a,r7
+   00A9 12s00r00            237 	lcall	__gptrput
+                            238 ;	../../core/net/rime/collect-link-estimate.c:88: le->etx_accumulator * (COLLECT_LINK_ESTIMATE_UNIT -
+   00AC D0 04               239 	pop	ar4
+   00AE D0 03               240 	pop	ar3
+   00B0 D0 02               241 	pop	ar2
+                            242 ;	../../core/net/rime/collect-link-estimate.c:79: le->etx_accumulator = tx * COLLECT_LINK_ESTIMATE_UNIT;
+   00B2                     243 00104$:
+                            244 ;	../../core/net/rime/collect-link-estimate.c:82: if(le->num_estimates < MAX_ESTIMATES) {
+   00B2 BE FF 00            245 	cjne	r6,#0xFF,00122$
+   00B5                     246 00122$:
+   00B5 50 0C               247 	jnc	00106$
+                            248 ;	../../core/net/rime/collect-link-estimate.c:83: le->num_estimates++;
+   00B7 EE                  249 	mov	a,r6
+   00B8 04                  250 	inc	a
+   00B9 FF                  251 	mov	r7,a
+   00BA 8A 82               252 	mov	dpl,r2
+   00BC 8B 83               253 	mov	dph,r3
+   00BE 8C F0               254 	mov	b,r4
+   00C0 12s00r00            255 	lcall	__gptrput
+   00C3                     256 00106$:
+                            257 ;	../../core/net/rime/collect-link-estimate.c:86: le->etx_accumulator = (((uint32_t)tx * COLLECT_LINK_ESTIMATE_UNIT) *
+   00C3 E5*00               258 	mov	a,_bp
+   00C5 24 FD               259 	add	a,#0xfd
+   00C7 F8                  260 	mov	r0,a
+   00C8 86 04               261 	mov	ar4,@r0
+   00CA 7D 00               262 	mov	r5,#0x00
+   00CC 7E 00               263 	mov	r6,#0x00
+   00CE 7F 00               264 	mov	r7,#0x00
+   00D0 C0 04               265 	push	ar4
+   00D2 C0 05               266 	push	ar5
+   00D4 C0 06               267 	push	ar6
+   00D6 C0 07               268 	push	ar7
+                            269 ;	../../core/net/rime/collect-link-estimate.c:88: le->etx_accumulator * (COLLECT_LINK_ESTIMATE_UNIT -
+   00D8 90 00 18            270 	mov	dptr,#(0x18&0x00ff)
+   00DB E4                  271 	clr	a
+   00DC F5 F0               272 	mov	b,a
+   00DE 12s00r00            273 	lcall	__mullong
+   00E1 C8                  274 	xch	a,r0
+   00E2 E5*00               275 	mov	a,_bp
+   00E4 24 04               276 	add	a,#0x04
+   00E6 C8                  277 	xch	a,r0
+   00E7 A6 82               278 	mov	@r0,dpl
+   00E9 08                  279 	inc	r0
+   00EA A6 83               280 	mov	@r0,dph
+   00EC 08                  281 	inc	r0
+   00ED A6 F0               282 	mov	@r0,b
+   00EF 08                  283 	inc	r0
+   00F0 F6                  284 	mov	@r0,a
+   00F1 E5 81               285 	mov	a,sp
+   00F3 24 FC               286 	add	a,#0xfc
+   00F5 F5 81               287 	mov	sp,a
+   00F7 A8*00               288 	mov	r0,_bp
+   00F9 08                  289 	inc	r0
+   00FA 86 82               290 	mov	dpl,@r0
+   00FC 08                  291 	inc	r0
+   00FD 86 83               292 	mov	dph,@r0
+   00FF 08                  293 	inc	r0
+   0100 86 F0               294 	mov	b,@r0
+   0102 12s00r00            295 	lcall	__gptrget
+   0105 FA                  296 	mov	r2,a
+   0106 A3                  297 	inc	dptr
+   0107 12s00r00            298 	lcall	__gptrget
+   010A FB                  299 	mov	r3,a
+   010B A3                  300 	inc	dptr
+   010C 12s00r00            301 	lcall	__gptrget
+   010F FE                  302 	mov	r6,a
+   0110 A3                  303 	inc	dptr
+   0111 12s00r00            304 	lcall	__gptrget
+   0114 FF                  305 	mov	r7,a
+   0115 C0 02               306 	push	ar2
+   0117 C0 03               307 	push	ar3
+   0119 C0 06               308 	push	ar6
+   011B C0 07               309 	push	ar7
+   011D 90 00 05            310 	mov	dptr,#(0x05&0x00ff)
+   0120 E4                  311 	clr	a
+   0121 F5 F0               312 	mov	b,a
+   0123 12s00r00            313 	lcall	__mullong
+   0126 AC 82               314 	mov	r4,dpl
+   0128 AD 83               315 	mov	r5,dph
+   012A AE F0               316 	mov	r6,b
+   012C FF                  317 	mov	r7,a
+   012D E5 81               318 	mov	a,sp
+   012F 24 FC               319 	add	a,#0xfc
+   0131 F5 81               320 	mov	sp,a
+   0133 E5*00               321 	mov	a,_bp
+   0135 24 04               322 	add	a,#0x04
+   0137 F8                  323 	mov	r0,a
+   0138 EC                  324 	mov	a,r4
+   0139 26                  325 	add	a,@r0
+   013A FC                  326 	mov	r4,a
+   013B ED                  327 	mov	a,r5
+   013C 08                  328 	inc	r0
+   013D 36                  329 	addc	a,@r0
+   013E FD                  330 	mov	r5,a
+   013F EE                  331 	mov	a,r6
+   0140 08                  332 	inc	r0
+   0141 36                  333 	addc	a,@r0
+   0142 FE                  334 	mov	r6,a
+   0143 EF                  335 	mov	a,r7
+   0144 08                  336 	inc	r0
+   0145 36                  337 	addc	a,@r0
+   0146 FF                  338 	mov	r7,a
+   0147 ED                  339 	mov	a,r5
+   0148 C4                  340 	swap	a
+   0149 23                  341 	rl	a
+   014A CC                  342 	xch	a,r4
+   014B C4                  343 	swap	a
+   014C 23                  344 	rl	a
+   014D 54 1F               345 	anl	a,#0x1F
+   014F 6C                  346 	xrl	a,r4
+   0150 CC                  347 	xch	a,r4
+   0151 54 1F               348 	anl	a,#0x1F
+   0153 CC                  349 	xch	a,r4
+   0154 6C                  350 	xrl	a,r4
+   0155 CC                  351 	xch	a,r4
+   0156 FD                  352 	mov	r5,a
+   0157 EE                  353 	mov	a,r6
+   0158 C4                  354 	swap	a
+   0159 23                  355 	rl	a
+   015A 54 E0               356 	anl	a,#0xE0
+   015C 4D                  357 	orl	a,r5
+   015D FD                  358 	mov	r5,a
+   015E EF                  359 	mov	a,r7
+   015F C4                  360 	swap	a
+   0160 23                  361 	rl	a
+   0161 CE                  362 	xch	a,r6
+   0162 C4                  363 	swap	a
+   0163 23                  364 	rl	a
+   0164 54 1F               365 	anl	a,#0x1F
+   0166 6E                  366 	xrl	a,r6
+   0167 CE                  367 	xch	a,r6
+   0168 54 1F               368 	anl	a,#0x1F
+   016A CE                  369 	xch	a,r6
+   016B 6E                  370 	xrl	a,r6
+   016C CE                  371 	xch	a,r6
+   016D FF                  372 	mov	r7,a
+   016E A8*00               373 	mov	r0,_bp
+   0170 08                  374 	inc	r0
+   0171 86 82               375 	mov	dpl,@r0
+   0173 08                  376 	inc	r0
+   0174 86 83               377 	mov	dph,@r0
+   0176 08                  378 	inc	r0
+   0177 86 F0               379 	mov	b,@r0
+   0179 EC                  380 	mov	a,r4
+   017A 12s00r00            381 	lcall	__gptrput
+   017D A3                  382 	inc	dptr
+   017E ED                  383 	mov	a,r5
+   017F 12s00r00            384 	lcall	__gptrput
+   0182 A3                  385 	inc	dptr
+   0183 EE                  386 	mov	a,r6
+   0184 12s00r00            387 	lcall	__gptrput
+   0187 A3                  388 	inc	dptr
+   0188 EF                  389 	mov	a,r7
+   0189 12s00r00            390 	lcall	__gptrput
+   018C                     391 00109$:
+   018C 85*00 81            392 	mov	sp,_bp
+   018F D0*00               393 	pop	_bp
+   0191 22                  394 	ret
+                            395 ;------------------------------------------------------------
+                            396 ;Allocation info for local variables in function 'collect_link_estimate_update_tx_fail'
+                            397 ;------------------------------------------------------------
+                            398 ;tx                        Allocated to stack - _bp -3
+                            399 ;le                        Allocated to registers r5 r6 r7 
+                            400 ;------------------------------------------------------------
+                            401 ;	../../core/net/rime/collect-link-estimate.c:96: collect_link_estimate_update_tx_fail(struct collect_link_estimate *le,
+                            402 ;	-----------------------------------------
+                            403 ;	 function collect_link_estimate_update_tx_fail
+                            404 ;	-----------------------------------------
+   0192                     405 _collect_link_estimate_update_tx_fail:
+   0192 C0*00               406 	push	_bp
+   0194 85 81*00            407 	mov	_bp,sp
+   0197 AD 82               408 	mov	r5,dpl
+   0199 AE 83               409 	mov	r6,dph
+   019B AF F0               410 	mov	r7,b
+                            411 ;	../../core/net/rime/collect-link-estimate.c:99: collect_link_estimate_update_tx(le, tx * 2);
+   019D E5*00               412 	mov	a,_bp
+   019F 24 FD               413 	add	a,#0xfd
+   01A1 F8                  414 	mov	r0,a
+   01A2 E6                  415 	mov	a,@r0
+   01A3 25 E0               416 	add	a,acc
+   01A5 FC                  417 	mov	r4,a
+   01A6 C0 04               418 	push	ar4
+   01A8 8D 82               419 	mov	dpl,r5
+   01AA 8E 83               420 	mov	dph,r6
+   01AC 8F F0               421 	mov	b,r7
+   01AE 12s00r33            422 	lcall	_collect_link_estimate_update_tx
+   01B1 15 81               423 	dec	sp
+   01B3 D0*00               424 	pop	_bp
+   01B5 22                  425 	ret
+                            426 ;------------------------------------------------------------
+                            427 ;Allocation info for local variables in function 'collect_link_estimate_update_rx'
+                            428 ;------------------------------------------------------------
+                            429 ;n                         Allocated to registers 
+                            430 ;------------------------------------------------------------
+                            431 ;	../../core/net/rime/collect-link-estimate.c:103: collect_link_estimate_update_rx(struct collect_link_estimate *n)
+                            432 ;	-----------------------------------------
+                            433 ;	 function collect_link_estimate_update_rx
+                            434 ;	-----------------------------------------
+   01B6                     435 _collect_link_estimate_update_rx:
+                            436 ;	../../core/net/rime/collect-link-estimate.c:106: }
+   01B6 22                  437 	ret
+                            438 ;------------------------------------------------------------
+                            439 ;Allocation info for local variables in function 'collect_link_estimate'
+                            440 ;------------------------------------------------------------
+                            441 ;le                        Allocated to registers r5 r6 r7 
+                            442 ;------------------------------------------------------------
+                            443 ;	../../core/net/rime/collect-link-estimate.c:109: collect_link_estimate(struct collect_link_estimate *le)
+                            444 ;	-----------------------------------------
+                            445 ;	 function collect_link_estimate
+                            446 ;	-----------------------------------------
+   01B7                     447 _collect_link_estimate:
+   01B7 AD 82               448 	mov	r5,dpl
+   01B9 AE 83               449 	mov	r6,dph
+   01BB AF F0               450 	mov	r7,b
+                            451 ;	../../core/net/rime/collect-link-estimate.c:111: if(le->num_estimates == 0) {
+   01BD 74 04               452 	mov	a,#0x04
+   01BF 2D                  453 	add	a,r5
+   01C0 FA                  454 	mov	r2,a
+   01C1 E4                  455 	clr	a
+   01C2 3E                  456 	addc	a,r6
+   01C3 FB                  457 	mov	r3,a
+   01C4 8F 04               458 	mov	ar4,r7
+   01C6 8A 82               459 	mov	dpl,r2
+   01C8 8B 83               460 	mov	dph,r3
+   01CA 8C F0               461 	mov	b,r4
+   01CC 12s00r00            462 	lcall	__gptrget
+   01CF 70 04               463 	jnz	00102$
+                            464 ;	../../core/net/rime/collect-link-estimate.c:112: return INITIAL_LINK_ESTIMATE * COLLECT_LINK_ESTIMATE_UNIT;
+   01D1 90 00 80            465 	mov	dptr,#0x0080
+   01D4 22                  466 	ret
+   01D5                     467 00102$:
+                            468 ;	../../core/net/rime/collect-link-estimate.c:115: return le->etx_accumulator;
+   01D5 8D 82               469 	mov	dpl,r5
+   01D7 8E 83               470 	mov	dph,r6
+   01D9 8F F0               471 	mov	b,r7
+   01DB 12s00r00            472 	lcall	__gptrget
+   01DE FD                  473 	mov	r5,a
+   01DF A3                  474 	inc	dptr
+   01E0 12s00r00            475 	lcall	__gptrget
+   01E3 FE                  476 	mov	r6,a
+   01E4 A3                  477 	inc	dptr
+   01E5 12s00r00            478 	lcall	__gptrget
+   01E8 A3                  479 	inc	dptr
+   01E9 12s00r00            480 	lcall	__gptrget
+   01EC 8D 82               481 	mov	dpl,r5
+   01EE 8E 83               482 	mov	dph,r6
+   01F0 22                  483 	ret
+                            484 ;------------------------------------------------------------
+                            485 ;Allocation info for local variables in function 'collect_link_estimate_num_estimates'
+                            486 ;------------------------------------------------------------
+                            487 ;le                        Allocated to registers r5 r6 r7 
+                            488 ;------------------------------------------------------------
+                            489 ;	../../core/net/rime/collect-link-estimate.c:119: collect_link_estimate_num_estimates(struct collect_link_estimate *le)
+                            490 ;	-----------------------------------------
+                            491 ;	 function collect_link_estimate_num_estimates
+                            492 ;	-----------------------------------------
+   01F1                     493 _collect_link_estimate_num_estimates:
+   01F1 AD 82               494 	mov	r5,dpl
+   01F3 AE 83               495 	mov	r6,dph
+   01F5 AF F0               496 	mov	r7,b
+                            497 ;	../../core/net/rime/collect-link-estimate.c:121: if(le != NULL) {
+   01F7 ED                  498 	mov	a,r5
+   01F8 4E                  499 	orl	a,r6
+   01F9 60 18               500 	jz	00102$
+                            501 ;	../../core/net/rime/collect-link-estimate.c:122: return le->num_estimates;
+   01FB 74 04               502 	mov	a,#0x04
+   01FD 2D                  503 	add	a,r5
+   01FE FD                  504 	mov	r5,a
+   01FF E4                  505 	clr	a
+   0200 3E                  506 	addc	a,r6
+   0201 FE                  507 	mov	r6,a
+   0202 8D 82               508 	mov	dpl,r5
+   0204 8E 83               509 	mov	dph,r6
+   0206 8F F0               510 	mov	b,r7
+   0208 12s00r00            511 	lcall	__gptrget
+   020B FD                  512 	mov	r5,a
+   020C 7F 00               513 	mov	r7,#0x00
+   020E 8D 82               514 	mov	dpl,r5
+   0210 8F 83               515 	mov	dph,r7
+   0212 22                  516 	ret
+   0213                     517 00102$:
+                            518 ;	../../core/net/rime/collect-link-estimate.c:124: return 0;
+   0213 90 00 00            519 	mov	dptr,#0x0000
+   0216 22                  520 	ret
+                            521 	.area CSEG    (CODE)
+                            522 	.area CONST   (CODE)
+                            523 	.area XINIT   (CODE)
+                            524 	.area CABS    (ABS,CODE)

@@ -1,0 +1,3842 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:23 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module timetable_aggregate
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _printf
+                             13 	.globl _IRCON2_P2IF
+                             14 	.globl _IRCON2_UTX0IF
+                             15 	.globl _IRCON2_UTX1IF
+                             16 	.globl _IRCON2_P1IF
+                             17 	.globl _IRCON2_WDTIF
+                             18 	.globl _CY
+                             19 	.globl _AC
+                             20 	.globl _F0
+                             21 	.globl _RS1
+                             22 	.globl _RS0
+                             23 	.globl _OV
+                             24 	.globl _F1
+                             25 	.globl _P
+                             26 	.globl _IRCON_DMAIF
+                             27 	.globl _IRCON_T1IF
+                             28 	.globl _IRCON_T2IF
+                             29 	.globl _IRCON_T3IF
+                             30 	.globl _IRCON_T4IF
+                             31 	.globl _IRCON_P0IF
+                             32 	.globl _IRCON_STIF
+                             33 	.globl _IEN1_DMAIE
+                             34 	.globl _IEN1_T1IE
+                             35 	.globl _IEN1_T2IE
+                             36 	.globl _IEN1_T3IE
+                             37 	.globl _IEN1_T4IE
+                             38 	.globl _IEN1_P0IE
+                             39 	.globl _IEN0_RFERRIE
+                             40 	.globl _IEN0_ADCIE
+                             41 	.globl _IEN0_URX0IE
+                             42 	.globl _IEN0_URX1IE
+                             43 	.globl _IEN0_ENCIE
+                             44 	.globl _IEN0_STIE
+                             45 	.globl _IEN0_EA
+                             46 	.globl _EA
+                             47 	.globl _P2_4
+                             48 	.globl _P2_3
+                             49 	.globl _P2_2
+                             50 	.globl _P2_1
+                             51 	.globl _P2_0
+                             52 	.globl _S0CON_ENCIF_0
+                             53 	.globl _S0CON_ENCIF_1
+                             54 	.globl _P1_7
+                             55 	.globl _P1_6
+                             56 	.globl _P1_5
+                             57 	.globl _P1_4
+                             58 	.globl _P1_3
+                             59 	.globl _P1_2
+                             60 	.globl _P1_1
+                             61 	.globl _P1_0
+                             62 	.globl _TCON_IT0
+                             63 	.globl _TCON_RFERRIF
+                             64 	.globl _TCON_IT1
+                             65 	.globl _TCON_URX0IF
+                             66 	.globl _TCON_ADCIF
+                             67 	.globl _TCON_URX1IF
+                             68 	.globl _P0_0
+                             69 	.globl _P0_1
+                             70 	.globl _P0_2
+                             71 	.globl _P0_3
+                             72 	.globl _P0_4
+                             73 	.globl _P0_5
+                             74 	.globl _P0_6
+                             75 	.globl _P0_7
+                             76 	.globl _P2DIR
+                             77 	.globl _P1DIR
+                             78 	.globl _P0DIR
+                             79 	.globl _U1GCR
+                             80 	.globl _U1UCR
+                             81 	.globl _U1BAUD
+                             82 	.globl _U1BUF
+                             83 	.globl _U1CSR
+                             84 	.globl _P2INP
+                             85 	.globl _P1INP
+                             86 	.globl _P2SEL
+                             87 	.globl _P1SEL
+                             88 	.globl _P0SEL
+                             89 	.globl _ADCCFG
+                             90 	.globl _PERCFG
+                             91 	.globl _B
+                             92 	.globl _T4CC1
+                             93 	.globl _T4CCTL1
+                             94 	.globl _T4CC0
+                             95 	.globl _T4CCTL0
+                             96 	.globl _T4CTL
+                             97 	.globl _T4CNT
+                             98 	.globl _RFIF
+                             99 	.globl _IRCON2
+                            100 	.globl _T1CCTL2
+                            101 	.globl _T1CCTL1
+                            102 	.globl _T1CCTL0
+                            103 	.globl _T1CTL
+                            104 	.globl _T1CNTH
+                            105 	.globl _T1CNTL
+                            106 	.globl _RFST
+                            107 	.globl _ACC
+                            108 	.globl _T1CC2H
+                            109 	.globl _T1CC2L
+                            110 	.globl _T1CC1H
+                            111 	.globl _T1CC1L
+                            112 	.globl _T1CC0H
+                            113 	.globl _T1CC0L
+                            114 	.globl _RFD
+                            115 	.globl _TIMIF
+                            116 	.globl _DMAREQ
+                            117 	.globl _DMAARM
+                            118 	.globl _DMA0CFGH
+                            119 	.globl _DMA0CFGL
+                            120 	.globl _DMA1CFGH
+                            121 	.globl _DMA1CFGL
+                            122 	.globl _DMAIRQ
+                            123 	.globl _PSW
+                            124 	.globl _T3CC1
+                            125 	.globl _T3CCTL1
+                            126 	.globl _T3CC0
+                            127 	.globl _T3CCTL0
+                            128 	.globl _T3CTL
+                            129 	.globl _T3CNT
+                            130 	.globl _WDCTL
+                            131 	.globl _T2CON
+                            132 	.globl _MEMCTR
+                            133 	.globl _CLKCON
+                            134 	.globl _U0GCR
+                            135 	.globl _U0UCR
+                            136 	.globl _T2CNF
+                            137 	.globl _U0BAUD
+                            138 	.globl _U0BUF
+                            139 	.globl _IRCON
+                            140 	.globl _SLEEP
+                            141 	.globl _RNDH
+                            142 	.globl _RNDL
+                            143 	.globl _ADCH
+                            144 	.globl _ADCL
+                            145 	.globl _IP1
+                            146 	.globl _IEN1
+                            147 	.globl _RCCTL
+                            148 	.globl _ADCCON3
+                            149 	.globl _ADCCON2
+                            150 	.globl _ADCCON1
+                            151 	.globl _ENCCS
+                            152 	.globl _ENCDO
+                            153 	.globl _ENCDI
+                            154 	.globl _FWDATA
+                            155 	.globl _FCTL
+                            156 	.globl _FADDRH
+                            157 	.globl _FADDRL
+                            158 	.globl _FWT
+                            159 	.globl _IP0
+                            160 	.globl _IEN0
+                            161 	.globl _IE
+                            162 	.globl _T2THD
+                            163 	.globl _T2TLD
+                            164 	.globl _T2CAPHPH
+                            165 	.globl _T2CAPLPL
+                            166 	.globl _T2OF2
+                            167 	.globl _T2OF1
+                            168 	.globl _T2OF0
+                            169 	.globl _P2
+                            170 	.globl _PSBANK
+                            171 	.globl _FMAP
+                            172 	.globl _T2PEROF2
+                            173 	.globl _T2PEROF1
+                            174 	.globl _T2PEROF0
+                            175 	.globl _S1CON
+                            176 	.globl _IEN2
+                            177 	.globl _HSRC
+                            178 	.globl _S0CON
+                            179 	.globl _ST2
+                            180 	.globl _ST1
+                            181 	.globl _ST0
+                            182 	.globl _T2CMP
+                            183 	.globl __XPAGE
+                            184 	.globl _DPS
+                            185 	.globl _RFIM
+                            186 	.globl _P1
+                            187 	.globl _P0INP
+                            188 	.globl _P1IEN
+                            189 	.globl _PICTL
+                            190 	.globl _P2IFG
+                            191 	.globl _P1IFG
+                            192 	.globl _P0IFG
+                            193 	.globl _TCON
+                            194 	.globl _PCON
+                            195 	.globl _U0CSR
+                            196 	.globl _DPH1
+                            197 	.globl _DPL1
+                            198 	.globl _DPH0
+                            199 	.globl _DPL0
+                            200 	.globl _SP
+                            201 	.globl _P0
+                            202 	.globl _ADC_SHADOW
+                            203 	.globl _U1BUF_SHADOW
+                            204 	.globl _RFD_SHADOW
+                            205 	.globl _U0BUF_SHADOW
+                            206 	.globl _RFSTATUS
+                            207 	.globl _CHIPID
+                            208 	.globl _CHVER
+                            209 	.globl _FSMTC1
+                            210 	.globl _RXFIFOCNT
+                            211 	.globl _IOCFG3
+                            212 	.globl _IOCFG2
+                            213 	.globl _IOCFG1
+                            214 	.globl _IOCFG0
+                            215 	.globl _SHORTADDRL
+                            216 	.globl _SHORTADDRH
+                            217 	.globl _PANIDL
+                            218 	.globl _PANIDH
+                            219 	.globl _IEEE_ADDR7
+                            220 	.globl _IEEE_ADDR6
+                            221 	.globl _IEEE_ADDR5
+                            222 	.globl _IEEE_ADDR4
+                            223 	.globl _IEEE_ADDR3
+                            224 	.globl _IEEE_ADDR2
+                            225 	.globl _IEEE_ADDR1
+                            226 	.globl _IEEE_ADDR0
+                            227 	.globl _DACTSTL
+                            228 	.globl _DACTSTH
+                            229 	.globl _ADCTSTL
+                            230 	.globl _ADCTSTH
+                            231 	.globl _FSMSTATE
+                            232 	.globl _AGCCTRLL
+                            233 	.globl _AGCCTRLH
+                            234 	.globl _MANORL
+                            235 	.globl _MANORH
+                            236 	.globl _MANANDL
+                            237 	.globl _MANANDH
+                            238 	.globl _FSMTCL
+                            239 	.globl _FSMTCH
+                            240 	.globl _RFPWR
+                            241 	.globl _CSPT
+                            242 	.globl _CSPCTRL
+                            243 	.globl _CSPZ
+                            244 	.globl _CSPY
+                            245 	.globl _CSPX
+                            246 	.globl _FSCTRLL
+                            247 	.globl _FSCTRLH
+                            248 	.globl _RXCTRL1L
+                            249 	.globl _RXCTRL1H
+                            250 	.globl _RXCTRL0L
+                            251 	.globl _RXCTRL0H
+                            252 	.globl _TXCTRLL
+                            253 	.globl _TXCTRLH
+                            254 	.globl _SYNCWORDL
+                            255 	.globl _SYNCWORDH
+                            256 	.globl _RSSIL
+                            257 	.globl _RSSIH
+                            258 	.globl _MDMCTRL1L
+                            259 	.globl _MDMCTRL1H
+                            260 	.globl _MDMCTRL0L
+                            261 	.globl _MDMCTRL0H
+                            262 	.globl _timetable_aggregate_print_detailed
+                            263 	.globl _timetable_aggregate_reset
+                            264 	.globl _timetable_aggregate_print_categories
+                            265 	.globl _timetable_aggregate_compute_detailed
+                            266 	.globl _timetable_aggregate_compute_categories
+                            267 ;--------------------------------------------------------
+                            268 ; special function registers
+                            269 ;--------------------------------------------------------
+                            270 	.area RSEG    (ABS,DATA)
+   0000                     271 	.org 0x0000
+                    0080    272 _P0	=	0x0080
+                    0081    273 _SP	=	0x0081
+                    0082    274 _DPL0	=	0x0082
+                    0083    275 _DPH0	=	0x0083
+                    0084    276 _DPL1	=	0x0084
+                    0085    277 _DPH1	=	0x0085
+                    0086    278 _U0CSR	=	0x0086
+                    0087    279 _PCON	=	0x0087
+                    0088    280 _TCON	=	0x0088
+                    0089    281 _P0IFG	=	0x0089
+                    008A    282 _P1IFG	=	0x008a
+                    008B    283 _P2IFG	=	0x008b
+                    008C    284 _PICTL	=	0x008c
+                    008D    285 _P1IEN	=	0x008d
+                    008F    286 _P0INP	=	0x008f
+                    0090    287 _P1	=	0x0090
+                    0091    288 _RFIM	=	0x0091
+                    0092    289 _DPS	=	0x0092
+                    0093    290 __XPAGE	=	0x0093
+                    0094    291 _T2CMP	=	0x0094
+                    0095    292 _ST0	=	0x0095
+                    0096    293 _ST1	=	0x0096
+                    0097    294 _ST2	=	0x0097
+                    0098    295 _S0CON	=	0x0098
+                    0099    296 _HSRC	=	0x0099
+                    009A    297 _IEN2	=	0x009a
+                    009B    298 _S1CON	=	0x009b
+                    009C    299 _T2PEROF0	=	0x009c
+                    009D    300 _T2PEROF1	=	0x009d
+                    009E    301 _T2PEROF2	=	0x009e
+                    009F    302 _FMAP	=	0x009f
+                    009F    303 _PSBANK	=	0x009f
+                    00A0    304 _P2	=	0x00a0
+                    00A1    305 _T2OF0	=	0x00a1
+                    00A2    306 _T2OF1	=	0x00a2
+                    00A3    307 _T2OF2	=	0x00a3
+                    00A4    308 _T2CAPLPL	=	0x00a4
+                    00A5    309 _T2CAPHPH	=	0x00a5
+                    00A6    310 _T2TLD	=	0x00a6
+                    00A7    311 _T2THD	=	0x00a7
+                    00A8    312 _IE	=	0x00a8
+                    00A8    313 _IEN0	=	0x00a8
+                    00A9    314 _IP0	=	0x00a9
+                    00AB    315 _FWT	=	0x00ab
+                    00AC    316 _FADDRL	=	0x00ac
+                    00AD    317 _FADDRH	=	0x00ad
+                    00AE    318 _FCTL	=	0x00ae
+                    00AF    319 _FWDATA	=	0x00af
+                    00B1    320 _ENCDI	=	0x00b1
+                    00B2    321 _ENCDO	=	0x00b2
+                    00B3    322 _ENCCS	=	0x00b3
+                    00B4    323 _ADCCON1	=	0x00b4
+                    00B5    324 _ADCCON2	=	0x00b5
+                    00B6    325 _ADCCON3	=	0x00b6
+                    00B7    326 _RCCTL	=	0x00b7
+                    00B8    327 _IEN1	=	0x00b8
+                    00B9    328 _IP1	=	0x00b9
+                    00BA    329 _ADCL	=	0x00ba
+                    00BB    330 _ADCH	=	0x00bb
+                    00BC    331 _RNDL	=	0x00bc
+                    00BD    332 _RNDH	=	0x00bd
+                    00BE    333 _SLEEP	=	0x00be
+                    00C0    334 _IRCON	=	0x00c0
+                    00C1    335 _U0BUF	=	0x00c1
+                    00C2    336 _U0BAUD	=	0x00c2
+                    00C3    337 _T2CNF	=	0x00c3
+                    00C4    338 _U0UCR	=	0x00c4
+                    00C5    339 _U0GCR	=	0x00c5
+                    00C6    340 _CLKCON	=	0x00c6
+                    00C7    341 _MEMCTR	=	0x00c7
+                    00C8    342 _T2CON	=	0x00c8
+                    00C9    343 _WDCTL	=	0x00c9
+                    00CA    344 _T3CNT	=	0x00ca
+                    00CB    345 _T3CTL	=	0x00cb
+                    00CC    346 _T3CCTL0	=	0x00cc
+                    00CD    347 _T3CC0	=	0x00cd
+                    00CE    348 _T3CCTL1	=	0x00ce
+                    00CF    349 _T3CC1	=	0x00cf
+                    00D0    350 _PSW	=	0x00d0
+                    00D1    351 _DMAIRQ	=	0x00d1
+                    00D2    352 _DMA1CFGL	=	0x00d2
+                    00D3    353 _DMA1CFGH	=	0x00d3
+                    00D4    354 _DMA0CFGL	=	0x00d4
+                    00D5    355 _DMA0CFGH	=	0x00d5
+                    00D6    356 _DMAARM	=	0x00d6
+                    00D7    357 _DMAREQ	=	0x00d7
+                    00D8    358 _TIMIF	=	0x00d8
+                    00D9    359 _RFD	=	0x00d9
+                    00DA    360 _T1CC0L	=	0x00da
+                    00DB    361 _T1CC0H	=	0x00db
+                    00DC    362 _T1CC1L	=	0x00dc
+                    00DD    363 _T1CC1H	=	0x00dd
+                    00DE    364 _T1CC2L	=	0x00de
+                    00DF    365 _T1CC2H	=	0x00df
+                    00E0    366 _ACC	=	0x00e0
+                    00E1    367 _RFST	=	0x00e1
+                    00E2    368 _T1CNTL	=	0x00e2
+                    00E3    369 _T1CNTH	=	0x00e3
+                    00E4    370 _T1CTL	=	0x00e4
+                    00E5    371 _T1CCTL0	=	0x00e5
+                    00E6    372 _T1CCTL1	=	0x00e6
+                    00E7    373 _T1CCTL2	=	0x00e7
+                    00E8    374 _IRCON2	=	0x00e8
+                    00E9    375 _RFIF	=	0x00e9
+                    00EA    376 _T4CNT	=	0x00ea
+                    00EB    377 _T4CTL	=	0x00eb
+                    00EC    378 _T4CCTL0	=	0x00ec
+                    00ED    379 _T4CC0	=	0x00ed
+                    00EE    380 _T4CCTL1	=	0x00ee
+                    00EF    381 _T4CC1	=	0x00ef
+                    00F0    382 _B	=	0x00f0
+                    00F1    383 _PERCFG	=	0x00f1
+                    00F2    384 _ADCCFG	=	0x00f2
+                    00F3    385 _P0SEL	=	0x00f3
+                    00F4    386 _P1SEL	=	0x00f4
+                    00F5    387 _P2SEL	=	0x00f5
+                    00F6    388 _P1INP	=	0x00f6
+                    00F7    389 _P2INP	=	0x00f7
+                    00F8    390 _U1CSR	=	0x00f8
+                    00F9    391 _U1BUF	=	0x00f9
+                    00FA    392 _U1BAUD	=	0x00fa
+                    00FB    393 _U1UCR	=	0x00fb
+                    00FC    394 _U1GCR	=	0x00fc
+                    00FD    395 _P0DIR	=	0x00fd
+                    00FE    396 _P1DIR	=	0x00fe
+                    00FF    397 _P2DIR	=	0x00ff
+                            398 ;--------------------------------------------------------
+                            399 ; special function bits
+                            400 ;--------------------------------------------------------
+                            401 	.area RSEG    (ABS,DATA)
+   0000                     402 	.org 0x0000
+                    0087    403 _P0_7	=	0x0087
+                    0086    404 _P0_6	=	0x0086
+                    0085    405 _P0_5	=	0x0085
+                    0084    406 _P0_4	=	0x0084
+                    0083    407 _P0_3	=	0x0083
+                    0082    408 _P0_2	=	0x0082
+                    0081    409 _P0_1	=	0x0081
+                    0080    410 _P0_0	=	0x0080
+                    008F    411 _TCON_URX1IF	=	0x008f
+                    008D    412 _TCON_ADCIF	=	0x008d
+                    008B    413 _TCON_URX0IF	=	0x008b
+                    008A    414 _TCON_IT1	=	0x008a
+                    0089    415 _TCON_RFERRIF	=	0x0089
+                    0088    416 _TCON_IT0	=	0x0088
+                    0090    417 _P1_0	=	0x0090
+                    0091    418 _P1_1	=	0x0091
+                    0092    419 _P1_2	=	0x0092
+                    0093    420 _P1_3	=	0x0093
+                    0094    421 _P1_4	=	0x0094
+                    0095    422 _P1_5	=	0x0095
+                    0096    423 _P1_6	=	0x0096
+                    0097    424 _P1_7	=	0x0097
+                    0099    425 _S0CON_ENCIF_1	=	0x0099
+                    0098    426 _S0CON_ENCIF_0	=	0x0098
+                    00A0    427 _P2_0	=	0x00a0
+                    00A1    428 _P2_1	=	0x00a1
+                    00A2    429 _P2_2	=	0x00a2
+                    00A3    430 _P2_3	=	0x00a3
+                    00A4    431 _P2_4	=	0x00a4
+                    00AF    432 _EA	=	0x00af
+                    00AF    433 _IEN0_EA	=	0x00af
+                    00AD    434 _IEN0_STIE	=	0x00ad
+                    00AC    435 _IEN0_ENCIE	=	0x00ac
+                    00AB    436 _IEN0_URX1IE	=	0x00ab
+                    00AA    437 _IEN0_URX0IE	=	0x00aa
+                    00A9    438 _IEN0_ADCIE	=	0x00a9
+                    00A8    439 _IEN0_RFERRIE	=	0x00a8
+                    00BD    440 _IEN1_P0IE	=	0x00bd
+                    00BC    441 _IEN1_T4IE	=	0x00bc
+                    00BB    442 _IEN1_T3IE	=	0x00bb
+                    00BA    443 _IEN1_T2IE	=	0x00ba
+                    00B9    444 _IEN1_T1IE	=	0x00b9
+                    00B8    445 _IEN1_DMAIE	=	0x00b8
+                    00C7    446 _IRCON_STIF	=	0x00c7
+                    00C5    447 _IRCON_P0IF	=	0x00c5
+                    00C4    448 _IRCON_T4IF	=	0x00c4
+                    00C3    449 _IRCON_T3IF	=	0x00c3
+                    00C2    450 _IRCON_T2IF	=	0x00c2
+                    00C1    451 _IRCON_T1IF	=	0x00c1
+                    00C0    452 _IRCON_DMAIF	=	0x00c0
+                    00D0    453 _P	=	0x00d0
+                    00D1    454 _F1	=	0x00d1
+                    00D2    455 _OV	=	0x00d2
+                    00D3    456 _RS0	=	0x00d3
+                    00D4    457 _RS1	=	0x00d4
+                    00D5    458 _F0	=	0x00d5
+                    00D6    459 _AC	=	0x00d6
+                    00D7    460 _CY	=	0x00d7
+                    00EC    461 _IRCON2_WDTIF	=	0x00ec
+                    00EB    462 _IRCON2_P1IF	=	0x00eb
+                    00EA    463 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    464 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    465 _IRCON2_P2IF	=	0x00e8
+                            466 ;--------------------------------------------------------
+                            467 ; overlayable register banks
+                            468 ;--------------------------------------------------------
+                            469 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     470 	.ds 8
+                            471 ;--------------------------------------------------------
+                            472 ; internal ram data
+                            473 ;--------------------------------------------------------
+                            474 	.area DSEG    (DATA)
+                            475 ;--------------------------------------------------------
+                            476 ; overlayable items in internal ram 
+                            477 ;--------------------------------------------------------
+                            478 	.area OSEG    (OVR,DATA)
+                            479 ;--------------------------------------------------------
+                            480 ; indirectly addressable internal ram data
+                            481 ;--------------------------------------------------------
+                            482 	.area ISEG    (DATA)
+                            483 ;--------------------------------------------------------
+                            484 ; absolute internal ram data
+                            485 ;--------------------------------------------------------
+                            486 	.area IABS    (ABS,DATA)
+                            487 	.area IABS    (ABS,DATA)
+                            488 ;--------------------------------------------------------
+                            489 ; bit data
+                            490 ;--------------------------------------------------------
+                            491 	.area BSEG    (BIT)
+                            492 ;--------------------------------------------------------
+                            493 ; paged external ram data
+                            494 ;--------------------------------------------------------
+                            495 	.area PSEG    (PAG,XDATA)
+                            496 ;--------------------------------------------------------
+                            497 ; external ram data
+                            498 ;--------------------------------------------------------
+                            499 	.area XSEG    (XDATA)
+                    DF02    500 _MDMCTRL0H	=	0xdf02
+                    DF03    501 _MDMCTRL0L	=	0xdf03
+                    DF04    502 _MDMCTRL1H	=	0xdf04
+                    DF05    503 _MDMCTRL1L	=	0xdf05
+                    DF06    504 _RSSIH	=	0xdf06
+                    DF07    505 _RSSIL	=	0xdf07
+                    DF08    506 _SYNCWORDH	=	0xdf08
+                    DF09    507 _SYNCWORDL	=	0xdf09
+                    DF0A    508 _TXCTRLH	=	0xdf0a
+                    DF0B    509 _TXCTRLL	=	0xdf0b
+                    DF0C    510 _RXCTRL0H	=	0xdf0c
+                    DF0D    511 _RXCTRL0L	=	0xdf0d
+                    DF0E    512 _RXCTRL1H	=	0xdf0e
+                    DF0F    513 _RXCTRL1L	=	0xdf0f
+                    DF10    514 _FSCTRLH	=	0xdf10
+                    DF11    515 _FSCTRLL	=	0xdf11
+                    DF12    516 _CSPX	=	0xdf12
+                    DF13    517 _CSPY	=	0xdf13
+                    DF14    518 _CSPZ	=	0xdf14
+                    DF15    519 _CSPCTRL	=	0xdf15
+                    DF16    520 _CSPT	=	0xdf16
+                    DF17    521 _RFPWR	=	0xdf17
+                    DF20    522 _FSMTCH	=	0xdf20
+                    DF21    523 _FSMTCL	=	0xdf21
+                    DF22    524 _MANANDH	=	0xdf22
+                    DF23    525 _MANANDL	=	0xdf23
+                    DF24    526 _MANORH	=	0xdf24
+                    DF25    527 _MANORL	=	0xdf25
+                    DF26    528 _AGCCTRLH	=	0xdf26
+                    DF27    529 _AGCCTRLL	=	0xdf27
+                    DF39    530 _FSMSTATE	=	0xdf39
+                    DF3A    531 _ADCTSTH	=	0xdf3a
+                    DF3B    532 _ADCTSTL	=	0xdf3b
+                    DF3C    533 _DACTSTH	=	0xdf3c
+                    DF3D    534 _DACTSTL	=	0xdf3d
+                    DF43    535 _IEEE_ADDR0	=	0xdf43
+                    DF44    536 _IEEE_ADDR1	=	0xdf44
+                    DF45    537 _IEEE_ADDR2	=	0xdf45
+                    DF46    538 _IEEE_ADDR3	=	0xdf46
+                    DF47    539 _IEEE_ADDR4	=	0xdf47
+                    DF48    540 _IEEE_ADDR5	=	0xdf48
+                    DF49    541 _IEEE_ADDR6	=	0xdf49
+                    DF4A    542 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    543 _PANIDH	=	0xdf4b
+                    DF4C    544 _PANIDL	=	0xdf4c
+                    DF4D    545 _SHORTADDRH	=	0xdf4d
+                    DF4E    546 _SHORTADDRL	=	0xdf4e
+                    DF4F    547 _IOCFG0	=	0xdf4f
+                    DF50    548 _IOCFG1	=	0xdf50
+                    DF51    549 _IOCFG2	=	0xdf51
+                    DF52    550 _IOCFG3	=	0xdf52
+                    DF53    551 _RXFIFOCNT	=	0xdf53
+                    DF54    552 _FSMTC1	=	0xdf54
+                    DF60    553 _CHVER	=	0xdf60
+                    DF61    554 _CHIPID	=	0xdf61
+                    DF62    555 _RFSTATUS	=	0xdf62
+                    DFC1    556 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    557 _RFD_SHADOW	=	0xdfd9
+                    DFF9    558 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    559 _ADC_SHADOW	=	0xdfba
+                            560 ;--------------------------------------------------------
+                            561 ; absolute external ram data
+                            562 ;--------------------------------------------------------
+                            563 	.area XABS    (ABS,XDATA)
+                            564 ;--------------------------------------------------------
+                            565 ; external initialized ram data
+                            566 ;--------------------------------------------------------
+                            567 	.area XISEG   (XDATA)
+                            568 	.area HOME    (CODE)
+                            569 	.area GSINIT0 (CODE)
+                            570 	.area GSINIT1 (CODE)
+                            571 	.area GSINIT2 (CODE)
+                            572 	.area GSINIT3 (CODE)
+                            573 	.area GSINIT4 (CODE)
+                            574 	.area GSINIT5 (CODE)
+                            575 	.area GSINIT  (CODE)
+                            576 	.area GSFINAL (CODE)
+                            577 	.area CSEG    (CODE)
+                            578 ;--------------------------------------------------------
+                            579 ; global & static initialisations
+                            580 ;--------------------------------------------------------
+                            581 	.area HOME    (CODE)
+                            582 	.area GSINIT  (CODE)
+                            583 	.area GSFINAL (CODE)
+                            584 	.area GSINIT  (CODE)
+                            585 ;--------------------------------------------------------
+                            586 ; Home
+                            587 ;--------------------------------------------------------
+                            588 	.area HOME    (CODE)
+                            589 	.area HOME    (CODE)
+                            590 ;--------------------------------------------------------
+                            591 ; code
+                            592 ;--------------------------------------------------------
+                            593 	.area CSEG    (CODE)
+                            594 ;------------------------------------------------------------
+                            595 ;Allocation info for local variables in function 'find_aggregate_category'
+                            596 ;------------------------------------------------------------
+                            597 ;cat                       Allocated to stack - _bp -4
+                            598 ;a                         Allocated to stack - _bp +1
+                            599 ;i                         Allocated to registers r3 r4 
+                            600 ;acat                      Allocated to registers r2 r7 
+                            601 ;sloc0                     Allocated to stack - _bp +4
+                            602 ;sloc1                     Allocated to stack - _bp +7
+                            603 ;sloc2                     Allocated to stack - _bp +9
+                            604 ;sloc3                     Allocated to stack - _bp +12
+                            605 ;sloc4                     Allocated to stack - _bp +18
+                            606 ;sloc5                     Allocated to stack - _bp +14
+                            607 ;------------------------------------------------------------
+                            608 ;	../../core/sys/timetable-aggregate.c:56: find_aggregate_category(struct timetable_aggregate *a,
+                            609 ;	-----------------------------------------
+                            610 ;	 function find_aggregate_category
+                            611 ;	-----------------------------------------
+   0000                     612 _find_aggregate_category:
+                    0007    613 	ar7 = 0x07
+                    0006    614 	ar6 = 0x06
+                    0005    615 	ar5 = 0x05
+                    0004    616 	ar4 = 0x04
+                    0003    617 	ar3 = 0x03
+                    0002    618 	ar2 = 0x02
+                    0001    619 	ar1 = 0x01
+                    0000    620 	ar0 = 0x00
+   0000 C0*00               621 	push	_bp
+   0002 85 81*00            622 	mov	_bp,sp
+   0005 C0 82               623 	push	dpl
+   0007 C0 83               624 	push	dph
+   0009 C0 F0               625 	push	b
+   000B E5 81               626 	mov	a,sp
+   000D 24 0C               627 	add	a,#0x0C
+   000F F5 81               628 	mov	sp,a
+                            629 ;	../../core/sys/timetable-aggregate.c:62: for(i = 0; i < a->ptr; ++i) {
+   0011 7B 00               630 	mov	r3,#0x00
+   0013 7C 00               631 	mov	r4,#0x00
+   0015 A8*00               632 	mov	r0,_bp
+   0017 08                  633 	inc	r0
+   0018 E5*00               634 	mov	a,_bp
+   001A 24 04               635 	add	a,#0x04
+   001C F9                  636 	mov	r1,a
+   001D 74 03               637 	mov	a,#0x03
+   001F 26                  638 	add	a,@r0
+   0020 F7                  639 	mov	@r1,a
+   0021 E4                  640 	clr	a
+   0022 08                  641 	inc	r0
+   0023 36                  642 	addc	a,@r0
+   0024 09                  643 	inc	r1
+   0025 F7                  644 	mov	@r1,a
+   0026 08                  645 	inc	r0
+   0027 09                  646 	inc	r1
+   0028 E6                  647 	mov	a,@r0
+   0029 F7                  648 	mov	@r1,a
+   002A E4                  649 	clr	a
+   002B FA                  650 	mov	r2,a
+   002C FF                  651 	mov	r7,a
+   002D E5*00               652 	mov	a,_bp
+   002F 24 0C               653 	add	a,#0x0c
+   0031 F8                  654 	mov	r0,a
+   0032 E4                  655 	clr	a
+   0033 F6                  656 	mov	@r0,a
+   0034 08                  657 	inc	r0
+   0035 F6                  658 	mov	@r0,a
+   0036                     659 00105$:
+   0036 E5*00               660 	mov	a,_bp
+   0038 24 04               661 	add	a,#0x04
+   003A F8                  662 	mov	r0,a
+   003B 86 82               663 	mov	dpl,@r0
+   003D 08                  664 	inc	r0
+   003E 86 83               665 	mov	dph,@r0
+   0040 08                  666 	inc	r0
+   0041 86 F0               667 	mov	b,@r0
+   0043 E5*00               668 	mov	a,_bp
+   0045 24 07               669 	add	a,#0x07
+   0047 F9                  670 	mov	r1,a
+   0048 12s00r00            671 	lcall	__gptrget
+   004B F7                  672 	mov	@r1,a
+   004C A3                  673 	inc	dptr
+   004D 12s00r00            674 	lcall	__gptrget
+   0050 09                  675 	inc	r1
+   0051 F7                  676 	mov	@r1,a
+   0052 E5*00               677 	mov	a,_bp
+   0054 24 07               678 	add	a,#0x07
+   0056 F8                  679 	mov	r0,a
+   0057 C3                  680 	clr	c
+   0058 EA                  681 	mov	a,r2
+   0059 96                  682 	subb	a,@r0
+   005A EF                  683 	mov	a,r7
+   005B 64 80               684 	xrl	a,#0x80
+   005D 08                  685 	inc	r0
+   005E 86 F0               686 	mov	b,@r0
+   0060 63 F0 80            687 	xrl	b,#0x80
+   0063 95 F0               688 	subb	a,b
+   0065 40 03               689 	jc	00119$
+   0067 02s01r43            690 	ljmp	00108$
+   006A                     691 00119$:
+                            692 ;	../../core/sys/timetable-aggregate.c:63: acat = (a->entries[i].id[0] << 8) + a->entries[i].id[1];
+   006A C0 02               693 	push	ar2
+   006C C0 07               694 	push	ar7
+   006E A8*00               695 	mov	r0,_bp
+   0070 08                  696 	inc	r0
+   0071 86 82               697 	mov	dpl,@r0
+   0073 08                  698 	inc	r0
+   0074 86 83               699 	mov	dph,@r0
+   0076 08                  700 	inc	r0
+   0077 86 F0               701 	mov	b,@r0
+   0079 E5*00               702 	mov	a,_bp
+   007B 24 09               703 	add	a,#0x09
+   007D F9                  704 	mov	r1,a
+   007E 12s00r00            705 	lcall	__gptrget
+   0081 F7                  706 	mov	@r1,a
+   0082 A3                  707 	inc	dptr
+   0083 12s00r00            708 	lcall	__gptrget
+   0086 09                  709 	inc	r1
+   0087 F7                  710 	mov	@r1,a
+   0088 A3                  711 	inc	dptr
+   0089 12s00r00            712 	lcall	__gptrget
+   008C 09                  713 	inc	r1
+   008D F7                  714 	mov	@r1,a
+   008E E5*00               715 	mov	a,_bp
+   0090 24 09               716 	add	a,#0x09
+   0092 F8                  717 	mov	r0,a
+   0093 E5*00               718 	mov	a,_bp
+   0095 24 0C               719 	add	a,#0x0c
+   0097 F9                  720 	mov	r1,a
+   0098 E7                  721 	mov	a,@r1
+   0099 26                  722 	add	a,@r0
+   009A FA                  723 	mov	r2,a
+   009B 09                  724 	inc	r1
+   009C E7                  725 	mov	a,@r1
+   009D 08                  726 	inc	r0
+   009E 36                  727 	addc	a,@r0
+   009F FE                  728 	mov	r6,a
+   00A0 08                  729 	inc	r0
+   00A1 86 07               730 	mov	ar7,@r0
+   00A3 8A 82               731 	mov	dpl,r2
+   00A5 8E 83               732 	mov	dph,r6
+   00A7 8F F0               733 	mov	b,r7
+   00A9 12s00r00            734 	lcall	__gptrget
+   00AC FC                  735 	mov	r4,a
+   00AD A3                  736 	inc	dptr
+   00AE 12s00r00            737 	lcall	__gptrget
+   00B1 FE                  738 	mov	r6,a
+   00B2 A3                  739 	inc	dptr
+   00B3 12s00r00            740 	lcall	__gptrget
+   00B6 FB                  741 	mov	r3,a
+   00B7 8C 82               742 	mov	dpl,r4
+   00B9 8E 83               743 	mov	dph,r6
+   00BB 8B F0               744 	mov	b,r3
+   00BD 12s00r00            745 	lcall	__gptrget
+   00C0 FD                  746 	mov	r5,a
+   00C1 33                  747 	rlc	a
+   00C2 95 E0               748 	subb	a,acc
+   00C4 E5*00               749 	mov	a,_bp
+   00C6 24 0E               750 	add	a,#0x0e
+   00C8 F8                  751 	mov	r0,a
+   00C9 08                  752 	inc	r0
+   00CA A6 05               753 	mov	@r0,ar5
+   00CC 18                  754 	dec	r0
+   00CD 76 00               755 	mov	@r0,#0x00
+   00CF 74 01               756 	mov	a,#0x01
+   00D1 2C                  757 	add	a,r4
+   00D2 FA                  758 	mov	r2,a
+   00D3 E4                  759 	clr	a
+   00D4 3E                  760 	addc	a,r6
+   00D5 FE                  761 	mov	r6,a
+   00D6 8B 07               762 	mov	ar7,r3
+   00D8 8A 82               763 	mov	dpl,r2
+   00DA 8E 83               764 	mov	dph,r6
+   00DC 8F F0               765 	mov	b,r7
+   00DE 12s00r00            766 	lcall	__gptrget
+   00E1 FA                  767 	mov	r2,a
+   00E2 33                  768 	rlc	a
+   00E3 95 E0               769 	subb	a,acc
+   00E5 FF                  770 	mov	r7,a
+   00E6 E5*00               771 	mov	a,_bp
+   00E8 24 0E               772 	add	a,#0x0e
+   00EA F8                  773 	mov	r0,a
+   00EB EA                  774 	mov	a,r2
+   00EC 26                  775 	add	a,@r0
+   00ED FA                  776 	mov	r2,a
+   00EE EF                  777 	mov	a,r7
+   00EF 08                  778 	inc	r0
+   00F0 36                  779 	addc	a,@r0
+   00F1 FF                  780 	mov	r7,a
+                            781 ;	../../core/sys/timetable-aggregate.c:64: if(acat == cat) {
+   00F2 E5*00               782 	mov	a,_bp
+   00F4 24 FC               783 	add	a,#0xfc
+   00F6 F8                  784 	mov	r0,a
+   00F7 E6                  785 	mov	a,@r0
+   00F8 B5 02 07            786 	cjne	a,ar2,00120$
+   00FB 08                  787 	inc	r0
+   00FC E6                  788 	mov	a,@r0
+   00FD B5 07 02            789 	cjne	a,ar7,00120$
+   0100 80 06               790 	sjmp	00121$
+   0102                     791 00120$:
+   0102 D0 07               792 	pop	ar7
+   0104 D0 02               793 	pop	ar2
+   0106 80 22               794 	sjmp	00107$
+   0108                     795 00121$:
+   0108 D0 07               796 	pop	ar7
+   010A D0 02               797 	pop	ar2
+                            798 ;	../../core/sys/timetable-aggregate.c:66: return &a->entries[i];
+   010C E5*00               799 	mov	a,_bp
+   010E 24 09               800 	add	a,#0x09
+   0110 F8                  801 	mov	r0,a
+   0111 E5*00               802 	mov	a,_bp
+   0113 24 0C               803 	add	a,#0x0c
+   0115 F9                  804 	mov	r1,a
+   0116 E7                  805 	mov	a,@r1
+   0117 26                  806 	add	a,@r0
+   0118 FF                  807 	mov	r7,a
+   0119 09                  808 	inc	r1
+   011A E7                  809 	mov	a,@r1
+   011B 08                  810 	inc	r0
+   011C 36                  811 	addc	a,@r0
+   011D FE                  812 	mov	r6,a
+   011E 08                  813 	inc	r0
+   011F 86 05               814 	mov	ar5,@r0
+   0121 8F 82               815 	mov	dpl,r7
+   0123 8E 83               816 	mov	dph,r6
+   0125 8D F0               817 	mov	b,r5
+   0127 02s02r0E            818 	ljmp	00109$
+   012A                     819 00107$:
+                            820 ;	../../core/sys/timetable-aggregate.c:62: for(i = 0; i < a->ptr; ++i) {
+   012A E5*00               821 	mov	a,_bp
+   012C 24 0C               822 	add	a,#0x0c
+   012E F8                  823 	mov	r0,a
+   012F 74 09               824 	mov	a,#0x09
+   0131 26                  825 	add	a,@r0
+   0132 F6                  826 	mov	@r0,a
+   0133 E4                  827 	clr	a
+   0134 08                  828 	inc	r0
+   0135 36                  829 	addc	a,@r0
+   0136 F6                  830 	mov	@r0,a
+   0137 0A                  831 	inc	r2
+   0138 BA 00 01            832 	cjne	r2,#0x00,00122$
+   013B 0F                  833 	inc	r7
+   013C                     834 00122$:
+   013C 8A 03               835 	mov	ar3,r2
+   013E 8F 04               836 	mov	ar4,r7
+   0140 02s00r36            837 	ljmp	00105$
+   0143                     838 00108$:
+                            839 ;	../../core/sys/timetable-aggregate.c:70: if(i == a->size) {
+   0143 A8*00               840 	mov	r0,_bp
+   0145 08                  841 	inc	r0
+   0146 74 05               842 	mov	a,#0x05
+   0148 26                  843 	add	a,@r0
+   0149 FD                  844 	mov	r5,a
+   014A E4                  845 	clr	a
+   014B 08                  846 	inc	r0
+   014C 36                  847 	addc	a,@r0
+   014D FE                  848 	mov	r6,a
+   014E 08                  849 	inc	r0
+   014F 86 07               850 	mov	ar7,@r0
+   0151 8D 82               851 	mov	dpl,r5
+   0153 8E 83               852 	mov	dph,r6
+   0155 8F F0               853 	mov	b,r7
+   0157 12s00r00            854 	lcall	__gptrget
+   015A FD                  855 	mov	r5,a
+   015B A3                  856 	inc	dptr
+   015C 12s00r00            857 	lcall	__gptrget
+   015F FE                  858 	mov	r6,a
+   0160 EB                  859 	mov	a,r3
+   0161 B5 05 0D            860 	cjne	a,ar5,00104$
+   0164 EC                  861 	mov	a,r4
+   0165 B5 06 09            862 	cjne	a,ar6,00104$
+                            863 ;	../../core/sys/timetable-aggregate.c:71: return NULL;
+   0168 90 00 00            864 	mov	dptr,#0x0000
+   016B 75 F0 00            865 	mov	b,#0x00
+   016E 02s02r0E            866 	ljmp	00109$
+   0171                     867 00104$:
+                            868 ;	../../core/sys/timetable-aggregate.c:74: a->entries[a->ptr].id = NULL;
+   0171 A8*00               869 	mov	r0,_bp
+   0173 08                  870 	inc	r0
+   0174 86 82               871 	mov	dpl,@r0
+   0176 08                  872 	inc	r0
+   0177 86 83               873 	mov	dph,@r0
+   0179 08                  874 	inc	r0
+   017A 86 F0               875 	mov	b,@r0
+   017C 12s00r00            876 	lcall	__gptrget
+   017F FD                  877 	mov	r5,a
+   0180 A3                  878 	inc	dptr
+   0181 12s00r00            879 	lcall	__gptrget
+   0184 FE                  880 	mov	r6,a
+   0185 A3                  881 	inc	dptr
+   0186 12s00r00            882 	lcall	__gptrget
+   0189 FF                  883 	mov	r7,a
+   018A C0 07               884 	push	ar7
+   018C C0 06               885 	push	ar6
+   018E C0 05               886 	push	ar5
+   0190 E5*00               887 	mov	a,_bp
+   0192 24 07               888 	add	a,#0x07
+   0194 F8                  889 	mov	r0,a
+   0195 E6                  890 	mov	a,@r0
+   0196 C0 E0               891 	push	acc
+   0198 08                  892 	inc	r0
+   0199 E6                  893 	mov	a,@r0
+   019A C0 E0               894 	push	acc
+   019C 90 00 09            895 	mov	dptr,#0x0009
+   019F 12s00r00            896 	lcall	__mulint
+   01A2 C8                  897 	xch	a,r0
+   01A3 E5*00               898 	mov	a,_bp
+   01A5 24 0E               899 	add	a,#0x0e
+   01A7 C8                  900 	xch	a,r0
+   01A8 A6 82               901 	mov	@r0,dpl
+   01AA 08                  902 	inc	r0
+   01AB A6 83               903 	mov	@r0,dph
+   01AD 15 81               904 	dec	sp
+   01AF 15 81               905 	dec	sp
+   01B1 D0 05               906 	pop	ar5
+   01B3 D0 06               907 	pop	ar6
+   01B5 D0 07               908 	pop	ar7
+   01B7 E5*00               909 	mov	a,_bp
+   01B9 24 0E               910 	add	a,#0x0e
+   01BB F8                  911 	mov	r0,a
+   01BC E6                  912 	mov	a,@r0
+   01BD 2D                  913 	add	a,r5
+   01BE FA                  914 	mov	r2,a
+   01BF 08                  915 	inc	r0
+   01C0 E6                  916 	mov	a,@r0
+   01C1 3E                  917 	addc	a,r6
+   01C2 FB                  918 	mov	r3,a
+   01C3 8F 04               919 	mov	ar4,r7
+   01C5 8A 82               920 	mov	dpl,r2
+   01C7 8B 83               921 	mov	dph,r3
+   01C9 8C F0               922 	mov	b,r4
+   01CB E4                  923 	clr	a
+   01CC 12s00r00            924 	lcall	__gptrput
+   01CF A3                  925 	inc	dptr
+   01D0 E4                  926 	clr	a
+   01D1 12s00r00            927 	lcall	__gptrput
+   01D4 A3                  928 	inc	dptr
+   01D5 E4                  929 	clr	a
+   01D6 12s00r00            930 	lcall	__gptrput
+                            931 ;	../../core/sys/timetable-aggregate.c:75: return &a->entries[a->ptr++];
+   01D9 E5*00               932 	mov	a,_bp
+   01DB 24 07               933 	add	a,#0x07
+   01DD F8                  934 	mov	r0,a
+   01DE 74 01               935 	mov	a,#0x01
+   01E0 26                  936 	add	a,@r0
+   01E1 FB                  937 	mov	r3,a
+   01E2 E4                  938 	clr	a
+   01E3 08                  939 	inc	r0
+   01E4 36                  940 	addc	a,@r0
+   01E5 FC                  941 	mov	r4,a
+   01E6 E5*00               942 	mov	a,_bp
+   01E8 24 04               943 	add	a,#0x04
+   01EA F8                  944 	mov	r0,a
+   01EB 86 82               945 	mov	dpl,@r0
+   01ED 08                  946 	inc	r0
+   01EE 86 83               947 	mov	dph,@r0
+   01F0 08                  948 	inc	r0
+   01F1 86 F0               949 	mov	b,@r0
+   01F3 EB                  950 	mov	a,r3
+   01F4 12s00r00            951 	lcall	__gptrput
+   01F7 A3                  952 	inc	dptr
+   01F8 EC                  953 	mov	a,r4
+   01F9 12s00r00            954 	lcall	__gptrput
+   01FC E5*00               955 	mov	a,_bp
+   01FE 24 0E               956 	add	a,#0x0e
+   0200 F8                  957 	mov	r0,a
+   0201 E6                  958 	mov	a,@r0
+   0202 2D                  959 	add	a,r5
+   0203 FD                  960 	mov	r5,a
+   0204 08                  961 	inc	r0
+   0205 E6                  962 	mov	a,@r0
+   0206 3E                  963 	addc	a,r6
+   0207 FE                  964 	mov	r6,a
+   0208 8D 82               965 	mov	dpl,r5
+   020A 8E 83               966 	mov	dph,r6
+   020C 8F F0               967 	mov	b,r7
+   020E                     968 00109$:
+   020E 85*00 81            969 	mov	sp,_bp
+   0211 D0*00               970 	pop	_bp
+   0213 22                  971 	ret
+                            972 ;------------------------------------------------------------
+                            973 ;Allocation info for local variables in function 'find_aggregate'
+                            974 ;------------------------------------------------------------
+                            975 ;id                        Allocated to stack - _bp -5
+                            976 ;a                         Allocated to stack - _bp +1
+                            977 ;i                         Allocated to registers r3 r4 
+                            978 ;sloc0                     Allocated to stack - _bp +4
+                            979 ;sloc1                     Allocated to stack - _bp +7
+                            980 ;sloc2                     Allocated to stack - _bp +11
+                            981 ;sloc3                     Allocated to stack - _bp +9
+                            982 ;------------------------------------------------------------
+                            983 ;	../../core/sys/timetable-aggregate.c:84: find_aggregate(struct timetable_aggregate *a,
+                            984 ;	-----------------------------------------
+                            985 ;	 function find_aggregate
+                            986 ;	-----------------------------------------
+   0214                     987 _find_aggregate:
+   0214 C0*00               988 	push	_bp
+   0216 85 81*00            989 	mov	_bp,sp
+   0219 C0 82               990 	push	dpl
+   021B C0 83               991 	push	dph
+   021D C0 F0               992 	push	b
+   021F E5 81               993 	mov	a,sp
+   0221 24 07               994 	add	a,#0x07
+   0223 F5 81               995 	mov	sp,a
+                            996 ;	../../core/sys/timetable-aggregate.c:88: for(i = 0; i < a->ptr; ++i) {
+   0225 7B 00               997 	mov	r3,#0x00
+   0227 7C 00               998 	mov	r4,#0x00
+   0229 A8*00               999 	mov	r0,_bp
+   022B 08                 1000 	inc	r0
+   022C E5*00              1001 	mov	a,_bp
+   022E 24 04              1002 	add	a,#0x04
+   0230 F9                 1003 	mov	r1,a
+   0231 74 03              1004 	mov	a,#0x03
+   0233 26                 1005 	add	a,@r0
+   0234 F7                 1006 	mov	@r1,a
+   0235 E4                 1007 	clr	a
+   0236 08                 1008 	inc	r0
+   0237 36                 1009 	addc	a,@r0
+   0238 09                 1010 	inc	r1
+   0239 F7                 1011 	mov	@r1,a
+   023A 08                 1012 	inc	r0
+   023B 09                 1013 	inc	r1
+   023C E6                 1014 	mov	a,@r0
+   023D F7                 1015 	mov	@r1,a
+   023E E4                 1016 	clr	a
+   023F FA                 1017 	mov	r2,a
+   0240 FF                 1018 	mov	r7,a
+   0241 E5*00              1019 	mov	a,_bp
+   0243 24 09              1020 	add	a,#0x09
+   0245 F8                 1021 	mov	r0,a
+   0246 E4                 1022 	clr	a
+   0247 F6                 1023 	mov	@r0,a
+   0248 08                 1024 	inc	r0
+   0249 F6                 1025 	mov	@r0,a
+   024A                    1026 00105$:
+   024A E5*00              1027 	mov	a,_bp
+   024C 24 04              1028 	add	a,#0x04
+   024E F8                 1029 	mov	r0,a
+   024F 86 82              1030 	mov	dpl,@r0
+   0251 08                 1031 	inc	r0
+   0252 86 83              1032 	mov	dph,@r0
+   0254 08                 1033 	inc	r0
+   0255 86 F0              1034 	mov	b,@r0
+   0257 E5*00              1035 	mov	a,_bp
+   0259 24 07              1036 	add	a,#0x07
+   025B F9                 1037 	mov	r1,a
+   025C 12s00r00           1038 	lcall	__gptrget
+   025F F7                 1039 	mov	@r1,a
+   0260 A3                 1040 	inc	dptr
+   0261 12s00r00           1041 	lcall	__gptrget
+   0264 09                 1042 	inc	r1
+   0265 F7                 1043 	mov	@r1,a
+   0266 E5*00              1044 	mov	a,_bp
+   0268 24 07              1045 	add	a,#0x07
+   026A F8                 1046 	mov	r0,a
+   026B C3                 1047 	clr	c
+   026C EA                 1048 	mov	a,r2
+   026D 96                 1049 	subb	a,@r0
+   026E EF                 1050 	mov	a,r7
+   026F 64 80              1051 	xrl	a,#0x80
+   0271 08                 1052 	inc	r0
+   0272 86 F0              1053 	mov	b,@r0
+   0274 63 F0 80           1054 	xrl	b,#0x80
+   0277 95 F0              1055 	subb	a,b
+   0279 40 03              1056 	jc	00119$
+   027B 02s03r15           1057 	ljmp	00108$
+   027E                    1058 00119$:
+                           1059 ;	../../core/sys/timetable-aggregate.c:89: if(a->entries[i].id == id) {
+   027E C0 02              1060 	push	ar2
+   0280 C0 07              1061 	push	ar7
+   0282 A8*00              1062 	mov	r0,_bp
+   0284 08                 1063 	inc	r0
+   0285 86 82              1064 	mov	dpl,@r0
+   0287 08                 1065 	inc	r0
+   0288 86 83              1066 	mov	dph,@r0
+   028A 08                 1067 	inc	r0
+   028B 86 F0              1068 	mov	b,@r0
+   028D 12s00r00           1069 	lcall	__gptrget
+   0290 FD                 1070 	mov	r5,a
+   0291 A3                 1071 	inc	dptr
+   0292 12s00r00           1072 	lcall	__gptrget
+   0295 FC                 1073 	mov	r4,a
+   0296 A3                 1074 	inc	dptr
+   0297 12s00r00           1075 	lcall	__gptrget
+   029A FB                 1076 	mov	r3,a
+   029B E5*00              1077 	mov	a,_bp
+   029D 24 09              1078 	add	a,#0x09
+   029F F8                 1079 	mov	r0,a
+   02A0 E6                 1080 	mov	a,@r0
+   02A1 2D                 1081 	add	a,r5
+   02A2 FA                 1082 	mov	r2,a
+   02A3 08                 1083 	inc	r0
+   02A4 E6                 1084 	mov	a,@r0
+   02A5 3C                 1085 	addc	a,r4
+   02A6 FE                 1086 	mov	r6,a
+   02A7 8B 07              1087 	mov	ar7,r3
+   02A9 8A 82              1088 	mov	dpl,r2
+   02AB 8E 83              1089 	mov	dph,r6
+   02AD 8F F0              1090 	mov	b,r7
+   02AF 12s00r00           1091 	lcall	__gptrget
+   02B2 FA                 1092 	mov	r2,a
+   02B3 A3                 1093 	inc	dptr
+   02B4 12s00r00           1094 	lcall	__gptrget
+   02B7 FE                 1095 	mov	r6,a
+   02B8 A3                 1096 	inc	dptr
+   02B9 12s00r00           1097 	lcall	__gptrget
+   02BC FF                 1098 	mov	r7,a
+   02BD E5*00              1099 	mov	a,_bp
+   02BF 24 FB              1100 	add	a,#0xfb
+   02C1 F8                 1101 	mov	r0,a
+   02C2 C0 02              1102 	push	ar2
+   02C4 C0 06              1103 	push	ar6
+   02C6 C0 07              1104 	push	ar7
+   02C8 86 82              1105 	mov	dpl,@r0
+   02CA 08                 1106 	inc	r0
+   02CB 86 83              1107 	mov	dph,@r0
+   02CD 08                 1108 	inc	r0
+   02CE 86 F0              1109 	mov	b,@r0
+   02D0 12s00r00           1110 	lcall	___gptr_cmp
+   02D3 15 81              1111 	dec	sp
+   02D5 15 81              1112 	dec	sp
+   02D7 15 81              1113 	dec	sp
+   02D9 60 06              1114 	jz	00121$
+   02DB D0 07              1115 	pop	ar7
+   02DD D0 02              1116 	pop	ar2
+   02DF 80 1B              1117 	sjmp	00107$
+   02E1                    1118 00121$:
+   02E1 D0 07              1119 	pop	ar7
+   02E3 D0 02              1120 	pop	ar2
+                           1121 ;	../../core/sys/timetable-aggregate.c:90: return &a->entries[i];
+   02E5 E5*00              1122 	mov	a,_bp
+   02E7 24 09              1123 	add	a,#0x09
+   02E9 F8                 1124 	mov	r0,a
+   02EA E6                 1125 	mov	a,@r0
+   02EB 2D                 1126 	add	a,r5
+   02EC FD                 1127 	mov	r5,a
+   02ED 08                 1128 	inc	r0
+   02EE E6                 1129 	mov	a,@r0
+   02EF 3C                 1130 	addc	a,r4
+   02F0 FE                 1131 	mov	r6,a
+   02F1 8B 07              1132 	mov	ar7,r3
+   02F3 8D 82              1133 	mov	dpl,r5
+   02F5 8E 83              1134 	mov	dph,r6
+   02F7 8F F0              1135 	mov	b,r7
+   02F9 02s03rE0           1136 	ljmp	00109$
+   02FC                    1137 00107$:
+                           1138 ;	../../core/sys/timetable-aggregate.c:88: for(i = 0; i < a->ptr; ++i) {
+   02FC E5*00              1139 	mov	a,_bp
+   02FE 24 09              1140 	add	a,#0x09
+   0300 F8                 1141 	mov	r0,a
+   0301 74 09              1142 	mov	a,#0x09
+   0303 26                 1143 	add	a,@r0
+   0304 F6                 1144 	mov	@r0,a
+   0305 E4                 1145 	clr	a
+   0306 08                 1146 	inc	r0
+   0307 36                 1147 	addc	a,@r0
+   0308 F6                 1148 	mov	@r0,a
+   0309 0A                 1149 	inc	r2
+   030A BA 00 01           1150 	cjne	r2,#0x00,00122$
+   030D 0F                 1151 	inc	r7
+   030E                    1152 00122$:
+   030E 8A 03              1153 	mov	ar3,r2
+   0310 8F 04              1154 	mov	ar4,r7
+   0312 02s02r4A           1155 	ljmp	00105$
+   0315                    1156 00108$:
+                           1157 ;	../../core/sys/timetable-aggregate.c:93: if(i == a->size) {
+   0315 A8*00              1158 	mov	r0,_bp
+   0317 08                 1159 	inc	r0
+   0318 74 05              1160 	mov	a,#0x05
+   031A 26                 1161 	add	a,@r0
+   031B FD                 1162 	mov	r5,a
+   031C E4                 1163 	clr	a
+   031D 08                 1164 	inc	r0
+   031E 36                 1165 	addc	a,@r0
+   031F FE                 1166 	mov	r6,a
+   0320 08                 1167 	inc	r0
+   0321 86 07              1168 	mov	ar7,@r0
+   0323 8D 82              1169 	mov	dpl,r5
+   0325 8E 83              1170 	mov	dph,r6
+   0327 8F F0              1171 	mov	b,r7
+   0329 12s00r00           1172 	lcall	__gptrget
+   032C FD                 1173 	mov	r5,a
+   032D A3                 1174 	inc	dptr
+   032E 12s00r00           1175 	lcall	__gptrget
+   0331 FE                 1176 	mov	r6,a
+   0332 EB                 1177 	mov	a,r3
+   0333 B5 05 0D           1178 	cjne	a,ar5,00104$
+   0336 EC                 1179 	mov	a,r4
+   0337 B5 06 09           1180 	cjne	a,ar6,00104$
+                           1181 ;	../../core/sys/timetable-aggregate.c:94: return NULL;
+   033A 90 00 00           1182 	mov	dptr,#0x0000
+   033D 75 F0 00           1183 	mov	b,#0x00
+   0340 02s03rE0           1184 	ljmp	00109$
+   0343                    1185 00104$:
+                           1186 ;	../../core/sys/timetable-aggregate.c:96: a->entries[a->ptr].id = NULL;
+   0343 A8*00              1187 	mov	r0,_bp
+   0345 08                 1188 	inc	r0
+   0346 86 82              1189 	mov	dpl,@r0
+   0348 08                 1190 	inc	r0
+   0349 86 83              1191 	mov	dph,@r0
+   034B 08                 1192 	inc	r0
+   034C 86 F0              1193 	mov	b,@r0
+   034E 12s00r00           1194 	lcall	__gptrget
+   0351 FD                 1195 	mov	r5,a
+   0352 A3                 1196 	inc	dptr
+   0353 12s00r00           1197 	lcall	__gptrget
+   0356 FE                 1198 	mov	r6,a
+   0357 A3                 1199 	inc	dptr
+   0358 12s00r00           1200 	lcall	__gptrget
+   035B FF                 1201 	mov	r7,a
+   035C C0 07              1202 	push	ar7
+   035E C0 06              1203 	push	ar6
+   0360 C0 05              1204 	push	ar5
+   0362 E5*00              1205 	mov	a,_bp
+   0364 24 07              1206 	add	a,#0x07
+   0366 F8                 1207 	mov	r0,a
+   0367 E6                 1208 	mov	a,@r0
+   0368 C0 E0              1209 	push	acc
+   036A 08                 1210 	inc	r0
+   036B E6                 1211 	mov	a,@r0
+   036C C0 E0              1212 	push	acc
+   036E 90 00 09           1213 	mov	dptr,#0x0009
+   0371 12s00r00           1214 	lcall	__mulint
+   0374 C8                 1215 	xch	a,r0
+   0375 E5*00              1216 	mov	a,_bp
+   0377 24 09              1217 	add	a,#0x09
+   0379 C8                 1218 	xch	a,r0
+   037A A6 82              1219 	mov	@r0,dpl
+   037C 08                 1220 	inc	r0
+   037D A6 83              1221 	mov	@r0,dph
+   037F 15 81              1222 	dec	sp
+   0381 15 81              1223 	dec	sp
+   0383 D0 05              1224 	pop	ar5
+   0385 D0 06              1225 	pop	ar6
+   0387 D0 07              1226 	pop	ar7
+   0389 E5*00              1227 	mov	a,_bp
+   038B 24 09              1228 	add	a,#0x09
+   038D F8                 1229 	mov	r0,a
+   038E E6                 1230 	mov	a,@r0
+   038F 2D                 1231 	add	a,r5
+   0390 FA                 1232 	mov	r2,a
+   0391 08                 1233 	inc	r0
+   0392 E6                 1234 	mov	a,@r0
+   0393 3E                 1235 	addc	a,r6
+   0394 FB                 1236 	mov	r3,a
+   0395 8F 04              1237 	mov	ar4,r7
+   0397 8A 82              1238 	mov	dpl,r2
+   0399 8B 83              1239 	mov	dph,r3
+   039B 8C F0              1240 	mov	b,r4
+   039D E4                 1241 	clr	a
+   039E 12s00r00           1242 	lcall	__gptrput
+   03A1 A3                 1243 	inc	dptr
+   03A2 E4                 1244 	clr	a
+   03A3 12s00r00           1245 	lcall	__gptrput
+   03A6 A3                 1246 	inc	dptr
+   03A7 E4                 1247 	clr	a
+   03A8 12s00r00           1248 	lcall	__gptrput
+                           1249 ;	../../core/sys/timetable-aggregate.c:97: return &a->entries[a->ptr++];
+   03AB E5*00              1250 	mov	a,_bp
+   03AD 24 07              1251 	add	a,#0x07
+   03AF F8                 1252 	mov	r0,a
+   03B0 74 01              1253 	mov	a,#0x01
+   03B2 26                 1254 	add	a,@r0
+   03B3 FB                 1255 	mov	r3,a
+   03B4 E4                 1256 	clr	a
+   03B5 08                 1257 	inc	r0
+   03B6 36                 1258 	addc	a,@r0
+   03B7 FC                 1259 	mov	r4,a
+   03B8 E5*00              1260 	mov	a,_bp
+   03BA 24 04              1261 	add	a,#0x04
+   03BC F8                 1262 	mov	r0,a
+   03BD 86 82              1263 	mov	dpl,@r0
+   03BF 08                 1264 	inc	r0
+   03C0 86 83              1265 	mov	dph,@r0
+   03C2 08                 1266 	inc	r0
+   03C3 86 F0              1267 	mov	b,@r0
+   03C5 EB                 1268 	mov	a,r3
+   03C6 12s00r00           1269 	lcall	__gptrput
+   03C9 A3                 1270 	inc	dptr
+   03CA EC                 1271 	mov	a,r4
+   03CB 12s00r00           1272 	lcall	__gptrput
+   03CE E5*00              1273 	mov	a,_bp
+   03D0 24 09              1274 	add	a,#0x09
+   03D2 F8                 1275 	mov	r0,a
+   03D3 E6                 1276 	mov	a,@r0
+   03D4 2D                 1277 	add	a,r5
+   03D5 FD                 1278 	mov	r5,a
+   03D6 08                 1279 	inc	r0
+   03D7 E6                 1280 	mov	a,@r0
+   03D8 3E                 1281 	addc	a,r6
+   03D9 FE                 1282 	mov	r6,a
+   03DA 8D 82              1283 	mov	dpl,r5
+   03DC 8E 83              1284 	mov	dph,r6
+   03DE 8F F0              1285 	mov	b,r7
+   03E0                    1286 00109$:
+   03E0 85*00 81           1287 	mov	sp,_bp
+   03E3 D0*00              1288 	pop	_bp
+   03E5 22                 1289 	ret
+                           1290 ;------------------------------------------------------------
+                           1291 ;Allocation info for local variables in function 'timetable_aggregate_print_detailed'
+                           1292 ;------------------------------------------------------------
+                           1293 ;a                         Allocated to stack - _bp +1
+                           1294 ;i                         Allocated to stack - _bp +4
+                           1295 ;sloc0                     Allocated to stack - _bp +6
+                           1296 ;sloc1                     Allocated to stack - _bp +8
+                           1297 ;sloc2                     Allocated to stack - _bp +10
+                           1298 ;sloc3                     Allocated to stack - _bp +13
+                           1299 ;sloc4                     Allocated to stack - _bp +17
+                           1300 ;------------------------------------------------------------
+                           1301 ;	../../core/sys/timetable-aggregate.c:101: timetable_aggregate_print_detailed(struct timetable_aggregate *a)
+                           1302 ;	-----------------------------------------
+                           1303 ;	 function timetable_aggregate_print_detailed
+                           1304 ;	-----------------------------------------
+   03E6                    1305 _timetable_aggregate_print_detailed:
+   03E6 C0*00              1306 	push	_bp
+   03E8 85 81*00           1307 	mov	_bp,sp
+   03EB C0 82              1308 	push	dpl
+   03ED C0 83              1309 	push	dph
+   03EF C0 F0              1310 	push	b
+   03F1 E5 81              1311 	mov	a,sp
+   03F3 24 11              1312 	add	a,#0x11
+   03F5 F5 81              1313 	mov	sp,a
+                           1314 ;	../../core/sys/timetable-aggregate.c:105: for(i = 0; i < a->ptr; ++i) {
+   03F7 A8*00              1315 	mov	r0,_bp
+   03F9 08                 1316 	inc	r0
+   03FA 74 03              1317 	mov	a,#0x03
+   03FC 26                 1318 	add	a,@r0
+   03FD FA                 1319 	mov	r2,a
+   03FE E4                 1320 	clr	a
+   03FF 08                 1321 	inc	r0
+   0400 36                 1322 	addc	a,@r0
+   0401 FB                 1323 	mov	r3,a
+   0402 08                 1324 	inc	r0
+   0403 86 04              1325 	mov	ar4,@r0
+   0405 E5*00              1326 	mov	a,_bp
+   0407 24 04              1327 	add	a,#0x04
+   0409 F8                 1328 	mov	r0,a
+   040A E4                 1329 	clr	a
+   040B F6                 1330 	mov	@r0,a
+   040C 08                 1331 	inc	r0
+   040D F6                 1332 	mov	@r0,a
+   040E E5*00              1333 	mov	a,_bp
+   0410 24 06              1334 	add	a,#0x06
+   0412 F8                 1335 	mov	r0,a
+   0413 E4                 1336 	clr	a
+   0414 F6                 1337 	mov	@r0,a
+   0415 08                 1338 	inc	r0
+   0416 F6                 1339 	mov	@r0,a
+   0417                    1340 00101$:
+   0417 8A 82              1341 	mov	dpl,r2
+   0419 8B 83              1342 	mov	dph,r3
+   041B 8C F0              1343 	mov	b,r4
+   041D E5*00              1344 	mov	a,_bp
+   041F 24 08              1345 	add	a,#0x08
+   0421 F8                 1346 	mov	r0,a
+   0422 12s00r00           1347 	lcall	__gptrget
+   0425 F6                 1348 	mov	@r0,a
+   0426 A3                 1349 	inc	dptr
+   0427 12s00r00           1350 	lcall	__gptrget
+   042A 08                 1351 	inc	r0
+   042B F6                 1352 	mov	@r0,a
+   042C E5*00              1353 	mov	a,_bp
+   042E 24 04              1354 	add	a,#0x04
+   0430 F8                 1355 	mov	r0,a
+   0431 E5*00              1356 	mov	a,_bp
+   0433 24 08              1357 	add	a,#0x08
+   0435 F9                 1358 	mov	r1,a
+   0436 C3                 1359 	clr	c
+   0437 E6                 1360 	mov	a,@r0
+   0438 97                 1361 	subb	a,@r1
+   0439 08                 1362 	inc	r0
+   043A E6                 1363 	mov	a,@r0
+   043B 64 80              1364 	xrl	a,#0x80
+   043D 09                 1365 	inc	r1
+   043E 87 F0              1366 	mov	b,@r1
+   0440 63 F0 80           1367 	xrl	b,#0x80
+   0443 95 F0              1368 	subb	a,b
+   0445 40 03              1369 	jc	00112$
+   0447 02s05r9D           1370 	ljmp	00104$
+   044A                    1371 00112$:
+                           1372 ;	../../core/sys/timetable-aggregate.c:109: a->entries[i].time / a->entries[i].episodes);
+   044A C0 02              1373 	push	ar2
+   044C C0 03              1374 	push	ar3
+   044E C0 04              1375 	push	ar4
+   0450 A8*00              1376 	mov	r0,_bp
+   0452 08                 1377 	inc	r0
+   0453 86 82              1378 	mov	dpl,@r0
+   0455 08                 1379 	inc	r0
+   0456 86 83              1380 	mov	dph,@r0
+   0458 08                 1381 	inc	r0
+   0459 86 F0              1382 	mov	b,@r0
+   045B 12s00r00           1383 	lcall	__gptrget
+   045E FA                 1384 	mov	r2,a
+   045F A3                 1385 	inc	dptr
+   0460 12s00r00           1386 	lcall	__gptrget
+   0463 FB                 1387 	mov	r3,a
+   0464 A3                 1388 	inc	dptr
+   0465 12s00r00           1389 	lcall	__gptrget
+   0468 FC                 1390 	mov	r4,a
+   0469 E5*00              1391 	mov	a,_bp
+   046B 24 06              1392 	add	a,#0x06
+   046D F8                 1393 	mov	r0,a
+   046E E5*00              1394 	mov	a,_bp
+   0470 24 0A              1395 	add	a,#0x0a
+   0472 F9                 1396 	mov	r1,a
+   0473 E6                 1397 	mov	a,@r0
+   0474 2A                 1398 	add	a,r2
+   0475 F7                 1399 	mov	@r1,a
+   0476 08                 1400 	inc	r0
+   0477 E6                 1401 	mov	a,@r0
+   0478 3B                 1402 	addc	a,r3
+   0479 09                 1403 	inc	r1
+   047A F7                 1404 	mov	@r1,a
+   047B 09                 1405 	inc	r1
+   047C A7 04              1406 	mov	@r1,ar4
+   047E E5*00              1407 	mov	a,_bp
+   0480 24 0A              1408 	add	a,#0x0a
+   0482 F8                 1409 	mov	r0,a
+   0483 74 05              1410 	mov	a,#0x05
+   0485 26                 1411 	add	a,@r0
+   0486 FD                 1412 	mov	r5,a
+   0487 E4                 1413 	clr	a
+   0488 08                 1414 	inc	r0
+   0489 36                 1415 	addc	a,@r0
+   048A FE                 1416 	mov	r6,a
+   048B 08                 1417 	inc	r0
+   048C 86 07              1418 	mov	ar7,@r0
+   048E 8D 82              1419 	mov	dpl,r5
+   0490 8E 83              1420 	mov	dph,r6
+   0492 8F F0              1421 	mov	b,r7
+   0494 E5*00              1422 	mov	a,_bp
+   0496 24 0D              1423 	add	a,#0x0d
+   0498 F8                 1424 	mov	r0,a
+   0499 12s00r00           1425 	lcall	__gptrget
+   049C F6                 1426 	mov	@r0,a
+   049D A3                 1427 	inc	dptr
+   049E 12s00r00           1428 	lcall	__gptrget
+   04A1 08                 1429 	inc	r0
+   04A2 F6                 1430 	mov	@r0,a
+   04A3 A3                 1431 	inc	dptr
+   04A4 12s00r00           1432 	lcall	__gptrget
+   04A7 08                 1433 	inc	r0
+   04A8 F6                 1434 	mov	@r0,a
+   04A9 A3                 1435 	inc	dptr
+   04AA 12s00r00           1436 	lcall	__gptrget
+   04AD 08                 1437 	inc	r0
+   04AE F6                 1438 	mov	@r0,a
+   04AF E5*00              1439 	mov	a,_bp
+   04B1 24 0A              1440 	add	a,#0x0a
+   04B3 F8                 1441 	mov	r0,a
+   04B4 74 03              1442 	mov	a,#0x03
+   04B6 26                 1443 	add	a,@r0
+   04B7 FA                 1444 	mov	r2,a
+   04B8 E4                 1445 	clr	a
+   04B9 08                 1446 	inc	r0
+   04BA 36                 1447 	addc	a,@r0
+   04BB FB                 1448 	mov	r3,a
+   04BC 08                 1449 	inc	r0
+   04BD 86 07              1450 	mov	ar7,@r0
+   04BF 8A 82              1451 	mov	dpl,r2
+   04C1 8B 83              1452 	mov	dph,r3
+   04C3 8F F0              1453 	mov	b,r7
+   04C5 12s00r00           1454 	lcall	__gptrget
+   04C8 FA                 1455 	mov	r2,a
+   04C9 A3                 1456 	inc	dptr
+   04CA 12s00r00           1457 	lcall	__gptrget
+   04CD FB                 1458 	mov	r3,a
+   04CE 8A 04              1459 	mov	ar4,r2
+   04D0 8B 05              1460 	mov	ar5,r3
+   04D2 7E 00              1461 	mov	r6,#0x00
+   04D4 7F 00              1462 	mov	r7,#0x00
+   04D6 C0 04              1463 	push	ar4
+   04D8 C0 03              1464 	push	ar3
+   04DA C0 02              1465 	push	ar2
+   04DC C0 04              1466 	push	ar4
+   04DE C0 05              1467 	push	ar5
+   04E0 C0 06              1468 	push	ar6
+   04E2 C0 07              1469 	push	ar7
+                           1470 ;	../../core/sys/timetable-aggregate.c:106: printf("-- %s: %lu / %u = %lu\n", a->entries[i].id,
+   04E4 E5*00              1471 	mov	a,_bp
+   04E6 24 0D              1472 	add	a,#0x0d
+   04E8 F8                 1473 	mov	r0,a
+   04E9 86 82              1474 	mov	dpl,@r0
+   04EB 08                 1475 	inc	r0
+   04EC 86 83              1476 	mov	dph,@r0
+   04EE 08                 1477 	inc	r0
+   04EF 86 F0              1478 	mov	b,@r0
+   04F1 08                 1479 	inc	r0
+   04F2 E6                 1480 	mov	a,@r0
+   04F3 12s00r00           1481 	lcall	__divulong
+   04F6 C8                 1482 	xch	a,r0
+   04F7 E5*00              1483 	mov	a,_bp
+   04F9 24 11              1484 	add	a,#0x11
+   04FB C8                 1485 	xch	a,r0
+   04FC A6 82              1486 	mov	@r0,dpl
+   04FE 08                 1487 	inc	r0
+   04FF A6 83              1488 	mov	@r0,dph
+   0501 08                 1489 	inc	r0
+   0502 A6 F0              1490 	mov	@r0,b
+   0504 08                 1491 	inc	r0
+   0505 F6                 1492 	mov	@r0,a
+   0506 E5 81              1493 	mov	a,sp
+   0508 24 FC              1494 	add	a,#0xfc
+   050A F5 81              1495 	mov	sp,a
+   050C D0 02              1496 	pop	ar2
+   050E D0 03              1497 	pop	ar3
+   0510 E5*00              1498 	mov	a,_bp
+   0512 24 0A              1499 	add	a,#0x0a
+   0514 F8                 1500 	mov	r0,a
+   0515 86 82              1501 	mov	dpl,@r0
+   0517 08                 1502 	inc	r0
+   0518 86 83              1503 	mov	dph,@r0
+   051A 08                 1504 	inc	r0
+   051B 86 F0              1505 	mov	b,@r0
+   051D 12s00r00           1506 	lcall	__gptrget
+   0520 FD                 1507 	mov	r5,a
+   0521 A3                 1508 	inc	dptr
+   0522 12s00r00           1509 	lcall	__gptrget
+   0525 FE                 1510 	mov	r6,a
+   0526 A3                 1511 	inc	dptr
+   0527 12s00r00           1512 	lcall	__gptrget
+   052A FF                 1513 	mov	r7,a
+   052B C0 03              1514 	push	ar3
+   052D C0 02              1515 	push	ar2
+   052F E5*00              1516 	mov	a,_bp
+   0531 24 11              1517 	add	a,#0x11
+   0533 F8                 1518 	mov	r0,a
+   0534 E6                 1519 	mov	a,@r0
+   0535 C0 E0              1520 	push	acc
+   0537 08                 1521 	inc	r0
+   0538 E6                 1522 	mov	a,@r0
+   0539 C0 E0              1523 	push	acc
+   053B 08                 1524 	inc	r0
+   053C E6                 1525 	mov	a,@r0
+   053D C0 E0              1526 	push	acc
+   053F 08                 1527 	inc	r0
+   0540 E6                 1528 	mov	a,@r0
+   0541 C0 E0              1529 	push	acc
+   0543 C0 02              1530 	push	ar2
+   0545 C0 03              1531 	push	ar3
+   0547 E5*00              1532 	mov	a,_bp
+   0549 24 0D              1533 	add	a,#0x0d
+   054B F8                 1534 	mov	r0,a
+   054C E6                 1535 	mov	a,@r0
+   054D C0 E0              1536 	push	acc
+   054F 08                 1537 	inc	r0
+   0550 E6                 1538 	mov	a,@r0
+   0551 C0 E0              1539 	push	acc
+   0553 08                 1540 	inc	r0
+   0554 E6                 1541 	mov	a,@r0
+   0555 C0 E0              1542 	push	acc
+   0557 08                 1543 	inc	r0
+   0558 E6                 1544 	mov	a,@r0
+   0559 C0 E0              1545 	push	acc
+   055B C0 05              1546 	push	ar5
+   055D C0 06              1547 	push	ar6
+   055F C0 07              1548 	push	ar7
+   0561 74r00              1549 	mov	a,#__str_0
+   0563 C0 E0              1550 	push	acc
+   0565 74s00              1551 	mov	a,#(__str_0 >> 8)
+   0567 C0 E0              1552 	push	acc
+   0569 74 80              1553 	mov	a,#0x80
+   056B C0 E0              1554 	push	acc
+   056D 12s00r00           1555 	lcall	_printf
+   0570 E5 81              1556 	mov	a,sp
+   0572 24 F0              1557 	add	a,#0xf0
+   0574 F5 81              1558 	mov	sp,a
+   0576 D0 02              1559 	pop	ar2
+   0578 D0 03              1560 	pop	ar3
+   057A D0 04              1561 	pop	ar4
+                           1562 ;	../../core/sys/timetable-aggregate.c:105: for(i = 0; i < a->ptr; ++i) {
+   057C E5*00              1563 	mov	a,_bp
+   057E 24 06              1564 	add	a,#0x06
+   0580 F8                 1565 	mov	r0,a
+   0581 74 09              1566 	mov	a,#0x09
+   0583 26                 1567 	add	a,@r0
+   0584 F6                 1568 	mov	@r0,a
+   0585 E4                 1569 	clr	a
+   0586 08                 1570 	inc	r0
+   0587 36                 1571 	addc	a,@r0
+   0588 F6                 1572 	mov	@r0,a
+   0589 E5*00              1573 	mov	a,_bp
+   058B 24 04              1574 	add	a,#0x04
+   058D F8                 1575 	mov	r0,a
+   058E 06                 1576 	inc	@r0
+   058F B6 00 02           1577 	cjne	@r0,#0x00,00113$
+   0592 08                 1578 	inc	r0
+   0593 06                 1579 	inc	@r0
+   0594                    1580 00113$:
+   0594 D0 04              1581 	pop	ar4
+   0596 D0 03              1582 	pop	ar3
+   0598 D0 02              1583 	pop	ar2
+   059A 02s04r17           1584 	ljmp	00101$
+   059D                    1585 00104$:
+                           1586 ;	../../core/sys/timetable-aggregate.c:114: (int)sizeof(struct timetable_aggregate) * a->ptr);
+   059D E5*00              1587 	mov	a,_bp
+   059F 24 08              1588 	add	a,#0x08
+   05A1 F8                 1589 	mov	r0,a
+   05A2 E6                 1590 	mov	a,@r0
+   05A3 C0 E0              1591 	push	acc
+   05A5 08                 1592 	inc	r0
+   05A6 E6                 1593 	mov	a,@r0
+   05A7 C0 E0              1594 	push	acc
+                           1595 ;	../../core/sys/timetable-aggregate.c:112: printf("Memory for entries: %d * %d = %d\n",
+   05A9 90 00 07           1596 	mov	dptr,#0x0007
+   05AC 12s00r00           1597 	lcall	__mulint
+   05AF AE 82              1598 	mov	r6,dpl
+   05B1 AF 83              1599 	mov	r7,dph
+   05B3 15 81              1600 	dec	sp
+   05B5 15 81              1601 	dec	sp
+   05B7 C0 06              1602 	push	ar6
+   05B9 C0 07              1603 	push	ar7
+   05BB E5*00              1604 	mov	a,_bp
+   05BD 24 08              1605 	add	a,#0x08
+   05BF F8                 1606 	mov	r0,a
+   05C0 E6                 1607 	mov	a,@r0
+   05C1 C0 E0              1608 	push	acc
+   05C3 08                 1609 	inc	r0
+   05C4 E6                 1610 	mov	a,@r0
+   05C5 C0 E0              1611 	push	acc
+   05C7 74 07              1612 	mov	a,#0x07
+   05C9 C0 E0              1613 	push	acc
+   05CB E4                 1614 	clr	a
+   05CC C0 E0              1615 	push	acc
+   05CE 74r17              1616 	mov	a,#__str_1
+   05D0 C0 E0              1617 	push	acc
+   05D2 74s00              1618 	mov	a,#(__str_1 >> 8)
+   05D4 C0 E0              1619 	push	acc
+   05D6 74 80              1620 	mov	a,#0x80
+   05D8 C0 E0              1621 	push	acc
+   05DA 12s00r00           1622 	lcall	_printf
+   05DD E5 81              1623 	mov	a,sp
+   05DF 24 F7              1624 	add	a,#0xf7
+   05E1 85*00 81           1625 	mov	sp,_bp
+   05E4 D0*00              1626 	pop	_bp
+   05E6 22                 1627 	ret
+                           1628 ;------------------------------------------------------------
+                           1629 ;Allocation info for local variables in function 'timetable_aggregate_reset'
+                           1630 ;------------------------------------------------------------
+                           1631 ;a                         Allocated to stack - _bp +1
+                           1632 ;i                         Allocated to stack - _bp +4
+                           1633 ;sloc0                     Allocated to stack - _bp +6
+                           1634 ;------------------------------------------------------------
+                           1635 ;	../../core/sys/timetable-aggregate.c:118: timetable_aggregate_reset(struct timetable_aggregate *a)
+                           1636 ;	-----------------------------------------
+                           1637 ;	 function timetable_aggregate_reset
+                           1638 ;	-----------------------------------------
+   05E7                    1639 _timetable_aggregate_reset:
+   05E7 C0*00              1640 	push	_bp
+   05E9 85 81*00           1641 	mov	_bp,sp
+   05EC C0 82              1642 	push	dpl
+   05EE C0 83              1643 	push	dph
+   05F0 C0 F0              1644 	push	b
+   05F2 E5 81              1645 	mov	a,sp
+   05F4 24 04              1646 	add	a,#0x04
+   05F6 F5 81              1647 	mov	sp,a
+                           1648 ;	../../core/sys/timetable-aggregate.c:121: for(i = 0; i < a->ptr; ++i) {
+   05F8 A8*00              1649 	mov	r0,_bp
+   05FA 08                 1650 	inc	r0
+   05FB 74 03              1651 	mov	a,#0x03
+   05FD 26                 1652 	add	a,@r0
+   05FE FA                 1653 	mov	r2,a
+   05FF E4                 1654 	clr	a
+   0600 08                 1655 	inc	r0
+   0601 36                 1656 	addc	a,@r0
+   0602 FB                 1657 	mov	r3,a
+   0603 08                 1658 	inc	r0
+   0604 86 04              1659 	mov	ar4,@r0
+   0606 E5*00              1660 	mov	a,_bp
+   0608 24 04              1661 	add	a,#0x04
+   060A F8                 1662 	mov	r0,a
+   060B E4                 1663 	clr	a
+   060C F6                 1664 	mov	@r0,a
+   060D 08                 1665 	inc	r0
+   060E F6                 1666 	mov	@r0,a
+   060F E5*00              1667 	mov	a,_bp
+   0611 24 06              1668 	add	a,#0x06
+   0613 F8                 1669 	mov	r0,a
+   0614 E4                 1670 	clr	a
+   0615 F6                 1671 	mov	@r0,a
+   0616 08                 1672 	inc	r0
+   0617 F6                 1673 	mov	@r0,a
+   0618                    1674 00101$:
+   0618 8A 82              1675 	mov	dpl,r2
+   061A 8B 83              1676 	mov	dph,r3
+   061C 8C F0              1677 	mov	b,r4
+   061E 12s00r00           1678 	lcall	__gptrget
+   0621 FE                 1679 	mov	r6,a
+   0622 A3                 1680 	inc	dptr
+   0623 12s00r00           1681 	lcall	__gptrget
+   0626 FF                 1682 	mov	r7,a
+   0627 E5*00              1683 	mov	a,_bp
+   0629 24 04              1684 	add	a,#0x04
+   062B F8                 1685 	mov	r0,a
+   062C C3                 1686 	clr	c
+   062D E6                 1687 	mov	a,@r0
+   062E 9E                 1688 	subb	a,r6
+   062F 08                 1689 	inc	r0
+   0630 E6                 1690 	mov	a,@r0
+   0631 64 80              1691 	xrl	a,#0x80
+   0633 8F F0              1692 	mov	b,r7
+   0635 63 F0 80           1693 	xrl	b,#0x80
+   0638 95 F0              1694 	subb	a,b
+   063A 40 03              1695 	jc	00112$
+   063C 02s06rC3           1696 	ljmp	00105$
+   063F                    1697 00112$:
+                           1698 ;	../../core/sys/timetable-aggregate.c:122: a->entries[i].time = 0;
+   063F C0 02              1699 	push	ar2
+   0641 C0 03              1700 	push	ar3
+   0643 C0 04              1701 	push	ar4
+   0645 A8*00              1702 	mov	r0,_bp
+   0647 08                 1703 	inc	r0
+   0648 86 82              1704 	mov	dpl,@r0
+   064A 08                 1705 	inc	r0
+   064B 86 83              1706 	mov	dph,@r0
+   064D 08                 1707 	inc	r0
+   064E 86 F0              1708 	mov	b,@r0
+   0650 12s00r00           1709 	lcall	__gptrget
+   0653 FA                 1710 	mov	r2,a
+   0654 A3                 1711 	inc	dptr
+   0655 12s00r00           1712 	lcall	__gptrget
+   0658 FB                 1713 	mov	r3,a
+   0659 A3                 1714 	inc	dptr
+   065A 12s00r00           1715 	lcall	__gptrget
+   065D FC                 1716 	mov	r4,a
+   065E E5*00              1717 	mov	a,_bp
+   0660 24 06              1718 	add	a,#0x06
+   0662 F8                 1719 	mov	r0,a
+   0663 E6                 1720 	mov	a,@r0
+   0664 2A                 1721 	add	a,r2
+   0665 FA                 1722 	mov	r2,a
+   0666 08                 1723 	inc	r0
+   0667 E6                 1724 	mov	a,@r0
+   0668 3B                 1725 	addc	a,r3
+   0669 FB                 1726 	mov	r3,a
+   066A 74 05              1727 	mov	a,#0x05
+   066C 2A                 1728 	add	a,r2
+   066D FD                 1729 	mov	r5,a
+   066E E4                 1730 	clr	a
+   066F 3B                 1731 	addc	a,r3
+   0670 FE                 1732 	mov	r6,a
+   0671 8C 07              1733 	mov	ar7,r4
+   0673 8D 82              1734 	mov	dpl,r5
+   0675 8E 83              1735 	mov	dph,r6
+   0677 8F F0              1736 	mov	b,r7
+   0679 E4                 1737 	clr	a
+   067A 12s00r00           1738 	lcall	__gptrput
+   067D A3                 1739 	inc	dptr
+   067E E4                 1740 	clr	a
+   067F 12s00r00           1741 	lcall	__gptrput
+   0682 A3                 1742 	inc	dptr
+   0683 E4                 1743 	clr	a
+   0684 12s00r00           1744 	lcall	__gptrput
+   0687 A3                 1745 	inc	dptr
+   0688 E4                 1746 	clr	a
+   0689 12s00r00           1747 	lcall	__gptrput
+                           1748 ;	../../core/sys/timetable-aggregate.c:123: a->entries[i].episodes = 0;
+   068C 74 03              1749 	mov	a,#0x03
+   068E 2A                 1750 	add	a,r2
+   068F FA                 1751 	mov	r2,a
+   0690 E4                 1752 	clr	a
+   0691 3B                 1753 	addc	a,r3
+   0692 FB                 1754 	mov	r3,a
+   0693 8A 82              1755 	mov	dpl,r2
+   0695 8B 83              1756 	mov	dph,r3
+   0697 8C F0              1757 	mov	b,r4
+   0699 E4                 1758 	clr	a
+   069A 12s00r00           1759 	lcall	__gptrput
+   069D A3                 1760 	inc	dptr
+   069E E4                 1761 	clr	a
+   069F 12s00r00           1762 	lcall	__gptrput
+                           1763 ;	../../core/sys/timetable-aggregate.c:121: for(i = 0; i < a->ptr; ++i) {
+   06A2 E5*00              1764 	mov	a,_bp
+   06A4 24 06              1765 	add	a,#0x06
+   06A6 F8                 1766 	mov	r0,a
+   06A7 74 09              1767 	mov	a,#0x09
+   06A9 26                 1768 	add	a,@r0
+   06AA F6                 1769 	mov	@r0,a
+   06AB E4                 1770 	clr	a
+   06AC 08                 1771 	inc	r0
+   06AD 36                 1772 	addc	a,@r0
+   06AE F6                 1773 	mov	@r0,a
+   06AF E5*00              1774 	mov	a,_bp
+   06B1 24 04              1775 	add	a,#0x04
+   06B3 F8                 1776 	mov	r0,a
+   06B4 06                 1777 	inc	@r0
+   06B5 B6 00 02           1778 	cjne	@r0,#0x00,00113$
+   06B8 08                 1779 	inc	r0
+   06B9 06                 1780 	inc	@r0
+   06BA                    1781 00113$:
+   06BA D0 04              1782 	pop	ar4
+   06BC D0 03              1783 	pop	ar3
+   06BE D0 02              1784 	pop	ar2
+   06C0 02s06r18           1785 	ljmp	00101$
+   06C3                    1786 00105$:
+   06C3 85*00 81           1787 	mov	sp,_bp
+   06C6 D0*00              1788 	pop	_bp
+   06C8 22                 1789 	ret
+                           1790 ;------------------------------------------------------------
+                           1791 ;Allocation info for local variables in function 'timetable_aggregate_print_categories'
+                           1792 ;------------------------------------------------------------
+                           1793 ;a                         Allocated to stack - _bp +1
+                           1794 ;i                         Allocated to stack - _bp +4
+                           1795 ;sloc0                     Allocated to stack - _bp +6
+                           1796 ;sloc1                     Allocated to stack - _bp +8
+                           1797 ;sloc2                     Allocated to stack - _bp +10
+                           1798 ;sloc3                     Allocated to stack - _bp +13
+                           1799 ;sloc4                     Allocated to stack - _bp +17
+                           1800 ;sloc5                     Allocated to stack - _bp +21
+                           1801 ;------------------------------------------------------------
+                           1802 ;	../../core/sys/timetable-aggregate.c:128: timetable_aggregate_print_categories(struct timetable_aggregate *a)
+                           1803 ;	-----------------------------------------
+                           1804 ;	 function timetable_aggregate_print_categories
+                           1805 ;	-----------------------------------------
+   06C9                    1806 _timetable_aggregate_print_categories:
+   06C9 C0*00              1807 	push	_bp
+   06CB 85 81*00           1808 	mov	_bp,sp
+   06CE C0 82              1809 	push	dpl
+   06D0 C0 83              1810 	push	dph
+   06D2 C0 F0              1811 	push	b
+   06D4 E5 81              1812 	mov	a,sp
+   06D6 24 13              1813 	add	a,#0x13
+   06D8 F5 81              1814 	mov	sp,a
+                           1815 ;	../../core/sys/timetable-aggregate.c:133: for(i = 0; i < a->ptr; ++i) {
+   06DA A8*00              1816 	mov	r0,_bp
+   06DC 08                 1817 	inc	r0
+   06DD 74 03              1818 	mov	a,#0x03
+   06DF 26                 1819 	add	a,@r0
+   06E0 FA                 1820 	mov	r2,a
+   06E1 E4                 1821 	clr	a
+   06E2 08                 1822 	inc	r0
+   06E3 36                 1823 	addc	a,@r0
+   06E4 FB                 1824 	mov	r3,a
+   06E5 08                 1825 	inc	r0
+   06E6 86 04              1826 	mov	ar4,@r0
+   06E8 E5*00              1827 	mov	a,_bp
+   06EA 24 04              1828 	add	a,#0x04
+   06EC F8                 1829 	mov	r0,a
+   06ED E4                 1830 	clr	a
+   06EE F6                 1831 	mov	@r0,a
+   06EF 08                 1832 	inc	r0
+   06F0 F6                 1833 	mov	@r0,a
+   06F1 E5*00              1834 	mov	a,_bp
+   06F3 24 06              1835 	add	a,#0x06
+   06F5 F8                 1836 	mov	r0,a
+   06F6 E4                 1837 	clr	a
+   06F7 F6                 1838 	mov	@r0,a
+   06F8 08                 1839 	inc	r0
+   06F9 F6                 1840 	mov	@r0,a
+   06FA                    1841 00101$:
+   06FA 8A 82              1842 	mov	dpl,r2
+   06FC 8B 83              1843 	mov	dph,r3
+   06FE 8C F0              1844 	mov	b,r4
+   0700 E5*00              1845 	mov	a,_bp
+   0702 24 08              1846 	add	a,#0x08
+   0704 F8                 1847 	mov	r0,a
+   0705 12s00r00           1848 	lcall	__gptrget
+   0708 F6                 1849 	mov	@r0,a
+   0709 A3                 1850 	inc	dptr
+   070A 12s00r00           1851 	lcall	__gptrget
+   070D 08                 1852 	inc	r0
+   070E F6                 1853 	mov	@r0,a
+   070F E5*00              1854 	mov	a,_bp
+   0711 24 04              1855 	add	a,#0x04
+   0713 F8                 1856 	mov	r0,a
+   0714 E5*00              1857 	mov	a,_bp
+   0716 24 08              1858 	add	a,#0x08
+   0718 F9                 1859 	mov	r1,a
+   0719 C3                 1860 	clr	c
+   071A E6                 1861 	mov	a,@r0
+   071B 97                 1862 	subb	a,@r1
+   071C 08                 1863 	inc	r0
+   071D E6                 1864 	mov	a,@r0
+   071E 64 80              1865 	xrl	a,#0x80
+   0720 09                 1866 	inc	r1
+   0721 87 F0              1867 	mov	b,@r1
+   0723 63 F0 80           1868 	xrl	b,#0x80
+   0726 95 F0              1869 	subb	a,b
+   0728 40 03              1870 	jc	00112$
+   072A 02s08rBF           1871 	ljmp	00104$
+   072D                    1872 00112$:
+                           1873 ;	../../core/sys/timetable-aggregate.c:138: a->entries[i].time / a->entries[i].episodes);
+   072D C0 02              1874 	push	ar2
+   072F C0 03              1875 	push	ar3
+   0731 C0 04              1876 	push	ar4
+   0733 A8*00              1877 	mov	r0,_bp
+   0735 08                 1878 	inc	r0
+   0736 86 82              1879 	mov	dpl,@r0
+   0738 08                 1880 	inc	r0
+   0739 86 83              1881 	mov	dph,@r0
+   073B 08                 1882 	inc	r0
+   073C 86 F0              1883 	mov	b,@r0
+   073E 12s00r00           1884 	lcall	__gptrget
+   0741 FA                 1885 	mov	r2,a
+   0742 A3                 1886 	inc	dptr
+   0743 12s00r00           1887 	lcall	__gptrget
+   0746 FB                 1888 	mov	r3,a
+   0747 A3                 1889 	inc	dptr
+   0748 12s00r00           1890 	lcall	__gptrget
+   074B FC                 1891 	mov	r4,a
+   074C E5*00              1892 	mov	a,_bp
+   074E 24 06              1893 	add	a,#0x06
+   0750 F8                 1894 	mov	r0,a
+   0751 E5*00              1895 	mov	a,_bp
+   0753 24 0A              1896 	add	a,#0x0a
+   0755 F9                 1897 	mov	r1,a
+   0756 E6                 1898 	mov	a,@r0
+   0757 2A                 1899 	add	a,r2
+   0758 F7                 1900 	mov	@r1,a
+   0759 08                 1901 	inc	r0
+   075A E6                 1902 	mov	a,@r0
+   075B 3B                 1903 	addc	a,r3
+   075C 09                 1904 	inc	r1
+   075D F7                 1905 	mov	@r1,a
+   075E 09                 1906 	inc	r1
+   075F A7 04              1907 	mov	@r1,ar4
+   0761 E5*00              1908 	mov	a,_bp
+   0763 24 0A              1909 	add	a,#0x0a
+   0765 F8                 1910 	mov	r0,a
+   0766 74 05              1911 	mov	a,#0x05
+   0768 26                 1912 	add	a,@r0
+   0769 FD                 1913 	mov	r5,a
+   076A E4                 1914 	clr	a
+   076B 08                 1915 	inc	r0
+   076C 36                 1916 	addc	a,@r0
+   076D FE                 1917 	mov	r6,a
+   076E 08                 1918 	inc	r0
+   076F 86 07              1919 	mov	ar7,@r0
+   0771 8D 82              1920 	mov	dpl,r5
+   0773 8E 83              1921 	mov	dph,r6
+   0775 8F F0              1922 	mov	b,r7
+   0777 E5*00              1923 	mov	a,_bp
+   0779 24 0D              1924 	add	a,#0x0d
+   077B F8                 1925 	mov	r0,a
+   077C 12s00r00           1926 	lcall	__gptrget
+   077F F6                 1927 	mov	@r0,a
+   0780 A3                 1928 	inc	dptr
+   0781 12s00r00           1929 	lcall	__gptrget
+   0784 08                 1930 	inc	r0
+   0785 F6                 1931 	mov	@r0,a
+   0786 A3                 1932 	inc	dptr
+   0787 12s00r00           1933 	lcall	__gptrget
+   078A 08                 1934 	inc	r0
+   078B F6                 1935 	mov	@r0,a
+   078C A3                 1936 	inc	dptr
+   078D 12s00r00           1937 	lcall	__gptrget
+   0790 08                 1938 	inc	r0
+   0791 F6                 1939 	mov	@r0,a
+   0792 E5*00              1940 	mov	a,_bp
+   0794 24 0A              1941 	add	a,#0x0a
+   0796 F8                 1942 	mov	r0,a
+   0797 74 03              1943 	mov	a,#0x03
+   0799 26                 1944 	add	a,@r0
+   079A FA                 1945 	mov	r2,a
+   079B E4                 1946 	clr	a
+   079C 08                 1947 	inc	r0
+   079D 36                 1948 	addc	a,@r0
+   079E FB                 1949 	mov	r3,a
+   079F 08                 1950 	inc	r0
+   07A0 86 07              1951 	mov	ar7,@r0
+   07A2 8A 82              1952 	mov	dpl,r2
+   07A4 8B 83              1953 	mov	dph,r3
+   07A6 8F F0              1954 	mov	b,r7
+   07A8 E5*00              1955 	mov	a,_bp
+   07AA 24 15              1956 	add	a,#0x15
+   07AC F8                 1957 	mov	r0,a
+   07AD 12s00r00           1958 	lcall	__gptrget
+   07B0 F6                 1959 	mov	@r0,a
+   07B1 A3                 1960 	inc	dptr
+   07B2 12s00r00           1961 	lcall	__gptrget
+   07B5 08                 1962 	inc	r0
+   07B6 F6                 1963 	mov	@r0,a
+   07B7 E5*00              1964 	mov	a,_bp
+   07B9 24 15              1965 	add	a,#0x15
+   07BB F8                 1966 	mov	r0,a
+   07BC 86 04              1967 	mov	ar4,@r0
+   07BE 08                 1968 	inc	r0
+   07BF 86 05              1969 	mov	ar5,@r0
+   07C1 7E 00              1970 	mov	r6,#0x00
+   07C3 7F 00              1971 	mov	r7,#0x00
+   07C5 C0 04              1972 	push	ar4
+   07C7 C0 03              1973 	push	ar3
+   07C9 C0 02              1974 	push	ar2
+   07CB C0 04              1975 	push	ar4
+   07CD C0 05              1976 	push	ar5
+   07CF C0 06              1977 	push	ar6
+   07D1 C0 07              1978 	push	ar7
+                           1979 ;	../../core/sys/timetable-aggregate.c:135: a->entries[i].id[0], a->entries[i].id[1],
+   07D3 E5*00              1980 	mov	a,_bp
+   07D5 24 0D              1981 	add	a,#0x0d
+   07D7 F8                 1982 	mov	r0,a
+   07D8 86 82              1983 	mov	dpl,@r0
+   07DA 08                 1984 	inc	r0
+   07DB 86 83              1985 	mov	dph,@r0
+   07DD 08                 1986 	inc	r0
+   07DE 86 F0              1987 	mov	b,@r0
+   07E0 08                 1988 	inc	r0
+   07E1 E6                 1989 	mov	a,@r0
+   07E2 12s00r00           1990 	lcall	__divulong
+   07E5 C8                 1991 	xch	a,r0
+   07E6 E5*00              1992 	mov	a,_bp
+   07E8 24 11              1993 	add	a,#0x11
+   07EA C8                 1994 	xch	a,r0
+   07EB A6 82              1995 	mov	@r0,dpl
+   07ED 08                 1996 	inc	r0
+   07EE A6 83              1997 	mov	@r0,dph
+   07F0 08                 1998 	inc	r0
+   07F1 A6 F0              1999 	mov	@r0,b
+   07F3 08                 2000 	inc	r0
+   07F4 F6                 2001 	mov	@r0,a
+   07F5 E5 81              2002 	mov	a,sp
+   07F7 24 FC              2003 	add	a,#0xfc
+   07F9 F5 81              2004 	mov	sp,a
+   07FB D0 02              2005 	pop	ar2
+   07FD D0 03              2006 	pop	ar3
+   07FF D0 04              2007 	pop	ar4
+   0801 E5*00              2008 	mov	a,_bp
+   0803 24 0A              2009 	add	a,#0x0a
+   0805 F8                 2010 	mov	r0,a
+   0806 86 82              2011 	mov	dpl,@r0
+   0808 08                 2012 	inc	r0
+   0809 86 83              2013 	mov	dph,@r0
+   080B 08                 2014 	inc	r0
+   080C 86 F0              2015 	mov	b,@r0
+   080E 12s00r00           2016 	lcall	__gptrget
+   0811 FD                 2017 	mov	r5,a
+   0812 A3                 2018 	inc	dptr
+   0813 12s00r00           2019 	lcall	__gptrget
+   0816 FE                 2020 	mov	r6,a
+   0817 A3                 2021 	inc	dptr
+   0818 12s00r00           2022 	lcall	__gptrget
+   081B FF                 2023 	mov	r7,a
+   081C 74 01              2024 	mov	a,#0x01
+   081E 2D                 2025 	add	a,r5
+   081F FA                 2026 	mov	r2,a
+   0820 E4                 2027 	clr	a
+   0821 3E                 2028 	addc	a,r6
+   0822 FB                 2029 	mov	r3,a
+   0823 8F 04              2030 	mov	ar4,r7
+   0825 8A 82              2031 	mov	dpl,r2
+   0827 8B 83              2032 	mov	dph,r3
+   0829 8C F0              2033 	mov	b,r4
+   082B 12s00r00           2034 	lcall	__gptrget
+   082E FA                 2035 	mov	r2,a
+   082F 33                 2036 	rlc	a
+   0830 95 E0              2037 	subb	a,acc
+   0832 FC                 2038 	mov	r4,a
+   0833 8D 82              2039 	mov	dpl,r5
+   0835 8E 83              2040 	mov	dph,r6
+   0837 8F F0              2041 	mov	b,r7
+   0839 12s00r00           2042 	lcall	__gptrget
+   083C FD                 2043 	mov	r5,a
+   083D 33                 2044 	rlc	a
+   083E 95 E0              2045 	subb	a,acc
+   0840 FF                 2046 	mov	r7,a
+                           2047 ;	../../core/sys/timetable-aggregate.c:134: printf("-- %c%c: %lu / %u = %lu\n",
+   0841 C0 04              2048 	push	ar4
+   0843 C0 03              2049 	push	ar3
+   0845 C0 02              2050 	push	ar2
+   0847 E5*00              2051 	mov	a,_bp
+   0849 24 11              2052 	add	a,#0x11
+   084B F8                 2053 	mov	r0,a
+   084C E6                 2054 	mov	a,@r0
+   084D C0 E0              2055 	push	acc
+   084F 08                 2056 	inc	r0
+   0850 E6                 2057 	mov	a,@r0
+   0851 C0 E0              2058 	push	acc
+   0853 08                 2059 	inc	r0
+   0854 E6                 2060 	mov	a,@r0
+   0855 C0 E0              2061 	push	acc
+   0857 08                 2062 	inc	r0
+   0858 E6                 2063 	mov	a,@r0
+   0859 C0 E0              2064 	push	acc
+   085B E5*00              2065 	mov	a,_bp
+   085D 24 15              2066 	add	a,#0x15
+   085F F8                 2067 	mov	r0,a
+   0860 E6                 2068 	mov	a,@r0
+   0861 C0 E0              2069 	push	acc
+   0863 08                 2070 	inc	r0
+   0864 E6                 2071 	mov	a,@r0
+   0865 C0 E0              2072 	push	acc
+   0867 E5*00              2073 	mov	a,_bp
+   0869 24 0D              2074 	add	a,#0x0d
+   086B F8                 2075 	mov	r0,a
+   086C E6                 2076 	mov	a,@r0
+   086D C0 E0              2077 	push	acc
+   086F 08                 2078 	inc	r0
+   0870 E6                 2079 	mov	a,@r0
+   0871 C0 E0              2080 	push	acc
+   0873 08                 2081 	inc	r0
+   0874 E6                 2082 	mov	a,@r0
+   0875 C0 E0              2083 	push	acc
+   0877 08                 2084 	inc	r0
+   0878 E6                 2085 	mov	a,@r0
+   0879 C0 E0              2086 	push	acc
+   087B C0 02              2087 	push	ar2
+   087D C0 04              2088 	push	ar4
+   087F C0 05              2089 	push	ar5
+   0881 C0 07              2090 	push	ar7
+   0883 74r39              2091 	mov	a,#__str_2
+   0885 C0 E0              2092 	push	acc
+   0887 74s00              2093 	mov	a,#(__str_2 >> 8)
+   0889 C0 E0              2094 	push	acc
+   088B 74 80              2095 	mov	a,#0x80
+   088D C0 E0              2096 	push	acc
+   088F 12s00r00           2097 	lcall	_printf
+   0892 E5 81              2098 	mov	a,sp
+   0894 24 EF              2099 	add	a,#0xef
+   0896 F5 81              2100 	mov	sp,a
+   0898 D0 02              2101 	pop	ar2
+   089A D0 03              2102 	pop	ar3
+   089C D0 04              2103 	pop	ar4
+                           2104 ;	../../core/sys/timetable-aggregate.c:133: for(i = 0; i < a->ptr; ++i) {
+   089E E5*00              2105 	mov	a,_bp
+   08A0 24 06              2106 	add	a,#0x06
+   08A2 F8                 2107 	mov	r0,a
+   08A3 74 09              2108 	mov	a,#0x09
+   08A5 26                 2109 	add	a,@r0
+   08A6 F6                 2110 	mov	@r0,a
+   08A7 E4                 2111 	clr	a
+   08A8 08                 2112 	inc	r0
+   08A9 36                 2113 	addc	a,@r0
+   08AA F6                 2114 	mov	@r0,a
+   08AB E5*00              2115 	mov	a,_bp
+   08AD 24 04              2116 	add	a,#0x04
+   08AF F8                 2117 	mov	r0,a
+   08B0 06                 2118 	inc	@r0
+   08B1 B6 00 02           2119 	cjne	@r0,#0x00,00113$
+   08B4 08                 2120 	inc	r0
+   08B5 06                 2121 	inc	@r0
+   08B6                    2122 00113$:
+   08B6 D0 04              2123 	pop	ar4
+   08B8 D0 03              2124 	pop	ar3
+   08BA D0 02              2125 	pop	ar2
+   08BC 02s06rFA           2126 	ljmp	00101$
+   08BF                    2127 00104$:
+                           2128 ;	../../core/sys/timetable-aggregate.c:143: (int)sizeof(struct timetable_aggregate) * a->ptr);
+   08BF E5*00              2129 	mov	a,_bp
+   08C1 24 08              2130 	add	a,#0x08
+   08C3 F8                 2131 	mov	r0,a
+   08C4 E6                 2132 	mov	a,@r0
+   08C5 C0 E0              2133 	push	acc
+   08C7 08                 2134 	inc	r0
+   08C8 E6                 2135 	mov	a,@r0
+   08C9 C0 E0              2136 	push	acc
+                           2137 ;	../../core/sys/timetable-aggregate.c:141: printf("Memory for entries: %d * %d = %d\n",
+   08CB 90 00 07           2138 	mov	dptr,#0x0007
+   08CE 12s00r00           2139 	lcall	__mulint
+   08D1 AE 82              2140 	mov	r6,dpl
+   08D3 AF 83              2141 	mov	r7,dph
+   08D5 15 81              2142 	dec	sp
+   08D7 15 81              2143 	dec	sp
+   08D9 C0 06              2144 	push	ar6
+   08DB C0 07              2145 	push	ar7
+   08DD E5*00              2146 	mov	a,_bp
+   08DF 24 08              2147 	add	a,#0x08
+   08E1 F8                 2148 	mov	r0,a
+   08E2 E6                 2149 	mov	a,@r0
+   08E3 C0 E0              2150 	push	acc
+   08E5 08                 2151 	inc	r0
+   08E6 E6                 2152 	mov	a,@r0
+   08E7 C0 E0              2153 	push	acc
+   08E9 74 07              2154 	mov	a,#0x07
+   08EB C0 E0              2155 	push	acc
+   08ED E4                 2156 	clr	a
+   08EE C0 E0              2157 	push	acc
+   08F0 74r17              2158 	mov	a,#__str_1
+   08F2 C0 E0              2159 	push	acc
+   08F4 74s00              2160 	mov	a,#(__str_1 >> 8)
+   08F6 C0 E0              2161 	push	acc
+   08F8 74 80              2162 	mov	a,#0x80
+   08FA C0 E0              2163 	push	acc
+   08FC 12s00r00           2164 	lcall	_printf
+   08FF E5 81              2165 	mov	a,sp
+   0901 24 F7              2166 	add	a,#0xf7
+   0903 F5 81              2167 	mov	sp,a
+   0905 85*00 81           2168 	mov	sp,_bp
+   0908 D0*00              2169 	pop	_bp
+   090A 22                 2170 	ret
+                           2171 ;------------------------------------------------------------
+                           2172 ;Allocation info for local variables in function 'timetable_aggregate_compute_detailed'
+                           2173 ;------------------------------------------------------------
+                           2174 ;timetable                 Allocated to stack - _bp -5
+                           2175 ;a                         Allocated to stack - _bp +1
+                           2176 ;i                         Allocated to stack - _bp +4
+                           2177 ;t                         Allocated to stack - _bp +6
+                           2178 ;entry                     Allocated to stack - _bp +8
+                           2179 ;sloc0                     Allocated to stack - _bp +11
+                           2180 ;sloc1                     Allocated to stack - _bp +14
+                           2181 ;sloc2                     Allocated to stack - _bp +16
+                           2182 ;sloc3                     Allocated to stack - _bp +18
+                           2183 ;sloc4                     Allocated to stack - _bp +20
+                           2184 ;sloc5                     Allocated to stack - _bp +20
+                           2185 ;sloc6                     Allocated to stack - _bp +23
+                           2186 ;sloc7                     Allocated to stack - _bp +26
+                           2187 ;------------------------------------------------------------
+                           2188 ;	../../core/sys/timetable-aggregate.c:147: timetable_aggregate_compute_detailed(struct timetable_aggregate *a,
+                           2189 ;	-----------------------------------------
+                           2190 ;	 function timetable_aggregate_compute_detailed
+                           2191 ;	-----------------------------------------
+   090B                    2192 _timetable_aggregate_compute_detailed:
+   090B C0*00              2193 	push	_bp
+   090D 85 81*00           2194 	mov	_bp,sp
+   0910 C0 82              2195 	push	dpl
+   0912 C0 83              2196 	push	dph
+   0914 C0 F0              2197 	push	b
+   0916 E5 81              2198 	mov	a,sp
+   0918 24 1A              2199 	add	a,#0x1A
+   091A F5 81              2200 	mov	sp,a
+                           2201 ;	../../core/sys/timetable-aggregate.c:153: t = timetable->timestamps[0].time;
+   091C E5*00              2202 	mov	a,_bp
+   091E 24 FB              2203 	add	a,#0xfb
+   0920 F8                 2204 	mov	r0,a
+   0921 E5*00              2205 	mov	a,_bp
+   0923 24 17              2206 	add	a,#0x17
+   0925 F9                 2207 	mov	r1,a
+   0926 E6                 2208 	mov	a,@r0
+   0927 F7                 2209 	mov	@r1,a
+   0928 08                 2210 	inc	r0
+   0929 09                 2211 	inc	r1
+   092A E6                 2212 	mov	a,@r0
+   092B F7                 2213 	mov	@r1,a
+   092C 08                 2214 	inc	r0
+   092D 09                 2215 	inc	r1
+   092E E6                 2216 	mov	a,@r0
+   092F F7                 2217 	mov	@r1,a
+   0930 E5*00              2218 	mov	a,_bp
+   0932 24 17              2219 	add	a,#0x17
+   0934 F8                 2220 	mov	r0,a
+   0935 86 82              2221 	mov	dpl,@r0
+   0937 08                 2222 	inc	r0
+   0938 86 83              2223 	mov	dph,@r0
+   093A 08                 2224 	inc	r0
+   093B 86 F0              2225 	mov	b,@r0
+   093D 12s00r00           2226 	lcall	__gptrget
+   0940 FD                 2227 	mov	r5,a
+   0941 A3                 2228 	inc	dptr
+   0942 12s00r00           2229 	lcall	__gptrget
+   0945 FE                 2230 	mov	r6,a
+   0946 A3                 2231 	inc	dptr
+   0947 12s00r00           2232 	lcall	__gptrget
+   094A FF                 2233 	mov	r7,a
+   094B 74 03              2234 	mov	a,#0x03
+   094D 2D                 2235 	add	a,r5
+   094E FD                 2236 	mov	r5,a
+   094F E4                 2237 	clr	a
+   0950 3E                 2238 	addc	a,r6
+   0951 FE                 2239 	mov	r6,a
+   0952 8D 82              2240 	mov	dpl,r5
+   0954 8E 83              2241 	mov	dph,r6
+   0956 8F F0              2242 	mov	b,r7
+   0958 12s00r00           2243 	lcall	__gptrget
+   095B FD                 2244 	mov	r5,a
+   095C A3                 2245 	inc	dptr
+   095D 12s00r00           2246 	lcall	__gptrget
+   0960 FE                 2247 	mov	r6,a
+   0961 E5*00              2248 	mov	a,_bp
+   0963 24 06              2249 	add	a,#0x06
+   0965 F8                 2250 	mov	r0,a
+   0966 A6 05              2251 	mov	@r0,ar5
+   0968 08                 2252 	inc	r0
+   0969 A6 06              2253 	mov	@r0,ar6
+                           2254 ;	../../core/sys/timetable-aggregate.c:155: for(i = 1; i < *timetable->ptr; ++i) {
+   096B E5*00              2255 	mov	a,_bp
+   096D 24 17              2256 	add	a,#0x17
+   096F F8                 2257 	mov	r0,a
+   0970 E5*00              2258 	mov	a,_bp
+   0972 24 0B              2259 	add	a,#0x0b
+   0974 F9                 2260 	mov	r1,a
+   0975 74 05              2261 	mov	a,#0x05
+   0977 26                 2262 	add	a,@r0
+   0978 F7                 2263 	mov	@r1,a
+   0979 E4                 2264 	clr	a
+   097A 08                 2265 	inc	r0
+   097B 36                 2266 	addc	a,@r0
+   097C 09                 2267 	inc	r1
+   097D F7                 2268 	mov	@r1,a
+   097E 08                 2269 	inc	r0
+   097F 09                 2270 	inc	r1
+   0980 E6                 2271 	mov	a,@r0
+   0981 F7                 2272 	mov	@r1,a
+   0982 E5*00              2273 	mov	a,_bp
+   0984 24 04              2274 	add	a,#0x04
+   0986 F8                 2275 	mov	r0,a
+   0987 76 01              2276 	mov	@r0,#0x01
+   0989 08                 2277 	inc	r0
+   098A 76 00              2278 	mov	@r0,#0x00
+   098C E5*00              2279 	mov	a,_bp
+   098E 24 0E              2280 	add	a,#0x0e
+   0990 F8                 2281 	mov	r0,a
+   0991 76 05              2282 	mov	@r0,#0x05
+   0993 08                 2283 	inc	r0
+   0994 76 00              2284 	mov	@r0,#0x00
+   0996 E5*00              2285 	mov	a,_bp
+   0998 24 10              2286 	add	a,#0x10
+   099A F8                 2287 	mov	r0,a
+   099B 76 05              2288 	mov	@r0,#0x05
+   099D 08                 2289 	inc	r0
+   099E 76 00              2290 	mov	@r0,#0x00
+   09A0 E5*00              2291 	mov	a,_bp
+   09A2 24 12              2292 	add	a,#0x12
+   09A4 F8                 2293 	mov	r0,a
+   09A5 76 05              2294 	mov	@r0,#0x05
+   09A7 08                 2295 	inc	r0
+   09A8 76 00              2296 	mov	@r0,#0x00
+   09AA                    2297 00107$:
+   09AA E5*00              2298 	mov	a,_bp
+   09AC 24 0B              2299 	add	a,#0x0b
+   09AE F8                 2300 	mov	r0,a
+   09AF 86 82              2301 	mov	dpl,@r0
+   09B1 08                 2302 	inc	r0
+   09B2 86 83              2303 	mov	dph,@r0
+   09B4 08                 2304 	inc	r0
+   09B5 86 F0              2305 	mov	b,@r0
+   09B7 12s00r00           2306 	lcall	__gptrget
+   09BA FB                 2307 	mov	r3,a
+   09BB A3                 2308 	inc	dptr
+   09BC 12s00r00           2309 	lcall	__gptrget
+   09BF FC                 2310 	mov	r4,a
+   09C0 A3                 2311 	inc	dptr
+   09C1 12s00r00           2312 	lcall	__gptrget
+   09C4 FE                 2313 	mov	r6,a
+   09C5 8B 82              2314 	mov	dpl,r3
+   09C7 8C 83              2315 	mov	dph,r4
+   09C9 8E F0              2316 	mov	b,r6
+   09CB 12s00r00           2317 	lcall	__gptrget
+   09CE FB                 2318 	mov	r3,a
+   09CF A3                 2319 	inc	dptr
+   09D0 12s00r00           2320 	lcall	__gptrget
+   09D3 FC                 2321 	mov	r4,a
+   09D4 E5*00              2322 	mov	a,_bp
+   09D6 24 04              2323 	add	a,#0x04
+   09D8 F8                 2324 	mov	r0,a
+   09D9 C3                 2325 	clr	c
+   09DA E6                 2326 	mov	a,@r0
+   09DB 9B                 2327 	subb	a,r3
+   09DC 08                 2328 	inc	r0
+   09DD E6                 2329 	mov	a,@r0
+   09DE 9C                 2330 	subb	a,r4
+   09DF 40 03              2331 	jc	00122$
+   09E1 02s0Dr3C           2332 	ljmp	00111$
+   09E4                    2333 00122$:
+                           2334 ;	../../core/sys/timetable-aggregate.c:157: entry = find_aggregate(a, timetable->timestamps[i - 1].id);
+   09E4 E5*00              2335 	mov	a,_bp
+   09E6 24 17              2336 	add	a,#0x17
+   09E8 F8                 2337 	mov	r0,a
+   09E9 86 82              2338 	mov	dpl,@r0
+   09EB 08                 2339 	inc	r0
+   09EC 86 83              2340 	mov	dph,@r0
+   09EE 08                 2341 	inc	r0
+   09EF 86 F0              2342 	mov	b,@r0
+   09F1 12s00r00           2343 	lcall	__gptrget
+   09F4 FD                 2344 	mov	r5,a
+   09F5 A3                 2345 	inc	dptr
+   09F6 12s00r00           2346 	lcall	__gptrget
+   09F9 FE                 2347 	mov	r6,a
+   09FA A3                 2348 	inc	dptr
+   09FB 12s00r00           2349 	lcall	__gptrget
+   09FE FF                 2350 	mov	r7,a
+   09FF E5*00              2351 	mov	a,_bp
+   0A01 24 04              2352 	add	a,#0x04
+   0A03 F8                 2353 	mov	r0,a
+   0A04 E6                 2354 	mov	a,@r0
+   0A05 24 FF              2355 	add	a,#0xFF
+   0A07 FB                 2356 	mov	r3,a
+   0A08 08                 2357 	inc	r0
+   0A09 E6                 2358 	mov	a,@r0
+   0A0A 34 FF              2359 	addc	a,#0xFF
+   0A0C FC                 2360 	mov	r4,a
+   0A0D C0 07              2361 	push	ar7
+   0A0F C0 06              2362 	push	ar6
+   0A11 C0 05              2363 	push	ar5
+   0A13 C0 03              2364 	push	ar3
+   0A15 C0 04              2365 	push	ar4
+   0A17 90 00 05           2366 	mov	dptr,#0x0005
+   0A1A 12s00r00           2367 	lcall	__mulint
+   0A1D AB 82              2368 	mov	r3,dpl
+   0A1F AC 83              2369 	mov	r4,dph
+   0A21 15 81              2370 	dec	sp
+   0A23 15 81              2371 	dec	sp
+   0A25 D0 05              2372 	pop	ar5
+   0A27 D0 06              2373 	pop	ar6
+   0A29 D0 07              2374 	pop	ar7
+   0A2B EB                 2375 	mov	a,r3
+   0A2C 2D                 2376 	add	a,r5
+   0A2D FD                 2377 	mov	r5,a
+   0A2E EC                 2378 	mov	a,r4
+   0A2F 3E                 2379 	addc	a,r6
+   0A30 FE                 2380 	mov	r6,a
+   0A31 8D 82              2381 	mov	dpl,r5
+   0A33 8E 83              2382 	mov	dph,r6
+   0A35 8F F0              2383 	mov	b,r7
+   0A37 12s00r00           2384 	lcall	__gptrget
+   0A3A FD                 2385 	mov	r5,a
+   0A3B A3                 2386 	inc	dptr
+   0A3C 12s00r00           2387 	lcall	__gptrget
+   0A3F FE                 2388 	mov	r6,a
+   0A40 A3                 2389 	inc	dptr
+   0A41 12s00r00           2390 	lcall	__gptrget
+   0A44 FF                 2391 	mov	r7,a
+   0A45 C0 05              2392 	push	ar5
+   0A47 C0 06              2393 	push	ar6
+   0A49 C0 07              2394 	push	ar7
+   0A4B A8*00              2395 	mov	r0,_bp
+   0A4D 08                 2396 	inc	r0
+   0A4E 86 82              2397 	mov	dpl,@r0
+   0A50 08                 2398 	inc	r0
+   0A51 86 83              2399 	mov	dph,@r0
+   0A53 08                 2400 	inc	r0
+   0A54 86 F0              2401 	mov	b,@r0
+   0A56 12s02r14           2402 	lcall	_find_aggregate
+   0A59 AD 82              2403 	mov	r5,dpl
+   0A5B AE 83              2404 	mov	r6,dph
+   0A5D AF F0              2405 	mov	r7,b
+   0A5F 15 81              2406 	dec	sp
+   0A61 15 81              2407 	dec	sp
+   0A63 15 81              2408 	dec	sp
+   0A65 E5*00              2409 	mov	a,_bp
+   0A67 24 08              2410 	add	a,#0x08
+   0A69 F8                 2411 	mov	r0,a
+   0A6A A6 05              2412 	mov	@r0,ar5
+   0A6C 08                 2413 	inc	r0
+   0A6D A6 06              2414 	mov	@r0,ar6
+   0A6F 08                 2415 	inc	r0
+   0A70 A6 07              2416 	mov	@r0,ar7
+                           2417 ;	../../core/sys/timetable-aggregate.c:158: if(entry == NULL) {
+   0A72 E5*00              2418 	mov	a,_bp
+   0A74 24 08              2419 	add	a,#0x08
+   0A76 F8                 2420 	mov	r0,a
+   0A77 E6                 2421 	mov	a,@r0
+   0A78 08                 2422 	inc	r0
+   0A79 46                 2423 	orl	a,@r0
+   0A7A 70 03              2424 	jnz	00123$
+   0A7C 02s0CrC0           2425 	ljmp	00106$
+   0A7F                    2426 00123$:
+                           2427 ;	../../core/sys/timetable-aggregate.c:161: } else if(entry->id == NULL) {
+   0A7F E5*00              2428 	mov	a,_bp
+   0A81 24 08              2429 	add	a,#0x08
+   0A83 F8                 2430 	mov	r0,a
+   0A84 86 82              2431 	mov	dpl,@r0
+   0A86 08                 2432 	inc	r0
+   0A87 86 83              2433 	mov	dph,@r0
+   0A89 08                 2434 	inc	r0
+   0A8A 86 F0              2435 	mov	b,@r0
+   0A8C 12s00r00           2436 	lcall	__gptrget
+   0A8F FD                 2437 	mov	r5,a
+   0A90 A3                 2438 	inc	dptr
+   0A91 12s00r00           2439 	lcall	__gptrget
+   0A94 FE                 2440 	mov	r6,a
+   0A95 A3                 2441 	inc	dptr
+   0A96 12s00r00           2442 	lcall	__gptrget
+   0A99 FF                 2443 	mov	r7,a
+   0A9A ED                 2444 	mov	a,r5
+   0A9B 4E                 2445 	orl	a,r6
+   0A9C 60 03              2446 	jz	00124$
+   0A9E 02s0BrBE           2447 	ljmp	00102$
+   0AA1                    2448 00124$:
+                           2449 ;	../../core/sys/timetable-aggregate.c:163: entry->id = timetable->timestamps[i - 1].id;
+   0AA1 E5*00              2450 	mov	a,_bp
+   0AA3 24 17              2451 	add	a,#0x17
+   0AA5 F8                 2452 	mov	r0,a
+   0AA6 86 82              2453 	mov	dpl,@r0
+   0AA8 08                 2454 	inc	r0
+   0AA9 86 83              2455 	mov	dph,@r0
+   0AAB 08                 2456 	inc	r0
+   0AAC 86 F0              2457 	mov	b,@r0
+   0AAE 12s00r00           2458 	lcall	__gptrget
+   0AB1 FD                 2459 	mov	r5,a
+   0AB2 A3                 2460 	inc	dptr
+   0AB3 12s00r00           2461 	lcall	__gptrget
+   0AB6 FE                 2462 	mov	r6,a
+   0AB7 A3                 2463 	inc	dptr
+   0AB8 12s00r00           2464 	lcall	__gptrget
+   0ABB FF                 2465 	mov	r7,a
+   0ABC E5*00              2466 	mov	a,_bp
+   0ABE 24 04              2467 	add	a,#0x04
+   0AC0 F8                 2468 	mov	r0,a
+   0AC1 E6                 2469 	mov	a,@r0
+   0AC2 24 FF              2470 	add	a,#0xFF
+   0AC4 FB                 2471 	mov	r3,a
+   0AC5 08                 2472 	inc	r0
+   0AC6 E6                 2473 	mov	a,@r0
+   0AC7 34 FF              2474 	addc	a,#0xFF
+   0AC9 FC                 2475 	mov	r4,a
+   0ACA C0 07              2476 	push	ar7
+   0ACC C0 06              2477 	push	ar6
+   0ACE C0 05              2478 	push	ar5
+   0AD0 C0 03              2479 	push	ar3
+   0AD2 C0 04              2480 	push	ar4
+   0AD4 90 00 05           2481 	mov	dptr,#0x0005
+   0AD7 12s00r00           2482 	lcall	__mulint
+   0ADA AB 82              2483 	mov	r3,dpl
+   0ADC AC 83              2484 	mov	r4,dph
+   0ADE 15 81              2485 	dec	sp
+   0AE0 15 81              2486 	dec	sp
+   0AE2 D0 05              2487 	pop	ar5
+   0AE4 D0 06              2488 	pop	ar6
+   0AE6 D0 07              2489 	pop	ar7
+   0AE8 EB                 2490 	mov	a,r3
+   0AE9 2D                 2491 	add	a,r5
+   0AEA FB                 2492 	mov	r3,a
+   0AEB EC                 2493 	mov	a,r4
+   0AEC 3E                 2494 	addc	a,r6
+   0AED FC                 2495 	mov	r4,a
+   0AEE 8F 02              2496 	mov	ar2,r7
+   0AF0 8B 82              2497 	mov	dpl,r3
+   0AF2 8C 83              2498 	mov	dph,r4
+   0AF4 8A F0              2499 	mov	b,r2
+   0AF6 12s00r00           2500 	lcall	__gptrget
+   0AF9 FB                 2501 	mov	r3,a
+   0AFA A3                 2502 	inc	dptr
+   0AFB 12s00r00           2503 	lcall	__gptrget
+   0AFE FC                 2504 	mov	r4,a
+   0AFF A3                 2505 	inc	dptr
+   0B00 12s00r00           2506 	lcall	__gptrget
+   0B03 FA                 2507 	mov	r2,a
+   0B04 E5*00              2508 	mov	a,_bp
+   0B06 24 08              2509 	add	a,#0x08
+   0B08 F8                 2510 	mov	r0,a
+   0B09 86 82              2511 	mov	dpl,@r0
+   0B0B 08                 2512 	inc	r0
+   0B0C 86 83              2513 	mov	dph,@r0
+   0B0E 08                 2514 	inc	r0
+   0B0F 86 F0              2515 	mov	b,@r0
+   0B11 EB                 2516 	mov	a,r3
+   0B12 12s00r00           2517 	lcall	__gptrput
+   0B15 A3                 2518 	inc	dptr
+   0B16 EC                 2519 	mov	a,r4
+   0B17 12s00r00           2520 	lcall	__gptrput
+   0B1A A3                 2521 	inc	dptr
+   0B1B EA                 2522 	mov	a,r2
+   0B1C 12s00r00           2523 	lcall	__gptrput
+                           2524 ;	../../core/sys/timetable-aggregate.c:164: entry->time = (unsigned long)(timetable->timestamps[i].time - t -
+   0B1F E5*00              2525 	mov	a,_bp
+   0B21 24 08              2526 	add	a,#0x08
+   0B23 F8                 2527 	mov	r0,a
+   0B24 E5*00              2528 	mov	a,_bp
+   0B26 24 14              2529 	add	a,#0x14
+   0B28 F9                 2530 	mov	r1,a
+   0B29 74 05              2531 	mov	a,#0x05
+   0B2B 26                 2532 	add	a,@r0
+   0B2C F7                 2533 	mov	@r1,a
+   0B2D E4                 2534 	clr	a
+   0B2E 08                 2535 	inc	r0
+   0B2F 36                 2536 	addc	a,@r0
+   0B30 09                 2537 	inc	r1
+   0B31 F7                 2538 	mov	@r1,a
+   0B32 08                 2539 	inc	r0
+   0B33 09                 2540 	inc	r1
+   0B34 E6                 2541 	mov	a,@r0
+   0B35 F7                 2542 	mov	@r1,a
+   0B36 E5*00              2543 	mov	a,_bp
+   0B38 24 10              2544 	add	a,#0x10
+   0B3A F8                 2545 	mov	r0,a
+   0B3B E6                 2546 	mov	a,@r0
+   0B3C 2D                 2547 	add	a,r5
+   0B3D FD                 2548 	mov	r5,a
+   0B3E 08                 2549 	inc	r0
+   0B3F E6                 2550 	mov	a,@r0
+   0B40 3E                 2551 	addc	a,r6
+   0B41 FE                 2552 	mov	r6,a
+   0B42 74 03              2553 	mov	a,#0x03
+   0B44 2D                 2554 	add	a,r5
+   0B45 FD                 2555 	mov	r5,a
+   0B46 E4                 2556 	clr	a
+   0B47 3E                 2557 	addc	a,r6
+   0B48 FE                 2558 	mov	r6,a
+   0B49 8D 82              2559 	mov	dpl,r5
+   0B4B 8E 83              2560 	mov	dph,r6
+   0B4D 8F F0              2561 	mov	b,r7
+   0B4F 12s00r00           2562 	lcall	__gptrget
+   0B52 FD                 2563 	mov	r5,a
+   0B53 A3                 2564 	inc	dptr
+   0B54 12s00r00           2565 	lcall	__gptrget
+   0B57 FE                 2566 	mov	r6,a
+   0B58 E5*00              2567 	mov	a,_bp
+   0B5A 24 06              2568 	add	a,#0x06
+   0B5C F8                 2569 	mov	r0,a
+   0B5D ED                 2570 	mov	a,r5
+   0B5E C3                 2571 	clr	c
+   0B5F 96                 2572 	subb	a,@r0
+   0B60 FD                 2573 	mov	r5,a
+   0B61 EE                 2574 	mov	a,r6
+   0B62 08                 2575 	inc	r0
+   0B63 96                 2576 	subb	a,@r0
+   0B64 FC                 2577 	mov	r4,a
+   0B65 90s00r00           2578 	mov	dptr,#_timetable_timestamp_time
+   0B68 E0                 2579 	movx	a,@dptr
+   0B69 FE                 2580 	mov	r6,a
+   0B6A A3                 2581 	inc	dptr
+   0B6B E0                 2582 	movx	a,@dptr
+   0B6C FF                 2583 	mov	r7,a
+   0B6D ED                 2584 	mov	a,r5
+   0B6E C3                 2585 	clr	c
+   0B6F 9E                 2586 	subb	a,r6
+   0B70 FE                 2587 	mov	r6,a
+   0B71 EC                 2588 	mov	a,r4
+   0B72 9F                 2589 	subb	a,r7
+   0B73 FF                 2590 	mov	r7,a
+   0B74 8E 04              2591 	mov	ar4,r6
+   0B76 8F 05              2592 	mov	ar5,r7
+   0B78 E4                 2593 	clr	a
+   0B79 FE                 2594 	mov	r6,a
+   0B7A FF                 2595 	mov	r7,a
+   0B7B E5*00              2596 	mov	a,_bp
+   0B7D 24 14              2597 	add	a,#0x14
+   0B7F F8                 2598 	mov	r0,a
+   0B80 86 82              2599 	mov	dpl,@r0
+   0B82 08                 2600 	inc	r0
+   0B83 86 83              2601 	mov	dph,@r0
+   0B85 08                 2602 	inc	r0
+   0B86 86 F0              2603 	mov	b,@r0
+   0B88 EC                 2604 	mov	a,r4
+   0B89 12s00r00           2605 	lcall	__gptrput
+   0B8C A3                 2606 	inc	dptr
+   0B8D ED                 2607 	mov	a,r5
+   0B8E 12s00r00           2608 	lcall	__gptrput
+   0B91 A3                 2609 	inc	dptr
+   0B92 EE                 2610 	mov	a,r6
+   0B93 12s00r00           2611 	lcall	__gptrput
+   0B96 A3                 2612 	inc	dptr
+   0B97 EF                 2613 	mov	a,r7
+   0B98 12s00r00           2614 	lcall	__gptrput
+                           2615 ;	../../core/sys/timetable-aggregate.c:166: entry->episodes = 1;
+   0B9B E5*00              2616 	mov	a,_bp
+   0B9D 24 08              2617 	add	a,#0x08
+   0B9F F8                 2618 	mov	r0,a
+   0BA0 74 03              2619 	mov	a,#0x03
+   0BA2 26                 2620 	add	a,@r0
+   0BA3 FD                 2621 	mov	r5,a
+   0BA4 E4                 2622 	clr	a
+   0BA5 08                 2623 	inc	r0
+   0BA6 36                 2624 	addc	a,@r0
+   0BA7 FE                 2625 	mov	r6,a
+   0BA8 08                 2626 	inc	r0
+   0BA9 86 07              2627 	mov	ar7,@r0
+   0BAB 8D 82              2628 	mov	dpl,r5
+   0BAD 8E 83              2629 	mov	dph,r6
+   0BAF 8F F0              2630 	mov	b,r7
+   0BB1 74 01              2631 	mov	a,#0x01
+   0BB3 12s00r00           2632 	lcall	__gptrput
+   0BB6 A3                 2633 	inc	dptr
+   0BB7 E4                 2634 	clr	a
+   0BB8 12s00r00           2635 	lcall	__gptrput
+   0BBB 02s0CrC0           2636 	ljmp	00106$
+   0BBE                    2637 00102$:
+                           2638 ;	../../core/sys/timetable-aggregate.c:169: entry->time += (unsigned long)(timetable->timestamps[i].time - t -
+   0BBE E5*00              2639 	mov	a,_bp
+   0BC0 24 08              2640 	add	a,#0x08
+   0BC2 F8                 2641 	mov	r0,a
+   0BC3 E5*00              2642 	mov	a,_bp
+   0BC5 24 14              2643 	add	a,#0x14
+   0BC7 F9                 2644 	mov	r1,a
+   0BC8 74 05              2645 	mov	a,#0x05
+   0BCA 26                 2646 	add	a,@r0
+   0BCB F7                 2647 	mov	@r1,a
+   0BCC E4                 2648 	clr	a
+   0BCD 08                 2649 	inc	r0
+   0BCE 36                 2650 	addc	a,@r0
+   0BCF 09                 2651 	inc	r1
+   0BD0 F7                 2652 	mov	@r1,a
+   0BD1 08                 2653 	inc	r0
+   0BD2 09                 2654 	inc	r1
+   0BD3 E6                 2655 	mov	a,@r0
+   0BD4 F7                 2656 	mov	@r1,a
+   0BD5 E5*00              2657 	mov	a,_bp
+   0BD7 24 14              2658 	add	a,#0x14
+   0BD9 F8                 2659 	mov	r0,a
+   0BDA 86 82              2660 	mov	dpl,@r0
+   0BDC 08                 2661 	inc	r0
+   0BDD 86 83              2662 	mov	dph,@r0
+   0BDF 08                 2663 	inc	r0
+   0BE0 86 F0              2664 	mov	b,@r0
+   0BE2 E5*00              2665 	mov	a,_bp
+   0BE4 24 1A              2666 	add	a,#0x1a
+   0BE6 F9                 2667 	mov	r1,a
+   0BE7 12s00r00           2668 	lcall	__gptrget
+   0BEA F7                 2669 	mov	@r1,a
+   0BEB A3                 2670 	inc	dptr
+   0BEC 12s00r00           2671 	lcall	__gptrget
+   0BEF 09                 2672 	inc	r1
+   0BF0 F7                 2673 	mov	@r1,a
+   0BF1 A3                 2674 	inc	dptr
+   0BF2 12s00r00           2675 	lcall	__gptrget
+   0BF5 09                 2676 	inc	r1
+   0BF6 F7                 2677 	mov	@r1,a
+   0BF7 A3                 2678 	inc	dptr
+   0BF8 12s00r00           2679 	lcall	__gptrget
+   0BFB 09                 2680 	inc	r1
+   0BFC F7                 2681 	mov	@r1,a
+   0BFD E5*00              2682 	mov	a,_bp
+   0BFF 24 17              2683 	add	a,#0x17
+   0C01 F8                 2684 	mov	r0,a
+   0C02 86 82              2685 	mov	dpl,@r0
+   0C04 08                 2686 	inc	r0
+   0C05 86 83              2687 	mov	dph,@r0
+   0C07 08                 2688 	inc	r0
+   0C08 86 F0              2689 	mov	b,@r0
+   0C0A 12s00r00           2690 	lcall	__gptrget
+   0C0D FA                 2691 	mov	r2,a
+   0C0E A3                 2692 	inc	dptr
+   0C0F 12s00r00           2693 	lcall	__gptrget
+   0C12 FB                 2694 	mov	r3,a
+   0C13 A3                 2695 	inc	dptr
+   0C14 12s00r00           2696 	lcall	__gptrget
+   0C17 FF                 2697 	mov	r7,a
+   0C18 E5*00              2698 	mov	a,_bp
+   0C1A 24 0E              2699 	add	a,#0x0e
+   0C1C F8                 2700 	mov	r0,a
+   0C1D E6                 2701 	mov	a,@r0
+   0C1E 2A                 2702 	add	a,r2
+   0C1F FA                 2703 	mov	r2,a
+   0C20 08                 2704 	inc	r0
+   0C21 E6                 2705 	mov	a,@r0
+   0C22 3B                 2706 	addc	a,r3
+   0C23 FB                 2707 	mov	r3,a
+   0C24 74 03              2708 	mov	a,#0x03
+   0C26 2A                 2709 	add	a,r2
+   0C27 FA                 2710 	mov	r2,a
+   0C28 E4                 2711 	clr	a
+   0C29 3B                 2712 	addc	a,r3
+   0C2A FB                 2713 	mov	r3,a
+   0C2B 8A 82              2714 	mov	dpl,r2
+   0C2D 8B 83              2715 	mov	dph,r3
+   0C2F 8F F0              2716 	mov	b,r7
+   0C31 12s00r00           2717 	lcall	__gptrget
+   0C34 FA                 2718 	mov	r2,a
+   0C35 A3                 2719 	inc	dptr
+   0C36 12s00r00           2720 	lcall	__gptrget
+   0C39 FB                 2721 	mov	r3,a
+   0C3A E5*00              2722 	mov	a,_bp
+   0C3C 24 06              2723 	add	a,#0x06
+   0C3E F8                 2724 	mov	r0,a
+   0C3F EA                 2725 	mov	a,r2
+   0C40 C3                 2726 	clr	c
+   0C41 96                 2727 	subb	a,@r0
+   0C42 FA                 2728 	mov	r2,a
+   0C43 EB                 2729 	mov	a,r3
+   0C44 08                 2730 	inc	r0
+   0C45 96                 2731 	subb	a,@r0
+   0C46 FB                 2732 	mov	r3,a
+   0C47 90s00r00           2733 	mov	dptr,#_timetable_timestamp_time
+   0C4A E0                 2734 	movx	a,@dptr
+   0C4B FE                 2735 	mov	r6,a
+   0C4C A3                 2736 	inc	dptr
+   0C4D E0                 2737 	movx	a,@dptr
+   0C4E FF                 2738 	mov	r7,a
+   0C4F EA                 2739 	mov	a,r2
+   0C50 C3                 2740 	clr	c
+   0C51 9E                 2741 	subb	a,r6
+   0C52 FA                 2742 	mov	r2,a
+   0C53 EB                 2743 	mov	a,r3
+   0C54 9F                 2744 	subb	a,r7
+   0C55 FB                 2745 	mov	r3,a
+   0C56 E4                 2746 	clr	a
+   0C57 FF                 2747 	mov	r7,a
+   0C58 FE                 2748 	mov	r6,a
+   0C59 E5*00              2749 	mov	a,_bp
+   0C5B 24 1A              2750 	add	a,#0x1a
+   0C5D F8                 2751 	mov	r0,a
+   0C5E EA                 2752 	mov	a,r2
+   0C5F 26                 2753 	add	a,@r0
+   0C60 FA                 2754 	mov	r2,a
+   0C61 EB                 2755 	mov	a,r3
+   0C62 08                 2756 	inc	r0
+   0C63 36                 2757 	addc	a,@r0
+   0C64 FB                 2758 	mov	r3,a
+   0C65 EF                 2759 	mov	a,r7
+   0C66 08                 2760 	inc	r0
+   0C67 36                 2761 	addc	a,@r0
+   0C68 FF                 2762 	mov	r7,a
+   0C69 EE                 2763 	mov	a,r6
+   0C6A 08                 2764 	inc	r0
+   0C6B 36                 2765 	addc	a,@r0
+   0C6C FE                 2766 	mov	r6,a
+   0C6D E5*00              2767 	mov	a,_bp
+   0C6F 24 14              2768 	add	a,#0x14
+   0C71 F8                 2769 	mov	r0,a
+   0C72 86 82              2770 	mov	dpl,@r0
+   0C74 08                 2771 	inc	r0
+   0C75 86 83              2772 	mov	dph,@r0
+   0C77 08                 2773 	inc	r0
+   0C78 86 F0              2774 	mov	b,@r0
+   0C7A EA                 2775 	mov	a,r2
+   0C7B 12s00r00           2776 	lcall	__gptrput
+   0C7E A3                 2777 	inc	dptr
+   0C7F EB                 2778 	mov	a,r3
+   0C80 12s00r00           2779 	lcall	__gptrput
+   0C83 A3                 2780 	inc	dptr
+   0C84 EF                 2781 	mov	a,r7
+   0C85 12s00r00           2782 	lcall	__gptrput
+   0C88 A3                 2783 	inc	dptr
+   0C89 EE                 2784 	mov	a,r6
+   0C8A 12s00r00           2785 	lcall	__gptrput
+                           2786 ;	../../core/sys/timetable-aggregate.c:171: entry->episodes++;
+   0C8D E5*00              2787 	mov	a,_bp
+   0C8F 24 08              2788 	add	a,#0x08
+   0C91 F8                 2789 	mov	r0,a
+   0C92 74 03              2790 	mov	a,#0x03
+   0C94 26                 2791 	add	a,@r0
+   0C95 FD                 2792 	mov	r5,a
+   0C96 E4                 2793 	clr	a
+   0C97 08                 2794 	inc	r0
+   0C98 36                 2795 	addc	a,@r0
+   0C99 FE                 2796 	mov	r6,a
+   0C9A 08                 2797 	inc	r0
+   0C9B 86 07              2798 	mov	ar7,@r0
+   0C9D 8D 82              2799 	mov	dpl,r5
+   0C9F 8E 83              2800 	mov	dph,r6
+   0CA1 8F F0              2801 	mov	b,r7
+   0CA3 12s00r00           2802 	lcall	__gptrget
+   0CA6 FB                 2803 	mov	r3,a
+   0CA7 A3                 2804 	inc	dptr
+   0CA8 12s00r00           2805 	lcall	__gptrget
+   0CAB FC                 2806 	mov	r4,a
+   0CAC 0B                 2807 	inc	r3
+   0CAD BB 00 01           2808 	cjne	r3,#0x00,00125$
+   0CB0 0C                 2809 	inc	r4
+   0CB1                    2810 00125$:
+   0CB1 8D 82              2811 	mov	dpl,r5
+   0CB3 8E 83              2812 	mov	dph,r6
+   0CB5 8F F0              2813 	mov	b,r7
+   0CB7 EB                 2814 	mov	a,r3
+   0CB8 12s00r00           2815 	lcall	__gptrput
+   0CBB A3                 2816 	inc	dptr
+   0CBC EC                 2817 	mov	a,r4
+   0CBD 12s00r00           2818 	lcall	__gptrput
+   0CC0                    2819 00106$:
+                           2820 ;	../../core/sys/timetable-aggregate.c:173: t = timetable->timestamps[i].time;
+   0CC0 E5*00              2821 	mov	a,_bp
+   0CC2 24 17              2822 	add	a,#0x17
+   0CC4 F8                 2823 	mov	r0,a
+   0CC5 86 82              2824 	mov	dpl,@r0
+   0CC7 08                 2825 	inc	r0
+   0CC8 86 83              2826 	mov	dph,@r0
+   0CCA 08                 2827 	inc	r0
+   0CCB 86 F0              2828 	mov	b,@r0
+   0CCD 12s00r00           2829 	lcall	__gptrget
+   0CD0 FD                 2830 	mov	r5,a
+   0CD1 A3                 2831 	inc	dptr
+   0CD2 12s00r00           2832 	lcall	__gptrget
+   0CD5 FE                 2833 	mov	r6,a
+   0CD6 A3                 2834 	inc	dptr
+   0CD7 12s00r00           2835 	lcall	__gptrget
+   0CDA FF                 2836 	mov	r7,a
+   0CDB E5*00              2837 	mov	a,_bp
+   0CDD 24 12              2838 	add	a,#0x12
+   0CDF F8                 2839 	mov	r0,a
+   0CE0 E6                 2840 	mov	a,@r0
+   0CE1 2D                 2841 	add	a,r5
+   0CE2 FD                 2842 	mov	r5,a
+   0CE3 08                 2843 	inc	r0
+   0CE4 E6                 2844 	mov	a,@r0
+   0CE5 3E                 2845 	addc	a,r6
+   0CE6 FE                 2846 	mov	r6,a
+   0CE7 74 03              2847 	mov	a,#0x03
+   0CE9 2D                 2848 	add	a,r5
+   0CEA FD                 2849 	mov	r5,a
+   0CEB E4                 2850 	clr	a
+   0CEC 3E                 2851 	addc	a,r6
+   0CED FE                 2852 	mov	r6,a
+   0CEE 8D 82              2853 	mov	dpl,r5
+   0CF0 8E 83              2854 	mov	dph,r6
+   0CF2 8F F0              2855 	mov	b,r7
+   0CF4 12s00r00           2856 	lcall	__gptrget
+   0CF7 FD                 2857 	mov	r5,a
+   0CF8 A3                 2858 	inc	dptr
+   0CF9 12s00r00           2859 	lcall	__gptrget
+   0CFC FE                 2860 	mov	r6,a
+   0CFD E5*00              2861 	mov	a,_bp
+   0CFF 24 06              2862 	add	a,#0x06
+   0D01 F8                 2863 	mov	r0,a
+   0D02 A6 05              2864 	mov	@r0,ar5
+   0D04 08                 2865 	inc	r0
+   0D05 A6 06              2866 	mov	@r0,ar6
+                           2867 ;	../../core/sys/timetable-aggregate.c:155: for(i = 1; i < *timetable->ptr; ++i) {
+   0D07 E5*00              2868 	mov	a,_bp
+   0D09 24 0E              2869 	add	a,#0x0e
+   0D0B F8                 2870 	mov	r0,a
+   0D0C 74 05              2871 	mov	a,#0x05
+   0D0E 26                 2872 	add	a,@r0
+   0D0F F6                 2873 	mov	@r0,a
+   0D10 E4                 2874 	clr	a
+   0D11 08                 2875 	inc	r0
+   0D12 36                 2876 	addc	a,@r0
+   0D13 F6                 2877 	mov	@r0,a
+   0D14 E5*00              2878 	mov	a,_bp
+   0D16 24 10              2879 	add	a,#0x10
+   0D18 F8                 2880 	mov	r0,a
+   0D19 74 05              2881 	mov	a,#0x05
+   0D1B 26                 2882 	add	a,@r0
+   0D1C F6                 2883 	mov	@r0,a
+   0D1D E4                 2884 	clr	a
+   0D1E 08                 2885 	inc	r0
+   0D1F 36                 2886 	addc	a,@r0
+   0D20 F6                 2887 	mov	@r0,a
+   0D21 E5*00              2888 	mov	a,_bp
+   0D23 24 12              2889 	add	a,#0x12
+   0D25 F8                 2890 	mov	r0,a
+   0D26 74 05              2891 	mov	a,#0x05
+   0D28 26                 2892 	add	a,@r0
+   0D29 F6                 2893 	mov	@r0,a
+   0D2A E4                 2894 	clr	a
+   0D2B 08                 2895 	inc	r0
+   0D2C 36                 2896 	addc	a,@r0
+   0D2D F6                 2897 	mov	@r0,a
+   0D2E E5*00              2898 	mov	a,_bp
+   0D30 24 04              2899 	add	a,#0x04
+   0D32 F8                 2900 	mov	r0,a
+   0D33 06                 2901 	inc	@r0
+   0D34 B6 00 02           2902 	cjne	@r0,#0x00,00126$
+   0D37 08                 2903 	inc	r0
+   0D38 06                 2904 	inc	@r0
+   0D39                    2905 00126$:
+   0D39 02s09rAA           2906 	ljmp	00107$
+   0D3C                    2907 00111$:
+   0D3C 85*00 81           2908 	mov	sp,_bp
+   0D3F D0*00              2909 	pop	_bp
+   0D41 22                 2910 	ret
+                           2911 ;------------------------------------------------------------
+                           2912 ;Allocation info for local variables in function 'timetable_aggregate_compute_categories'
+                           2913 ;------------------------------------------------------------
+                           2914 ;timetable                 Allocated to stack - _bp -5
+                           2915 ;a                         Allocated to stack - _bp +1
+                           2916 ;i                         Allocated to stack - _bp +4
+                           2917 ;j                         Allocated to registers r6 r7 
+                           2918 ;t                         Allocated to stack - _bp +6
+                           2919 ;categories                Allocated to stack - _bp +8
+                           2920 ;categories_ptr            Allocated to stack - _bp +72
+                           2921 ;entry                     Allocated to stack - _bp +74
+                           2922 ;cat                       Allocated to stack - _bp +77
+                           2923 ;sloc0                     Allocated to stack - _bp +79
+                           2924 ;sloc1                     Allocated to stack - _bp +82
+                           2925 ;sloc2                     Allocated to stack - _bp +84
+                           2926 ;sloc3                     Allocated to stack - _bp +86
+                           2927 ;sloc4                     Allocated to stack - _bp +88
+                           2928 ;sloc5                     Allocated to stack - _bp +93
+                           2929 ;sloc6                     Allocated to stack - _bp +91
+                           2930 ;sloc7                     Allocated to stack - _bp +92
+                           2931 ;sloc8                     Allocated to stack - _bp +95
+                           2932 ;------------------------------------------------------------
+                           2933 ;	../../core/sys/timetable-aggregate.c:179: timetable_aggregate_compute_categories(struct timetable_aggregate *a,
+                           2934 ;	-----------------------------------------
+                           2935 ;	 function timetable_aggregate_compute_categories
+                           2936 ;	-----------------------------------------
+   0D42                    2937 _timetable_aggregate_compute_categories:
+   0D42 C0*00              2938 	push	_bp
+   0D44 85 81*00           2939 	mov	_bp,sp
+   0D47 C0 82              2940 	push	dpl
+   0D49 C0 83              2941 	push	dph
+   0D4B C0 F0              2942 	push	b
+   0D4D E5 81              2943 	mov	a,sp
+   0D4F 24 5F              2944 	add	a,#0x5F
+   0D51 F5 81              2945 	mov	sp,a
+                           2946 ;	../../core/sys/timetable-aggregate.c:188: t = timetable->timestamps[0].time;
+   0D53 E5*00              2947 	mov	a,_bp
+   0D55 24 FB              2948 	add	a,#0xfb
+   0D57 F8                 2949 	mov	r0,a
+   0D58 E5*00              2950 	mov	a,_bp
+   0D5A 24 5C              2951 	add	a,#0x5c
+   0D5C F9                 2952 	mov	r1,a
+   0D5D E6                 2953 	mov	a,@r0
+   0D5E F7                 2954 	mov	@r1,a
+   0D5F 08                 2955 	inc	r0
+   0D60 09                 2956 	inc	r1
+   0D61 E6                 2957 	mov	a,@r0
+   0D62 F7                 2958 	mov	@r1,a
+   0D63 08                 2959 	inc	r0
+   0D64 09                 2960 	inc	r1
+   0D65 E6                 2961 	mov	a,@r0
+   0D66 F7                 2962 	mov	@r1,a
+   0D67 E5*00              2963 	mov	a,_bp
+   0D69 24 5C              2964 	add	a,#0x5c
+   0D6B F8                 2965 	mov	r0,a
+   0D6C 86 82              2966 	mov	dpl,@r0
+   0D6E 08                 2967 	inc	r0
+   0D6F 86 83              2968 	mov	dph,@r0
+   0D71 08                 2969 	inc	r0
+   0D72 86 F0              2970 	mov	b,@r0
+   0D74 12s00r00           2971 	lcall	__gptrget
+   0D77 FD                 2972 	mov	r5,a
+   0D78 A3                 2973 	inc	dptr
+   0D79 12s00r00           2974 	lcall	__gptrget
+   0D7C FE                 2975 	mov	r6,a
+   0D7D A3                 2976 	inc	dptr
+   0D7E 12s00r00           2977 	lcall	__gptrget
+   0D81 FF                 2978 	mov	r7,a
+   0D82 74 03              2979 	mov	a,#0x03
+   0D84 2D                 2980 	add	a,r5
+   0D85 FD                 2981 	mov	r5,a
+   0D86 E4                 2982 	clr	a
+   0D87 3E                 2983 	addc	a,r6
+   0D88 FE                 2984 	mov	r6,a
+   0D89 8D 82              2985 	mov	dpl,r5
+   0D8B 8E 83              2986 	mov	dph,r6
+   0D8D 8F F0              2987 	mov	b,r7
+   0D8F 12s00r00           2988 	lcall	__gptrget
+   0D92 FD                 2989 	mov	r5,a
+   0D93 A3                 2990 	inc	dptr
+   0D94 12s00r00           2991 	lcall	__gptrget
+   0D97 FE                 2992 	mov	r6,a
+   0D98 E5*00              2993 	mov	a,_bp
+   0D9A 24 06              2994 	add	a,#0x06
+   0D9C F8                 2995 	mov	r0,a
+   0D9D A6 05              2996 	mov	@r0,ar5
+   0D9F 08                 2997 	inc	r0
+   0DA0 A6 06              2998 	mov	@r0,ar6
+                           2999 ;	../../core/sys/timetable-aggregate.c:190: for(i = 1; i < *timetable->ptr; ++i) {
+   0DA2 E5*00              3000 	mov	a,_bp
+   0DA4 24 5B              3001 	add	a,#0x5b
+   0DA6 F8                 3002 	mov	r0,a
+   0DA7 E5*00              3003 	mov	a,_bp
+   0DA9 24 08              3004 	add	a,#0x08
+   0DAB F6                 3005 	mov	@r0,a
+   0DAC E5*00              3006 	mov	a,_bp
+   0DAE 24 5C              3007 	add	a,#0x5c
+   0DB0 F8                 3008 	mov	r0,a
+   0DB1 E5*00              3009 	mov	a,_bp
+   0DB3 24 4F              3010 	add	a,#0x4f
+   0DB5 F9                 3011 	mov	r1,a
+   0DB6 74 05              3012 	mov	a,#0x05
+   0DB8 26                 3013 	add	a,@r0
+   0DB9 F7                 3014 	mov	@r1,a
+   0DBA E4                 3015 	clr	a
+   0DBB 08                 3016 	inc	r0
+   0DBC 36                 3017 	addc	a,@r0
+   0DBD 09                 3018 	inc	r1
+   0DBE F7                 3019 	mov	@r1,a
+   0DBF 08                 3020 	inc	r0
+   0DC0 09                 3021 	inc	r1
+   0DC1 E6                 3022 	mov	a,@r0
+   0DC2 F7                 3023 	mov	@r1,a
+   0DC3 E5*00              3024 	mov	a,_bp
+   0DC5 24 48              3025 	add	a,#0x48
+   0DC7 F8                 3026 	mov	r0,a
+   0DC8 E4                 3027 	clr	a
+   0DC9 F6                 3028 	mov	@r0,a
+   0DCA 08                 3029 	inc	r0
+   0DCB F6                 3030 	mov	@r0,a
+   0DCC E5*00              3031 	mov	a,_bp
+   0DCE 24 04              3032 	add	a,#0x04
+   0DD0 F8                 3033 	mov	r0,a
+   0DD1 76 01              3034 	mov	@r0,#0x01
+   0DD3 08                 3035 	inc	r0
+   0DD4 76 00              3036 	mov	@r0,#0x00
+   0DD6 E5*00              3037 	mov	a,_bp
+   0DD8 24 52              3038 	add	a,#0x52
+   0DDA F8                 3039 	mov	r0,a
+   0DDB 76 05              3040 	mov	@r0,#0x05
+   0DDD 08                 3041 	inc	r0
+   0DDE 76 00              3042 	mov	@r0,#0x00
+   0DE0 E5*00              3043 	mov	a,_bp
+   0DE2 24 54              3044 	add	a,#0x54
+   0DE4 F8                 3045 	mov	r0,a
+   0DE5 76 05              3046 	mov	@r0,#0x05
+   0DE7 08                 3047 	inc	r0
+   0DE8 76 00              3048 	mov	@r0,#0x00
+   0DEA E5*00              3049 	mov	a,_bp
+   0DEC 24 56              3050 	add	a,#0x56
+   0DEE F8                 3051 	mov	r0,a
+   0DEF 76 05              3052 	mov	@r0,#0x05
+   0DF1 08                 3053 	inc	r0
+   0DF2 76 00              3054 	mov	@r0,#0x00
+   0DF4                    3055 00115$:
+   0DF4 E5*00              3056 	mov	a,_bp
+   0DF6 24 4F              3057 	add	a,#0x4f
+   0DF8 F8                 3058 	mov	r0,a
+   0DF9 86 82              3059 	mov	dpl,@r0
+   0DFB 08                 3060 	inc	r0
+   0DFC 86 83              3061 	mov	dph,@r0
+   0DFE 08                 3062 	inc	r0
+   0DFF 86 F0              3063 	mov	b,@r0
+   0E01 12s00r00           3064 	lcall	__gptrget
+   0E04 FD                 3065 	mov	r5,a
+   0E05 A3                 3066 	inc	dptr
+   0E06 12s00r00           3067 	lcall	__gptrget
+   0E09 FE                 3068 	mov	r6,a
+   0E0A A3                 3069 	inc	dptr
+   0E0B 12s00r00           3070 	lcall	__gptrget
+   0E0E FF                 3071 	mov	r7,a
+   0E0F 8D 82              3072 	mov	dpl,r5
+   0E11 8E 83              3073 	mov	dph,r6
+   0E13 8F F0              3074 	mov	b,r7
+   0E15 12s00r00           3075 	lcall	__gptrget
+   0E18 FD                 3076 	mov	r5,a
+   0E19 A3                 3077 	inc	dptr
+   0E1A 12s00r00           3078 	lcall	__gptrget
+   0E1D FE                 3079 	mov	r6,a
+   0E1E E5*00              3080 	mov	a,_bp
+   0E20 24 04              3081 	add	a,#0x04
+   0E22 F8                 3082 	mov	r0,a
+   0E23 C3                 3083 	clr	c
+   0E24 E6                 3084 	mov	a,@r0
+   0E25 9D                 3085 	subb	a,r5
+   0E26 08                 3086 	inc	r0
+   0E27 E6                 3087 	mov	a,@r0
+   0E28 9E                 3088 	subb	a,r6
+   0E29 40 03              3089 	jc	00139$
+   0E2B 02s12r50           3090 	ljmp	00119$
+   0E2E                    3091 00139$:
+                           3092 ;	../../core/sys/timetable-aggregate.c:196: cat = (timetable->timestamps[i - 1].id[0] << 8) +
+   0E2E E5*00              3093 	mov	a,_bp
+   0E30 24 5C              3094 	add	a,#0x5c
+   0E32 F8                 3095 	mov	r0,a
+   0E33 86 82              3096 	mov	dpl,@r0
+   0E35 08                 3097 	inc	r0
+   0E36 86 83              3098 	mov	dph,@r0
+   0E38 08                 3099 	inc	r0
+   0E39 86 F0              3100 	mov	b,@r0
+   0E3B 12s00r00           3101 	lcall	__gptrget
+   0E3E FB                 3102 	mov	r3,a
+   0E3F A3                 3103 	inc	dptr
+   0E40 12s00r00           3104 	lcall	__gptrget
+   0E43 FC                 3105 	mov	r4,a
+   0E44 A3                 3106 	inc	dptr
+   0E45 12s00r00           3107 	lcall	__gptrget
+   0E48 FD                 3108 	mov	r5,a
+   0E49 E5*00              3109 	mov	a,_bp
+   0E4B 24 04              3110 	add	a,#0x04
+   0E4D F8                 3111 	mov	r0,a
+   0E4E E6                 3112 	mov	a,@r0
+   0E4F 24 FF              3113 	add	a,#0xFF
+   0E51 FE                 3114 	mov	r6,a
+   0E52 08                 3115 	inc	r0
+   0E53 E6                 3116 	mov	a,@r0
+   0E54 34 FF              3117 	addc	a,#0xFF
+   0E56 FF                 3118 	mov	r7,a
+   0E57 C0 05              3119 	push	ar5
+   0E59 C0 04              3120 	push	ar4
+   0E5B C0 03              3121 	push	ar3
+   0E5D C0 06              3122 	push	ar6
+   0E5F C0 07              3123 	push	ar7
+   0E61 90 00 05           3124 	mov	dptr,#0x0005
+   0E64 12s00r00           3125 	lcall	__mulint
+   0E67 AE 82              3126 	mov	r6,dpl
+   0E69 AF 83              3127 	mov	r7,dph
+   0E6B 15 81              3128 	dec	sp
+   0E6D 15 81              3129 	dec	sp
+   0E6F D0 03              3130 	pop	ar3
+   0E71 D0 04              3131 	pop	ar4
+   0E73 D0 05              3132 	pop	ar5
+   0E75 EE                 3133 	mov	a,r6
+   0E76 2B                 3134 	add	a,r3
+   0E77 FE                 3135 	mov	r6,a
+   0E78 EF                 3136 	mov	a,r7
+   0E79 3C                 3137 	addc	a,r4
+   0E7A FF                 3138 	mov	r7,a
+   0E7B 8E 82              3139 	mov	dpl,r6
+   0E7D 8F 83              3140 	mov	dph,r7
+   0E7F 8D F0              3141 	mov	b,r5
+   0E81 E5*00              3142 	mov	a,_bp
+   0E83 24 58              3143 	add	a,#0x58
+   0E85 F8                 3144 	mov	r0,a
+   0E86 12s00r00           3145 	lcall	__gptrget
+   0E89 F6                 3146 	mov	@r0,a
+   0E8A A3                 3147 	inc	dptr
+   0E8B 12s00r00           3148 	lcall	__gptrget
+   0E8E 08                 3149 	inc	r0
+   0E8F F6                 3150 	mov	@r0,a
+   0E90 A3                 3151 	inc	dptr
+   0E91 12s00r00           3152 	lcall	__gptrget
+   0E94 08                 3153 	inc	r0
+   0E95 F6                 3154 	mov	@r0,a
+   0E96 E5*00              3155 	mov	a,_bp
+   0E98 24 58              3156 	add	a,#0x58
+   0E9A F8                 3157 	mov	r0,a
+   0E9B 86 82              3158 	mov	dpl,@r0
+   0E9D 08                 3159 	inc	r0
+   0E9E 86 83              3160 	mov	dph,@r0
+   0EA0 08                 3161 	inc	r0
+   0EA1 86 F0              3162 	mov	b,@r0
+   0EA3 12s00r00           3163 	lcall	__gptrget
+   0EA6 FF                 3164 	mov	r7,a
+   0EA7 33                 3165 	rlc	a
+   0EA8 95 E0              3166 	subb	a,acc
+   0EAA 8F 03              3167 	mov	ar3,r7
+   0EAC 7C 00              3168 	mov	r4,#0x00
+                           3169 ;	../../core/sys/timetable-aggregate.c:197: (timetable->timestamps[i - 1].id[1] & 0xff);
+   0EAE E5*00              3170 	mov	a,_bp
+   0EB0 24 58              3171 	add	a,#0x58
+   0EB2 F8                 3172 	mov	r0,a
+   0EB3 74 01              3173 	mov	a,#0x01
+   0EB5 26                 3174 	add	a,@r0
+   0EB6 FD                 3175 	mov	r5,a
+   0EB7 E4                 3176 	clr	a
+   0EB8 08                 3177 	inc	r0
+   0EB9 36                 3178 	addc	a,@r0
+   0EBA FE                 3179 	mov	r6,a
+   0EBB 08                 3180 	inc	r0
+   0EBC 86 07              3181 	mov	ar7,@r0
+   0EBE 8D 82              3182 	mov	dpl,r5
+   0EC0 8E 83              3183 	mov	dph,r6
+   0EC2 8F F0              3184 	mov	b,r7
+   0EC4 12s00r00           3185 	lcall	__gptrget
+   0EC7 7F 00              3186 	mov	r7,#0x00
+   0EC9 2C                 3187 	add	a,r4
+   0ECA FD                 3188 	mov	r5,a
+   0ECB EF                 3189 	mov	a,r7
+   0ECC 3B                 3190 	addc	a,r3
+   0ECD FF                 3191 	mov	r7,a
+   0ECE E5*00              3192 	mov	a,_bp
+   0ED0 24 4D              3193 	add	a,#0x4d
+   0ED2 F8                 3194 	mov	r0,a
+   0ED3 A6 05              3195 	mov	@r0,ar5
+   0ED5 08                 3196 	inc	r0
+   0ED6 A6 07              3197 	mov	@r0,ar7
+                           3198 ;	../../core/sys/timetable-aggregate.c:198: entry = find_aggregate_category(a, cat);
+   0ED8 E5*00              3199 	mov	a,_bp
+   0EDA 24 4D              3200 	add	a,#0x4d
+   0EDC F8                 3201 	mov	r0,a
+   0EDD E6                 3202 	mov	a,@r0
+   0EDE C0 E0              3203 	push	acc
+   0EE0 08                 3204 	inc	r0
+   0EE1 E6                 3205 	mov	a,@r0
+   0EE2 C0 E0              3206 	push	acc
+   0EE4 A8*00              3207 	mov	r0,_bp
+   0EE6 08                 3208 	inc	r0
+   0EE7 86 82              3209 	mov	dpl,@r0
+   0EE9 08                 3210 	inc	r0
+   0EEA 86 83              3211 	mov	dph,@r0
+   0EEC 08                 3212 	inc	r0
+   0EED 86 F0              3213 	mov	b,@r0
+   0EEF 12s00r00           3214 	lcall	_find_aggregate_category
+   0EF2 AD 82              3215 	mov	r5,dpl
+   0EF4 AE 83              3216 	mov	r6,dph
+   0EF6 AF F0              3217 	mov	r7,b
+   0EF8 15 81              3218 	dec	sp
+   0EFA 15 81              3219 	dec	sp
+   0EFC E5*00              3220 	mov	a,_bp
+   0EFE 24 4A              3221 	add	a,#0x4a
+   0F00 F8                 3222 	mov	r0,a
+   0F01 A6 05              3223 	mov	@r0,ar5
+   0F03 08                 3224 	inc	r0
+   0F04 A6 06              3225 	mov	@r0,ar6
+   0F06 08                 3226 	inc	r0
+   0F07 A6 07              3227 	mov	@r0,ar7
+                           3228 ;	../../core/sys/timetable-aggregate.c:199: if(entry == NULL) {
+   0F09 E5*00              3229 	mov	a,_bp
+   0F0B 24 4A              3230 	add	a,#0x4a
+   0F0D F8                 3231 	mov	r0,a
+   0F0E E6                 3232 	mov	a,@r0
+   0F0F 08                 3233 	inc	r0
+   0F10 46                 3234 	orl	a,@r0
+   0F11 70 03              3235 	jnz	00140$
+   0F13 02s11rD4           3236 	ljmp	00114$
+   0F16                    3237 00140$:
+                           3238 ;	../../core/sys/timetable-aggregate.c:202: } else if(entry->id == NULL) {
+   0F16 E5*00              3239 	mov	a,_bp
+   0F18 24 4A              3240 	add	a,#0x4a
+   0F1A F8                 3241 	mov	r0,a
+   0F1B 86 82              3242 	mov	dpl,@r0
+   0F1D 08                 3243 	inc	r0
+   0F1E 86 83              3244 	mov	dph,@r0
+   0F20 08                 3245 	inc	r0
+   0F21 86 F0              3246 	mov	b,@r0
+   0F23 12s00r00           3247 	lcall	__gptrget
+   0F26 FD                 3248 	mov	r5,a
+   0F27 A3                 3249 	inc	dptr
+   0F28 12s00r00           3250 	lcall	__gptrget
+   0F2B FE                 3251 	mov	r6,a
+   0F2C A3                 3252 	inc	dptr
+   0F2D 12s00r00           3253 	lcall	__gptrget
+   0F30 FF                 3254 	mov	r7,a
+   0F31 ED                 3255 	mov	a,r5
+   0F32 4E                 3256 	orl	a,r6
+   0F33 60 03              3257 	jz	00141$
+   0F35 02s10r55           3258 	ljmp	00110$
+   0F38                    3259 00141$:
+                           3260 ;	../../core/sys/timetable-aggregate.c:204: entry->id = timetable->timestamps[i - 1].id;
+   0F38 E5*00              3261 	mov	a,_bp
+   0F3A 24 5C              3262 	add	a,#0x5c
+   0F3C F8                 3263 	mov	r0,a
+   0F3D 86 82              3264 	mov	dpl,@r0
+   0F3F 08                 3265 	inc	r0
+   0F40 86 83              3266 	mov	dph,@r0
+   0F42 08                 3267 	inc	r0
+   0F43 86 F0              3268 	mov	b,@r0
+   0F45 12s00r00           3269 	lcall	__gptrget
+   0F48 FD                 3270 	mov	r5,a
+   0F49 A3                 3271 	inc	dptr
+   0F4A 12s00r00           3272 	lcall	__gptrget
+   0F4D FE                 3273 	mov	r6,a
+   0F4E A3                 3274 	inc	dptr
+   0F4F 12s00r00           3275 	lcall	__gptrget
+   0F52 FF                 3276 	mov	r7,a
+   0F53 E5*00              3277 	mov	a,_bp
+   0F55 24 04              3278 	add	a,#0x04
+   0F57 F8                 3279 	mov	r0,a
+   0F58 E6                 3280 	mov	a,@r0
+   0F59 24 FF              3281 	add	a,#0xFF
+   0F5B FB                 3282 	mov	r3,a
+   0F5C 08                 3283 	inc	r0
+   0F5D E6                 3284 	mov	a,@r0
+   0F5E 34 FF              3285 	addc	a,#0xFF
+   0F60 FC                 3286 	mov	r4,a
+   0F61 C0 07              3287 	push	ar7
+   0F63 C0 06              3288 	push	ar6
+   0F65 C0 05              3289 	push	ar5
+   0F67 C0 03              3290 	push	ar3
+   0F69 C0 04              3291 	push	ar4
+   0F6B 90 00 05           3292 	mov	dptr,#0x0005
+   0F6E 12s00r00           3293 	lcall	__mulint
+   0F71 AB 82              3294 	mov	r3,dpl
+   0F73 AC 83              3295 	mov	r4,dph
+   0F75 15 81              3296 	dec	sp
+   0F77 15 81              3297 	dec	sp
+   0F79 D0 05              3298 	pop	ar5
+   0F7B D0 06              3299 	pop	ar6
+   0F7D D0 07              3300 	pop	ar7
+   0F7F EB                 3301 	mov	a,r3
+   0F80 2D                 3302 	add	a,r5
+   0F81 FB                 3303 	mov	r3,a
+   0F82 EC                 3304 	mov	a,r4
+   0F83 3E                 3305 	addc	a,r6
+   0F84 FC                 3306 	mov	r4,a
+   0F85 8F 02              3307 	mov	ar2,r7
+   0F87 8B 82              3308 	mov	dpl,r3
+   0F89 8C 83              3309 	mov	dph,r4
+   0F8B 8A F0              3310 	mov	b,r2
+   0F8D 12s00r00           3311 	lcall	__gptrget
+   0F90 FB                 3312 	mov	r3,a
+   0F91 A3                 3313 	inc	dptr
+   0F92 12s00r00           3314 	lcall	__gptrget
+   0F95 FC                 3315 	mov	r4,a
+   0F96 A3                 3316 	inc	dptr
+   0F97 12s00r00           3317 	lcall	__gptrget
+   0F9A FA                 3318 	mov	r2,a
+   0F9B E5*00              3319 	mov	a,_bp
+   0F9D 24 4A              3320 	add	a,#0x4a
+   0F9F F8                 3321 	mov	r0,a
+   0FA0 86 82              3322 	mov	dpl,@r0
+   0FA2 08                 3323 	inc	r0
+   0FA3 86 83              3324 	mov	dph,@r0
+   0FA5 08                 3325 	inc	r0
+   0FA6 86 F0              3326 	mov	b,@r0
+   0FA8 EB                 3327 	mov	a,r3
+   0FA9 12s00r00           3328 	lcall	__gptrput
+   0FAC A3                 3329 	inc	dptr
+   0FAD EC                 3330 	mov	a,r4
+   0FAE 12s00r00           3331 	lcall	__gptrput
+   0FB1 A3                 3332 	inc	dptr
+   0FB2 EA                 3333 	mov	a,r2
+   0FB3 12s00r00           3334 	lcall	__gptrput
+                           3335 ;	../../core/sys/timetable-aggregate.c:205: entry->time = (unsigned long)(timetable->timestamps[i].time - t -
+   0FB6 E5*00              3336 	mov	a,_bp
+   0FB8 24 4A              3337 	add	a,#0x4a
+   0FBA F8                 3338 	mov	r0,a
+   0FBB E5*00              3339 	mov	a,_bp
+   0FBD 24 58              3340 	add	a,#0x58
+   0FBF F9                 3341 	mov	r1,a
+   0FC0 74 05              3342 	mov	a,#0x05
+   0FC2 26                 3343 	add	a,@r0
+   0FC3 F7                 3344 	mov	@r1,a
+   0FC4 E4                 3345 	clr	a
+   0FC5 08                 3346 	inc	r0
+   0FC6 36                 3347 	addc	a,@r0
+   0FC7 09                 3348 	inc	r1
+   0FC8 F7                 3349 	mov	@r1,a
+   0FC9 08                 3350 	inc	r0
+   0FCA 09                 3351 	inc	r1
+   0FCB E6                 3352 	mov	a,@r0
+   0FCC F7                 3353 	mov	@r1,a
+   0FCD E5*00              3354 	mov	a,_bp
+   0FCF 24 54              3355 	add	a,#0x54
+   0FD1 F8                 3356 	mov	r0,a
+   0FD2 E6                 3357 	mov	a,@r0
+   0FD3 2D                 3358 	add	a,r5
+   0FD4 FD                 3359 	mov	r5,a
+   0FD5 08                 3360 	inc	r0
+   0FD6 E6                 3361 	mov	a,@r0
+   0FD7 3E                 3362 	addc	a,r6
+   0FD8 FE                 3363 	mov	r6,a
+   0FD9 74 03              3364 	mov	a,#0x03
+   0FDB 2D                 3365 	add	a,r5
+   0FDC FD                 3366 	mov	r5,a
+   0FDD E4                 3367 	clr	a
+   0FDE 3E                 3368 	addc	a,r6
+   0FDF FE                 3369 	mov	r6,a
+   0FE0 8D 82              3370 	mov	dpl,r5
+   0FE2 8E 83              3371 	mov	dph,r6
+   0FE4 8F F0              3372 	mov	b,r7
+   0FE6 12s00r00           3373 	lcall	__gptrget
+   0FE9 FD                 3374 	mov	r5,a
+   0FEA A3                 3375 	inc	dptr
+   0FEB 12s00r00           3376 	lcall	__gptrget
+   0FEE FE                 3377 	mov	r6,a
+   0FEF E5*00              3378 	mov	a,_bp
+   0FF1 24 06              3379 	add	a,#0x06
+   0FF3 F8                 3380 	mov	r0,a
+   0FF4 ED                 3381 	mov	a,r5
+   0FF5 C3                 3382 	clr	c
+   0FF6 96                 3383 	subb	a,@r0
+   0FF7 FD                 3384 	mov	r5,a
+   0FF8 EE                 3385 	mov	a,r6
+   0FF9 08                 3386 	inc	r0
+   0FFA 96                 3387 	subb	a,@r0
+   0FFB FC                 3388 	mov	r4,a
+   0FFC 90s00r00           3389 	mov	dptr,#_timetable_timestamp_time
+   0FFF E0                 3390 	movx	a,@dptr
+   1000 FE                 3391 	mov	r6,a
+   1001 A3                 3392 	inc	dptr
+   1002 E0                 3393 	movx	a,@dptr
+   1003 FF                 3394 	mov	r7,a
+   1004 ED                 3395 	mov	a,r5
+   1005 C3                 3396 	clr	c
+   1006 9E                 3397 	subb	a,r6
+   1007 FE                 3398 	mov	r6,a
+   1008 EC                 3399 	mov	a,r4
+   1009 9F                 3400 	subb	a,r7
+   100A FF                 3401 	mov	r7,a
+   100B 8E 04              3402 	mov	ar4,r6
+   100D 8F 05              3403 	mov	ar5,r7
+   100F E4                 3404 	clr	a
+   1010 FE                 3405 	mov	r6,a
+   1011 FF                 3406 	mov	r7,a
+   1012 E5*00              3407 	mov	a,_bp
+   1014 24 58              3408 	add	a,#0x58
+   1016 F8                 3409 	mov	r0,a
+   1017 86 82              3410 	mov	dpl,@r0
+   1019 08                 3411 	inc	r0
+   101A 86 83              3412 	mov	dph,@r0
+   101C 08                 3413 	inc	r0
+   101D 86 F0              3414 	mov	b,@r0
+   101F EC                 3415 	mov	a,r4
+   1020 12s00r00           3416 	lcall	__gptrput
+   1023 A3                 3417 	inc	dptr
+   1024 ED                 3418 	mov	a,r5
+   1025 12s00r00           3419 	lcall	__gptrput
+   1028 A3                 3420 	inc	dptr
+   1029 EE                 3421 	mov	a,r6
+   102A 12s00r00           3422 	lcall	__gptrput
+   102D A3                 3423 	inc	dptr
+   102E EF                 3424 	mov	a,r7
+   102F 12s00r00           3425 	lcall	__gptrput
+                           3426 ;	../../core/sys/timetable-aggregate.c:207: entry->episodes = 1;
+   1032 E5*00              3427 	mov	a,_bp
+   1034 24 4A              3428 	add	a,#0x4a
+   1036 F8                 3429 	mov	r0,a
+   1037 74 03              3430 	mov	a,#0x03
+   1039 26                 3431 	add	a,@r0
+   103A FD                 3432 	mov	r5,a
+   103B E4                 3433 	clr	a
+   103C 08                 3434 	inc	r0
+   103D 36                 3435 	addc	a,@r0
+   103E FE                 3436 	mov	r6,a
+   103F 08                 3437 	inc	r0
+   1040 86 07              3438 	mov	ar7,@r0
+   1042 8D 82              3439 	mov	dpl,r5
+   1044 8E 83              3440 	mov	dph,r6
+   1046 8F F0              3441 	mov	b,r7
+   1048 74 01              3442 	mov	a,#0x01
+   104A 12s00r00           3443 	lcall	__gptrput
+   104D A3                 3444 	inc	dptr
+   104E E4                 3445 	clr	a
+   104F 12s00r00           3446 	lcall	__gptrput
+   1052 02s11rD4           3447 	ljmp	00114$
+   1055                    3448 00110$:
+                           3449 ;	../../core/sys/timetable-aggregate.c:213: entry->time += (unsigned long)(timetable->timestamps[i].time - t -
+   1055 E5*00              3450 	mov	a,_bp
+   1057 24 4A              3451 	add	a,#0x4a
+   1059 F8                 3452 	mov	r0,a
+   105A E5*00              3453 	mov	a,_bp
+   105C 24 58              3454 	add	a,#0x58
+   105E F9                 3455 	mov	r1,a
+   105F 74 05              3456 	mov	a,#0x05
+   1061 26                 3457 	add	a,@r0
+   1062 F7                 3458 	mov	@r1,a
+   1063 E4                 3459 	clr	a
+   1064 08                 3460 	inc	r0
+   1065 36                 3461 	addc	a,@r0
+   1066 09                 3462 	inc	r1
+   1067 F7                 3463 	mov	@r1,a
+   1068 08                 3464 	inc	r0
+   1069 09                 3465 	inc	r1
+   106A E6                 3466 	mov	a,@r0
+   106B F7                 3467 	mov	@r1,a
+   106C E5*00              3468 	mov	a,_bp
+   106E 24 58              3469 	add	a,#0x58
+   1070 F8                 3470 	mov	r0,a
+   1071 86 82              3471 	mov	dpl,@r0
+   1073 08                 3472 	inc	r0
+   1074 86 83              3473 	mov	dph,@r0
+   1076 08                 3474 	inc	r0
+   1077 86 F0              3475 	mov	b,@r0
+   1079 E5*00              3476 	mov	a,_bp
+   107B 24 5F              3477 	add	a,#0x5f
+   107D F9                 3478 	mov	r1,a
+   107E 12s00r00           3479 	lcall	__gptrget
+   1081 F7                 3480 	mov	@r1,a
+   1082 A3                 3481 	inc	dptr
+   1083 12s00r00           3482 	lcall	__gptrget
+   1086 09                 3483 	inc	r1
+   1087 F7                 3484 	mov	@r1,a
+   1088 A3                 3485 	inc	dptr
+   1089 12s00r00           3486 	lcall	__gptrget
+   108C 09                 3487 	inc	r1
+   108D F7                 3488 	mov	@r1,a
+   108E A3                 3489 	inc	dptr
+   108F 12s00r00           3490 	lcall	__gptrget
+   1092 09                 3491 	inc	r1
+   1093 F7                 3492 	mov	@r1,a
+   1094 E5*00              3493 	mov	a,_bp
+   1096 24 5C              3494 	add	a,#0x5c
+   1098 F8                 3495 	mov	r0,a
+   1099 86 82              3496 	mov	dpl,@r0
+   109B 08                 3497 	inc	r0
+   109C 86 83              3498 	mov	dph,@r0
+   109E 08                 3499 	inc	r0
+   109F 86 F0              3500 	mov	b,@r0
+   10A1 12s00r00           3501 	lcall	__gptrget
+   10A4 FA                 3502 	mov	r2,a
+   10A5 A3                 3503 	inc	dptr
+   10A6 12s00r00           3504 	lcall	__gptrget
+   10A9 FB                 3505 	mov	r3,a
+   10AA A3                 3506 	inc	dptr
+   10AB 12s00r00           3507 	lcall	__gptrget
+   10AE FF                 3508 	mov	r7,a
+   10AF E5*00              3509 	mov	a,_bp
+   10B1 24 52              3510 	add	a,#0x52
+   10B3 F8                 3511 	mov	r0,a
+   10B4 E6                 3512 	mov	a,@r0
+   10B5 2A                 3513 	add	a,r2
+   10B6 FA                 3514 	mov	r2,a
+   10B7 08                 3515 	inc	r0
+   10B8 E6                 3516 	mov	a,@r0
+   10B9 3B                 3517 	addc	a,r3
+   10BA FB                 3518 	mov	r3,a
+   10BB 74 03              3519 	mov	a,#0x03
+   10BD 2A                 3520 	add	a,r2
+   10BE FA                 3521 	mov	r2,a
+   10BF E4                 3522 	clr	a
+   10C0 3B                 3523 	addc	a,r3
+   10C1 FB                 3524 	mov	r3,a
+   10C2 8A 82              3525 	mov	dpl,r2
+   10C4 8B 83              3526 	mov	dph,r3
+   10C6 8F F0              3527 	mov	b,r7
+   10C8 12s00r00           3528 	lcall	__gptrget
+   10CB FA                 3529 	mov	r2,a
+   10CC A3                 3530 	inc	dptr
+   10CD 12s00r00           3531 	lcall	__gptrget
+   10D0 FB                 3532 	mov	r3,a
+   10D1 E5*00              3533 	mov	a,_bp
+   10D3 24 06              3534 	add	a,#0x06
+   10D5 F8                 3535 	mov	r0,a
+   10D6 EA                 3536 	mov	a,r2
+   10D7 C3                 3537 	clr	c
+   10D8 96                 3538 	subb	a,@r0
+   10D9 FA                 3539 	mov	r2,a
+   10DA EB                 3540 	mov	a,r3
+   10DB 08                 3541 	inc	r0
+   10DC 96                 3542 	subb	a,@r0
+   10DD FB                 3543 	mov	r3,a
+   10DE 90s00r00           3544 	mov	dptr,#_timetable_timestamp_time
+   10E1 E0                 3545 	movx	a,@dptr
+   10E2 FE                 3546 	mov	r6,a
+   10E3 A3                 3547 	inc	dptr
+   10E4 E0                 3548 	movx	a,@dptr
+   10E5 FF                 3549 	mov	r7,a
+   10E6 EA                 3550 	mov	a,r2
+   10E7 C3                 3551 	clr	c
+   10E8 9E                 3552 	subb	a,r6
+   10E9 FA                 3553 	mov	r2,a
+   10EA EB                 3554 	mov	a,r3
+   10EB 9F                 3555 	subb	a,r7
+   10EC FB                 3556 	mov	r3,a
+   10ED E4                 3557 	clr	a
+   10EE FF                 3558 	mov	r7,a
+   10EF FE                 3559 	mov	r6,a
+   10F0 E5*00              3560 	mov	a,_bp
+   10F2 24 5F              3561 	add	a,#0x5f
+   10F4 F8                 3562 	mov	r0,a
+   10F5 EA                 3563 	mov	a,r2
+   10F6 26                 3564 	add	a,@r0
+   10F7 FA                 3565 	mov	r2,a
+   10F8 EB                 3566 	mov	a,r3
+   10F9 08                 3567 	inc	r0
+   10FA 36                 3568 	addc	a,@r0
+   10FB FB                 3569 	mov	r3,a
+   10FC EF                 3570 	mov	a,r7
+   10FD 08                 3571 	inc	r0
+   10FE 36                 3572 	addc	a,@r0
+   10FF FF                 3573 	mov	r7,a
+   1100 EE                 3574 	mov	a,r6
+   1101 08                 3575 	inc	r0
+   1102 36                 3576 	addc	a,@r0
+   1103 FE                 3577 	mov	r6,a
+   1104 E5*00              3578 	mov	a,_bp
+   1106 24 58              3579 	add	a,#0x58
+   1108 F8                 3580 	mov	r0,a
+   1109 86 82              3581 	mov	dpl,@r0
+   110B 08                 3582 	inc	r0
+   110C 86 83              3583 	mov	dph,@r0
+   110E 08                 3584 	inc	r0
+   110F 86 F0              3585 	mov	b,@r0
+   1111 EA                 3586 	mov	a,r2
+   1112 12s00r00           3587 	lcall	__gptrput
+   1115 A3                 3588 	inc	dptr
+   1116 EB                 3589 	mov	a,r3
+   1117 12s00r00           3590 	lcall	__gptrput
+   111A A3                 3591 	inc	dptr
+   111B EF                 3592 	mov	a,r7
+   111C 12s00r00           3593 	lcall	__gptrput
+   111F A3                 3594 	inc	dptr
+   1120 EE                 3595 	mov	a,r6
+   1121 12s00r00           3596 	lcall	__gptrput
+                           3597 ;	../../core/sys/timetable-aggregate.c:226: for(j = 0; j < categories_ptr; ++j) {
+   1124 7E 00              3598 	mov	r6,#0x00
+   1126 7F 00              3599 	mov	r7,#0x00
+   1128                    3600 00103$:
+   1128 E5*00              3601 	mov	a,_bp
+   112A 24 48              3602 	add	a,#0x48
+   112C F8                 3603 	mov	r0,a
+   112D C3                 3604 	clr	c
+   112E EE                 3605 	mov	a,r6
+   112F 96                 3606 	subb	a,@r0
+   1130 EF                 3607 	mov	a,r7
+   1131 64 80              3608 	xrl	a,#0x80
+   1133 08                 3609 	inc	r0
+   1134 86 F0              3610 	mov	b,@r0
+   1136 63 F0 80           3611 	xrl	b,#0x80
+   1139 95 F0              3612 	subb	a,b
+   113B 50 2D              3613 	jnc	00106$
+                           3614 ;	../../core/sys/timetable-aggregate.c:227: if(categories[j] == cat) {
+   113D 8E 04              3615 	mov	ar4,r6
+   113F EF                 3616 	mov	a,r7
+   1140 CC                 3617 	xch	a,r4
+   1141 25 E0              3618 	add	a,acc
+   1143 CC                 3619 	xch	a,r4
+   1144 33                 3620 	rlc	a
+   1145 E5*00              3621 	mov	a,_bp
+   1147 24 5B              3622 	add	a,#0x5b
+   1149 F8                 3623 	mov	r0,a
+   114A EC                 3624 	mov	a,r4
+   114B 26                 3625 	add	a,@r0
+   114C F9                 3626 	mov	r1,a
+   114D 87 04              3627 	mov	ar4,@r1
+   114F 09                 3628 	inc	r1
+   1150 87 05              3629 	mov	ar5,@r1
+   1152 19                 3630 	dec	r1
+   1153 E5*00              3631 	mov	a,_bp
+   1155 24 4D              3632 	add	a,#0x4d
+   1157 F8                 3633 	mov	r0,a
+   1158 E6                 3634 	mov	a,@r0
+   1159 B5 04 07           3635 	cjne	a,ar4,00143$
+   115C 08                 3636 	inc	r0
+   115D E6                 3637 	mov	a,@r0
+   115E B5 05 02           3638 	cjne	a,ar5,00143$
+   1161 80 07              3639 	sjmp	00106$
+   1163                    3640 00143$:
+                           3641 ;	../../core/sys/timetable-aggregate.c:226: for(j = 0; j < categories_ptr; ++j) {
+   1163 0E                 3642 	inc	r6
+   1164 BE 00 C1           3643 	cjne	r6,#0x00,00103$
+   1167 0F                 3644 	inc	r7
+   1168 80 BE              3645 	sjmp	00103$
+   116A                    3646 00106$:
+                           3647 ;	../../core/sys/timetable-aggregate.c:231: if(j == categories_ptr) {
+   116A E5*00              3648 	mov	a,_bp
+   116C 24 48              3649 	add	a,#0x48
+   116E F8                 3650 	mov	r0,a
+   116F E6                 3651 	mov	a,@r0
+   1170 B5 06 07           3652 	cjne	a,ar6,00145$
+   1173 08                 3653 	inc	r0
+   1174 E6                 3654 	mov	a,@r0
+   1175 B5 07 02           3655 	cjne	a,ar7,00145$
+   1178 80 02              3656 	sjmp	00146$
+   117A                    3657 00145$:
+   117A 80 58              3658 	sjmp	00114$
+   117C                    3659 00146$:
+                           3660 ;	../../core/sys/timetable-aggregate.c:232: categories[j] = cat;
+   117C EF                 3661 	mov	a,r7
+   117D CE                 3662 	xch	a,r6
+   117E 25 E0              3663 	add	a,acc
+   1180 CE                 3664 	xch	a,r6
+   1181 33                 3665 	rlc	a
+   1182 FF                 3666 	mov	r7,a
+   1183 E5*00              3667 	mov	a,_bp
+   1185 24 5B              3668 	add	a,#0x5b
+   1187 F8                 3669 	mov	r0,a
+   1188 EE                 3670 	mov	a,r6
+   1189 26                 3671 	add	a,@r0
+   118A F8                 3672 	mov	r0,a
+   118B E5*00              3673 	mov	a,_bp
+   118D 24 4D              3674 	add	a,#0x4d
+   118F F9                 3675 	mov	r1,a
+   1190 E7                 3676 	mov	a,@r1
+   1191 F6                 3677 	mov	@r0,a
+   1192 08                 3678 	inc	r0
+   1193 09                 3679 	inc	r1
+   1194 E7                 3680 	mov	a,@r1
+   1195 F6                 3681 	mov	@r0,a
+                           3682 ;	../../core/sys/timetable-aggregate.c:233: categories_ptr++;
+   1196 E5*00              3683 	mov	a,_bp
+   1198 24 48              3684 	add	a,#0x48
+   119A F8                 3685 	mov	r0,a
+   119B 06                 3686 	inc	@r0
+   119C B6 00 02           3687 	cjne	@r0,#0x00,00147$
+   119F 08                 3688 	inc	r0
+   11A0 06                 3689 	inc	@r0
+   11A1                    3690 00147$:
+                           3691 ;	../../core/sys/timetable-aggregate.c:234: entry->episodes++;
+   11A1 E5*00              3692 	mov	a,_bp
+   11A3 24 4A              3693 	add	a,#0x4a
+   11A5 F8                 3694 	mov	r0,a
+   11A6 74 03              3695 	mov	a,#0x03
+   11A8 26                 3696 	add	a,@r0
+   11A9 FD                 3697 	mov	r5,a
+   11AA E4                 3698 	clr	a
+   11AB 08                 3699 	inc	r0
+   11AC 36                 3700 	addc	a,@r0
+   11AD FE                 3701 	mov	r6,a
+   11AE 08                 3702 	inc	r0
+   11AF 86 07              3703 	mov	ar7,@r0
+   11B1 8D 82              3704 	mov	dpl,r5
+   11B3 8E 83              3705 	mov	dph,r6
+   11B5 8F F0              3706 	mov	b,r7
+   11B7 12s00r00           3707 	lcall	__gptrget
+   11BA FB                 3708 	mov	r3,a
+   11BB A3                 3709 	inc	dptr
+   11BC 12s00r00           3710 	lcall	__gptrget
+   11BF FC                 3711 	mov	r4,a
+   11C0 0B                 3712 	inc	r3
+   11C1 BB 00 01           3713 	cjne	r3,#0x00,00148$
+   11C4 0C                 3714 	inc	r4
+   11C5                    3715 00148$:
+   11C5 8D 82              3716 	mov	dpl,r5
+   11C7 8E 83              3717 	mov	dph,r6
+   11C9 8F F0              3718 	mov	b,r7
+   11CB EB                 3719 	mov	a,r3
+   11CC 12s00r00           3720 	lcall	__gptrput
+   11CF A3                 3721 	inc	dptr
+   11D0 EC                 3722 	mov	a,r4
+   11D1 12s00r00           3723 	lcall	__gptrput
+   11D4                    3724 00114$:
+                           3725 ;	../../core/sys/timetable-aggregate.c:237: t = timetable->timestamps[i].time;
+   11D4 E5*00              3726 	mov	a,_bp
+   11D6 24 5C              3727 	add	a,#0x5c
+   11D8 F8                 3728 	mov	r0,a
+   11D9 86 82              3729 	mov	dpl,@r0
+   11DB 08                 3730 	inc	r0
+   11DC 86 83              3731 	mov	dph,@r0
+   11DE 08                 3732 	inc	r0
+   11DF 86 F0              3733 	mov	b,@r0
+   11E1 12s00r00           3734 	lcall	__gptrget
+   11E4 FD                 3735 	mov	r5,a
+   11E5 A3                 3736 	inc	dptr
+   11E6 12s00r00           3737 	lcall	__gptrget
+   11E9 FE                 3738 	mov	r6,a
+   11EA A3                 3739 	inc	dptr
+   11EB 12s00r00           3740 	lcall	__gptrget
+   11EE FF                 3741 	mov	r7,a
+   11EF E5*00              3742 	mov	a,_bp
+   11F1 24 56              3743 	add	a,#0x56
+   11F3 F8                 3744 	mov	r0,a
+   11F4 E6                 3745 	mov	a,@r0
+   11F5 2D                 3746 	add	a,r5
+   11F6 FD                 3747 	mov	r5,a
+   11F7 08                 3748 	inc	r0
+   11F8 E6                 3749 	mov	a,@r0
+   11F9 3E                 3750 	addc	a,r6
+   11FA FE                 3751 	mov	r6,a
+   11FB 74 03              3752 	mov	a,#0x03
+   11FD 2D                 3753 	add	a,r5
+   11FE FD                 3754 	mov	r5,a
+   11FF E4                 3755 	clr	a
+   1200 3E                 3756 	addc	a,r6
+   1201 FE                 3757 	mov	r6,a
+   1202 8D 82              3758 	mov	dpl,r5
+   1204 8E 83              3759 	mov	dph,r6
+   1206 8F F0              3760 	mov	b,r7
+   1208 12s00r00           3761 	lcall	__gptrget
+   120B FD                 3762 	mov	r5,a
+   120C A3                 3763 	inc	dptr
+   120D 12s00r00           3764 	lcall	__gptrget
+   1210 FE                 3765 	mov	r6,a
+   1211 E5*00              3766 	mov	a,_bp
+   1213 24 06              3767 	add	a,#0x06
+   1215 F8                 3768 	mov	r0,a
+   1216 A6 05              3769 	mov	@r0,ar5
+   1218 08                 3770 	inc	r0
+   1219 A6 06              3771 	mov	@r0,ar6
+                           3772 ;	../../core/sys/timetable-aggregate.c:190: for(i = 1; i < *timetable->ptr; ++i) {
+   121B E5*00              3773 	mov	a,_bp
+   121D 24 52              3774 	add	a,#0x52
+   121F F8                 3775 	mov	r0,a
+   1220 74 05              3776 	mov	a,#0x05
+   1222 26                 3777 	add	a,@r0
+   1223 F6                 3778 	mov	@r0,a
+   1224 E4                 3779 	clr	a
+   1225 08                 3780 	inc	r0
+   1226 36                 3781 	addc	a,@r0
+   1227 F6                 3782 	mov	@r0,a
+   1228 E5*00              3783 	mov	a,_bp
+   122A 24 54              3784 	add	a,#0x54
+   122C F8                 3785 	mov	r0,a
+   122D 74 05              3786 	mov	a,#0x05
+   122F 26                 3787 	add	a,@r0
+   1230 F6                 3788 	mov	@r0,a
+   1231 E4                 3789 	clr	a
+   1232 08                 3790 	inc	r0
+   1233 36                 3791 	addc	a,@r0
+   1234 F6                 3792 	mov	@r0,a
+   1235 E5*00              3793 	mov	a,_bp
+   1237 24 56              3794 	add	a,#0x56
+   1239 F8                 3795 	mov	r0,a
+   123A 74 05              3796 	mov	a,#0x05
+   123C 26                 3797 	add	a,@r0
+   123D F6                 3798 	mov	@r0,a
+   123E E4                 3799 	clr	a
+   123F 08                 3800 	inc	r0
+   1240 36                 3801 	addc	a,@r0
+   1241 F6                 3802 	mov	@r0,a
+   1242 E5*00              3803 	mov	a,_bp
+   1244 24 04              3804 	add	a,#0x04
+   1246 F8                 3805 	mov	r0,a
+   1247 06                 3806 	inc	@r0
+   1248 B6 00 02           3807 	cjne	@r0,#0x00,00149$
+   124B 08                 3808 	inc	r0
+   124C 06                 3809 	inc	@r0
+   124D                    3810 00149$:
+   124D 02s0DrF4           3811 	ljmp	00115$
+   1250                    3812 00119$:
+   1250 85*00 81           3813 	mov	sp,_bp
+   1253 D0*00              3814 	pop	_bp
+   1255 22                 3815 	ret
+                           3816 	.area CSEG    (CODE)
+                           3817 	.area CONST   (CODE)
+   0000                    3818 __str_0:
+   0000 2D 2D 20 25 73 3A  3819 	.ascii "-- %s: %lu / %u = %lu"
+        20 25 6C 75 20 2F
+        20 25 75 20 3D 20
+        25 6C 75
+   0015 0A                 3820 	.db 0x0A
+   0016 00                 3821 	.db 0x00
+   0017                    3822 __str_1:
+   0017 4D 65 6D 6F 72 79  3823 	.ascii "Memory for entries: %d * %d = %d"
+        20 66 6F 72 20 65
+        6E 74 72 69 65 73
+        3A 20 25 64 20 2A
+        20 25 64 20 3D 20
+        25 64
+   0037 0A                 3824 	.db 0x0A
+   0038 00                 3825 	.db 0x00
+   0039                    3826 __str_2:
+   0039 2D 2D 20 25 63 25  3827 	.ascii "-- %c%c: %lu / %u = %lu"
+        63 3A 20 25 6C 75
+        20 2F 20 25 75 20
+        3D 20 25 6C 75
+   0050 0A                 3828 	.db 0x0A
+   0051 00                 3829 	.db 0x00
+                           3830 	.area XINIT   (CODE)
+                           3831 	.area CABS    (ABS,CODE)

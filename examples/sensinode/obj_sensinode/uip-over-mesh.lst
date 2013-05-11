@@ -1,0 +1,1789 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.1 #7100 (Apr  1 2013) (Linux)
+                              4 ; This file was generated Tue Apr 23 09:41:30 2013
+                              5 ;--------------------------------------------------------
+                              6 	.module uip_over_mesh
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _trickle_send
+                             13 	.globl _trickle_open
+                             14 	.globl _route_set_lifetime
+                             15 	.globl _route_decay
+                             16 	.globl _route_refresh
+                             17 	.globl _route_lookup
+                             18 	.globl _route_add
+                             19 	.globl _route_init
+                             20 	.globl _route_discovery_discover
+                             21 	.globl _route_discovery_open
+                             22 	.globl _queuebuf_free
+                             23 	.globl _queuebuf_to_packetbuf
+                             24 	.globl _queuebuf_new_from_packetbuf
+                             25 	.globl _unicast_send
+                             26 	.globl _unicast_open
+                             27 	.globl _packetbuf_set_attr
+                             28 	.globl _packetbuf_copyto
+                             29 	.globl _packetbuf_copyfrom
+                             30 	.globl _packetbuf_dataptr
+                             31 	.globl _rimeaddr_cmp
+                             32 	.globl _rimeaddr_copy
+                             33 	.globl _tcpip_input
+                             34 	.globl _memcpy
+                             35 	.globl _IRCON2_P2IF
+                             36 	.globl _IRCON2_UTX0IF
+                             37 	.globl _IRCON2_UTX1IF
+                             38 	.globl _IRCON2_P1IF
+                             39 	.globl _IRCON2_WDTIF
+                             40 	.globl _CY
+                             41 	.globl _AC
+                             42 	.globl _F0
+                             43 	.globl _RS1
+                             44 	.globl _RS0
+                             45 	.globl _OV
+                             46 	.globl _F1
+                             47 	.globl _P
+                             48 	.globl _IRCON_DMAIF
+                             49 	.globl _IRCON_T1IF
+                             50 	.globl _IRCON_T2IF
+                             51 	.globl _IRCON_T3IF
+                             52 	.globl _IRCON_T4IF
+                             53 	.globl _IRCON_P0IF
+                             54 	.globl _IRCON_STIF
+                             55 	.globl _IEN1_DMAIE
+                             56 	.globl _IEN1_T1IE
+                             57 	.globl _IEN1_T2IE
+                             58 	.globl _IEN1_T3IE
+                             59 	.globl _IEN1_T4IE
+                             60 	.globl _IEN1_P0IE
+                             61 	.globl _IEN0_RFERRIE
+                             62 	.globl _IEN0_ADCIE
+                             63 	.globl _IEN0_URX0IE
+                             64 	.globl _IEN0_URX1IE
+                             65 	.globl _IEN0_ENCIE
+                             66 	.globl _IEN0_STIE
+                             67 	.globl _IEN0_EA
+                             68 	.globl _EA
+                             69 	.globl _P2_4
+                             70 	.globl _P2_3
+                             71 	.globl _P2_2
+                             72 	.globl _P2_1
+                             73 	.globl _P2_0
+                             74 	.globl _S0CON_ENCIF_0
+                             75 	.globl _S0CON_ENCIF_1
+                             76 	.globl _P1_7
+                             77 	.globl _P1_6
+                             78 	.globl _P1_5
+                             79 	.globl _P1_4
+                             80 	.globl _P1_3
+                             81 	.globl _P1_2
+                             82 	.globl _P1_1
+                             83 	.globl _P1_0
+                             84 	.globl _TCON_IT0
+                             85 	.globl _TCON_RFERRIF
+                             86 	.globl _TCON_IT1
+                             87 	.globl _TCON_URX0IF
+                             88 	.globl _TCON_ADCIF
+                             89 	.globl _TCON_URX1IF
+                             90 	.globl _P0_0
+                             91 	.globl _P0_1
+                             92 	.globl _P0_2
+                             93 	.globl _P0_3
+                             94 	.globl _P0_4
+                             95 	.globl _P0_5
+                             96 	.globl _P0_6
+                             97 	.globl _P0_7
+                             98 	.globl _P2DIR
+                             99 	.globl _P1DIR
+                            100 	.globl _P0DIR
+                            101 	.globl _U1GCR
+                            102 	.globl _U1UCR
+                            103 	.globl _U1BAUD
+                            104 	.globl _U1BUF
+                            105 	.globl _U1CSR
+                            106 	.globl _P2INP
+                            107 	.globl _P1INP
+                            108 	.globl _P2SEL
+                            109 	.globl _P1SEL
+                            110 	.globl _P0SEL
+                            111 	.globl _ADCCFG
+                            112 	.globl _PERCFG
+                            113 	.globl _B
+                            114 	.globl _T4CC1
+                            115 	.globl _T4CCTL1
+                            116 	.globl _T4CC0
+                            117 	.globl _T4CCTL0
+                            118 	.globl _T4CTL
+                            119 	.globl _T4CNT
+                            120 	.globl _RFIF
+                            121 	.globl _IRCON2
+                            122 	.globl _T1CCTL2
+                            123 	.globl _T1CCTL1
+                            124 	.globl _T1CCTL0
+                            125 	.globl _T1CTL
+                            126 	.globl _T1CNTH
+                            127 	.globl _T1CNTL
+                            128 	.globl _RFST
+                            129 	.globl _ACC
+                            130 	.globl _T1CC2H
+                            131 	.globl _T1CC2L
+                            132 	.globl _T1CC1H
+                            133 	.globl _T1CC1L
+                            134 	.globl _T1CC0H
+                            135 	.globl _T1CC0L
+                            136 	.globl _RFD
+                            137 	.globl _TIMIF
+                            138 	.globl _DMAREQ
+                            139 	.globl _DMAARM
+                            140 	.globl _DMA0CFGH
+                            141 	.globl _DMA0CFGL
+                            142 	.globl _DMA1CFGH
+                            143 	.globl _DMA1CFGL
+                            144 	.globl _DMAIRQ
+                            145 	.globl _PSW
+                            146 	.globl _T3CC1
+                            147 	.globl _T3CCTL1
+                            148 	.globl _T3CC0
+                            149 	.globl _T3CCTL0
+                            150 	.globl _T3CTL
+                            151 	.globl _T3CNT
+                            152 	.globl _WDCTL
+                            153 	.globl _T2CON
+                            154 	.globl _MEMCTR
+                            155 	.globl _CLKCON
+                            156 	.globl _U0GCR
+                            157 	.globl _U0UCR
+                            158 	.globl _T2CNF
+                            159 	.globl _U0BAUD
+                            160 	.globl _U0BUF
+                            161 	.globl _IRCON
+                            162 	.globl _SLEEP
+                            163 	.globl _RNDH
+                            164 	.globl _RNDL
+                            165 	.globl _ADCH
+                            166 	.globl _ADCL
+                            167 	.globl _IP1
+                            168 	.globl _IEN1
+                            169 	.globl _RCCTL
+                            170 	.globl _ADCCON3
+                            171 	.globl _ADCCON2
+                            172 	.globl _ADCCON1
+                            173 	.globl _ENCCS
+                            174 	.globl _ENCDO
+                            175 	.globl _ENCDI
+                            176 	.globl _FWDATA
+                            177 	.globl _FCTL
+                            178 	.globl _FADDRH
+                            179 	.globl _FADDRL
+                            180 	.globl _FWT
+                            181 	.globl _IP0
+                            182 	.globl _IEN0
+                            183 	.globl _IE
+                            184 	.globl _T2THD
+                            185 	.globl _T2TLD
+                            186 	.globl _T2CAPHPH
+                            187 	.globl _T2CAPLPL
+                            188 	.globl _T2OF2
+                            189 	.globl _T2OF1
+                            190 	.globl _T2OF0
+                            191 	.globl _P2
+                            192 	.globl _PSBANK
+                            193 	.globl _FMAP
+                            194 	.globl _T2PEROF2
+                            195 	.globl _T2PEROF1
+                            196 	.globl _T2PEROF0
+                            197 	.globl _S1CON
+                            198 	.globl _IEN2
+                            199 	.globl _HSRC
+                            200 	.globl _S0CON
+                            201 	.globl _ST2
+                            202 	.globl _ST1
+                            203 	.globl _ST0
+                            204 	.globl _T2CMP
+                            205 	.globl __XPAGE
+                            206 	.globl _DPS
+                            207 	.globl _RFIM
+                            208 	.globl _P1
+                            209 	.globl _P0INP
+                            210 	.globl _P1IEN
+                            211 	.globl _PICTL
+                            212 	.globl _P2IFG
+                            213 	.globl _P1IFG
+                            214 	.globl _P0IFG
+                            215 	.globl _TCON
+                            216 	.globl _PCON
+                            217 	.globl _U0CSR
+                            218 	.globl _DPH1
+                            219 	.globl _DPL1
+                            220 	.globl _DPH0
+                            221 	.globl _DPL0
+                            222 	.globl _SP
+                            223 	.globl _P0
+                            224 	.globl _ADC_SHADOW
+                            225 	.globl _U1BUF_SHADOW
+                            226 	.globl _RFD_SHADOW
+                            227 	.globl _U0BUF_SHADOW
+                            228 	.globl _RFSTATUS
+                            229 	.globl _CHIPID
+                            230 	.globl _CHVER
+                            231 	.globl _FSMTC1
+                            232 	.globl _RXFIFOCNT
+                            233 	.globl _IOCFG3
+                            234 	.globl _IOCFG2
+                            235 	.globl _IOCFG1
+                            236 	.globl _IOCFG0
+                            237 	.globl _SHORTADDRL
+                            238 	.globl _SHORTADDRH
+                            239 	.globl _PANIDL
+                            240 	.globl _PANIDH
+                            241 	.globl _IEEE_ADDR7
+                            242 	.globl _IEEE_ADDR6
+                            243 	.globl _IEEE_ADDR5
+                            244 	.globl _IEEE_ADDR4
+                            245 	.globl _IEEE_ADDR3
+                            246 	.globl _IEEE_ADDR2
+                            247 	.globl _IEEE_ADDR1
+                            248 	.globl _IEEE_ADDR0
+                            249 	.globl _DACTSTL
+                            250 	.globl _DACTSTH
+                            251 	.globl _ADCTSTL
+                            252 	.globl _ADCTSTH
+                            253 	.globl _FSMSTATE
+                            254 	.globl _AGCCTRLL
+                            255 	.globl _AGCCTRLH
+                            256 	.globl _MANORL
+                            257 	.globl _MANORH
+                            258 	.globl _MANANDL
+                            259 	.globl _MANANDH
+                            260 	.globl _FSMTCL
+                            261 	.globl _FSMTCH
+                            262 	.globl _RFPWR
+                            263 	.globl _CSPT
+                            264 	.globl _CSPCTRL
+                            265 	.globl _CSPZ
+                            266 	.globl _CSPY
+                            267 	.globl _CSPX
+                            268 	.globl _FSCTRLL
+                            269 	.globl _FSCTRLH
+                            270 	.globl _RXCTRL1L
+                            271 	.globl _RXCTRL1H
+                            272 	.globl _RXCTRL0L
+                            273 	.globl _RXCTRL0H
+                            274 	.globl _TXCTRLL
+                            275 	.globl _TXCTRLH
+                            276 	.globl _SYNCWORDL
+                            277 	.globl _SYNCWORDH
+                            278 	.globl _RSSIL
+                            279 	.globl _RSSIH
+                            280 	.globl _MDMCTRL1L
+                            281 	.globl _MDMCTRL1H
+                            282 	.globl _MDMCTRL0L
+                            283 	.globl _MDMCTRL0H
+                            284 	.globl _uip_over_mesh_make_announced_gateway
+                            285 	.globl _uip_over_mesh_init
+                            286 	.globl _uip_over_mesh_send
+                            287 	.globl _uip_over_mesh_set_gateway_netif
+                            288 	.globl _uip_over_mesh_set_gateway
+                            289 	.globl _uip_over_mesh_set_net
+                            290 ;--------------------------------------------------------
+                            291 ; special function registers
+                            292 ;--------------------------------------------------------
+                            293 	.area RSEG    (ABS,DATA)
+   0000                     294 	.org 0x0000
+                    0080    295 _P0	=	0x0080
+                    0081    296 _SP	=	0x0081
+                    0082    297 _DPL0	=	0x0082
+                    0083    298 _DPH0	=	0x0083
+                    0084    299 _DPL1	=	0x0084
+                    0085    300 _DPH1	=	0x0085
+                    0086    301 _U0CSR	=	0x0086
+                    0087    302 _PCON	=	0x0087
+                    0088    303 _TCON	=	0x0088
+                    0089    304 _P0IFG	=	0x0089
+                    008A    305 _P1IFG	=	0x008a
+                    008B    306 _P2IFG	=	0x008b
+                    008C    307 _PICTL	=	0x008c
+                    008D    308 _P1IEN	=	0x008d
+                    008F    309 _P0INP	=	0x008f
+                    0090    310 _P1	=	0x0090
+                    0091    311 _RFIM	=	0x0091
+                    0092    312 _DPS	=	0x0092
+                    0093    313 __XPAGE	=	0x0093
+                    0094    314 _T2CMP	=	0x0094
+                    0095    315 _ST0	=	0x0095
+                    0096    316 _ST1	=	0x0096
+                    0097    317 _ST2	=	0x0097
+                    0098    318 _S0CON	=	0x0098
+                    0099    319 _HSRC	=	0x0099
+                    009A    320 _IEN2	=	0x009a
+                    009B    321 _S1CON	=	0x009b
+                    009C    322 _T2PEROF0	=	0x009c
+                    009D    323 _T2PEROF1	=	0x009d
+                    009E    324 _T2PEROF2	=	0x009e
+                    009F    325 _FMAP	=	0x009f
+                    009F    326 _PSBANK	=	0x009f
+                    00A0    327 _P2	=	0x00a0
+                    00A1    328 _T2OF0	=	0x00a1
+                    00A2    329 _T2OF1	=	0x00a2
+                    00A3    330 _T2OF2	=	0x00a3
+                    00A4    331 _T2CAPLPL	=	0x00a4
+                    00A5    332 _T2CAPHPH	=	0x00a5
+                    00A6    333 _T2TLD	=	0x00a6
+                    00A7    334 _T2THD	=	0x00a7
+                    00A8    335 _IE	=	0x00a8
+                    00A8    336 _IEN0	=	0x00a8
+                    00A9    337 _IP0	=	0x00a9
+                    00AB    338 _FWT	=	0x00ab
+                    00AC    339 _FADDRL	=	0x00ac
+                    00AD    340 _FADDRH	=	0x00ad
+                    00AE    341 _FCTL	=	0x00ae
+                    00AF    342 _FWDATA	=	0x00af
+                    00B1    343 _ENCDI	=	0x00b1
+                    00B2    344 _ENCDO	=	0x00b2
+                    00B3    345 _ENCCS	=	0x00b3
+                    00B4    346 _ADCCON1	=	0x00b4
+                    00B5    347 _ADCCON2	=	0x00b5
+                    00B6    348 _ADCCON3	=	0x00b6
+                    00B7    349 _RCCTL	=	0x00b7
+                    00B8    350 _IEN1	=	0x00b8
+                    00B9    351 _IP1	=	0x00b9
+                    00BA    352 _ADCL	=	0x00ba
+                    00BB    353 _ADCH	=	0x00bb
+                    00BC    354 _RNDL	=	0x00bc
+                    00BD    355 _RNDH	=	0x00bd
+                    00BE    356 _SLEEP	=	0x00be
+                    00C0    357 _IRCON	=	0x00c0
+                    00C1    358 _U0BUF	=	0x00c1
+                    00C2    359 _U0BAUD	=	0x00c2
+                    00C3    360 _T2CNF	=	0x00c3
+                    00C4    361 _U0UCR	=	0x00c4
+                    00C5    362 _U0GCR	=	0x00c5
+                    00C6    363 _CLKCON	=	0x00c6
+                    00C7    364 _MEMCTR	=	0x00c7
+                    00C8    365 _T2CON	=	0x00c8
+                    00C9    366 _WDCTL	=	0x00c9
+                    00CA    367 _T3CNT	=	0x00ca
+                    00CB    368 _T3CTL	=	0x00cb
+                    00CC    369 _T3CCTL0	=	0x00cc
+                    00CD    370 _T3CC0	=	0x00cd
+                    00CE    371 _T3CCTL1	=	0x00ce
+                    00CF    372 _T3CC1	=	0x00cf
+                    00D0    373 _PSW	=	0x00d0
+                    00D1    374 _DMAIRQ	=	0x00d1
+                    00D2    375 _DMA1CFGL	=	0x00d2
+                    00D3    376 _DMA1CFGH	=	0x00d3
+                    00D4    377 _DMA0CFGL	=	0x00d4
+                    00D5    378 _DMA0CFGH	=	0x00d5
+                    00D6    379 _DMAARM	=	0x00d6
+                    00D7    380 _DMAREQ	=	0x00d7
+                    00D8    381 _TIMIF	=	0x00d8
+                    00D9    382 _RFD	=	0x00d9
+                    00DA    383 _T1CC0L	=	0x00da
+                    00DB    384 _T1CC0H	=	0x00db
+                    00DC    385 _T1CC1L	=	0x00dc
+                    00DD    386 _T1CC1H	=	0x00dd
+                    00DE    387 _T1CC2L	=	0x00de
+                    00DF    388 _T1CC2H	=	0x00df
+                    00E0    389 _ACC	=	0x00e0
+                    00E1    390 _RFST	=	0x00e1
+                    00E2    391 _T1CNTL	=	0x00e2
+                    00E3    392 _T1CNTH	=	0x00e3
+                    00E4    393 _T1CTL	=	0x00e4
+                    00E5    394 _T1CCTL0	=	0x00e5
+                    00E6    395 _T1CCTL1	=	0x00e6
+                    00E7    396 _T1CCTL2	=	0x00e7
+                    00E8    397 _IRCON2	=	0x00e8
+                    00E9    398 _RFIF	=	0x00e9
+                    00EA    399 _T4CNT	=	0x00ea
+                    00EB    400 _T4CTL	=	0x00eb
+                    00EC    401 _T4CCTL0	=	0x00ec
+                    00ED    402 _T4CC0	=	0x00ed
+                    00EE    403 _T4CCTL1	=	0x00ee
+                    00EF    404 _T4CC1	=	0x00ef
+                    00F0    405 _B	=	0x00f0
+                    00F1    406 _PERCFG	=	0x00f1
+                    00F2    407 _ADCCFG	=	0x00f2
+                    00F3    408 _P0SEL	=	0x00f3
+                    00F4    409 _P1SEL	=	0x00f4
+                    00F5    410 _P2SEL	=	0x00f5
+                    00F6    411 _P1INP	=	0x00f6
+                    00F7    412 _P2INP	=	0x00f7
+                    00F8    413 _U1CSR	=	0x00f8
+                    00F9    414 _U1BUF	=	0x00f9
+                    00FA    415 _U1BAUD	=	0x00fa
+                    00FB    416 _U1UCR	=	0x00fb
+                    00FC    417 _U1GCR	=	0x00fc
+                    00FD    418 _P0DIR	=	0x00fd
+                    00FE    419 _P1DIR	=	0x00fe
+                    00FF    420 _P2DIR	=	0x00ff
+                            421 ;--------------------------------------------------------
+                            422 ; special function bits
+                            423 ;--------------------------------------------------------
+                            424 	.area RSEG    (ABS,DATA)
+   0000                     425 	.org 0x0000
+                    0087    426 _P0_7	=	0x0087
+                    0086    427 _P0_6	=	0x0086
+                    0085    428 _P0_5	=	0x0085
+                    0084    429 _P0_4	=	0x0084
+                    0083    430 _P0_3	=	0x0083
+                    0082    431 _P0_2	=	0x0082
+                    0081    432 _P0_1	=	0x0081
+                    0080    433 _P0_0	=	0x0080
+                    008F    434 _TCON_URX1IF	=	0x008f
+                    008D    435 _TCON_ADCIF	=	0x008d
+                    008B    436 _TCON_URX0IF	=	0x008b
+                    008A    437 _TCON_IT1	=	0x008a
+                    0089    438 _TCON_RFERRIF	=	0x0089
+                    0088    439 _TCON_IT0	=	0x0088
+                    0090    440 _P1_0	=	0x0090
+                    0091    441 _P1_1	=	0x0091
+                    0092    442 _P1_2	=	0x0092
+                    0093    443 _P1_3	=	0x0093
+                    0094    444 _P1_4	=	0x0094
+                    0095    445 _P1_5	=	0x0095
+                    0096    446 _P1_6	=	0x0096
+                    0097    447 _P1_7	=	0x0097
+                    0099    448 _S0CON_ENCIF_1	=	0x0099
+                    0098    449 _S0CON_ENCIF_0	=	0x0098
+                    00A0    450 _P2_0	=	0x00a0
+                    00A1    451 _P2_1	=	0x00a1
+                    00A2    452 _P2_2	=	0x00a2
+                    00A3    453 _P2_3	=	0x00a3
+                    00A4    454 _P2_4	=	0x00a4
+                    00AF    455 _EA	=	0x00af
+                    00AF    456 _IEN0_EA	=	0x00af
+                    00AD    457 _IEN0_STIE	=	0x00ad
+                    00AC    458 _IEN0_ENCIE	=	0x00ac
+                    00AB    459 _IEN0_URX1IE	=	0x00ab
+                    00AA    460 _IEN0_URX0IE	=	0x00aa
+                    00A9    461 _IEN0_ADCIE	=	0x00a9
+                    00A8    462 _IEN0_RFERRIE	=	0x00a8
+                    00BD    463 _IEN1_P0IE	=	0x00bd
+                    00BC    464 _IEN1_T4IE	=	0x00bc
+                    00BB    465 _IEN1_T3IE	=	0x00bb
+                    00BA    466 _IEN1_T2IE	=	0x00ba
+                    00B9    467 _IEN1_T1IE	=	0x00b9
+                    00B8    468 _IEN1_DMAIE	=	0x00b8
+                    00C7    469 _IRCON_STIF	=	0x00c7
+                    00C5    470 _IRCON_P0IF	=	0x00c5
+                    00C4    471 _IRCON_T4IF	=	0x00c4
+                    00C3    472 _IRCON_T3IF	=	0x00c3
+                    00C2    473 _IRCON_T2IF	=	0x00c2
+                    00C1    474 _IRCON_T1IF	=	0x00c1
+                    00C0    475 _IRCON_DMAIF	=	0x00c0
+                    00D0    476 _P	=	0x00d0
+                    00D1    477 _F1	=	0x00d1
+                    00D2    478 _OV	=	0x00d2
+                    00D3    479 _RS0	=	0x00d3
+                    00D4    480 _RS1	=	0x00d4
+                    00D5    481 _F0	=	0x00d5
+                    00D6    482 _AC	=	0x00d6
+                    00D7    483 _CY	=	0x00d7
+                    00EC    484 _IRCON2_WDTIF	=	0x00ec
+                    00EB    485 _IRCON2_P1IF	=	0x00eb
+                    00EA    486 _IRCON2_UTX1IF	=	0x00ea
+                    00E9    487 _IRCON2_UTX0IF	=	0x00e9
+                    00E8    488 _IRCON2_P2IF	=	0x00e8
+                            489 ;--------------------------------------------------------
+                            490 ; overlayable register banks
+                            491 ;--------------------------------------------------------
+                            492 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     493 	.ds 8
+                            494 ;--------------------------------------------------------
+                            495 ; internal ram data
+                            496 ;--------------------------------------------------------
+                            497 	.area DSEG    (DATA)
+                            498 ;--------------------------------------------------------
+                            499 ; overlayable items in internal ram 
+                            500 ;--------------------------------------------------------
+                            501 	.area OSEG    (OVR,DATA)
+                            502 ;--------------------------------------------------------
+                            503 ; indirectly addressable internal ram data
+                            504 ;--------------------------------------------------------
+                            505 	.area ISEG    (DATA)
+                            506 ;--------------------------------------------------------
+                            507 ; absolute internal ram data
+                            508 ;--------------------------------------------------------
+                            509 	.area IABS    (ABS,DATA)
+                            510 	.area IABS    (ABS,DATA)
+                            511 ;--------------------------------------------------------
+                            512 ; bit data
+                            513 ;--------------------------------------------------------
+                            514 	.area BSEG    (BIT)
+                            515 ;--------------------------------------------------------
+                            516 ; paged external ram data
+                            517 ;--------------------------------------------------------
+                            518 	.area PSEG    (PAG,XDATA)
+                            519 ;--------------------------------------------------------
+                            520 ; external ram data
+                            521 ;--------------------------------------------------------
+                            522 	.area XSEG    (XDATA)
+                    DF02    523 _MDMCTRL0H	=	0xdf02
+                    DF03    524 _MDMCTRL0L	=	0xdf03
+                    DF04    525 _MDMCTRL1H	=	0xdf04
+                    DF05    526 _MDMCTRL1L	=	0xdf05
+                    DF06    527 _RSSIH	=	0xdf06
+                    DF07    528 _RSSIL	=	0xdf07
+                    DF08    529 _SYNCWORDH	=	0xdf08
+                    DF09    530 _SYNCWORDL	=	0xdf09
+                    DF0A    531 _TXCTRLH	=	0xdf0a
+                    DF0B    532 _TXCTRLL	=	0xdf0b
+                    DF0C    533 _RXCTRL0H	=	0xdf0c
+                    DF0D    534 _RXCTRL0L	=	0xdf0d
+                    DF0E    535 _RXCTRL1H	=	0xdf0e
+                    DF0F    536 _RXCTRL1L	=	0xdf0f
+                    DF10    537 _FSCTRLH	=	0xdf10
+                    DF11    538 _FSCTRLL	=	0xdf11
+                    DF12    539 _CSPX	=	0xdf12
+                    DF13    540 _CSPY	=	0xdf13
+                    DF14    541 _CSPZ	=	0xdf14
+                    DF15    542 _CSPCTRL	=	0xdf15
+                    DF16    543 _CSPT	=	0xdf16
+                    DF17    544 _RFPWR	=	0xdf17
+                    DF20    545 _FSMTCH	=	0xdf20
+                    DF21    546 _FSMTCL	=	0xdf21
+                    DF22    547 _MANANDH	=	0xdf22
+                    DF23    548 _MANANDL	=	0xdf23
+                    DF24    549 _MANORH	=	0xdf24
+                    DF25    550 _MANORL	=	0xdf25
+                    DF26    551 _AGCCTRLH	=	0xdf26
+                    DF27    552 _AGCCTRLL	=	0xdf27
+                    DF39    553 _FSMSTATE	=	0xdf39
+                    DF3A    554 _ADCTSTH	=	0xdf3a
+                    DF3B    555 _ADCTSTL	=	0xdf3b
+                    DF3C    556 _DACTSTH	=	0xdf3c
+                    DF3D    557 _DACTSTL	=	0xdf3d
+                    DF43    558 _IEEE_ADDR0	=	0xdf43
+                    DF44    559 _IEEE_ADDR1	=	0xdf44
+                    DF45    560 _IEEE_ADDR2	=	0xdf45
+                    DF46    561 _IEEE_ADDR3	=	0xdf46
+                    DF47    562 _IEEE_ADDR4	=	0xdf47
+                    DF48    563 _IEEE_ADDR5	=	0xdf48
+                    DF49    564 _IEEE_ADDR6	=	0xdf49
+                    DF4A    565 _IEEE_ADDR7	=	0xdf4a
+                    DF4B    566 _PANIDH	=	0xdf4b
+                    DF4C    567 _PANIDL	=	0xdf4c
+                    DF4D    568 _SHORTADDRH	=	0xdf4d
+                    DF4E    569 _SHORTADDRL	=	0xdf4e
+                    DF4F    570 _IOCFG0	=	0xdf4f
+                    DF50    571 _IOCFG1	=	0xdf50
+                    DF51    572 _IOCFG2	=	0xdf51
+                    DF52    573 _IOCFG3	=	0xdf52
+                    DF53    574 _RXFIFOCNT	=	0xdf53
+                    DF54    575 _FSMTC1	=	0xdf54
+                    DF60    576 _CHVER	=	0xdf60
+                    DF61    577 _CHIPID	=	0xdf61
+                    DF62    578 _RFSTATUS	=	0xdf62
+                    DFC1    579 _U0BUF_SHADOW	=	0xdfc1
+                    DFD9    580 _RFD_SHADOW	=	0xdfd9
+                    DFF9    581 _U1BUF_SHADOW	=	0xdff9
+                    DFBA    582 _ADC_SHADOW	=	0xdfba
+   0000                     583 _queued_packet:
+   0000                     584 	.ds 3
+   0003                     585 _queued_receiver:
+   0003                     586 	.ds 2
+   0005                     587 _route_discovery:
+   0005                     588 	.ds 101
+   006A                     589 _dataconn:
+   006A                     590 	.ds 18
+   007C                     591 _gateway_announce_conn:
+   007C                     592 	.ds 91
+   00D7                     593 _gw_netif:
+   00D7                     594 	.ds 3
+   00DA                     595 _gateway:
+   00DA                     596 	.ds 2
+   00DC                     597 _netaddr:
+   00DC                     598 	.ds 4
+   00E0                     599 _netmask:
+   00E0                     600 	.ds 4
+   00E4                     601 _is_gateway:
+   00E4                     602 	.ds 1
+                            603 ;--------------------------------------------------------
+                            604 ; absolute external ram data
+                            605 ;--------------------------------------------------------
+                            606 	.area XABS    (ABS,XDATA)
+                            607 ;--------------------------------------------------------
+                            608 ; external initialized ram data
+                            609 ;--------------------------------------------------------
+                            610 	.area XISEG   (XDATA)
+                            611 	.area HOME    (CODE)
+                            612 	.area GSINIT0 (CODE)
+                            613 	.area GSINIT1 (CODE)
+                            614 	.area GSINIT2 (CODE)
+                            615 	.area GSINIT3 (CODE)
+                            616 	.area GSINIT4 (CODE)
+                            617 	.area GSINIT5 (CODE)
+                            618 	.area GSINIT  (CODE)
+                            619 	.area GSFINAL (CODE)
+                            620 	.area CSEG    (CODE)
+                            621 ;--------------------------------------------------------
+                            622 ; global & static initialisations
+                            623 ;--------------------------------------------------------
+                            624 	.area HOME    (CODE)
+                            625 	.area GSINIT  (CODE)
+                            626 	.area GSFINAL (CODE)
+                            627 	.area GSINIT  (CODE)
+                            628 ;--------------------------------------------------------
+                            629 ; Home
+                            630 ;--------------------------------------------------------
+                            631 	.area HOME    (CODE)
+                            632 	.area HOME    (CODE)
+                            633 ;--------------------------------------------------------
+                            634 ; code
+                            635 ;--------------------------------------------------------
+                            636 	.area CSEG    (CODE)
+                            637 ;------------------------------------------------------------
+                            638 ;Allocation info for local variables in function 'recv_data'
+                            639 ;------------------------------------------------------------
+                            640 ;from                      Allocated to stack - _bp -5
+                            641 ;c                         Allocated to registers 
+                            642 ;e                         Allocated to registers r5 r6 r7 
+                            643 ;source                    Allocated to stack - _bp +1
+                            644 ;sloc0                     Allocated to stack - _bp +3
+                            645 ;sloc1                     Allocated to stack - _bp +11
+                            646 ;------------------------------------------------------------
+                            647 ;	../../core/net/uip-over-mesh.c:83: recv_data(struct unicast_conn *c, const rimeaddr_t *from)
+                            648 ;	-----------------------------------------
+                            649 ;	 function recv_data
+                            650 ;	-----------------------------------------
+   0000                     651 _recv_data:
+                    0007    652 	ar7 = 0x07
+                    0006    653 	ar6 = 0x06
+                    0005    654 	ar5 = 0x05
+                    0004    655 	ar4 = 0x04
+                    0003    656 	ar3 = 0x03
+                    0002    657 	ar2 = 0x02
+                    0001    658 	ar1 = 0x01
+                    0000    659 	ar0 = 0x00
+   0000 C0*00               660 	push	_bp
+   0002 E5 81               661 	mov	a,sp
+   0004 F5*00               662 	mov	_bp,a
+   0006 24 04               663 	add	a,#0x04
+   0008 F5 81               664 	mov	sp,a
+                            665 ;	../../core/net/uip-over-mesh.c:88: uip_len = packetbuf_copyto(&uip_buf[UIP_LLH_LEN]);
+   000A 90s00r0E            666 	mov	dptr,#(_uip_aligned_buf + 0x000e)
+   000D 75 F0 00            667 	mov	b,#0x00
+   0010 12s00r00            668 	lcall	_packetbuf_copyto
+   0013 AE 82               669 	mov	r6,dpl
+   0015 AF 83               670 	mov	r7,dph
+   0017 90s00r00            671 	mov	dptr,#_uip_len
+   001A EE                  672 	mov	a,r6
+   001B F0                  673 	movx	@dptr,a
+   001C A3                  674 	inc	dptr
+   001D EF                  675 	mov	a,r7
+   001E F0                  676 	movx	@dptr,a
+                            677 ;	../../core/net/uip-over-mesh.c:90: source.u8[0] = BUF->srcipaddr.u8[2];
+   001F A9*00               678 	mov	r1,_bp
+   0021 09                  679 	inc	r1
+   0022 7Er0E               680 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   0024 7Fs00               681 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   0026 74 0E               682 	mov	a,#0x0E
+   0028 2E                  683 	add	a,r6
+   0029 F5 82               684 	mov	dpl,a
+   002B E4                  685 	clr	a
+   002C 3F                  686 	addc	a,r7
+   002D F5 83               687 	mov	dph,a
+   002F E0                  688 	movx	a,@dptr
+   0030 F7                  689 	mov	@r1,a
+                            690 ;	../../core/net/uip-over-mesh.c:91: source.u8[1] = BUF->srcipaddr.u8[3];
+   0031 AF*00               691 	mov	r7,_bp
+   0033 0F                  692 	inc	r7
+   0034 EF                  693 	mov	a,r7
+   0035 04                  694 	inc	a
+   0036 F9                  695 	mov	r1,a
+   0037 7Er0E               696 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   0039 7Fs00               697 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   003B 74 0F               698 	mov	a,#0x0F
+   003D 2E                  699 	add	a,r6
+   003E F5 82               700 	mov	dpl,a
+   0040 E4                  701 	clr	a
+   0041 3F                  702 	addc	a,r7
+   0042 F5 83               703 	mov	dph,a
+   0044 E0                  704 	movx	a,@dptr
+   0045 F7                  705 	mov	@r1,a
+                            706 ;	../../core/net/uip-over-mesh.c:93: e = route_lookup(&source);
+   0046 AF*00               707 	mov	r7,_bp
+   0048 0F                  708 	inc	r7
+   0049 7E 00               709 	mov	r6,#0x00
+   004B 7D 40               710 	mov	r5,#0x40
+   004D 8F 82               711 	mov	dpl,r7
+   004F 8E 83               712 	mov	dph,r6
+   0051 8D F0               713 	mov	b,r5
+   0053 12s00r00            714 	lcall	_route_lookup
+   0056 AD 82               715 	mov	r5,dpl
+   0058 AE 83               716 	mov	r6,dph
+   005A AF F0               717 	mov	r7,b
+                            718 ;	../../core/net/uip-over-mesh.c:94: if(e == NULL) {
+   005C ED                  719 	mov	a,r5
+   005D 4E                  720 	orl	a,r6
+   005E 70 2F               721 	jnz	00102$
+                            722 ;	../../core/net/uip-over-mesh.c:95: route_add(&source, from, 10, 0);
+   0060 AC*00               723 	mov	r4,_bp
+   0062 0C                  724 	inc	r4
+   0063 7B 00               725 	mov	r3,#0x00
+   0065 7A 40               726 	mov	r2,#0x40
+   0067 E4                  727 	clr	a
+   0068 C0 E0               728 	push	acc
+   006A 74 0A               729 	mov	a,#0x0A
+   006C C0 E0               730 	push	acc
+   006E E5*00               731 	mov	a,_bp
+   0070 24 FB               732 	add	a,#0xfb
+   0072 F8                  733 	mov	r0,a
+   0073 E6                  734 	mov	a,@r0
+   0074 C0 E0               735 	push	acc
+   0076 08                  736 	inc	r0
+   0077 E6                  737 	mov	a,@r0
+   0078 C0 E0               738 	push	acc
+   007A 08                  739 	inc	r0
+   007B E6                  740 	mov	a,@r0
+   007C C0 E0               741 	push	acc
+   007E 8C 82               742 	mov	dpl,r4
+   0080 8B 83               743 	mov	dph,r3
+   0082 8A F0               744 	mov	b,r2
+   0084 12s00r00            745 	lcall	_route_add
+   0087 E5 81               746 	mov	a,sp
+   0089 24 FB               747 	add	a,#0xfb
+   008B F5 81               748 	mov	sp,a
+   008D 80 09               749 	sjmp	00103$
+   008F                     750 00102$:
+                            751 ;	../../core/net/uip-over-mesh.c:97: route_refresh(e);
+   008F 8D 82               752 	mov	dpl,r5
+   0091 8E 83               753 	mov	dph,r6
+   0093 8F F0               754 	mov	b,r7
+   0095 12s00r00            755 	lcall	_route_refresh
+   0098                     756 00103$:
+                            757 ;	../../core/net/uip-over-mesh.c:102: if(!uip_ipaddr_maskcmp(&BUF->srcipaddr, &netaddr, &netmask)) {
+   0098 7Br0E               758 	mov	r3,#(_uip_aligned_buf + 0x000e)
+   009A 7Cs00               759 	mov	r4,#((_uip_aligned_buf + 0x000e) >> 8)
+   009C 74 0C               760 	mov	a,#0x0C
+   009E 2B                  761 	add	a,r3
+   009F FB                  762 	mov	r3,a
+   00A0 E4                  763 	clr	a
+   00A1 3C                  764 	addc	a,r4
+   00A2 FC                  765 	mov	r4,a
+   00A3 8B 82               766 	mov	dpl,r3
+   00A5 8C 83               767 	mov	dph,r4
+   00A7 E0                  768 	movx	a,@dptr
+   00A8 FF                  769 	mov	r7,a
+   00A9 A3                  770 	inc	dptr
+   00AA E0                  771 	movx	a,@dptr
+   00AB FE                  772 	mov	r6,a
+   00AC 90s00rE0            773 	mov	dptr,#_netmask
+   00AF E0                  774 	movx	a,@dptr
+   00B0 FA                  775 	mov	r2,a
+   00B1 A3                  776 	inc	dptr
+   00B2 E0                  777 	movx	a,@dptr
+   00B3 FC                  778 	mov	r4,a
+   00B4 EA                  779 	mov	a,r2
+   00B5 52 07               780 	anl	ar7,a
+   00B7 EC                  781 	mov	a,r4
+   00B8 52 06               782 	anl	ar6,a
+   00BA 90s00rDC            783 	mov	dptr,#_netaddr
+   00BD E0                  784 	movx	a,@dptr
+   00BE FD                  785 	mov	r5,a
+   00BF A3                  786 	inc	dptr
+   00C0 E0                  787 	movx	a,@dptr
+   00C1 FB                  788 	mov	r3,a
+   00C2 90s00rE0            789 	mov	dptr,#_netmask
+   00C5 E0                  790 	movx	a,@dptr
+   00C6 FA                  791 	mov	r2,a
+   00C7 A3                  792 	inc	dptr
+   00C8 E0                  793 	movx	a,@dptr
+   00C9 FC                  794 	mov	r4,a
+   00CA ED                  795 	mov	a,r5
+   00CB 52 02               796 	anl	ar2,a
+   00CD EB                  797 	mov	a,r3
+   00CE 52 04               798 	anl	ar4,a
+   00D0 EF                  799 	mov	a,r7
+   00D1 B5 02 69            800 	cjne	a,ar2,00106$
+   00D4 EE                  801 	mov	a,r6
+   00D5 B5 04 65            802 	cjne	a,ar4,00106$
+   00D8 7Br0E               803 	mov	r3,#(_uip_aligned_buf + 0x000e)
+   00DA 7Cs00               804 	mov	r4,#((_uip_aligned_buf + 0x000e) >> 8)
+   00DC 74 0C               805 	mov	a,#0x0C
+   00DE 2B                  806 	add	a,r3
+   00DF FB                  807 	mov	r3,a
+   00E0 E4                  808 	clr	a
+   00E1 3C                  809 	addc	a,r4
+   00E2 FC                  810 	mov	r4,a
+   00E3 8B 82               811 	mov	dpl,r3
+   00E5 8C 83               812 	mov	dph,r4
+   00E7 A3                  813 	inc	dptr
+   00E8 A3                  814 	inc	dptr
+   00E9 E0                  815 	movx	a,@dptr
+   00EA FF                  816 	mov	r7,a
+   00EB A3                  817 	inc	dptr
+   00EC E0                  818 	movx	a,@dptr
+   00ED FE                  819 	mov	r6,a
+   00EE 7ArE0               820 	mov	r2,#_netmask
+   00F0 7Cs00               821 	mov	r4,#(_netmask >> 8)
+   00F2 8A 82               822 	mov	dpl,r2
+   00F4 8C 83               823 	mov	dph,r4
+   00F6 A3                  824 	inc	dptr
+   00F7 A3                  825 	inc	dptr
+   00F8 E0                  826 	movx	a,@dptr
+   00F9 FB                  827 	mov	r3,a
+   00FA A3                  828 	inc	dptr
+   00FB E0                  829 	movx	a,@dptr
+   00FC FC                  830 	mov	r4,a
+   00FD EB                  831 	mov	a,r3
+   00FE 52 07               832 	anl	ar7,a
+   0100 EC                  833 	mov	a,r4
+   0101 52 06               834 	anl	ar6,a
+   0103 7ArDC               835 	mov	r2,#_netaddr
+   0105 7Cs00               836 	mov	r4,#(_netaddr >> 8)
+   0107 8A 82               837 	mov	dpl,r2
+   0109 8C 83               838 	mov	dph,r4
+   010B A3                  839 	inc	dptr
+   010C A3                  840 	inc	dptr
+   010D E5*00               841 	mov	a,_bp
+   010F 24 03               842 	add	a,#0x03
+   0111 F8                  843 	mov	r0,a
+   0112 E0                  844 	movx	a,@dptr
+   0113 F6                  845 	mov	@r0,a
+   0114 A3                  846 	inc	dptr
+   0115 E0                  847 	movx	a,@dptr
+   0116 08                  848 	inc	r0
+   0117 F6                  849 	mov	@r0,a
+   0118 7ArE0               850 	mov	r2,#_netmask
+   011A 7Cs00               851 	mov	r4,#(_netmask >> 8)
+   011C 8A 82               852 	mov	dpl,r2
+   011E 8C 83               853 	mov	dph,r4
+   0120 A3                  854 	inc	dptr
+   0121 A3                  855 	inc	dptr
+   0122 E0                  856 	movx	a,@dptr
+   0123 FB                  857 	mov	r3,a
+   0124 A3                  858 	inc	dptr
+   0125 E0                  859 	movx	a,@dptr
+   0126 FC                  860 	mov	r4,a
+   0127 E5*00               861 	mov	a,_bp
+   0129 24 03               862 	add	a,#0x03
+   012B F8                  863 	mov	r0,a
+   012C E6                  864 	mov	a,@r0
+   012D 52 03               865 	anl	ar3,a
+   012F 08                  866 	inc	r0
+   0130 E6                  867 	mov	a,@r0
+   0131 52 04               868 	anl	ar4,a
+   0133 EF                  869 	mov	a,r7
+   0134 B5 03 06            870 	cjne	a,ar3,00120$
+   0137 EE                  871 	mov	a,r6
+   0138 B5 04 02            872 	cjne	a,ar4,00120$
+   013B 80 22               873 	sjmp	00107$
+   013D                     874 00120$:
+   013D                     875 00106$:
+                            876 ;	../../core/net/uip-over-mesh.c:103: e = route_lookup(&gateway);
+   013D 90s00rDA            877 	mov	dptr,#_gateway
+   0140 75 F0 00            878 	mov	b,#0x00
+   0143 12s00r00            879 	lcall	_route_lookup
+   0146 AA 82               880 	mov	r2,dpl
+   0148 AB 83               881 	mov	r3,dph
+   014A AC F0               882 	mov	r4,b
+   014C 8A 05               883 	mov	ar5,r2
+   014E 8B 06               884 	mov	ar6,r3
+   0150 8C 07               885 	mov	ar7,r4
+                            886 ;	../../core/net/uip-over-mesh.c:104: if(e != NULL) {
+   0152 ED                  887 	mov	a,r5
+   0153 4E                  888 	orl	a,r6
+   0154 60 09               889 	jz	00107$
+                            890 ;	../../core/net/uip-over-mesh.c:105: route_refresh(e);
+   0156 8D 82               891 	mov	dpl,r5
+   0158 8E 83               892 	mov	dph,r6
+   015A 8F F0               893 	mov	b,r7
+   015C 12s00r00            894 	lcall	_route_refresh
+   015F                     895 00107$:
+                            896 ;	../../core/net/uip-over-mesh.c:113: tcpip_input();
+   015F 12s00r00            897 	lcall	_tcpip_input
+   0162 85*00 81            898 	mov	sp,_bp
+   0165 D0*00               899 	pop	_bp
+   0167 22                  900 	ret
+                            901 ;------------------------------------------------------------
+                            902 ;Allocation info for local variables in function 'send_data'
+                            903 ;------------------------------------------------------------
+                            904 ;next                      Allocated to registers r5 r6 r7 
+                            905 ;------------------------------------------------------------
+                            906 ;	../../core/net/uip-over-mesh.c:117: send_data(rimeaddr_t *next)
+                            907 ;	-----------------------------------------
+                            908 ;	 function send_data
+                            909 ;	-----------------------------------------
+   0168                     910 _send_data:
+   0168 AD 82               911 	mov	r5,dpl
+   016A AE 83               912 	mov	r6,dph
+   016C AF F0               913 	mov	r7,b
+                            914 ;	../../core/net/uip-over-mesh.c:122: unicast_send(&dataconn, next);
+   016E C0 05               915 	push	ar5
+   0170 C0 06               916 	push	ar6
+   0172 C0 07               917 	push	ar7
+   0174 90s00r6A            918 	mov	dptr,#_dataconn
+   0177 75 F0 00            919 	mov	b,#0x00
+   017A 12s00r00            920 	lcall	_unicast_send
+   017D 15 81               921 	dec	sp
+   017F 15 81               922 	dec	sp
+   0181 15 81               923 	dec	sp
+   0183 22                  924 	ret
+                            925 ;------------------------------------------------------------
+                            926 ;Allocation info for local variables in function 'new_route'
+                            927 ;------------------------------------------------------------
+                            928 ;to                        Allocated to stack - _bp -5
+                            929 ;c                         Allocated to registers 
+                            930 ;rt                        Allocated to registers r5 r6 r7 
+                            931 ;------------------------------------------------------------
+                            932 ;	../../core/net/uip-over-mesh.c:126: new_route(struct route_discovery_conn *c, const rimeaddr_t *to)
+                            933 ;	-----------------------------------------
+                            934 ;	 function new_route
+                            935 ;	-----------------------------------------
+   0184                     936 _new_route:
+   0184 C0*00               937 	push	_bp
+   0186 85 81*00            938 	mov	_bp,sp
+                            939 ;	../../core/net/uip-over-mesh.c:130: if(queued_packet) {
+   0189 90s00r00            940 	mov	dptr,#_queued_packet
+   018C E0                  941 	movx	a,@dptr
+   018D FD                  942 	mov	r5,a
+   018E A3                  943 	inc	dptr
+   018F E0                  944 	movx	a,@dptr
+   0190 FE                  945 	mov	r6,a
+   0191 A3                  946 	inc	dptr
+   0192 E0                  947 	movx	a,@dptr
+   0193 FF                  948 	mov	r7,a
+   0194 ED                  949 	mov	a,r5
+   0195 4E                  950 	orl	a,r6
+   0196 60 4B               951 	jz	00105$
+                            952 ;	../../core/net/uip-over-mesh.c:133: queuebuf_to_packetbuf(queued_packet);
+   0198 8D 82               953 	mov	dpl,r5
+   019A 8E 83               954 	mov	dph,r6
+   019C 8F F0               955 	mov	b,r7
+   019E 12s00r00            956 	lcall	_queuebuf_to_packetbuf
+                            957 ;	../../core/net/uip-over-mesh.c:134: queuebuf_free(queued_packet);
+   01A1 90s00r00            958 	mov	dptr,#_queued_packet
+   01A4 E0                  959 	movx	a,@dptr
+   01A5 FD                  960 	mov	r5,a
+   01A6 A3                  961 	inc	dptr
+   01A7 E0                  962 	movx	a,@dptr
+   01A8 FE                  963 	mov	r6,a
+   01A9 A3                  964 	inc	dptr
+   01AA E0                  965 	movx	a,@dptr
+   01AB FF                  966 	mov	r7,a
+   01AC 8D 82               967 	mov	dpl,r5
+   01AE 8E 83               968 	mov	dph,r6
+   01B0 8F F0               969 	mov	b,r7
+   01B2 12s00r00            970 	lcall	_queuebuf_free
+                            971 ;	../../core/net/uip-over-mesh.c:135: queued_packet = NULL;
+   01B5 90s00r00            972 	mov	dptr,#_queued_packet
+   01B8 E4                  973 	clr	a
+   01B9 F0                  974 	movx	@dptr,a
+   01BA A3                  975 	inc	dptr
+   01BB F0                  976 	movx	@dptr,a
+   01BC A3                  977 	inc	dptr
+   01BD F0                  978 	movx	@dptr,a
+                            979 ;	../../core/net/uip-over-mesh.c:137: rt = route_lookup(&queued_receiver);
+   01BE 90s00r03            980 	mov	dptr,#_queued_receiver
+   01C1 75 F0 00            981 	mov	b,#0x00
+   01C4 12s00r00            982 	lcall	_route_lookup
+   01C7 AD 82               983 	mov	r5,dpl
+   01C9 AE 83               984 	mov	r6,dph
+   01CB AF F0               985 	mov	r7,b
+                            986 ;	../../core/net/uip-over-mesh.c:138: if(rt) {
+   01CD ED                  987 	mov	a,r5
+   01CE 4E                  988 	orl	a,r6
+   01CF 60 12               989 	jz	00105$
+                            990 ;	../../core/net/uip-over-mesh.c:139: route_decay(rt);
+   01D1 8D 82               991 	mov	dpl,r5
+   01D3 8E 83               992 	mov	dph,r6
+   01D5 8F F0               993 	mov	b,r7
+   01D7 12s00r00            994 	lcall	_route_decay
+                            995 ;	../../core/net/uip-over-mesh.c:140: send_data(&queued_receiver);
+   01DA 90s00r03            996 	mov	dptr,#_queued_receiver
+   01DD 75 F0 00            997 	mov	b,#0x00
+   01E0 12s01r68            998 	lcall	_send_data
+   01E3                     999 00105$:
+   01E3 D0*00              1000 	pop	_bp
+   01E5 22                 1001 	ret
+                           1002 ;------------------------------------------------------------
+                           1003 ;Allocation info for local variables in function 'timedout'
+                           1004 ;------------------------------------------------------------
+                           1005 ;c                         Allocated to registers 
+                           1006 ;------------------------------------------------------------
+                           1007 ;	../../core/net/uip-over-mesh.c:146: timedout(struct route_discovery_conn *c)
+                           1008 ;	-----------------------------------------
+                           1009 ;	 function timedout
+                           1010 ;	-----------------------------------------
+   01E6                    1011 _timedout:
+                           1012 ;	../../core/net/uip-over-mesh.c:149: if(queued_packet) {
+   01E6 90s00r00           1013 	mov	dptr,#_queued_packet
+   01E9 E0                 1014 	movx	a,@dptr
+   01EA FD                 1015 	mov	r5,a
+   01EB A3                 1016 	inc	dptr
+   01EC E0                 1017 	movx	a,@dptr
+   01ED FE                 1018 	mov	r6,a
+   01EE A3                 1019 	inc	dptr
+   01EF E0                 1020 	movx	a,@dptr
+   01F0 FF                 1021 	mov	r7,a
+   01F1 ED                 1022 	mov	a,r5
+   01F2 4E                 1023 	orl	a,r6
+   01F3 60 12              1024 	jz	00103$
+                           1025 ;	../../core/net/uip-over-mesh.c:151: queuebuf_free(queued_packet);
+   01F5 8D 82              1026 	mov	dpl,r5
+   01F7 8E 83              1027 	mov	dph,r6
+   01F9 8F F0              1028 	mov	b,r7
+   01FB 12s00r00           1029 	lcall	_queuebuf_free
+                           1030 ;	../../core/net/uip-over-mesh.c:152: queued_packet = NULL;
+   01FE 90s00r00           1031 	mov	dptr,#_queued_packet
+   0201 E4                 1032 	clr	a
+   0202 F0                 1033 	movx	@dptr,a
+   0203 A3                 1034 	inc	dptr
+   0204 F0                 1035 	movx	@dptr,a
+   0205 A3                 1036 	inc	dptr
+   0206 F0                 1037 	movx	@dptr,a
+   0207                    1038 00103$:
+   0207 22                 1039 	ret
+                           1040 ;------------------------------------------------------------
+                           1041 ;Allocation info for local variables in function 'gateway_announce_recv'
+                           1042 ;------------------------------------------------------------
+                           1043 ;c                         Allocated to registers 
+                           1044 ;msg                       Allocated to registers r5 r6 r7 
+                           1045 ;------------------------------------------------------------
+                           1046 ;	../../core/net/uip-over-mesh.c:166: gateway_announce_recv(struct trickle_conn *c)
+                           1047 ;	-----------------------------------------
+                           1048 ;	 function gateway_announce_recv
+                           1049 ;	-----------------------------------------
+   0208                    1050 _gateway_announce_recv:
+                           1051 ;	../../core/net/uip-over-mesh.c:169: msg = packetbuf_dataptr();
+   0208 12s00r00           1052 	lcall	_packetbuf_dataptr
+   020B AD 82              1053 	mov	r5,dpl
+   020D AE 83              1054 	mov	r6,dph
+   020F AF F0              1055 	mov	r7,b
+                           1056 ;	../../core/net/uip-over-mesh.c:174: if(!is_gateway) {
+   0211 90s00rE4           1057 	mov	dptr,#_is_gateway
+   0214 E0                 1058 	movx	a,@dptr
+   0215 FC                 1059 	mov	r4,a
+   0216 70 09              1060 	jnz	00103$
+                           1061 ;	../../core/net/uip-over-mesh.c:175: uip_over_mesh_set_gateway(&msg->gateway);
+   0218 8D 82              1062 	mov	dpl,r5
+   021A 8E 83              1063 	mov	dph,r6
+   021C 8F F0              1064 	mov	b,r7
+   021E 02s05rEE           1065 	ljmp	_uip_over_mesh_set_gateway
+   0221                    1066 00103$:
+   0221 22                 1067 	ret
+                           1068 ;------------------------------------------------------------
+                           1069 ;Allocation info for local variables in function 'uip_over_mesh_make_announced_gateway'
+                           1070 ;------------------------------------------------------------
+                           1071 ;msg                       Allocated to stack - _bp +1
+                           1072 ;------------------------------------------------------------
+                           1073 ;	../../core/net/uip-over-mesh.c:181: uip_over_mesh_make_announced_gateway(void)
+                           1074 ;	-----------------------------------------
+                           1075 ;	 function uip_over_mesh_make_announced_gateway
+                           1076 ;	-----------------------------------------
+   0222                    1077 _uip_over_mesh_make_announced_gateway:
+   0222 C0*00              1078 	push	_bp
+   0224 85 81*00           1079 	mov	_bp,sp
+   0227 05 81              1080 	inc	sp
+   0229 05 81              1081 	inc	sp
+                           1082 ;	../../core/net/uip-over-mesh.c:186: if(!is_gateway) {
+   022B 90s00rE4           1083 	mov	dptr,#_is_gateway
+   022E E0                 1084 	movx	a,@dptr
+   022F FF                 1085 	mov	r7,a
+                           1086 ;	../../core/net/uip-over-mesh.c:189: uip_over_mesh_set_gateway(&rimeaddr_node_addr);
+   0230 70 53              1087 	jnz	00103$
+   0232 90s00r00           1088 	mov	dptr,#_rimeaddr_node_addr
+   0235 F5 F0              1089 	mov	b,a
+   0237 12s05rEE           1090 	lcall	_uip_over_mesh_set_gateway
+                           1091 ;	../../core/net/uip-over-mesh.c:190: rimeaddr_copy(&(msg.gateway), &rimeaddr_node_addr);
+   023A AF*00              1092 	mov	r7,_bp
+   023C 0F                 1093 	inc	r7
+   023D 7E 00              1094 	mov	r6,#0x00
+   023F 7D 40              1095 	mov	r5,#0x40
+   0241 74r00              1096 	mov	a,#_rimeaddr_node_addr
+   0243 C0 E0              1097 	push	acc
+   0245 74s00              1098 	mov	a,#(_rimeaddr_node_addr >> 8)
+   0247 C0 E0              1099 	push	acc
+   0249 E4                 1100 	clr	a
+   024A C0 E0              1101 	push	acc
+   024C 8F 82              1102 	mov	dpl,r7
+   024E 8E 83              1103 	mov	dph,r6
+   0250 8D F0              1104 	mov	b,r5
+   0252 12s00r00           1105 	lcall	_rimeaddr_copy
+   0255 15 81              1106 	dec	sp
+   0257 15 81              1107 	dec	sp
+   0259 15 81              1108 	dec	sp
+                           1109 ;	../../core/net/uip-over-mesh.c:191: packetbuf_copyfrom(&msg, sizeof(struct gateway_msg));
+   025B AF*00              1110 	mov	r7,_bp
+   025D 0F                 1111 	inc	r7
+   025E 7E 00              1112 	mov	r6,#0x00
+   0260 7D 40              1113 	mov	r5,#0x40
+   0262 74 02              1114 	mov	a,#0x02
+   0264 C0 E0              1115 	push	acc
+   0266 E4                 1116 	clr	a
+   0267 C0 E0              1117 	push	acc
+   0269 8F 82              1118 	mov	dpl,r7
+   026B 8E 83              1119 	mov	dph,r6
+   026D 8D F0              1120 	mov	b,r5
+   026F 12s00r00           1121 	lcall	_packetbuf_copyfrom
+   0272 15 81              1122 	dec	sp
+   0274 15 81              1123 	dec	sp
+                           1124 ;	../../core/net/uip-over-mesh.c:192: trickle_send(&gateway_announce_conn);
+   0276 90s00r7C           1125 	mov	dptr,#_gateway_announce_conn
+   0279 75 F0 00           1126 	mov	b,#0x00
+   027C 12s00r00           1127 	lcall	_trickle_send
+                           1128 ;	../../core/net/uip-over-mesh.c:193: is_gateway = 1;
+   027F 90s00rE4           1129 	mov	dptr,#_is_gateway
+   0282 74 01              1130 	mov	a,#0x01
+   0284 F0                 1131 	movx	@dptr,a
+   0285                    1132 00103$:
+   0285 85*00 81           1133 	mov	sp,_bp
+   0288 D0*00              1134 	pop	_bp
+   028A 22                 1135 	ret
+                           1136 ;------------------------------------------------------------
+                           1137 ;Allocation info for local variables in function 'uip_over_mesh_init'
+                           1138 ;------------------------------------------------------------
+                           1139 ;channels                  Allocated to registers r6 r7 
+                           1140 ;------------------------------------------------------------
+                           1141 ;	../../core/net/uip-over-mesh.c:199: uip_over_mesh_init(uint16_t channels)
+                           1142 ;	-----------------------------------------
+                           1143 ;	 function uip_over_mesh_init
+                           1144 ;	-----------------------------------------
+   028B                    1145 _uip_over_mesh_init:
+   028B AE 82              1146 	mov	r6,dpl
+   028D AF 83              1147 	mov	r7,dph
+                           1148 ;	../../core/net/uip-over-mesh.c:207: unicast_open(&dataconn, channels, &data_callbacks);
+   028F C0 07              1149 	push	ar7
+   0291 C0 06              1150 	push	ar6
+   0293 74r00              1151 	mov	a,#_data_callbacks
+   0295 C0 E0              1152 	push	acc
+   0297 74s00              1153 	mov	a,#(_data_callbacks >> 8)
+   0299 C0 E0              1154 	push	acc
+   029B 74 80              1155 	mov	a,#0x80
+   029D C0 E0              1156 	push	acc
+   029F C0 06              1157 	push	ar6
+   02A1 C0 07              1158 	push	ar7
+   02A3 90s00r6A           1159 	mov	dptr,#_dataconn
+   02A6 75 F0 00           1160 	mov	b,#0x00
+   02A9 12s00r00           1161 	lcall	_unicast_open
+   02AC E5 81              1162 	mov	a,sp
+   02AE 24 FB              1163 	add	a,#0xfb
+   02B0 F5 81              1164 	mov	sp,a
+   02B2 D0 06              1165 	pop	ar6
+   02B4 D0 07              1166 	pop	ar7
+                           1167 ;	../../core/net/uip-over-mesh.c:209: channels + 1, &rdc);
+   02B6 74 01              1168 	mov	a,#0x01
+   02B8 2E                 1169 	add	a,r6
+   02B9 FC                 1170 	mov	r4,a
+   02BA E4                 1171 	clr	a
+   02BB 3F                 1172 	addc	a,r7
+   02BC FD                 1173 	mov	r5,a
+                           1174 ;	../../core/net/uip-over-mesh.c:208: route_discovery_open(&route_discovery, ROUTE_DISCOVERY_INTERVAL,
+   02BD C0 07              1175 	push	ar7
+   02BF C0 06              1176 	push	ar6
+   02C1 74r04              1177 	mov	a,#_rdc
+   02C3 C0 E0              1178 	push	acc
+   02C5 74s00              1179 	mov	a,#(_rdc >> 8)
+   02C7 C0 E0              1180 	push	acc
+   02C9 74 80              1181 	mov	a,#0x80
+   02CB C0 E0              1182 	push	acc
+   02CD C0 04              1183 	push	ar4
+   02CF C0 05              1184 	push	ar5
+   02D1 E4                 1185 	clr	a
+   02D2 C0 E0              1186 	push	acc
+   02D4 74 02              1187 	mov	a,#0x02
+   02D6 C0 E0              1188 	push	acc
+   02D8 90s00r05           1189 	mov	dptr,#_route_discovery
+   02DB 75 F0 00           1190 	mov	b,#0x00
+   02DE 12s00r00           1191 	lcall	_route_discovery_open
+   02E1 E5 81              1192 	mov	a,sp
+   02E3 24 F9              1193 	add	a,#0xf9
+   02E5 F5 81              1194 	mov	sp,a
+   02E7 D0 06              1195 	pop	ar6
+   02E9 D0 07              1196 	pop	ar7
+                           1197 ;	../../core/net/uip-over-mesh.c:211: &trickle_call);
+                           1198 ;	../../core/net/uip-over-mesh.c:210: trickle_open(&gateway_announce_conn, ROUTE_TRICKLE_INTERVAL, channels + 3,
+   02EB 74 03              1199 	mov	a,#0x03
+   02ED 2E                 1200 	add	a,r6
+   02EE FE                 1201 	mov	r6,a
+   02EF E4                 1202 	clr	a
+   02F0 3F                 1203 	addc	a,r7
+   02F1 FF                 1204 	mov	r7,a
+   02F2 74r08              1205 	mov	a,#_trickle_call
+   02F4 C0 E0              1206 	push	acc
+   02F6 74s00              1207 	mov	a,#(_trickle_call >> 8)
+   02F8 C0 E0              1208 	push	acc
+   02FA 74 80              1209 	mov	a,#0x80
+   02FC C0 E0              1210 	push	acc
+   02FE C0 06              1211 	push	ar6
+   0300 C0 07              1212 	push	ar7
+   0302 E4                 1213 	clr	a
+   0303 C0 E0              1214 	push	acc
+   0305 74 10              1215 	mov	a,#0x10
+   0307 C0 E0              1216 	push	acc
+   0309 90s00r7C           1217 	mov	dptr,#_gateway_announce_conn
+   030C 75 F0 00           1218 	mov	b,#0x00
+   030F 12s00r00           1219 	lcall	_trickle_open
+   0312 E5 81              1220 	mov	a,sp
+   0314 24 F9              1221 	add	a,#0xf9
+   0316 F5 81              1222 	mov	sp,a
+                           1223 ;	../../core/net/uip-over-mesh.c:213: route_init();
+   0318 12s00r00           1224 	lcall	_route_init
+                           1225 ;	../../core/net/uip-over-mesh.c:215: route_set_lifetime(30);
+   031B 90 00 1E           1226 	mov	dptr,#0x001E
+   031E 02s00r00           1227 	ljmp	_route_set_lifetime
+                           1228 ;------------------------------------------------------------
+                           1229 ;Allocation info for local variables in function 'uip_over_mesh_send'
+                           1230 ;------------------------------------------------------------
+                           1231 ;receiver                  Allocated to stack - _bp +1
+                           1232 ;rt                        Allocated to registers r5 r6 r7 
+                           1233 ;------------------------------------------------------------
+                           1234 ;	../../core/net/uip-over-mesh.c:219: uip_over_mesh_send(void)
+                           1235 ;	-----------------------------------------
+                           1236 ;	 function uip_over_mesh_send
+                           1237 ;	-----------------------------------------
+   0321                    1238 _uip_over_mesh_send:
+   0321 C0*00              1239 	push	_bp
+   0323 85 81*00           1240 	mov	_bp,sp
+   0326 05 81              1241 	inc	sp
+   0328 05 81              1242 	inc	sp
+                           1243 ;	../../core/net/uip-over-mesh.c:233: if(uip_ipaddr_maskcmp(&BUF->destipaddr, &netaddr, &netmask)) {
+   032A 7Er0E              1244 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   032C 7Fs00              1245 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   032E 74 10              1246 	mov	a,#0x10
+   0330 2E                 1247 	add	a,r6
+   0331 FE                 1248 	mov	r6,a
+   0332 E4                 1249 	clr	a
+   0333 3F                 1250 	addc	a,r7
+   0334 FF                 1251 	mov	r7,a
+   0335 8E 82              1252 	mov	dpl,r6
+   0337 8F 83              1253 	mov	dph,r7
+   0339 E0                 1254 	movx	a,@dptr
+   033A FE                 1255 	mov	r6,a
+   033B A3                 1256 	inc	dptr
+   033C E0                 1257 	movx	a,@dptr
+   033D FF                 1258 	mov	r7,a
+   033E 90s00rE0           1259 	mov	dptr,#_netmask
+   0341 E0                 1260 	movx	a,@dptr
+   0342 FC                 1261 	mov	r4,a
+   0343 A3                 1262 	inc	dptr
+   0344 E0                 1263 	movx	a,@dptr
+   0345 FD                 1264 	mov	r5,a
+   0346 EC                 1265 	mov	a,r4
+   0347 52 06              1266 	anl	ar6,a
+   0349 ED                 1267 	mov	a,r5
+   034A 52 07              1268 	anl	ar7,a
+   034C 90s00rDC           1269 	mov	dptr,#_netaddr
+   034F E0                 1270 	movx	a,@dptr
+   0350 FC                 1271 	mov	r4,a
+   0351 A3                 1272 	inc	dptr
+   0352 E0                 1273 	movx	a,@dptr
+   0353 FD                 1274 	mov	r5,a
+   0354 90s00rE0           1275 	mov	dptr,#_netmask
+   0357 E0                 1276 	movx	a,@dptr
+   0358 FA                 1277 	mov	r2,a
+   0359 A3                 1278 	inc	dptr
+   035A E0                 1279 	movx	a,@dptr
+   035B FB                 1280 	mov	r3,a
+   035C EA                 1281 	mov	a,r2
+   035D 52 04              1282 	anl	ar4,a
+   035F EB                 1283 	mov	a,r3
+   0360 52 05              1284 	anl	ar5,a
+   0362 EE                 1285 	mov	a,r6
+   0363 B5 04 06           1286 	cjne	a,ar4,00143$
+   0366 EF                 1287 	mov	a,r7
+   0367 B5 05 02           1288 	cjne	a,ar5,00143$
+   036A 80 03              1289 	sjmp	00144$
+   036C                    1290 00143$:
+   036C 02s03rF1           1291 	ljmp	00110$
+   036F                    1292 00144$:
+   036F 7Er0E              1293 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   0371 7Fs00              1294 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   0373 74 10              1295 	mov	a,#0x10
+   0375 2E                 1296 	add	a,r6
+   0376 FE                 1297 	mov	r6,a
+   0377 E4                 1298 	clr	a
+   0378 3F                 1299 	addc	a,r7
+   0379 FF                 1300 	mov	r7,a
+   037A 8E 82              1301 	mov	dpl,r6
+   037C 8F 83              1302 	mov	dph,r7
+   037E A3                 1303 	inc	dptr
+   037F A3                 1304 	inc	dptr
+   0380 E0                 1305 	movx	a,@dptr
+   0381 FE                 1306 	mov	r6,a
+   0382 A3                 1307 	inc	dptr
+   0383 E0                 1308 	movx	a,@dptr
+   0384 FF                 1309 	mov	r7,a
+   0385 7CrE0              1310 	mov	r4,#_netmask
+   0387 7Ds00              1311 	mov	r5,#(_netmask >> 8)
+   0389 8C 82              1312 	mov	dpl,r4
+   038B 8D 83              1313 	mov	dph,r5
+   038D A3                 1314 	inc	dptr
+   038E A3                 1315 	inc	dptr
+   038F E0                 1316 	movx	a,@dptr
+   0390 FC                 1317 	mov	r4,a
+   0391 A3                 1318 	inc	dptr
+   0392 E0                 1319 	movx	a,@dptr
+   0393 FD                 1320 	mov	r5,a
+   0394 EC                 1321 	mov	a,r4
+   0395 52 06              1322 	anl	ar6,a
+   0397 ED                 1323 	mov	a,r5
+   0398 52 07              1324 	anl	ar7,a
+   039A 7CrDC              1325 	mov	r4,#_netaddr
+   039C 7Ds00              1326 	mov	r5,#(_netaddr >> 8)
+   039E 8C 82              1327 	mov	dpl,r4
+   03A0 8D 83              1328 	mov	dph,r5
+   03A2 A3                 1329 	inc	dptr
+   03A3 A3                 1330 	inc	dptr
+   03A4 E0                 1331 	movx	a,@dptr
+   03A5 FC                 1332 	mov	r4,a
+   03A6 A3                 1333 	inc	dptr
+   03A7 E0                 1334 	movx	a,@dptr
+   03A8 FD                 1335 	mov	r5,a
+   03A9 7ArE0              1336 	mov	r2,#_netmask
+   03AB 7Bs00              1337 	mov	r3,#(_netmask >> 8)
+   03AD 8A 82              1338 	mov	dpl,r2
+   03AF 8B 83              1339 	mov	dph,r3
+   03B1 A3                 1340 	inc	dptr
+   03B2 A3                 1341 	inc	dptr
+   03B3 E0                 1342 	movx	a,@dptr
+   03B4 FA                 1343 	mov	r2,a
+   03B5 A3                 1344 	inc	dptr
+   03B6 E0                 1345 	movx	a,@dptr
+   03B7 FB                 1346 	mov	r3,a
+   03B8 EA                 1347 	mov	a,r2
+   03B9 52 04              1348 	anl	ar4,a
+   03BB EB                 1349 	mov	a,r3
+   03BC 52 05              1350 	anl	ar5,a
+   03BE EE                 1351 	mov	a,r6
+   03BF B5 04 2F           1352 	cjne	a,ar4,00110$
+   03C2 EF                 1353 	mov	a,r7
+   03C3 B5 05 2B           1354 	cjne	a,ar5,00110$
+                           1355 ;	../../core/net/uip-over-mesh.c:234: receiver.u8[0] = BUF->destipaddr.u8[2];
+   03C6 A9*00              1356 	mov	r1,_bp
+   03C8 09                 1357 	inc	r1
+   03C9 7Er0E              1358 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   03CB 7Fs00              1359 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   03CD 74 12              1360 	mov	a,#0x12
+   03CF 2E                 1361 	add	a,r6
+   03D0 F5 82              1362 	mov	dpl,a
+   03D2 E4                 1363 	clr	a
+   03D3 3F                 1364 	addc	a,r7
+   03D4 F5 83              1365 	mov	dph,a
+   03D6 E0                 1366 	movx	a,@dptr
+   03D7 F7                 1367 	mov	@r1,a
+                           1368 ;	../../core/net/uip-over-mesh.c:235: receiver.u8[1] = BUF->destipaddr.u8[3];
+   03D8 AF*00              1369 	mov	r7,_bp
+   03DA 0F                 1370 	inc	r7
+   03DB EF                 1371 	mov	a,r7
+   03DC 04                 1372 	inc	a
+   03DD F9                 1373 	mov	r1,a
+   03DE 7Er0E              1374 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   03E0 7Fs00              1375 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   03E2 74 13              1376 	mov	a,#0x13
+   03E4 2E                 1377 	add	a,r6
+   03E5 F5 82              1378 	mov	dpl,a
+   03E7 E4                 1379 	clr	a
+   03E8 3F                 1380 	addc	a,r7
+   03E9 F5 83              1381 	mov	dph,a
+   03EB E0                 1382 	movx	a,@dptr
+   03EC FF                 1383 	mov	r7,a
+   03ED F7                 1384 	mov	@r1,a
+   03EE 02s04r9A           1385 	ljmp	00111$
+   03F1                    1386 00110$:
+                           1387 ;	../../core/net/uip-over-mesh.c:237: if(rimeaddr_cmp(&gateway, &rimeaddr_node_addr)) {
+   03F1 74r00              1388 	mov	a,#_rimeaddr_node_addr
+   03F3 C0 E0              1389 	push	acc
+   03F5 74s00              1390 	mov	a,#(_rimeaddr_node_addr >> 8)
+   03F7 C0 E0              1391 	push	acc
+   03F9 E4                 1392 	clr	a
+   03FA C0 E0              1393 	push	acc
+   03FC 90s00rDA           1394 	mov	dptr,#_gateway
+   03FF 75 F0 00           1395 	mov	b,#0x00
+   0402 12s00r00           1396 	lcall	_rimeaddr_cmp
+   0405 AE 82              1397 	mov	r6,dpl
+   0407 AF 83              1398 	mov	r7,dph
+   0409 15 81              1399 	dec	sp
+   040B 15 81              1400 	dec	sp
+   040D 15 81              1401 	dec	sp
+   040F EE                 1402 	mov	a,r6
+   0410 4F                 1403 	orl	a,r7
+   0411 60 3D              1404 	jz	00107$
+                           1405 ;	../../core/net/uip-over-mesh.c:240: if(gw_netif != NULL) {
+   0413 90s00rD7           1406 	mov	dptr,#_gw_netif
+   0416 E0                 1407 	movx	a,@dptr
+   0417 FD                 1408 	mov	r5,a
+   0418 A3                 1409 	inc	dptr
+   0419 E0                 1410 	movx	a,@dptr
+   041A FE                 1411 	mov	r6,a
+   041B A3                 1412 	inc	dptr
+   041C E0                 1413 	movx	a,@dptr
+   041D FF                 1414 	mov	r7,a
+   041E ED                 1415 	mov	a,r5
+   041F 4E                 1416 	orl	a,r6
+   0420 60 28              1417 	jz	00102$
+                           1418 ;	../../core/net/uip-over-mesh.c:241: return gw_netif->output();
+   0422 74 0B              1419 	mov	a,#0x0B
+   0424 2D                 1420 	add	a,r5
+   0425 FD                 1421 	mov	r5,a
+   0426 E4                 1422 	clr	a
+   0427 3E                 1423 	addc	a,r6
+   0428 FE                 1424 	mov	r6,a
+   0429 8D 82              1425 	mov	dpl,r5
+   042B 8E 83              1426 	mov	dph,r6
+   042D 8F F0              1427 	mov	b,r7
+   042F 12s00r00           1428 	lcall	__gptrget
+   0432 FD                 1429 	mov	r5,a
+   0433 A3                 1430 	inc	dptr
+   0434 12s00r00           1431 	lcall	__gptrget
+   0437 FE                 1432 	mov	r6,a
+   0438 C0 06              1433 	push	ar6
+   043A 8D 82              1434 	mov	dpl,r5
+   043C 8E 83              1435 	mov	dph,r6
+   043E 12s00r00           1436 	lcall	__sdcc_call_dptr
+   0441 AD 82              1437 	mov	r5,dpl
+   0443 D0 06              1438 	pop	ar6
+   0445 8D 82              1439 	mov	dpl,r5
+   0447 02s05rD7           1440 	ljmp	00123$
+   044A                    1441 00102$:
+                           1442 ;	../../core/net/uip-over-mesh.c:243: return UIP_FW_DROPPED;
+   044A 75 82 05           1443 	mov	dpl,#0x05
+   044D 02s05rD7           1444 	ljmp	00123$
+   0450                    1445 00107$:
+                           1446 ;	../../core/net/uip-over-mesh.c:244: } else if(rimeaddr_cmp(&gateway, &rimeaddr_null)) {
+   0450 74r00              1447 	mov	a,#_rimeaddr_null
+   0452 C0 E0              1448 	push	acc
+   0454 74s00              1449 	mov	a,#(_rimeaddr_null >> 8)
+   0456 C0 E0              1450 	push	acc
+   0458 74 80              1451 	mov	a,#0x80
+   045A C0 E0              1452 	push	acc
+   045C 90s00rDA           1453 	mov	dptr,#_gateway
+   045F 75 F0 00           1454 	mov	b,#0x00
+   0462 12s00r00           1455 	lcall	_rimeaddr_cmp
+   0465 AE 82              1456 	mov	r6,dpl
+   0467 AF 83              1457 	mov	r7,dph
+   0469 15 81              1458 	dec	sp
+   046B 15 81              1459 	dec	sp
+   046D 15 81              1460 	dec	sp
+   046F EE                 1461 	mov	a,r6
+   0470 4F                 1462 	orl	a,r7
+   0471 60 06              1463 	jz	00104$
+                           1464 ;	../../core/net/uip-over-mesh.c:246: return UIP_FW_OK;
+   0473 75 82 00           1465 	mov	dpl,#0x00
+   0476 02s05rD7           1466 	ljmp	00123$
+   0479                    1467 00104$:
+                           1468 ;	../../core/net/uip-over-mesh.c:251: rimeaddr_copy(&receiver, &gateway);
+   0479 AF*00              1469 	mov	r7,_bp
+   047B 0F                 1470 	inc	r7
+   047C 7E 00              1471 	mov	r6,#0x00
+   047E 7D 40              1472 	mov	r5,#0x40
+   0480 74rDA              1473 	mov	a,#_gateway
+   0482 C0 E0              1474 	push	acc
+   0484 74s00              1475 	mov	a,#(_gateway >> 8)
+   0486 C0 E0              1476 	push	acc
+   0488 E4                 1477 	clr	a
+   0489 C0 E0              1478 	push	acc
+   048B 8F 82              1479 	mov	dpl,r7
+   048D 8E 83              1480 	mov	dph,r6
+   048F 8D F0              1481 	mov	b,r5
+   0491 12s00r00           1482 	lcall	_rimeaddr_copy
+   0494 15 81              1483 	dec	sp
+   0496 15 81              1484 	dec	sp
+   0498 15 81              1485 	dec	sp
+   049A                    1486 00111$:
+                           1487 ;	../../core/net/uip-over-mesh.c:261: packetbuf_copyfrom(&uip_buf[UIP_LLH_LEN], uip_len);
+   049A 90s00r00           1488 	mov	dptr,#_uip_len
+   049D E0                 1489 	movx	a,@dptr
+   049E C0 E0              1490 	push	acc
+   04A0 A3                 1491 	inc	dptr
+   04A1 E0                 1492 	movx	a,@dptr
+   04A2 C0 E0              1493 	push	acc
+   04A4 90s00r0E           1494 	mov	dptr,#(_uip_aligned_buf + 0x000e)
+   04A7 75 F0 00           1495 	mov	b,#0x00
+   04AA 12s00r00           1496 	lcall	_packetbuf_copyfrom
+   04AD 15 81              1497 	dec	sp
+   04AF 15 81              1498 	dec	sp
+                           1499 ;	../../core/net/uip-over-mesh.c:266: if(BUF->proto == UIP_PROTO_TCP) {
+   04B1 7Er0E              1500 	mov	r6,#(_uip_aligned_buf + 0x000e)
+   04B3 7Fs00              1501 	mov	r7,#((_uip_aligned_buf + 0x000e) >> 8)
+   04B5 74 09              1502 	mov	a,#0x09
+   04B7 2E                 1503 	add	a,r6
+   04B8 F5 82              1504 	mov	dpl,a
+   04BA E4                 1505 	clr	a
+   04BB 3F                 1506 	addc	a,r7
+   04BC F5 83              1507 	mov	dph,a
+   04BE E0                 1508 	movx	a,@dptr
+   04BF FF                 1509 	mov	r7,a
+   04C0 BF 06 22           1510 	cjne	r7,#0x06,00114$
+                           1511 ;	../../core/net/uip-over-mesh.c:267: packetbuf_set_attr(PACKETBUF_ATTR_ERELIABLE, 1);
+   04C3 74 01              1512 	mov	a,#0x01
+   04C5 C0 E0              1513 	push	acc
+   04C7 E4                 1514 	clr	a
+   04C8 C0 E0              1515 	push	acc
+   04CA 75 82 17           1516 	mov	dpl,#0x17
+   04CD 12s00r00           1517 	lcall	_packetbuf_set_attr
+   04D0 15 81              1518 	dec	sp
+   04D2 15 81              1519 	dec	sp
+                           1520 ;	../../core/net/uip-over-mesh.c:268: packetbuf_set_attr(PACKETBUF_ATTR_RELIABLE, 1);
+   04D4 74 01              1521 	mov	a,#0x01
+   04D6 C0 E0              1522 	push	acc
+   04D8 E4                 1523 	clr	a
+   04D9 C0 E0              1524 	push	acc
+   04DB 75 82 0C           1525 	mov	dpl,#0x0C
+   04DE 12s00r00           1526 	lcall	_packetbuf_set_attr
+   04E1 15 81              1527 	dec	sp
+   04E3 15 81              1528 	dec	sp
+   04E5                    1529 00114$:
+                           1530 ;	../../core/net/uip-over-mesh.c:272: rt = route_lookup(&receiver);
+   04E5 AF*00              1531 	mov	r7,_bp
+   04E7 0F                 1532 	inc	r7
+   04E8 7E 00              1533 	mov	r6,#0x00
+   04EA 7D 40              1534 	mov	r5,#0x40
+   04EC 8F 82              1535 	mov	dpl,r7
+   04EE 8E 83              1536 	mov	dph,r6
+   04F0 8D F0              1537 	mov	b,r5
+   04F2 12s00r00           1538 	lcall	_route_lookup
+   04F5 AD 82              1539 	mov	r5,dpl
+   04F7 AE 83              1540 	mov	r6,dph
+   04F9 AF F0              1541 	mov	r7,b
+                           1542 ;	../../core/net/uip-over-mesh.c:273: if(rt == NULL) {
+   04FB ED                 1543 	mov	a,r5
+   04FC 4E                 1544 	orl	a,r6
+   04FD 60 03              1545 	jz	00153$
+   04FF 02s05rAF           1546 	ljmp	00121$
+   0502                    1547 00153$:
+                           1548 ;	../../core/net/uip-over-mesh.c:275: if(queued_packet == NULL) {
+   0502 90s00r00           1549 	mov	dptr,#_queued_packet
+   0505 E0                 1550 	movx	a,@dptr
+   0506 FA                 1551 	mov	r2,a
+   0507 A3                 1552 	inc	dptr
+   0508 E0                 1553 	movx	a,@dptr
+   0509 FB                 1554 	mov	r3,a
+   050A A3                 1555 	inc	dptr
+   050B E0                 1556 	movx	a,@dptr
+   050C FC                 1557 	mov	r4,a
+   050D EA                 1558 	mov	a,r2
+   050E 4B                 1559 	orl	a,r3
+   050F 70 55              1560 	jnz	00118$
+                           1561 ;	../../core/net/uip-over-mesh.c:276: queued_packet = queuebuf_new_from_packetbuf();
+   0511 12s00r00           1562 	lcall	_queuebuf_new_from_packetbuf
+   0514 AA 82              1563 	mov	r2,dpl
+   0516 AB 83              1564 	mov	r3,dph
+   0518 AC F0              1565 	mov	r4,b
+   051A 90s00r00           1566 	mov	dptr,#_queued_packet
+   051D EA                 1567 	mov	a,r2
+   051E F0                 1568 	movx	@dptr,a
+   051F A3                 1569 	inc	dptr
+   0520 EB                 1570 	mov	a,r3
+   0521 F0                 1571 	movx	@dptr,a
+   0522 A3                 1572 	inc	dptr
+   0523 EC                 1573 	mov	a,r4
+   0524 F0                 1574 	movx	@dptr,a
+                           1575 ;	../../core/net/uip-over-mesh.c:277: rimeaddr_copy(&queued_receiver, &receiver);
+   0525 AC*00              1576 	mov	r4,_bp
+   0527 0C                 1577 	inc	r4
+   0528 7B 00              1578 	mov	r3,#0x00
+   052A 7A 40              1579 	mov	r2,#0x40
+   052C C0 04              1580 	push	ar4
+   052E C0 03              1581 	push	ar3
+   0530 C0 02              1582 	push	ar2
+   0532 90s00r03           1583 	mov	dptr,#_queued_receiver
+   0535 75 F0 00           1584 	mov	b,#0x00
+   0538 12s00r00           1585 	lcall	_rimeaddr_copy
+   053B 15 81              1586 	dec	sp
+   053D 15 81              1587 	dec	sp
+   053F 15 81              1588 	dec	sp
+                           1589 ;	../../core/net/uip-over-mesh.c:278: route_discovery_discover(&route_discovery, &receiver, ROUTE_TIMEOUT);
+   0541 AC*00              1590 	mov	r4,_bp
+   0543 0C                 1591 	inc	r4
+   0544 7B 00              1592 	mov	r3,#0x00
+   0546 7A 40              1593 	mov	r2,#0x40
+   0548 E4                 1594 	clr	a
+   0549 C0 E0              1595 	push	acc
+   054B 74 02              1596 	mov	a,#0x02
+   054D C0 E0              1597 	push	acc
+   054F C0 04              1598 	push	ar4
+   0551 C0 03              1599 	push	ar3
+   0553 C0 02              1600 	push	ar2
+   0555 90s00r05           1601 	mov	dptr,#_route_discovery
+   0558 75 F0 00           1602 	mov	b,#0x00
+   055B 12s00r00           1603 	lcall	_route_discovery_discover
+   055E E5 81              1604 	mov	a,sp
+   0560 24 FB              1605 	add	a,#0xfb
+   0562 F5 81              1606 	mov	sp,a
+   0564 80 6E              1607 	sjmp	00122$
+   0566                    1608 00118$:
+                           1609 ;	../../core/net/uip-over-mesh.c:279: } else if(!rimeaddr_cmp(&queued_receiver, &receiver)) {
+   0566 AC*00              1610 	mov	r4,_bp
+   0568 0C                 1611 	inc	r4
+   0569 7B 00              1612 	mov	r3,#0x00
+   056B 7A 40              1613 	mov	r2,#0x40
+   056D C0 04              1614 	push	ar4
+   056F C0 03              1615 	push	ar3
+   0571 C0 02              1616 	push	ar2
+   0573 90s00r03           1617 	mov	dptr,#_queued_receiver
+   0576 75 F0 00           1618 	mov	b,#0x00
+   0579 12s00r00           1619 	lcall	_rimeaddr_cmp
+   057C AB 82              1620 	mov	r3,dpl
+   057E AC 83              1621 	mov	r4,dph
+   0580 15 81              1622 	dec	sp
+   0582 15 81              1623 	dec	sp
+   0584 15 81              1624 	dec	sp
+   0586 EB                 1625 	mov	a,r3
+   0587 4C                 1626 	orl	a,r4
+   0588 70 4A              1627 	jnz	00122$
+                           1628 ;	../../core/net/uip-over-mesh.c:280: route_discovery_discover(&route_discovery, &receiver, ROUTE_TIMEOUT);
+   058A AC*00              1629 	mov	r4,_bp
+   058C 0C                 1630 	inc	r4
+   058D 7B 00              1631 	mov	r3,#0x00
+   058F 7A 40              1632 	mov	r2,#0x40
+   0591 E4                 1633 	clr	a
+   0592 C0 E0              1634 	push	acc
+   0594 74 02              1635 	mov	a,#0x02
+   0596 C0 E0              1636 	push	acc
+   0598 C0 04              1637 	push	ar4
+   059A C0 03              1638 	push	ar3
+   059C C0 02              1639 	push	ar2
+   059E 90s00r05           1640 	mov	dptr,#_route_discovery
+   05A1 75 F0 00           1641 	mov	b,#0x00
+   05A4 12s00r00           1642 	lcall	_route_discovery_discover
+   05A7 E5 81              1643 	mov	a,sp
+   05A9 24 FB              1644 	add	a,#0xfb
+   05AB F5 81              1645 	mov	sp,a
+   05AD 80 25              1646 	sjmp	00122$
+   05AF                    1647 00121$:
+                           1648 ;	../../core/net/uip-over-mesh.c:283: route_decay(rt);
+   05AF 8D 82              1649 	mov	dpl,r5
+   05B1 8E 83              1650 	mov	dph,r6
+   05B3 8F F0              1651 	mov	b,r7
+   05B5 C0 07              1652 	push	ar7
+   05B7 C0 06              1653 	push	ar6
+   05B9 C0 05              1654 	push	ar5
+   05BB 12s00r00           1655 	lcall	_route_decay
+   05BE D0 05              1656 	pop	ar5
+   05C0 D0 06              1657 	pop	ar6
+   05C2 D0 07              1658 	pop	ar7
+                           1659 ;	../../core/net/uip-over-mesh.c:284: send_data(&rt->nexthop);
+   05C4 74 05              1660 	mov	a,#0x05
+   05C6 2D                 1661 	add	a,r5
+   05C7 FD                 1662 	mov	r5,a
+   05C8 E4                 1663 	clr	a
+   05C9 3E                 1664 	addc	a,r6
+   05CA FE                 1665 	mov	r6,a
+   05CB 8D 82              1666 	mov	dpl,r5
+   05CD 8E 83              1667 	mov	dph,r6
+   05CF 8F F0              1668 	mov	b,r7
+   05D1 12s01r68           1669 	lcall	_send_data
+   05D4                    1670 00122$:
+                           1671 ;	../../core/net/uip-over-mesh.c:286: return UIP_FW_OK;
+   05D4 75 82 00           1672 	mov	dpl,#0x00
+   05D7                    1673 00123$:
+   05D7 85*00 81           1674 	mov	sp,_bp
+   05DA D0*00              1675 	pop	_bp
+   05DC 22                 1676 	ret
+                           1677 ;------------------------------------------------------------
+                           1678 ;Allocation info for local variables in function 'uip_over_mesh_set_gateway_netif'
+                           1679 ;------------------------------------------------------------
+                           1680 ;n                         Allocated to registers 
+                           1681 ;------------------------------------------------------------
+                           1682 ;	../../core/net/uip-over-mesh.c:290: uip_over_mesh_set_gateway_netif(struct uip_fw_netif *n)
+                           1683 ;	-----------------------------------------
+                           1684 ;	 function uip_over_mesh_set_gateway_netif
+                           1685 ;	-----------------------------------------
+   05DD                    1686 _uip_over_mesh_set_gateway_netif:
+   05DD AF F0              1687 	mov	r7,b
+   05DF AE 83              1688 	mov	r6,dph
+   05E1 E5 82              1689 	mov	a,dpl
+   05E3 90s00rD7           1690 	mov	dptr,#_gw_netif
+   05E6 F0                 1691 	movx	@dptr,a
+   05E7 A3                 1692 	inc	dptr
+   05E8 EE                 1693 	mov	a,r6
+   05E9 F0                 1694 	movx	@dptr,a
+   05EA A3                 1695 	inc	dptr
+   05EB EF                 1696 	mov	a,r7
+   05EC F0                 1697 	movx	@dptr,a
+                           1698 ;	../../core/net/uip-over-mesh.c:292: gw_netif = n;
+   05ED 22                 1699 	ret
+                           1700 ;------------------------------------------------------------
+                           1701 ;Allocation info for local variables in function 'uip_over_mesh_set_gateway'
+                           1702 ;------------------------------------------------------------
+                           1703 ;gw                        Allocated to registers r5 r6 r7 
+                           1704 ;------------------------------------------------------------
+                           1705 ;	../../core/net/uip-over-mesh.c:296: uip_over_mesh_set_gateway(rimeaddr_t *gw)
+                           1706 ;	-----------------------------------------
+                           1707 ;	 function uip_over_mesh_set_gateway
+                           1708 ;	-----------------------------------------
+   05EE                    1709 _uip_over_mesh_set_gateway:
+   05EE AD 82              1710 	mov	r5,dpl
+   05F0 AE 83              1711 	mov	r6,dph
+   05F2 AF F0              1712 	mov	r7,b
+                           1713 ;	../../core/net/uip-over-mesh.c:298: rimeaddr_copy(&gateway, gw);
+   05F4 C0 05              1714 	push	ar5
+   05F6 C0 06              1715 	push	ar6
+   05F8 C0 07              1716 	push	ar7
+   05FA 90s00rDA           1717 	mov	dptr,#_gateway
+   05FD 75 F0 00           1718 	mov	b,#0x00
+   0600 12s00r00           1719 	lcall	_rimeaddr_copy
+   0603 15 81              1720 	dec	sp
+   0605 15 81              1721 	dec	sp
+   0607 15 81              1722 	dec	sp
+   0609 22                 1723 	ret
+                           1724 ;------------------------------------------------------------
+                           1725 ;Allocation info for local variables in function 'uip_over_mesh_set_net'
+                           1726 ;------------------------------------------------------------
+                           1727 ;mask                      Allocated to stack - _bp -5
+                           1728 ;addr                      Allocated to registers r5 r6 r7 
+                           1729 ;------------------------------------------------------------
+                           1730 ;	../../core/net/uip-over-mesh.c:302: uip_over_mesh_set_net(uip_ipaddr_t *addr, uip_ipaddr_t *mask)
+                           1731 ;	-----------------------------------------
+                           1732 ;	 function uip_over_mesh_set_net
+                           1733 ;	-----------------------------------------
+   060A                    1734 _uip_over_mesh_set_net:
+   060A C0*00              1735 	push	_bp
+   060C 85 81*00           1736 	mov	_bp,sp
+   060F AD 82              1737 	mov	r5,dpl
+   0611 AE 83              1738 	mov	r6,dph
+   0613 AF F0              1739 	mov	r7,b
+                           1740 ;	../../core/net/uip-over-mesh.c:304: uip_ipaddr_copy(&netaddr, addr);
+   0615 74 04              1741 	mov	a,#0x04
+   0617 C0 E0              1742 	push	acc
+   0619 E4                 1743 	clr	a
+   061A C0 E0              1744 	push	acc
+   061C C0 05              1745 	push	ar5
+   061E C0 06              1746 	push	ar6
+   0620 C0 07              1747 	push	ar7
+   0622 90s00rDC           1748 	mov	dptr,#_netaddr
+   0625 75 F0 00           1749 	mov	b,#0x00
+   0628 12s00r00           1750 	lcall	_memcpy
+   062B E5 81              1751 	mov	a,sp
+   062D 24 FB              1752 	add	a,#0xfb
+   062F F5 81              1753 	mov	sp,a
+                           1754 ;	../../core/net/uip-over-mesh.c:305: uip_ipaddr_copy(&netmask, mask);
+   0631 E5*00              1755 	mov	a,_bp
+   0633 24 FB              1756 	add	a,#0xfb
+   0635 F8                 1757 	mov	r0,a
+   0636 86 05              1758 	mov	ar5,@r0
+   0638 08                 1759 	inc	r0
+   0639 86 06              1760 	mov	ar6,@r0
+   063B 08                 1761 	inc	r0
+   063C 86 07              1762 	mov	ar7,@r0
+   063E 74 04              1763 	mov	a,#0x04
+   0640 C0 E0              1764 	push	acc
+   0642 E4                 1765 	clr	a
+   0643 C0 E0              1766 	push	acc
+   0645 C0 05              1767 	push	ar5
+   0647 C0 06              1768 	push	ar6
+   0649 C0 07              1769 	push	ar7
+   064B 90s00rE0           1770 	mov	dptr,#_netmask
+   064E 75 F0 00           1771 	mov	b,#0x00
+   0651 12s00r00           1772 	lcall	_memcpy
+   0654 E5 81              1773 	mov	a,sp
+   0656 24 FB              1774 	add	a,#0xfb
+   0658 F5 81              1775 	mov	sp,a
+   065A D0*00              1776 	pop	_bp
+   065C 22                 1777 	ret
+                           1778 	.area CSEG    (CODE)
+                           1779 	.area CONST   (CODE)
+   0000                    1780 _data_callbacks:
+   0000r00s00              1781 	.byte _recv_data,(_recv_data >> 8)
+   0002 00 00              1782 	.byte #0x00,#0x00
+   0004                    1783 _rdc:
+   0004r84s01              1784 	.byte _new_route,(_new_route >> 8)
+   0006rE6s01              1785 	.byte _timedout,(_timedout >> 8)
+   0008                    1786 _trickle_call:
+   0008r08s02              1787 	.byte _gateway_announce_recv,(_gateway_announce_recv >> 8)
+                           1788 	.area XINIT   (CODE)
+                           1789 	.area CABS    (ABS,CODE)
